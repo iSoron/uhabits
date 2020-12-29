@@ -91,9 +91,8 @@ class ListHabitsScreen
     }
 
     override fun onCommandFinished(command: Command) {
-        val stringId = getExecuteString(command)
-        if (stringId != null)
-            activity.showMessage(stringId)
+        val msg = getExecuteString(command)
+        if (msg != null) activity.showMessage(msg)
     }
 
     fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -113,7 +112,7 @@ class ListHabitsScreen
             inStream.copyTo(tempFile)
             onImportData(tempFile) { tempFile.delete() }
         } catch (e: IOException) {
-            activity.showMessage(R.string.could_not_import)
+            activity.showMessage(activity.resources.getString(R.string.could_not_import))
             e.printStackTrace()
         }
     }
@@ -143,8 +142,8 @@ class ListHabitsScreen
         dialog.show(activity.supportFragmentManager, "habitType")
     }
 
-    override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
-        confirmDeleteDialogFactory.create(callback).show()
+    override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback, quantity: Int) {
+        confirmDeleteDialogFactory.create(callback, quantity).show()
     }
 
     override fun showEditHabitsScreen(habits: List<Habit>) {
@@ -173,7 +172,7 @@ class ListHabitsScreen
     }
 
     override fun showMessage(m: ListHabitsBehavior.Message) {
-        activity.showMessage(when (m) {
+        activity.showMessage(activity.resources.getString(when (m) {
             COULD_NOT_EXPORT -> R.string.could_not_export
             IMPORT_SUCCESSFUL -> R.string.habits_imported
             IMPORT_FAILED -> R.string.could_not_import
@@ -182,7 +181,7 @@ class ListHabitsScreen
             FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
             SYNC_ENABLED -> R.string.sync_enabled
             SYNC_KEY_ALREADY_INSTALLED -> R.string.sync_key_already_installed
-        })
+        }))
     }
 
     override fun showSendBugReportToDeveloperScreen(log: String) {
@@ -217,15 +216,30 @@ class ListHabitsScreen
         confirmSyncKeyDialogFactory.create(callback).show()
     }
 
-    @StringRes
-    private fun getExecuteString(command: Command): Int? {
+    private fun getExecuteString(command: Command): String? {
         when (command) {
-            is ArchiveHabitsCommand -> return R.string.toast_habit_archived
-            is ChangeHabitColorCommand -> return R.string.toast_habit_changed
-            is CreateHabitCommand -> return R.string.toast_habit_created
-            is DeleteHabitsCommand -> return R.string.toast_habit_deleted
-            is EditHabitCommand -> return R.string.toast_habit_changed
-            is UnarchiveHabitsCommand -> return R.string.toast_habit_unarchived
+            is ArchiveHabitsCommand -> {
+                return activity.resources.getQuantityString(R.plurals.toast_habits_archived,
+                                                            command.selected.size)
+            }
+            is ChangeHabitColorCommand -> {
+                return activity.resources.getQuantityString(R.plurals.toast_habits_changed,
+                                                            command.selected.size)
+            }
+            is CreateHabitCommand -> {
+                return activity.resources.getString(R.string.toast_habit_created)
+            }
+            is DeleteHabitsCommand -> {
+                return activity.resources.getQuantityString(R.plurals.toast_habits_deleted,
+                                                            command.selected.size)
+            }
+            is EditHabitCommand -> {
+                return activity.resources.getQuantityString(R.plurals.toast_habits_changed, 1)
+            }
+            is UnarchiveHabitsCommand -> {
+                return activity.resources.getQuantityString(R.plurals.toast_habits_unarchived,
+                                                            command.selected.size)
+            }
             else -> return null
         }
     }
@@ -234,11 +248,11 @@ class ListHabitsScreen
         taskRunner.execute(importTaskFactory.create(file) { result ->
             if (result == ImportDataTask.SUCCESS) {
                 adapter.refresh()
-                activity.showMessage(R.string.habits_imported)
+                activity.showMessage(activity.resources.getString(R.string.habits_imported))
             } else if (result == ImportDataTask.NOT_RECOGNIZED) {
-                activity.showMessage(R.string.file_not_recognized)
+                activity.showMessage(activity.resources.getString(R.string.file_not_recognized))
             } else {
-                activity.showMessage(R.string.could_not_import)
+                activity.showMessage(activity.resources.getString(R.string.could_not_import))
             }
             onFinished()
         })
@@ -247,7 +261,7 @@ class ListHabitsScreen
     private fun onExportDB() {
         taskRunner.execute(exportDBFactory.create { filename ->
             if (filename != null) activity.showSendFileScreen(filename)
-            else activity.showMessage(R.string.could_not_export)
+            else activity.showMessage(activity.resources.getString(R.string.could_not_export))
         })
     }
 }

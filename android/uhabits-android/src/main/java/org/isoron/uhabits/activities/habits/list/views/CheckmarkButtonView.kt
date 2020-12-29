@@ -77,7 +77,7 @@ class CheckmarkButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle()
-        else showMessage(R.string.long_press_to_toggle)
+        else showMessage(resources.getString(R.string.long_press_to_toggle))
     }
 
     override fun onLongClick(v: View): Boolean {

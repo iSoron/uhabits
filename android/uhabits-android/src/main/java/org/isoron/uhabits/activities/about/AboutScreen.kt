@@ -53,7 +53,7 @@ class AboutScreen(
         developerCountdown--
         if (developerCountdown == 0) {
             prefs.isDeveloper = true
-            activity.showMessage(R.string.you_are_now_a_developer)
+            activity.showMessage(activity.resources.getString(R.string.you_are_now_a_developer))
         }
     }
 }

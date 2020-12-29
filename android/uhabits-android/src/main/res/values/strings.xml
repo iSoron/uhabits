@@ -18,8 +18,11 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
-    <string name="app_name">Loop Habit Tracker</string>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string name="app_name" >Loop Habit Tracker</string>
     <string name="main_activity_title">Habits</string>
     <string name="action_settings">Settings</string>
     <string name="edit">Edit</string>
@@ -29,10 +32,22 @@
     <string name="add_habit">Add habit</string>
     <string name="color_picker_default_title">Change color</string>
     <string name="toast_habit_created">Habit created</string>
-    <string name="toast_habit_deleted">Habits deleted</string>
-    <string name="toast_habit_changed">Habit changed</string>
-    <string name="toast_habit_archived">Habits archived</string>
-    <string name="toast_habit_unarchived">Habits unarchived</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Habit changed</item>
+        <item quantity="other">Habits changed</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Habit deleted</item>
+        <item quantity="other">Habits deleted</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Habit archived</item>
+        <item quantity="other">Habits archived</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Habit unarchived</item>
+        <item quantity="other">Habits unarchived</item>
+    </plurals>
     <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>
     <string name="habit_strength">Habit strength</string>
@@ -79,8 +94,14 @@
     <string name="hint_title">Did you know?</string>
     <string name="hint_drag">To rearrange the entries, press-and-hold on the name of the habit, then drag it to the correct place.</string>
     <string name="hint_landscape">You can see more days by putting your phone in landscape mode.</string>
-    <string name="delete_habits">Delete Habits</string>
-    <string name="delete_habits_message">The habits will be permanently deleted. This action cannot be undone.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Delete habit?</item>
+        <item quantity="other">Delete habits?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">The habit will be permanently deleted. This action cannot be undone.</item>
+        <item quantity="other">The habits will be permanently deleted. This action cannot be undone.</item>
+    </plurals>
     <string name="habit_not_found">Habit deleted / not found</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Monday to Friday</string>

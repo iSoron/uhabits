@@ -38,12 +38,13 @@ import org.isoron.uhabits.inject.*;
 public class ConfirmDeleteDialog extends AlertDialog
 {
     protected ConfirmDeleteDialog(@Provided @ActivityContext Context context,
-                                  @NonNull OnConfirmedCallback callback)
+                                  @NonNull OnConfirmedCallback callback,
+                                  int quantity)
     {
         super(context);
-        setTitle(R.string.delete_habits);
         Resources res = context.getResources();
-        setMessage(res.getString(R.string.delete_habits_message));
+        setTitle(res.getQuantityString(R.plurals.delete_habits_title, quantity));
+        setMessage(res.getQuantityString(R.plurals.delete_habits_message, quantity));
         setButton(BUTTON_POSITIVE,
                 res.getString(R.string.yes),
                 (dialog, which) -> callback.onConfirmed()

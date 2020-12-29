@@ -76,7 +76,7 @@ class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
     private fun copyToClipboard() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipboard.setPrimaryClip(ClipData.newPlainText("Loop Sync Link", binding.syncLink.text))
-        showMessage(R.string.copied_to_the_clipboard)
+        showMessage(resources.getString(R.string.copied_to_the_clipboard))
     }
 
     suspend fun generateQR(msg: String): Bitmap = Dispatchers.IO {

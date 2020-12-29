@@ -78,9 +78,9 @@ fun ViewGroup.buildToolbar(): Toolbar {
     return inflater.inflate(R.layout.toolbar, null) as Toolbar
 }
 
-fun View.showMessage(@StringRes stringId: Int) {
+fun View.showMessage(msg: String) {
     try {
-        val snackbar = Snackbar.make(this, stringId, Snackbar.LENGTH_SHORT)
+        val snackbar = Snackbar.make(this, msg, Snackbar.LENGTH_SHORT)
         val tvId = R.id.snackbar_text
         val tv = snackbar.view.findViewById<TextView>(tvId)
         tv?.setTextColor(Color.WHITE)
@@ -90,8 +90,8 @@ fun View.showMessage(@StringRes stringId: Int) {
     }
 }
 
-fun Activity.showMessage(@StringRes stringId: Int) {
-    this.findViewById<View>(android.R.id.content).showMessage(stringId)
+fun Activity.showMessage(msg: String) {
+    this.findViewById<View>(android.R.id.content).showMessage(msg)
 }
 
 fun Activity.showSendFileScreen(archiveFilename: String) {
@@ -109,7 +109,7 @@ fun Activity.startActivitySafely(intent: Intent) {
     try {
         startActivity(intent)
     } catch (e: ActivityNotFoundException) {
-        this.showMessage(R.string.activity_not_found)
+        this.showMessage(resources.getString(R.string.activity_not_found))
     }
 }
 

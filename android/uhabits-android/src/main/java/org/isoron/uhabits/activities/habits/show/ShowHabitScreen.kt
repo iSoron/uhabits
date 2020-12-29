@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.show
 
+import org.isoron.uhabits.*
 import org.isoron.uhabits.activities.common.dialogs.*
 import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.ui.callbacks.*
@@ -64,7 +65,7 @@ class ShowHabitScreen(
     override fun showMessage(m: ShowHabitMenuBehavior.Message?) {
         when (m) {
             ShowHabitMenuBehavior.Message.COULD_NOT_EXPORT -> {
-                activity.showMessage(org.isoron.uhabits.R.string.could_not_export)
+                activity.showMessage(activity.resources.getString(R.string.could_not_export))
             }
         }
     }
@@ -74,7 +75,7 @@ class ShowHabitScreen(
     }
 
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
-        confirmDeleteDialogFactory.create(callback).show()
+        confirmDeleteDialogFactory.create(callback, 1).show()
     }
 
     override fun close() {

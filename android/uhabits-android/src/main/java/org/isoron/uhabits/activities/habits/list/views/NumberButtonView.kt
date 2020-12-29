@@ -90,7 +90,7 @@ class NumberButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) onEdit()
-        else showMessage(R.string.long_press_to_edit)
+        else showMessage(resources.getString(R.string.long_press_to_edit))
     }
 
     override fun onLongClick(v: View): Boolean {

@@ -106,7 +106,7 @@ public class ListHabitsSelectionMenuBehavior
             commandRunner.run(new DeleteHabitsCommand(habitList, selected)
             );
             adapter.clearSelection();
-        });
+        }, selected.size());
     }
 
     public void onEditHabits()
@@ -137,7 +137,8 @@ public class ListHabitsSelectionMenuBehavior
                              @NonNull OnColorPickedCallback callback);
 
         void showDeleteConfirmationScreen(
-            @NonNull OnConfirmedCallback callback);
+            @NonNull OnConfirmedCallback callback,
+            int quantity);
 
         void showEditHabitsScreen(@NonNull List<Habit> selected);
     }
