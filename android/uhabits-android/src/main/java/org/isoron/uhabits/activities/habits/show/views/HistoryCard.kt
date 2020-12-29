@@ -32,7 +32,6 @@ data class HistoryCardViewModel(
         val firstWeekday: Int,
         val isNumerical: Boolean,
         val isSkipEnabled: Boolean,
-        val target: Double,
 )
 
 class HistoryCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -54,7 +53,6 @@ class HistoryCard(context: Context, attrs: AttributeSet) : LinearLayout(context,
         binding.historyChart.setColor(androidColor)
         if (data.isNumerical) {
             binding.historyChart.setNumerical(true)
-            binding.historyChart.setTarget(data.target)
         }
 
     }
@@ -71,6 +69,5 @@ class HistoryCardPresenter(
             firstWeekday = firstWeekday,
             isNumerical = habit.isNumerical,
             isSkipEnabled = isSkipEnabled,
-            target = habit.targetValue / habit.frequency.denominator,
     )
 }

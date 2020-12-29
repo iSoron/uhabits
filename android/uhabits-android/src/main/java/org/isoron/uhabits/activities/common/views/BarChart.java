@@ -94,11 +94,7 @@ public class BarChart extends ScrollableChart
 
     private double maxValue;
 
-    private double target;
-
     private int primaryColor;
-
-    private int darkerPrimaryColor;
 
     public BarChart(Context context)
     {
@@ -126,7 +122,6 @@ public class BarChart extends ScrollableChart
         }
 
         setEntries(entries);
-        setTarget(0.5);
     }
 
     public void setBucketSize(int bucketSize)
@@ -150,21 +145,13 @@ public class BarChart extends ScrollableChart
     public void setColor(int primaryColor)
     {
         StyledResources res = new StyledResources(getContext());
-        int backgroundColor = res.getColor(R.attr.cardBgColor);
         this.primaryColor = primaryColor;
-        this.darkerPrimaryColor = ColorUtils.mixColors(primaryColor, backgroundColor, 0.6f);
         postInvalidate();
     }
 
     public void setIsTransparencyEnabled(boolean enabled)
     {
         this.isTransparencyEnabled = enabled;
-        postInvalidate();
-    }
-
-    public void setTarget(double target)
-    {
-        this.target = target;
         postInvalidate();
     }
 
@@ -275,8 +262,7 @@ public class BarChart extends ScrollableChart
         float margin = baseSize * 0.225f;
         float round = dpToPixels(getContext(), 2);
 
-        int color = darkerPrimaryColor;
-        if (value / 1000 >= target) color = primaryColor;
+        int color = primaryColor;
 
         rect.inset(-margin, 0);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
@@ -367,10 +353,7 @@ public class BarChart extends ScrollableChart
     private void drawValue(Canvas canvas, RectF rect, double value)
     {
         if (value == 0) return;
-
-        int activeColor = darkerPrimaryColor;
-        if (value / 1000 >= target)
-            activeColor = primaryColor;
+        int activeColor = primaryColor;
 
         String label = NumberButtonViewKt.toShortString(value / 1000);
         Rect rText = new Rect();

@@ -33,7 +33,6 @@ data class BarCardViewModel(
         val bucketSize: Int,
         val color: PaletteColor,
         val isNumerical: Boolean,
-        val target: Double,
         val numericalSpinnerPosition: Int,
         val boolSpinnerPosition: Int,
 )
@@ -52,10 +51,8 @@ class BarCard(context: Context, attrs: AttributeSet) : LinearLayout(context, att
         binding.barChart.setColor(androidColor)
         if (data.isNumerical) {
             binding.boolSpinner.visibility = GONE
-            binding.barChart.setTarget(data.target)
         } else {
             binding.numericalSpinner.visibility = GONE
-            binding.barChart.setTarget(0.0)
         }
 
         binding.numericalSpinner.onItemSelectedListener = null
@@ -115,7 +112,6 @@ class BarCardPresenter(
                 bucketSize = bucketSize,
                 color = habit.color,
                 isNumerical = habit.isNumerical,
-                target = (habit.targetValue / habit.frequency.denominator * bucketSize),
                 numericalSpinnerPosition = numericalSpinnerPosition,
                 boolSpinnerPosition = boolSpinnerPosition,
         )

@@ -191,7 +191,6 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             historyChart.setColor(color);
             historyChart.setEntries(checkmarks);
             historyChart.setNumerical(habit.isNumerical());
-            historyChart.setTarget(habit.getTargetValue() / habit.getFrequency().getDenominator());
         }
     }
 }

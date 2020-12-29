@@ -46,8 +46,6 @@ public class HistoryChart extends ScrollableChart
 {
     private int[] checkmarks;
 
-    private double target;
-
     private Paint pSquareBg, pSquareFg, pTextHeader;
 
     private float squareSpacing;
@@ -227,12 +225,6 @@ public class HistoryChart extends ScrollableChart
         this.isEditable = isEditable;
     }
 
-    public void setTarget(double target)
-    {
-        this.target = target;
-        postInvalidate();
-    }
-
     public void setFirstWeekday(int firstWeekday)
     {
         this.firstWeekday = firstWeekday;
@@ -397,7 +389,7 @@ public class HistoryChart extends ScrollableChart
                 pSquareBg.setColor(colors[0]);
                 pSquareFg.setColor(textColors[1]);
             }
-            else if ((isNumerical && (checkmark / 1000f >= target) || (!isNumerical && checkmark == YES_MANUAL)))
+            else if (isNumerical || checkmark == YES_MANUAL)
             {
                 pSquareBg.setColor(colors[2]);
                 pSquareFg.setColor(textColors[2]);
@@ -458,7 +450,6 @@ public class HistoryChart extends ScrollableChart
             {
             }
         };
-        target = 2;
 
         initColors();
         initPaints();

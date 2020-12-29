@@ -48,7 +48,6 @@ class HistoryWidget(
             setColor(habit.color.toThemedAndroidColor(context))
             setEntries(habit.computedEntries.getAllValues())
             setNumerical(habit.isNumerical)
-            setTarget(habit.targetValue / habit.frequency.denominator)
         }
     }
 
