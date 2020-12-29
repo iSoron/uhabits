@@ -225,22 +225,22 @@ class EntryListTest {
                 original = entries.getKnown(),
                 field = DateUtils.TruncateField.QUARTER,
                 firstWeekday = Calendar.SATURDAY,
-                isNumerical = true,
+                isNumerical = false,
         )
         assertThat(byQuarter.size, equalTo(6))
-        assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 30_000)))
-        assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 34_000)))
-        assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 40_000)))
+        assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 15_000)))
+        assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 17_000)))
+        assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 20_000)))
 
         val byYear = entries.groupBy(
                 original = entries.getKnown(),
                 field = DateUtils.TruncateField.YEAR,
                 firstWeekday = Calendar.SATURDAY,
-                isNumerical = true,
+                isNumerical = false,
         )
         assertThat(byYear.size, equalTo(2))
-        assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 68_000)))
-        assertThat(byYear[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 132_000)))
+        assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 34_000)))
+        assertThat(byYear[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 66_000)))
     }
 
     @Test
