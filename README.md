@@ -6,6 +6,9 @@
   <a href="https://github.com/iSoron/uhabits/releases/latest">
     <img src="https://img.shields.io/github/v/release/iSoron/uhabits" />
   </a>
+  <a href="https://github.com/iSoron/uhabits/discussions">
+    <img src="https://img.shields.io/badge/GitHub-Discussions-%23fc4ebc" />
+  </a>
 </p>
 
 Loop is a mobile app that helps you create and maintain good habits,
