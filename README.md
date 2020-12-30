@@ -87,7 +87,7 @@ contribute, even if you are not a software developer.
   is already completed, you are also very welcome to join and proofread it.
 
 * **Write some code.** If you are an Android developer, you are very welcome to
-  contribute with code. Please, see the [developer guidelines][dev-guide] for more details.
+  contribute with code. Please see `docs/GUIDELINES.md`.
 
 ## License
 
@@ -124,6 +124,5 @@ contribute, even if you are not a software developer.
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
-[dev-guide]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines
 [build]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines#building
 [beta]: https://play.google.com/apps/testing/org.isoron.uhabits
