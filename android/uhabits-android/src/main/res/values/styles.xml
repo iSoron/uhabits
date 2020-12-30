@@ -17,13 +17,14 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="AppBaseTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="aboutScreenColor">@color/blue_800</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="actionModeBackground">@color/grey_700</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:itemBackground">?attr/highContrastReverseTextColor</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <item name="android:textColor">@color/grey_800</item>
@@ -65,6 +66,7 @@
         <item name="actionModeBackground">@color/grey_800</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:textColor">@color/grey_100</item>
         <item name="cardBackground">@drawable/card_dark_background</item>
         <item name="cardBgColor">@color/grey_850</item>
@@ -102,6 +104,7 @@
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:textColor">@color/grey_200</item>
         <item name="cardBackground">@drawable/card_amoled_background</item>
         <item name="cardBgColor">@color/black</item>

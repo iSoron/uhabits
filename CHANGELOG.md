@@ -19,6 +19,10 @@
 * **Refactoring:**
   * Convert files to Kotlin (@olegivo)
 
+### 1.8.11 (Dec 29, 2020)
+
+* Fix theme issues on Xiaomi phones
+
 ### 1.8.10 (Nov 26, 2020)
 
 * Update translations
