@@ -44,7 +44,7 @@ Proposed code changes should be submitted to the project through [GitHub pull re
 
 Further resources:
 
-* [*How to Make Your Code Reviewer Fall in Love with You*](https://mtlynch.io/code-review-love/#1-review-your-own-code-first), by Michael Lynch.
+* [*How to Make Your Code Reviewer Fall in Love with You*](https://mtlynch.io/code-review-love), by Michael Lynch.
 
 
 ## Release Process
