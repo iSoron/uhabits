@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.database
 
-package org.isoron.uhabits.core.database;
-
-import androidx.annotation.*;
-
-import java.io.*;
-
-public interface DatabaseOpener
-{
-    Database open(@NonNull File file);
-}
+class UnsupportedDatabaseVersionException : RuntimeException()

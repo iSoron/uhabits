@@ -16,15 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.database
 
-package org.isoron.uhabits.core.database;
+import java.io.*
 
-import androidx.annotation.*;
+interface Cursor : Closeable {
 
-public interface Cursor extends AutoCloseable
-{
-    @Override
-    void close();
+    override fun close()
 
     /**
      * Moves the cursor forward one row from its current position. Returns
@@ -32,37 +30,33 @@ public interface Cursor extends AutoCloseable
      * past the last row. The cursor start at position -1, so this method must
      * be called first.
      */
-    boolean moveToNext();
+    fun moveToNext(): Boolean
 
     /**
      * Retrieves the value of the designated column in the current row of this
      * Cursor as an Integer. If the value is null, returns null. The first
      * column has index zero.
      */
-    @Nullable
-    Integer getInt(int index);
+    fun getInt(index: Int): Int?
 
     /**
      * Retrieves the value of the designated column in the current row of this
      * Cursor as a Long. If the value is null, returns null. The first
      * column has index zero.
      */
-    @Nullable
-    Long getLong(int index);
+    fun getLong(index: Int): Long?
 
     /**
      * Retrieves the value of the designated column in the current row of this
      * Cursor as a Double. If the value is null, returns null. The first
      * column has index zero.
      */
-    @Nullable
-    Double getDouble(int index);
+    fun getDouble(index: Int): Double?
 
     /**
      * Retrieves the value of the designated column in the current row of this
      * Cursor as a String. If the value is null, returns null. The first
      * column has index zero.
      */
-    @Nullable
-    String getString(int index);
+    fun getString(index: Int): String?
 }

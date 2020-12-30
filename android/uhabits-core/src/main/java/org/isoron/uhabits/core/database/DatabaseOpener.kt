@@ -16,15 +16,10 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.database
 
-package org.isoron.uhabits.core.database;
+import java.io.*
 
-import java.lang.annotation.*;
-
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Table
-{
-    String name();
-    String id() default "id";
+interface DatabaseOpener {
+    fun open(file: File): Database?
 }

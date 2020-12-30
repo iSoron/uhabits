@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.database
 
-package org.isoron.uhabits.core.database;
-
-public class UnsupportedDatabaseVersionException extends RuntimeException
-{
-}
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Column(val name: String = "")

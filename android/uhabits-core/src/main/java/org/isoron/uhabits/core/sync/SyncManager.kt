@@ -89,7 +89,7 @@ class SyncManager @Inject constructor(
         }
 
         logger.info("Encrypting local database...")
-        val encryptedDB = db.file.encryptToString(encryptionKey)
+        val encryptedDB = db.file!!.encryptToString(encryptionKey)
         val size = encryptedDB.length / 1024
 
         try {

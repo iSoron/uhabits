@@ -16,13 +16,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.database
 
-package org.isoron.uhabits.core.database;
-
-import java.lang.annotation.*;
-
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Column
-{
-    String name() default "";
-}
+@Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Table(val name: String, val id: String = "id")

@@ -26,41 +26,41 @@ import java.io.*
 
 class AndroidDatabase(
         private val db: SQLiteDatabase,
-        private val file: File?,
+        override val file: File?,
 ) : Database {
 
     override fun beginTransaction() = db.beginTransaction()
     override fun setTransactionSuccessful() = db.setTransactionSuccessful()
     override fun endTransaction() = db.endTransaction()
     override fun close() = db.close()
-    override fun getVersion() = db.version
 
-    override fun getFile(): File? {
-        return file
+    override val version: Int
+        get() = db.version
+
+    override fun query(q: String, vararg params: String) = AndroidCursor(db.rawQuery(q, params))
+
+    override fun execute(query: String, vararg params: Any) = db.execSQL(query, params)
+
+    override fun update(
+            tableName: String,
+            values: Map<String, Any?>,
+            where: String,
+            vararg params: String,
+    ): Int {
+        val contValues = mapToContentValues(values)
+        return db.update(tableName, contValues, where, params)
     }
 
-    override fun query(query: String, vararg params: String)
-            = AndroidCursor(db.rawQuery(query, params))
-
-    override fun execute(query: String, vararg params: Any)
-            = db.execSQL(query, params)
-
-    override fun update(tableName: String,
-                        map: Map<String, Any?>,
-                        where: String,
-                        vararg params: String): Int {
-        val values = mapToContentValues(map)
-        return db.update(tableName, values, where, params)
+    override fun insert(tableName: String, values: Map<String, Any?>): Long? {
+        val contValues = mapToContentValues(values)
+        return db.insert(tableName, null, contValues)
     }
 
-    override fun insert(tableName: String, map: Map<String, Any?>): Long? {
-        val values = mapToContentValues(map)
-        return db.insert(tableName, null, values)
-    }
-
-    override fun delete(tableName: String,
-                        where: String,
-                        vararg params: String) {
+    override fun delete(
+            tableName: String,
+            where: String,
+            vararg params: String,
+    ) {
         db.delete(tableName, where, params)
     }
 
@@ -73,8 +73,7 @@ class AndroidDatabase(
                 is Long -> values.put(key, value)
                 is Double -> values.put(key, value)
                 is String -> values.put(key, value)
-                else -> throw IllegalStateException(
-                        "unsupported type: " + value)
+                else -> throw IllegalStateException("unsupported type: $value")
             }
         }
         return values
