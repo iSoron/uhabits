@@ -46,6 +46,11 @@ Further resources:
 
 * [*How to Make Your Code Reviewer Fall in Love with You*](https://mtlynch.io/code-review-love), by Michael Lynch.
 
+## Code Style
+
+For Kotlin, we follow [ktlint](https://ktlint.github.io/) style with default settings. This code style is enforced by our automated build pipeline. To make sure that Android Studio is configured according to ktlint, navigate to `android` and run `./gradlew ktlintApplyToIdea`. To check that all code is properly formatted, run `./gradlew ktlintCheck`. See more details in [ktlint-gradle](https://github.com/jlleitschuh/ktlint-gradle).
+
+For legacy Java code, we don't have strict guidelines. Please follow a code style similar to the file you are modifying. Note that new classes should be written in Kotlin. Pull requests converting existing Java code to Kotlin are also welcome.
 
 ## Release Process
 
