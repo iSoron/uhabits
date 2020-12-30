@@ -31,3 +31,28 @@ interface Logger {
     fun error(msg: String)
     fun error(exception: Exception)
 }
+
+class StandardLogging : Logging {
+    override fun getLogger(name: String): Logger {
+        return StandardLogger(name)
+    }
+}
+
+class StandardLogger(val name: String): Logger {
+    override fun info(msg: String) {
+        println("[$name] $msg")
+    }
+
+    override fun debug(msg: String) {
+        println("[$name] $msg")
+    }
+
+    override fun error(msg: String) {
+        println("[$name] $msg")
+    }
+
+    override fun error(exception: Exception) {
+        exception.printStackTrace()
+    }
+
+}
