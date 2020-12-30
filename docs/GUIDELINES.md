@@ -6,7 +6,7 @@
 
 * Regular users are encouraged to post feature requests and support questions under [GitHub Discussions](https://github.com/iSoron/uhabits/discussions). This is also where major announcements about the project are made.
 
-* Translations are managed in a [separate translation platform](translate.loophabits.org/).
+* Translations are managed in a [separate translation platform](https://translate.loophabits.org/).
 
 ## Building and Testing the Project
 
