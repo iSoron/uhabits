@@ -189,39 +189,6 @@ open class EntryList {
         return map
     }
 
-    /**
-     * Returns the values of the entries that fall inside a certain interval of time. The values
-     * are returned in an array containing one integer value for each day of the interval. The
-     * first entry corresponds to the most recent day in the interval. Each subsequent entry
-     * corresponds to one day older than the previous entry. The boundaries of the time interval
-     * are included.
-     */
-    @Deprecated("")
-    @Synchronized
-    fun getValues(from: Timestamp, to: Timestamp): IntArray {
-        if (from.isNewerThan(to)) throw IllegalArgumentException()
-        val nDays = from.daysUntil(to) + 1
-        val result = IntArray(nDays) { UNKNOWN }
-        getKnown().filter { entry ->
-            !entry.timestamp.isNewerThan(to) && !entry.timestamp.isOlderThan(from)
-        }.forEach { entry ->
-            val offset = entry.timestamp.daysUntil(to)
-            result[offset] = entry.value
-        }
-        return result
-    }
-
-    @Deprecated("")
-    @Synchronized
-    fun getAllValues(): IntArray {
-        val entries = getKnown()
-        if (entries.isEmpty()) return IntArray(0)
-        var (fromTimestamp, _) = entries.last()
-        val toTimestamp = DateUtils.getTodayWithOffset()
-        if (fromTimestamp.isNewerThan(toTimestamp)) fromTimestamp = toTimestamp
-        return getValues(fromTimestamp, toTimestamp)
-    }
-
     @Deprecated("")
     @Synchronized
     open fun getThisWeekValue(firstWeekday: Int, isNumerical: Boolean): Int {

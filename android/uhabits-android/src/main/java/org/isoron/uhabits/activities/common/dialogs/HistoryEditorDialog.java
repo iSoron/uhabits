@@ -31,6 +31,7 @@ import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.activities.common.views.*;
+import org.isoron.uhabits.activities.habits.show.views.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
@@ -178,7 +179,12 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         @Override
         public void doInBackground()
         {
-            checkmarks = habit.getComputedEntries().getAllValues();
+            HistoryCardViewModel model = new HistoryCardPresenter(
+                    habit,
+                    prefs.getFirstWeekday(),
+                    prefs.isSkipEnabled()
+            ).present();
+            checkmarks = model.getEntries();
         }
 
         @Override

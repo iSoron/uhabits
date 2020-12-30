@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.io
 
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
@@ -148,10 +149,10 @@ class HabitsCSVExporter(
         val timeframe = getTimeframe()
         val oldest = timeframe[0]
         val newest = DateUtils.getToday()
-        val checkmarks: MutableList<IntArray> = ArrayList()
+        val checkmarks: MutableList<ArrayList<Entry>> = ArrayList()
         val scores: MutableList<ArrayList<Score>> = ArrayList()
         for (habit in selectedHabits) {
-            checkmarks.add(habit.computedEntries.getValues(oldest, newest))
+            checkmarks.add(ArrayList(habit.computedEntries.getByInterval(oldest, newest)))
             scores.add(ArrayList(habit.scores.getByInterval(oldest, newest)))
         }
 

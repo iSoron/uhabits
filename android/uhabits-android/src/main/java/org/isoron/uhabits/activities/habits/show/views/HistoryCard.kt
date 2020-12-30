@@ -24,6 +24,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.databinding.ShowHabitHistoryBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
 
@@ -63,11 +64,17 @@ class HistoryCardPresenter(
     val firstWeekday: Int,
     val isSkipEnabled: Boolean,
 ) {
-    fun present() = HistoryCardViewModel(
-        entries = habit.computedEntries.getAllValues(),
-        color = habit.color,
-        firstWeekday = firstWeekday,
-        isNumerical = habit.isNumerical,
-        isSkipEnabled = isSkipEnabled,
-    )
+    fun present(): HistoryCardViewModel {
+        val today = DateUtils.getTodayWithOffset()
+        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+        val entries = habit.computedEntries.getByInterval(oldest, today).map { it.value }.toIntArray()
+
+        return HistoryCardViewModel(
+            entries = entries,
+            color = habit.color,
+            firstWeekday = firstWeekday,
+            isNumerical = habit.isNumerical,
+            isSkipEnabled = isSkipEnabled,
+        )
+    }
 }

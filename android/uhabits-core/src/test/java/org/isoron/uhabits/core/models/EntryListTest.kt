@@ -66,27 +66,6 @@ class EntryListTest {
     }
 
     @Test
-    fun testGetValues() {
-        val entries = EntryList()
-        val today = DateUtils.getToday()
-
-        entries.add(Entry(today.minus(3), YES_MANUAL))
-        entries.add(Entry(today.minus(5), YES_MANUAL))
-        entries.add(Entry(today.minus(6), YES_MANUAL))
-
-        val expected = intArrayOf(
-            UNKNOWN, // 1
-            UNKNOWN, // 2
-            YES_MANUAL, // 3
-            UNKNOWN, // 4
-            YES_MANUAL, // 5
-            YES_MANUAL, // 6
-            UNKNOWN, // 7
-        )
-        assertThat(entries.getValues(today.minus(7), today.minus(1)), equalTo(expected))
-    }
-
-    @Test
     fun testComputeBoolean() {
         val today = DateUtils.getToday()
 

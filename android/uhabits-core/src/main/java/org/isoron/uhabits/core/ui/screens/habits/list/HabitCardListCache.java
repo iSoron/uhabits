@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.ui.screens.habits.list;
 
 import androidx.annotation.*;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
@@ -363,9 +364,12 @@ public class HabitCardListCache implements CommandRunner.Listener
                 if (targetId != null && !targetId.equals(id)) continue;
 
                 newData.scores.put(id, habit.getScores().get(today).getValue());
-                newData.checkmarks.put(
-                        id,
-                        habit.getComputedEntries().getValues(dateFrom, today));
+                Integer[] entries = habit.getComputedEntries()
+                        .getByInterval(dateFrom, today)
+                        .stream()
+                        .map(Entry::getValue)
+                        .toArray(Integer[]::new);
+                newData.checkmarks.put(id, ArrayUtils.toPrimitive(entries));
 
                 runner.publishProgress(this, position);
             }

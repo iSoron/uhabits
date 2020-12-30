@@ -25,6 +25,7 @@ import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,6 +38,7 @@ class HabitCardViewTest : BaseViewTest() {
     private lateinit var view: HabitCardView
     private lateinit var habit1: Habit
     private lateinit var habit2: Habit
+    private lateinit var today: Timestamp
 
     override fun setUp() {
         super.setUp()
@@ -44,11 +46,16 @@ class HabitCardViewTest : BaseViewTest() {
 
         habit1 = fixtures.createLongHabit()
         habit2 = fixtures.createLongNumericalHabit()
-        val today = DateUtils.getTodayWithOffset()
+        today = DateUtils.getTodayWithOffset()
+
+        val entries = habit1
+            .computedEntries
+            .getByInterval(today.minus(300), today)
+            .map { it.value }.toIntArray()
 
         view = component.getHabitCardViewFactory().create().apply {
             habit = habit1
-            values = habit1.computedEntries.getAllValues()
+            values = entries
             score = habit1.scores.get(today).value
             isSelected = false
             buttonCount = 5
@@ -73,9 +80,14 @@ class HabitCardViewTest : BaseViewTest() {
 
     @Test
     fun testRender_numerical() {
+        val entries = habit2
+            .computedEntries
+            .getByInterval(today.minus(300), today)
+            .map { it.value }.toIntArray()
+
         view.apply {
             habit = habit2
-            values = habit2.computedEntries.getAllValues()
+            values = entries
         }
         assertRenders(view, "$PATH/render_numerical.png")
     }
