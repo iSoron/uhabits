@@ -18,21 +18,25 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.show
 
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.core.ui.callbacks.*
-import org.isoron.uhabits.core.utils.*
-import java.io.*
-import java.util.*
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.DeleteHabitsCommand
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.tasks.ExportCSVTask
+import org.isoron.uhabits.core.tasks.TaskRunner
+import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
+import org.isoron.uhabits.core.utils.DateUtils
+import java.io.File
+import java.util.Random
 
 class ShowHabitMenuBehavior(
-        private val commandRunner: CommandRunner,
-        private val habit: Habit,
-        private val habitList: HabitList,
-        private val screen: Screen,
-        private val system: System,
-        private val taskRunner: TaskRunner,
+    private val commandRunner: CommandRunner,
+    private val habit: Habit,
+    private val habitList: HabitList,
+    private val screen: Screen,
+    private val system: System,
+    private val taskRunner: TaskRunner,
 ) {
     fun onEditHabit() {
         screen.showEditHabitScreen(habit)
@@ -40,13 +44,15 @@ class ShowHabitMenuBehavior(
 
     fun onExportCSV() {
         val outputDir = system.getCSVOutputDir()
-        taskRunner.execute(ExportCSVTask(habitList, listOf(habit), outputDir) { filename: String? ->
-            if (filename != null) {
-                screen.showSendFileScreen(filename)
-            } else {
-                screen.showMessage(Message.COULD_NOT_EXPORT)
+        taskRunner.execute(
+            ExportCSVTask(habitList, listOf(habit), outputDir) { filename: String? ->
+                if (filename != null) {
+                    screen.showSendFileScreen(filename)
+                } else {
+                    screen.showMessage(Message.COULD_NOT_EXPORT)
+                }
             }
-        })
+        )
     }
 
     fun onDeleteHabit() {
@@ -80,7 +86,8 @@ class ShowHabitMenuBehavior(
         fun showMessage(m: Message?)
         fun showSendFileScreen(filename: String)
         fun showDeleteConfirmationScreen(
-                callback: OnConfirmedCallback)
+            callback: OnConfirmedCallback
+        )
         fun close()
         fun refresh()
     }

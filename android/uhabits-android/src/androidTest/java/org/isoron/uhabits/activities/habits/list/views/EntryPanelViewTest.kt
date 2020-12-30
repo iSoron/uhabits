@@ -19,18 +19,20 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import androidx.test.ext.junit.runners.*
-import androidx.test.filters.*
-import org.hamcrest.CoreMatchers.*
-import org.hamcrest.MatcherAssert.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.utils.*
-import org.junit.*
-import org.junit.runner.*
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.utils.PaletteUtils
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -44,13 +46,15 @@ class EntryPanelViewTest : BaseViewTest() {
         super.setUp()
         prefs.isCheckmarkSequenceReversed = false
 
-        val checkmarks = intArrayOf(YES_MANUAL,
-                                    YES_MANUAL,
-                                    YES_AUTO,
-                                    NO,
-                                    NO,
-                                    NO,
-                                    YES_MANUAL)
+        val checkmarks = intArrayOf(
+            YES_MANUAL,
+            YES_MANUAL,
+            YES_AUTO,
+            NO,
+            NO,
+            NO,
+            YES_MANUAL
+        )
 
         view = component.getCheckmarkPanelViewFactory().create().apply {
             values = checkmarks

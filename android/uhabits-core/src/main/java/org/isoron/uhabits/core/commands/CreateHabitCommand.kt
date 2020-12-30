@@ -18,12 +18,14 @@
  */
 package org.isoron.uhabits.core.commands
 
-import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.ModelFactory
 
 data class CreateHabitCommand(
-        val modelFactory: ModelFactory,
-        val habitList: HabitList,
-        val model: Habit,
+    val modelFactory: ModelFactory,
+    val habitList: HabitList,
+    val model: Habit,
 ) : Command {
     override fun run() {
         val habit = modelFactory.buildHabit()

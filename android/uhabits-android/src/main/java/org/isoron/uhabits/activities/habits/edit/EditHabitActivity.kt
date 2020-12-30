@@ -19,25 +19,38 @@
 
 package org.isoron.uhabits.activities.habits.edit
 
-import android.annotation.*
-import android.content.res.*
-import android.graphics.*
-import android.os.*
-import android.text.format.*
-import android.view.*
-import android.widget.*
-import androidx.appcompat.app.*
-import androidx.fragment.app.*
-import com.android.datetimepicker.time.*
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.View
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import com.android.datetimepicker.time.RadialPickerLayout
+import com.android.datetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_edit_habit.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
-
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.FrequencyPickerDialog
+import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.CreateHabitCommand
+import org.isoron.uhabits.core.commands.EditHabitCommand
+import org.isoron.uhabits.core.models.Frequency
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Reminder
+import org.isoron.uhabits.core.models.WeekdayList
+import org.isoron.uhabits.databinding.ActivityEditHabitBinding
+import org.isoron.uhabits.utils.ColorUtils
+import org.isoron.uhabits.utils.formatTime
+import org.isoron.uhabits.utils.toFormattedString
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
 class EditHabitActivity : AppCompatActivity() {
 
@@ -143,7 +156,7 @@ class EditHabitActivity : AppCompatActivity() {
             arrayAdapter.add(getString(R.string.every_week))
             arrayAdapter.add(getString(R.string.every_month))
             builder.setAdapter(arrayAdapter) { dialog, which ->
-                freqDen = when(which) {
+                freqDen = when (which) {
                     1 -> 7
                     2 -> 30
                     else -> 1
@@ -159,20 +172,26 @@ class EditHabitActivity : AppCompatActivity() {
             val currentHour = if (reminderHour >= 0) reminderHour else 8
             val currentMin = if (reminderMin >= 0) reminderMin else 0
             val is24HourMode = DateFormat.is24HourFormat(this)
-            val dialog = TimePickerDialog.newInstance(object : TimePickerDialog.OnTimeSetListener {
-                override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
-                    reminderHour = hourOfDay
-                    reminderMin = minute
-                    populateReminder()
-                }
+            val dialog = TimePickerDialog.newInstance(
+                object : TimePickerDialog.OnTimeSetListener {
+                    override fun onTimeSet(view: RadialPickerLayout?, hourOfDay: Int, minute: Int) {
+                        reminderHour = hourOfDay
+                        reminderMin = minute
+                        populateReminder()
+                    }
 
-                override fun onTimeCleared(view: RadialPickerLayout?) {
-                    reminderHour = -1
-                    reminderMin = -1
-                    reminderDays = WeekdayList.EVERY_DAY
-                    populateReminder()
-                }
-            }, currentHour, currentMin, is24HourMode, androidColor)
+                    override fun onTimeCleared(view: RadialPickerLayout?) {
+                        reminderHour = -1
+                        reminderMin = -1
+                        reminderDays = WeekdayList.EVERY_DAY
+                        populateReminder()
+                    }
+                },
+                currentHour,
+                currentMin,
+                is24HourMode,
+                androidColor
+            )
             dialog.show(supportFragmentManager, "timePicker")
         }
 
@@ -188,7 +207,7 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         binding.buttonSave.setOnClickListener {
-            if(validate()) save()
+            if (validate()) save()
         }
 
         for (fragment in supportFragmentManager.fragments) {
@@ -226,14 +245,16 @@ class EditHabitActivity : AppCompatActivity() {
 
         val command = if (habitId >= 0) {
             EditHabitCommand(
-                    component.habitList,
-                    habitId,
-                    habit)
+                component.habitList,
+                habitId,
+                habit
+            )
         } else {
             CreateHabitCommand(
-                    component.modelFactory,
-                    component.habitList,
-                    habit)
+                component.modelFactory,
+                component.habitList,
+                habit
+            )
         }
         component.commandRunner.run(command)
         finish()
@@ -246,11 +267,11 @@ class EditHabitActivity : AppCompatActivity() {
             isValid = false
         }
         if (habitType == Habit.NUMBER_HABIT) {
-            if(unitInput.text.isEmpty()) {
+            if (unitInput.text.isEmpty()) {
                 unitInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
-            if(targetInput.text.isEmpty()) {
+            if (targetInput.text.isEmpty()) {
                 targetInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
@@ -282,7 +303,7 @@ class EditHabitActivity : AppCompatActivity() {
             freqDen == 31 -> getString(R.string.x_times_per_month, freqNum)
             else -> "Unknown"
         }
-        binding.numericalFrequencyPicker.text = when(freqDen) {
+        binding.numericalFrequencyPicker.text = when (freqDen) {
             1 -> getString(R.string.every_day)
             7 -> getString(R.string.every_week)
             30 -> getString(R.string.every_month)

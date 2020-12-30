@@ -18,8 +18,9 @@
  */
 package org.isoron.uhabits.core.models
 
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.core.models.sqlite.records.*
+import org.isoron.uhabits.core.database.Repository
+import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
 
 /**
  * Interface implemented by factories that provide concrete implementations of
@@ -31,10 +32,10 @@ interface ModelFactory {
         val scores = buildScoreList()
         val streaks = buildStreakList()
         val habit = Habit(
-                scores = scores,
-                streaks = streaks,
-                originalEntries = buildOriginalEntries(),
-                computedEntries = buildComputedEntries(),
+            scores = scores,
+            streaks = streaks,
+            originalEntries = buildOriginalEntries(),
+            computedEntries = buildComputedEntries(),
         )
         return habit
     }

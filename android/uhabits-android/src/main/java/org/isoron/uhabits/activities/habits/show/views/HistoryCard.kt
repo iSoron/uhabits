@@ -18,20 +18,21 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.databinding.ShowHabitHistoryBinding
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
 data class HistoryCardViewModel(
-        val entries: IntArray,
-        val color: PaletteColor,
-        val firstWeekday: Int,
-        val isNumerical: Boolean,
-        val isSkipEnabled: Boolean,
+    val entries: IntArray,
+    val color: PaletteColor,
+    val firstWeekday: Int,
+    val isNumerical: Boolean,
+    val isSkipEnabled: Boolean,
 )
 
 class HistoryCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -54,20 +55,19 @@ class HistoryCard(context: Context, attrs: AttributeSet) : LinearLayout(context,
         if (data.isNumerical) {
             binding.historyChart.setNumerical(true)
         }
-
     }
 }
 
 class HistoryCardPresenter(
-        val habit: Habit,
-        val firstWeekday: Int,
-        val isSkipEnabled: Boolean,
+    val habit: Habit,
+    val firstWeekday: Int,
+    val isSkipEnabled: Boolean,
 ) {
     fun present() = HistoryCardViewModel(
-            entries = habit.computedEntries.getAllValues(),
-            color = habit.color,
-            firstWeekday = firstWeekday,
-            isNumerical = habit.isNumerical,
-            isSkipEnabled = isSkipEnabled,
+        entries = habit.computedEntries.getAllValues(),
+        color = habit.color,
+        firstWeekday = firstWeekday,
+        isNumerical = habit.isNumerical,
+        isSkipEnabled = isSkipEnabled,
     )
 }

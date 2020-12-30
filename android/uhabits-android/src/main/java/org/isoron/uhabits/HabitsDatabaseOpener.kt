@@ -21,17 +21,18 @@
 
 package org.isoron.uhabits
 
-import android.content.*
-import android.database.sqlite.*
-
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.database.*
-import java.io.*
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import org.isoron.uhabits.core.database.MigrationHelper
+import org.isoron.uhabits.core.database.UnsupportedDatabaseVersionException
+import org.isoron.uhabits.database.AndroidDatabase
+import java.io.File
 
 class HabitsDatabaseOpener(
-        context: Context,
-        private val databaseFilename: String,
-        private val version: Int
+    context: Context,
+    private val databaseFilename: String,
+    private val version: Int
 ) : SQLiteOpenHelper(context, databaseFilename, null, version) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -45,18 +46,22 @@ class HabitsDatabaseOpener(
         db.disableWriteAheadLogging()
     }
 
-    override fun onUpgrade(db: SQLiteDatabase,
-                           oldVersion: Int,
-                           newVersion: Int) {
+    override fun onUpgrade(
+        db: SQLiteDatabase,
+        oldVersion: Int,
+        newVersion: Int
+    ) {
         db.disableWriteAheadLogging()
         if (db.version < 8) throw UnsupportedDatabaseVersionException()
         val helper = MigrationHelper(AndroidDatabase(db, File(databaseFilename)))
         helper.migrateTo(newVersion)
     }
 
-    override fun onDowngrade(db: SQLiteDatabase,
-                             oldVersion: Int,
-                             newVersion: Int) {
+    override fun onDowngrade(
+        db: SQLiteDatabase,
+        oldVersion: Int,
+        newVersion: Int
+    ) {
         throw UnsupportedDatabaseVersionException()
     }
 }

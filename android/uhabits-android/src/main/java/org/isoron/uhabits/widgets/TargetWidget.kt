@@ -19,37 +19,37 @@
 
 package org.isoron.uhabits.widgets
 
-import android.content.*
-import android.view.*
-import android.view.ViewGroup.*
-import android.view.ViewGroup.LayoutParams.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.activities.common.views.*
-import org.isoron.uhabits.activities.habits.show.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.views.*
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import kotlinx.coroutines.runBlocking
+import org.isoron.uhabits.activities.common.views.TargetChart
+import org.isoron.uhabits.activities.habits.show.views.TargetCardPresenter
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class TargetWidget(
-        context: Context,
-        id: Int,
-        private val habit: Habit
+    context: Context,
+    id: Int,
+    private val habit: Habit
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context) =
-            pendingIntentFactory.showHabit(habit)
+        pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) = runBlocking {
-            val widgetView = view as GraphWidgetView
-            widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
-            if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
-            val chart = (widgetView.dataView as TargetChart)
-            val presenter = TargetCardPresenter(habit, prefs.firstWeekday, context.resources)
-            val data = presenter.present()
-            chart.setColor(data.color.toThemedAndroidColor(context))
-            chart.setTargets(data.targets)
-            chart.setLabels(data.labels)
-            chart.setValues(data.values)
+        val widgetView = view as GraphWidgetView
+        widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
+        if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
+        val chart = (widgetView.dataView as TargetChart)
+        val presenter = TargetCardPresenter(habit, prefs.firstWeekday, context.resources)
+        val data = presenter.present()
+        chart.setColor(data.color.toThemedAndroidColor(context))
+        chart.setTargets(data.targets)
+        chart.setLabels(data.labels)
+        chart.setValues(data.values)
     }
 
     override fun buildView(): View {

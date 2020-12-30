@@ -18,19 +18,20 @@
  */
 package org.isoron.uhabits.activities.about
 
-import android.annotation.*
-import android.content.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
+import android.annotation.SuppressLint
+import android.content.Context
+import android.view.LayoutInflater
+import android.widget.FrameLayout
+import org.isoron.uhabits.BuildConfig
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.databinding.AboutBinding
+import org.isoron.uhabits.utils.setupToolbar
 
 @SuppressLint("ViewConstructor")
 class AboutView(
-        context: Context,
-        private val screen: AboutScreen,
+    context: Context,
+    private val screen: AboutScreen,
 ) : FrameLayout(context) {
 
     private var binding = AboutBinding.inflate(LayoutInflater.from(context))
@@ -38,9 +39,9 @@ class AboutView(
     init {
         addView(binding.root)
         setupToolbar(
-                toolbar = binding.toolbar,
-                color = PaletteColor(11),
-                title = resources.getString(R.string.about)
+            toolbar = binding.toolbar,
+            color = PaletteColor(11),
+            title = resources.getString(R.string.about)
         )
         val version = resources.getString(R.string.version_n)
         binding.tvContributors.setOnClickListener { screen.showCodeContributorsWebsite() }

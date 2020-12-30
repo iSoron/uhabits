@@ -19,15 +19,23 @@
 
 package org.isoron.uhabits.regression
 
-import androidx.test.filters.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.acceptance.steps.CommonSteps.*
-import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.*
-import org.isoron.uhabits.acceptance.steps.EditHabitSteps.*
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*
-import org.junit.*
-
+import androidx.test.filters.LargeTest
+import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.EDIT_HABIT
+import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.LIST_HABITS
+import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.SELECT_HABIT_TYPE
+import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
+import org.isoron.uhabits.acceptance.steps.CommonSteps.longClickText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyShowsScreen
+import org.isoron.uhabits.acceptance.steps.EditHabitSteps.clickSave
+import org.isoron.uhabits.acceptance.steps.EditHabitSteps.typeName
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ADD
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.DELETE
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.longPressCheckmarks
+import org.junit.Test
 
 @LargeTest
 class ListHabitsRegressionTest : BaseUserInterfaceTest() {

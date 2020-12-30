@@ -18,24 +18,27 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.databinding.ShowHabitOverviewBinding
+import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
 data class OverviewCardViewModel(
-        val color: PaletteColor,
-        val scoreMonthDiff: Float,
-        val scoreYearDiff: Float,
-        val scoreToday: Float,
-        val totalCount: Long,
+    val color: PaletteColor,
+    val scoreMonthDiff: Float,
+    val scoreYearDiff: Float,
+    val scoreToday: Float,
+    val totalCount: Long,
 )
 
 class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -43,8 +46,11 @@ class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
     private val binding = ShowHabitOverviewBinding.inflate(LayoutInflater.from(context), this)
 
     private fun formatPercentageDiff(percentageDiff: Float): String {
-        return String.format("%s%.0f%%", if (percentageDiff >= 0) "+" else "\u2212",
-                             Math.abs(percentageDiff) * 100)
+        return String.format(
+            "%s%.0f%%",
+            if (percentageDiff >= 0) "+" else "\u2212",
+            Math.abs(percentageDiff) * 100
+        )
     }
 
     fun update(data: OverviewCardViewModel) {
@@ -76,15 +82,15 @@ class OverviewCardPresenter(val habit: Habit) {
         val scoreLastMonth = scores.get(lastMonth).value.toFloat()
         val scoreLastYear = scores.get(lastYear).value.toFloat()
         val totalCount = habit.originalEntries.getKnown()
-                .filter { it.value == YES_MANUAL }
-                .count()
-                .toLong()
+            .filter { it.value == YES_MANUAL }
+            .count()
+            .toLong()
         return@IO OverviewCardViewModel(
-                color = habit.color,
-                scoreToday = scoreToday,
-                scoreMonthDiff = scoreToday - scoreLastMonth,
-                scoreYearDiff = scoreToday - scoreLastYear,
-                totalCount = totalCount,
+            color = habit.color,
+            scoreToday = scoreToday,
+            scoreMonthDiff = scoreToday - scoreLastMonth,
+            scoreYearDiff = scoreToday - scoreLastYear,
+            totalCount = totalCount,
         )
     }
 }

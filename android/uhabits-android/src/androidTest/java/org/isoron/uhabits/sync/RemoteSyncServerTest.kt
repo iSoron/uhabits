@@ -19,18 +19,29 @@
 
 package org.isoron.uhabits.sync
 
-import androidx.test.filters.*
-import com.fasterxml.jackson.databind.*
-import io.ktor.client.*
-import io.ktor.client.engine.mock.*
-import io.ktor.client.features.json.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import junit.framework.Assert.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.sync.*
-import org.junit.*
+import androidx.test.filters.MediumTest
+import com.fasterxml.jackson.databind.ObjectMapper
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.MockRequestHandleScope
+import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.respondError
+import io.ktor.client.engine.mock.respondOk
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.request.HttpRequestData
+import io.ktor.client.request.HttpResponseData
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.fullPath
+import io.ktor.http.headersOf
+import kotlinx.coroutines.runBlocking
+import org.isoron.uhabits.BaseAndroidTest
+import org.isoron.uhabits.core.sync.AbstractSyncServer
+import org.isoron.uhabits.core.sync.GetDataVersionResponse
+import org.isoron.uhabits.core.sync.KeyNotFoundException
+import org.isoron.uhabits.core.sync.RegisterReponse
+import org.isoron.uhabits.core.sync.ServiceUnavailable
+import org.isoron.uhabits.core.sync.SyncData
+import org.junit.Test
 
 @MediumTest
 class RemoteSyncServerTest : BaseAndroidTest() {
@@ -115,23 +126,29 @@ class RemoteSyncServerTest : BaseAndroidTest() {
         return@runBlocking
     }
 
-    private fun server(expectedPath: String,
-                       action: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData
+    private fun server(
+        expectedPath: String,
+        action: MockRequestHandleScope.(HttpRequestData) -> HttpResponseData
     ): AbstractSyncServer {
-        return RemoteSyncServer(httpClient = HttpClient(MockEngine) {
-            install(JsonFeature)
-            engine {
-                addHandler { request ->
-                    when (request.url.fullPath) {
-                        expectedPath -> action(request)
-                        else -> error("unexpected call: ${request.url.fullPath}")
+        return RemoteSyncServer(
+            httpClient = HttpClient(MockEngine) {
+                install(JsonFeature)
+                engine {
+                    addHandler { request ->
+                        when (request.url.fullPath) {
+                            expectedPath -> action(request)
+                            else -> error("unexpected call: ${request.url.fullPath}")
+                        }
                     }
                 }
-            }
-        }, preferences = prefs)
+            },
+            preferences = prefs
+        )
     }
 
     private fun MockRequestHandleScope.respondWithJson(content: Any) =
-            respond(mapper.writeValueAsBytes(content),
-                    headers = headersOf("Content-Type" to listOf("application/json")))
+        respond(
+            mapper.writeValueAsBytes(content),
+            headers = headersOf("Content-Type" to listOf("application/json"))
+        )
 }

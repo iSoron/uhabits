@@ -18,17 +18,15 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.view.*
-import androidx.test.ext.junit.runners.*
-import org.junit.runner.RunWith
+import android.view.LayoutInflater
+import android.view.View
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
-import org.isoron.uhabits.activities.habits.show.views.StreakCardView
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.habits.show.views.StreakCardViewTest
-import org.isoron.uhabits.core.models.*
-import org.junit.*
-import java.lang.Exception
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -41,13 +39,15 @@ class StreakCardViewTest : BaseViewTest() {
         super.setUp()
         val habit = fixtures.createLongHabit()
         view = LayoutInflater
-                .from(targetContext)
-                .inflate(R.layout.show_habit, null)
-                .findViewById<View>(R.id.streakCard) as StreakCardView
-        view.update(StreakCardViewModel(
+            .from(targetContext)
+            .inflate(R.layout.show_habit, null)
+            .findViewById<View>(R.id.streakCard) as StreakCardView
+        view.update(
+            StreakCardViewModel(
                 bestStreaks = habit.streaks.getBest(10),
                 color = habit.color,
-        ))
+            )
+        )
         measureView(view, 800f, 600f)
     }
 

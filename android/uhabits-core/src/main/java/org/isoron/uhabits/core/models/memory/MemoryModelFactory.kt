@@ -18,7 +18,10 @@
  */
 package org.isoron.uhabits.core.models.memory
 
-import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.models.EntryList
+import org.isoron.uhabits.core.models.ModelFactory
+import org.isoron.uhabits.core.models.ScoreList
+import org.isoron.uhabits.core.models.StreakList
 
 class MemoryModelFactory : ModelFactory {
     override fun buildComputedEntries() = EntryList()

@@ -19,37 +19,39 @@
 
 package org.isoron.uhabits.activities
 
-import android.app.*
-import android.content.*
-import android.content.res.Configuration.*
-import android.os.Build.VERSION.*
-import androidx.core.content.*
+import android.app.Activity
+import android.content.Context
+import android.content.res.Configuration.UI_MODE_NIGHT_MASK
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.os.Build.VERSION.SDK_INT
+import androidx.core.content.ContextCompat
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.inject.*
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.ThemeSwitcher
+import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.inject.ActivityScope
 
 @ActivityScope
 class AndroidThemeSwitcher
 constructor(
-        @ActivityContext val context: Context,
-        preferences: Preferences
+    @ActivityContext val context: Context,
+    preferences: Preferences
 ) : ThemeSwitcher(preferences) {
 
     override fun getSystemTheme(): Int {
-        if (SDK_INT < 29) return THEME_LIGHT;
+        if (SDK_INT < 29) return THEME_LIGHT
         val uiMode = context.resources.configuration.uiMode
         return if ((uiMode and UI_MODE_NIGHT_MASK) == UI_MODE_NIGHT_YES) {
-            THEME_DARK;
+            THEME_DARK
         } else {
-            THEME_LIGHT;
+            THEME_LIGHT
         }
     }
 
     override fun applyDarkTheme() {
         context.setTheme(R.style.AppBaseThemeDark)
         (context as Activity).window.navigationBarColor =
-                ContextCompat.getColor(context, R.color.grey_900)
+            ContextCompat.getColor(context, R.color.grey_900)
     }
 
     override fun applyLightTheme() {
@@ -59,6 +61,6 @@ constructor(
     override fun applyPureBlackTheme() {
         context.setTheme(R.style.AppBaseThemeDark_PureBlack)
         (context as Activity).window.navigationBarColor =
-                ContextCompat.getColor(context, R.color.black)
+            ContextCompat.getColor(context, R.color.black)
     }
 }

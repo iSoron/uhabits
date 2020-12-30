@@ -18,10 +18,10 @@
  */
 package org.isoron.uhabits.activities.about
 
-import android.os.*
-import androidx.appcompat.app.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
 
 /**
  * Activity that allows the user to see information about the app itself.
@@ -31,9 +31,11 @@ class AboutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val app = application as HabitsApplication
-        val screen = AboutScreen(this,
-                                 app.component.intentFactory,
-                                 app.component.preferences)
+        val screen = AboutScreen(
+            this,
+            app.component.intentFactory,
+            app.component.preferences
+        )
         AndroidThemeSwitcher(this, app.component.preferences).apply()
         setContentView(AboutView(this, screen))
     }

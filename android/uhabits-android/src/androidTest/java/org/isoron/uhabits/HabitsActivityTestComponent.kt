@@ -19,12 +19,22 @@
 
 package org.isoron.uhabits
 
-import dagger.*
-import org.isoron.uhabits.activities.habits.list.*
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.inject.*
-import org.mockito.Mockito.*
+import dagger.Component
+import dagger.Module
+import dagger.Provides
+import org.isoron.uhabits.activities.habits.list.ListHabitsModule
+import org.isoron.uhabits.activities.habits.list.views.CheckmarkButtonViewFactory
+import org.isoron.uhabits.activities.habits.list.views.CheckmarkPanelViewFactory
+import org.isoron.uhabits.activities.habits.list.views.HabitCardViewFactory
+import org.isoron.uhabits.activities.habits.list.views.NumberButtonViewFactory
+import org.isoron.uhabits.activities.habits.list.views.NumberPanelViewFactory
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.inject.ActivityContextModule
+import org.isoron.uhabits.inject.ActivityScope
+import org.isoron.uhabits.inject.HabitModule
+import org.isoron.uhabits.inject.HabitsActivityModule
+import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.mockito.Mockito.mock
 
 @Module
 class TestModule {
@@ -32,13 +42,16 @@ class TestModule {
 }
 
 @ActivityScope
-@Component(modules = arrayOf(
+@Component(
+    modules = arrayOf(
         ActivityContextModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,
         HabitModule::class,
         TestModule::class
-), dependencies = arrayOf(HabitsApplicationComponent::class))
+    ),
+    dependencies = arrayOf(HabitsApplicationComponent::class)
+)
 interface HabitsActivityTestComponent {
     fun getCheckmarkPanelViewFactory(): CheckmarkPanelViewFactory
     fun getHabitCardViewFactory(): HabitCardViewFactory

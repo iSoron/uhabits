@@ -18,24 +18,27 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.*
-import android.content.res.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
-import java.util.*
+import android.content.Context
+import android.content.res.Resources
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.databinding.ShowHabitTargetBinding
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import java.util.ArrayList
+import java.util.Calendar
 
 data class TargetCardViewModel(
-        val color: PaletteColor,
-        val values: List<Double> = listOf(),
-        val targets: List<Double> = listOf(),
-        val labels: List<String> = listOf(),
+    val color: PaletteColor,
+    val values: List<Double> = listOf(),
+    val targets: List<Double> = listOf(),
+    val labels: List<String> = listOf(),
 )
 
 class TargetCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -52,9 +55,9 @@ class TargetCardView(context: Context, attrs: AttributeSet) : LinearLayout(conte
 }
 
 class TargetCardPresenter(
-        val habit: Habit,
-        val firstWeekday: Int,
-        val resources: Resources,
+    val habit: Habit,
+    val firstWeekday: Int,
+    val resources: Resources,
 ) {
     suspend fun present(): TargetCardViewModel = Dispatchers.IO {
         val today = DateUtils.getTodayWithOffset()
@@ -98,10 +101,10 @@ class TargetCardPresenter(
         labels.add(resources.getString(R.string.year))
 
         return@IO TargetCardViewModel(
-                color = habit.color,
-                values = values,
-                labels = labels,
-                targets = targets,
+            color = habit.color,
+            values = values,
+            labels = labels,
+            targets = targets,
         )
     }
 }

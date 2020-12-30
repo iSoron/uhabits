@@ -18,11 +18,13 @@
  */
 package org.isoron.uhabits.core.database
 
-import java.io.*
-import java.util.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.InputStream
+import java.util.Locale
 
 class MigrationHelper(
-        private val db: Database,
+    private val db: Database,
 ) {
     fun migrateTo(newVersion: Int) {
         try {

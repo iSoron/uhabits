@@ -19,23 +19,23 @@
 
 package org.isoron.uhabits.widgets
 
-import android.content.*
-import android.view.*
-import android.view.ViewGroup.*
-import android.view.ViewGroup.LayoutParams.*
-import org.isoron.uhabits.activities.common.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.views.*
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import org.isoron.uhabits.activities.common.views.StreakChart
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class StreakWidget(
-        context: Context,
-        id: Int,
-        private val habit: Habit
+    context: Context,
+    id: Int,
+    private val habit: Habit
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context) =
-            pendingIntentFactory.showHabit(habit)
+        pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {
         val widgetView = view as GraphWidgetView

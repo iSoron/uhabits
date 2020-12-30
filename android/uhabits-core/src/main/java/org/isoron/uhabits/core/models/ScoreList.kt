@@ -19,9 +19,10 @@
 package org.isoron.uhabits.core.models
 
 import org.isoron.uhabits.core.models.Score.Companion.compute
-import java.util.*
-import javax.annotation.concurrent.*
-import kotlin.math.*
+import java.util.ArrayList
+import java.util.HashMap
+import javax.annotation.concurrent.ThreadSafe
+import kotlin.math.min
 
 @ThreadSafe
 class ScoreList {
@@ -46,8 +47,8 @@ class ScoreList {
      */
     @Synchronized
     fun getByInterval(
-            fromTimestamp: Timestamp,
-            toTimestamp: Timestamp,
+        fromTimestamp: Timestamp,
+        toTimestamp: Timestamp,
     ): List<Score> {
         val result: MutableList<Score> = ArrayList()
         if (fromTimestamp.isNewerThan(toTimestamp)) return result
@@ -64,12 +65,12 @@ class ScoreList {
      */
     @Synchronized
     fun recompute(
-            frequency: Frequency,
-            isNumerical: Boolean,
-            targetValue: Double,
-            computedEntries: EntryList,
-            from: Timestamp,
-            to: Timestamp,
+        frequency: Frequency,
+        isNumerical: Boolean,
+        targetValue: Double,
+        computedEntries: EntryList,
+        from: Timestamp,
+        to: Timestamp,
     ) {
         map.clear()
         if (computedEntries.getKnown().isEmpty()) return

@@ -18,13 +18,16 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.view.*
-import androidx.test.ext.junit.runners.*
-import androidx.test.filters.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.junit.*
-import org.junit.runner.*
+import android.view.LayoutInflater
+import android.view.View
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
+import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.PaletteColor
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -36,16 +39,18 @@ class OverviewCardViewTest : BaseViewTest() {
     override fun setUp() {
         super.setUp()
         view = LayoutInflater
-                .from(targetContext)
-                .inflate(R.layout.show_habit, null)
-                .findViewById<View>(R.id.overviewCard) as OverviewCardView
-        view.update(OverviewCardViewModel(
+            .from(targetContext)
+            .inflate(R.layout.show_habit, null)
+            .findViewById<View>(R.id.overviewCard) as OverviewCardView
+        view.update(
+            OverviewCardViewModel(
                 scoreToday = 0.74f,
                 scoreMonthDiff = 0.23f,
                 scoreYearDiff = 0.74f,
                 totalCount = 44,
                 color = PaletteColor(7),
-        ))
+            )
+        )
         measureView(view, 800f, 300f)
     }
 

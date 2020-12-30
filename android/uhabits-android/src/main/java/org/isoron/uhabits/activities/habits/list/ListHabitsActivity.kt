@@ -19,22 +19,26 @@
 
 package org.isoron.uhabits.activities.habits.list
 
-import android.content.*
-import android.os.*
-import android.view.*
-import androidx.appcompat.app.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.sync.*
-import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.core.ui.ThemeSwitcher.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.database.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.utils.*
+import android.content.Intent
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.isoron.uhabits.BaseExceptionHandler
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.sync.SyncManager
+import org.isoron.uhabits.core.tasks.TaskRunner
+import org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_DARK
+import org.isoron.uhabits.core.utils.MidnightTimer
+import org.isoron.uhabits.database.AutoBackup
+import org.isoron.uhabits.inject.ActivityContextModule
+import org.isoron.uhabits.inject.DaggerHabitsActivityComponent
+import org.isoron.uhabits.utils.restartWithFade
 
 class ListHabitsActivity : AppCompatActivity() {
 
@@ -55,10 +59,10 @@ class ListHabitsActivity : AppCompatActivity() {
 
         val appComponent = (applicationContext as HabitsApplication).component
         val component = DaggerHabitsActivityComponent
-                .builder()
-                .activityContextModule(ActivityContextModule(this))
-                .habitsApplicationComponent(appComponent)
-                .build()
+            .builder()
+            .activityContextModule(ActivityContextModule(this))
+            .habitsApplicationComponent(appComponent)
+            .build()
         component.themeSwitcher.apply()
 
         prefs = appComponent.preferences

@@ -9,7 +9,7 @@ import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
 import org.isoron.uhabits.core.test.HabitFixtures
 import org.junit.Test
 
-class Version23Test: BaseUnitTest() {
+class Version23Test : BaseUnitTest() {
 
     private lateinit var db: Database
 
@@ -38,14 +38,14 @@ class Version23Test: BaseUnitTest() {
         var cursor = db.query("select description from Habits")
 
         val descriptions = mutableListOf<String?>()
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             descriptions.add(cursor.getString(0))
         }
 
         migrateTo23()
         cursor = db.query("select question from Habits")
 
-        for(i in 0 until descriptions.size){
+        for (i in 0 until descriptions.size) {
             cursor.moveToNext()
             MatcherAssert.assertThat(cursor.getString(0), Matchers.equalTo(descriptions[i]))
         }
@@ -56,7 +56,7 @@ class Version23Test: BaseUnitTest() {
         migrateTo23()
         val cursor = db.query("select description from Habits")
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             MatcherAssert.assertThat(cursor.getString(0), Matchers.equalTo(""))
         }
     }

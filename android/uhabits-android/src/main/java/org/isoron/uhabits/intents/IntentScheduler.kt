@@ -19,37 +19,42 @@
 
 package org.isoron.uhabits.intents
 
-import android.app.*
-import android.app.AlarmManager.*
-import android.content.*
-import android.content.Context.*
-import android.os.Build.VERSION.*
-import android.os.Build.VERSION_CODES.*
-import android.util.*
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.reminders.ReminderScheduler.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.inject.*
-import java.util.*
-import javax.inject.*
+import android.app.AlarmManager
+import android.app.AlarmManager.RTC
+import android.app.AlarmManager.RTC_WAKEUP
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Context.ALARM_SERVICE
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.M
+import android.util.Log
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.reminders.ReminderScheduler.SchedulerResult
+import org.isoron.uhabits.core.reminders.ReminderScheduler.SystemScheduler
+import org.isoron.uhabits.core.utils.DateFormats
+import org.isoron.uhabits.inject.AppContext
+import java.util.Date
+import javax.inject.Inject
 
 @AppScope
 class IntentScheduler
 @Inject constructor(
-        @AppContext context: Context,
-        private val pendingIntents: PendingIntentFactory
+    @AppContext context: Context,
+    private val pendingIntents: PendingIntentFactory
 ) : SystemScheduler {
 
     private val manager =
-            context.getSystemService(ALARM_SERVICE) as AlarmManager
+        context.getSystemService(ALARM_SERVICE) as AlarmManager
 
     private fun schedule(timestamp: Long, intent: PendingIntent, alarmType: Int): SchedulerResult {
         val now = System.currentTimeMillis()
         Log.d("IntentScheduler", "timestamp=$timestamp now=$now")
         if (timestamp < now) {
-            Log.e("IntentScheduler",
-                  "Ignoring attempt to schedule intent in the past.")
+            Log.e(
+                "IntentScheduler",
+                "Ignoring attempt to schedule intent in the past."
+            )
             return SchedulerResult.IGNORED
         }
         if (SDK_INT >= M)
@@ -59,9 +64,11 @@ class IntentScheduler
         return SchedulerResult.OK
     }
 
-    override fun scheduleShowReminder(reminderTime: Long,
-                                      habit: Habit,
-                                      timestamp: Long): SchedulerResult {
+    override fun scheduleShowReminder(
+        reminderTime: Long,
+        habit: Habit,
+        timestamp: Long
+    ): SchedulerResult {
         val intent = pendingIntents.showReminder(habit, reminderTime, timestamp)
         logReminderScheduled(habit, reminderTime)
         return schedule(reminderTime, intent, RTC_WAKEUP)
@@ -81,7 +88,9 @@ class IntentScheduler
         val name = habit.name.substring(0, min)
         val df = DateFormats.getBackupDateFormat()
         val time = df.format(Date(reminderTime))
-        Log.i("ReminderHelper",
-              String.format("Setting alarm (%s): %s", time, name))
+        Log.i(
+            "ReminderHelper",
+            String.format("Setting alarm (%s): %s", time, name)
+        )
     }
 }

@@ -19,17 +19,18 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.content.*
-import android.view.*
-import android.view.View.MeasureSpec.*
-import android.widget.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.utils.*
+import android.content.Context
+import android.view.View
+import android.view.View.MeasureSpec.EXACTLY
+import android.widget.LinearLayout
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.toMeasureSpec
 
 abstract class ButtonPanelView<T : View>(
-        context: Context,
-        val preferences: Preferences
+    context: Context,
+    val preferences: Preferences
 ) : LinearLayout(context),
     Preferences.Listener {
 
@@ -79,8 +80,10 @@ abstract class ButtonPanelView<T : View>(
         val buttonWidth = dim(R.dimen.checkmarkWidth)
         val buttonHeight = dim(R.dimen.checkmarkHeight)
         val width = (buttonWidth * buttonCount)
-        super.onMeasure(width.toMeasureSpec(EXACTLY),
-                        buttonHeight.toMeasureSpec(EXACTLY))
+        super.onMeasure(
+            width.toMeasureSpec(EXACTLY),
+            buttonHeight.toMeasureSpec(EXACTLY)
+        )
     }
 
     protected abstract fun setupButtons()

@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.core.database
 
-import java.io.*
+import java.io.File
 
 interface Database {
 
@@ -32,10 +32,10 @@ interface Database {
     }
 
     fun update(
-            tableName: String,
-            values: Map<String, Any?>,
-            where: String,
-            vararg params: String,
+        tableName: String,
+        values: Map<String, Any?>,
+        where: String,
+        vararg params: String,
     ): Int
 
     fun insert(tableName: String, values: Map<String, Any?>): Long?

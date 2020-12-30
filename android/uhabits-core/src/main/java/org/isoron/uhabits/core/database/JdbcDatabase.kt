@@ -18,11 +18,13 @@
  */
 package org.isoron.uhabits.core.database
 
-import org.apache.commons.lang3.*
-import java.io.*
-import java.lang.IllegalArgumentException
-import java.sql.*
-import java.util.*
+import org.apache.commons.lang3.StringUtils
+import java.io.File
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.SQLException
+import java.sql.Types
+import java.util.ArrayList
 
 class JdbcDatabase(private val connection: Connection) : Database {
     private var transactionSuccessful = false
@@ -36,10 +38,10 @@ class JdbcDatabase(private val connection: Connection) : Database {
     }
 
     override fun update(
-            tableName: String,
-            values: Map<String, Any?>,
-            where: String,
-            vararg params: String,
+        tableName: String,
+        values: Map<String, Any?>,
+        where: String,
+        vararg params: String,
     ): Int {
         return try {
             val fields = ArrayList<String?>()
@@ -49,8 +51,12 @@ class JdbcDatabase(private val connection: Connection) : Database {
                 valuesStr.add(value.toString())
             }
             valuesStr.addAll(listOf(*params))
-            val query = String.format("update %s set %s where %s", tableName,
-                                      StringUtils.join(fields, ", "), where)
+            val query = String.format(
+                "update %s set %s where %s",
+                tableName,
+                StringUtils.join(fields, ", "),
+                where
+            )
             val st = buildStatement(query, valuesStr.toTypedArray())
             st.executeUpdate()
         } catch (e: SQLException) {
@@ -68,9 +74,12 @@ class JdbcDatabase(private val connection: Connection) : Database {
                 params.add(value)
                 questionMarks.add("?")
             }
-            val query = String.format("insert into %s(%s) values(%s)", tableName,
-                                      StringUtils.join(fields, ", "),
-                                      StringUtils.join(questionMarks, ", "))
+            val query = String.format(
+                "insert into %s(%s) values(%s)",
+                tableName,
+                StringUtils.join(fields, ", "),
+                StringUtils.join(questionMarks, ", ")
+            )
             val st = buildStatement(query, params.toTypedArray())
             st.execute()
             var id: Long? = null

@@ -18,24 +18,34 @@
  */
 package org.isoron.uhabits.core.io
 
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.sqlite.records.*
-import java.io.*
-import javax.inject.*
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.DATABASE_VERSION
+import org.isoron.uhabits.core.commands.Command
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.CreateHabitCommand
+import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.commands.EditHabitCommand
+import org.isoron.uhabits.core.database.DatabaseOpener
+import org.isoron.uhabits.core.database.MigrationHelper
+import org.isoron.uhabits.core.database.Repository
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.ModelFactory
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
+import java.io.File
+import javax.inject.Inject
 
 /**
  * Class that imports data from database files exported by Loop Habit Tracker.
  */
 class LoopDBImporter
 @Inject constructor(
-        @AppScope val habitList: HabitList,
-        @AppScope val modelFactory: ModelFactory,
-        @AppScope val opener: DatabaseOpener,
-        @AppScope val runner: CommandRunner,
-        @AppScope logging: Logging,
+    @AppScope val habitList: HabitList,
+    @AppScope val modelFactory: ModelFactory,
+    @AppScope val opener: DatabaseOpener,
+    @AppScope val runner: CommandRunner,
+    @AppScope logging: Logging,
 ) : AbstractImporter(habitList) {
 
     private val logger = logging.getLogger("LoopDBImporter")
@@ -99,5 +109,4 @@ class LoopDBImporter
 
         db.close()
     }
-
 }

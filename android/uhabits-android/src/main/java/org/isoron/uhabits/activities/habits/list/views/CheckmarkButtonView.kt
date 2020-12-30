@@ -19,26 +19,35 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.content.*
-import android.graphics.*
-import android.text.*
-import android.view.*
-import android.view.View.MeasureSpec.*
-import com.google.auto.factory.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
+import android.text.TextPaint
+import android.view.HapticFeedbackConstants
+import android.view.View
+import android.view.View.MeasureSpec.EXACTLY
+import com.google.auto.factory.AutoFactory
+import com.google.auto.factory.Provided
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.getFontAwesome
+import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.sres
+import org.isoron.uhabits.utils.toMeasureSpec
 
 @AutoFactory
 class CheckmarkButtonView(
-        @Provided @ActivityContext context: Context,
-        @Provided val preferences: Preferences
+    @Provided @ActivityContext context: Context,
+    @Provided val preferences: Preferences
 ) : View(context),
     View.OnClickListener,
     View.OnLongClickListener {
@@ -65,7 +74,7 @@ class CheckmarkButtonView(
     }
 
     fun performToggle() {
-        value = if(preferences.isSkipEnabled) {
+        value = if (preferences.isSkipEnabled) {
             Entry.nextToggleValueWithSkip(value)
         } else {
             Entry.nextToggleValueWithoutSkip(value)
@@ -93,8 +102,10 @@ class CheckmarkButtonView(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = resources.getDimensionPixelSize(R.dimen.checkmarkHeight)
         val width = resources.getDimensionPixelSize(R.dimen.checkmarkWidth)
-        super.onMeasure(width.toMeasureSpec(EXACTLY),
-                        height.toMeasureSpec(EXACTLY))
+        super.onMeasure(
+            width.toMeasureSpec(EXACTLY),
+            height.toMeasureSpec(EXACTLY)
+        )
     }
 
     private inner class Drawer {
@@ -118,7 +129,7 @@ class CheckmarkButtonView(
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
                 UNKNOWN -> {
-                    if(preferences.areQuestionMarksEnabled()) R.string.fa_question
+                    if (preferences.areQuestionMarksEnabled()) R.string.fa_question
                     else R.string.fa_times
                 }
                 else -> R.string.fa_check

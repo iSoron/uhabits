@@ -19,19 +19,21 @@
 
 package org.isoron.uhabits.activities.common.views
 
-import android.content.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.core.tasks.*
+import android.content.Context
+import android.view.View
+import android.widget.ProgressBar
+import org.isoron.uhabits.core.tasks.Task
+import org.isoron.uhabits.core.tasks.TaskRunner
 
 class TaskProgressBar(
-        context: Context,
-        private val runner: TaskRunner
+    context: Context,
+    private val runner: TaskRunner
 ) : ProgressBar(
-        context,
-        null,
-        android.R.attr.progressBarStyleHorizontal
-), TaskRunner.Listener {
+    context,
+    null,
+    android.R.attr.progressBarStyleHorizontal
+),
+    TaskRunner.Listener {
 
     init {
         visibility = View.GONE

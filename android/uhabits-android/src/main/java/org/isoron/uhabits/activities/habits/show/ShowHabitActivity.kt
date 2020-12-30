@@ -18,17 +18,25 @@
  */
 package org.isoron.uhabits.activities.habits.show
 
-import android.content.*
-import android.os.*
-import android.view.*
-import androidx.appcompat.app.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.ui.screens.habits.show.*
-import org.isoron.uhabits.intents.*
+import android.content.ContentUris
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.isoron.uhabits.AndroidDirFinder
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.activities.HabitsDirFinder
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.core.commands.Command
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.intents.IntentFactory
 
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
@@ -51,41 +59,41 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
         view = ShowHabitView(this)
         presenter = ShowHabitPresenter(
-                context = this,
-                habit = habit,
-                preferences = appComponent.preferences,
+            context = this,
+            habit = habit,
+            preferences = appComponent.preferences,
         )
 
         val screen = ShowHabitScreen(
-                activity = this,
-                confirmDeleteDialogFactory = ConfirmDeleteDialogFactory { this },
-                habit = habit,
-                intentFactory = IntentFactory(),
-                numberPickerFactory = NumberPickerFactory(this),
-                widgetUpdater = appComponent.widgetUpdater,
+            activity = this,
+            confirmDeleteDialogFactory = ConfirmDeleteDialogFactory { this },
+            habit = habit,
+            intentFactory = IntentFactory(),
+            numberPickerFactory = NumberPickerFactory(this),
+            widgetUpdater = appComponent.widgetUpdater,
         )
 
         val behavior = ShowHabitBehavior(
-                commandRunner = commandRunner,
-                habit = habit,
-                habitList = habitList,
-                preferences = preferences,
-                screen = screen,
+            commandRunner = commandRunner,
+            habit = habit,
+            habitList = habitList,
+            preferences = preferences,
+            screen = screen,
         )
 
         val menuBehavior = ShowHabitMenuBehavior(
-                commandRunner = commandRunner,
-                habit = habit,
-                habitList = habitList,
-                screen = screen,
-                system = HabitsDirFinder(AndroidDirFinder(this)),
-                taskRunner = appComponent.taskRunner,
+            commandRunner = commandRunner,
+            habit = habit,
+            habitList = habitList,
+            screen = screen,
+            system = HabitsDirFinder(AndroidDirFinder(this)),
+            taskRunner = appComponent.taskRunner,
         )
 
         menu = ShowHabitMenu(
-                activity = this,
-                behavior = menuBehavior,
-                preferences = preferences,
+            activity = this,
+            behavior = menuBehavior,
+            preferences = preferences,
         )
 
         view.onScoreCardSpinnerPosition = behavior::onScoreCardSpinnerPosition
@@ -125,4 +133,3 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         }
     }
 }
-

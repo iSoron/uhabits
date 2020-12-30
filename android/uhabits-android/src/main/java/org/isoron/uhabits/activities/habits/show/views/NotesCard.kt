@@ -19,12 +19,12 @@
 
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.databinding.ShowHabitNotesBinding
 
 data class NotesCardViewModel(val description: String)
 
@@ -43,6 +43,6 @@ class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
 class NotesCardPresenter(val habit: Habit) {
     fun present() = NotesCardViewModel(
-            description = habit.description,
+        description = habit.description,
     )
 }

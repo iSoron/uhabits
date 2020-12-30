@@ -19,23 +19,25 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
-import android.app.*
-import android.os.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import androidx.appcompat.app.*
+import android.app.Dialog
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.EditText
+import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDialogFragment
 import kotlinx.android.synthetic.main.frequency_picker_dialog.view.*
-import org.isoron.uhabits.*
+import org.isoron.uhabits.R
 
-
-class FrequencyPickerDialog(var freqNumerator: Int,
-                            var freqDenominator: Int
-                           ) : AppCompatDialogFragment() {
+class FrequencyPickerDialog(
+    var freqNumerator: Int,
+    var freqDenominator: Int
+) : AppCompatDialogFragment() {
 
     lateinit var contentView: View
-    var onFrequencyPicked: (num: Int, den: Int) -> Unit = {_,_ -> }
+    var onFrequencyPicked: (num: Int, den: Int) -> Unit = { _, _ -> }
 
     constructor() : this(1, 1)
 
@@ -55,7 +57,7 @@ class FrequencyPickerDialog(var freqNumerator: Int,
         }
 
         contentView.everyXDaysTextView.setOnFocusChangeListener { v, hasFocus ->
-            if(hasFocus) check(contentView.everyXDaysRadioButton)
+            if (hasFocus) check(contentView.everyXDaysRadioButton)
         }
 
         contentView.xTimesPerWeekRadioButton.setOnClickListener {
@@ -64,7 +66,7 @@ class FrequencyPickerDialog(var freqNumerator: Int,
         }
 
         contentView.xTimesPerWeekTextView.setOnFocusChangeListener { v, hasFocus ->
-            if(hasFocus) check(contentView.xTimesPerWeekRadioButton)
+            if (hasFocus) check(contentView.xTimesPerWeekRadioButton)
         }
 
         contentView.xTimesPerMonthRadioButton.setOnClickListener {
@@ -73,13 +75,13 @@ class FrequencyPickerDialog(var freqNumerator: Int,
         }
 
         contentView.xTimesPerMonthTextView.setOnFocusChangeListener { v, hasFocus ->
-            if(hasFocus) check(contentView.xTimesPerMonthRadioButton)
+            if (hasFocus) check(contentView.xTimesPerMonthRadioButton)
         }
 
         return AlertDialog.Builder(activity!!)
-                .setView(contentView)
-                .setPositiveButton(R.string.save) { _, _ -> onSaveClicked() }
-                .create()
+            .setView(contentView)
+            .setPositiveButton(R.string.save) { _, _ -> onSaveClicked() }
+            .create()
     }
 
     private fun onSaveClicked() {
@@ -129,7 +131,7 @@ class FrequencyPickerDialog(var freqNumerator: Int,
     private fun populateViews() {
         uncheckAll()
         if (freqNumerator == 1) {
-            if(freqDenominator == 1) {
+            if (freqDenominator == 1) {
                 contentView.everyDayRadioButton.isChecked = true
             } else {
                 contentView.everyXDaysRadioButton.isChecked = true
@@ -137,7 +139,7 @@ class FrequencyPickerDialog(var freqNumerator: Int,
                 focus(contentView.everyXDaysTextView)
             }
         } else {
-            if(freqDenominator == 7) {
+            if (freqDenominator == 7) {
                 contentView.xTimesPerWeekRadioButton.isChecked = true
                 contentView.xTimesPerWeekTextView.setText(freqNumerator.toString())
                 focus(contentView.xTimesPerWeekTextView)

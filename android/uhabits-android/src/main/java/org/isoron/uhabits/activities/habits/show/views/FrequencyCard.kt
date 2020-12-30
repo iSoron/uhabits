@@ -18,19 +18,21 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
-import java.util.*
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.databinding.ShowHabitFrequencyBinding
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import java.util.HashMap
 
 data class FrequencyCardViewModel(
-        val frequency: HashMap<Timestamp, Array<Int>>,
-        val firstWeekday: Int,
-        val color: PaletteColor,
+    val frequency: HashMap<Timestamp, Array<Int>>,
+    val firstWeekday: Int,
+    val color: PaletteColor,
 )
 
 class FrequencyCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -47,14 +49,14 @@ class FrequencyCard(context: Context, attrs: AttributeSet) : LinearLayout(contex
 }
 
 class FrequencyCardPresenter(
-        val habit: Habit,
-        val firstWeekday: Int,
+    val habit: Habit,
+    val firstWeekday: Int,
 ) {
     fun present() = FrequencyCardViewModel(
-            color = habit.color,
-            frequency = habit.originalEntries.computeWeekdayFrequency(
-                    isNumerical = habit.isNumerical
-            ),
-            firstWeekday = firstWeekday,
+        color = habit.color,
+        frequency = habit.originalEntries.computeWeekdayFrequency(
+            isNumerical = habit.isNumerical
+        ),
+        firstWeekday = firstWeekday,
     )
 }

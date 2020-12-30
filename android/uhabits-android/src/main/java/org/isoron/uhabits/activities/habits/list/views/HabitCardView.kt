@@ -19,29 +19,41 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.content.*
-import android.os.*
-import android.os.Build.VERSION.*
-import android.os.Build.VERSION_CODES.*
-import android.text.*
-import android.view.*
-import android.view.ViewGroup.LayoutParams.*
-import android.widget.*
-import com.google.auto.factory.*
+import android.content.Context
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.LOLLIPOP
+import android.os.Build.VERSION_CODES.M
+import android.os.Handler
+import android.os.Looper
+import android.text.Layout
+import android.text.TextUtils
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.google.auto.factory.AutoFactory
+import com.google.auto.factory.Provided
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.activities.common.views.RingView
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.ModelObservable
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.dp
+import org.isoron.uhabits.utils.sres
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
 @AutoFactory
 class HabitCardView(
-        @Provided @ActivityContext context: Context,
-        @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
-        @Provided private val numberPanelFactory: NumberPanelViewFactory,
-        @Provided private val behavior: ListHabitsBehavior
+    @Provided @ActivityContext context: Context,
+    @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
+    @Provided private val numberPanelFactory: NumberPanelViewFactory,
+    @Provided private val behavior: ListHabitsBehavior
 ) : FrameLayout(context),
     ModelObservable.Listener {
 
@@ -228,8 +240,10 @@ class HabitCardView(
     private fun triggerRipple(x: Float, y: Float) {
         val background = innerFrame.background
         if (SDK_INT >= LOLLIPOP) background.setHotspot(x, y)
-        background.state = intArrayOf(android.R.attr.state_pressed,
-                                      android.R.attr.state_enabled)
+        background.state = intArrayOf(
+            android.R.attr.state_pressed,
+            android.R.attr.state_enabled
+        )
         Handler().postDelayed({ background.state = intArrayOf() }, 25)
     }
 

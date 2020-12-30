@@ -18,11 +18,11 @@
  */
 package org.isoron.uhabits.core.models
 
-import kotlin.math.*
+import kotlin.math.sqrt
 
 data class Score(
-        val timestamp: Timestamp,
-        val value: Double,
+    val timestamp: Timestamp,
+    val value: Double,
 ) {
 
     companion object {
@@ -36,9 +36,9 @@ data class Score(
          */
         @JvmStatic
         fun compute(
-                frequency: Double,
-                previousScore: Double,
-                checkmarkValue: Double,
+            frequency: Double,
+            previousScore: Double,
+            checkmarkValue: Double,
         ): Double {
             val multiplier = Math.pow(0.5, sqrt(frequency) / 13.0)
             var score = previousScore * multiplier

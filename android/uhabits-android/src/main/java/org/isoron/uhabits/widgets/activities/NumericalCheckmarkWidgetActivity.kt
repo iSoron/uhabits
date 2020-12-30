@@ -19,20 +19,20 @@
 
 package org.isoron.uhabits.widgets.activities
 
-import android.app.*
-import android.content.*
-import android.os.*
-import android.view.*
+import android.app.Activity
+import android.content.Context
+import android.os.Bundle
+import android.view.Window
 import android.widget.FrameLayout
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.core.ui.widgets.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.intents.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.*
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.widgets.WidgetBehavior
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.intents.IntentParser
+import org.isoron.uhabits.utils.SystemUtils
+import org.isoron.uhabits.widgets.WidgetUpdater
 
 class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPickerCallback {
 
@@ -48,10 +48,12 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         val component = app.component
         val parser = app.component.intentParser
         data = parser.parseCheckmarkIntent(intent)
-        behavior = WidgetBehavior(component.habitList,
-                                  component.commandRunner,
-                                  component.notificationTray,
-                                  component.preferences)
+        behavior = WidgetBehavior(
+            component.habitList,
+            component.commandRunner,
+            component.notificationTray,
+            component.preferences
+        )
         widgetUpdater = component.widgetUpdater
         showNumberSelector(this)
 
@@ -74,9 +76,11 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         val numberPickerFactory = NumberPickerFactory(context)
         val today = DateUtils.getTodayWithOffset()
         val entry = data.habit.computedEntries.get(today)
-        numberPickerFactory.create(entry.value / 1000.0,
-                                   data.habit.unit,
-                                   this).show()
+        numberPickerFactory.create(
+            entry.value / 1000.0,
+            data.habit.unit,
+            this
+        ).show()
     }
 
     companion object {

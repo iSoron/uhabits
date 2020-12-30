@@ -18,18 +18,27 @@
  */
 package org.isoron.uhabits.intents
 
-import android.content.ContentUris.*
-import androidx.test.ext.junit.runners.*
-import androidx.test.filters.*
-import org.hamcrest.Matchers.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.reminders.ReminderScheduler.SchedulerResult.*
-import org.isoron.uhabits.receivers.*
-import org.junit.*
-import org.junit.Assert.*
-import org.junit.runner.*
-import java.util.*
-import java.util.Calendar.*
+import android.content.ContentUris.parseId
+import androidx.test.filters.MediumTest
+import org.hamcrest.Matchers.equalTo
+import org.isoron.uhabits.BaseAndroidTest
+import org.isoron.uhabits.core.reminders.ReminderScheduler.SchedulerResult.OK
+import org.isoron.uhabits.receivers.ReminderReceiver
+import org.isoron.uhabits.receivers.WidgetReceiver
+import org.junit.After
+import org.junit.Assert.assertThat
+import org.junit.Before
+import org.junit.Test
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.DECEMBER
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.JUNE
+import java.util.Calendar.MAY
+import java.util.Calendar.MINUTE
+import java.util.Calendar.MONTH
+import java.util.Calendar.YEAR
+import java.util.GregorianCalendar
+import java.util.TimeZone
 
 class IntentSchedulerTest : BaseAndroidTest() {
 

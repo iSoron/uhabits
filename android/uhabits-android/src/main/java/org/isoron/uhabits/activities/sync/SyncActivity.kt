@@ -19,25 +19,31 @@
 
 package org.isoron.uhabits.activities.sync
 
-import android.content.*
+import android.content.ClipData
 import android.content.ClipboardManager
-import android.graphics.*
-import android.os.*
-import android.text.*
-import android.view.*
-import androidx.appcompat.app.*
-import com.google.zxing.*
-import com.google.zxing.qrcode.*
-import kotlinx.coroutines.*
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.os.Bundle
+import android.text.Html
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.qrcode.QRCodeWriter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.launch
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.screens.sync.SyncBehavior
+import org.isoron.uhabits.databinding.ActivitySyncBinding
+import org.isoron.uhabits.sync.RemoteSyncServer
 import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.ui.screens.sync.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.utils.*
-
+import org.isoron.uhabits.utils.setupToolbar
+import org.isoron.uhabits.utils.showMessage
 
 class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
 
@@ -57,9 +63,9 @@ class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
         binding = ActivitySyncBinding.inflate(layoutInflater)
         binding.errorIcon.typeface = getFontAwesome(this)
         binding.root.setupToolbar(
-                toolbar = binding.toolbar,
-                color = PaletteColor(11),
-                title = resources.getString(R.string.device_sync),
+            toolbar = binding.toolbar,
+            color = PaletteColor(11),
+            title = resources.getString(R.string.device_sync),
         )
         binding.syncLink.setOnClickListener { copyToClipboard() }
         binding.instructions.setText(Html.fromHtml(resources.getString(R.string.sync_instructions)))
@@ -100,7 +106,6 @@ class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
         binding.progress.visibility = View.GONE
         binding.qrCode.visibility = View.VISIBLE
         binding.qrCode.setImageBitmap(generateQR(msg))
-
     }
 
     override suspend fun showLoadingScreen() {

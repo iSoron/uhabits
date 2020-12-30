@@ -19,20 +19,24 @@
 
 package org.isoron.uhabits.activities.habits.edit
 
-import android.os.*
-import android.view.*
-import androidx.appcompat.app.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.intents.*
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDialogFragment
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.databinding.SelectHabitTypeBinding
+import org.isoron.uhabits.intents.IntentFactory
 
 class HabitTypeDialog : AppCompatDialogFragment() {
     override fun getTheme() = R.style.Translucent
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val binding = SelectHabitTypeBinding.inflate(inflater, container, false)
 
         binding.buttonYesNo.setOnClickListener {

@@ -19,22 +19,22 @@
 
 package org.isoron.uhabits.widgets
 
-import android.content.*
-import android.view.*
-import org.isoron.uhabits.activities.common.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.views.*
+import android.content.Context
+import android.view.View
+import org.isoron.uhabits.activities.common.views.FrequencyChart
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class FrequencyWidget(
-        context: Context,
-        widgetId: Int,
-        private val habit: Habit,
-        private val firstWeekday: Int
+    context: Context,
+    widgetId: Int,
+    private val habit: Habit,
+    private val firstWeekday: Int
 ) : BaseWidget(context, widgetId) {
 
     override fun getOnClickPendingIntent(context: Context) =
-            pendingIntentFactory.showHabit(habit)
+        pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(v: View) {
         val widgetView = v as GraphWidgetView
@@ -49,7 +49,7 @@ class FrequencyWidget(
     }
 
     override fun buildView() =
-            GraphWidgetView(context, FrequencyChart(context))
+        GraphWidgetView(context, FrequencyChart(context))
 
     override fun getDefaultHeight() = 200
     override fun getDefaultWidth() = 200

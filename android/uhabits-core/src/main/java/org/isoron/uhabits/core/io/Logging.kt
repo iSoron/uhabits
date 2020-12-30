@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.core.io
 
-import java.lang.Exception
-
 interface Logging {
     fun getLogger(name: String): Logger
 }
@@ -38,7 +36,7 @@ class StandardLogging : Logging {
     }
 }
 
-class StandardLogger(val name: String): Logger {
+class StandardLogger(val name: String) : Logger {
     override fun info(msg: String) {
         println("[$name] $msg")
     }
@@ -54,5 +52,4 @@ class StandardLogger(val name: String): Logger {
     override fun error(exception: Exception) {
         exception.printStackTrace()
     }
-
 }

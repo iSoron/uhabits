@@ -19,10 +19,11 @@
 
 package org.isoron.uhabits.acceptance.steps
 
-import androidx.test.uiautomator.*
-import org.isoron.uhabits.acceptance.steps.CommonSteps.*
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.*
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.*
+import androidx.test.uiautomator.UiSelector
+import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.device
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 
 const val BACKUP_FOLDER = "/sdcard/Android/data/org.isoron.uhabits/files/Backups/"
 const val DOWNLOAD_FOLDER = "/sdcard/Download/"

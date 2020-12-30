@@ -19,28 +19,32 @@
 
 package org.isoron.uhabits.activities.habits.show
 
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.ui.callbacks.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.core.ui.screens.habits.show.*
-import org.isoron.uhabits.intents.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.*
-
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
+import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
+import org.isoron.uhabits.core.ui.callbacks.OnToggleCheckmarkListener
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.showSendFileScreen
+import org.isoron.uhabits.widgets.WidgetUpdater
 
 class ShowHabitScreen(
-        val activity: ShowHabitActivity,
-        val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
-        val habit: Habit,
-        val intentFactory: IntentFactory,
-        val numberPickerFactory: NumberPickerFactory,
-        val widgetUpdater: WidgetUpdater,
+    val activity: ShowHabitActivity,
+    val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
+    val habit: Habit,
+    val intentFactory: IntentFactory,
+    val numberPickerFactory: NumberPickerFactory,
+    val widgetUpdater: WidgetUpdater,
 ) : ShowHabitBehavior.Screen, ShowHabitMenuBehavior.Screen {
 
     override fun showNumberPicker(value: Double, unit: String, callback: ListHabitsBehavior.NumberPickerCallback) {
-        numberPickerFactory.create(value, unit, callback).show();
+        numberPickerFactory.create(value, unit, callback).show()
     }
 
     override fun updateWidgets() {

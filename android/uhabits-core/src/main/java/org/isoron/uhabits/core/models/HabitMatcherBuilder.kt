@@ -25,9 +25,9 @@ class HabitMatcherBuilder {
 
     fun build(): HabitMatcher {
         return HabitMatcher(
-                isArchivedAllowed = archivedAllowed,
-                isReminderRequired = reminderRequired,
-                isCompletedAllowed = completedAllowed,
+            isArchivedAllowed = archivedAllowed,
+            isReminderRequired = reminderRequired,
+            isCompletedAllowed = completedAllowed,
         )
     }
 

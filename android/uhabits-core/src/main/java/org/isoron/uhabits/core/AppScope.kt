@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.core
 
-import javax.inject.*
+import javax.inject.Scope
 
 @Scope
-annotation class AppScope 
+annotation class AppScope

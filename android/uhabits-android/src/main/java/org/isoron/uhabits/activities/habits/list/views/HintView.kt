@@ -19,20 +19,21 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.animation.*
-import android.content.*
-import android.graphics.*
-import android.graphics.Color.*
-import android.view.*
-import android.view.ViewGroup.LayoutParams.*
-import android.widget.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.utils.*
+import android.animation.AnimatorListenerAdapter
+import android.content.Context
+import android.graphics.Color.WHITE
+import android.graphics.Typeface
+import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.LinearLayout
+import android.widget.TextView
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.ui.screens.habits.list.HintList
+import org.isoron.uhabits.utils.dp
 
 class HintView(
-        context: Context,
-        private val hintList: HintList
+    context: Context,
+    private val hintList: HintList
 ) : LinearLayout(context) {
 
     val hintContent: TextView

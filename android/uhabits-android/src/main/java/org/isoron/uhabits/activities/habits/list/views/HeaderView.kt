@@ -19,24 +19,33 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.content.*
-import android.graphics.*
-import android.os.Build.VERSION.*
-import android.os.Build.VERSION_CODES.*
-import android.text.*
-import android.view.View.MeasureSpec.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.common.views.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.core.utils.DateUtils.*
-import org.isoron.uhabits.utils.*
-import java.util.*
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Typeface
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.LOLLIPOP
+import android.text.TextPaint
+import android.view.View.MeasureSpec.EXACTLY
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.views.ScrollableChart
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.utils.DateUtils.formatHeaderDate
+import org.isoron.uhabits.core.utils.DateUtils.getStartOfTodayCalendarWithOffset
+import org.isoron.uhabits.core.utils.MidnightTimer
+import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.dp
+import org.isoron.uhabits.utils.isRTL
+import org.isoron.uhabits.utils.sres
+import org.isoron.uhabits.utils.toMeasureSpec
+import java.util.GregorianCalendar
 
 class HeaderView(
-        context: Context,
-        val prefs: Preferences,
-        val midnightTimer: MidnightTimer
+    context: Context,
+    val prefs: Preferences,
+    val midnightTimer: MidnightTimer
 ) : ScrollableChart(context),
     Preferences.Listener,
     MidnightTimer.MidnightListener {
@@ -121,8 +130,12 @@ class HeaderView(
                 if (isReversed) rect.offset(-(index + 1) * width, 0f)
                 else rect.offset((index - buttonCount) * width, 0f)
 
-                if (isRTL()) rect.set(canvas.width - rect.right, rect.top,
-                                      canvas.width - rect.left, rect.bottom)
+                if (isRTL()) rect.set(
+                    canvas.width - rect.right,
+                    rect.top,
+                    canvas.width - rect.left,
+                    rect.bottom
+                )
 
                 val y1 = rect.centerY() - 0.25 * em
                 val y2 = rect.centerY() + 1.25 * em

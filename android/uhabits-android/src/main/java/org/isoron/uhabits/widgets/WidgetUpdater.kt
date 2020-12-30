@@ -19,15 +19,19 @@
 
 package org.isoron.uhabits.widgets
 
-import android.appwidget.*
-import android.content.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.intents.*
-import javax.inject.*
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import org.isoron.uhabits.core.commands.Command
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.preferences.WidgetPreferences
+import org.isoron.uhabits.core.tasks.TaskRunner
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.inject.AppContext
+import org.isoron.uhabits.intents.IntentScheduler
+import javax.inject.Inject
 
 /**
  * A WidgetUpdater listens to the commands being executed by the application and
@@ -35,11 +39,11 @@ import javax.inject.*
  */
 class WidgetUpdater
 @Inject constructor(
-        @AppContext private val context: Context,
-        private val commandRunner: CommandRunner,
-        private val taskRunner: TaskRunner,
-        private val widgetPrefs: WidgetPreferences,
-        private val intentScheduler: IntentScheduler
+    @AppContext private val context: Context,
+    private val commandRunner: CommandRunner,
+    private val taskRunner: TaskRunner,
+    private val widgetPrefs: WidgetPreferences,
+    private val intentScheduler: IntentScheduler
 ) : CommandRunner.Listener {
 
     override fun onCommandFinished(command: Command) {
@@ -69,7 +73,7 @@ class WidgetUpdater
 
     fun scheduleStartDayWidgetUpdate() {
         val timestamp = DateUtils.getStartOfTomorrowWithOffset()
-        intentScheduler.scheduleWidgetUpdate(timestamp);
+        intentScheduler.scheduleWidgetUpdate(timestamp)
     }
 
     fun updateWidgets(modifiedHabitId: Long?) {
@@ -85,7 +89,8 @@ class WidgetUpdater
 
     private fun updateWidgets(modifiedHabitId: Long?, providerClass: Class<*>) {
         val widgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(
-                ComponentName(context, providerClass))
+            ComponentName(context, providerClass)
+        )
 
         val modifiedWidgetIds = when (modifiedHabitId) {
             null -> widgetIds.toList()
@@ -94,10 +99,12 @@ class WidgetUpdater
             }
         }
 
-        context.sendBroadcast(Intent(context, providerClass).apply {
-            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, modifiedWidgetIds.toIntArray())
-        })
+        context.sendBroadcast(
+            Intent(context, providerClass).apply {
+                action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, modifiedWidgetIds.toIntArray())
+            }
+        )
     }
 
     fun updateWidgets() {

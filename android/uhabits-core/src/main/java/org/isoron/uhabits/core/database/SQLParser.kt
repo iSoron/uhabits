@@ -15,11 +15,12 @@
  */
 package org.isoron.uhabits.core.database
 
-import java.io.*
-import java.util.*
+import java.io.BufferedInputStream
+import java.io.InputStream
+import java.util.ArrayList
 
 internal class Tokenizer(
-        private val mStream: InputStream,
+    private val mStream: InputStream,
 ) {
     private var mIsNext = false
     private var mCurrent = 0

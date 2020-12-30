@@ -20,7 +20,8 @@
  */
 package org.isoron.uhabits.core.database
 
-import java.sql.*
+import java.sql.ResultSet
+import java.sql.SQLException
 
 class JdbcCursor(private val resultSet: ResultSet) : Cursor {
     override fun close() {

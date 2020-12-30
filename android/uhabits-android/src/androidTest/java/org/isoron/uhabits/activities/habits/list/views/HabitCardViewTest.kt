@@ -19,22 +19,24 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import androidx.test.ext.junit.runners.*
-import androidx.test.filters.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
-import org.junit.*
-import org.junit.runner.*
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
+import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.utils.DateUtils
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class HabitCardViewTest : BaseViewTest() {
 
     val PATH = "habits/list/HabitCardView"
-    lateinit private var view: HabitCardView
-    lateinit private var habit1: Habit
-    lateinit private var habit2: Habit
+    private lateinit var view: HabitCardView
+    private lateinit var habit1: Habit
+    private lateinit var habit2: Habit
 
     override fun setUp() {
         super.setUp()

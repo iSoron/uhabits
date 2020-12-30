@@ -19,12 +19,12 @@
 
 package org.isoron.uhabits.database
 
-import android.content.*
-import android.util.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.utils.*
-import java.io.*
+import android.content.Context
+import android.util.Log
+import org.isoron.uhabits.AndroidDirFinder
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.utils.DatabaseUtils
+import java.io.File
 
 class AutoBackup(private val context: Context) {
 
@@ -33,7 +33,7 @@ class AutoBackup(private val context: Context) {
     fun run(keep: Int = 5) {
         Log.i("AutoBackup", "Starting automatic backups...")
         val files = listBackupFiles()
-        var newestTimestamp = 0L;
+        var newestTimestamp = 0L
         if (files.isNotEmpty()) {
             newestTimestamp = files.last().lastModified()
         }

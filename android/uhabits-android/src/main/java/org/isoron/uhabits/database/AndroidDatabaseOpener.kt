@@ -19,19 +19,20 @@
 
 package org.isoron.uhabits.database
 
-import android.database.sqlite.*
-import org.isoron.uhabits.core.database.*
-import java.io.*
-import javax.inject.*
+import android.database.sqlite.SQLiteDatabase
+import org.isoron.uhabits.core.database.DatabaseOpener
+import java.io.File
+import javax.inject.Inject
 
 class AndroidDatabaseOpener @Inject constructor() : DatabaseOpener {
     override fun open(file: File): AndroidDatabase {
         return AndroidDatabase(
-                db = SQLiteDatabase.openDatabase(
-                        file.absolutePath,
-                        null,
-                        SQLiteDatabase.OPEN_READWRITE,
-                ),
-                file = file)
+            db = SQLiteDatabase.openDatabase(
+                file.absolutePath,
+                null,
+                SQLiteDatabase.OPEN_READWRITE,
+            ),
+            file = file
+        )
     }
 }

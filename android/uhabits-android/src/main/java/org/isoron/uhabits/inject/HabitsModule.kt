@@ -19,28 +19,35 @@
 
 package org.isoron.uhabits.inject
 
-import android.content.*
-import dagger.*
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.core.io.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.sqlite.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.reminders.*
-import org.isoron.uhabits.core.sync.*
-import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.database.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.intents.*
-import org.isoron.uhabits.io.*
-import org.isoron.uhabits.notifications.*
-import org.isoron.uhabits.preferences.*
-import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.utils.*
-import java.io.*
+import android.content.Context
+import dagger.Module
+import dagger.Provides
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.database.Database
+import org.isoron.uhabits.core.database.DatabaseOpener
+import org.isoron.uhabits.core.io.Logging
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.ModelFactory
+import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
+import org.isoron.uhabits.core.models.sqlite.SQLiteHabitList
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.preferences.WidgetPreferences
+import org.isoron.uhabits.core.reminders.ReminderScheduler
+import org.isoron.uhabits.core.sync.AbstractSyncServer
+import org.isoron.uhabits.core.sync.NetworkManager
+import org.isoron.uhabits.core.tasks.TaskRunner
+import org.isoron.uhabits.core.ui.NotificationTray
+import org.isoron.uhabits.database.AndroidDatabase
+import org.isoron.uhabits.database.AndroidDatabaseOpener
+import org.isoron.uhabits.intents.IntentScheduler
+import org.isoron.uhabits.io.AndroidLogging
+import org.isoron.uhabits.notifications.AndroidNotificationTray
+import org.isoron.uhabits.preferences.SharedPreferencesStorage
+import org.isoron.uhabits.sync.AndroidNetworkManager
+import org.isoron.uhabits.sync.RemoteSyncServer
+import org.isoron.uhabits.utils.DatabaseUtils
+import java.io.File
 
 @Module
 class HabitsModule(dbFile: File) {
@@ -56,10 +63,10 @@ class HabitsModule(dbFile: File) {
     @Provides
     @AppScope
     fun getReminderScheduler(
-            sys: IntentScheduler,
-            commandRunner: CommandRunner,
-            habitList: HabitList,
-            widgetPreferences: WidgetPreferences
+        sys: IntentScheduler,
+        commandRunner: CommandRunner,
+        habitList: HabitList,
+        widgetPreferences: WidgetPreferences
     ): ReminderScheduler {
         return ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
     }
@@ -67,10 +74,10 @@ class HabitsModule(dbFile: File) {
     @Provides
     @AppScope
     fun getTray(
-            taskRunner: TaskRunner,
-            commandRunner: CommandRunner,
-            preferences: Preferences,
-            screen: AndroidNotificationTray
+        taskRunner: TaskRunner,
+        commandRunner: CommandRunner,
+        preferences: Preferences,
+        screen: AndroidNotificationTray
     ): NotificationTray {
         return NotificationTray(taskRunner, commandRunner, preferences, screen)
     }
@@ -78,7 +85,7 @@ class HabitsModule(dbFile: File) {
     @Provides
     @AppScope
     fun getWidgetPreferences(
-            storage: SharedPreferencesStorage
+        storage: SharedPreferencesStorage
     ): WidgetPreferences {
         return WidgetPreferences(storage)
     }
@@ -115,7 +122,7 @@ class HabitsModule(dbFile: File) {
 
     @Provides
     @AppScope
-    fun getSyncServer(preferences: Preferences) : AbstractSyncServer {
+    fun getSyncServer(preferences: Preferences): AbstractSyncServer {
         return RemoteSyncServer(preferences)
     }
 
@@ -125,4 +132,3 @@ class HabitsModule(dbFile: File) {
         return db
     }
 }
-

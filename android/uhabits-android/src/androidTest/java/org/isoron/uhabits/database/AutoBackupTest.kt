@@ -19,10 +19,12 @@
 
 package org.isoron.uhabits.database
 
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.utils.*
-import org.junit.*
-import java.io.*
+import org.isoron.uhabits.AndroidDirFinder
+import org.isoron.uhabits.BaseAndroidTest
+import org.isoron.uhabits.core.utils.DateUtils
+import org.junit.Test
+import java.io.File
+import java.io.FileOutputStream
 
 class AutoBackupTest : BaseAndroidTest() {
     @Test
@@ -32,7 +34,7 @@ class AutoBackupTest : BaseAndroidTest() {
         createTestFiles(basedir, 30)
 
         val autoBackup = AutoBackup(targetContext)
-        autoBackup.run(keep=5)
+        autoBackup.run(keep = 5)
 
         for (k in 1..25) assertDoesNotExist("${basedir.path}/test-$k.txt")
         for (k in 26..30) assertExists("${basedir.path}/test-$k.txt")

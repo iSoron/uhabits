@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.database
 
-import org.isoron.uhabits.core.database.*
+import org.isoron.uhabits.core.database.Cursor
 
 class AndroidCursor(private val cursor: android.database.Cursor) : Cursor {
 

@@ -19,18 +19,19 @@
 
 package org.isoron.uhabits.widgets
 
-import android.app.*
-import android.content.*
-import android.view.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.views.*
+import android.app.PendingIntent
+import android.content.Context
+import android.view.View
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.widgets.views.CheckmarkWidgetView
 
 open class CheckmarkWidget(
-        context: Context,
-        widgetId: Int,
-        protected val habit: Habit
+    context: Context,
+    widgetId: Int,
+    protected val habit: Habit
 ) : BaseWidget(context, widgetId) {
 
     override fun getOnClickPendingIntent(context: Context): PendingIntent {
@@ -73,5 +74,4 @@ open class CheckmarkWidget(
             Entry.NO
         }
     }
-
 }

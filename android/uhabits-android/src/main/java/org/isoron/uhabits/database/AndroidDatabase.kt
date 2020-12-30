@@ -19,14 +19,14 @@
 
 package org.isoron.uhabits.database
 
-import android.content.*
-import android.database.sqlite.*
-import org.isoron.uhabits.core.database.*
-import java.io.*
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
+import org.isoron.uhabits.core.database.Database
+import java.io.File
 
 class AndroidDatabase(
-        private val db: SQLiteDatabase,
-        override val file: File?,
+    private val db: SQLiteDatabase,
+    override val file: File?,
 ) : Database {
 
     override fun beginTransaction() = db.beginTransaction()
@@ -42,10 +42,10 @@ class AndroidDatabase(
     override fun execute(query: String, vararg params: Any) = db.execSQL(query, params)
 
     override fun update(
-            tableName: String,
-            values: Map<String, Any?>,
-            where: String,
-            vararg params: String,
+        tableName: String,
+        values: Map<String, Any?>,
+        where: String,
+        vararg params: String,
     ): Int {
         val contValues = mapToContentValues(values)
         return db.update(tableName, contValues, where, params)
@@ -57,9 +57,9 @@ class AndroidDatabase(
     }
 
     override fun delete(
-            tableName: String,
-            where: String,
-            vararg params: String,
+        tableName: String,
+        where: String,
+        vararg params: String,
     ) {
         db.delete(tableName, where, params)
     }

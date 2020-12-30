@@ -18,26 +18,31 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.annotation.*
-import android.content.*
-import android.content.res.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
-import java.util.*
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.Resources
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.LinearLayout
+import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.habits.list.views.toShortString
+import org.isoron.uhabits.core.models.Frequency
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
+import org.isoron.uhabits.utils.InterfaceUtils
+import org.isoron.uhabits.utils.formatTime
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import java.util.Locale
 
 data class SubtitleCardViewModel(
-        val color: PaletteColor,
-        val frequencyText: String,
-        val isNumerical: Boolean,
-        val question: String,
-        val reminderText: String,
-        val targetText: String,
+    val color: PaletteColor,
+    val frequencyText: String,
+    val isNumerical: Boolean,
+    val question: String,
+    val reminderText: String,
+    val targetText: String,
 )
 
 class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -75,8 +80,8 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
 }
 
 class SubtitleCardPresenter(
-        val habit: Habit,
-        val context: Context,
+    val habit: Habit,
+    val context: Context,
 ) {
     val resources: Resources = context.resources
 
@@ -87,12 +92,12 @@ class SubtitleCardPresenter(
             resources.getString(R.string.reminder_off)
         }
         return SubtitleCardViewModel(
-                color = habit.color,
-                frequencyText = habit.frequency.format(),
-                isNumerical = habit.isNumerical,
-                question = habit.question,
-                reminderText = reminderText,
-                targetText = "${habit.targetValue.toShortString()} ${habit.unit}",
+            color = habit.color,
+            frequencyText = habit.frequency.format(),
+            isNumerical = habit.isNumerical,
+            question = habit.question,
+            reminderText = reminderText,
+            targetText = "${habit.targetValue.toShortString()} ${habit.unit}",
         )
     }
 
@@ -122,12 +127,12 @@ class SubtitleCardPresenter(
             return resources.getString(R.string.every_x_days, den)
         }
         return String.format(
-                Locale.US,
-                "%d %s %d %s",
-                num,
-                resources.getString(R.string.times_every),
-                den,
-                resources.getString(R.string.days),
+            Locale.US,
+            "%d %s %d %s",
+            num,
+            resources.getString(R.string.times_every),
+            den,
+            resources.getString(R.string.days),
         )
     }
 }

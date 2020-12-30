@@ -19,14 +19,16 @@
 
 package org.isoron.uhabits.automation
 
-import android.content.*
-import dagger.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.ui.widgets.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.receivers.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import dagger.Component
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.ui.widgets.WidgetBehavior
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.isoron.uhabits.receivers.ReceiverScope
 
 const val ACTION_CHECK = 0
 const val ACTION_UNCHECK = 1
@@ -44,9 +46,9 @@ class FireSettingReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val app = context.applicationContext as HabitsApplication
         val component = DaggerFireSettingReceiver_ReceiverComponent
-                .builder()
-                .habitsApplicationComponent(app.component)
-                .build()
+            .builder()
+            .habitsApplicationComponent(app.component)
+            .build()
         allHabits = app.component.habitList
         val args = SettingUtils.parseIntent(intent, allHabits) ?: return
         val timestamp = DateUtils.getTodayWithOffset()

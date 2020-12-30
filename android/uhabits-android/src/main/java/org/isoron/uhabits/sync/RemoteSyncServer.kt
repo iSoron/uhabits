@@ -19,21 +19,32 @@
 
 package org.isoron.uhabits.sync
 
-import android.util.*
-import io.ktor.client.*
-import io.ktor.client.engine.android.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.request.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.sync.*
+import android.util.Log
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.features.ClientRequestException
+import io.ktor.client.features.ServerResponseException
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.put
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.sync.AbstractSyncServer
+import org.isoron.uhabits.core.sync.EditConflictException
+import org.isoron.uhabits.core.sync.GetDataVersionResponse
+import org.isoron.uhabits.core.sync.KeyNotFoundException
+import org.isoron.uhabits.core.sync.RegisterReponse
+import org.isoron.uhabits.core.sync.ServiceUnavailable
+import org.isoron.uhabits.core.sync.SyncData
 
 class RemoteSyncServer(
-        private val preferences: Preferences,
-        private val httpClient: HttpClient = HttpClient(Android) {
-            install(JsonFeature)
-        }
+    private val preferences: Preferences,
+    private val httpClient: HttpClient = HttpClient(Android) {
+        install(JsonFeature)
+    }
 ) : AbstractSyncServer {
 
     override suspend fun register(): String = Dispatchers.IO {
@@ -42,7 +53,7 @@ class RemoteSyncServer(
             Log.i("RemoteSyncServer", "POST $url")
             val response: RegisterReponse = httpClient.post(url)
             return@IO response.key
-        } catch(e: ServerResponseException) {
+        } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
         }
     }
@@ -59,8 +70,8 @@ class RemoteSyncServer(
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {
             Log.w("RemoteSyncServer", "ClientRequestException", e)
-            if(e.message!!.contains("409")) throw EditConflictException()
-            if(e.message!!.contains("404")) throw KeyNotFoundException()
+            if (e.message!!.contains("409")) throw EditConflictException()
+            if (e.message!!.contains("404")) throw KeyNotFoundException()
             throw e
         }
     }
@@ -85,7 +96,7 @@ class RemoteSyncServer(
             Log.i("RemoteSyncServer", "GET $url")
             val response: GetDataVersionResponse = httpClient.get(url)
             return@IO response.version
-        } catch(e: ServerResponseException) {
+        } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {
             Log.w("RemoteSyncServer", "ClientRequestException", e)

@@ -19,16 +19,21 @@
 
 package org.isoron.uhabits.widgets.activities
 
-import android.app.*
-import android.appwidget.AppWidgetManager.*
-import android.content.*
-import android.os.*
-import android.widget.*
-import android.widget.AbsListView.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.widgets.*
-import java.util.*
+import android.app.Activity
+import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
+import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
+import android.content.Intent
+import android.os.Bundle
+import android.widget.AbsListView.CHOICE_MODE_MULTIPLE
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ListView
+import android.widget.TextView
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.preferences.WidgetPreferences
+import org.isoron.uhabits.widgets.WidgetUpdater
+import java.util.ArrayList
 
 class BooleanHabitPickerDialog : HabitPickerDialog() {
     override fun shouldHideNumerical() = true
@@ -71,7 +76,7 @@ open class HabitPickerDialog : Activity() {
         if (habitNames.isEmpty()) {
             setContentView(R.layout.widget_empty_activity)
             findViewById<TextView>(R.id.message).setText(getEmptyMessage())
-            return;
+            return
         }
 
         setContentView(R.layout.widget_configure_activity)
@@ -79,9 +84,11 @@ open class HabitPickerDialog : Activity() {
         val saveButton = findViewById<Button>(R.id.buttonSave)
 
         with(listView) {
-            adapter = ArrayAdapter(context,
-                                   android.R.layout.simple_list_item_multiple_choice,
-                                   habitNames)
+            adapter = ArrayAdapter(
+                context,
+                android.R.layout.simple_list_item_multiple_choice,
+                habitNames
+            )
             choiceMode = CHOICE_MODE_MULTIPLE
             itemsCanFocus = false
         }
@@ -99,9 +106,12 @@ open class HabitPickerDialog : Activity() {
     fun confirm(selectedIds: List<Long>) {
         widgetPreferences.addWidget(widgetId, selectedIds.toLongArray())
         widgetUpdater.updateWidgets()
-        setResult(RESULT_OK, Intent().apply {
-            putExtra(EXTRA_APPWIDGET_ID, widgetId)
-        })
+        setResult(
+            RESULT_OK,
+            Intent().apply {
+                putExtra(EXTRA_APPWIDGET_ID, widgetId)
+            }
+        )
         finish()
     }
 }

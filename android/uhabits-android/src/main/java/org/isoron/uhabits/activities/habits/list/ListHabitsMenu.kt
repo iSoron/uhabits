@@ -19,22 +19,25 @@
 
 package org.isoron.uhabits.activities.habits.list
 
-import android.content.*
-import android.view.*
-import androidx.appcompat.app.*
+import android.content.Context
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.inject.*
-import javax.inject.*
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.ThemeSwitcher
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
+import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.inject.ActivityScope
+import javax.inject.Inject
 
 @ActivityScope
 class ListHabitsMenu @Inject constructor(
-        @ActivityContext context: Context,
-        private val preferences: Preferences,
-        private val themeSwitcher: ThemeSwitcher,
-        private val behavior: ListHabitsMenuBehavior
+    @ActivityContext context: Context,
+    private val preferences: Preferences,
+    private val themeSwitcher: ThemeSwitcher,
+    private val behavior: ListHabitsMenuBehavior
 ) {
     val activity = (context as AppCompatActivity)
 

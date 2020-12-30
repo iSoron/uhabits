@@ -19,19 +19,20 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.content.*
-import com.google.auto.factory.*
-import org.isoron.uhabits.core.models.*
+import android.content.Context
+import com.google.auto.factory.AutoFactory
+import com.google.auto.factory.Provided
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.inject.*
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.inject.ActivityContext
 
 @AutoFactory
 class CheckmarkPanelView(
-        @Provided @ActivityContext context: Context,
-        @Provided preferences: Preferences,
-        @Provided private val buttonFactory: CheckmarkButtonViewFactory
+    @Provided @ActivityContext context: Context,
+    @Provided preferences: Preferences,
+    @Provided private val buttonFactory: CheckmarkButtonViewFactory
 ) : ButtonPanelView<CheckmarkButtonView>(context, preferences) {
 
     var values = IntArray(0)
@@ -46,7 +47,7 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
-    var onToggle: (Timestamp, Int) -> Unit = {_, _ ->}
+    var onToggle: (Timestamp, Int) -> Unit = { _, _ -> }
         set(value) {
             field = value
             setupButtons()

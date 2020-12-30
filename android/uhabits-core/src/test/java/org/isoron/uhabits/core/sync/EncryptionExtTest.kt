@@ -18,12 +18,15 @@
  */
 package org.isoron.uhabits.core.sync
 
-import kotlinx.coroutines.*
-import org.hamcrest.Matchers.*
-import org.junit.*
-import org.junit.Assert.*
-import java.io.*
-import java.util.*
+import kotlinx.coroutines.runBlocking
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.greaterThan
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThat
+import org.junit.Test
+import java.io.File
+import java.io.PrintWriter
+import java.util.Random
 
 class EncryptionExtTest {
 

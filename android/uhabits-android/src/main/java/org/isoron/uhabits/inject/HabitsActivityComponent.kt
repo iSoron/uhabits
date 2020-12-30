@@ -19,20 +19,27 @@
 
 package org.isoron.uhabits.inject
 
-import dagger.*
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.activities.habits.list.*
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
+import dagger.Component
+import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
+import org.isoron.uhabits.activities.habits.list.ListHabitsMenu
+import org.isoron.uhabits.activities.habits.list.ListHabitsModule
+import org.isoron.uhabits.activities.habits.list.ListHabitsRootView
+import org.isoron.uhabits.activities.habits.list.ListHabitsScreen
+import org.isoron.uhabits.activities.habits.list.ListHabitsSelectionMenu
+import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
+import org.isoron.uhabits.core.ui.ThemeSwitcher
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 
 @ActivityScope
-@Component(modules = arrayOf(
+@Component(
+    modules = arrayOf(
         ActivityContextModule::class,
         HabitsActivityModule::class,
         ListHabitsModule::class,
         HabitModule::class
-), dependencies = arrayOf(HabitsApplicationComponent::class))
+    ),
+    dependencies = arrayOf(HabitsApplicationComponent::class)
+)
 interface HabitsActivityComponent {
     val colorPickerDialogFactory: ColorPickerDialogFactory
     val habitCardListAdapter: HabitCardListAdapter

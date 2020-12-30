@@ -19,24 +19,29 @@
 
 package org.isoron.uhabits.core.sync
 
-import kotlinx.coroutines.*
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.core.io.*
-import org.isoron.uhabits.core.preferences.*
-import java.io.*
-import javax.inject.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.launch
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.commands.Command
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.database.Database
+import org.isoron.uhabits.core.io.Logging
+import org.isoron.uhabits.core.io.LoopDBImporter
+import org.isoron.uhabits.core.preferences.Preferences
+import java.io.File
+import javax.inject.Inject
 
 @AppScope
 class SyncManager @Inject constructor(
-        val preferences: Preferences,
-        val commandRunner: CommandRunner,
-        val logging: Logging,
-        val networkManager: NetworkManager,
-        val server: AbstractSyncServer,
-        val db: Database,
-        val dbImporter: LoopDBImporter,
+    val preferences: Preferences,
+    val commandRunner: CommandRunner,
+    val logging: Logging,
+    val networkManager: NetworkManager,
+    val server: AbstractSyncServer,
+    val db: Database,
+    val dbImporter: LoopDBImporter,
 ) : Preferences.Listener, CommandRunner.Listener, NetworkManager.Listener {
 
     private var logger = logging.getLogger("SyncManager")

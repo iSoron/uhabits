@@ -21,14 +21,23 @@
 
 package org.isoron.uhabits.core.sync
 
-import com.google.common.io.*
-import kotlinx.coroutines.*
-import org.apache.commons.codec.binary.*
-import java.io.*
-import java.nio.*
-import java.util.zip.*
-import javax.crypto.*
-import javax.crypto.spec.*
+import com.google.common.io.ByteStreams
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import org.apache.commons.codec.binary.Base64
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.ByteBuffer
+import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 /**
  * Encryption key which can be used with [File.encryptToString], [String.decryptToFile],
@@ -38,8 +47,8 @@ import javax.crypto.spec.*
  * Base64-encoded string, use [EncryptionKey.fromBase64].
  */
 class EncryptionKey private constructor(
-        val base64: String,
-        val secretKey: SecretKey
+    val base64: String,
+    val secretKey: SecretKey
 ) {
     companion object {
 
@@ -75,10 +84,10 @@ fun ByteArray.encrypt(key: EncryptionKey): ByteArray {
     cipher.init(Cipher.ENCRYPT_MODE, key.secretKey)
     val encrypted = cipher.doFinal(this)
     return ByteBuffer
-            .allocate(16 + encrypted.size)
-            .put(cipher.iv)
-            .put(encrypted)
-            .array()
+        .allocate(16 + encrypted.size)
+        .put(cipher.iv)
+        .put(encrypted)
+        .array()
 }
 
 /**
@@ -131,4 +140,3 @@ fun File.encryptToString(key: EncryptionKey): String {
 
 fun ByteArray.encodeBase64(): String = Base64.encodeBase64(this).decodeToString()
 fun String.decodeBase64(): ByteArray = Base64.decodeBase64(this.toByteArray())
-

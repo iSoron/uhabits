@@ -19,12 +19,14 @@
 
 package org.isoron.uhabits.sync
 
-import android.content.*
-import android.net.*
-import org.isoron.uhabits.core.sync.*
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkRequest
+import org.isoron.uhabits.core.sync.NetworkManager
 
 class AndroidNetworkManager(
-        val context: Context,
+    val context: Context,
 ) : NetworkManager, ConnectivityManager.NetworkCallback() {
 
     val listeners = mutableListOf<NetworkManager.Listener>()

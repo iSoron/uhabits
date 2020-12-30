@@ -20,12 +20,13 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
-import org.junit.*
-import org.junit.runner.*
+import androidx.test.filters.MediumTest
+import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.utils.PaletteUtils
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest

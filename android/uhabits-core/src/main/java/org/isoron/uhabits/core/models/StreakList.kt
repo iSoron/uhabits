@@ -18,8 +18,8 @@
  */
 package org.isoron.uhabits.core.models
 
-import javax.annotation.concurrent.*
-import kotlin.math.*
+import javax.annotation.concurrent.ThreadSafe
+import kotlin.math.min
 
 @ThreadSafe
 class StreakList {
@@ -35,16 +35,16 @@ class StreakList {
 
     @Synchronized
     fun recompute(
-            computedEntries: EntryList,
-            from: Timestamp,
-            to: Timestamp,
+        computedEntries: EntryList,
+        from: Timestamp,
+        to: Timestamp,
     ) {
         list.clear()
         val timestamps = computedEntries
-                .getByInterval(from, to)
-                .filter { it.value > 0 }
-                .map { it.timestamp }
-                .toTypedArray()
+            .getByInterval(from, to)
+            .filter { it.value > 0 }
+            .map { it.timestamp }
+            .toTypedArray()
 
         if (timestamps.isEmpty()) return
 

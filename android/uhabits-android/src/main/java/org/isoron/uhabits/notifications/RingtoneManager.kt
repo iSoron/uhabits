@@ -19,22 +19,25 @@
 
 package org.isoron.uhabits.notifications
 
-import android.content.*
-import android.media.RingtoneManager.*
-import android.net.*
-import android.preference.*
-import android.provider.*
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.media.RingtoneManager.EXTRA_RINGTONE_PICKED_URI
+import android.media.RingtoneManager.getRingtone
+import android.net.Uri
+import android.preference.PreferenceManager
+import android.provider.Settings
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.inject.*
-import javax.inject.*
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.inject.AppContext
+import javax.inject.Inject
 
 @AppScope
 class RingtoneManager
 @Inject constructor(@AppContext private val context: Context) {
 
     val prefs: SharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(context)
+        PreferenceManager.getDefaultSharedPreferences(context)
 
     fun getName(): String? {
         try {
@@ -54,8 +57,10 @@ class RingtoneManager
     fun getURI(): Uri? {
         var ringtoneUri: Uri? = null
         val defaultRingtoneUri = Settings.System.DEFAULT_NOTIFICATION_URI
-        val prefRingtoneUri = prefs.getString("pref_ringtone_uri",
-                                              defaultRingtoneUri.toString())!!
+        val prefRingtoneUri = prefs.getString(
+            "pref_ringtone_uri",
+            defaultRingtoneUri.toString()
+        )!!
         if (prefRingtoneUri.isNotEmpty())
             ringtoneUri = Uri.parse(prefRingtoneUri)
 

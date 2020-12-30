@@ -18,15 +18,15 @@
  */
 package org.isoron.uhabits.activities
 
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.core.ui.screens.habits.show.*
-import java.io.*
-import javax.inject.*
+import org.isoron.uhabits.AndroidDirFinder
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import java.io.File
+import javax.inject.Inject
 
 class HabitsDirFinder @Inject
 constructor(
-        private val androidDirFinder: AndroidDirFinder
+    private val androidDirFinder: AndroidDirFinder
 ) : ShowHabitMenuBehavior.System, ListHabitsBehavior.DirFinder {
 
     override fun getCSVOutputDir(): File {

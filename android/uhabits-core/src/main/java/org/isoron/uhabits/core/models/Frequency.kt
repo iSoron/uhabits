@@ -19,8 +19,8 @@
 package org.isoron.uhabits.core.models
 
 data class Frequency(
-        var numerator: Int,
-        var denominator: Int,
+    var numerator: Int,
+    var denominator: Int,
 ) {
     init {
         if (numerator == denominator) {

@@ -18,36 +18,37 @@
  */
 package org.isoron.uhabits.activities.about
 
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.intents.*
-import org.isoron.uhabits.utils.*
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.startActivitySafely
 
 class AboutScreen(
-        private val activity: AboutActivity,
-        private val intents: IntentFactory,
-        private val prefs: Preferences,
+    private val activity: AboutActivity,
+    private val intents: IntentFactory,
+    private val prefs: Preferences,
 ) {
 
     private var developerCountdown = 5
 
     fun showRateAppWebsite() =
-            activity.startActivitySafely(intents.rateApp(activity))
+        activity.startActivitySafely(intents.rateApp(activity))
 
     fun showSendFeedbackScreen() =
-            activity.startActivitySafely(intents.sendFeedback(activity))
+        activity.startActivitySafely(intents.sendFeedback(activity))
 
     fun showSourceCodeWebsite() =
-            activity.startActivitySafely(intents.viewSourceCode(activity))
+        activity.startActivitySafely(intents.viewSourceCode(activity))
 
     fun showTranslationWebsite() =
-            activity.startActivitySafely(intents.helpTranslate(activity))
+        activity.startActivitySafely(intents.helpTranslate(activity))
 
     fun showPrivacyPolicyWebsite() =
-            activity.startActivitySafely(intents.privacyPolicy(activity))
+        activity.startActivitySafely(intents.privacyPolicy(activity))
 
     fun showCodeContributorsWebsite() =
-            activity.startActivitySafely(intents.codeContributors(activity))
+        activity.startActivitySafely(intents.codeContributors(activity))
 
     fun onPressDeveloperCountdown() {
         developerCountdown--

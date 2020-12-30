@@ -19,13 +19,15 @@
 
 package org.isoron.uhabits.intents
 
-import android.content.*
-import android.content.ContentUris.*
-import android.net.*
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
-import javax.inject.*
+import android.content.ContentUris.parseId
+import android.content.Intent
+import android.net.Uri
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.utils.DateUtils
+import javax.inject.Inject
 
 @AppScope
 class IntentParser
@@ -37,13 +39,13 @@ class IntentParser
     }
 
     fun copyIntentData(source: Intent, destination: Intent) {
-        destination.data = source.data;
+        destination.data = source.data
         destination.putExtra("timestamp", source.getLongExtra("timestamp", DateUtils.getTodayWithOffset().unixTime))
     }
 
     private fun parseHabit(uri: Uri): Habit {
-        val habit = habits.getById(parseId(uri)) ?:
-                    throw IllegalArgumentException("habit not found")
+        val habit = habits.getById(parseId(uri))
+            ?: throw IllegalArgumentException("habit not found")
         return habit
     }
 

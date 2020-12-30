@@ -19,26 +19,31 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
-import android.content.*
-import androidx.appcompat.app.*
-import android.text.*
-import android.view.*
-import android.view.WindowManager.LayoutParams.*
-import android.view.inputmethod.*
-import android.widget.*
+import android.content.Context
+import android.content.DialogInterface
+import android.text.InputFilter
+import android.view.LayoutInflater
+import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.NumberPicker
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.utils.*
-import javax.inject.*
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.InterfaceUtils
+import javax.inject.Inject
 
 class NumberPickerFactory
 @Inject constructor(
-        @ActivityContext private val context: Context
+    @ActivityContext private val context: Context
 ) {
-    fun create(value: Double,
-               unit: String,
-               callback: ListHabitsBehavior.NumberPickerCallback): AlertDialog {
+    fun create(
+        value: Double,
+        unit: String,
+        callback: ListHabitsBehavior.NumberPickerCallback
+    ): AlertDialog {
 
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
@@ -63,28 +68,31 @@ class NumberPickerFactory
         tvUnit.text = unit
 
         val dialog = AlertDialog.Builder(context)
-                .setView(view)
-                .setTitle(R.string.change_value)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    picker.clearFocus()
-                    val v = picker.value + 0.05 * picker2.value
-                    callback.onNumberPicked(v)
-                }
-                .setOnDismissListener{
-                    callback.onNumberPickerDismissed()
-                }
-                .create()
+            .setView(view)
+            .setTitle(R.string.change_value)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                picker.clearFocus()
+                val v = picker.value + 0.05 * picker2.value
+                callback.onNumberPicked(v)
+            }
+            .setOnDismissListener {
+                callback.onNumberPickerDismissed()
+            }
+            .create()
 
         dialog.setOnShowListener {
             picker.getChildAt(0)?.requestFocus()
             dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
 
-        InterfaceUtils.setupEditorAction(picker, TextView.OnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE)
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
-            false
-        })
+        InterfaceUtils.setupEditorAction(
+            picker,
+            TextView.OnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE)
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
+                false
+            }
+        )
 
         return dialog
     }

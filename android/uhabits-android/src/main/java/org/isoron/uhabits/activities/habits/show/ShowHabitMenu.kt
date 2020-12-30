@@ -19,15 +19,16 @@
 
 package org.isoron.uhabits.activities.habits.show
 
-import android.view.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.screens.habits.show.*
+import android.view.Menu
+import android.view.MenuItem
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
 
 class ShowHabitMenu(
-        val activity: ShowHabitActivity,
-        val behavior: ShowHabitMenuBehavior,
-        val preferences: Preferences,
+    val activity: ShowHabitActivity,
+    val behavior: ShowHabitMenuBehavior,
+    val preferences: Preferences,
 ) {
     fun onCreateOptionsMenu(menu: Menu): Boolean {
         activity.menuInflater.inflate(R.menu.show_habit, menu)
@@ -38,7 +39,7 @@ class ShowHabitMenu(
     }
 
     fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.action_edit_habit -> {
                 behavior.onEditHabit()
                 return true

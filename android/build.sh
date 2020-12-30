@@ -67,6 +67,11 @@ run_adb_as_root() {
     $ADB root
 }
 
+lint() {
+    log_info "Running ktlint..."
+    $GRADLE ktlintCheck || fail
+}
+
 build_apk() {
     log_info "Removing old APKs..."
     rm -vf build/*.apk
@@ -258,6 +263,7 @@ case "$1" in
     build)
         shift; parse_opts $*
 
+        lint
         build_apk
         build_instrumentation_apk
         run_jvm_tests

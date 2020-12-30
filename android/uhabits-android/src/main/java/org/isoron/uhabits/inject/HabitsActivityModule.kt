@@ -19,11 +19,12 @@
 
 package org.isoron.uhabits.inject
 
-import android.content.*
-import dagger.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
+import android.content.Context
+import dagger.Module
+import dagger.Provides
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.ThemeSwitcher
 
 @Module
 class HabitsActivityModule {
@@ -31,8 +32,8 @@ class HabitsActivityModule {
     @Provides
     @ActivityScope
     fun getThemeSwitcher(
-            @ActivityContext context: Context,
-            prefs: Preferences
+        @ActivityContext context: Context,
+        prefs: Preferences
     ): ThemeSwitcher {
         return AndroidThemeSwitcher(context, prefs)
     }

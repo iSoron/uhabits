@@ -19,23 +19,29 @@
 
 package org.isoron.uhabits.automation
 
-import android.R.layout.*
-import android.annotation.*
-import android.content.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
-import java.util.*
+import android.R.layout.simple_spinner_dropdown_item
+import android.R.layout.simple_spinner_item
+import android.annotation.SuppressLint
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.databinding.AutomationBinding
+import org.isoron.uhabits.utils.setupToolbar
+import java.util.LinkedList
 
 @SuppressLint("ViewConstructor")
 class EditSettingRootView(
-        context: Context,
-        private val habitList: HabitList,
-        private val onSave: (habit: Habit, action: Int) -> Unit,
-        args: SettingUtils.Arguments?
+    context: Context,
+    private val habitList: HabitList,
+    private val onSave: (habit: Habit, action: Int) -> Unit,
+    args: SettingUtils.Arguments?
 ) : FrameLayout(context) {
 
     private var binding = AutomationBinding.inflate(LayoutInflater.from(context))
@@ -43,10 +49,10 @@ class EditSettingRootView(
     init {
         addView(binding.root)
         setupToolbar(
-                toolbar = binding.toolbar,
-                title = resources.getString(R.string.app_name),
-                color = PaletteColor(11),
-                displayHomeAsUpEnabled = false,
+            toolbar = binding.toolbar,
+            title = resources.getString(R.string.app_name),
+            color = PaletteColor(11),
+            displayHomeAsUpEnabled = false,
         )
         populateHabitSpinner()
         binding.habitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -60,8 +66,8 @@ class EditSettingRootView(
         binding.buttonSave.setOnClickListener {
             val habit = habitList.getByPosition(binding.habitSpinner.selectedItemPosition)
             val action = mapSpinnerPositionToAction(
-                    isNumerical = habit.isNumerical,
-                    itemPosition = binding.actionSpinner.selectedItemPosition,
+                isNumerical = habit.isNumerical,
+                itemPosition = binding.actionSpinner.selectedItemPosition,
             )
             onSave(habit, action)
         }

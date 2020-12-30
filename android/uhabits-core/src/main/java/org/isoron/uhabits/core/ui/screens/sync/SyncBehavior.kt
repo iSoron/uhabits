@@ -19,15 +19,16 @@
 
 package org.isoron.uhabits.core.ui.screens.sync
 
-import org.isoron.uhabits.core.io.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.sync.*
+import org.isoron.uhabits.core.io.Logging
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.sync.AbstractSyncServer
+import org.isoron.uhabits.core.sync.EncryptionKey
 
 class SyncBehavior(
-        val screen: Screen,
-        val preferences: Preferences,
-        val server: AbstractSyncServer,
-        val logging: Logging,
+    val screen: Screen,
+    val preferences: Preferences,
+    val server: AbstractSyncServer,
+    val logging: Logging,
 ) {
     val logger = logging.getLogger("SyncBehavior")
 

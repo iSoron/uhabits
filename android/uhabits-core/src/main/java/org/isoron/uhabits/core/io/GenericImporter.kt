@@ -18,9 +18,9 @@
  */
 package org.isoron.uhabits.core.io
 
-import org.isoron.uhabits.core.models.*
-import java.io.*
-import javax.inject.*
+import org.isoron.uhabits.core.models.HabitList
+import java.io.File
+import javax.inject.Inject
 
 /**
  * A GenericImporter decides which implementation of AbstractImporter is able to
@@ -28,18 +28,18 @@ import javax.inject.*
  */
 class GenericImporter
 @Inject constructor(
-        habits: HabitList,
-        loopDBImporter: LoopDBImporter,
-        rewireDBImporter: RewireDBImporter,
-        tickmateDBImporter: TickmateDBImporter,
-        habitBullCSVImporter: HabitBullCSVImporter,
+    habits: HabitList,
+    loopDBImporter: LoopDBImporter,
+    rewireDBImporter: RewireDBImporter,
+    tickmateDBImporter: TickmateDBImporter,
+    habitBullCSVImporter: HabitBullCSVImporter,
 ) : AbstractImporter(habits) {
 
     var importers: List<AbstractImporter> = listOf(
-            loopDBImporter,
-            rewireDBImporter,
-            tickmateDBImporter,
-            habitBullCSVImporter,
+        loopDBImporter,
+        rewireDBImporter,
+        tickmateDBImporter,
+        habitBullCSVImporter,
     )
 
     override fun canHandle(file: File): Boolean {

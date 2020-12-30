@@ -19,111 +19,138 @@
 
 package org.isoron.uhabits.intents
 
-import android.app.*
-import android.app.PendingIntent.*
-import android.content.*
-import android.net.*
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.receivers.*
-import javax.inject.*
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.app.PendingIntent.getBroadcast
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.inject.AppContext
+import org.isoron.uhabits.receivers.ReminderReceiver
+import org.isoron.uhabits.receivers.WidgetReceiver
+import javax.inject.Inject
 
 @AppScope
 class PendingIntentFactory
 @Inject constructor(
-        @AppContext private val context: Context,
-        private val intentFactory: IntentFactory) {
+    @AppContext private val context: Context,
+    private val intentFactory: IntentFactory
+) {
 
     fun addCheckmark(habit: Habit, timestamp: Timestamp?): PendingIntent =
-            PendingIntent.getBroadcast(
-                    context, 1,
-                    Intent(context, WidgetReceiver::class.java).apply {
-                        data = Uri.parse(habit.uriString)
-                        action = WidgetReceiver.ACTION_ADD_REPETITION
-                        if (timestamp != null) putExtra("timestamp", timestamp.unixTime)
-                    },
-                    FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(
+            context,
+            1,
+            Intent(context, WidgetReceiver::class.java).apply {
+                data = Uri.parse(habit.uriString)
+                action = WidgetReceiver.ACTION_ADD_REPETITION
+                if (timestamp != null) putExtra("timestamp", timestamp.unixTime)
+            },
+            FLAG_UPDATE_CURRENT
+        )
 
     fun dismissNotification(habit: Habit): PendingIntent =
-            PendingIntent.getBroadcast(
-                    context, 0,
-                    Intent(context, ReminderReceiver::class.java).apply {
-                        action = WidgetReceiver.ACTION_DISMISS_REMINDER
-                        data = Uri.parse(habit.uriString)
-                    },
-                    FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(context, ReminderReceiver::class.java).apply {
+                action = WidgetReceiver.ACTION_DISMISS_REMINDER
+                data = Uri.parse(habit.uriString)
+            },
+            FLAG_UPDATE_CURRENT
+        )
 
     fun removeRepetition(habit: Habit): PendingIntent =
-            PendingIntent.getBroadcast(
-                    context, 3,
-                    Intent(context, WidgetReceiver::class.java).apply {
-                        action = WidgetReceiver.ACTION_REMOVE_REPETITION
-                        data = Uri.parse(habit.uriString)
-                    },
-                    FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(
+            context,
+            3,
+            Intent(context, WidgetReceiver::class.java).apply {
+                action = WidgetReceiver.ACTION_REMOVE_REPETITION
+                data = Uri.parse(habit.uriString)
+            },
+            FLAG_UPDATE_CURRENT
+        )
 
     fun showHabit(habit: Habit): PendingIntent =
-            androidx.core.app.TaskStackBuilder
-                    .create(context)
-                    .addNextIntentWithParentStack(
-                            intentFactory.startShowHabitActivity(
-                                    context, habit))
-                    .getPendingIntent(0, FLAG_UPDATE_CURRENT)!!
-
-    fun showReminder(habit: Habit,
-                     reminderTime: Long?,
-                     timestamp: Long): PendingIntent =
-            PendingIntent.getBroadcast(
+        androidx.core.app.TaskStackBuilder
+            .create(context)
+            .addNextIntentWithParentStack(
+                intentFactory.startShowHabitActivity(
                     context,
-                    (habit.id!! % Integer.MAX_VALUE).toInt() + 1,
-                    Intent(context, ReminderReceiver::class.java).apply {
-                        action = ReminderReceiver.ACTION_SHOW_REMINDER
-                        data = Uri.parse(habit.uriString)
-                        putExtra("timestamp", timestamp)
-                        putExtra("reminderTime", reminderTime)
-                    },
-                    FLAG_UPDATE_CURRENT)
+                    habit
+                )
+            )
+            .getPendingIntent(0, FLAG_UPDATE_CURRENT)!!
+
+    fun showReminder(
+        habit: Habit,
+        reminderTime: Long?,
+        timestamp: Long
+    ): PendingIntent =
+        PendingIntent.getBroadcast(
+            context,
+            (habit.id!! % Integer.MAX_VALUE).toInt() + 1,
+            Intent(context, ReminderReceiver::class.java).apply {
+                action = ReminderReceiver.ACTION_SHOW_REMINDER
+                data = Uri.parse(habit.uriString)
+                putExtra("timestamp", timestamp)
+                putExtra("reminderTime", reminderTime)
+            },
+            FLAG_UPDATE_CURRENT
+        )
 
     fun snoozeNotification(habit: Habit): PendingIntent =
-            PendingIntent.getBroadcast(
-                    context, 0,
-                    Intent(context, ReminderReceiver::class.java).apply {
-                        data = Uri.parse(habit.uriString)
-                        action = ReminderReceiver.ACTION_SNOOZE_REMINDER
-                    },
-                    FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(context, ReminderReceiver::class.java).apply {
+                data = Uri.parse(habit.uriString)
+                action = ReminderReceiver.ACTION_SNOOZE_REMINDER
+            },
+            FLAG_UPDATE_CURRENT
+        )
 
     fun toggleCheckmark(habit: Habit, timestamp: Long?): PendingIntent =
-            PendingIntent.getBroadcast(
-                    context, 2,
-                    Intent(context, WidgetReceiver::class.java).apply {
-                        data = Uri.parse(habit.uriString)
-                        action = WidgetReceiver.ACTION_TOGGLE_REPETITION
-                        if (timestamp != null) putExtra("timestamp", timestamp)
-                    },
-                    FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(
+            context,
+            2,
+            Intent(context, WidgetReceiver::class.java).apply {
+                data = Uri.parse(habit.uriString)
+                action = WidgetReceiver.ACTION_TOGGLE_REPETITION
+                if (timestamp != null) putExtra("timestamp", timestamp)
+            },
+            FLAG_UPDATE_CURRENT
+        )
 
-    fun setNumericalValue(widgetContext: Context,
-                          habit: Habit,
-                          numericalValue: Int,
-                          timestamp: Long?):
-            PendingIntent =
+    fun setNumericalValue(
+        widgetContext: Context,
+        habit: Habit,
+        numericalValue: Int,
+        timestamp: Long?
+    ):
+        PendingIntent =
             getBroadcast(
-                    widgetContext, 2,
-                    Intent(widgetContext, WidgetReceiver::class.java).apply {
-                        data = Uri.parse(habit.uriString)
-                        action = WidgetReceiver.ACTION_SET_NUMERICAL_VALUE
-                        putExtra("numericalValue", numericalValue);
-                        if (timestamp != null) putExtra("timestamp", timestamp)
-                    },
-                    FLAG_UPDATE_CURRENT)
+                widgetContext,
+                2,
+                Intent(widgetContext, WidgetReceiver::class.java).apply {
+                    data = Uri.parse(habit.uriString)
+                    action = WidgetReceiver.ACTION_SET_NUMERICAL_VALUE
+                    putExtra("numericalValue", numericalValue)
+                    if (timestamp != null) putExtra("timestamp", timestamp)
+                },
+                FLAG_UPDATE_CURRENT
+            )
 
     fun updateWidgets(): PendingIntent =
-            PendingIntent.getBroadcast(
-                    context, 0,
-                    Intent(context, WidgetReceiver::class.java).apply {
-                        action = WidgetReceiver.ACTION_UPDATE_WIDGETS_VALUE
-                    },
-                    FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(context, WidgetReceiver::class.java).apply {
+                action = WidgetReceiver.ACTION_UPDATE_WIDGETS_VALUE
+            },
+            FLAG_UPDATE_CURRENT
+        )
 }

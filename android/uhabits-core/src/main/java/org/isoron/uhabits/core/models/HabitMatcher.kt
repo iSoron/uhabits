@@ -19,9 +19,9 @@
 package org.isoron.uhabits.core.models
 
 data class HabitMatcher(
-        val isArchivedAllowed: Boolean = false,
-        val isReminderRequired: Boolean = false,
-        val isCompletedAllowed: Boolean = true,
+    val isArchivedAllowed: Boolean = false,
+    val isReminderRequired: Boolean = false,
+    val isCompletedAllowed: Boolean = true,
 ) {
     fun matches(habit: Habit): Boolean {
         if (!isArchivedAllowed && habit.isArchived) return false
@@ -33,8 +33,8 @@ data class HabitMatcher(
     companion object {
         @JvmField
         val WITH_ALARM = HabitMatcherBuilder()
-                .setArchivedAllowed(true)
-                .setReminderRequired(true)
-                .build()
+            .setArchivedAllowed(true)
+            .setReminderRequired(true)
+            .build()
     }
 }

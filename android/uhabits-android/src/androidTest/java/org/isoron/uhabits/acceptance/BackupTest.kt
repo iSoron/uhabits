@@ -19,11 +19,20 @@
 
 package org.isoron.uhabits.acceptance
 
-import androidx.test.filters.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.acceptance.steps.*
-import org.isoron.uhabits.acceptance.steps.CommonSteps.*
-import org.junit.*
+import androidx.test.filters.LargeTest
+import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
+import org.isoron.uhabits.acceptance.steps.CommonSteps.longClickText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDoesNotDisplayText
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps
+import org.isoron.uhabits.acceptance.steps.clearBackupFolder
+import org.isoron.uhabits.acceptance.steps.clearDownloadFolder
+import org.isoron.uhabits.acceptance.steps.copyBackupToDownloadFolder
+import org.isoron.uhabits.acceptance.steps.exportFullBackup
+import org.isoron.uhabits.acceptance.steps.importBackupFromDownloadFolder
+import org.junit.Test
 
 @LargeTest
 class BackupTest : BaseUserInterfaceTest() {

@@ -19,8 +19,8 @@
 package org.isoron.uhabits.core.models
 
 data class Entry(
-        val timestamp: Timestamp,
-        val value: Int,
+    val timestamp: Timestamp,
+    val value: Int,
 ) {
     companion object {
         /**
@@ -65,6 +65,5 @@ data class Entry(
                 else -> NO
             }
         }
-
     }
 }

@@ -19,19 +19,19 @@
 
 package org.isoron.uhabits.widgets
 
-import android.app.*
-import android.content.*
-import android.view.*
-import org.isoron.uhabits.activities.common.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.views.*
+import android.app.PendingIntent
+import android.content.Context
+import android.view.View
+import org.isoron.uhabits.activities.common.views.HistoryChart
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class HistoryWidget(
-        context: Context,
-        id: Int,
-        private val habit: Habit,
-        private val firstWeekday: Int
+    context: Context,
+    id: Int,
+    private val habit: Habit,
+    private val firstWeekday: Int
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context): PendingIntent {
@@ -52,9 +52,9 @@ class HistoryWidget(
     }
 
     override fun buildView() =
-            GraphWidgetView(context, HistoryChart(context)).apply {
-                setTitle(habit.name)
-            }
+        GraphWidgetView(context, HistoryChart(context)).apply {
+            setTitle(habit.name)
+        }
 
     override fun getDefaultHeight() = 250
     override fun getDefaultWidth() = 250

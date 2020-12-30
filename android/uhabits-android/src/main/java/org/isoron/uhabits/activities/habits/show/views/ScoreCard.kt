@@ -18,21 +18,29 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.core.utils.DateUtils.TruncateField.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
+import android.widget.LinearLayout
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Score
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.DAY
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.MONTH
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.QUARTER
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.WEEK_NUMBER
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.YEAR
+import org.isoron.uhabits.databinding.ShowHabitScoreBinding
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
 data class ScoreCardViewModel(
-        val scores: List<Score>,
-        val bucketSize: Int,
-        val spinnerPosition: Int,
-        val color: PaletteColor,
+    val scores: List<Score>,
+    val bucketSize: Int,
+    val spinnerPosition: Int,
+    val color: PaletteColor,
 )
 
 class ScoreCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -60,8 +68,8 @@ class ScoreCard(context: Context, attrs: AttributeSet) : LinearLayout(context, a
 }
 
 class ScoreCardPresenter(
-        val habit: Habit,
-        val firstWeekday: Int,
+    val habit: Habit,
+    val firstWeekday: Int,
 ) {
     companion object {
         val BUCKET_SIZES = intArrayOf(1, 7, 31, 92, 365)
@@ -86,18 +94,21 @@ class ScoreCardPresenter(
         val scores = habit.scores.getByInterval(oldest, today).groupBy {
             DateUtils.truncate(field, it.timestamp, firstWeekday)
         }.map { (timestamp, scores) ->
-            Score(timestamp, scores.map {
-                it.value
-            }.average())
+            Score(
+                timestamp,
+                scores.map {
+                    it.value
+                }.average()
+            )
         }.sortedBy {
             it.timestamp
         }.reversed()
 
         return ScoreCardViewModel(
-                color = habit.color,
-                scores = scores,
-                bucketSize = bucketSize,
-                spinnerPosition = spinnerPosition,
+            color = habit.color,
+            scores = scores,
+            bucketSize = bucketSize,
+            spinnerPosition = spinnerPosition,
         )
     }
 }

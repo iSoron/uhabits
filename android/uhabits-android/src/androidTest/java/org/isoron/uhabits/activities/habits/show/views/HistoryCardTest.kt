@@ -18,12 +18,15 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.view.*
-import androidx.test.ext.junit.runners.*
-import androidx.test.filters.*
-import org.isoron.uhabits.*
-import org.junit.*
-import org.junit.runner.*
+import android.view.LayoutInflater
+import android.view.View
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
+import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.R
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -36,12 +39,16 @@ class HistoryCardTest : BaseViewTest() {
         super.setUp()
         val habit = fixtures.createLongHabit()
         view = LayoutInflater
-                .from(targetContext)
-                .inflate(R.layout.show_habit, null)
-                .findViewById<View>(R.id.historyCard) as HistoryCard
-        view.update(HistoryCardPresenter(habit = habit,
-                                         firstWeekday = 1,
-                                         isSkipEnabled = false).present())
+            .from(targetContext)
+            .inflate(R.layout.show_habit, null)
+            .findViewById<View>(R.id.historyCard) as HistoryCard
+        view.update(
+            HistoryCardPresenter(
+                habit = habit,
+                firstWeekday = 1,
+                isSkipEnabled = false
+            ).present()
+        )
         measureView(view, 800f, 600f)
     }
 

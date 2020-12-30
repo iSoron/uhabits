@@ -18,20 +18,27 @@
  */
 package org.isoron.uhabits.core.io
 
-import com.opencsv.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
-import java.io.*
-import java.util.*
-import javax.inject.*
+import com.opencsv.CSVReader
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Frequency
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.ModelFactory
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.utils.DateUtils
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
+import java.util.HashMap
+import javax.inject.Inject
 
 /**
  * Class that imports data from HabitBull CSV files.
  */
 class HabitBullCSVImporter
 @Inject constructor(
-        habits: HabitList,
-        private val modelFactory: ModelFactory,
+    habits: HabitList,
+    private val modelFactory: ModelFactory,
 ) : AbstractImporter(habits) {
 
     override fun canHandle(file: File): Boolean {

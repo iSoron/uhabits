@@ -19,18 +19,25 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.content.*
-import android.graphics.*
-import android.text.*
-import android.view.*
-import android.view.View.*
-import com.google.auto.factory.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.utils.*
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Typeface
+import android.text.TextPaint
+import android.view.View
+import android.view.View.OnClickListener
+import android.view.View.OnLongClickListener
+import com.google.auto.factory.AutoFactory
+import com.google.auto.factory.Provided
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
-import java.text.*
+import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.getFontAwesome
+import org.isoron.uhabits.utils.showMessage
+import java.text.DecimalFormat
 
 private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
 private val NORMAL_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.NORMAL)
@@ -50,8 +57,8 @@ fun Double.toShortString(): String = when {
 
 @AutoFactory
 class NumberButtonView(
-        @Provided @ActivityContext context: Context,
-        @Provided val preferences: Preferences
+    @Provided @ActivityContext context: Context,
+    @Provided val preferences: Preferences
 ) : View(context),
     OnClickListener,
     OnLongClickListener {
@@ -148,10 +155,10 @@ class NumberButtonView(
             val label: String
             val typeface: Typeface
 
-            if(value >= 0) {
+            if (value >= 0) {
                 label = value.toShortString()
                 typeface = BOLD_TYPEFACE
-            } else if(preferences.areQuestionMarksEnabled()) {
+            } else if (preferences.areQuestionMarksEnabled()) {
                 label = resources.getString(R.string.fa_question)
                 typeface = getFontAwesome()
             } else {

@@ -19,8 +19,9 @@
 
 package org.isoron.uhabits.io
 
-import android.util.*
-import org.isoron.uhabits.core.io.*
+import android.util.Log
+import org.isoron.uhabits.core.io.Logger
+import org.isoron.uhabits.core.io.Logging
 
 class AndroidLogging : Logging {
     override fun getLogger(name: String): Logger {
@@ -44,5 +45,4 @@ class AndroidLogger(val name: String) : Logger {
     override fun error(exception: Exception) {
         Log.e(name, "Exception", exception)
     }
-
 }

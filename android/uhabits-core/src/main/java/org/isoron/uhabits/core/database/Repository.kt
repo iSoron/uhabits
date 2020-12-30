@@ -18,14 +18,17 @@
  */
 package org.isoron.uhabits.core.database
 
-import org.apache.commons.lang3.*
-import org.apache.commons.lang3.tuple.*
-import java.lang.reflect.*
-import java.util.*
+import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.tuple.ImmutablePair
+import org.apache.commons.lang3.tuple.Pair
+import java.lang.reflect.Field
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.LinkedList
 
 class Repository<T>(
-        private val klass: Class<T>,
-        private val db: Database,
+    private val klass: Class<T>,
+    private val db: Database,
 ) {
     /**
      * Returns the record that has the id provided. If no record is found, returns null.

@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.core.database
 
-import java.io.*
+import java.io.Closeable
 
 interface Cursor : Closeable {
 

@@ -18,18 +18,21 @@
  */
 package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.databinding.*
-import org.isoron.uhabits.utils.*
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Streak
+import org.isoron.uhabits.databinding.ShowHabitStreakBinding
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
 data class StreakCardViewModel(
-        val color: PaletteColor,
-        val bestStreaks: List<Streak>
+    val color: PaletteColor,
+    val bestStreaks: List<Streak>
 )
 
 class StreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -46,8 +49,8 @@ class StreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(conte
 class StreakCartPresenter(val habit: Habit) {
     suspend fun present(): StreakCardViewModel = Dispatchers.IO {
         return@IO StreakCardViewModel(
-                color = habit.color,
-                bestStreaks = habit.streaks.getBest(10),
+            color = habit.color,
+            bestStreaks = habit.streaks.getBest(10),
         )
     }
 }

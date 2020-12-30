@@ -19,23 +19,22 @@
 
 package org.isoron.uhabits.widgets
 
-import android.content.*
-import android.view.*
-import org.isoron.uhabits.activities.common.views.*
-import org.isoron.uhabits.activities.habits.show.views.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.views.*
+import android.content.Context
+import android.view.View
+import org.isoron.uhabits.activities.common.views.ScoreChart
+import org.isoron.uhabits.activities.habits.show.views.ScoreCardPresenter
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class ScoreWidget(
-        context: Context,
-        id: Int,
-        private val habit: Habit
+    context: Context,
+    id: Int,
+    private val habit: Habit
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context) =
-            pendingIntentFactory.showHabit(habit)
+        pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {
         val presenter = ScoreCardPresenter(habit, prefs.firstWeekday)
@@ -52,9 +51,9 @@ class ScoreWidget(
     }
 
     override fun buildView() =
-            GraphWidgetView(context, ScoreChart(context)).apply {
-                setTitle(habit.name)
-            }
+        GraphWidgetView(context, ScoreChart(context)).apply {
+            setTitle(habit.name)
+        }
 
     override fun getDefaultHeight() = 300
     override fun getDefaultWidth() = 300

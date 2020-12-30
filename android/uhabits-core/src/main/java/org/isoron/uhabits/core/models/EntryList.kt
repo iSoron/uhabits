@@ -23,12 +23,12 @@ import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.utils.*
-import java.util.*
-import javax.annotation.concurrent.*
-import kotlin.collections.HashMap
+import org.isoron.uhabits.core.utils.DateUtils
+import java.util.ArrayList
+import java.util.Calendar
+import javax.annotation.concurrent.ThreadSafe
 import kotlin.collections.set
-import kotlin.math.*
+import kotlin.math.min
 
 @ThreadSafe
 open class EntryList {
@@ -90,10 +90,10 @@ open class EntryList {
      */
     @Synchronized
     open fun groupBy(
-            original: List<Entry>,
-            field: DateUtils.TruncateField,
-            firstWeekday: Int,
-            isNumerical: Boolean,
+        original: List<Entry>,
+        field: DateUtils.TruncateField,
+        firstWeekday: Int,
+        isNumerical: Boolean,
     ): List<Entry> {
         val truncated = original.map {
             Entry(it.timestamp.truncate(field, firstWeekday), it.value)
@@ -126,9 +126,9 @@ open class EntryList {
      */
     @Synchronized
     open fun recomputeFrom(
-            originalEntries: EntryList,
-            frequency: Frequency,
-            isNumerical: Boolean,
+        originalEntries: EntryList,
+        frequency: Frequency,
+        isNumerical: Boolean,
     ) {
         clear()
         val original = originalEntries.getKnown()
@@ -168,9 +168,11 @@ open class EntryList {
         val map = hashMapOf<Timestamp, Array<Int>>()
         for ((originalTimestamp, value) in entries) {
             val weekday = originalTimestamp.weekday
-            val truncatedTimestamp = Timestamp(originalTimestamp.toCalendar().apply {
-                set(Calendar.DAY_OF_MONTH, 1)
-            }.timeInMillis)
+            val truncatedTimestamp = Timestamp(
+                originalTimestamp.toCalendar().apply {
+                    set(Calendar.DAY_OF_MONTH, 1)
+                }.timeInMillis
+            )
 
             var list = map[truncatedTimestamp]
             if (list == null) {
@@ -224,9 +226,9 @@ open class EntryList {
     @Synchronized
     open fun getThisWeekValue(firstWeekday: Int, isNumerical: Boolean): Int {
         return getThisIntervalValue(
-                truncateField = DateUtils.TruncateField.WEEK_NUMBER,
-                firstWeekday = firstWeekday,
-                isNumerical = isNumerical
+            truncateField = DateUtils.TruncateField.WEEK_NUMBER,
+            firstWeekday = firstWeekday,
+            isNumerical = isNumerical
         )
     }
 
@@ -234,9 +236,9 @@ open class EntryList {
     @Synchronized
     open fun getThisMonthValue(isNumerical: Boolean): Int {
         return getThisIntervalValue(
-                truncateField = DateUtils.TruncateField.MONTH,
-                firstWeekday = Calendar.SATURDAY,
-                isNumerical = isNumerical
+            truncateField = DateUtils.TruncateField.MONTH,
+            firstWeekday = Calendar.SATURDAY,
+            isNumerical = isNumerical
         )
     }
 
@@ -244,9 +246,9 @@ open class EntryList {
     @Synchronized
     open fun getThisQuarterValue(isNumerical: Boolean): Int {
         return getThisIntervalValue(
-                truncateField = DateUtils.TruncateField.QUARTER,
-                firstWeekday = Calendar.SATURDAY,
-                isNumerical = isNumerical
+            truncateField = DateUtils.TruncateField.QUARTER,
+            firstWeekday = Calendar.SATURDAY,
+            isNumerical = isNumerical
         )
     }
 
@@ -254,16 +256,16 @@ open class EntryList {
     @Synchronized
     open fun getThisYearValue(isNumerical: Boolean): Int {
         return getThisIntervalValue(
-                truncateField = DateUtils.TruncateField.YEAR,
-                firstWeekday = Calendar.SATURDAY,
-                isNumerical = isNumerical
+            truncateField = DateUtils.TruncateField.YEAR,
+            firstWeekday = Calendar.SATURDAY,
+            isNumerical = isNumerical
         )
     }
 
     private fun getThisIntervalValue(
-            truncateField: DateUtils.TruncateField,
-            firstWeekday: Int,
-            isNumerical: Boolean,
+        truncateField: DateUtils.TruncateField,
+        firstWeekday: Int,
+        isNumerical: Boolean,
     ): Int {
         val groups: List<Entry> = groupBy(getKnown(), truncateField, firstWeekday, isNumerical)
         return if (groups.isEmpty()) 0 else groups[0].value
@@ -271,7 +273,7 @@ open class EntryList {
 
     data class Interval(val begin: Timestamp, val center: Timestamp, val end: Timestamp) {
         val length: Int
-            get() = begin.daysUntil(end) + 1;
+            get() = begin.daysUntil(end) + 1
     }
 
     /**
@@ -284,8 +286,8 @@ open class EntryList {
      */
     companion object {
         fun buildEntriesFromInterval(
-                original: List<Entry>,
-                intervals: List<Interval>,
+            original: List<Entry>,
+            intervals: List<Interval>,
         ): List<Entry> {
             val result = arrayListOf<Entry>()
             if (original.isEmpty()) return result
@@ -346,16 +348,18 @@ open class EntryList {
                 val gapCenterToEnd = curr.center.daysUntil(curr.end)
                 if (gapNextToCurrent >= 0) {
                     val shift = min(gapCenterToEnd, gapNextToCurrent + 1)
-                    intervals[i] = Interval(curr.begin.minus(shift),
-                                            curr.center,
-                                            curr.end.minus(shift))
+                    intervals[i] = Interval(
+                        curr.begin.minus(shift),
+                        curr.center,
+                        curr.end.minus(shift)
+                    )
                 }
             }
         }
 
         fun buildIntervals(
-                freq: Frequency,
-                entries: List<Entry>,
+            freq: Frequency,
+            entries: List<Entry>,
         ): ArrayList<Interval> {
             val filtered = entries.filter { it.value == YES_MANUAL }
             val num = freq.numerator

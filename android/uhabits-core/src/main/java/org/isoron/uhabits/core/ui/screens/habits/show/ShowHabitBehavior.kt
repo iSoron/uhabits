@@ -18,19 +18,22 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.show
 
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.callbacks.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import kotlin.math.*
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.callbacks.OnToggleCheckmarkListener
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import kotlin.math.roundToInt
 
 class ShowHabitBehavior(
-        private val habitList: HabitList,
-        private val commandRunner: CommandRunner,
-        private val habit: Habit,
-        private val screen: Screen,
-        private val preferences: Preferences,
+    private val habitList: HabitList,
+    private val commandRunner: CommandRunner,
+    private val habit: Habit,
+    private val screen: Screen,
+    private val preferences: Preferences,
 ) : OnToggleCheckmarkListener {
 
     fun onScoreCardSpinnerPosition(position: Int) {
@@ -62,30 +65,32 @@ class ShowHabitBehavior(
             screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
                 val thousands = (newValue * 1000).roundToInt()
                 commandRunner.run(
-                        CreateRepetitionCommand(
-                                habitList,
-                                habit,
-                                timestamp,
-                                thousands,
-                        ),
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        thousands,
+                    ),
                 )
             }
         } else {
             commandRunner.run(
-                    CreateRepetitionCommand(
-                            habitList,
-                            habit,
-                            timestamp,
-                            value,
-                    ),
+                CreateRepetitionCommand(
+                    habitList,
+                    habit,
+                    timestamp,
+                    value,
+                ),
             )
         }
     }
 
     interface Screen {
-        fun showNumberPicker(value: Double,
-                             unit: String,
-                             callback: ListHabitsBehavior.NumberPickerCallback)
+        fun showNumberPicker(
+            value: Double,
+            unit: String,
+            callback: ListHabitsBehavior.NumberPickerCallback
+        )
 
         fun updateWidgets()
         fun refresh()

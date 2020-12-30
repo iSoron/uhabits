@@ -18,27 +18,30 @@
  */
 package org.isoron.uhabits.core.commands
 
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.tasks.*
-import java.util.*
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.tasks.Task
+import org.isoron.uhabits.core.tasks.TaskRunner
+import java.util.LinkedList
 import javax.inject.Inject
 
 @AppScope
 open class CommandRunner
 @Inject constructor(
-        private val taskRunner: TaskRunner,
+    private val taskRunner: TaskRunner,
 ) {
     private val listeners: LinkedList<Listener> = LinkedList()
 
     open fun run(command: Command) {
-        taskRunner.execute(object : Task {
-            override fun doInBackground() {
-                command.run()
+        taskRunner.execute(
+            object : Task {
+                override fun doInBackground() {
+                    command.run()
+                }
+                override fun onPostExecute() {
+                    notifyListeners(command)
+                }
             }
-            override fun onPostExecute() {
-                notifyListeners(command)
-            }
-        })
+        )
     }
 
     fun addListener(l: Listener) {

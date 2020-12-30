@@ -18,12 +18,12 @@
  */
 package org.isoron.uhabits
 
-import android.app.*
+import android.app.Activity
 
 class BaseExceptionHandler(private val activity: Activity) : Thread.UncaughtExceptionHandler {
 
     private val originalHandler: Thread.UncaughtExceptionHandler? =
-            Thread.getDefaultUncaughtExceptionHandler()
+        Thread.getDefaultUncaughtExceptionHandler()
 
     override fun uncaughtException(thread: Thread?, ex: Throwable?) {
         if (ex == null) return

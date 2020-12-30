@@ -19,30 +19,31 @@
 
 package org.isoron.uhabits.automation
 
-import android.os.*
-import androidx.appcompat.app.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.core.models.*
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.core.models.HabitMatcherBuilder
 
 class EditSettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val app = applicationContext as HabitsApplication
         val habits = app.component.habitList.getFiltered(
-                HabitMatcherBuilder()
-                        .setArchivedAllowed(false)
-                        .setCompletedAllowed(true)
-                        .build())
+            HabitMatcherBuilder()
+                .setArchivedAllowed(false)
+                .setCompletedAllowed(true)
+                .build()
+        )
         AndroidThemeSwitcher(this, app.component.preferences).apply()
 
         val args = SettingUtils.parseIntent(this.intent, habits)
         val controller = EditSettingController(this)
         val view = EditSettingRootView(
-                context = this,
-                habitList = app.component.habitList,
-                onSave = controller::onSave,
-                args = args,
+            context = this,
+            habitList = app.component.habitList,
+            onSave = controller::onSave,
+            args = args,
         )
         setContentView(view)
     }

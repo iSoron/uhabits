@@ -20,14 +20,14 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.*
-import androidx.test.runner.*
-import org.hamcrest.CoreMatchers.*
-import org.hamcrest.MatcherAssert.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.utils.*
-import org.junit.*
-import org.junit.runner.*
+import androidx.test.filters.MediumTest
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.utils.PaletteUtils
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest

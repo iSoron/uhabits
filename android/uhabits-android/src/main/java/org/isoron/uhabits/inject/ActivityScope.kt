@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.inject
 
-import javax.inject.*
+import javax.inject.Scope
 
 /**
  * Scope used by objects that live as long as the activity is alive.

@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.widgets
 
-import android.content.*
+import android.content.Context
 
 class TargetWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {

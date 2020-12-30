@@ -19,11 +19,11 @@
 
 package org.isoron.uhabits.automation
 
-import android.app.*
-import android.content.*
-import android.os.*
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.models.Habit
 
 class EditSettingController(private val activity: Activity) {
 
@@ -36,10 +36,13 @@ class EditSettingController(private val activity: Activity) {
         bundle.putInt("action", action)
         bundle.putLong("habit", habit.id!!)
 
-        activity.setResult(Activity.RESULT_OK, Intent().apply {
-            putExtra(EXTRA_STRING_BLURB, blurb)
-            putExtra(EXTRA_BUNDLE, bundle)
-        })
+        activity.setResult(
+            Activity.RESULT_OK,
+            Intent().apply {
+                putExtra(EXTRA_STRING_BLURB, blurb)
+                putExtra(EXTRA_BUNDLE, bundle)
+            }
+        )
         activity.finish()
     }
 

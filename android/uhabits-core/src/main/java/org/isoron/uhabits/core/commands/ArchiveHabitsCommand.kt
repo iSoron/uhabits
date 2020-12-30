@@ -18,11 +18,12 @@
  */
 package org.isoron.uhabits.core.commands
 
-import org.isoron.uhabits.core.models.*
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
 
 data class ArchiveHabitsCommand(
-        val habitList: HabitList,
-        val selected: List<Habit>,
+    val habitList: HabitList,
+    val selected: List<Habit>,
 ) : Command {
     override fun run() {
         for (h in selected) h.isArchived = true

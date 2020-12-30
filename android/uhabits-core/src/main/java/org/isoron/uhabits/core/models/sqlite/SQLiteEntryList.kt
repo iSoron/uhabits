@@ -19,10 +19,14 @@
 
 package org.isoron.uhabits.core.models.sqlite
 
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.models.sqlite.records.*
-import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.core.database.Database
+import org.isoron.uhabits.core.database.Repository
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.EntryList
+import org.isoron.uhabits.core.models.Frequency
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.utils.DateUtils
 
 class SQLiteEntryList(database: Database) : EntryList() {
     val repository = Repository(EntryRecord::class.java, database)
@@ -32,8 +36,10 @@ class SQLiteEntryList(database: Database) : EntryList() {
     private fun loadRecords() {
         if (isLoaded) return
         val habitId = habitId ?: throw IllegalStateException("habitId must be set")
-        val records = repository.findAll("where habit = ? order by timestamp",
-                                         habitId.toString())
+        val records = repository.findAll(
+            "where habit = ? order by timestamp",
+            habitId.toString()
+        )
         for (rec in records) super.add(rec.toEntry())
         isLoaded = true
     }
@@ -53,9 +59,11 @@ class SQLiteEntryList(database: Database) : EntryList() {
         val habitId = habitId ?: throw IllegalStateException("habitId must be set")
 
         // Remove existing rows
-        repository.execSQL("delete from repetitions where habit = ? and timestamp = ?",
-                           habitId.toString(),
-                           entry.timestamp.unixTime.toString())
+        repository.execSQL(
+            "delete from repetitions where habit = ? and timestamp = ?",
+            habitId.toString(),
+            entry.timestamp.unixTime.toString()
+        )
 
         // Add new row
         val record = EntryRecord().apply { copyFrom(entry) }
@@ -72,10 +80,10 @@ class SQLiteEntryList(database: Database) : EntryList() {
     }
 
     override fun groupBy(
-            original: List<Entry>,
-            field: DateUtils.TruncateField,
-            firstWeekday: Int,
-            isNumerical: Boolean
+        original: List<Entry>,
+        field: DateUtils.TruncateField,
+        firstWeekday: Int,
+        isNumerical: Boolean
     ): List<Entry> {
         loadRecords()
         return super.groupBy(original, field, firstWeekday, isNumerical)
@@ -87,7 +95,9 @@ class SQLiteEntryList(database: Database) : EntryList() {
 
     override fun clear() {
         super.clear()
-        repository.execSQL("delete from repetitions where habit = ?",
-                           habitId.toString())
+        repository.execSQL(
+            "delete from repetitions where habit = ?",
+            habitId.toString()
+        )
     }
 }

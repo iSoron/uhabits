@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.inject
 
-import javax.inject.*
+import javax.inject.Qualifier
 
 @Qualifier
 @MustBeDocumented

@@ -18,13 +18,14 @@
  */
 package org.isoron.uhabits.utils
 
-import android.content.*
-import android.graphics.*
-import android.util.*
-import android.view.*
-import android.widget.*
-import android.widget.TextView.*
-import androidx.core.view.*
+import android.content.Context
+import android.graphics.Typeface
+import android.util.TypedValue
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
+import androidx.core.view.ViewCompat
 
 object InterfaceUtils {
     private var fontAwesome: Typeface? = null
@@ -46,17 +47,21 @@ object InterfaceUtils {
     @JvmStatic
     fun dpToPixels(context: Context, dp: Float): Float {
         if (fixedResolution != null) return dp * fixedResolution!!
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                                         dp,
-                                         context.resources.displayMetrics)
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            context.resources.displayMetrics
+        )
     }
 
     @JvmStatic
     fun spToPixels(context: Context, sp: Float): Float {
         if (fixedResolution != null) return sp * fixedResolution!!
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
-                                         sp,
-                                         context.resources.displayMetrics)
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            sp,
+            context.resources.displayMetrics
+        )
     }
 
     @JvmStatic
@@ -69,8 +74,10 @@ object InterfaceUtils {
         return dim
     }
 
-    fun setupEditorAction(parent: ViewGroup,
-                          listener: OnEditorActionListener) {
+    fun setupEditorAction(
+        parent: ViewGroup,
+        listener: OnEditorActionListener
+    ) {
         for (i in 0 until parent.childCount) {
             val child = parent.getChildAt(i)
             if (child is ViewGroup) setupEditorAction(child, listener)
@@ -80,6 +87,6 @@ object InterfaceUtils {
 
     fun isLayoutRtl(view: View?): Boolean {
         return ViewCompat.getLayoutDirection(view!!) ==
-                ViewCompat.LAYOUT_DIRECTION_RTL
+            ViewCompat.LAYOUT_DIRECTION_RTL
     }
 }

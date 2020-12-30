@@ -19,13 +19,13 @@
 
 package org.isoron.uhabits.widgets
 
-import android.content.*
-import android.view.*
-import org.isoron.uhabits.widgets.views.*
+import android.content.Context
+import android.view.View
+import org.isoron.uhabits.widgets.views.EmptyWidgetView
 
 class EmptyWidget(
-        context: Context,
-        widgetId: Int
+    context: Context,
+    widgetId: Int
 ) : BaseWidget(context, widgetId) {
 
     override fun getOnClickPendingIntent(context: Context) = null

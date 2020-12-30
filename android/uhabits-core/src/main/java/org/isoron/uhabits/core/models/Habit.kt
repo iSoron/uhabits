@@ -18,31 +18,31 @@
  */
 package org.isoron.uhabits.core.models
 
-import org.isoron.uhabits.core.utils.*
-import java.util.*
+import org.isoron.uhabits.core.utils.DateUtils
+import java.util.UUID
 
 data class Habit(
-        var color: PaletteColor = PaletteColor(8),
-        var description: String = "",
-        var frequency: Frequency = Frequency.DAILY,
-        var id: Long? = null,
-        var isArchived: Boolean = false,
-        var name: String = "",
-        var position: Int = 0,
-        var question: String = "",
-        var reminder: Reminder? = null,
-        var targetType: Int = AT_LEAST,
-        var targetValue: Double = 0.0,
-        var type: Int = YES_NO_HABIT,
-        var unit: String = "",
-        var uuid: String? = null,
-        val computedEntries: EntryList,
-        val originalEntries: EntryList,
-        val scores: ScoreList,
-        val streaks: StreakList,
+    var color: PaletteColor = PaletteColor(8),
+    var description: String = "",
+    var frequency: Frequency = Frequency.DAILY,
+    var id: Long? = null,
+    var isArchived: Boolean = false,
+    var name: String = "",
+    var position: Int = 0,
+    var question: String = "",
+    var reminder: Reminder? = null,
+    var targetType: Int = AT_LEAST,
+    var targetValue: Double = 0.0,
+    var type: Int = YES_NO_HABIT,
+    var unit: String = "",
+    var uuid: String? = null,
+    val computedEntries: EntryList,
+    val originalEntries: EntryList,
+    val scores: ScoreList,
+    val streaks: StreakList,
 ) {
     init {
-        if(uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "");
+        if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
     }
 
     var observable = ModelObservable()
@@ -71,9 +71,9 @@ data class Habit(
 
     fun recompute() {
         computedEntries.recomputeFrom(
-                originalEntries = originalEntries,
-                frequency = frequency,
-                isNumerical = isNumerical,
+            originalEntries = originalEntries,
+            frequency = frequency,
+            isNumerical = isNumerical,
         )
 
         val to = DateUtils.getTodayWithOffset().plus(30)
@@ -82,18 +82,18 @@ data class Habit(
         if (from.isNewerThan(to)) from = to
 
         scores.recompute(
-                frequency = frequency,
-                isNumerical = isNumerical,
-                targetValue = targetValue,
-                computedEntries = computedEntries,
-                from = from,
-                to = to,
+            frequency = frequency,
+            isNumerical = isNumerical,
+            targetValue = targetValue,
+            computedEntries = computedEntries,
+            from = from,
+            to = to,
         )
 
         streaks.recompute(
-                computedEntries,
-                from,
-                to,
+            computedEntries,
+            from,
+            to,
         )
     }
 

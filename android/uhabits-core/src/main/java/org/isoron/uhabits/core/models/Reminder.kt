@@ -18,12 +18,12 @@
  */
 package org.isoron.uhabits.core.models
 
-import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.core.utils.DateUtils
 
 data class Reminder(
-        val hour: Int,
-        val minute: Int,
-        val days: WeekdayList,
+    val hour: Int,
+    val minute: Int,
+    val days: WeekdayList,
 ) {
     val timeInMillis: Long
         get() = DateUtils.getUpcomingTimeInMillis(hour, minute)

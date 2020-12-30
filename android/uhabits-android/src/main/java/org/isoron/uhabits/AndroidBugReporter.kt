@@ -18,14 +18,21 @@
  */
 package org.isoron.uhabits
 
-import android.content.*
-import android.os.*
-import android.view.*
-import org.isoron.uhabits.inject.*
-import java.io.*
-import java.text.*
-import java.util.*
-import javax.inject.*
+import android.content.Context
+import android.os.Build
+import android.os.Environment
+import android.view.WindowManager
+import org.isoron.uhabits.inject.AppContext
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
+import java.io.InputStreamReader
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.LinkedList
+import java.util.Locale
+import javax.inject.Inject
 
 open class AndroidBugReporter @Inject constructor(@AppContext private val context: Context) {
 
@@ -56,7 +63,7 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
         var line: String?
         while (true) {
             line = bufferedReader.readLine()
-            if (line == null) break;
+            if (line == null) break
             log.addLast(line)
             if (log.size > maxLineCount) log.removeFirst()
         }
@@ -79,7 +86,7 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
         try {
             val date = SimpleDateFormat("yyyy-MM-dd HHmmss", Locale.US).format(Date())
             val dir = AndroidDirFinder(context).getFilesDir("Logs")
-                    ?: throw IOException("log dir should not be null")
+                ?: throw IOException("log dir should not be null")
             val logFile = File(String.format("%s/Log %s.txt", dir.path, date))
             val output = FileWriter(logFile)
             output.write(getBugReport())
@@ -106,5 +113,4 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
             appendln()
         }
     }
-
 }

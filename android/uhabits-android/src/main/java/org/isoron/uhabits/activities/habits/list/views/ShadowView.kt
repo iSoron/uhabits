@@ -19,11 +19,12 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
-import android.content.*
-import android.view.*
-import android.view.View.MeasureSpec.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.utils.*
+import android.content.Context
+import android.view.View
+import android.view.View.MeasureSpec.EXACTLY
+import org.isoron.uhabits.R
+import org.isoron.uhabits.utils.dp
+import org.isoron.uhabits.utils.toMeasureSpec
 
 @Suppress("DEPRECATION")
 class ShadowView(context: Context) : View(context) {
@@ -33,7 +34,9 @@ class ShadowView(context: Context) : View(context) {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec,
-                        dp(2.0f).toInt().toMeasureSpec(EXACTLY))
+        super.onMeasure(
+            widthMeasureSpec,
+            dp(2.0f).toInt().toMeasureSpec(EXACTLY)
+        )
     }
 }

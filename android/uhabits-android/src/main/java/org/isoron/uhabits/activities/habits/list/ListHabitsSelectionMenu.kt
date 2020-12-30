@@ -19,30 +19,33 @@
 
 package org.isoron.uhabits.activities.habits.list
 
-import android.content.*
-import android.view.*
-import androidx.appcompat.app.*
+import android.content.Context
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
-import dagger.*
+import dagger.Lazy
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.inject.*
-import javax.inject.*
+import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
+import org.isoron.uhabits.activities.habits.list.views.HabitCardListController
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.NotificationTray
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.inject.ActivityScope
+import javax.inject.Inject
 
 @ActivityScope
 class ListHabitsSelectionMenu @Inject constructor(
-        @ActivityContext context: Context,
-        private val listAdapter: HabitCardListAdapter,
-        var commandRunner: CommandRunner,
-        private val prefs: Preferences,
-        private val behavior: ListHabitsSelectionMenuBehavior,
-        private val listController: Lazy<HabitCardListController>,
-        private val notificationTray: NotificationTray
+    @ActivityContext context: Context,
+    private val listAdapter: HabitCardListAdapter,
+    var commandRunner: CommandRunner,
+    private val prefs: Preferences,
+    private val behavior: ListHabitsSelectionMenuBehavior,
+    private val listController: Lazy<HabitCardListController>,
+    private val notificationTray: NotificationTray
 ) : ActionMode.Callback {
 
     val activity = (context as AppCompatActivity)

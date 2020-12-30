@@ -19,31 +19,37 @@
 
 package org.isoron.uhabits.notifications
 
-import android.app.*
-import android.content.*
-import android.graphics.*
-import android.graphics.BitmapFactory.*
-import android.os.*
-import android.os.Build.VERSION.*
-import android.util.*
-import androidx.core.app.*
-import androidx.core.app.NotificationCompat.*
+import android.app.Activity
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.graphics.BitmapFactory.decodeResource
+import android.graphics.Color
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.util.Log
+import androidx.core.app.NotificationCompat.Action
+import androidx.core.app.NotificationCompat.Builder
+import androidx.core.app.NotificationCompat.WearableExtender
+import androidx.core.app.NotificationManagerCompat
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.preferences.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.intents.*
-import javax.inject.*
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.NotificationTray
+import org.isoron.uhabits.inject.AppContext
+import org.isoron.uhabits.intents.PendingIntentFactory
+import javax.inject.Inject
 
 @AppScope
 class AndroidNotificationTray
 @Inject constructor(
-        @AppContext private val context: Context,
-        private val pendingIntents: PendingIntentFactory,
-        private val preferences: Preferences,
-        private val ringtoneManager: RingtoneManager
+    @AppContext private val context: Context,
+    private val pendingIntents: PendingIntentFactory,
+    private val preferences: Preferences,
+    private val ringtoneManager: RingtoneManager
 ) : NotificationTray.SystemTray {
     private var active = HashSet<Int>()
 
@@ -57,10 +63,12 @@ class AndroidNotificationTray
         active.remove(id)
     }
 
-    override fun showNotification(habit: Habit,
-                                  notificationId: Int,
-                                  timestamp: Timestamp,
-                                  reminderTime: Long) {
+    override fun showNotification(
+        habit: Habit,
+        notificationId: Int,
+        timestamp: Timestamp,
+        reminderTime: Long
+    ) {
         val notificationManager = NotificationManagerCompat.from(context)
         val notification = buildNotification(habit, reminderTime, timestamp)
         createAndroidNotificationChannel(context)
@@ -68,37 +76,45 @@ class AndroidNotificationTray
             notificationManager.notify(notificationId, notification)
         } catch (e: RuntimeException) {
             // Some Xiaomi phones produce a RuntimeException if custom notification sounds are used.
-            Log.i("AndroidNotificationTray",
-                  "Failed to show notification. Retrying without sound.")
-            val n = buildNotification(habit,
-                                      reminderTime,
-                                      timestamp,
-                                      disableSound = true)
+            Log.i(
+                "AndroidNotificationTray",
+                "Failed to show notification. Retrying without sound."
+            )
+            val n = buildNotification(
+                habit,
+                reminderTime,
+                timestamp,
+                disableSound = true
+            )
             notificationManager.notify(notificationId, n)
-
         }
         active.add(notificationId)
     }
 
-    fun buildNotification(habit: Habit,
-                          reminderTime: Long,
-                          timestamp: Timestamp,
-                          disableSound: Boolean = false): Notification {
+    fun buildNotification(
+        habit: Habit,
+        reminderTime: Long,
+        timestamp: Timestamp,
+        disableSound: Boolean = false
+    ): Notification {
 
         val addRepetitionAction = Action(
-                R.drawable.ic_action_check,
-                context.getString(R.string.yes),
-                pendingIntents.addCheckmark(habit, timestamp))
+            R.drawable.ic_action_check,
+            context.getString(R.string.yes),
+            pendingIntents.addCheckmark(habit, timestamp)
+        )
 
         val removeRepetitionAction = Action(
-                R.drawable.ic_action_cancel,
-                context.getString(R.string.no),
-                pendingIntents.removeRepetition(habit))
+            R.drawable.ic_action_cancel,
+            context.getString(R.string.no),
+            pendingIntents.removeRepetition(habit)
+        )
 
         val enterAction = Action(
-                R.drawable.ic_action_check,
-                context.getString(R.string.enter),
-                pendingIntents.setNumericalValue(context, habit, 0, null))
+            R.drawable.ic_action_check,
+            context.getString(R.string.enter),
+            pendingIntents.setNumericalValue(context, habit, 0, null)
+        )
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
 
@@ -109,26 +125,26 @@ class AndroidNotificationTray
 
         val defaultText = context.getString(R.string.default_reminder_question)
         val builder = Builder(context, REMINDERS_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(habit.name)
-                .setContentText(if(habit.question.isBlank()) defaultText else habit.question)
-                .setContentIntent(pendingIntents.showHabit(habit))
-                .setDeleteIntent(pendingIntents.dismissNotification(habit))
-                .setSound(null)
-                .setWhen(reminderTime)
-                .setShowWhen(true)
-                .setOngoing(preferences.shouldMakeNotificationsSticky())
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(habit.name)
+            .setContentText(if (habit.question.isBlank()) defaultText else habit.question)
+            .setContentIntent(pendingIntents.showHabit(habit))
+            .setDeleteIntent(pendingIntents.dismissNotification(habit))
+            .setSound(null)
+            .setWhen(reminderTime)
+            .setShowWhen(true)
+            .setOngoing(preferences.shouldMakeNotificationsSticky())
 
         if (habit.isNumerical) {
             wearableExtender.addAction(enterAction)
             builder.addAction(enterAction)
         } else {
             wearableExtender
-                    .addAction(addRepetitionAction)
-                    .addAction(removeRepetitionAction)
+                .addAction(addRepetitionAction)
+                .addAction(removeRepetitionAction)
             builder
-                    .addAction(addRepetitionAction)
-                    .addAction(removeRepetitionAction)
+                .addAction(addRepetitionAction)
+                .addAction(removeRepetitionAction)
         }
 
         if (!disableSound)
@@ -137,9 +153,11 @@ class AndroidNotificationTray
         if (preferences.shouldMakeNotificationsLed())
             builder.setLights(Color.RED, 1000, 1000)
 
-        val snoozeAction = Action(R.drawable.ic_action_snooze,
-                                  context.getString(R.string.snooze),
-                                  pendingIntents.snoozeNotification(habit))
+        val snoozeAction = Action(
+            R.drawable.ic_action_snooze,
+            context.getString(R.string.snooze),
+            pendingIntents.snoozeNotification(habit)
+        )
         wearableExtender.addAction(snoozeAction)
         builder.addAction(snoozeAction)
 
@@ -151,14 +169,15 @@ class AndroidNotificationTray
         private const val REMINDERS_CHANNEL_ID = "REMINDERS"
         fun createAndroidNotificationChannel(context: Context) {
             val notificationManager = context.getSystemService(Activity.NOTIFICATION_SERVICE)
-                    as NotificationManager
+                as NotificationManager
             if (SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(REMINDERS_CHANNEL_ID,
-                                                  context.resources.getString(R.string.reminder),
-                                                  NotificationManager.IMPORTANCE_DEFAULT)
+                val channel = NotificationChannel(
+                    REMINDERS_CHANNEL_ID,
+                    context.resources.getString(R.string.reminder),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
                 notificationManager.createNotificationChannel(channel)
             }
         }
     }
-
 }

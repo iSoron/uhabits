@@ -19,12 +19,12 @@
 
 package org.isoron.uhabits.regression
 
-import androidx.test.filters.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.acceptance.steps.CommonSteps.*
-import org.isoron.uhabits.activities.about.*
-import org.junit.*
-import java.lang.Thread.*
+import androidx.test.filters.LargeTest
+import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
+import org.isoron.uhabits.activities.about.AboutActivity
+import org.junit.Test
+import java.lang.Thread.sleep
 
 @LargeTest
 class SavedStateTest : BaseUserInterfaceTest() {

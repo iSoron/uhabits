@@ -20,8 +20,11 @@ package org.isoron.uhabits.utils
 
 import android.os.Environment
 import android.util.Log
-import java.io.*
-
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 
 fun File.copyTo(dst: File) {
     val inStream = FileInputStream(this)
@@ -50,7 +53,7 @@ object FileUtils {
             Log.e("FileUtils", "getDir: all potential parents are null or non-writable")
             return null
         }
-        val dir = File("${chosenDir.absolutePath}/${relativePath}/")
+        val dir = File("${chosenDir.absolutePath}/$relativePath/")
         if (!dir.exists() && !dir.mkdirs()) {
             Log.e("FileUtils", "getDir: chosen dir does not exist and cannot be created")
             return null

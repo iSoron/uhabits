@@ -19,8 +19,9 @@
 
 package org.isoron.uhabits.inject
 
-import dagger.*
-import org.isoron.uhabits.core.models.*
+import dagger.Module
+import dagger.Provides
+import org.isoron.uhabits.core.models.Habit
 
 @Module
 class HabitModule(private val habit: Habit) {

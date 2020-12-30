@@ -19,14 +19,18 @@
 
 package org.isoron.uhabits.core.models.sqlite
 
-import junit.framework.Assert.*
-import org.isoron.uhabits.core.BaseUnitTest.*
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.core.models.*
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.assertNull
+import org.isoron.uhabits.core.BaseUnitTest.buildMemoryDatabase
+import org.isoron.uhabits.core.database.Repository
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
-import org.isoron.uhabits.core.models.sqlite.records.*
-import org.isoron.uhabits.core.utils.*
-import org.junit.*
+import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.utils.DateUtils
+import org.junit.Before
+import org.junit.Test
 
 class SQLiteEntryListTest {
 
@@ -48,27 +52,31 @@ class SQLiteEntryListTest {
     @Test
     fun testLoad() {
         val today = DateUtils.getToday()
-        repository.save(EntryRecord().apply {
-            habitId = entries.habitId
-            timestamp = today.unixTime
-            value = 500
-        })
-        repository.save(EntryRecord().apply {
-            habitId = entries.habitId
-            timestamp = today.minus(5).unixTime
-            value = 300
-        })
-        assertEquals(
-                Entry(timestamp = today, value = 500),
-                entries.get(today),
+        repository.save(
+            EntryRecord().apply {
+                habitId = entries.habitId
+                timestamp = today.unixTime
+                value = 500
+            }
+        )
+        repository.save(
+            EntryRecord().apply {
+                habitId = entries.habitId
+                timestamp = today.minus(5).unixTime
+                value = 300
+            }
         )
         assertEquals(
-                Entry(timestamp = today.minus(1), value = UNKNOWN),
-                entries.get(today.minus(1)),
+            Entry(timestamp = today, value = 500),
+            entries.get(today),
         )
         assertEquals(
-                Entry(timestamp = today.minus(5), value = 300),
-                entries.get(today.minus(5)),
+            Entry(timestamp = today.minus(1), value = UNKNOWN),
+            entries.get(today.minus(1)),
+        )
+        assertEquals(
+            Entry(timestamp = today.minus(5), value = 300),
+            entries.get(today.minus(5)),
         )
     }
 
@@ -92,14 +100,13 @@ class SQLiteEntryListTest {
     }
 
     private fun getByTimestamp(
-            habitId: Int,
-            timestamp: Timestamp,
+        habitId: Int,
+        timestamp: Timestamp,
     ): EntryRecord? {
         return repository.findFirst(
-                "where habit = ? and timestamp = ?",
-                habitId.toString(),
-                timestamp.unixTime.toString(),
+            "where habit = ? and timestamp = ?",
+            habitId.toString(),
+            timestamp.unixTime.toString(),
         )
     }
-
 }

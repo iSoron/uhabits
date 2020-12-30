@@ -19,29 +19,58 @@
 
 package org.isoron.uhabits.activities.habits.list
 
-import android.app.*
-import android.content.*
-import android.util.*
-import androidx.annotation.*
-import androidx.appcompat.app.*
-import dagger.*
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import dagger.Lazy
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.*
-import org.isoron.uhabits.activities.habits.edit.*
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.commands.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.tasks.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.core.ui.callbacks.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.intents.*
-import org.isoron.uhabits.tasks.*
-import org.isoron.uhabits.utils.*
-import java.io.*
-import javax.inject.*
+import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.ConfirmSyncKeyDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
+import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
+import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
+import org.isoron.uhabits.core.commands.ChangeHabitColorCommand
+import org.isoron.uhabits.core.commands.Command
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.CreateHabitCommand
+import org.isoron.uhabits.core.commands.DeleteHabitsCommand
+import org.isoron.uhabits.core.commands.EditHabitCommand
+import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.tasks.TaskRunner
+import org.isoron.uhabits.core.ui.ThemeSwitcher
+import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
+import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.COULD_NOT_EXPORT
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.COULD_NOT_GENERATE_BUG_REPORT
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.DATABASE_REPAIRED
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.FILE_NOT_RECOGNIZED
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.IMPORT_FAILED
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.IMPORT_SUCCESSFUL
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.SYNC_ENABLED
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.SYNC_KEY_ALREADY_INSTALLED
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
+import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.inject.ActivityScope
+import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.tasks.ExportDBTaskFactory
+import org.isoron.uhabits.tasks.ImportDataTask
+import org.isoron.uhabits.tasks.ImportDataTaskFactory
+import org.isoron.uhabits.utils.copyTo
+import org.isoron.uhabits.utils.restartWithFade
+import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.showSendEmailScreen
+import org.isoron.uhabits.utils.showSendFileScreen
+import java.io.File
+import java.io.IOException
+import javax.inject.Inject
 
 const val RESULT_IMPORT_DATA = 101
 const val RESULT_EXPORT_CSV = 102
@@ -54,19 +83,19 @@ const val REQUEST_SETTINGS = 107
 @ActivityScope
 class ListHabitsScreen
 @Inject constructor(
-        @ActivityContext val context: Context,
-        private val commandRunner: CommandRunner,
-        private val intentFactory: IntentFactory,
-        private val themeSwitcher: ThemeSwitcher,
-        private val adapter: HabitCardListAdapter,
-        private val taskRunner: TaskRunner,
-        private val exportDBFactory: ExportDBTaskFactory,
-        private val importTaskFactory: ImportDataTaskFactory,
-        private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
-        private val confirmSyncKeyDialogFactory: ConfirmSyncKeyDialogFactory,
-        private val colorPickerFactory: ColorPickerDialogFactory,
-        private val numberPickerFactory: NumberPickerFactory,
-        private val behavior: Lazy<ListHabitsBehavior>
+    @ActivityContext val context: Context,
+    private val commandRunner: CommandRunner,
+    private val intentFactory: IntentFactory,
+    private val themeSwitcher: ThemeSwitcher,
+    private val adapter: HabitCardListAdapter,
+    private val taskRunner: TaskRunner,
+    private val exportDBFactory: ExportDBTaskFactory,
+    private val importTaskFactory: ImportDataTaskFactory,
+    private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
+    private val confirmSyncKeyDialogFactory: ConfirmSyncKeyDialogFactory,
+    private val colorPickerFactory: ColorPickerDialogFactory,
+    private val numberPickerFactory: NumberPickerFactory,
+    private val behavior: Lazy<ListHabitsBehavior>
 ) : CommandRunner.Listener,
     ListHabitsBehavior.Screen,
     ListHabitsMenuBehavior.Screen,
@@ -76,7 +105,7 @@ class ListHabitsScreen
 
     fun onAttached() {
         commandRunner.addListener(this)
-        if(activity.intent.action == "android.intent.action.VIEW") {
+        if (activity.intent.action == "android.intent.action.VIEW") {
             val uri = activity.intent.data!!.toString()
             val parts = uri.replace(Regex("^.*sync/"), "").split("#")
             val syncKey = parts[0]
@@ -172,16 +201,20 @@ class ListHabitsScreen
     }
 
     override fun showMessage(m: ListHabitsBehavior.Message) {
-        activity.showMessage(activity.resources.getString(when (m) {
-            COULD_NOT_EXPORT -> R.string.could_not_export
-            IMPORT_SUCCESSFUL -> R.string.habits_imported
-            IMPORT_FAILED -> R.string.could_not_import
-            DATABASE_REPAIRED -> R.string.database_repaired
-            COULD_NOT_GENERATE_BUG_REPORT -> R.string.bug_report_failed
-            FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
-            SYNC_ENABLED -> R.string.sync_enabled
-            SYNC_KEY_ALREADY_INSTALLED -> R.string.sync_key_already_installed
-        }))
+        activity.showMessage(
+            activity.resources.getString(
+                when (m) {
+                    COULD_NOT_EXPORT -> R.string.could_not_export
+                    IMPORT_SUCCESSFUL -> R.string.habits_imported
+                    IMPORT_FAILED -> R.string.could_not_import
+                    DATABASE_REPAIRED -> R.string.database_repaired
+                    COULD_NOT_GENERATE_BUG_REPORT -> R.string.bug_report_failed
+                    FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
+                    SYNC_ENABLED -> R.string.sync_enabled
+                    SYNC_KEY_ALREADY_INSTALLED -> R.string.sync_key_already_installed
+                }
+            )
+        )
     }
 
     override fun showSendBugReportToDeveloperScreen(log: String) {
@@ -199,16 +232,20 @@ class ListHabitsScreen
         activity.startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
-    override fun showColorPicker(defaultColor: PaletteColor,
-                                 callback: OnColorPickedCallback) {
+    override fun showColorPicker(
+        defaultColor: PaletteColor,
+        callback: OnColorPickedCallback
+    ) {
         val picker = colorPickerFactory.create(defaultColor)
         picker.setListener(callback)
         picker.show(activity.supportFragmentManager, "picker")
     }
 
-    override fun showNumberPicker(value: Double,
-                                  unit: String,
-                                  callback: ListHabitsBehavior.NumberPickerCallback) {
+    override fun showNumberPicker(
+        value: Double,
+        unit: String,
+        callback: ListHabitsBehavior.NumberPickerCallback
+    ) {
         numberPickerFactory.create(value, unit, callback).show()
     }
 
@@ -219,49 +256,61 @@ class ListHabitsScreen
     private fun getExecuteString(command: Command): String? {
         when (command) {
             is ArchiveHabitsCommand -> {
-                return activity.resources.getQuantityString(R.plurals.toast_habits_archived,
-                                                            command.selected.size)
+                return activity.resources.getQuantityString(
+                    R.plurals.toast_habits_archived,
+                    command.selected.size
+                )
             }
             is ChangeHabitColorCommand -> {
-                return activity.resources.getQuantityString(R.plurals.toast_habits_changed,
-                                                            command.selected.size)
+                return activity.resources.getQuantityString(
+                    R.plurals.toast_habits_changed,
+                    command.selected.size
+                )
             }
             is CreateHabitCommand -> {
                 return activity.resources.getString(R.string.toast_habit_created)
             }
             is DeleteHabitsCommand -> {
-                return activity.resources.getQuantityString(R.plurals.toast_habits_deleted,
-                                                            command.selected.size)
+                return activity.resources.getQuantityString(
+                    R.plurals.toast_habits_deleted,
+                    command.selected.size
+                )
             }
             is EditHabitCommand -> {
                 return activity.resources.getQuantityString(R.plurals.toast_habits_changed, 1)
             }
             is UnarchiveHabitsCommand -> {
-                return activity.resources.getQuantityString(R.plurals.toast_habits_unarchived,
-                                                            command.selected.size)
+                return activity.resources.getQuantityString(
+                    R.plurals.toast_habits_unarchived,
+                    command.selected.size
+                )
             }
             else -> return null
         }
     }
 
     private fun onImportData(file: File, onFinished: () -> Unit) {
-        taskRunner.execute(importTaskFactory.create(file) { result ->
-            if (result == ImportDataTask.SUCCESS) {
-                adapter.refresh()
-                activity.showMessage(activity.resources.getString(R.string.habits_imported))
-            } else if (result == ImportDataTask.NOT_RECOGNIZED) {
-                activity.showMessage(activity.resources.getString(R.string.file_not_recognized))
-            } else {
-                activity.showMessage(activity.resources.getString(R.string.could_not_import))
+        taskRunner.execute(
+            importTaskFactory.create(file) { result ->
+                if (result == ImportDataTask.SUCCESS) {
+                    adapter.refresh()
+                    activity.showMessage(activity.resources.getString(R.string.habits_imported))
+                } else if (result == ImportDataTask.NOT_RECOGNIZED) {
+                    activity.showMessage(activity.resources.getString(R.string.file_not_recognized))
+                } else {
+                    activity.showMessage(activity.resources.getString(R.string.could_not_import))
+                }
+                onFinished()
             }
-            onFinished()
-        })
+        )
     }
 
     private fun onExportDB() {
-        taskRunner.execute(exportDBFactory.create { filename ->
-            if (filename != null) activity.showSendFileScreen(filename)
-            else activity.showMessage(activity.resources.getString(R.string.could_not_export))
-        })
+        taskRunner.execute(
+            exportDBFactory.create { filename ->
+                if (filename != null) activity.showSendFileScreen(filename)
+                else activity.showMessage(activity.resources.getString(R.string.could_not_export))
+            }
+        )
     }
 }

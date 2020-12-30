@@ -19,18 +19,21 @@
 
 package org.isoron.uhabits.activities.habits.list
 
-import android.content.*
-import dagger.*
-import org.isoron.uhabits.*
-import org.isoron.uhabits.activities.*
-import org.isoron.uhabits.activities.habits.list.views.*
-import org.isoron.uhabits.core.ui.screens.habits.list.*
-import org.isoron.uhabits.inject.*
-import javax.inject.*
+import android.content.Context
+import dagger.Binds
+import dagger.Module
+import org.isoron.uhabits.AndroidBugReporter
+import org.isoron.uhabits.activities.HabitsDirFinder
+import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
+import org.isoron.uhabits.inject.AppContext
+import javax.inject.Inject
 
 class BugReporterProxy
 @Inject constructor(
-        @AppContext context: Context
+    @AppContext context: Context
 ) : AndroidBugReporter(context), ListHabitsBehavior.BugReporter
 
 @Module

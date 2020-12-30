@@ -19,16 +19,19 @@
 
 package org.isoron.uhabits
 
-import android.app.*
-import android.content.*
-import org.isoron.uhabits.core.database.*
-import org.isoron.uhabits.core.reminders.*
-import org.isoron.uhabits.core.ui.*
-import org.isoron.uhabits.core.utils.*
-import org.isoron.uhabits.inject.*
-import org.isoron.uhabits.utils.*
-import org.isoron.uhabits.widgets.*
-import java.io.*
+import android.app.Application
+import android.content.Context
+import org.isoron.uhabits.core.database.UnsupportedDatabaseVersionException
+import org.isoron.uhabits.core.reminders.ReminderScheduler
+import org.isoron.uhabits.core.ui.NotificationTray
+import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.inject.AppContextModule
+import org.isoron.uhabits.inject.DaggerHabitsApplicationComponent
+import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.isoron.uhabits.inject.HabitsModule
+import org.isoron.uhabits.utils.DatabaseUtils
+import org.isoron.uhabits.widgets.WidgetUpdater
+import java.io.File
 
 /**
  * The Android application for Loop Habit Tracker.
@@ -59,10 +62,10 @@ class HabitsApplication : Application() {
 
         val db = DatabaseUtils.getDatabaseFile(this)
         HabitsApplication.component = DaggerHabitsApplicationComponent
-                .builder()
-                .appContextModule(AppContextModule(context))
-                .habitsModule(HabitsModule(db))
-                .build()
+            .builder()
+            .appContextModule(AppContextModule(context))
+            .habitsModule(HabitsModule(db))
+            .build()
 
         DateUtils.setStartDayOffset(3, 0)
 

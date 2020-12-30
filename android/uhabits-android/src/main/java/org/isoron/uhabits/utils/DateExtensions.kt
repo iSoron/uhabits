@@ -19,14 +19,17 @@
 
 package org.isoron.uhabits.utils
 
-import android.content.*
+import android.content.Context
 import android.text.format.DateFormat
-import org.isoron.uhabits.*
-import org.isoron.uhabits.core.models.*
-import org.isoron.uhabits.core.utils.*
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.WeekdayList
+import org.isoron.uhabits.core.utils.DateFormats
 import org.isoron.uhabits.core.utils.DateUtils
-import java.text.*
-import java.util.*
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 fun String.toSimpleDataFormat(): SimpleDateFormat {
     val locale = Locale.getDefault()
