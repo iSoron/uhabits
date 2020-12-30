@@ -30,7 +30,7 @@ class StreakList {
         list.sortWith { s1: Streak, s2: Streak -> s2.compareLonger(s1) }
         return list.subList(0, min(list.size, limit)).apply {
             sortWith { s1: Streak, s2: Streak -> s2.compareNewer(s1) }
-        }
+        }.toList()
     }
 
     @Synchronized
