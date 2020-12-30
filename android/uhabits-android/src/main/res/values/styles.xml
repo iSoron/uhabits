@@ -17,8 +17,9 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
@@ -75,6 +76,7 @@
     </style>
 
     <style name="AppBaseThemeDark" parent="@style/Theme.AppCompat.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Dialog</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
@@ -127,6 +129,7 @@
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="selectedBackground">@drawable/selected_box_amoled</item>
         <item name="cardBackground">@drawable/card_amoled_background</item>
 
