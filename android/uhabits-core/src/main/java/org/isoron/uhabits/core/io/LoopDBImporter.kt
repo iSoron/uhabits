@@ -33,6 +33,7 @@ import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
 import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
+import org.isoron.uhabits.core.utils.isSQLite3File
 import java.io.File
 import javax.inject.Inject
 
@@ -46,12 +47,12 @@ class LoopDBImporter
     @AppScope val opener: DatabaseOpener,
     @AppScope val runner: CommandRunner,
     @AppScope logging: Logging,
-) : AbstractImporter(habitList) {
+) : AbstractImporter() {
 
     private val logger = logging.getLogger("LoopDBImporter")
 
     override fun canHandle(file: File): Boolean {
-        if (!isSQLite3File(file)) return false
+        if (!file.isSQLite3File()) return false
         val db = opener.open(file)!!
         var canHandle = true
         val c = db.query("select count(*) from SQLITE_MASTER where name='Habits' or name='Repetitions'")

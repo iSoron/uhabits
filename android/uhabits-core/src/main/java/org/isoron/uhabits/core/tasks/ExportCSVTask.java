@@ -65,7 +65,7 @@ public class ExportCSVTask implements Task
             exporter = new HabitsCSVExporter(habitList, selectedHabits, outputDir);
             archiveFilename = exporter.writeArchive();
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

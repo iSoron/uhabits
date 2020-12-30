@@ -37,9 +37,9 @@ import javax.inject.Inject
  */
 class HabitBullCSVImporter
 @Inject constructor(
-    habits: HabitList,
+    private val habitList: HabitList,
     private val modelFactory: ModelFactory,
-) : AbstractImporter(habits) {
+) : AbstractImporter() {
 
     override fun canHandle(file: File): Boolean {
         val reader = BufferedReader(FileReader(file))

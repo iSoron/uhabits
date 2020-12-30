@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.core.database
+package org.isoron.uhabits.core.io
 
 import java.io.File
 
-interface DatabaseOpener {
-    fun open(file: File): Database
+abstract class AbstractImporter {
+    abstract fun canHandle(file: File): Boolean
+    abstract fun importHabitsFromFile(file: File)
 }

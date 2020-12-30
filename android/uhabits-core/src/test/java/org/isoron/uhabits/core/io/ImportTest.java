@@ -133,8 +133,8 @@ public class ImportTest extends BaseUnitTest
         assertTrue(file.exists());
         assertTrue(file.canRead());
 
-        GenericImporter importer = new GenericImporter(habitList,
-            new LoopDBImporter(habitList, modelFactory, databaseOpener, commandRunner, new StandardLogging()),
+        GenericImporter importer = new GenericImporter(
+                new LoopDBImporter(habitList, modelFactory, databaseOpener, commandRunner, new StandardLogging()),
             new RewireDBImporter(habitList, modelFactory, databaseOpener),
             new TickmateDBImporter(habitList, modelFactory, databaseOpener),
             new HabitBullCSVImporter(habitList, modelFactory));

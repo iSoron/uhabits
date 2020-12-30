@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,10 +16,16 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.core.database
+
+package org.isoron.uhabits.core.utils
 
 import java.io.File
+import java.io.FileInputStream
 
-interface DatabaseOpener {
-    fun open(file: File): Database
+fun File.isSQLite3File(): Boolean {
+    val fis = FileInputStream(this)
+    val sqliteHeader = "SQLite format 3".toByteArray()
+    val buffer = ByteArray(sqliteHeader.size)
+    val count = fis.read(buffer)
+    return if (count < sqliteHeader.size) false else buffer.contentEquals(sqliteHeader)
 }

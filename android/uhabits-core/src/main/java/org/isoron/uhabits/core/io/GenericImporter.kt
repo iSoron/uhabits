@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.io
 
-import org.isoron.uhabits.core.models.HabitList
 import java.io.File
 import javax.inject.Inject
 
@@ -28,12 +27,11 @@ import javax.inject.Inject
  */
 class GenericImporter
 @Inject constructor(
-    habits: HabitList,
     loopDBImporter: LoopDBImporter,
     rewireDBImporter: RewireDBImporter,
     tickmateDBImporter: TickmateDBImporter,
     habitBullCSVImporter: HabitBullCSVImporter,
-) : AbstractImporter(habits) {
+) : AbstractImporter() {
 
     var importers: List<AbstractImporter> = listOf(
         loopDBImporter,
