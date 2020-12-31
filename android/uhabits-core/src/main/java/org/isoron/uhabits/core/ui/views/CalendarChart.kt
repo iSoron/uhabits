@@ -21,8 +21,8 @@ package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
-import org.isoron.platform.gui.Component
 import org.isoron.platform.gui.TextAlign
+import org.isoron.platform.gui.View
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
 import kotlin.math.floor
@@ -33,7 +33,7 @@ class CalendarChart(
     var color: Color,
     var theme: Theme,
     var dateFormatter: LocalDateFormatter
-) : Component {
+) : View {
 
     var padding = 5.0
     var backgroundColor = Color(0xFFFFFF)

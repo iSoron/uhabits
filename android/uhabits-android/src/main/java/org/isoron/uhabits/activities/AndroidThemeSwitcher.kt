@@ -28,6 +28,9 @@ import androidx.core.content.ContextCompat
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.ThemeSwitcher
+import org.isoron.uhabits.core.ui.views.DarkTheme
+import org.isoron.uhabits.core.ui.views.LightTheme
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.inject.ActivityScope
 
@@ -35,8 +38,10 @@ import org.isoron.uhabits.inject.ActivityScope
 class AndroidThemeSwitcher
 constructor(
     @ActivityContext val context: Context,
-    preferences: Preferences
+    preferences: Preferences,
 ) : ThemeSwitcher(preferences) {
+
+    private var currentTheme: Theme = LightTheme()
 
     override fun getSystemTheme(): Int {
         if (SDK_INT < 29) return THEME_LIGHT
@@ -48,17 +53,24 @@ constructor(
         }
     }
 
+    override fun getCurrentTheme(): Theme {
+        return currentTheme
+    }
+
     override fun applyDarkTheme() {
+        currentTheme = DarkTheme()
         context.setTheme(R.style.AppBaseThemeDark)
         (context as Activity).window.navigationBarColor =
             ContextCompat.getColor(context, R.color.grey_900)
     }
 
     override fun applyLightTheme() {
+        currentTheme = LightTheme()
         context.setTheme(R.style.AppBaseTheme)
     }
 
     override fun applyPureBlackTheme() {
+        currentTheme = DarkTheme()
         context.setTheme(R.style.AppBaseThemeDark_PureBlack)
         (context as Activity).window.navigationBarColor =
             ContextCompat.getColor(context, R.color.black)

@@ -19,6 +19,7 @@
 
 package org.isoron.platform.time
 
+import org.isoron.uhabits.core.models.Timestamp
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -30,15 +31,6 @@ enum class DayOfWeek(val index: Int) {
     THURSDAY(4),
     FRIDAY(5),
     SATURDAY(6),
-}
-
-data class Timestamp(val millisSince1970: Long) {
-    val localDate: LocalDate
-        get() {
-            val millisSince2000 = millisSince1970 - 946684800000
-            val daysSince2000 = millisSince2000 / 86400000
-            return LocalDate(daysSince2000.toInt())
-        }
 }
 
 data class LocalDate(val daysSince2000: Int) {

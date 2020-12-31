@@ -22,27 +22,23 @@ package org.isoron.uhabits.core.ui.views
 import org.isoron.platform.gui.Color
 
 abstract class Theme {
-    val toolbarColor = Color(0xffffff)
+    open val appBackgroundColor = Color(0xf4f4f4)
+    open val cardBackgroundColor = Color(0xFAFAFA)
+    open val headerBackgroundColor = Color(0xeeeeee)
+    open val headerBorderColor = Color(0xcccccc)
+    open val headerTextColor = Color(0x9E9E9E)
+    open val highContrastTextColor = Color(0x202020)
+    open val itemBackgroundColor = Color(0xffffff)
+    open val lowContrastTextColor = Color(0xe0e0e0)
+    open val mediumContrastTextColor = Color(0x9E9E9E)
+    open val statusBarBackgroundColor = Color(0x333333)
+    open val toolbarBackgroundColor = Color(0xf4f4f4)
+    open val toolbarColor = Color(0xffffff)
 
-    val lowContrastTextColor = Color(0xe0e0e0)
-    val mediumContrastTextColor = Color(0x9E9E9E)
-    val highContrastTextColor = Color(0x202020)
-
-    val cardBackgroundColor = Color(0xFFFFFF)
-    val appBackgroundColor = Color(0xf4f4f4)
-    val toolbarBackgroundColor = Color(0xf4f4f4)
-    val statusBarBackgroundColor = Color(0x333333)
-
-    val headerBackgroundColor = Color(0xeeeeee)
-    val headerBorderColor = Color(0xcccccc)
-    val headerTextColor = mediumContrastTextColor
-
-    val itemBackgroundColor = Color(0xffffff)
-
-    fun color(paletteIndex: Int): Color {
+    open fun color(paletteIndex: Int): Color {
         return when (paletteIndex) {
             0 -> Color(0xD32F2F)
-            1 -> Color(0x512DA8)
+            1 -> Color(0xE64A19)
             2 -> Color(0xF57C00)
             3 -> Color(0xFF8F00)
             4 -> Color(0xF9A825)
@@ -58,6 +54,9 @@ abstract class Theme {
             14 -> Color(0x8E24AA)
             15 -> Color(0xD81B60)
             16 -> Color(0x5D4037)
+            17 -> Color(0x424242)
+            18 -> Color(0x757575)
+            19 -> Color(0x9E9E9E)
             else -> Color(0x000000)
         }
     }
@@ -68,3 +67,44 @@ abstract class Theme {
 }
 
 class LightTheme : Theme()
+
+class DarkTheme : Theme() {
+    override val appBackgroundColor = Color(0x212121)
+    override val cardBackgroundColor = Color(0x303030)
+    override val headerBackgroundColor = Color(0x212121)
+    override val headerBorderColor = Color(0xcccccc)
+    override val headerTextColor = Color(0x9E9E9E)
+    override val highContrastTextColor = Color(0xF5F5F5)
+    override val itemBackgroundColor = Color(0xffffff)
+    override val lowContrastTextColor = Color(0x424242)
+    override val mediumContrastTextColor = Color(0x9E9E9E)
+    override val statusBarBackgroundColor = Color(0x333333)
+    override val toolbarBackgroundColor = Color(0xf4f4f4)
+    override val toolbarColor = Color(0xffffff)
+
+    override fun color(paletteIndex: Int): Color {
+        return when (paletteIndex) {
+            0 -> Color(0xEF9A9A)
+            1 -> Color(0xFFAB91)
+            2 -> Color(0xFFCC80)
+            3 -> Color(0xFFECB3)
+            4 -> Color(0xFFF59D)
+            5 -> Color(0xE6EE9C)
+            6 -> Color(0xC5E1A5)
+            7 -> Color(0x69F0AE)
+            8 -> Color(0x80CBC4)
+            9 -> Color(0x80DEEA)
+            10 -> Color(0x81D4FA)
+            11 -> Color(0x64B5F6)
+            12 -> Color(0x9FA8DA)
+            13 -> Color(0xB39DDB)
+            14 -> Color(0xCE93D8)
+            15 -> Color(0xF48FB1)
+            16 -> Color(0xBCAAA4)
+            17 -> Color(0xF5F5F5)
+            18 -> Color(0xE0E0E0)
+            19 -> Color(0x9E9E9E)
+            else -> Color(0xFFFFFF)
+        }
+    }
+}

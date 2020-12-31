@@ -23,9 +23,11 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.groupedSum
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 
 data class BarCardViewModel(
+    val theme: Theme,
     val boolSpinnerPosition: Int,
     val bucketSize: Int,
     val color: PaletteColor,
@@ -43,6 +45,7 @@ class BarCardPresenter {
         firstWeekday: Int,
         numericalSpinnerPosition: Int,
         boolSpinnerPosition: Int,
+        theme: Theme,
     ): BarCardViewModel {
         val bucketSize = if (habit.isNumerical) {
             numericalBucketSizes[numericalSpinnerPosition]
@@ -57,6 +60,7 @@ class BarCardPresenter {
             isNumerical = habit.isNumerical,
         )
         return BarCardViewModel(
+            theme = theme,
             entries = entries,
             bucketSize = bucketSize,
             color = habit.color,

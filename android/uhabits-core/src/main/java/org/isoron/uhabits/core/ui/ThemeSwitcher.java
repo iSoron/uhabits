@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.ui;
 import androidx.annotation.*;
 
 import org.isoron.uhabits.core.preferences.*;
+import org.isoron.uhabits.core.ui.views.*;
 
 public abstract class ThemeSwitcher
 {
@@ -58,6 +59,8 @@ public abstract class ThemeSwitcher
     public abstract void applyPureBlackTheme();
 
     public abstract int getSystemTheme();
+
+    public abstract Theme getCurrentTheme();
 
     public boolean isNightMode()
     {

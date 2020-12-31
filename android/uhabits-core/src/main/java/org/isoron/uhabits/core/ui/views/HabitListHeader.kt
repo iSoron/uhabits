@@ -20,8 +20,8 @@
 package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Canvas
-import org.isoron.platform.gui.Component
 import org.isoron.platform.gui.Font
+import org.isoron.platform.gui.View
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
 
@@ -30,7 +30,7 @@ class HabitListHeader(
     private val nButtons: Int,
     private val theme: Theme,
     private val fmt: LocalDateFormatter
-) : Component {
+) : View {
 
     override fun draw(canvas: Canvas) {
         val width = canvas.getWidth()

@@ -24,9 +24,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
+import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardViewModel
+import org.isoron.uhabits.core.ui.views.BarChart
 import org.isoron.uhabits.databinding.ShowHabitBarBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
+import java.util.Locale
 
 class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -35,11 +38,16 @@ class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     var onBoolSpinnerPosition: (position: Int) -> Unit = {}
 
     fun update(data: BarCardViewModel) {
-        binding.barChart.setEntries(data.entries)
-        binding.barChart.setBucketSize(data.bucketSize)
         val androidColor = data.color.toThemedAndroidColor(context)
+        binding.chart.view = BarChart(data.theme, JavaLocalDateFormatter(Locale.US)).apply {
+            series = mutableListOf(data.entries.map { it.value / 1000.0 })
+            colors = mutableListOf(theme.color(data.color.paletteIndex))
+            axis = data.entries.map { it.timestamp.toLocalDate() }
+        }
+        binding.chart.resetDataOffset()
+        binding.chart.postInvalidate()
+
         binding.title.setTextColor(androidColor)
-        binding.barChart.setColor(androidColor)
         if (data.isNumerical) {
             binding.boolSpinner.visibility = GONE
         } else {

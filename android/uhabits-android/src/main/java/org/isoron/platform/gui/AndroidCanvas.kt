@@ -25,8 +25,6 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.text.TextPaint
-import android.util.AttributeSet
-import android.view.View
 import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 
 class AndroidCanvas : Canvas {
@@ -107,7 +105,7 @@ class AndroidCanvas : Canvas {
     }
 
     override fun setFontSize(size: Double) {
-        textPaint.textSize = size.toDp() * 1.07f
+        textPaint.textSize = size.toDp()
     }
 
     override fun setStrokeWidth(size: Double) {
@@ -154,16 +152,5 @@ class AndroidCanvas : Canvas {
     override fun toImage(): Image {
         val bmp = innerBitmap ?: throw UnsupportedOperationException()
         return AndroidImage(bmp)
-    }
-}
-
-class AndroidCanvasTestView(context: Context, attrs: AttributeSet) : View(context, attrs) {
-    val canvas = AndroidCanvas()
-
-    override fun onDraw(canvas: android.graphics.Canvas) {
-        this.canvas.context = context
-        this.canvas.innerCanvas = canvas
-        this.canvas.density = resources.displayMetrics.density.toDouble()
-        this.canvas.drawTestImage()
     }
 }

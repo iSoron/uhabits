@@ -43,13 +43,14 @@ import org.isoron.uhabits.intents.IntentFactory
 
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
-    private val presenter = ShowHabitPresenter()
+    val presenter = ShowHabitPresenter()
 
     private lateinit var commandRunner: CommandRunner
     private lateinit var menu: ShowHabitMenu
     private lateinit var view: ShowHabitView
     private lateinit var habit: Habit
     private lateinit var preferences: Preferences
+    private lateinit var themeSwitcher: AndroidThemeSwitcher
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
@@ -61,7 +62,8 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
         preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
-        AndroidThemeSwitcher(this, preferences).apply()
+        themeSwitcher = AndroidThemeSwitcher(this, preferences)
+        themeSwitcher.apply()
 
         view = ShowHabitView(this)
 
@@ -134,6 +136,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 presenter.present(
                     habit = habit,
                     preferences = preferences,
+                    theme = themeSwitcher.currentTheme,
                 )
             )
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2019 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,6 +19,21 @@
 
 package org.isoron.platform.gui
 
-interface Component {
-    fun draw(canvas: Canvas)
+import android.content.Context
+import android.util.AttributeSet
+
+open class AndroidView<T : View>(
+    context: Context,
+    attrs: AttributeSet,
+) : android.view.View(context, attrs) {
+
+    lateinit var view: T
+    val canvas = AndroidCanvas()
+
+    override fun onDraw(canvas: android.graphics.Canvas) {
+        this.canvas.context = context
+        this.canvas.innerCanvas = canvas
+        this.canvas.density = resources.displayMetrics.density.toDouble()
+        view.draw(this.canvas)
+    }
 }

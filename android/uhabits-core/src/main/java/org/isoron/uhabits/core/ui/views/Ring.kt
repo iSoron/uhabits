@@ -21,7 +21,7 @@ package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
-import org.isoron.platform.gui.Component
+import org.isoron.platform.gui.View
 import java.lang.String.format
 import kotlin.math.max
 import kotlin.math.min
@@ -33,7 +33,7 @@ class Ring(
     val radius: Double,
     val theme: Theme,
     val label: Boolean = false
-) : Component {
+) : View {
 
     override fun draw(canvas: Canvas) {
         val width = canvas.getWidth()

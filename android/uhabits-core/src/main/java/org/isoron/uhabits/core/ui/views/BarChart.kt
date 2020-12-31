@@ -21,7 +21,7 @@ package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
-import org.isoron.platform.gui.Component
+import org.isoron.platform.gui.DataView
 import org.isoron.platform.gui.TextAlign
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
@@ -32,12 +32,13 @@ import kotlin.math.round
 class BarChart(
     var theme: Theme,
     var dateFormatter: LocalDateFormatter,
-) : Component {
+) : DataView {
 
     // Data
     var series = mutableListOf<List<Double>>()
     var colors = mutableListOf<Color>()
     var axis = listOf<LocalDate>()
+    override var dataOffset = 0
 
     // Style
     var paddingTop = 20.0
@@ -49,6 +50,9 @@ class BarChart(
     var barWidth = 12.0
     var nGridlines = 6
     var backgroundColor = theme.cardBackgroundColor
+
+    override val dataColumnWidth: Double
+        get() = barWidth + barMargin * 2
 
     override fun draw(canvas: Canvas) {
         val width = canvas.getWidth()
@@ -75,8 +79,11 @@ class BarChart(
             barMargin
 
         fun drawColumn(s: Int, c: Int) {
-            val dataColumn = nColumns - c - 1
-            val value = if (dataColumn < series[s].size) series[s][dataColumn] else 0.0
+            val dataColumn = nColumns - c - 1 + dataOffset
+            val value = when {
+                dataColumn < 0 || dataColumn >= series[s].size -> 0.0
+                else -> series[s][dataColumn]
+            }
             if (value <= 0) return
             val perc = value / maxValue
             val barHeight = round(maxBarHeight * perc)
@@ -142,12 +149,12 @@ class BarChart(
             canvas.setTextAlign(TextAlign.CENTER)
             var prevMonth = -1
             var prevYear = -1
-            val isLargeInterval = (axis[0].distanceTo(axis[1]) > 300)
+            val isLargeInterval = axis.size < 2 || (axis[0].distanceTo(axis[1]) > 300)
 
             for (c in 0 until nColumns) {
                 val x = barGroupOffset(c)
-                val dataColumn = nColumns - c - 1
-                if (dataColumn >= axis.size) continue
+                val dataColumn = nColumns - c - 1 + dataOffset
+                if (dataColumn < 0 || dataColumn >= axis.size) continue
                 val date = axis[dataColumn]
                 if (isLargeInterval) {
                     canvas.drawText(

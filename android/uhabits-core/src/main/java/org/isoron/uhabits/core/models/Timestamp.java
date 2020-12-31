@@ -20,9 +20,11 @@
 package org.isoron.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
+import org.isoron.platform.time.LocalDate;
 import org.isoron.uhabits.core.utils.*;
 import org.jetbrains.annotations.*;
 
+import java.time.*;
 import java.util.*;
 
 import kotlin.*;
@@ -64,6 +66,13 @@ public final class Timestamp implements Comparable<Timestamp>
     public long getUnixTime()
     {
         return unixTime;
+    }
+
+    public LocalDate toLocalDate()
+    {
+        long millisSince2000 = unixTime - 946684800000L;
+        int daysSince2000 = (int) (millisSince2000 / 86400000);
+        return new LocalDate(daysSince2000);
     }
 
     /**

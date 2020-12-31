@@ -22,7 +22,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.isoron.platform.gui.AndroidCanvasTestView
+    <org.isoron.platform.gui.AndroidTestView
         android:layout_width="500dp"
         android:layout_height="400dp" />
 </LinearLayout>

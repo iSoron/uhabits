@@ -40,6 +40,7 @@ import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardPresente
 import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardViewModel
 import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardViewModel
+import org.isoron.uhabits.core.ui.views.Theme
 
 data class ShowHabitViewModel(
     val title: String = "",
@@ -60,6 +61,7 @@ class ShowHabitPresenter {
     fun present(
         habit: Habit,
         preferences: Preferences,
+        theme: Theme,
     ): ShowHabitViewModel {
         return ShowHabitViewModel(
             title = habit.name,
@@ -100,6 +102,7 @@ class ShowHabitPresenter {
                 firstWeekday = preferences.firstWeekday,
                 boolSpinnerPosition = preferences.barCardBoolSpinnerPosition,
                 numericalSpinnerPosition = preferences.barCardNumericalSpinnerPosition,
+                theme = theme,
             ),
         )
     }

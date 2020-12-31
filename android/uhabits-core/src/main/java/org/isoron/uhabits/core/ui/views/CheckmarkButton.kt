@@ -21,15 +21,15 @@ package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
-import org.isoron.platform.gui.Component
 import org.isoron.platform.gui.Font
 import org.isoron.platform.gui.FontAwesome
+import org.isoron.platform.gui.View
 
 class CheckmarkButton(
     private val value: Int,
     private val color: Color,
     private val theme: Theme
-) : Component {
+) : View {
     override fun draw(canvas: Canvas) {
         canvas.setFont(Font.FONT_AWESOME)
         canvas.setFontSize(theme.smallTextSize * 1.5)

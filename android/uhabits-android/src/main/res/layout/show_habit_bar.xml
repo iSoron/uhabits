@@ -52,8 +52,8 @@
             android:layout_alignParentTop="true"
             android:text="@string/history" />
 
-        <org.isoron.uhabits.activities.common.views.BarChart
-            android:id="@+id/barChart"
+        <org.isoron.platform.gui.AndroidDataView
+            android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:layout_below="@id/title"/>

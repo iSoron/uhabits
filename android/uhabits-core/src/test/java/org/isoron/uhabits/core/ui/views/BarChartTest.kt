@@ -17,19 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.components
+package org.isoron.uhabits.core.ui.views
 
 import kotlinx.coroutines.runBlocking
 import org.isoron.platform.gui.assertRenders
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.platform.time.LocalDate
-import org.isoron.uhabits.core.ui.views.BarChart
-import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Test
 import java.util.Locale
 
 class BarChartTest {
-    val base = "components/BarChart"
+    val base = "views/BarChart"
     val today = LocalDate(2015, 1, 25)
     val fmt = JavaLocalDateFormatter(Locale.US)
     val theme = LightTheme()
@@ -37,11 +35,20 @@ class BarChartTest {
     val axis = (0..100).map { today.minus(it) }
     val series1 = listOf(200.0, 0.0, 150.0, 137.0, 0.0, 0.0, 500.0, 30.0, 100.0, 0.0, 300.0)
 
-    @Test
-    fun testDraw() = runBlocking {
+    init {
         component.axis = axis
         component.series.add(series1)
         component.colors.add(theme.color(8))
+    }
+
+    @Test
+    fun testDraw() = runBlocking {
         assertRenders(300, 200, "$base/base.png", component)
+    }
+
+    @Test
+    fun testDrawWithOffset() = runBlocking {
+        component.dataOffset = 5
+        assertRenders(300, 200, "$base/offset.png", component)
     }
 }

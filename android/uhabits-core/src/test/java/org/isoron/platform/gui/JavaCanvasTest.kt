@@ -29,7 +29,7 @@ import java.awt.image.BufferedImage.TYPE_INT_ARGB
 class JavaCanvasTest {
     @Test
     fun run() = runBlocking {
-        assertRenders("components/CanvasTest.png", createCanvas(500, 400).apply { drawTestImage() })
+        assertRenders("views/CanvasTest.png", createCanvas(500, 400).apply { drawTestImage() })
     }
 }
 
@@ -69,9 +69,9 @@ suspend fun assertRenders(
     width: Int,
     height: Int,
     expectedPath: String,
-    component: Component,
+    view: View,
 ) {
     val canvas = createCanvas(width, height)
-    component.draw(canvas)
+    view.draw(canvas)
     assertRenders(expectedPath, canvas)
 }
