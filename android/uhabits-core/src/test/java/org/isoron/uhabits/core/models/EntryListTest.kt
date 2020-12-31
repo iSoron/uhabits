@@ -142,10 +142,8 @@ class EntryListTest {
             entries.add(Entry(reference.minus(offsets[it]), values[it]))
         }
 
-        val byMonth = entries.groupBy(
-            original = entries.getKnown(),
-            field = DateUtils.TruncateField.MONTH,
-            firstWeekday = Calendar.SATURDAY,
+        val byMonth = entries.getKnown().groupedSum(
+            truncateField = DateUtils.TruncateField.MONTH,
             isNumerical = true,
         )
         assertThat(byMonth.size, equalTo(17))
@@ -153,10 +151,8 @@ class EntryListTest {
         assertThat(byMonth[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 1988)))
         assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 1271)))
 
-        val byQuarter = entries.groupBy(
-            original = entries.getKnown(),
-            field = DateUtils.TruncateField.QUARTER,
-            firstWeekday = Calendar.SATURDAY,
+        val byQuarter = entries.getKnown().groupedSum(
+            truncateField = DateUtils.TruncateField.QUARTER,
             isNumerical = true,
         )
         assertThat(byQuarter.size, equalTo(6))
@@ -164,10 +160,8 @@ class EntryListTest {
         assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 3838)))
         assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 4975)))
 
-        val byYear = entries.groupBy(
-            original = entries.getKnown(),
-            field = DateUtils.TruncateField.YEAR,
-            firstWeekday = Calendar.SATURDAY,
+        val byYear = entries.getKnown().groupedSum(
+            truncateField = DateUtils.TruncateField.YEAR,
             isNumerical = true,
         )
         assertThat(byYear.size, equalTo(2))
@@ -192,10 +186,8 @@ class EntryListTest {
             entries.add(Entry(reference.minus(offsets[it]), YES_MANUAL))
         }
 
-        val byMonth = entries.groupBy(
-            original = entries.getKnown(),
-            field = DateUtils.TruncateField.MONTH,
-            firstWeekday = Calendar.SATURDAY,
+        val byMonth = entries.getKnown().groupedSum(
+            truncateField = DateUtils.TruncateField.MONTH,
             isNumerical = false,
         )
         assertThat(byMonth.size, equalTo(17))
@@ -203,10 +195,8 @@ class EntryListTest {
         assertThat(byMonth[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 7_000)))
         assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 6_000)))
 
-        val byQuarter = entries.groupBy(
-            original = entries.getKnown(),
-            field = DateUtils.TruncateField.QUARTER,
-            firstWeekday = Calendar.SATURDAY,
+        val byQuarter = entries.getKnown().groupedSum(
+            truncateField = DateUtils.TruncateField.QUARTER,
             isNumerical = false,
         )
         assertThat(byQuarter.size, equalTo(6))
@@ -214,10 +204,8 @@ class EntryListTest {
         assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 17_000)))
         assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 20_000)))
 
-        val byYear = entries.groupBy(
-            original = entries.getKnown(),
-            field = DateUtils.TruncateField.YEAR,
-            firstWeekday = Calendar.SATURDAY,
+        val byYear = entries.getKnown().groupedSum(
+            truncateField = DateUtils.TruncateField.YEAR,
             isNumerical = false,
         )
         assertThat(byYear.size, equalTo(2))

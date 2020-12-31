@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
-import org.isoron.uhabits.core.utils.DateUtils
 
 class SQLiteEntryList(database: Database) : EntryList() {
     val repository = Repository(EntryRecord::class.java, database)
@@ -77,16 +76,6 @@ class SQLiteEntryList(database: Database) : EntryList() {
     override fun getKnown(): List<Entry> {
         loadRecords()
         return super.getKnown()
-    }
-
-    override fun groupBy(
-        original: List<Entry>,
-        field: DateUtils.TruncateField,
-        firstWeekday: Int,
-        isNumerical: Boolean
-    ): List<Entry> {
-        loadRecords()
-        return super.groupBy(original, field, firstWeekday, isNumerical)
     }
 
     override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean) {

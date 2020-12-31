@@ -28,6 +28,7 @@ import org.isoron.uhabits.activities.habits.show.views.ScoreCardPresenter.Compan
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.databinding.ShowHabitBarBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
@@ -61,20 +62,33 @@ class BarCard(context: Context, attrs: AttributeSet) : LinearLayout(context, att
 
         binding.numericalSpinner.onItemSelectedListener = null
         binding.numericalSpinner.setSelection(data.numericalSpinnerPosition)
-        binding.numericalSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                onNumericalSpinnerPosition(position)
+        binding.numericalSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    onNumericalSpinnerPosition(position)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
 
         binding.boolSpinner.onItemSelectedListener = null
         binding.boolSpinner.setSelection(data.boolSpinnerPosition)
         binding.boolSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 onBoolSpinnerPosition(position)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
@@ -99,18 +113,11 @@ class BarCardPresenter(
         }
         val today = DateUtils.getToday()
         val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-        val entries = if (bucketSize == 1) {
-            habit.computedEntries.getByInterval(oldest, today).map {
-                if (it.value < 0) Entry(it.timestamp, 0) else it
-            }
-        } else {
-            habit.computedEntries.groupBy(
-                original = habit.computedEntries.getByInterval(oldest, today),
-                field = getTruncateField(bucketSize),
-                firstWeekday = firstWeekday,
-                isNumerical = habit.isNumerical,
-            )
-        }
+        val entries = habit.computedEntries.getByInterval(oldest, today).groupedSum(
+            truncateField = getTruncateField(bucketSize),
+            firstWeekday = firstWeekday,
+            isNumerical = habit.isNumerical,
+        )
         return BarCardViewModel(
             entries = entries,
             bucketSize = bucketSize,

@@ -28,7 +28,13 @@ import kotlinx.coroutines.invoke
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.DAY
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.MONTH
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.QUARTER
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.WEEK_NUMBER
+import org.isoron.uhabits.core.utils.DateUtils.TruncateField.YEAR
 import org.isoron.uhabits.databinding.ShowHabitTargetBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
 import java.util.ArrayList
@@ -61,12 +67,34 @@ class TargetCardPresenter(
 ) {
     suspend fun present(): TargetCardViewModel = Dispatchers.IO {
         val today = DateUtils.getTodayWithOffset()
-        val entries = habit.computedEntries
-        val valueToday = entries.get(today).value / 1e3
-        val valueThisWeek = entries.getThisWeekValue(firstWeekday, habit.isNumerical) / 1e3
-        val valueThisMonth = entries.getThisMonthValue(habit.isNumerical) / 1e3
-        val valueThisQuarter = entries.getThisQuarterValue(habit.isNumerical) / 1e3
-        val valueThisYear = entries.getThisYearValue(habit.isNumerical) / 1e3
+        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+        val entries = habit.computedEntries.getByInterval(oldest, today)
+
+        val valueToday = entries.groupedSum(
+            truncateField = DAY,
+            isNumerical = habit.isNumerical
+        ).firstOrNull()?.value ?: 0
+
+        val valueThisWeek = entries.groupedSum(
+            truncateField = WEEK_NUMBER,
+            firstWeekday = firstWeekday,
+            isNumerical = habit.isNumerical
+        ).firstOrNull()?.value ?: 0
+
+        val valueThisMonth = entries.groupedSum(
+            truncateField = MONTH,
+            isNumerical = habit.isNumerical
+        ).firstOrNull()?.value ?: 0
+
+        val valueThisQuarter = entries.groupedSum(
+            truncateField = QUARTER,
+            isNumerical = habit.isNumerical
+        ).firstOrNull()?.value ?: 0
+
+        val valueThisYear = entries.groupedSum(
+            truncateField = YEAR,
+            isNumerical = habit.isNumerical
+        ).firstOrNull()?.value ?: 0
 
         val cal = DateUtils.getStartOfTodayCalendarWithOffset()
         val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -80,11 +108,11 @@ class TargetCardPresenter(
         val targetThisYear = targetToday * daysInYear
 
         val values = ArrayList<Double>()
-        if (habit.frequency.denominator <= 1) values.add(valueToday)
-        if (habit.frequency.denominator <= 7) values.add(valueThisWeek)
-        values.add(valueThisMonth)
-        values.add(valueThisQuarter)
-        values.add(valueThisYear)
+        if (habit.frequency.denominator <= 1) values.add(valueToday / 1e3)
+        if (habit.frequency.denominator <= 7) values.add(valueThisWeek / 1e3)
+        values.add(valueThisMonth / 1e3)
+        values.add(valueThisQuarter / 1e3)
+        values.add(valueThisYear / 1e3)
 
         val targets = ArrayList<Double>()
         if (habit.frequency.denominator <= 1) targets.add(targetToday)

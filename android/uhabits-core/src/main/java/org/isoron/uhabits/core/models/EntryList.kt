@@ -28,6 +28,7 @@ import java.util.ArrayList
 import java.util.Calendar
 import javax.annotation.concurrent.ThreadSafe
 import kotlin.collections.set
+import kotlin.math.max
 import kotlin.math.min
 
 @ThreadSafe
@@ -77,45 +78,6 @@ open class EntryList {
     @Synchronized
     open fun getKnown(): List<Entry> {
         return entriesByTimestamp.values.sortedBy { it.timestamp }.reversed()
-    }
-
-    /**
-     * Truncates the timestamps of all known entries, then aggregates their values. This function
-     * is used to generate bar plots where each bar shows the number of repetitions in a given week,
-     * month or year.
-     *
-     * For boolean habits, the value of the aggregated entry equals to the number of YES_MANUAL
-     * entries. For numerical habits, the value is the total sum. The field [firstWeekday] is only
-     * relevant when grouping by week.
-     */
-    @Synchronized
-    open fun groupBy(
-        original: List<Entry>,
-        field: DateUtils.TruncateField,
-        firstWeekday: Int,
-        isNumerical: Boolean,
-    ): List<Entry> {
-        val truncated = original.map {
-            Entry(it.timestamp.truncate(field, firstWeekday), it.value)
-        }
-        val timestamps = mutableListOf<Timestamp>()
-        val values = mutableListOf<Int>()
-        for (i in truncated.indices) {
-            if (i == 0 || timestamps.last() != truncated[i].timestamp) {
-                timestamps.add(truncated[i].timestamp)
-                values.add(0)
-            }
-            if (isNumerical) {
-                if (truncated[i].value > 0) {
-                    values[values.lastIndex] += truncated[i].value
-                }
-            } else {
-                if (truncated[i].value == YES_MANUAL) {
-                    values[values.lastIndex] += 1000
-                }
-            }
-        }
-        return timestamps.indices.map { Entry(timestamps[it], values[it]) }
     }
 
     /**
@@ -187,55 +149,6 @@ open class EntryList {
             }
         }
         return map
-    }
-
-    @Deprecated("")
-    @Synchronized
-    open fun getThisWeekValue(firstWeekday: Int, isNumerical: Boolean): Int {
-        return getThisIntervalValue(
-            truncateField = DateUtils.TruncateField.WEEK_NUMBER,
-            firstWeekday = firstWeekday,
-            isNumerical = isNumerical
-        )
-    }
-
-    @Deprecated("")
-    @Synchronized
-    open fun getThisMonthValue(isNumerical: Boolean): Int {
-        return getThisIntervalValue(
-            truncateField = DateUtils.TruncateField.MONTH,
-            firstWeekday = Calendar.SATURDAY,
-            isNumerical = isNumerical
-        )
-    }
-
-    @Deprecated("")
-    @Synchronized
-    open fun getThisQuarterValue(isNumerical: Boolean): Int {
-        return getThisIntervalValue(
-            truncateField = DateUtils.TruncateField.QUARTER,
-            firstWeekday = Calendar.SATURDAY,
-            isNumerical = isNumerical
-        )
-    }
-
-    @Deprecated("")
-    @Synchronized
-    open fun getThisYearValue(isNumerical: Boolean): Int {
-        return getThisIntervalValue(
-            truncateField = DateUtils.TruncateField.YEAR,
-            firstWeekday = Calendar.SATURDAY,
-            isNumerical = isNumerical
-        )
-    }
-
-    private fun getThisIntervalValue(
-        truncateField: DateUtils.TruncateField,
-        firstWeekday: Int,
-        isNumerical: Boolean,
-    ): Int {
-        val groups: List<Entry> = groupBy(getKnown(), truncateField, firstWeekday, isNumerical)
-        return if (groups.isEmpty()) 0 else groups[0].value
     }
 
     data class Interval(val begin: Timestamp, val center: Timestamp, val end: Timestamp) {
@@ -342,5 +255,43 @@ open class EntryList {
             }
             return intervals
         }
+    }
+}
+
+/**
+ * Given a list of entries, truncates the timestamp of each entry (according to the field given),
+ * groups the entries according to this truncated timestamp, then creates a new entry (t,v) for
+ * each group, where t is the truncated timestamp and v is the sum of the values of all entries in
+ * the group.
+ *
+ * For numerical habits, non-positive entry values are converted to zero. For boolean habits, each
+ * YES_MANUAL value is converted to 1000 and all other values are converted to zero.
+ *
+ * The returned list is sorted by timestamp, with the newest entry coming first and the oldest entry
+ * coming last. If the original list has gaps in it (for example, weeks or months without any
+ * entries), then the list produced by this method will also have gaps.
+ *
+ * The argument [firstWeekday] is only relevant when truncating by week.
+ */
+fun List<Entry>.groupedSum(
+    truncateField: DateUtils.TruncateField,
+    firstWeekday: Int = Calendar.SATURDAY,
+    isNumerical: Boolean,
+): List<Entry> {
+    return this.map { (timestamp, value) ->
+        if (isNumerical) {
+            Entry(timestamp, max(0, value))
+        } else {
+            Entry(timestamp, if (value == YES_MANUAL) 1000 else 0)
+        }
+    }.groupBy { entry ->
+        entry.timestamp.truncate(
+            truncateField,
+            firstWeekday,
+        )
+    }.entries.map { (timestamp, entries) ->
+        Entry(timestamp, entries.sumOf { it.value })
+    }.sortedBy { (timestamp, _) ->
+        - timestamp.unixTime
     }
 }
