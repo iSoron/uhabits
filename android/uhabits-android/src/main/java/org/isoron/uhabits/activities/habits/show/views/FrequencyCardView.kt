@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,33 +16,25 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.isoron.uhabits.activities.habits.show.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.databinding.ShowHabitNotesBinding
+import org.isoron.uhabits.core.ui.screens.habits.show.views.FrequencyCardViewModel
+import org.isoron.uhabits.databinding.ShowHabitFrequencyBinding
+import org.isoron.uhabits.utils.toThemedAndroidColor
 
-data class NotesCardViewModel(val description: String)
+class FrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    private val binding = ShowHabitNotesBinding.inflate(LayoutInflater.from(context), this)
-    fun update(data: NotesCardViewModel) {
-        if (data.description.isEmpty()) {
-            visibility = GONE
-        } else {
-            visibility = VISIBLE
-            binding.habitNotes.text = data.description
-        }
-        invalidate()
+    private var binding = ShowHabitFrequencyBinding.inflate(LayoutInflater.from(context), this)
+
+    fun update(data: FrequencyCardViewModel) {
+        val androidColor = data.color.toThemedAndroidColor(context)
+        binding.frequencyChart.setFrequency(data.frequency)
+        binding.frequencyChart.setFirstWeekday(data.firstWeekday)
+        binding.title.setTextColor(androidColor)
+        binding.frequencyChart.setColor(androidColor)
     }
-}
-
-class NotesCardPresenter(val habit: Habit) {
-    fun present() = NotesCardViewModel(
-        description = habit.description,
-    )
 }

@@ -23,8 +23,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.view.View
 import org.isoron.uhabits.activities.common.views.HistoryChart
-import org.isoron.uhabits.activities.habits.show.views.HistoryCardPresenter
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardPresenter
 import org.isoron.uhabits.utils.toThemedAndroidColor
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
@@ -43,11 +43,11 @@ class HistoryWidget(
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
-        val model = HistoryCardPresenter(
+        val model = HistoryCardPresenter().present(
             habit = habit,
             isSkipEnabled = prefs.isSkipEnabled,
             firstWeekday = prefs.firstWeekday,
-        ).present()
+        )
         (widgetView.dataView as HistoryChart).apply {
             setFirstWeekday(model.firstWeekday)
             setSkipEnabled(model.isSkipEnabled)

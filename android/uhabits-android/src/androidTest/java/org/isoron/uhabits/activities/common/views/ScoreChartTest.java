@@ -23,8 +23,8 @@ import androidx.test.ext.junit.runners.*;
 import androidx.test.filters.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.habits.show.views.*;
 import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.ui.screens.habits.show.views.*;
 import org.isoron.uhabits.utils.*;
 import org.junit.*;
 import org.junit.runner.*;
@@ -49,8 +49,8 @@ public class ScoreChartTest extends BaseViewTest
 
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
-        presenter = new ScoreCardPresenter(habit, prefs.getFirstWeekday());
-        ScoreCardViewModel model = presenter.present(0);
+        presenter = new ScoreCardPresenter();
+        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekday(), 0);
 
         view = new ScoreChart(targetContext);
         view.setScores(model.getScores());
@@ -84,7 +84,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withMonthlyBucket() throws Throwable
     {
-        ScoreCardViewModel model = presenter.present(2);
+        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekday(), 2);
         view.setScores(model.getScores());
         view.setBucketSize(model.getBucketSize());
         view.invalidate();
@@ -102,7 +102,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withYearlyBucket() throws Throwable
     {
-        ScoreCardViewModel model = presenter.present(4);
+        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekday(), 4);
         view.setScores(model.getScores());
         view.setBucketSize(model.getBucketSize());
         view.invalidate();

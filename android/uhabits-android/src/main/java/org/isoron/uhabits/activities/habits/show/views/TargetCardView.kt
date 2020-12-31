@@ -19,44 +19,34 @@
 package org.isoron.uhabits.activities.habits.show.views
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.models.Timestamp
-import org.isoron.uhabits.databinding.ShowHabitFrequencyBinding
+import org.isoron.uhabits.R
+import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardViewModel
+import org.isoron.uhabits.databinding.ShowHabitTargetBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
-import java.util.HashMap
 
-data class FrequencyCardViewModel(
-    val frequency: HashMap<Timestamp, Array<Int>>,
-    val firstWeekday: Int,
-    val color: PaletteColor,
-)
-
-class FrequencyCard(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-
-    private var binding = ShowHabitFrequencyBinding.inflate(LayoutInflater.from(context), this)
-
-    fun update(data: FrequencyCardViewModel) {
+class TargetCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    private val binding = ShowHabitTargetBinding.inflate(LayoutInflater.from(context), this)
+    fun update(data: TargetCardViewModel) {
         val androidColor = data.color.toThemedAndroidColor(context)
-        binding.frequencyChart.setFrequency(data.frequency)
-        binding.frequencyChart.setFirstWeekday(data.firstWeekday)
+        binding.targetChart.setValues(data.values)
+        binding.targetChart.setTargets(data.targets)
+        binding.targetChart.setLabels(data.intervals.map { intervalToLabel(resources, it) })
         binding.title.setTextColor(androidColor)
-        binding.frequencyChart.setColor(androidColor)
+        binding.targetChart.setColor(androidColor)
+        postInvalidate()
     }
-}
 
-class FrequencyCardPresenter(
-    val habit: Habit,
-    val firstWeekday: Int,
-) {
-    fun present() = FrequencyCardViewModel(
-        color = habit.color,
-        frequency = habit.originalEntries.computeWeekdayFrequency(
-            isNumerical = habit.isNumerical
-        ),
-        firstWeekday = firstWeekday,
-    )
+    companion object {
+        fun intervalToLabel(resources: Resources, interval: Int) = when (interval) {
+            1 -> resources.getString(R.string.today)
+            7 -> resources.getString(R.string.week)
+            30 -> resources.getString(R.string.month)
+            91 -> resources.getString(R.string.quarter)
+            else -> resources.getString(R.string.year)
+        }
+    }
 }

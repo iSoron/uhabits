@@ -22,18 +22,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.invoke
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.models.Streak
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardViewModel
 import org.isoron.uhabits.databinding.ShowHabitStreakBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
-
-data class StreakCardViewModel(
-    val color: PaletteColor,
-    val bestStreaks: List<Streak>
-)
 
 class StreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = ShowHabitStreakBinding.inflate(LayoutInflater.from(context), this)
@@ -43,14 +34,5 @@ class StreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(conte
         binding.streakChart.setColor(color)
         binding.streakChart.setStreaks(data.bestStreaks)
         postInvalidate()
-    }
-}
-
-class StreakCartPresenter(val habit: Habit) {
-    suspend fun present(): StreakCardViewModel = Dispatchers.IO {
-        return@IO StreakCardViewModel(
-            color = habit.color,
-            bestStreaks = habit.streaks.getBest(10),
-        )
     }
 }

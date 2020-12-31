@@ -25,8 +25,9 @@ import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import kotlinx.coroutines.runBlocking
 import org.isoron.uhabits.activities.common.views.TargetChart
-import org.isoron.uhabits.activities.habits.show.views.TargetCardPresenter
+import org.isoron.uhabits.activities.habits.show.views.TargetCardView.Companion.intervalToLabel
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardPresenter
 import org.isoron.uhabits.utils.toThemedAndroidColor
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
@@ -44,11 +45,11 @@ class TargetWidget(
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         val chart = (widgetView.dataView as TargetChart)
-        val presenter = TargetCardPresenter(habit, prefs.firstWeekday, context.resources)
-        val data = presenter.present()
+        val presenter = TargetCardPresenter()
+        val data = presenter.present(habit, prefs.firstWeekday)
         chart.setColor(data.color.toThemedAndroidColor(context))
         chart.setTargets(data.targets)
-        chart.setLabels(data.labels)
+        chart.setLabels(data.intervals.map { intervalToLabel(context.resources, it) })
         chart.setValues(data.values)
     }
 

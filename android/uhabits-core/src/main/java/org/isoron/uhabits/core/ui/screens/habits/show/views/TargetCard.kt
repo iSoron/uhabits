@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+ * Copyright (C) 2016-2020 Álinson Santos Xavier <isoron@gmail.com>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -16,27 +16,13 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.activities.habits.show.views
 
-import android.content.Context
-import android.content.res.Resources
-import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.invoke
-import org.isoron.uhabits.R
+package org.isoron.uhabits.core.ui.screens.habits.show.views
+
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.utils.DateUtils
-import org.isoron.uhabits.core.utils.DateUtils.TruncateField.DAY
-import org.isoron.uhabits.core.utils.DateUtils.TruncateField.MONTH
-import org.isoron.uhabits.core.utils.DateUtils.TruncateField.QUARTER
-import org.isoron.uhabits.core.utils.DateUtils.TruncateField.WEEK_NUMBER
-import org.isoron.uhabits.core.utils.DateUtils.TruncateField.YEAR
-import org.isoron.uhabits.databinding.ShowHabitTargetBinding
-import org.isoron.uhabits.utils.toThemedAndroidColor
 import java.util.ArrayList
 import java.util.Calendar
 
@@ -44,55 +30,41 @@ data class TargetCardViewModel(
     val color: PaletteColor,
     val values: List<Double> = listOf(),
     val targets: List<Double> = listOf(),
-    val labels: List<String> = listOf(),
+    val intervals: List<Int> = listOf(),
 )
 
-class TargetCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    private val binding = ShowHabitTargetBinding.inflate(LayoutInflater.from(context), this)
-    fun update(data: TargetCardViewModel) {
-        val androidColor = data.color.toThemedAndroidColor(context)
-        binding.targetChart.setValues(data.values)
-        binding.targetChart.setTargets(data.targets)
-        binding.targetChart.setLabels(data.labels)
-        binding.title.setTextColor(androidColor)
-        binding.targetChart.setColor(androidColor)
-        postInvalidate()
-    }
-}
-
-class TargetCardPresenter(
-    val habit: Habit,
-    val firstWeekday: Int,
-    val resources: Resources,
-) {
-    suspend fun present(): TargetCardViewModel = Dispatchers.IO {
+class TargetCardPresenter {
+    fun present(
+        habit: Habit,
+        firstWeekday: Int,
+    ): TargetCardViewModel {
         val today = DateUtils.getTodayWithOffset()
         val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
         val entries = habit.computedEntries.getByInterval(oldest, today)
 
         val valueToday = entries.groupedSum(
-            truncateField = DAY,
+            truncateField = DateUtils.TruncateField.DAY,
             isNumerical = habit.isNumerical
         ).firstOrNull()?.value ?: 0
 
         val valueThisWeek = entries.groupedSum(
-            truncateField = WEEK_NUMBER,
+            truncateField = DateUtils.TruncateField.WEEK_NUMBER,
             firstWeekday = firstWeekday,
             isNumerical = habit.isNumerical
         ).firstOrNull()?.value ?: 0
 
         val valueThisMonth = entries.groupedSum(
-            truncateField = MONTH,
+            truncateField = DateUtils.TruncateField.MONTH,
             isNumerical = habit.isNumerical
         ).firstOrNull()?.value ?: 0
 
         val valueThisQuarter = entries.groupedSum(
-            truncateField = QUARTER,
+            truncateField = DateUtils.TruncateField.QUARTER,
             isNumerical = habit.isNumerical
         ).firstOrNull()?.value ?: 0
 
         val valueThisYear = entries.groupedSum(
-            truncateField = YEAR,
+            truncateField = DateUtils.TruncateField.YEAR,
             isNumerical = habit.isNumerical
         ).firstOrNull()?.value ?: 0
 
@@ -121,18 +93,18 @@ class TargetCardPresenter(
         targets.add(targetThisQuarter)
         targets.add(targetThisYear)
 
-        val labels = ArrayList<String>()
-        if (habit.frequency.denominator <= 1) labels.add(resources.getString(R.string.today))
-        if (habit.frequency.denominator <= 7) labels.add(resources.getString(R.string.week))
-        labels.add(resources.getString(R.string.month))
-        labels.add(resources.getString(R.string.quarter))
-        labels.add(resources.getString(R.string.year))
+        val intervals = ArrayList<Int>()
+        if (habit.frequency.denominator <= 1) intervals.add(1)
+        if (habit.frequency.denominator <= 7) intervals.add(7)
+        intervals.add(30)
+        intervals.add(91)
+        intervals.add(365)
 
-        return@IO TargetCardViewModel(
+        return TargetCardViewModel(
             color = habit.color,
             values = values,
-            labels = labels,
             targets = targets,
+            intervals = intervals,
         )
     }
 }

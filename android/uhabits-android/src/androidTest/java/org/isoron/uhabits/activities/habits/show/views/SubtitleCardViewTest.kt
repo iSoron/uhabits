@@ -23,7 +23,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Reminder
+import org.isoron.uhabits.core.models.WeekdayList.EVERY_DAY
+import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,11 +48,12 @@ class SubtitleCardViewTest : BaseViewTest() {
         view.update(
             SubtitleCardViewModel(
                 color = PaletteColor(7),
-                frequencyText = "3 times in 7 days",
+                frequency = Frequency(3, 7),
                 isNumerical = false,
                 question = "Did you meditate this morning?",
-                reminderText = "8:30 AM",
-                targetText = "",
+                reminder = Reminder(8, 30, EVERY_DAY),
+                unit = "",
+                targetValue = 0.0,
             )
         )
         measureView(view, 800f, 200f)

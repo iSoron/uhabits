@@ -24,15 +24,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class HistoryCardTest : BaseViewTest() {
-    private lateinit var view: HistoryCard
-    val PATH = "habits/show/HistoryCard/"
+class ScoreCardViewTest : BaseViewTest() {
+    val PATH = "habits/show/ScoreCard/"
+    private lateinit var view: ScoreCardView
 
     @Before
     override fun setUp() {
@@ -41,13 +42,13 @@ class HistoryCardTest : BaseViewTest() {
         view = LayoutInflater
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
-            .findViewById<View>(R.id.historyCard) as HistoryCard
+            .findViewById<View>(R.id.scoreCard) as ScoreCardView
         view.update(
-            HistoryCardPresenter(
+            ScoreCardPresenter().present(
                 habit = habit,
-                firstWeekday = 1,
-                isSkipEnabled = false
-            ).present()
+                firstWeekday = 0,
+                spinnerPosition = 0,
+            )
         )
         measureView(view, 800f, 600f)
     }

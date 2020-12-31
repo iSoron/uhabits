@@ -28,22 +28,12 @@ import android.widget.LinearLayout
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.views.toShortString
 import org.isoron.uhabits.core.models.Frequency
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardViewModel
 import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.formatTime
 import org.isoron.uhabits.utils.toThemedAndroidColor
 import java.util.Locale
-
-data class SubtitleCardViewModel(
-    val color: PaletteColor,
-    val frequencyText: String,
-    val isNumerical: Boolean,
-    val question: String,
-    val reminderText: String,
-    val targetText: String,
-)
 
 class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -56,13 +46,19 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         binding.reminderIcon.typeface = fontAwesome
     }
 
+    @SuppressLint("SetTextI18n")
     fun update(data: SubtitleCardViewModel) {
         val color = data.color.toThemedAndroidColor(context)
-        binding.frequencyLabel.text = data.frequencyText
+        val reminder = data.reminder
+        binding.frequencyLabel.text = data.frequency.format(resources)
         binding.questionLabel.setTextColor(color)
         binding.questionLabel.text = data.question
-        binding.reminderLabel.text = data.reminderText
-        binding.targetText.text = data.targetText
+        binding.reminderLabel.text = if (reminder != null) {
+            formatTime(context, reminder.hour, reminder.minute)
+        } else {
+            resources.getString(R.string.reminder_off)
+        }
+        binding.targetText.text = "${data.targetValue.toShortString()} ${data.unit}"
 
         binding.questionLabel.visibility = View.VISIBLE
         binding.targetIcon.visibility = View.VISIBLE
@@ -77,32 +73,9 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
 
         postInvalidate()
     }
-}
-
-class SubtitleCardPresenter(
-    val habit: Habit,
-    val context: Context,
-) {
-    val resources: Resources = context.resources
-
-    fun present(): SubtitleCardViewModel {
-        val reminderText = if (habit.hasReminder()) {
-            formatTime(context, habit.reminder!!.hour, habit.reminder!!.minute)!!
-        } else {
-            resources.getString(R.string.reminder_off)
-        }
-        return SubtitleCardViewModel(
-            color = habit.color,
-            frequencyText = habit.frequency.format(),
-            isNumerical = habit.isNumerical,
-            question = habit.question,
-            reminderText = reminderText,
-            targetText = "${habit.targetValue.toShortString()} ${habit.unit}",
-        )
-    }
 
     @SuppressLint("StringFormatMatches")
-    private fun Frequency.format(): String {
+    private fun Frequency.format(resources: Resources): String {
         val num = this.numerator
         val den = this.denominator
         if (num == den) {

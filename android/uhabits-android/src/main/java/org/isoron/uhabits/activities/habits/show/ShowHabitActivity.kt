@@ -34,16 +34,22 @@ import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitBehavior
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
 import org.isoron.uhabits.intents.IntentFactory
 
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
+    private val presenter = ShowHabitPresenter()
+
     private lateinit var commandRunner: CommandRunner
     private lateinit var menu: ShowHabitMenu
-    private lateinit var presenter: ShowHabitPresenter
     private lateinit var view: ShowHabitView
+    private lateinit var habit: Habit
+    private lateinit var preferences: Preferences
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
@@ -52,17 +58,12 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
         val appComponent = (applicationContext as HabitsApplication).component
         val habitList = appComponent.habitList
-        val habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
-        val preferences = appComponent.preferences
+        habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
+        preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
         AndroidThemeSwitcher(this, preferences).apply()
 
         view = ShowHabitView(this)
-        presenter = ShowHabitPresenter(
-            context = this,
-            habit = habit,
-            preferences = appComponent.preferences,
-        )
 
         val screen = ShowHabitScreen(
             activity = this,
@@ -129,7 +130,12 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
     fun refresh() {
         scope.launch {
-            view.update(presenter.present())
+            view.update(
+                presenter.present(
+                    habit = habit,
+                    preferences = preferences,
+                )
+            )
         }
     }
 }
