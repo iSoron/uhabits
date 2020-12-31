@@ -47,11 +47,14 @@ public class BaseViewTest extends BaseAndroidTest
     protected void assertRenders(View view, String expectedImagePath)
         throws IOException
     {
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-        expectedImagePath = "views/" + expectedImagePath;
         Bitmap actual = renderView(view);
         if(actual == null) throw new IllegalStateException("actual is null");
+        assertRenders(actual, expectedImagePath);
+    }
 
+    protected void assertRenders(Bitmap actual, String expectedImagePath) throws IOException {
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        expectedImagePath = "views/" + expectedImagePath;
         try
         {
             Bitmap expected = getBitmapFromAssets(expectedImagePath);
@@ -145,7 +148,7 @@ public class BaseViewTest extends BaseAndroidTest
             }
         }
 
-        distance /= (0xff * 16) * b1.getWidth() * b1.getHeight();
+        distance /= 255.0 * 16 * b1.getWidth() * b1.getHeight();
         return distance;
     }
 
