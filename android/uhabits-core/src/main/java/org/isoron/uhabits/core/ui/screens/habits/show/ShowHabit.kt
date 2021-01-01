@@ -78,7 +78,7 @@ class ShowHabitPresenter {
             ),
             target = TargetCardPresenter().present(
                 habit = habit,
-                firstWeekday = preferences.firstWeekday,
+                firstWeekday = preferences.firstWeekdayInt,
             ),
             streaks = StreakCartPresenter().present(
                 habit = habit,
@@ -86,11 +86,11 @@ class ShowHabitPresenter {
             scores = ScoreCardPresenter().present(
                 spinnerPosition = preferences.scoreCardSpinnerPosition,
                 habit = habit,
-                firstWeekday = preferences.firstWeekday,
+                firstWeekday = preferences.firstWeekdayInt,
             ),
             frequency = FrequencyCardPresenter().present(
                 habit = habit,
-                firstWeekday = preferences.firstWeekday,
+                firstWeekday = preferences.firstWeekdayInt,
             ),
             history = HistoryCardPresenter().present(
                 habit = habit,
@@ -100,7 +100,7 @@ class ShowHabitPresenter {
             ),
             bar = BarCardPresenter().present(
                 habit = habit,
-                firstWeekday = preferences.firstWeekday,
+                firstWeekday = preferences.firstWeekdayInt,
                 boolSpinnerPosition = preferences.barCardBoolSpinnerPosition,
                 numericalSpinnerPosition = preferences.barCardNumericalSpinnerPosition,
                 theme = theme,

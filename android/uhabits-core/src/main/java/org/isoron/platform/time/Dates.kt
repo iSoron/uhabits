@@ -23,7 +23,7 @@ import org.isoron.uhabits.core.models.Timestamp
 import kotlin.math.abs
 import kotlin.math.ceil
 
-enum class DayOfWeek(val index: Int) {
+enum class DayOfWeek(val daysSinceSunday: Int) {
     SUNDAY(0),
     MONDAY(1),
     TUESDAY(2),

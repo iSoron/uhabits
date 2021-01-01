@@ -35,8 +35,7 @@ import java.util.Locale
 class HistoryWidget(
     context: Context,
     id: Int,
-    private val habit: Habit,
-    private val firstWeekday: Int
+    private val habit: Habit
 ) : BaseWidget(context, id) {
 
     override fun getOnClickPendingIntent(context: Context): PendingIntent {
@@ -66,7 +65,9 @@ class HistoryWidget(
                     today = DateUtils.getTodayWithOffset().toLocalDate(),
                     paletteColor = habit.color,
                     theme = WidgetTheme(),
-                    dateFormatter = JavaLocalDateFormatter(Locale.getDefault())
+                    dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
+                    firstWeekday = prefs.firstWeekday,
+                    series = listOf(),
                 )
             }
         ).apply {

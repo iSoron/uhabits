@@ -28,7 +28,7 @@ class FrequencyWidgetProvider : BaseWidgetProvider() {
             context,
             id,
             habits[0],
-            preferences.firstWeekday
+            preferences.firstWeekdayInt
         )
         else return StackWidget(context, id, StackWidgetType.FREQUENCY, habits)
     }

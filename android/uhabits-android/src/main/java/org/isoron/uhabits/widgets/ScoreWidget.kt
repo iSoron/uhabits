@@ -40,7 +40,7 @@ class ScoreWidget(
         val presenter = ScoreCardPresenter()
         val viewModel = presenter.present(
             habit = habit,
-            firstWeekday = prefs.firstWeekday,
+            firstWeekday = prefs.firstWeekdayInt,
             spinnerPosition = prefs.scoreCardSpinnerPosition
         )
         val widgetView = view as GraphWidgetView

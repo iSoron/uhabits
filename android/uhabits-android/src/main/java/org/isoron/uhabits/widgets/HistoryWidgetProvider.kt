@@ -26,8 +26,7 @@ class HistoryWidgetProvider : BaseWidgetProvider() {
         if (habits.size == 1) return HistoryWidget(
             context,
             id,
-            habits[0],
-            preferences.firstWeekday
+            habits[0]
         )
         else return StackWidget(context, id, StackWidgetType.HISTORY, habits)
     }

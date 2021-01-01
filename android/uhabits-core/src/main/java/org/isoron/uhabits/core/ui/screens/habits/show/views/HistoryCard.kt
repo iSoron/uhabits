@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
+import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
@@ -33,7 +34,7 @@ import kotlin.math.max
 
 data class HistoryCardViewModel(
     val color: PaletteColor,
-    val firstWeekday: Int,
+    val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
     val theme: Theme,
     val today: LocalDate,
@@ -42,7 +43,7 @@ data class HistoryCardViewModel(
 class HistoryCardPresenter {
     fun present(
         habit: Habit,
-        firstWeekday: Int,
+        firstWeekday: DayOfWeek,
         isSkipEnabled: Boolean,
         theme: Theme,
     ): HistoryCardViewModel {

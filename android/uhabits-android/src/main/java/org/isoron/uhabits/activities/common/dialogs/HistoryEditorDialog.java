@@ -22,12 +22,12 @@ package org.isoron.uhabits.activities.common.dialogs;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.util.*;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.*;
-import android.util.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.commands.*;

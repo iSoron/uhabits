@@ -177,7 +177,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
     private void updateWeekdayPreference()
     {
         ListPreference weekdayPref = (ListPreference) findPreference("pref_first_weekday");
-        int currentFirstWeekday = prefs.getFirstWeekday();
+        int currentFirstWeekday = prefs.getFirstWeekday().getDaysSinceSunday() + 1;
         String[] dayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY);
         String[] dayValues = {"7", "1", "2", "3", "4", "5", "6"};
         weekdayPref.setEntries(dayNames);

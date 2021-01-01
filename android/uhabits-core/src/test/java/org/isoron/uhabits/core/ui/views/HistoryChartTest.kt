@@ -21,6 +21,8 @@ package org.isoron.uhabits.components
 
 import kotlinx.coroutines.runBlocking
 import org.isoron.platform.gui.assertRenders
+import org.isoron.platform.time.DayOfWeek
+import org.isoron.platform.time.DayOfWeek.SUNDAY
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.models.PaletteColor
@@ -37,14 +39,13 @@ import java.util.Locale
 
 class HistoryChartTest {
     val base = "views/HistoryChart"
-    val fmt = JavaLocalDateFormatter(Locale.US)
-    val theme = LightTheme()
+
     val view = HistoryChart(
-        LocalDate(2015, 1, 25),
-        PaletteColor(7),
-        theme,
-        fmt,
-    ).apply {
+        today = LocalDate(2015, 1, 25),
+        paletteColor = PaletteColor(7),
+        theme = LightTheme(),
+        dateFormatter = JavaLocalDateFormatter(Locale.US),
+        firstWeekday = SUNDAY,
         series = listOf(
             2, // today
             2, 1, 2, 1, 2, 1, 2,
@@ -68,17 +69,22 @@ class HistoryChartTest {
                 else -> OFF
             }
         }
-    }
+    )
 
     // TODO: Label overflow
     // TODO: onClick
     // TODO: HistoryEditorDialog
     // TODO: Remove excessive padding on widgets
-    // TODO: First day of the week
 
     @Test
     fun testDraw() = runBlocking {
         assertRenders(400, 200, "$base/base.png", view)
+    }
+
+    @Test
+    fun testDrawWeekDay() = runBlocking {
+        view.firstWeekday = DayOfWeek.MONDAY
+        assertRenders(400, 200, "$base/weekday.png", view)
     }
 
     @Test

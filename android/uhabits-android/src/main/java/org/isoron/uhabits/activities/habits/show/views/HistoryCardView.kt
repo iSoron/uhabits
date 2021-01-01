@@ -47,15 +47,12 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             today = data.today,
             paletteColor = data.color,
             theme = data.theme,
-            dateFormatter = JavaLocalDateFormatter(Locale.getDefault())
-        ).apply {
-            series = data.series
-        }
+            dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
+            series = data.series,
+            firstWeekday = data.firstWeekday,
+        )
 
-        // binding.historyChart.setFirstWeekday(data.firstWeekday)
         // binding.historyChart.setSkipEnabled(data.isSkipEnabled)
-        // binding.historyChart.setEntries(data.entries)
-        // binding.historyChart.setColor(androidColor)
         // if (data.isNumerical) {
         //     binding.historyChart.setNumerical(true)
         // }

@@ -23,6 +23,7 @@ import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
 import org.isoron.platform.gui.DataView
 import org.isoron.platform.gui.TextAlign
+import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
 import org.isoron.uhabits.core.models.PaletteColor
@@ -34,6 +35,8 @@ class HistoryChart(
     var paletteColor: PaletteColor,
     var theme: Theme,
     var dateFormatter: LocalDateFormatter,
+    var firstWeekday: DayOfWeek,
+    var series: List<Square>,
 ) : DataView {
 
     enum class Square {
@@ -42,9 +45,6 @@ class HistoryChart(
         DIMMED,
         HATCHED,
     }
-
-    // Data
-    var series = listOf<Square>()
 
     // Style
     var padding = 0.0
@@ -69,8 +69,11 @@ class HistoryChart(
         canvas.setFontSize(height * 0.06)
 
         val nColumns = floor((width - 2 * padding) / squareSize).toInt() - 2
-        val todayWeekday = today.dayOfWeek
-        val topLeftOffset = (nColumns - 1 + dataOffset) * 7 + todayWeekday.index
+        val firstWeekdayOffset = (
+            today.dayOfWeek.daysSinceSunday -
+                firstWeekday.daysSinceSunday + 7
+            ) % 7
+        val topLeftOffset = (nColumns - 1 + dataOffset) * 7 + firstWeekdayOffset
         val topLeftDate = today.minus(topLeftOffset)
 
         lastPrintedYear = ""

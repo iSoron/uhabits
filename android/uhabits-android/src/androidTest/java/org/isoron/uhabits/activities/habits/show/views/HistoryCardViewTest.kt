@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import org.isoron.platform.time.DayOfWeek.SUNDAY
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardPresenter
@@ -47,7 +48,7 @@ class HistoryCardViewTest : BaseViewTest() {
         view.update(
             HistoryCardPresenter().present(
                 habit = habit,
-                firstWeekday = 1,
+                firstWeekday = SUNDAY,
                 isSkipEnabled = false,
                 theme = LightTheme(),
             )

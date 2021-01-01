@@ -46,7 +46,7 @@ class TargetWidget(
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         val chart = (widgetView.dataView as TargetChart)
         val presenter = TargetCardPresenter()
-        val data = presenter.present(habit, prefs.firstWeekday)
+        val data = presenter.present(habit, prefs.firstWeekdayInt)
         chart.setColor(data.color.toThemedAndroidColor(context))
         chart.setTargets(data.targets)
         chart.setLabels(data.intervals.map { intervalToLabel(context.resources, it) })

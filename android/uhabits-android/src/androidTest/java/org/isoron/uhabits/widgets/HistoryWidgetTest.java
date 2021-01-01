@@ -29,8 +29,6 @@ import org.isoron.uhabits.core.models.*;
 import org.junit.*;
 import org.junit.runner.*;
 
-import java.util.*;
-
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class HistoryWidgetTest extends BaseViewTest
@@ -49,7 +47,7 @@ public class HistoryWidgetTest extends BaseViewTest
         prefs.setWidgetOpacity(255);
 
         habit = fixtures.createVeryLongHabit();
-        HistoryWidget widget = new HistoryWidget(targetContext, 0, habit, Calendar.SUNDAY);
+        HistoryWidget widget = new HistoryWidget(targetContext, 0, habit);
         view = convertToView(widget, 400, 400);
     }
 

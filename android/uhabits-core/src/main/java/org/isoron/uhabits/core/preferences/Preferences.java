@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.preferences;
 
 import androidx.annotation.*;
 
+import org.isoron.platform.time.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.*;
 import org.isoron.uhabits.core.utils.*;
@@ -360,11 +361,28 @@ public class Preferences
      * represented by 7. By default, this is based on the current system locale,
      * unless the user changed this in the settings.
      */
-    public int getFirstWeekday()
+    @Deprecated()
+    public int getFirstWeekdayInt()
     {
         String weekday = storage.getString("pref_first_weekday", "");
         if (weekday.isEmpty()) return DateUtils.getFirstWeekdayNumberAccordingToLocale();
         return Integer.parseInt(weekday);
+    }
+
+    public DayOfWeek getFirstWeekday()
+    {
+        int weekday = Integer.parseInt(storage.getString("pref_first_weekday", "-1"));
+        if (weekday < 0) weekday = DateUtils.getFirstWeekdayNumberAccordingToLocale();
+        switch (weekday) {
+            case 1: return DayOfWeek.SUNDAY;
+            case 2: return DayOfWeek.MONDAY;
+            case 3: return DayOfWeek.TUESDAY;
+            case 4: return DayOfWeek.WEDNESDAY;
+            case 5: return DayOfWeek.THURSDAY;
+            case 6: return DayOfWeek.FRIDAY;
+            case 7: return DayOfWeek.SATURDAY;
+            default: throw new IllegalArgumentException();
+        }
     }
 
     public interface Listener

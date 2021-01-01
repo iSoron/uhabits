@@ -50,7 +50,7 @@ public class ScoreChartTest extends BaseViewTest
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
         presenter = new ScoreCardPresenter();
-        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekday(), 0);
+        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekdayInt(), 0);
 
         view = new ScoreChart(targetContext);
         view.setScores(model.getScores());
@@ -84,7 +84,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withMonthlyBucket() throws Throwable
     {
-        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekday(), 2);
+        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekdayInt(), 2);
         view.setScores(model.getScores());
         view.setBucketSize(model.getBucketSize());
         view.invalidate();
@@ -102,7 +102,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withYearlyBucket() throws Throwable
     {
-        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekday(), 4);
+        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekdayInt(), 4);
         view.setScores(model.getScores());
         view.setBucketSize(model.getBucketSize());
         view.invalidate();
