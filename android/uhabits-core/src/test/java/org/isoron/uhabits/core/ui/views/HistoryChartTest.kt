@@ -31,6 +31,7 @@ import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.ON
 import org.isoron.uhabits.core.ui.views.LightTheme
+import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.junit.Test
 import java.util.Locale
 
@@ -70,7 +71,6 @@ class HistoryChartTest {
     }
 
     // TODO: Label overflow
-    // TODO: Transparent
     // TODO: onClick
     // TODO: HistoryEditorDialog
     // TODO: Remove excessive padding on widgets
@@ -89,7 +89,13 @@ class HistoryChartTest {
     @Test
     fun testDrawDarkTheme() = runBlocking {
         view.theme = DarkTheme()
-        assertRenders(400, 200, "$base/dark.png", view)
+        assertRenders(400, 200, "$base/themeDark.png", view)
+    }
+
+    @Test
+    fun testDrawWidgetTheme() = runBlocking {
+        view.theme = WidgetTheme()
+        assertRenders(400, 200, "$base/themeWidget.png", view)
     }
 
     @Test

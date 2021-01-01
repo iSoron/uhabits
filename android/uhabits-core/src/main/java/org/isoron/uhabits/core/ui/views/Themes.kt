@@ -66,9 +66,9 @@ abstract class Theme {
     val regularTextSize = 17.0
 }
 
-class LightTheme : Theme()
+open class LightTheme : Theme()
 
-class DarkTheme : Theme() {
+open class DarkTheme : Theme() {
     override val appBackgroundColor = Color(0x212121)
     override val cardBackgroundColor = Color(0x303030)
     override val headerBackgroundColor = Color(0x212121)
@@ -107,4 +107,11 @@ class DarkTheme : Theme() {
             else -> Color(0xFFFFFF)
         }
     }
+}
+
+class WidgetTheme : LightTheme() {
+    override val cardBackgroundColor = Color.TRANSPARENT
+    override val highContrastTextColor = Color.WHITE
+    override val mediumContrastTextColor = Color.WHITE.withAlpha(0.50)
+    override val lowContrastTextColor = Color.WHITE.withAlpha(0.10)
 }

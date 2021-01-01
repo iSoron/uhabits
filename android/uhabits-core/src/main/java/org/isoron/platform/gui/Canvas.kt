@@ -52,9 +52,16 @@ interface Canvas {
     fun setTextAlign(align: TextAlign)
     fun toImage(): Image
 
+    /**
+     * Fills entire canvas with the current color.
+     */
+    fun fill() {
+        fillRect(0.0, 0.0, getWidth(), getHeight())
+    }
+
     fun drawTestImage() {
-        // Draw grey background
-        setColor(Color(0x303030))
+        // Draw transparent background
+        setColor(Color(0.1, 0.1, 0.1, 0.5))
         fillRect(0.0, 0.0, 500.0, 400.0)
 
         // Draw center rectangle
@@ -63,7 +70,7 @@ interface Canvas {
         drawRect(100.0, 100.0, 300.0, 200.0)
 
         // Draw squares, circles and arcs
-        setColor(Color(0xFFFF00))
+        setColor(Color.YELLOW)
         setStrokeWidth(1.0)
         drawRect(0.0, 0.0, 100.0, 100.0)
         fillCircle(50.0, 50.0, 30.0)
@@ -75,7 +82,7 @@ interface Canvas {
         fillArc(50.0, 350.0, 30.0, 45.0, 90.0)
 
         // Draw two red crossing lines
-        setColor(Color(0xFF0000))
+        setColor(Color.RED)
         setStrokeWidth(2.0)
         drawLine(0.0, 0.0, 500.0, 400.0)
         drawLine(500.0, 0.0, 0.0, 400.0)
@@ -83,7 +90,7 @@ interface Canvas {
         // Draw text
         setFont(Font.BOLD)
         setFontSize(50.0)
-        setColor(Color(0x00FF00))
+        setColor(Color.GREEN)
         setTextAlign(TextAlign.CENTER)
         drawText("HELLO", 250.0, 100.0)
         setTextAlign(TextAlign.RIGHT)

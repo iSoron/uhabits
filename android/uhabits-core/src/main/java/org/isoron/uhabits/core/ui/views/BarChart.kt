@@ -49,7 +49,6 @@ class BarChart(
     var barMargin = 3.0
     var barWidth = 12.0
     var nGridlines = 6
-    var backgroundColor = theme.cardBackgroundColor
 
     override val dataColumnWidth: Double
         get() = barWidth + barMargin * 2
@@ -67,8 +66,8 @@ class BarChart(
         var maxValue = series.map { it.max()!! }.max()!!
         maxValue = max(maxValue, 1.0)
 
-        canvas.setColor(backgroundColor)
-        canvas.fillRect(0.0, 0.0, width, height)
+        canvas.setColor(theme.cardBackgroundColor)
+        canvas.fill()
 
         fun barGroupOffset(c: Int) = marginLeft + paddingLeft +
             (c) * barGroupWidth
@@ -97,13 +96,6 @@ class BarChart(
             canvas.fillCircle(x + barWidth - r, y + r, r)
             canvas.setFontSize(theme.smallTextSize)
             canvas.setTextAlign(TextAlign.CENTER)
-            canvas.setColor(backgroundColor)
-            canvas.fillRect(
-                x - barMargin,
-                y - theme.smallTextSize * 1.25,
-                barWidth + 2 * barMargin,
-                theme.smallTextSize * 1.0
-            )
             canvas.setColor(colors[s])
             canvas.drawText(
                 value.toShortString(),
@@ -119,12 +111,7 @@ class BarChart(
         fun drawMajorGrid() {
             canvas.setStrokeWidth(1.0)
             if (nSeries > 1) {
-                canvas.setColor(
-                    backgroundColor.blendWith(
-                        theme.lowContrastTextColor,
-                        0.5
-                    )
-                )
+                canvas.setColor(theme.lowContrastTextColor.withAlpha(0.5))
                 for (c in 0 until nColumns - 1) {
                     val x = barGroupOffset(c)
                     canvas.drawLine(x, paddingTop, x, paddingTop + maxBarHeight)
@@ -141,8 +128,6 @@ class BarChart(
 
         fun drawAxis() {
             val y = paddingTop + maxBarHeight
-            canvas.setColor(backgroundColor)
-            canvas.fillRect(0.0, y, width, height - y)
             canvas.setColor(theme.lowContrastTextColor)
             canvas.drawLine(0.0, y, width, y)
             canvas.setColor(theme.mediumContrastTextColor)

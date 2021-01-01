@@ -33,7 +33,7 @@ class HistoryChart(
     var today: LocalDate,
     var paletteColor: PaletteColor,
     var theme: Theme,
-    var dateFormatter: LocalDateFormatter
+    var dateFormatter: LocalDateFormatter,
 ) : DataView {
 
     enum class Square {
@@ -61,8 +61,10 @@ class HistoryChart(
     override fun draw(canvas: Canvas) {
         val width = canvas.getWidth()
         val height = canvas.getHeight()
+
         canvas.setColor(theme.cardBackgroundColor)
-        canvas.fillRect(0.0, 0.0, width, height)
+        canvas.fill()
+
         squareSize = round((height - 2 * padding) / 8.0)
         canvas.setFontSize(height * 0.06)
 
@@ -98,7 +100,7 @@ class HistoryChart(
         canvas: Canvas,
         column: Int,
         topDate: LocalDate,
-        topOffset: Int
+        topOffset: Int,
     ) {
         drawHeader(canvas, column, topDate)
         repeat(7) { row ->
@@ -150,7 +152,7 @@ class HistoryChart(
         width: Double,
         height: Double,
         date: LocalDate,
-        offset: Int
+        offset: Int,
     ) {
 
         val value = if (offset >= series.size) Square.OFF else series[offset]
@@ -187,9 +189,13 @@ class HistoryChart(
             }
         }
 
-        val c1 = squareColor.contrast(theme.cardBackgroundColor)
-        val c2 = squareColor.contrast(theme.mediumContrastTextColor)
-        val textColor = if (c1 > c2) theme.cardBackgroundColor else theme.mediumContrastTextColor
+        val textColor = if (theme.cardBackgroundColor == Color.TRANSPARENT) {
+            theme.highContrastTextColor
+        } else {
+            val c1 = squareColor.contrast(theme.cardBackgroundColor)
+            val c2 = squareColor.contrast(theme.mediumContrastTextColor)
+            if (c1 > c2) theme.cardBackgroundColor else theme.mediumContrastTextColor
+        }
 
         canvas.setColor(textColor)
         canvas.setTextAlign(TextAlign.CENTER)

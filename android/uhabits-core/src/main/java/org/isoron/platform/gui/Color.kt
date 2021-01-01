@@ -23,9 +23,8 @@ data class Color(
     val red: Double,
     val green: Double,
     val blue: Double,
-    val alpha: Double
+    val alpha: Double,
 ) {
-
     val luminosity: Double
         get() {
             return 0.21 * red + 0.72 * green + 0.07 * blue
@@ -52,5 +51,19 @@ data class Color(
         val l2 = other.luminosity
         val relativeLuminosity = (l1 + 0.05) / (l2 + 0.05)
         return if (relativeLuminosity >= 1) relativeLuminosity else 1 / relativeLuminosity
+    }
+
+    fun withAlpha(newAlpha: Double) = Color(red, green, blue, newAlpha)
+
+    companion object {
+        val TRANSPARENT = Color(0.0, 0.0, 0.0, 0.0)
+        val RED = Color(1.0, 0.0, 0.0, 1.0)
+        val GREEN = Color(0.0, 1.0, 0.0, 1.0)
+        val BLUE = Color(1.0, 0.0, 1.0, 1.0)
+        val YELLOW = Color(1.0, 1.0, 0.0, 1.0)
+        val MAGENTA = Color(1.0, 0.0, 1.0, 1.0)
+        val CYAN = Color(0.0, 1.0, 1.0, 1.0)
+        val WHITE = Color(1.0, 1.0, 1.0, 1.0)
+        val BLACK = Color(0.0, 0.0, 0.0, 1.0)
     }
 }

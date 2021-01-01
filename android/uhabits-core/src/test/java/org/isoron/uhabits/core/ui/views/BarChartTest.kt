@@ -47,6 +47,18 @@ class BarChartTest {
     }
 
     @Test
+    fun testDrawDarkTheme() = runBlocking {
+        component.theme = DarkTheme()
+        assertRenders(300, 200, "$base/themeDark.png", component)
+    }
+
+    @Test
+    fun testDrawWidgetTheme() = runBlocking {
+        component.theme = WidgetTheme()
+        assertRenders(300, 200, "$base/themeWidget.png", component)
+    }
+
+    @Test
     fun testDrawWithOffset() = runBlocking {
         component.dataOffset = 5
         assertRenders(300, 200, "$base/offset.png", component)
