@@ -29,8 +29,8 @@
         style="@style/CardHeader"
         android:text="@string/calendar"/>
 
-    <org.isoron.uhabits.activities.common.views.HistoryChart
-        android:id="@+id/historyChart"
+    <org.isoron.platform.gui.AndroidDataView
+        android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="160dp"/>
 

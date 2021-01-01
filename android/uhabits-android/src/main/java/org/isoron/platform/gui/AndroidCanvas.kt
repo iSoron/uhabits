@@ -29,19 +29,24 @@ import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 
 class AndroidCanvas : Canvas {
 
-    lateinit var innerCanvas: android.graphics.Canvas
     lateinit var context: Context
+
+    lateinit var innerCanvas: android.graphics.Canvas
     var innerBitmap: Bitmap? = null
-    var density = 1.0
+    var innerDensity = 1.0
+    var innerWidth = 0
+    var innerHeight = 0
+
     var paint = Paint().apply {
         isAntiAlias = true
     }
     var textPaint = TextPaint().apply {
         isAntiAlias = true
+        textAlign = Paint.Align.CENTER
     }
     var textBounds = Rect()
 
-    private fun Double.toDp() = (this * density).toFloat()
+    private fun Double.toDp() = (this * innerDensity).toFloat()
 
     override fun setColor(color: Color) {
         paint.color = color.toInt()
@@ -73,6 +78,25 @@ class AndroidCanvas : Canvas {
         rect(x, y, width, height)
     }
 
+    override fun fillRoundRect(
+        x: Double,
+        y: Double,
+        width: Double,
+        height: Double,
+        cornerRadius: Double,
+    ) {
+        paint.style = Paint.Style.FILL
+        innerCanvas.drawRoundRect(
+            x.toDp(),
+            y.toDp(),
+            (x + width).toDp(),
+            (y + height).toDp(),
+            cornerRadius.toDp(),
+            cornerRadius.toDp(),
+            paint,
+        )
+    }
+
     override fun drawRect(x: Double, y: Double, width: Double, height: Double) {
         paint.style = Paint.Style.STROKE
         rect(x, y, width, height)
@@ -89,11 +113,11 @@ class AndroidCanvas : Canvas {
     }
 
     override fun getHeight(): Double {
-        return innerCanvas.height / density
+        return innerHeight / innerDensity
     }
 
     override fun getWidth(): Double {
-        return innerCanvas.width / density
+        return innerWidth / innerDensity
     }
 
     override fun setFont(font: Font) {

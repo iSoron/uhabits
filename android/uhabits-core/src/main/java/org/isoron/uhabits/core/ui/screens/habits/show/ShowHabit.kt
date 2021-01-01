@@ -96,6 +96,7 @@ class ShowHabitPresenter {
                 habit = habit,
                 firstWeekday = preferences.firstWeekday,
                 isSkipEnabled = preferences.isSkipEnabled,
+                theme = theme,
             ),
             bar = BarCardPresenter().present(
                 habit = habit,

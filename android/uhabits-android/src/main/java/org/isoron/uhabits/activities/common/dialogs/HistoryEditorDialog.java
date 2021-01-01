@@ -30,17 +30,17 @@ import androidx.appcompat.app.*;
 import android.util.*;
 
 import org.isoron.uhabits.*;
-import org.isoron.uhabits.activities.common.views.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.core.ui.screens.habits.show.views.*;
+import org.isoron.uhabits.core.ui.views.*;
 import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;
 
-import static org.isoron.uhabits.utils.InterfaceUtils.*;
+import java.util.*;
 
 public class HistoryEditorDialog extends AppCompatDialogFragment
         implements DialogInterface.OnClickListener, CommandRunner.Listener
@@ -92,31 +92,31 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         commandRunner = app.getComponent().getCommandRunner();
         prefs = app.getComponent().getPreferences();
 
-        historyChart = new HistoryChart(context);
-        historyChart.setOnToggleCheckmarkListener(onToggleCheckmarkListener);
-        historyChart.setFirstWeekday(prefs.getFirstWeekday());
-        historyChart.setSkipEnabled(prefs.isSkipEnabled());
+//        historyChart = new HistoryChart(context);
+//        historyChart.setOnToggleCheckmarkListener(onToggleCheckmarkListener);
+//        historyChart.setFirstWeekday(prefs.getFirstWeekday());
+//        historyChart.setSkipEnabled(prefs.isSkipEnabled());
 
-        if (savedInstanceState != null)
-        {
-            long id = savedInstanceState.getLong("habit", -1);
-            if (id > 0) this.habit = habitList.getById(id);
-            historyChart.onRestoreInstanceState(
-                savedInstanceState.getParcelable("historyChart"));
-        }
-
-        int padding =
-            (int) getDimension(getContext(), R.dimen.history_editor_padding);
-
-        historyChart.setPadding(padding, 0, padding, 0);
-        historyChart.setIsEditable(true);
-
+//        if (savedInstanceState != null)
+//        {
+//            long id = savedInstanceState.getLong("habit", -1);
+//            if (id > 0) this.habit = habitList.getById(id);
+//            historyChart.onRestoreInstanceState(
+//                savedInstanceState.getParcelable("historyChart"));
+//        }
+//
+//        int padding =
+//            (int) getDimension(getContext(), R.dimen.history_editor_padding);
+//
+//        historyChart.setPadding(padding, 0, padding, 0);
+//        historyChart.setIsEditable(true);
+//
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder
             .setTitle(R.string.history)
-            .setView(historyChart)
+//            .setView(historyChart)
             .setPositiveButton(android.R.string.ok, this);
-
+//
         return builder.create();
     }
 
@@ -146,8 +146,8 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
     @Override
     public void onSaveInstanceState(Bundle outState)
     {
-        outState.putLong("habit", habit.getId());
-        outState.putParcelable("historyChart", historyChart.onSaveInstanceState());
+//        outState.putLong("habit", habit.getId());
+//        outState.putParcelable("historyChart", historyChart.onSaveInstanceState());
     }
 
     public void setOnToggleCheckmarkListener(@NonNull OnToggleCheckmarkListener onToggleCheckmarkListener)
@@ -174,7 +174,7 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
 
     private class RefreshTask implements Task
     {
-        public int[] checkmarks;
+        public List<HistoryChart.Square> checkmarks;
 
         @Override
         public void doInBackground()
@@ -182,9 +182,10 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
             HistoryCardViewModel model = new HistoryCardPresenter().present(
                     habit,
                     prefs.getFirstWeekday(),
-                    prefs.isSkipEnabled()
+                    prefs.isSkipEnabled(),
+                    new LightTheme()
             );
-            checkmarks = model.getEntries();
+            checkmarks = model.getSeries();
         }
 
         @Override
@@ -194,9 +195,9 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
                 return;
 
             int color = PaletteUtilsKt.toThemedAndroidColor(habit.getColor(), getContext());
-            historyChart.setColor(color);
-            historyChart.setEntries(checkmarks);
-            historyChart.setNumerical(habit.isNumerical());
+//            historyChart.setColor(color);
+//            historyChart.setEntries(checkmarks);
+//            historyChart.setNumerical(habit.isNumerical());
         }
     }
 }

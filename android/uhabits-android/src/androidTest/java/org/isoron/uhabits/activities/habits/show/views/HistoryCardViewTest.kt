@@ -25,6 +25,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardPresenter
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,7 +48,8 @@ class HistoryCardViewTest : BaseViewTest() {
             HistoryCardPresenter().present(
                 habit = habit,
                 firstWeekday = 1,
-                isSkipEnabled = false
+                isSkipEnabled = false,
+                theme = LightTheme(),
             )
         )
         measureView(view, 800f, 600f)

@@ -22,11 +22,15 @@ package org.isoron.uhabits.widgets
 import android.app.PendingIntent
 import android.content.Context
 import android.view.View
-import org.isoron.uhabits.activities.common.views.HistoryChart
+import org.isoron.platform.gui.AndroidDataView
+import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardPresenter
-import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.core.ui.views.DarkTheme
+import org.isoron.uhabits.core.ui.views.HistoryChart
+import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.widgets.views.GraphWidgetView
+import java.util.Locale
 
 class HistoryWidget(
     context: Context,
@@ -47,18 +51,25 @@ class HistoryWidget(
             habit = habit,
             isSkipEnabled = prefs.isSkipEnabled,
             firstWeekday = prefs.firstWeekday,
+            theme = DarkTheme(),
         )
-        (widgetView.dataView as HistoryChart).apply {
-            setFirstWeekday(model.firstWeekday)
-            setSkipEnabled(model.isSkipEnabled)
-            setColor(model.color.toThemedAndroidColor(context))
-            setEntries(model.entries)
-            setNumerical(model.isNumerical)
+        (widgetView.dataView as AndroidDataView).apply {
+            (this.view as HistoryChart).series = model.series
         }
     }
 
     override fun buildView() =
-        GraphWidgetView(context, HistoryChart(context)).apply {
+        GraphWidgetView(
+            context,
+            AndroidDataView(context).apply {
+                view = HistoryChart(
+                    today = DateUtils.getTodayWithOffset().toLocalDate(),
+                    paletteColor = habit.color,
+                    theme = DarkTheme(),
+                    dateFormatter = JavaLocalDateFormatter(Locale.getDefault())
+                )
+            }
+        ).apply {
             setTitle(habit.name)
         }
 

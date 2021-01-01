@@ -34,6 +34,7 @@ interface Canvas {
     fun drawLine(x1: Double, y1: Double, x2: Double, y2: Double)
     fun drawText(text: String, x: Double, y: Double)
     fun fillRect(x: Double, y: Double, width: Double, height: Double)
+    fun fillRoundRect(x: Double, y: Double, width: Double, height: Double, cornerRadius: Double)
     fun drawRect(x: Double, y: Double, width: Double, height: Double)
     fun getHeight(): Double
     fun getWidth(): Double

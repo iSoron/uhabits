@@ -30,6 +30,7 @@ import java.awt.RenderingHints.VALUE_ANTIALIAS_ON
 import java.awt.RenderingHints.VALUE_FRACTIONALMETRICS_ON
 import java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON
 import java.awt.font.FontRenderContext
+import java.awt.geom.RoundRectangle2D
 import java.awt.image.BufferedImage
 import kotlin.math.roundToInt
 
@@ -113,6 +114,25 @@ class JavaCanvas(
 
     override fun fillRect(x: Double, y: Double, width: Double, height: Double) {
         g2d.fillRect(toPixel(x), toPixel(y), toPixel(width), toPixel(height))
+    }
+
+    override fun fillRoundRect(
+        x: Double,
+        y: Double,
+        width: Double,
+        height: Double,
+        cornerRadius: Double
+    ) {
+        g2d.fill(
+            RoundRectangle2D.Double(
+                toPixel(x).toDouble(),
+                toPixel(y).toDouble(),
+                toPixel(width).toDouble(),
+                toPixel(height).toDouble(),
+                toPixel(cornerRadius).toDouble(),
+                toPixel(cornerRadius).toDouble(),
+            )
+        )
     }
 
     override fun drawRect(x: Double, y: Double, width: Double, height: Double) {

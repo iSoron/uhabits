@@ -30,7 +30,7 @@ class AndroidCanvasTest : BaseViewTest() {
         val bmp = Bitmap.createBitmap(1000, 800, Bitmap.Config.ARGB_8888)
         val canvas = AndroidCanvas()
         canvas.context = testContext
-        canvas.density = 2.0
+        canvas.innerDensity = 2.0
         canvas.innerCanvas = android.graphics.Canvas(bmp)
         canvas.innerBitmap = bmp
         canvas.drawTestImage()

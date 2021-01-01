@@ -21,53 +21,74 @@ package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
+import org.isoron.platform.gui.DataView
 import org.isoron.platform.gui.TextAlign
-import org.isoron.platform.gui.View
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
+import org.isoron.uhabits.core.models.PaletteColor
 import kotlin.math.floor
 import kotlin.math.round
 
-class CalendarChart(
+class HistoryChart(
     var today: LocalDate,
-    var color: Color,
+    var paletteColor: PaletteColor,
     var theme: Theme,
     var dateFormatter: LocalDateFormatter
-) : View {
+) : DataView {
 
-    var padding = 5.0
-    var backgroundColor = Color(0xFFFFFF)
+    enum class Square {
+        ON,
+        OFF,
+        DIMMED,
+        HATCHED,
+    }
+
+    // Data
+    var series = listOf<Square>()
+
+    // Style
+    var padding = 0.0
     var squareSpacing = 1.0
-    var series = listOf<Double>()
-    var scrollPosition = 0
+    override var dataOffset = 0
     private var squareSize = 0.0
+
+    var lastPrintedMonth = ""
+    var lastPrintedYear = ""
+
+    override val dataColumnWidth: Double
+        get() = squareSpacing + squareSize
 
     override fun draw(canvas: Canvas) {
         val width = canvas.getWidth()
         val height = canvas.getHeight()
-        canvas.setColor(backgroundColor)
+        canvas.setColor(theme.cardBackgroundColor)
         canvas.fillRect(0.0, 0.0, width, height)
         squareSize = round((height - 2 * padding) / 8.0)
         canvas.setFontSize(height * 0.06)
 
         val nColumns = floor((width - 2 * padding) / squareSize).toInt() - 2
         val todayWeekday = today.dayOfWeek
-        val topLeftOffset = (nColumns - 1 + scrollPosition) * 7 + todayWeekday.index
+        val topLeftOffset = (nColumns - 1 + dataOffset) * 7 + todayWeekday.index
         val topLeftDate = today.minus(topLeftOffset)
 
+        lastPrintedYear = ""
+        lastPrintedMonth = ""
+
+        // Draw main columns
         repeat(nColumns) { column ->
             val topOffset = topLeftOffset - 7 * column
             val topDate = topLeftDate.plus(7 * column)
             drawColumn(canvas, column, topDate, topOffset)
         }
 
+        // Draw week day names
         canvas.setColor(theme.mediumContrastTextColor)
         repeat(7) { row ->
             val date = topLeftDate.plus(row)
             canvas.setTextAlign(TextAlign.LEFT)
             canvas.drawText(
                 dateFormatter.shortWeekdayName(date),
-                padding + nColumns * squareSize + padding,
+                padding + nColumns * squareSize + squareSpacing * 3,
                 padding + squareSize * (row + 1) + squareSize / 2
             )
         }
@@ -97,22 +118,29 @@ class CalendarChart(
     }
 
     private fun drawHeader(canvas: Canvas, column: Int, date: LocalDate) {
-        if (date.day >= 8) return
-
         canvas.setColor(theme.mediumContrastTextColor)
-        if (date.month == 1) {
-            canvas.drawText(
-                date.year.toString(),
-                padding + column * squareSize + squareSize / 2,
-                padding + squareSize / 2
-            )
-        } else {
-            canvas.drawText(
-                dateFormatter.shortMonthName(date),
-                padding + column * squareSize + squareSize / 2,
-                padding + squareSize / 2
-            )
+        val monthText = dateFormatter.shortMonthName(date)
+        val yearText = date.year.toString()
+        val headerText: String
+        when {
+            monthText != lastPrintedMonth -> {
+                headerText = monthText
+                lastPrintedMonth = monthText
+            }
+            yearText != lastPrintedYear -> {
+                headerText = yearText
+                lastPrintedYear = headerText
+            }
+            else -> {
+                headerText = ""
+            }
         }
+        canvas.setTextAlign(TextAlign.LEFT)
+        canvas.drawText(
+            headerText,
+            padding + column * squareSize,
+            padding + squareSize / 2
+        )
     }
 
     private fun drawSquare(
@@ -125,19 +153,46 @@ class CalendarChart(
         offset: Int
     ) {
 
-        var value = if (offset >= series.size) 0.0 else series[offset]
-        value = round(value * 5.0) / 5.0
-
-        var squareColor = color.blendWith(backgroundColor, 1 - value)
-        var textColor = backgroundColor
-
-        if (value == 0.0) squareColor = theme.lowContrastTextColor
-        if (squareColor.luminosity > 0.8)
-            textColor = squareColor.blendWith(theme.highContrastTextColor, 0.5)
+        val value = if (offset >= series.size) Square.OFF else series[offset]
+        val squareColor: Color
+        val color = theme.color(paletteColor.paletteIndex)
+        when (value) {
+            Square.ON -> {
+                squareColor = color
+            }
+            Square.OFF -> {
+                squareColor = theme.lowContrastTextColor
+            }
+            Square.DIMMED, Square.HATCHED -> {
+                squareColor = color.blendWith(theme.cardBackgroundColor, 0.5)
+            }
+        }
 
         canvas.setColor(squareColor)
-        canvas.fillRect(x, y, width, height)
+        canvas.fillRoundRect(x, y, width, height, width * 0.15)
+
+        if (value == Square.HATCHED) {
+            canvas.setStrokeWidth(0.75)
+            canvas.setColor(theme.cardBackgroundColor)
+            var k = width / 10
+            repeat(5) {
+                canvas.drawLine(x + k, y, x, y + k)
+                canvas.drawLine(
+                    x + width - k,
+                    y + height,
+                    x + width,
+                    y + height - k
+                )
+                k += width / 5
+            }
+        }
+
+        val c1 = squareColor.contrast(theme.cardBackgroundColor)
+        val c2 = squareColor.contrast(theme.mediumContrastTextColor)
+        val textColor = if (c1 > c2) theme.cardBackgroundColor else theme.mediumContrastTextColor
+
         canvas.setColor(textColor)
+        canvas.setTextAlign(TextAlign.CENTER)
         canvas.drawText(date.day.toString(), x + width / 2, y + width / 2)
     }
 }

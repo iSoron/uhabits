@@ -28,7 +28,7 @@ class AndroidTestView(context: Context, attrs: AttributeSet) : android.view.View
     override fun onDraw(canvas: android.graphics.Canvas) {
         this.canvas.context = context
         this.canvas.innerCanvas = canvas
-        this.canvas.density = resources.displayMetrics.density.toDouble()
+        this.canvas.innerDensity = resources.displayMetrics.density.toDouble()
         this.canvas.drawTestImage()
     }
 }

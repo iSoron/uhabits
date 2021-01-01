@@ -19,8 +19,6 @@
 
 package org.isoron.platform.gui
 
-data class PaletteColor(val index: Int)
-
 data class Color(
     val red: Double,
     val green: Double,
@@ -47,5 +45,12 @@ data class Color(
             blue * (1 - weight) + other.blue * weight,
             alpha * (1 - weight) + other.alpha * weight
         )
+    }
+
+    fun contrast(other: Color): Double {
+        val l1 = this.luminosity
+        val l2 = other.luminosity
+        val relativeLuminosity = (l1 + 0.05) / (l2 + 0.05)
+        return if (relativeLuminosity >= 1) relativeLuminosity else 1 / relativeLuminosity
     }
 }

@@ -24,7 +24,7 @@ import android.util.AttributeSet
 
 open class AndroidView<T : View>(
     context: Context,
-    attrs: AttributeSet,
+    attrs: AttributeSet? = null,
 ) : android.view.View(context, attrs) {
 
     lateinit var view: T
@@ -33,7 +33,9 @@ open class AndroidView<T : View>(
     override fun onDraw(canvas: android.graphics.Canvas) {
         this.canvas.context = context
         this.canvas.innerCanvas = canvas
-        this.canvas.density = resources.displayMetrics.density.toDouble()
+        this.canvas.innerWidth = width
+        this.canvas.innerHeight = height
+        this.canvas.innerDensity = resources.displayMetrics.density.toDouble()
         view.draw(this.canvas)
     }
 }

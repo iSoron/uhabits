@@ -31,7 +31,7 @@ import android.widget.Scroller
  */
 class AndroidDataView(
     context: Context,
-    attrs: AttributeSet,
+    attrs: AttributeSet? = null,
 ) : AndroidView<DataView>(context, attrs),
     GestureDetector.OnGestureListener,
     ValueAnimator.AnimatorUpdateListener {
@@ -99,7 +99,7 @@ class AndroidDataView(
     }
 
     private fun updateDataOffset() {
-        var newDataOffset: Int = scroller.currX / (view.dataColumnWidth * canvas.density).toInt()
+        var newDataOffset: Int = scroller.currX / (view.dataColumnWidth * canvas.innerDensity).toInt()
         newDataOffset = Math.max(0, newDataOffset)
         if (newDataOffset != view.dataOffset) {
             view.dataOffset = newDataOffset

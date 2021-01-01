@@ -22,9 +22,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardViewModel
+import org.isoron.uhabits.core.ui.views.HistoryChart
 import org.isoron.uhabits.databinding.ShowHabitHistoryBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
+import java.util.Locale
 
 class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -37,14 +40,24 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     fun update(data: HistoryCardViewModel) {
-        binding.historyChart.setFirstWeekday(data.firstWeekday)
-        binding.historyChart.setSkipEnabled(data.isSkipEnabled)
-        binding.historyChart.setEntries(data.entries)
+
         val androidColor = data.color.toThemedAndroidColor(context)
         binding.title.setTextColor(androidColor)
-        binding.historyChart.setColor(androidColor)
-        if (data.isNumerical) {
-            binding.historyChart.setNumerical(true)
+        binding.chart.view = HistoryChart(
+            today = data.today,
+            paletteColor = data.color,
+            theme = data.theme,
+            dateFormatter = JavaLocalDateFormatter(Locale.getDefault())
+        ).apply {
+            series = data.series
         }
+
+        // binding.historyChart.setFirstWeekday(data.firstWeekday)
+        // binding.historyChart.setSkipEnabled(data.isSkipEnabled)
+        // binding.historyChart.setEntries(data.entries)
+        // binding.historyChart.setColor(androidColor)
+        // if (data.isNumerical) {
+        //     binding.historyChart.setNumerical(true)
+        // }
     }
 }
