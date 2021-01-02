@@ -36,11 +36,16 @@ import kotlin.math.roundToInt
 
 class JavaCanvas(
     val image: BufferedImage,
-    val pixelScale: Double = 2.0
+    val pixelScale: Double = 2.0,
 ) : Canvas {
 
     override fun toImage(): Image {
         return JavaImage(image)
+    }
+
+    override fun measureText(text: String): Double {
+        val metrics = g2d.getFontMetrics(g2d.font)
+        return toDp(metrics.stringWidth(text))
     }
 
     private val frc = FontRenderContext(null, true, true)
@@ -121,7 +126,7 @@ class JavaCanvas(
         y: Double,
         width: Double,
         height: Double,
-        cornerRadius: Double
+        cornerRadius: Double,
     ) {
         g2d.fill(
             RoundRectangle2D.Double(
@@ -184,7 +189,7 @@ class JavaCanvas(
         centerY: Double,
         radius: Double,
         startAngle: Double,
-        swipeAngle: Double
+        swipeAngle: Double,
     ) {
 
         g2d.fillArc(

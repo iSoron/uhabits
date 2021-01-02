@@ -27,7 +27,7 @@ open class AndroidView<T : View>(
     attrs: AttributeSet? = null,
 ) : android.view.View(context, attrs) {
 
-    lateinit var view: T
+    var view: T? = null
     val canvas = AndroidCanvas()
 
     override fun onDraw(canvas: android.graphics.Canvas) {
@@ -36,6 +36,6 @@ open class AndroidView<T : View>(
         this.canvas.innerWidth = width
         this.canvas.innerHeight = height
         this.canvas.innerDensity = resources.displayMetrics.density.toDouble()
-        view.draw(this.canvas)
+        view?.draw(this.canvas)
     }
 }

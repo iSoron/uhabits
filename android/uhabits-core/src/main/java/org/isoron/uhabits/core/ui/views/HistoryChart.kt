@@ -28,15 +28,23 @@ import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
 import org.isoron.uhabits.core.models.PaletteColor
 import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.round
 
+fun interface OnDateClickedListener {
+    fun onDateClicked(date: LocalDate)
+}
+
 class HistoryChart(
-    var today: LocalDate,
-    var paletteColor: PaletteColor,
-    var theme: Theme,
     var dateFormatter: LocalDateFormatter,
     var firstWeekday: DayOfWeek,
+    var paletteColor: PaletteColor,
     var series: List<Square>,
+    var theme: Theme,
+    var today: LocalDate,
+    var onDateClickedListener: OnDateClickedListener = OnDateClickedListener { },
+    var padding: Double = 0.0,
 ) : DataView {
 
     enum class Square {
@@ -46,38 +54,58 @@ class HistoryChart(
         HATCHED,
     }
 
-    // Style
-    var padding = 0.0
     var squareSpacing = 1.0
     override var dataOffset = 0
-    private var squareSize = 0.0
 
-    var lastPrintedMonth = ""
-    var lastPrintedYear = ""
+    private var squareSize = 0.0
+    private var width = 0.0
+    private var height = 0.0
+    private var nColumns = 0
+    private var topLeftOffset = 0
+    private var topLeftDate = LocalDate(2020, 1, 1)
+    private var lastPrintedMonth = ""
+    private var lastPrintedYear = ""
+    private var headerOverflow = 0.0
 
     override val dataColumnWidth: Double
         get() = squareSpacing + squareSize
 
+    override fun onClick(x: Double, y: Double) {
+        if (width <= 0.0) throw IllegalStateException("onClick must be called after draw(canvas)")
+        val col = ((x - padding) / squareSize).toInt()
+        val row = ((y - padding) / squareSize).toInt()
+        val offset = col * 7 + (row - 1)
+        if (row == 0 || col == nColumns) return
+        val clickedDate = topLeftDate.plus(offset)
+        if (clickedDate.isNewerThan(today)) return
+        onDateClickedListener.onDateClicked(clickedDate)
+    }
+
     override fun draw(canvas: Canvas) {
-        val width = canvas.getWidth()
-        val height = canvas.getHeight()
+        width = canvas.getWidth()
+        height = canvas.getHeight()
 
         canvas.setColor(theme.cardBackgroundColor)
         canvas.fill()
 
         squareSize = round((height - 2 * padding) / 8.0)
-        canvas.setFontSize(height * 0.06)
+        canvas.setFontSize(min(14.0, height * 0.06))
 
-        val nColumns = floor((width - 2 * padding) / squareSize).toInt() - 2
+        val weekdayColumnWidth = DayOfWeek.values().map { weekday ->
+            canvas.measureText(dateFormatter.shortWeekdayName(weekday)) + squareSize * 0.15
+        }.maxOrNull() ?: 0.0
+
+        nColumns = floor((width - 2 * padding - weekdayColumnWidth) / squareSize).toInt()
         val firstWeekdayOffset = (
             today.dayOfWeek.daysSinceSunday -
                 firstWeekday.daysSinceSunday + 7
             ) % 7
-        val topLeftOffset = (nColumns - 1 + dataOffset) * 7 + firstWeekdayOffset
-        val topLeftDate = today.minus(topLeftOffset)
+        topLeftOffset = (nColumns - 1 + dataOffset) * 7 + firstWeekdayOffset
+        topLeftDate = today.minus(topLeftOffset)
 
         lastPrintedYear = ""
         lastPrintedMonth = ""
+        headerOverflow = 0.0
 
         // Draw main columns
         repeat(nColumns) { column ->
@@ -93,7 +121,7 @@ class HistoryChart(
             canvas.setTextAlign(TextAlign.LEFT)
             canvas.drawText(
                 dateFormatter.shortWeekdayName(date),
-                padding + nColumns * squareSize + squareSpacing * 3,
+                padding + nColumns * squareSize + squareSize * 0.15,
                 padding + squareSize * (row + 1) + squareSize / 2
             )
         }
@@ -143,9 +171,12 @@ class HistoryChart(
         canvas.setTextAlign(TextAlign.LEFT)
         canvas.drawText(
             headerText,
-            padding + column * squareSize,
+            headerOverflow + padding + column * squareSize,
             padding + squareSize / 2
         )
+
+        headerOverflow += canvas.measureText(headerText) + 0.1 * squareSize
+        headerOverflow = max(0.0, headerOverflow - squareSize)
     }
 
     private fun drawSquare(

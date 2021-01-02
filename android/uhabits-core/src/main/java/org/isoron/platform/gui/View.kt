@@ -21,6 +21,8 @@ package org.isoron.platform.gui
 
 interface View {
     fun draw(canvas: Canvas)
+    fun onClick(x: Double, y: Double) {
+    }
 }
 
 interface DataView : View {

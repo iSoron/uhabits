@@ -177,4 +177,8 @@ class AndroidCanvas : Canvas {
         val bmp = innerBitmap ?: throw UnsupportedOperationException()
         return AndroidImage(bmp)
     }
+
+    override fun measureText(text: String): Double {
+        return textPaint.measureText(text) / innerDensity
+    }
 }

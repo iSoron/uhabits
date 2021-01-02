@@ -33,12 +33,19 @@ import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.ON
 import org.isoron.uhabits.core.ui.views.LightTheme
+import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.reset
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoMoreInteractions
 import java.util.Locale
 
 class HistoryChartTest {
     val base = "views/HistoryChart"
+
+    val dateClickedListener = mock(OnDateClickedListener::class.java)
 
     val view = HistoryChart(
         today = LocalDate(2015, 1, 25),
@@ -46,6 +53,7 @@ class HistoryChartTest {
         theme = LightTheme(),
         dateFormatter = JavaLocalDateFormatter(Locale.US),
         firstWeekday = SUNDAY,
+        onDateClickedListener = dateClickedListener,
         series = listOf(
             2, // today
             2, 1, 2, 1, 2, 1, 2,
@@ -71,14 +79,40 @@ class HistoryChartTest {
         }
     )
 
-    // TODO: Label overflow
-    // TODO: onClick
-    // TODO: HistoryEditorDialog
-    // TODO: Remove excessive padding on widgets
-
     @Test
     fun testDraw() = runBlocking {
         assertRenders(400, 200, "$base/base.png", view)
+    }
+
+    @Test
+    fun testClick() = runBlocking {
+        assertRenders(400, 200, "$base/base.png", view)
+
+        // Click top left date
+        view.onClick(20.0, 46.0)
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26))
+        reset(dateClickedListener)
+        view.onClick(2.0, 28.0)
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26))
+        reset(dateClickedListener)
+
+        // Click date in the middle
+        view.onClick(163.0, 113.0)
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, 12, 10))
+        reset(dateClickedListener)
+
+        // Click today
+        view.onClick(336.0, 37.0)
+        verify(dateClickedListener).onDateClicked(LocalDate(2015, 1, 25))
+        reset(dateClickedListener)
+
+        // Click header
+        view.onClick(160.0, 15.0)
+        verifyNoMoreInteractions(dateClickedListener)
+
+        // Click right axis
+        view.onClick(360.0, 60.0)
+        verifyNoMoreInteractions(dateClickedListener)
     }
 
     @Test

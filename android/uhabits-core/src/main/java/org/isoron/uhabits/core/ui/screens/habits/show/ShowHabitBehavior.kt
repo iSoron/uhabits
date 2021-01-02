@@ -18,14 +18,15 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.show
 
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
-import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.ui.callbacks.OnToggleCheckmarkListener
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import kotlin.math.roundToInt
 
 class ShowHabitBehavior(
@@ -34,7 +35,7 @@ class ShowHabitBehavior(
     private val habit: Habit,
     private val screen: Screen,
     private val preferences: Preferences,
-) : OnToggleCheckmarkListener {
+) : OnDateClickedListener {
 
     fun onScoreCardSpinnerPosition(position: Int) {
         preferences.scoreCardSpinnerPosition = position
@@ -58,7 +59,9 @@ class ShowHabitBehavior(
         screen.showHistoryEditorDialog(this)
     }
 
-    override fun onToggleEntry(timestamp: Timestamp, value: Int) {
+    override fun onDateClicked(date: LocalDate) {
+        val timestamp = date.timestamp
+        screen.touchFeedback()
         if (habit.isNumerical) {
             val entries = habit.computedEntries
             val oldValue = entries.get(timestamp).value
@@ -74,12 +77,18 @@ class ShowHabitBehavior(
                 )
             }
         } else {
+            val currentValue = habit.computedEntries.get(timestamp).value
+            val nextValue = if (preferences.isSkipEnabled) {
+                Entry.nextToggleValueWithSkip(currentValue)
+            } else {
+                Entry.nextToggleValueWithoutSkip(currentValue)
+            }
             commandRunner.run(
                 CreateRepetitionCommand(
                     habitList,
                     habit,
                     timestamp,
-                    value,
+                    nextValue,
                 ),
             )
         }
@@ -89,11 +98,12 @@ class ShowHabitBehavior(
         fun showNumberPicker(
             value: Double,
             unit: String,
-            callback: ListHabitsBehavior.NumberPickerCallback
+            callback: ListHabitsBehavior.NumberPickerCallback,
         )
 
         fun updateWidgets()
         fun refresh()
-        fun showHistoryEditorDialog(listener: OnToggleCheckmarkListener)
+        fun showHistoryEditorDialog(listener: OnDateClickedListener)
+        fun touchFeedback()
     }
 }

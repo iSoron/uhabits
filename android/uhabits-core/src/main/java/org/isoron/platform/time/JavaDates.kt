@@ -56,6 +56,12 @@ class JavaLocalDateFormatter(private val locale: Locale) : LocalDateFormatter {
         return if (longName.length <= 3) longName else shortName
     }
 
+    override fun shortWeekdayName(weekday: DayOfWeek): String {
+        val cal = GregorianCalendar()
+        cal.set(DAY_OF_WEEK, weekday.daysSinceSunday - 1)
+        return shortWeekdayName(LocalDate(cal.get(YEAR), cal.get(MONTH) + 1, cal.get(DAY_OF_MONTH)))
+    }
+
     override fun shortWeekdayName(date: LocalDate): String {
         val cal = date.toGregorianCalendar()
         return cal.getDisplayName(DAY_OF_WEEK, SHORT, locale)

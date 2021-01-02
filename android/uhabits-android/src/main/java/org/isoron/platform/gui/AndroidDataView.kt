@@ -45,7 +45,24 @@ class AndroidDataView(
     override fun onTouchEvent(event: MotionEvent?) = detector.onTouchEvent(event)
     override fun onDown(e: MotionEvent?) = true
     override fun onShowPress(e: MotionEvent?) = Unit
-    override fun onSingleTapUp(e: MotionEvent?) = false
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        val x: Float
+        val y: Float
+        try {
+            val pointerId = e!!.getPointerId(0)
+            x = e.getX(pointerId)
+            y = e.getY(pointerId)
+        } catch (ex: RuntimeException) {
+            // Android often throws IllegalArgumentException here. Apparently,
+            // the pointer id may become invalid shortly after calling
+            // e.getPointerId.
+            return false
+        }
+        view?.onClick(x / canvas.innerDensity, y / canvas.innerDensity)
+        return true
+    }
+
     override fun onLongPress(e: MotionEvent?) = Unit
 
     override fun onScroll(
@@ -76,7 +93,16 @@ class AndroidDataView(
         velocityX: Float,
         velocityY: Float,
     ): Boolean {
-        scroller.fling(scroller.currX, scroller.currY, velocityX.toInt() / 2, 0, 0, 10000, 0, 0)
+        scroller.fling(
+            scroller.currX,
+            scroller.currY,
+            velocityX.toInt() / 2,
+            0,
+            0,
+            Integer.MAX_VALUE,
+            0,
+            0
+        )
         invalidate()
         scrollAnimator.duration = scroller.duration.toLong()
         scrollAnimator.start()
@@ -99,11 +125,14 @@ class AndroidDataView(
     }
 
     private fun updateDataOffset() {
-        var newDataOffset: Int = scroller.currX / (view.dataColumnWidth * canvas.innerDensity).toInt()
-        newDataOffset = Math.max(0, newDataOffset)
-        if (newDataOffset != view.dataOffset) {
-            view.dataOffset = newDataOffset
-            postInvalidate()
+        view?.let { v ->
+            var newDataOffset: Int =
+                scroller.currX / (v.dataColumnWidth * canvas.innerDensity).toInt()
+            newDataOffset = Math.max(0, newDataOffset)
+            if (newDataOffset != v.dataOffset) {
+                v.dataOffset = newDataOffset
+                postInvalidate()
+            }
         }
     }
 }

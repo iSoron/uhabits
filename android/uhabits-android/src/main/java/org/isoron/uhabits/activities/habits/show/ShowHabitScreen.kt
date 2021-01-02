@@ -19,16 +19,18 @@
 
 package org.isoron.uhabits.activities.habits.show
 
+import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
-import org.isoron.uhabits.core.ui.callbacks.OnToggleCheckmarkListener
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitBehavior
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.intents.IntentFactory
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.showSendFileScreen
@@ -43,7 +45,11 @@ class ShowHabitScreen(
     val widgetUpdater: WidgetUpdater,
 ) : ShowHabitBehavior.Screen, ShowHabitMenuBehavior.Screen {
 
-    override fun showNumberPicker(value: Double, unit: String, callback: ListHabitsBehavior.NumberPickerCallback) {
+    override fun showNumberPicker(
+        value: Double,
+        unit: String,
+        callback: ListHabitsBehavior.NumberPickerCallback,
+    ) {
         numberPickerFactory.create(value, unit, callback).show()
     }
 
@@ -55,11 +61,17 @@ class ShowHabitScreen(
         activity.refresh()
     }
 
-    override fun showHistoryEditorDialog(listener: OnToggleCheckmarkListener) {
+    override fun showHistoryEditorDialog(listener: OnDateClickedListener) {
         val dialog = HistoryEditorDialog()
-        dialog.setHabit(habit)
-        dialog.setOnToggleCheckmarkListener(listener)
+        dialog.arguments = Bundle().apply {
+            putLong("habit", habit.id!!)
+        }
+        dialog.setOnDateClickedListener(listener)
         dialog.show(activity.supportFragmentManager, "historyEditor")
+    }
+
+    override fun touchFeedback() {
+        activity.window.decorView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
     }
 
     override fun showEditHabitScreen(habit: Habit) {

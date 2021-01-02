@@ -51,6 +51,7 @@ interface Canvas {
     fun fillCircle(centerX: Double, centerY: Double, radius: Double)
     fun setTextAlign(align: TextAlign)
     fun toImage(): Image
+    fun measureText(test: String): Double
 
     /**
      * Fills entire canvas with the current color.

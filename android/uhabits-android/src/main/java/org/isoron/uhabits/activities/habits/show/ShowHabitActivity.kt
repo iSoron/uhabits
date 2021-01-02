@@ -31,6 +31,7 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
@@ -51,6 +52,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     private lateinit var habit: Habit
     private lateinit var preferences: Preferences
     private lateinit var themeSwitcher: AndroidThemeSwitcher
+    private lateinit var behavior: ShowHabitBehavior
 
     private val scope = CoroutineScope(Dispatchers.Main)
 
@@ -76,7 +78,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             widgetUpdater = appComponent.widgetUpdater,
         )
 
-        val behavior = ShowHabitBehavior(
+        behavior = ShowHabitBehavior(
             commandRunner = commandRunner,
             habit = habit,
             habitList = habitList,
@@ -118,6 +120,9 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     override fun onResume() {
         super.onResume()
         commandRunner.addListener(this)
+        supportFragmentManager.findFragmentByTag("historyEditor")?.let {
+            (it as HistoryEditorDialog).setOnDateClickedListener(behavior)
+        }
         refresh()
     }
 

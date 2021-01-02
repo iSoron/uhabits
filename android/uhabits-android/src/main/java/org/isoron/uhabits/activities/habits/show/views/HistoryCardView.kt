@@ -40,7 +40,6 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     fun update(data: HistoryCardViewModel) {
-
         val androidColor = data.color.toThemedAndroidColor(context)
         binding.title.setTextColor(androidColor)
         binding.chart.view = HistoryChart(
@@ -51,10 +50,6 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             series = data.series,
             firstWeekday = data.firstWeekday,
         )
-
-        // binding.historyChart.setSkipEnabled(data.isSkipEnabled)
-        // if (data.isNumerical) {
-        //     binding.historyChart.setNumerical(true)
-        // }
+        binding.chart.postInvalidate()
     }
 }

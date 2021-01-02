@@ -128,9 +128,14 @@ data class LocalDate(val daysSince2000: Int) {
     fun distanceTo(other: LocalDate): Int {
         return abs(daysSince2000 - other.daysSince2000)
     }
+
+    override fun toString(): String {
+        return "LocalDate($year-$month-$day)"
+    }
 }
 
 interface LocalDateFormatter {
+    fun shortWeekdayName(weekday: DayOfWeek): String
     fun shortWeekdayName(date: LocalDate): String
     fun shortMonthName(date: LocalDate): String
 }
