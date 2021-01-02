@@ -17,31 +17,29 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.core.utils;
+package org.isoron.uhabits.core.utils
 
-import androidx.annotation.*;
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
-import java.text.*;
-import java.util.*;
+class DateFormats {
 
-public class DateFormats
-{
-    @NonNull
-    public static SimpleDateFormat fromSkeleton(@NonNull String skeleton,
-                                                @NonNull Locale locale)
-    {
-        SimpleDateFormat df = new SimpleDateFormat(skeleton, locale);
-        df.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return df;
-    }
+    companion object {
 
-    public static SimpleDateFormat getBackupDateFormat()
-    {
-        return fromSkeleton("yyyy-MM-dd HHmmss", Locale.US);
-    }
+        @JvmStatic fun fromSkeleton(
+            skeleton: String,
+            locale: Locale
+        ): SimpleDateFormat {
+            val df = SimpleDateFormat(skeleton, locale)
+            df.timeZone = TimeZone.getTimeZone("UTC")
+            return df
+        }
 
-    public static SimpleDateFormat getCSVDateFormat()
-    {
-        return fromSkeleton("yyyy-MM-dd", Locale.US);
+        @JvmStatic fun getBackupDateFormat(): SimpleDateFormat =
+            fromSkeleton("yyyy-MM-dd HHmmss", Locale.US)
+
+        @JvmStatic fun getCSVDateFormat(): SimpleDateFormat =
+            fromSkeleton("yyyy-MM-dd", Locale.US)
     }
 }
