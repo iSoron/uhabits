@@ -24,7 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,8 +43,8 @@ class StreakCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.streakCard) as StreakCardView
-        view.update(
-            StreakCardViewModel(
+        view.setState(
+            StreakCardState(
                 bestStreaks = habit.streaks.getBest(10),
                 color = habit.color,
             )

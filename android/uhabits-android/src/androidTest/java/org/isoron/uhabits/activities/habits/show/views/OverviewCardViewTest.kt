@@ -25,7 +25,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardState
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,8 +43,8 @@ class OverviewCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.overviewCard) as OverviewCardView
-        view.update(
-            OverviewCardViewModel(
+        view.setState(
+            OverviewCardState(
                 scoreToday = 0.74f,
                 scoreMonthDiff = 0.23f,
                 scoreYearDiff = 0.74f,

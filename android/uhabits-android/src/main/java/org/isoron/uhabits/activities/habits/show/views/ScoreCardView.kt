@@ -24,24 +24,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
-import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
+import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardState
 import org.isoron.uhabits.databinding.ShowHabitScoreBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
 
 class ScoreCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private var binding = ShowHabitScoreBinding.inflate(LayoutInflater.from(context), this)
 
-    var onSpinnerPosition: (position: Int) -> Unit = {}
-
-    fun update(data: ScoreCardViewModel) {
-        val androidColor = data.color.toThemedAndroidColor(context)
+    fun setState(state: ScoreCardState) {
+        val androidColor = state.color.toThemedAndroidColor(context)
         binding.title.setTextColor(androidColor)
-        binding.spinner.setSelection(data.spinnerPosition)
-        binding.scoreView.setScores(data.scores)
+        binding.spinner.setSelection(state.spinnerPosition)
+        binding.scoreView.setScores(state.scores)
         binding.scoreView.reset()
-        binding.scoreView.setBucketSize(data.bucketSize)
+        binding.scoreView.setBucketSize(state.bucketSize)
         binding.scoreView.setColor(androidColor)
+    }
 
+    fun setListener(presenter: ScoreCardPresenter) {
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -49,7 +50,7 @@ class ScoreCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 position: Int,
                 id: Long
             ) {
-                onSpinnerPosition(position)
+                presenter.onSpinnerPosition(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

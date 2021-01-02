@@ -23,7 +23,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardState
 import org.isoron.uhabits.databinding.ShowHabitOverviewBinding
 import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.toThemedAndroidColor
@@ -40,21 +40,21 @@ class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         )
     }
 
-    fun update(data: OverviewCardViewModel) {
-        val androidColor = data.color.toThemedAndroidColor(context)
+    fun setState(state: OverviewCardState) {
+        val androidColor = state.color.toThemedAndroidColor(context)
         val res = StyledResources(context)
         val inactiveColor = res.getColor(R.attr.mediumContrastTextColor)
-        binding.monthDiffLabel.setTextColor(if (data.scoreMonthDiff >= 0) androidColor else inactiveColor)
-        binding.monthDiffLabel.text = formatPercentageDiff(data.scoreMonthDiff)
+        binding.monthDiffLabel.setTextColor(if (state.scoreMonthDiff >= 0) androidColor else inactiveColor)
+        binding.monthDiffLabel.text = formatPercentageDiff(state.scoreMonthDiff)
         binding.scoreLabel.setTextColor(androidColor)
-        binding.scoreLabel.text = String.format("%.0f%%", data.scoreToday * 100)
+        binding.scoreLabel.text = String.format("%.0f%%", state.scoreToday * 100)
         binding.scoreRing.color = androidColor
-        binding.scoreRing.percentage = data.scoreToday
+        binding.scoreRing.percentage = state.scoreToday
         binding.title.setTextColor(androidColor)
         binding.totalCountLabel.setTextColor(androidColor)
-        binding.totalCountLabel.text = data.totalCount.toString()
-        binding.yearDiffLabel.setTextColor(if (data.scoreYearDiff >= 0) androidColor else inactiveColor)
-        binding.yearDiffLabel.text = formatPercentageDiff(data.scoreYearDiff)
+        binding.totalCountLabel.text = state.totalCount.toString()
+        binding.yearDiffLabel.setTextColor(if (state.scoreYearDiff >= 0) androidColor else inactiveColor)
+        binding.yearDiffLabel.text = formatPercentageDiff(state.scoreYearDiff)
         postInvalidate()
     }
 }

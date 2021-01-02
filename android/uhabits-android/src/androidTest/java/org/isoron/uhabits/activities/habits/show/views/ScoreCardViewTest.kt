@@ -43,8 +43,8 @@ class ScoreCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.scoreCard) as ScoreCardView
-        view.update(
-            ScoreCardPresenter().present(
+        view.setState(
+            ScoreCardPresenter.buildState(
                 habit = habit,
                 firstWeekday = 0,
                 spinnerPosition = 0,

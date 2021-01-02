@@ -39,8 +39,6 @@ public class ScoreChartTest extends BaseViewTest
 
     private ScoreChart view;
 
-    private ScoreCardPresenter presenter;
-
     @Override
     @Before
     public void setUp()
@@ -49,13 +47,12 @@ public class ScoreChartTest extends BaseViewTest
 
         fixtures.purgeHabits(habitList);
         habit = fixtures.createLongHabit();
-        presenter = new ScoreCardPresenter();
-        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekdayInt(), 0);
+        ScoreCardState state = ScoreCardPresenter.Companion.buildState(habit, prefs.getFirstWeekdayInt(), 0);
 
         view = new ScoreChart(targetContext);
-        view.setScores(model.getScores());
-        view.setColor(PaletteUtilsKt.toFixedAndroidColor(model.getColor()));
-        view.setBucketSize(model.getBucketSize());
+        view.setScores(state.getScores());
+        view.setColor(PaletteUtilsKt.toFixedAndroidColor(state.getColor()));
+        view.setBucketSize(state.getBucketSize());
         measureView(view, dpToPixels(300), dpToPixels(200));
     }
 
@@ -84,7 +81,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withMonthlyBucket() throws Throwable
     {
-        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekdayInt(), 2);
+        ScoreCardState model = ScoreCardPresenter.Companion.buildState(habit, prefs.getFirstWeekdayInt(), 2);
         view.setScores(model.getScores());
         view.setBucketSize(model.getBucketSize());
         view.invalidate();
@@ -102,7 +99,7 @@ public class ScoreChartTest extends BaseViewTest
     @Test
     public void testRender_withYearlyBucket() throws Throwable
     {
-        ScoreCardViewModel model = presenter.present(habit, prefs.getFirstWeekdayInt(), 4);
+        ScoreCardState model = ScoreCardPresenter.Companion.buildState(habit, prefs.getFirstWeekdayInt(), 4);
         view.setScores(model.getScores());
         view.setBucketSize(model.getBucketSize());
         view.invalidate();

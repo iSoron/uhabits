@@ -45,11 +45,10 @@ class HistoryCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.historyCard) as HistoryCardView
-        view.update(
-            HistoryCardPresenter().present(
+        view.setState(
+            HistoryCardPresenter.buildState(
                 habit = habit,
                 firstWeekday = SUNDAY,
-                isSkipEnabled = false,
                 theme = LightTheme(),
             )
         )

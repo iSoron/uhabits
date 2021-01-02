@@ -21,18 +21,25 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.views.HistoryChart
+import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 import kotlin.math.max
+import kotlin.math.roundToInt
 
-data class HistoryCardViewModel(
+data class HistoryCardState(
     val color: PaletteColor,
     val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
@@ -40,42 +47,99 @@ data class HistoryCardViewModel(
     val today: LocalDate,
 )
 
-class HistoryCardPresenter {
-    fun present(
-        habit: Habit,
-        firstWeekday: DayOfWeek,
-        isSkipEnabled: Boolean,
-        theme: Theme,
-    ): HistoryCardViewModel {
-        val today = DateUtils.getTodayWithOffset()
-        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-        val entries = habit.computedEntries.getByInterval(oldest, today)
-        val series = if (habit.isNumerical) {
-            entries.map {
-                Entry(it.timestamp, max(0, it.value))
-            }.map {
-                when (it.value) {
-                    0 -> HistoryChart.Square.OFF
-                    else -> HistoryChart.Square.ON
-                }
+class HistoryCardPresenter(
+    val commandRunner: CommandRunner,
+    val habit: Habit,
+    val habitList: HabitList,
+    val preferences: Preferences,
+    val screen: Screen,
+) : OnDateClickedListener {
+
+    override fun onDateClicked(date: LocalDate) {
+        val timestamp = date.timestamp
+        screen.showFeedback()
+        if (habit.isNumerical) {
+            val entries = habit.computedEntries
+            val oldValue = entries.get(timestamp).value
+            screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
+                val thousands = (newValue * 1000).roundToInt()
+                commandRunner.run(
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        thousands,
+                    ),
+                )
             }
         } else {
-            entries.map {
-                when (it.value) {
-                    YES_MANUAL -> HistoryChart.Square.ON
-                    YES_AUTO -> HistoryChart.Square.DIMMED
-                    SKIP -> HistoryChart.Square.HATCHED
-                    else -> HistoryChart.Square.OFF
+            val currentValue = habit.computedEntries.get(timestamp).value
+            val nextValue = if (preferences.isSkipEnabled) {
+                Entry.nextToggleValueWithSkip(currentValue)
+            } else {
+                Entry.nextToggleValueWithoutSkip(currentValue)
+            }
+            commandRunner.run(
+                CreateRepetitionCommand(
+                    habitList,
+                    habit,
+                    timestamp,
+                    nextValue,
+                ),
+            )
+        }
+    }
+
+    fun onClickEditButton() {
+        screen.showHistoryEditorDialog(this)
+    }
+
+    companion object {
+        fun buildState(
+            habit: Habit,
+            firstWeekday: DayOfWeek,
+            theme: Theme,
+        ): HistoryCardState {
+            val today = DateUtils.getTodayWithOffset()
+            val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+            val entries = habit.computedEntries.getByInterval(oldest, today)
+            val series = if (habit.isNumerical) {
+                entries.map {
+                    Entry(it.timestamp, max(0, it.value))
+                }.map {
+                    when (it.value) {
+                        0 -> HistoryChart.Square.OFF
+                        else -> HistoryChart.Square.ON
+                    }
+                }
+            } else {
+                entries.map {
+                    when (it.value) {
+                        YES_MANUAL -> HistoryChart.Square.ON
+                        YES_AUTO -> HistoryChart.Square.DIMMED
+                        SKIP -> HistoryChart.Square.HATCHED
+                        else -> HistoryChart.Square.OFF
+                    }
                 }
             }
-        }
 
-        return HistoryCardViewModel(
-            color = habit.color,
-            firstWeekday = firstWeekday,
-            today = today.toLocalDate(),
-            theme = theme,
-            series = series,
+            return HistoryCardState(
+                color = habit.color,
+                firstWeekday = firstWeekday,
+                today = today.toLocalDate(),
+                theme = theme,
+                series = series,
+            )
+        }
+    }
+
+    interface Screen {
+        fun showHistoryEditorDialog(listener: OnDateClickedListener)
+        fun showFeedback()
+        fun showNumberPicker(
+            value: Double,
+            unit: String,
+            callback: ListHabitsBehavior.NumberPickerCallback,
         )
     }
 }

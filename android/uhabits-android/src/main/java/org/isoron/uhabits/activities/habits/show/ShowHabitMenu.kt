@@ -23,11 +23,11 @@ import android.view.Menu
 import android.view.MenuItem
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuPresenter
 
 class ShowHabitMenu(
     val activity: ShowHabitActivity,
-    val behavior: ShowHabitMenuBehavior,
+    val presenter: ShowHabitMenuPresenter,
     val preferences: Preferences,
 ) {
     fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -41,19 +41,19 @@ class ShowHabitMenu(
     fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_edit_habit -> {
-                behavior.onEditHabit()
+                presenter.onEditHabit()
                 return true
             }
             R.id.action_delete -> {
-                behavior.onDeleteHabit()
+                presenter.onDeleteHabit()
                 return true
             }
             R.id.action_randomize -> {
-                behavior.onRandomize()
+                presenter.onRandomize()
                 return true
             }
             R.id.export -> {
-                behavior.onExportCSV()
+                presenter.onExportCSV()
                 return true
             }
         }

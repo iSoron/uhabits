@@ -20,6 +20,7 @@ package org.isoron.uhabits.activities.habits.show
 
 import android.content.ContentUris
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -28,23 +29,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
-import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitBehavior
-import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
+import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.showSendFileScreen
+import org.isoron.uhabits.widgets.WidgetUpdater
 
 class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
-
-    val presenter = ShowHabitPresenter()
 
     private lateinit var commandRunner: CommandRunner
     private lateinit var menu: ShowHabitMenu
@@ -52,9 +57,11 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     private lateinit var habit: Habit
     private lateinit var preferences: Preferences
     private lateinit var themeSwitcher: AndroidThemeSwitcher
-    private lateinit var behavior: ShowHabitBehavior
+    private lateinit var widgetUpdater: WidgetUpdater
 
     private val scope = CoroutineScope(Dispatchers.Main)
+    private lateinit var presenter: ShowHabitPresenter
+    private val screen = Screen()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,21 +71,12 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
         preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
+        widgetUpdater = appComponent.widgetUpdater
+
         themeSwitcher = AndroidThemeSwitcher(this, preferences)
         themeSwitcher.apply()
 
-        view = ShowHabitView(this)
-
-        val screen = ShowHabitScreen(
-            activity = this,
-            confirmDeleteDialogFactory = ConfirmDeleteDialogFactory { this },
-            habit = habit,
-            intentFactory = IntentFactory(),
-            numberPickerFactory = NumberPickerFactory(this),
-            widgetUpdater = appComponent.widgetUpdater,
-        )
-
-        behavior = ShowHabitBehavior(
+        presenter = ShowHabitPresenter(
             commandRunner = commandRunner,
             habit = habit,
             habitList = habitList,
@@ -86,7 +84,9 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             screen = screen,
         )
 
-        val menuBehavior = ShowHabitMenuBehavior(
+        view = ShowHabitView(this)
+
+        val menuPresenter = ShowHabitMenuPresenter(
             commandRunner = commandRunner,
             habit = habit,
             habitList = habitList,
@@ -97,15 +97,11 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
         menu = ShowHabitMenu(
             activity = this,
-            behavior = menuBehavior,
+            presenter = menuPresenter,
             preferences = preferences,
         )
 
-        view.onScoreCardSpinnerPosition = behavior::onScoreCardSpinnerPosition
-        view.onBarCardBoolSpinnerPosition = behavior::onBarCardBoolSpinnerPosition
-        view.onBarCardNumericalSpinnerPosition = behavior::onBarCardNumericalSpinnerPosition
-        view.onClickEditHistoryButton = behavior::onClickEditHistory
-
+        view.setListener(presenter)
         setContentView(view)
     }
 
@@ -121,9 +117,9 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         super.onResume()
         commandRunner.addListener(this)
         supportFragmentManager.findFragmentByTag("historyEditor")?.let {
-            (it as HistoryEditorDialog).setOnDateClickedListener(behavior)
+            (it as HistoryEditorDialog).setOnDateClickedListener(presenter.historyCardPresenter)
         }
-        refresh()
+        screen.refresh()
     }
 
     override fun onPause() {
@@ -132,18 +128,69 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     }
 
     override fun onCommandFinished(command: Command) {
-        refresh()
+        screen.refresh()
     }
 
-    fun refresh() {
-        scope.launch {
-            view.update(
-                presenter.present(
-                    habit = habit,
-                    preferences = preferences,
-                    theme = themeSwitcher.currentTheme,
+    inner class Screen : ShowHabitMenuPresenter.Screen, ShowHabitPresenter.Screen {
+        override fun updateWidgets() {
+            widgetUpdater.updateWidgets()
+        }
+
+        override fun refresh() {
+            scope.launch {
+                view.setState(
+                    ShowHabitPresenter.buildState(
+                        habit = habit,
+                        preferences = preferences,
+                        theme = themeSwitcher.currentTheme,
+                    )
                 )
-            )
+            }
+        }
+
+        override fun showHistoryEditorDialog(listener: OnDateClickedListener) {
+            val dialog = HistoryEditorDialog()
+            dialog.arguments = Bundle().apply {
+                putLong("habit", habit.id!!)
+            }
+            dialog.setOnDateClickedListener(listener)
+            dialog.show(supportFragmentManager, "historyEditor")
+        }
+
+        override fun showFeedback() {
+            window.decorView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+        }
+
+        override fun showNumberPicker(
+            value: Double,
+            unit: String,
+            callback: ListHabitsBehavior.NumberPickerCallback,
+        ) {
+            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, callback).show()
+        }
+
+        override fun showEditHabitScreen(habit: Habit) {
+            startActivity(IntentFactory().startEditActivity(this@ShowHabitActivity, habit))
+        }
+
+        override fun showMessage(m: ShowHabitMenuPresenter.Message?) {
+            when (m) {
+                ShowHabitMenuPresenter.Message.COULD_NOT_EXPORT -> {
+                    showMessage(resources.getString(R.string.could_not_export))
+                }
+            }
+        }
+
+        override fun showSendFileScreen(filename: String) {
+            this@ShowHabitActivity.showSendFileScreen(filename)
+        }
+
+        override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
+            ConfirmDeleteDialog(this@ShowHabitActivity, callback, 1).show()
+        }
+
+        override fun close() {
+            this@ShowHabitActivity.finish()
         }
     }
 }

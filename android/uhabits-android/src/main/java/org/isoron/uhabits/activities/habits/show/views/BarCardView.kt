@@ -25,7 +25,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import org.isoron.platform.time.JavaLocalDateFormatter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardPresenter
+import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardState
 import org.isoron.uhabits.core.ui.views.BarChart
 import org.isoron.uhabits.databinding.ShowHabitBarBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
@@ -34,57 +35,56 @@ import java.util.Locale
 class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     private var binding = ShowHabitBarBinding.inflate(LayoutInflater.from(context), this)
-    var onNumericalSpinnerPosition: (position: Int) -> Unit = {}
-    var onBoolSpinnerPosition: (position: Int) -> Unit = {}
 
-    fun update(data: BarCardViewModel) {
-        val androidColor = data.color.toThemedAndroidColor(context)
-        binding.chart.view = BarChart(data.theme, JavaLocalDateFormatter(Locale.US)).apply {
-            series = mutableListOf(data.entries.map { it.value / 1000.0 })
-            colors = mutableListOf(theme.color(data.color.paletteIndex))
-            axis = data.entries.map { it.timestamp.toLocalDate() }
+    fun setState(state: BarCardState) {
+        val androidColor = state.color.toThemedAndroidColor(context)
+        binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.US)).apply {
+            series = mutableListOf(state.entries.map { it.value / 1000.0 })
+            colors = mutableListOf(theme.color(state.color.paletteIndex))
+            axis = state.entries.map { it.timestamp.toLocalDate() }
         }
         binding.chart.resetDataOffset()
         binding.chart.postInvalidate()
 
         binding.title.setTextColor(androidColor)
-        if (data.isNumerical) {
+        if (state.isNumerical) {
             binding.boolSpinner.visibility = GONE
         } else {
             binding.numericalSpinner.visibility = GONE
         }
 
         binding.numericalSpinner.onItemSelectedListener = null
-        binding.numericalSpinner.setSelection(data.numericalSpinnerPosition)
+        binding.numericalSpinner.setSelection(state.numericalSpinnerPosition)
+        binding.boolSpinner.setSelection(state.boolSpinnerPosition)
+    }
+
+    fun setListener(presenter: BarCardPresenter) {
+        binding.boolSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long,
+            ) {
+                presenter.onBoolSpinnerPosition(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
         binding.numericalSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
-                    id: Long
+                    id: Long,
                 ) {
-                    onNumericalSpinnerPosition(position)
+                    presenter.onNumericalSpinnerPosition(position)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
-
-        binding.boolSpinner.onItemSelectedListener = null
-        binding.boolSpinner.setSelection(data.boolSpinnerPosition)
-        binding.boolSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                onBoolSpinnerPosition(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
     }
 }

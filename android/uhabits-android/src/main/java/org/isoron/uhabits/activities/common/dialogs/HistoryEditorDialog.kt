@@ -91,10 +91,9 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
     }
 
     private fun refreshData() {
-        val model = HistoryCardPresenter().present(
+        val model = HistoryCardPresenter.buildState(
             habit,
             preferences.firstWeekday,
-            preferences.isSkipEnabled,
             theme = LightTheme()
         )
         chart?.series = model.series

@@ -43,7 +43,7 @@ class FrequencyCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.frequencyCard) as FrequencyCardView
-        view.update(FrequencyCardPresenter().present(habit = habit, firstWeekday = 0))
+        view.setState(FrequencyCardPresenter.buildState(habit = habit, firstWeekday = 0))
         measureView(view, 800f, 600f)
     }
 

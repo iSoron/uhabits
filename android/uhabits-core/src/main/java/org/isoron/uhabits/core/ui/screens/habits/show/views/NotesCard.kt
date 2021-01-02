@@ -21,12 +21,14 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.uhabits.core.models.Habit
 
-data class NotesCardViewModel(
+data class NotesCardState(
     val description: String,
 )
 
 class NotesCardPresenter {
-    fun present(habit: Habit) = NotesCardViewModel(
-        description = habit.description,
-    )
+    companion object {
+        fun buildState(habit: Habit) = NotesCardState(
+            description = habit.description,
+        )
+    }
 }

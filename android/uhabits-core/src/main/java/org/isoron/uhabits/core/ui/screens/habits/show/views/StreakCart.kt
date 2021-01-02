@@ -23,16 +23,18 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Streak
 
-data class StreakCardViewModel(
+data class StreakCardState(
     val color: PaletteColor,
     val bestStreaks: List<Streak>
 )
 
 class StreakCartPresenter {
-    fun present(habit: Habit): StreakCardViewModel {
-        return StreakCardViewModel(
-            color = habit.color,
-            bestStreaks = habit.streaks.getBest(10),
-        )
+    companion object {
+        fun buildState(habit: Habit): StreakCardState {
+            return StreakCardState(
+                color = habit.color,
+                bestStreaks = habit.streaks.getBest(10),
+            )
+        }
     }
 }

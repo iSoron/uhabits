@@ -46,9 +46,8 @@ class HistoryWidget(
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
-        val model = HistoryCardPresenter().present(
+        val model = HistoryCardPresenter.buildState(
             habit = habit,
-            isSkipEnabled = prefs.isSkipEnabled,
             firstWeekday = prefs.firstWeekday,
             theme = WidgetTheme(),
         )

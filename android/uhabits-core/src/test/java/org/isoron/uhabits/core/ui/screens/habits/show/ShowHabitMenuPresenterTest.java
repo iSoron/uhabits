@@ -31,25 +31,25 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-public class ShowHabitMenuBehaviorTest extends BaseUnitTest
+public class ShowHabitMenuPresenterTest extends BaseUnitTest
 {
-    private ShowHabitMenuBehavior.System system;
+    private ShowHabitMenuPresenter.System system;
 
-    private ShowHabitMenuBehavior.Screen screen;
+    private ShowHabitMenuPresenter.Screen screen;
 
     private Habit habit;
 
-    private ShowHabitMenuBehavior menu;
+    private ShowHabitMenuPresenter menu;
 
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
-        system = mock(ShowHabitMenuBehavior.System.class);
-        screen = mock(ShowHabitMenuBehavior.Screen.class);
+        system = mock(ShowHabitMenuPresenter.System.class);
+        screen = mock(ShowHabitMenuPresenter.Screen.class);
 
         habit = fixtures.createShortHabit();
-        menu = new ShowHabitMenuBehavior(commandRunner, habit, habitList, screen, system, taskRunner);
+        menu = new ShowHabitMenuPresenter(commandRunner, habit, habitList, screen, system, taskRunner);
     }
 
     @Test

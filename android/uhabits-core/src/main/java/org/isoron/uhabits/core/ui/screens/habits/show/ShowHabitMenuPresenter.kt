@@ -30,7 +30,7 @@ import org.isoron.uhabits.core.utils.DateUtils
 import java.io.File
 import java.util.Random
 
-class ShowHabitMenuBehavior(
+class ShowHabitMenuPresenter(
     private val commandRunner: CommandRunner,
     private val habit: Habit,
     private val habitList: HabitList,
@@ -85,9 +85,7 @@ class ShowHabitMenuBehavior(
         fun showEditHabitScreen(habit: Habit)
         fun showMessage(m: Message?)
         fun showSendFileScreen(filename: String)
-        fun showDeleteConfirmationScreen(
-            callback: OnConfirmedCallback
-        )
+        fun showDeleteConfirmationScreen(callback: OnConfirmedCallback)
         fun close()
         fun refresh()
     }

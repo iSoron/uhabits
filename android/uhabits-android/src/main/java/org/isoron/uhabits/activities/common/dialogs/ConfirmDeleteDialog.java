@@ -37,7 +37,7 @@ import org.isoron.uhabits.inject.*;
 @AutoFactory(allowSubclasses = true)
 public class ConfirmDeleteDialog extends AlertDialog
 {
-    protected ConfirmDeleteDialog(@Provided @ActivityContext Context context,
+    public ConfirmDeleteDialog(@Provided @ActivityContext Context context,
                                   @NonNull OnConfirmedCallback callback,
                                   int quantity)
     {

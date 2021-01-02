@@ -28,7 +28,7 @@ import android.widget.LinearLayout
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.views.toShortString
 import org.isoron.uhabits.core.models.Frequency
-import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.formatTime
@@ -47,27 +47,27 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
     }
 
     @SuppressLint("SetTextI18n")
-    fun update(data: SubtitleCardViewModel) {
-        val color = data.color.toThemedAndroidColor(context)
-        val reminder = data.reminder
-        binding.frequencyLabel.text = data.frequency.format(resources)
+    fun setState(state: SubtitleCardState) {
+        val color = state.color.toThemedAndroidColor(context)
+        val reminder = state.reminder
+        binding.frequencyLabel.text = state.frequency.format(resources)
         binding.questionLabel.setTextColor(color)
-        binding.questionLabel.text = data.question
+        binding.questionLabel.text = state.question
         binding.reminderLabel.text = if (reminder != null) {
             formatTime(context, reminder.hour, reminder.minute)
         } else {
             resources.getString(R.string.reminder_off)
         }
-        binding.targetText.text = "${data.targetValue.toShortString()} ${data.unit}"
+        binding.targetText.text = "${state.targetValue.toShortString()} ${state.unit}"
 
         binding.questionLabel.visibility = View.VISIBLE
         binding.targetIcon.visibility = View.VISIBLE
         binding.targetText.visibility = View.VISIBLE
-        if (!data.isNumerical) {
+        if (!state.isNumerical) {
             binding.targetIcon.visibility = View.GONE
             binding.targetText.visibility = View.GONE
         }
-        if (data.question.isEmpty()) {
+        if (state.question.isEmpty()) {
             binding.questionLabel.visibility = View.GONE
         }
 

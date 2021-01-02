@@ -24,7 +24,7 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 
-data class SubtitleCardViewModel(
+data class SubtitleCardState(
     val color: PaletteColor,
     val frequency: Frequency,
     val isNumerical: Boolean,
@@ -35,15 +35,17 @@ data class SubtitleCardViewModel(
 )
 
 class SubtitleCardPresenter {
-    fun present(
-        habit: Habit,
-    ): SubtitleCardViewModel = SubtitleCardViewModel(
-        color = habit.color,
-        frequency = habit.frequency,
-        isNumerical = habit.isNumerical,
-        question = habit.question,
-        reminder = habit.reminder,
-        targetValue = habit.targetValue,
-        unit = habit.unit,
-    )
+    companion object {
+        fun buildState(
+            habit: Habit,
+        ): SubtitleCardState = SubtitleCardState(
+            color = habit.color,
+            frequency = habit.frequency,
+            isNumerical = habit.isNumerical,
+            question = habit.question,
+            reminder = habit.reminder,
+            targetValue = habit.targetValue,
+            unit = habit.unit,
+        )
+    }
 }

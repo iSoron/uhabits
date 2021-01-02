@@ -23,17 +23,17 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardState
 import org.isoron.uhabits.databinding.ShowHabitNotesBinding
 
 class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = ShowHabitNotesBinding.inflate(LayoutInflater.from(context), this)
-    fun update(data: NotesCardViewModel) {
-        if (data.description.isEmpty()) {
+    fun setState(state: NotesCardState) {
+        if (state.description.isEmpty()) {
             visibility = GONE
         } else {
             visibility = VISIBLE
-            binding.habitNotes.text = data.description
+            binding.habitNotes.text = state.description
         }
         invalidate()
     }

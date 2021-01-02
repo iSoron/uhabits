@@ -22,17 +22,17 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 import org.isoron.uhabits.databinding.ShowHabitStreakBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
 
 class StreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = ShowHabitStreakBinding.inflate(LayoutInflater.from(context), this)
-    fun update(data: StreakCardViewModel) {
-        val color = data.color.toThemedAndroidColor(context)
+    fun setState(state: StreakCardState) {
+        val color = state.color.toThemedAndroidColor(context)
         binding.title.setTextColor(color)
         binding.streakChart.setColor(color)
-        binding.streakChart.setStreaks(data.bestStreaks)
+        binding.streakChart.setStreaks(state.bestStreaks)
         postInvalidate()
     }
 }

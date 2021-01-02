@@ -23,7 +23,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.platform.time.JavaLocalDateFormatter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardPresenter
+import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardState
 import org.isoron.uhabits.core.ui.views.HistoryChart
 import org.isoron.uhabits.databinding.ShowHabitHistoryBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
@@ -33,23 +34,21 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     private var binding = ShowHabitHistoryBinding.inflate(LayoutInflater.from(context), this)
 
-    var onClickEditButton: () -> Unit = {}
-
-    init {
-        binding.edit.setOnClickListener { onClickEditButton() }
-    }
-
-    fun update(data: HistoryCardViewModel) {
-        val androidColor = data.color.toThemedAndroidColor(context)
+    fun setState(state: HistoryCardState) {
+        val androidColor = state.color.toThemedAndroidColor(context)
         binding.title.setTextColor(androidColor)
         binding.chart.view = HistoryChart(
-            today = data.today,
-            paletteColor = data.color,
-            theme = data.theme,
+            today = state.today,
+            paletteColor = state.color,
+            theme = state.theme,
             dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
-            series = data.series,
-            firstWeekday = data.firstWeekday,
+            series = state.series,
+            firstWeekday = state.firstWeekday,
         )
         binding.chart.postInvalidate()
+    }
+
+    fun setListener(presenter: HistoryCardPresenter) {
+        binding.edit.setOnClickListener { presenter.onClickEditButton() }
     }
 }

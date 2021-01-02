@@ -26,7 +26,7 @@ import org.isoron.uhabits.core.utils.DateUtils
 import java.util.ArrayList
 import java.util.Calendar
 
-data class TargetCardViewModel(
+data class TargetCardState(
     val color: PaletteColor,
     val values: List<Double> = listOf(),
     val targets: List<Double> = listOf(),
@@ -34,77 +34,79 @@ data class TargetCardViewModel(
 )
 
 class TargetCardPresenter {
-    fun present(
-        habit: Habit,
-        firstWeekday: Int,
-    ): TargetCardViewModel {
-        val today = DateUtils.getTodayWithOffset()
-        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-        val entries = habit.computedEntries.getByInterval(oldest, today)
+    companion object {
+        fun buildState(
+            habit: Habit,
+            firstWeekday: Int,
+        ): TargetCardState {
+            val today = DateUtils.getTodayWithOffset()
+            val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+            val entries = habit.computedEntries.getByInterval(oldest, today)
 
-        val valueToday = entries.groupedSum(
-            truncateField = DateUtils.TruncateField.DAY,
-            isNumerical = habit.isNumerical
-        ).firstOrNull()?.value ?: 0
+            val valueToday = entries.groupedSum(
+                truncateField = DateUtils.TruncateField.DAY,
+                isNumerical = habit.isNumerical
+            ).firstOrNull()?.value ?: 0
 
-        val valueThisWeek = entries.groupedSum(
-            truncateField = DateUtils.TruncateField.WEEK_NUMBER,
-            firstWeekday = firstWeekday,
-            isNumerical = habit.isNumerical
-        ).firstOrNull()?.value ?: 0
+            val valueThisWeek = entries.groupedSum(
+                truncateField = DateUtils.TruncateField.WEEK_NUMBER,
+                firstWeekday = firstWeekday,
+                isNumerical = habit.isNumerical
+            ).firstOrNull()?.value ?: 0
 
-        val valueThisMonth = entries.groupedSum(
-            truncateField = DateUtils.TruncateField.MONTH,
-            isNumerical = habit.isNumerical
-        ).firstOrNull()?.value ?: 0
+            val valueThisMonth = entries.groupedSum(
+                truncateField = DateUtils.TruncateField.MONTH,
+                isNumerical = habit.isNumerical
+            ).firstOrNull()?.value ?: 0
 
-        val valueThisQuarter = entries.groupedSum(
-            truncateField = DateUtils.TruncateField.QUARTER,
-            isNumerical = habit.isNumerical
-        ).firstOrNull()?.value ?: 0
+            val valueThisQuarter = entries.groupedSum(
+                truncateField = DateUtils.TruncateField.QUARTER,
+                isNumerical = habit.isNumerical
+            ).firstOrNull()?.value ?: 0
 
-        val valueThisYear = entries.groupedSum(
-            truncateField = DateUtils.TruncateField.YEAR,
-            isNumerical = habit.isNumerical
-        ).firstOrNull()?.value ?: 0
+            val valueThisYear = entries.groupedSum(
+                truncateField = DateUtils.TruncateField.YEAR,
+                isNumerical = habit.isNumerical
+            ).firstOrNull()?.value ?: 0
 
-        val cal = DateUtils.getStartOfTodayCalendarWithOffset()
-        val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
-        val daysInQuarter = 91
-        val daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
+            val cal = DateUtils.getStartOfTodayCalendarWithOffset()
+            val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+            val daysInQuarter = 91
+            val daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
 
-        val targetToday = habit.targetValue / habit.frequency.denominator
-        val targetThisWeek = targetToday * 7
-        val targetThisMonth = targetToday * daysInMonth
-        val targetThisQuarter = targetToday * daysInQuarter
-        val targetThisYear = targetToday * daysInYear
+            val targetToday = habit.targetValue / habit.frequency.denominator
+            val targetThisWeek = targetToday * 7
+            val targetThisMonth = targetToday * daysInMonth
+            val targetThisQuarter = targetToday * daysInQuarter
+            val targetThisYear = targetToday * daysInYear
 
-        val values = ArrayList<Double>()
-        if (habit.frequency.denominator <= 1) values.add(valueToday / 1e3)
-        if (habit.frequency.denominator <= 7) values.add(valueThisWeek / 1e3)
-        values.add(valueThisMonth / 1e3)
-        values.add(valueThisQuarter / 1e3)
-        values.add(valueThisYear / 1e3)
+            val values = ArrayList<Double>()
+            if (habit.frequency.denominator <= 1) values.add(valueToday / 1e3)
+            if (habit.frequency.denominator <= 7) values.add(valueThisWeek / 1e3)
+            values.add(valueThisMonth / 1e3)
+            values.add(valueThisQuarter / 1e3)
+            values.add(valueThisYear / 1e3)
 
-        val targets = ArrayList<Double>()
-        if (habit.frequency.denominator <= 1) targets.add(targetToday)
-        if (habit.frequency.denominator <= 7) targets.add(targetThisWeek)
-        targets.add(targetThisMonth)
-        targets.add(targetThisQuarter)
-        targets.add(targetThisYear)
+            val targets = ArrayList<Double>()
+            if (habit.frequency.denominator <= 1) targets.add(targetToday)
+            if (habit.frequency.denominator <= 7) targets.add(targetThisWeek)
+            targets.add(targetThisMonth)
+            targets.add(targetThisQuarter)
+            targets.add(targetThisYear)
 
-        val intervals = ArrayList<Int>()
-        if (habit.frequency.denominator <= 1) intervals.add(1)
-        if (habit.frequency.denominator <= 7) intervals.add(7)
-        intervals.add(30)
-        intervals.add(91)
-        intervals.add(365)
+            val intervals = ArrayList<Int>()
+            if (habit.frequency.denominator <= 1) intervals.add(1)
+            if (habit.frequency.denominator <= 7) intervals.add(7)
+            intervals.add(30)
+            intervals.add(91)
+            intervals.add(365)
 
-        return TargetCardViewModel(
-            color = habit.color,
-            values = values,
-            targets = targets,
-            intervals = intervals,
-        )
+            return TargetCardState(
+                color = habit.color,
+                values = values,
+                targets = targets,
+                intervals = intervals,
+            )
+        }
     }
 }

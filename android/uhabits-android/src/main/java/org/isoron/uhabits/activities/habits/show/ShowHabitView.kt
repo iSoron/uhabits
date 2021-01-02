@@ -22,42 +22,40 @@ package org.isoron.uhabits.activities.habits.show
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitState
 import org.isoron.uhabits.databinding.ShowHabitBinding
 import org.isoron.uhabits.utils.setupToolbar
 
 class ShowHabitView(context: Context) : FrameLayout(context) {
     private val binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
 
-    var onScoreCardSpinnerPosition: (position: Int) -> Unit = {}
-    var onClickEditHistoryButton: () -> Unit = {}
-    var onBarCardBoolSpinnerPosition: (position: Int) -> Unit = {}
-    var onBarCardNumericalSpinnerPosition: (position: Int) -> Unit = {}
-
     init {
         addView(binding.root)
-        binding.scoreCard.onSpinnerPosition = { onScoreCardSpinnerPosition(it) }
-        binding.historyCard.onClickEditButton = { onClickEditHistoryButton() }
-        binding.barCard.onBoolSpinnerPosition = { onBarCardBoolSpinnerPosition(it) }
-        binding.barCard.onNumericalSpinnerPosition = { onBarCardNumericalSpinnerPosition(it) }
     }
 
-    fun update(data: ShowHabitViewModel) {
+    fun setState(data: ShowHabitState) {
         setupToolbar(binding.toolbar, title = data.title, color = data.color)
-        binding.subtitleCard.update(data.subtitle)
-        binding.overviewCard.update(data.overview)
-        binding.notesCard.update(data.notes)
-        binding.targetCard.update(data.target)
-        binding.streakCard.update(data.streaks)
-        binding.scoreCard.update(data.scores)
-        binding.frequencyCard.update(data.frequency)
-        binding.historyCard.update(data.history)
-        binding.barCard.update(data.bar)
+        binding.subtitleCard.setState(data.subtitle)
+        binding.overviewCard.setState(data.overview)
+        binding.notesCard.setState(data.notes)
+        binding.targetCard.setState(data.target)
+        binding.streakCard.setState(data.streaks)
+        binding.scoreCard.setState(data.scores)
+        binding.frequencyCard.setState(data.frequency)
+        binding.historyCard.setState(data.history)
+        binding.barCard.setState(data.bar)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
             binding.streakCard.visibility = GONE
         } else {
             binding.targetCard.visibility = GONE
         }
+    }
+
+    fun setListener(presenter: ShowHabitPresenter) {
+        binding.scoreCard.setListener(presenter.scoreCardPresenter)
+        binding.historyCard.setListener(presenter.historyCardPresenter)
+        binding.barCard.setListener(presenter.barCardPresenter)
     }
 }

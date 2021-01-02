@@ -37,8 +37,7 @@ class ScoreWidget(
         pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {
-        val presenter = ScoreCardPresenter()
-        val viewModel = presenter.present(
+        val viewModel = ScoreCardPresenter.buildState(
             habit = habit,
             firstWeekday = prefs.firstWeekdayInt,
             spinnerPosition = prefs.scoreCardSpinnerPosition

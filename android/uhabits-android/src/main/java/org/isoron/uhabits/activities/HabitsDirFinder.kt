@@ -20,14 +20,14 @@ package org.isoron.uhabits.activities
 
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
-import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuBehavior
+import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuPresenter
 import java.io.File
 import javax.inject.Inject
 
 class HabitsDirFinder @Inject
 constructor(
     private val androidDirFinder: AndroidDirFinder
-) : ShowHabitMenuBehavior.System, ListHabitsBehavior.DirFinder {
+) : ShowHabitMenuPresenter.System, ListHabitsBehavior.DirFinder {
 
     override fun getCSVOutputDir(): File {
         return androidDirFinder.getFilesDir("CSV")!!

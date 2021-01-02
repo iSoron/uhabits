@@ -24,17 +24,17 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardState
 import org.isoron.uhabits.databinding.ShowHabitTargetBinding
 import org.isoron.uhabits.utils.toThemedAndroidColor
 
 class TargetCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = ShowHabitTargetBinding.inflate(LayoutInflater.from(context), this)
-    fun update(data: TargetCardViewModel) {
-        val androidColor = data.color.toThemedAndroidColor(context)
-        binding.targetChart.setValues(data.values)
-        binding.targetChart.setTargets(data.targets)
-        binding.targetChart.setLabels(data.intervals.map { intervalToLabel(resources, it) })
+    fun setState(state: TargetCardState) {
+        val androidColor = state.color.toThemedAndroidColor(context)
+        binding.targetChart.setValues(state.values)
+        binding.targetChart.setTargets(state.targets)
+        binding.targetChart.setLabels(state.intervals.map { intervalToLabel(resources, it) })
         binding.title.setTextColor(androidColor)
         binding.targetChart.setColor(androidColor)
         postInvalidate()

@@ -23,10 +23,11 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.groupedSum
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 
-data class BarCardViewModel(
+data class BarCardState(
     val theme: Theme,
     val boolSpinnerPosition: Int,
     val bucketSize: Int,
@@ -36,37 +37,59 @@ data class BarCardViewModel(
     val numericalSpinnerPosition: Int,
 )
 
-class BarCardPresenter {
-    val numericalBucketSizes = intArrayOf(1, 7, 31, 92, 365)
-    val boolBucketSizes = intArrayOf(7, 31, 92, 365)
+class BarCardPresenter(
+    val preferences: Preferences,
+    val screen: Screen,
+) {
+    companion object {
+        val numericalBucketSizes = intArrayOf(1, 7, 31, 92, 365)
+        val boolBucketSizes = intArrayOf(7, 31, 92, 365)
 
-    fun present(
-        habit: Habit,
-        firstWeekday: Int,
-        numericalSpinnerPosition: Int,
-        boolSpinnerPosition: Int,
-        theme: Theme,
-    ): BarCardViewModel {
-        val bucketSize = if (habit.isNumerical) {
-            numericalBucketSizes[numericalSpinnerPosition]
-        } else {
-            boolBucketSizes[boolSpinnerPosition]
+        fun buildState(
+            habit: Habit,
+            firstWeekday: Int,
+            numericalSpinnerPosition: Int,
+            boolSpinnerPosition: Int,
+            theme: Theme,
+        ): BarCardState {
+            val bucketSize = if (habit.isNumerical) {
+                numericalBucketSizes[numericalSpinnerPosition]
+            } else {
+                boolBucketSizes[boolSpinnerPosition]
+            }
+            val today = DateUtils.getToday()
+            val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+            val entries = habit.computedEntries.getByInterval(oldest, today).groupedSum(
+                truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
+                firstWeekday = firstWeekday,
+                isNumerical = habit.isNumerical,
+            )
+            return BarCardState(
+                theme = theme,
+                entries = entries,
+                bucketSize = bucketSize,
+                color = habit.color,
+                isNumerical = habit.isNumerical,
+                numericalSpinnerPosition = numericalSpinnerPosition,
+                boolSpinnerPosition = boolSpinnerPosition,
+            )
         }
-        val today = DateUtils.getToday()
-        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-        val entries = habit.computedEntries.getByInterval(oldest, today).groupedSum(
-            truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
-            firstWeekday = firstWeekday,
-            isNumerical = habit.isNumerical,
-        )
-        return BarCardViewModel(
-            theme = theme,
-            entries = entries,
-            bucketSize = bucketSize,
-            color = habit.color,
-            isNumerical = habit.isNumerical,
-            numericalSpinnerPosition = numericalSpinnerPosition,
-            boolSpinnerPosition = boolSpinnerPosition,
-        )
+    }
+
+    fun onNumericalSpinnerPosition(position: Int) {
+        preferences.barCardNumericalSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    fun onBoolSpinnerPosition(position: Int) {
+        preferences.barCardBoolSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
+
+    interface Screen {
+        fun updateWidgets()
+        fun refresh()
     }
 }

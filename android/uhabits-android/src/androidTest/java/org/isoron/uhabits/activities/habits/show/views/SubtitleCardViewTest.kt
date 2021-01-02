@@ -27,7 +27,7 @@ import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList.EVERY_DAY
-import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,8 +45,8 @@ class SubtitleCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById(R.id.subtitleCard)
-        view.update(
-            SubtitleCardViewModel(
+        view.setState(
+            SubtitleCardState(
                 color = PaletteColor(7),
                 frequency = Frequency(3, 7),
                 isNumerical = false,

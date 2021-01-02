@@ -22,16 +22,20 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Score
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils
 
-data class ScoreCardViewModel(
+data class ScoreCardState(
     val scores: List<Score>,
     val bucketSize: Int,
     val spinnerPosition: Int,
     val color: PaletteColor,
 )
 
-class ScoreCardPresenter {
+class ScoreCardPresenter(
+    val preferences: Preferences,
+    val screen: Screen,
+) {
     companion object {
         val BUCKET_SIZES = intArrayOf(1, 7, 31, 92, 365)
         fun getTruncateField(bucketSize: Int): DateUtils.TruncateField {
@@ -44,36 +48,47 @@ class ScoreCardPresenter {
                 else -> return DateUtils.TruncateField.MONTH
             }
         }
+
+        fun buildState(
+            habit: Habit,
+            firstWeekday: Int,
+            spinnerPosition: Int,
+        ): ScoreCardState {
+            val bucketSize = BUCKET_SIZES[spinnerPosition]
+            val today = DateUtils.getTodayWithOffset()
+            val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+
+            val field = getTruncateField(bucketSize)
+            val scores = habit.scores.getByInterval(oldest, today).groupBy {
+                DateUtils.truncate(field, it.timestamp, firstWeekday)
+            }.map { (timestamp, scores) ->
+                Score(
+                    timestamp,
+                    scores.map {
+                        it.value
+                    }.average()
+                )
+            }.sortedBy {
+                it.timestamp
+            }.reversed()
+
+            return ScoreCardState(
+                color = habit.color,
+                scores = scores,
+                bucketSize = bucketSize,
+                spinnerPosition = spinnerPosition,
+            )
+        }
     }
 
-    fun present(
-        habit: Habit,
-        firstWeekday: Int,
-        spinnerPosition: Int,
-    ): ScoreCardViewModel {
-        val bucketSize = BUCKET_SIZES[spinnerPosition]
-        val today = DateUtils.getTodayWithOffset()
-        val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+    fun onSpinnerPosition(position: Int) {
+        preferences.scoreCardSpinnerPosition = position
+        screen.updateWidgets()
+        screen.refresh()
+    }
 
-        val field = getTruncateField(bucketSize)
-        val scores = habit.scores.getByInterval(oldest, today).groupBy {
-            DateUtils.truncate(field, it.timestamp, firstWeekday)
-        }.map { (timestamp, scores) ->
-            Score(
-                timestamp,
-                scores.map {
-                    it.value
-                }.average()
-            )
-        }.sortedBy {
-            it.timestamp
-        }.reversed()
-
-        return ScoreCardViewModel(
-            color = habit.color,
-            scores = scores,
-            bucketSize = bucketSize,
-            spinnerPosition = spinnerPosition,
-        )
+    interface Screen {
+        fun updateWidgets()
+        fun refresh()
     }
 }

@@ -19,92 +19,124 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.show
 
+import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardState
 import org.isoron.uhabits.core.ui.screens.habits.show.views.FrequencyCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.FrequencyCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.FrequencyCardState
 import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardState
 import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardState
 import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardState
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardViewModel
-import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardState
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCartPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardPresenter
-import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardState
 import org.isoron.uhabits.core.ui.views.Theme
 
-data class ShowHabitViewModel(
+data class ShowHabitState(
     val title: String = "",
     val isNumerical: Boolean = false,
     val color: PaletteColor = PaletteColor(1),
-    val subtitle: SubtitleCardViewModel,
-    val overview: OverviewCardViewModel,
-    val notes: NotesCardViewModel,
-    val target: TargetCardViewModel,
-    val streaks: StreakCardViewModel,
-    val scores: ScoreCardViewModel,
-    val frequency: FrequencyCardViewModel,
-    val history: HistoryCardViewModel,
-    val bar: BarCardViewModel,
+    val subtitle: SubtitleCardState,
+    val overview: OverviewCardState,
+    val notes: NotesCardState,
+    val target: TargetCardState,
+    val streaks: StreakCardState,
+    val scores: ScoreCardState,
+    val frequency: FrequencyCardState,
+    val history: HistoryCardState,
+    val bar: BarCardState,
 )
 
-class ShowHabitPresenter {
-    fun present(
-        habit: Habit,
-        preferences: Preferences,
-        theme: Theme,
-    ): ShowHabitViewModel {
-        return ShowHabitViewModel(
-            title = habit.name,
-            color = habit.color,
-            isNumerical = habit.isNumerical,
-            subtitle = SubtitleCardPresenter().present(
-                habit = habit,
-            ),
-            overview = OverviewCardPresenter().present(
-                habit = habit,
-            ),
-            notes = NotesCardPresenter().present(
-                habit = habit,
-            ),
-            target = TargetCardPresenter().present(
-                habit = habit,
-                firstWeekday = preferences.firstWeekdayInt,
-            ),
-            streaks = StreakCartPresenter().present(
-                habit = habit,
-            ),
-            scores = ScoreCardPresenter().present(
-                spinnerPosition = preferences.scoreCardSpinnerPosition,
-                habit = habit,
-                firstWeekday = preferences.firstWeekdayInt,
-            ),
-            frequency = FrequencyCardPresenter().present(
-                habit = habit,
-                firstWeekday = preferences.firstWeekdayInt,
-            ),
-            history = HistoryCardPresenter().present(
-                habit = habit,
-                firstWeekday = preferences.firstWeekday,
-                isSkipEnabled = preferences.isSkipEnabled,
-                theme = theme,
-            ),
-            bar = BarCardPresenter().present(
-                habit = habit,
-                firstWeekday = preferences.firstWeekdayInt,
-                boolSpinnerPosition = preferences.barCardBoolSpinnerPosition,
-                numericalSpinnerPosition = preferences.barCardNumericalSpinnerPosition,
-                theme = theme,
-            ),
-        )
+class ShowHabitPresenter(
+    val habit: Habit,
+    val habitList: HabitList,
+    val preferences: Preferences,
+    val screen: Screen,
+    val commandRunner: CommandRunner,
+) {
+    val historyCardPresenter = HistoryCardPresenter(
+        commandRunner = commandRunner,
+        habit = habit,
+        habitList = habitList,
+        preferences = preferences,
+        screen = screen,
+    )
+
+    val barCardPresenter = BarCardPresenter(
+        preferences = preferences,
+        screen = screen,
+    )
+
+    val scoreCardPresenter = ScoreCardPresenter(
+        preferences = preferences,
+        screen = screen,
+    )
+
+    companion object {
+        fun buildState(
+            habit: Habit,
+            preferences: Preferences,
+            theme: Theme,
+        ): ShowHabitState {
+            return ShowHabitState(
+                title = habit.name,
+                color = habit.color,
+                isNumerical = habit.isNumerical,
+                subtitle = SubtitleCardPresenter.buildState(
+                    habit = habit,
+                ),
+                overview = OverviewCardPresenter.buildState(
+                    habit = habit,
+                ),
+                notes = NotesCardPresenter.buildState(
+                    habit = habit,
+                ),
+                target = TargetCardPresenter.buildState(
+                    habit = habit,
+                    firstWeekday = preferences.firstWeekdayInt,
+                ),
+                streaks = StreakCartPresenter.buildState(
+                    habit = habit,
+                ),
+                scores = ScoreCardPresenter.buildState(
+                    spinnerPosition = preferences.scoreCardSpinnerPosition,
+                    habit = habit,
+                    firstWeekday = preferences.firstWeekdayInt,
+                ),
+                frequency = FrequencyCardPresenter.buildState(
+                    habit = habit,
+                    firstWeekday = preferences.firstWeekdayInt,
+                ),
+                history = HistoryCardPresenter.buildState(
+                    habit = habit,
+                    firstWeekday = preferences.firstWeekday,
+                    theme = theme,
+                ),
+                bar = BarCardPresenter.buildState(
+                    habit = habit,
+                    firstWeekday = preferences.firstWeekdayInt,
+                    boolSpinnerPosition = preferences.barCardBoolSpinnerPosition,
+                    numericalSpinnerPosition = preferences.barCardNumericalSpinnerPosition,
+                    theme = theme,
+                ),
+            )
+        }
     }
+
+    interface Screen :
+        BarCardPresenter.Screen,
+        ScoreCardPresenter.Screen,
+        HistoryCardPresenter.Screen
 }

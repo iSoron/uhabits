@@ -25,7 +25,7 @@ import androidx.test.filters.MediumTest
 import org.hamcrest.Matchers.equalTo
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardViewModel
+import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardState
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -44,7 +44,7 @@ class NotesCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById(R.id.notesCard)
-        view.update(NotesCardViewModel(description = "This is a test description"))
+        view.setState(NotesCardState(description = "This is a test description"))
         measureView(view, 800f, 200f)
     }
 
@@ -55,7 +55,7 @@ class NotesCardViewTest : BaseViewTest() {
 
     @Test
     fun testRenderEmptyDescription() {
-        view.update(NotesCardViewModel(description = ""))
+        view.setState(NotesCardState(description = ""))
         assertThat(view.visibility, equalTo(GONE))
     }
 }
