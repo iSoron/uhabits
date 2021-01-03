@@ -1,5 +1,6 @@
 test_bundle := build/test.js
 node_modules := node_modules/.bin/mocha
+core_dir := ../uhabits-core-legacy
 
 all: $(test_bundle)
 
@@ -7,11 +8,11 @@ $(node_modules):
 	npm install
 
 core:
-	cd ../core; ./gradlew --quiet jsMainClasses jsTestClasses
-	cp ../core/build/classes/kotlin/js/*/*.js node_modules/
+	cd $(core_dir); ./gradlew --quiet jsMainClasses jsTestClasses
+	cp $(core_dir)/build/classes/kotlin/js/*/*.js node_modules/
 	mkdir -p build/assets
-	rsync -a ../core/assets/main/ build/assets/
-	rsync -a ../core/assets/test/ build/assets/
+	rsync -a $(core_dir)/assets/main/ build/assets/
+	rsync -a $(core_dir)/assets/test/ build/assets/
 
 $(test_bundle): src/test/index.js core
 	mkdir -p build/lib build/test build/css
