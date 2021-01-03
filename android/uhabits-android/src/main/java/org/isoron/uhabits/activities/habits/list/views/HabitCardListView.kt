@@ -32,20 +32,28 @@ import androidx.recyclerview.widget.ItemTouchHelper.START
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.auto.factory.AutoFactory
-import com.google.auto.factory.Provided
 import dagger.Lazy
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.BundleSavedState
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.inject.ActivityContext
+import javax.inject.Inject
 
-@AutoFactory
+class HabitCardListViewFactory
+@Inject constructor(
+    @ActivityContext val context: Context,
+    val adapter: HabitCardListAdapter,
+    val cardViewFactory: HabitCardViewFactory,
+    val controller: Lazy<HabitCardListController>
+) {
+    fun create() = HabitCardListView(context, adapter, cardViewFactory, controller)
+}
+
 class HabitCardListView(
-    @Provided @ActivityContext context: Context,
-    @Provided private val adapter: HabitCardListAdapter,
-    @Provided private val cardViewFactory: HabitCardViewFactory,
-    @Provided private val controller: Lazy<HabitCardListController>
+    @ActivityContext context: Context,
+    private val adapter: HabitCardListAdapter,
+    private val cardViewFactory: HabitCardViewFactory,
+    private val controller: Lazy<HabitCardListController>
 ) : RecyclerView(context, null, R.attr.scrollableRecyclerViewStyle) {
 
     var checkmarkCount: Int = 0

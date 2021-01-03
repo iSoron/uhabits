@@ -21,8 +21,6 @@ package org.isoron.uhabits.core.ui.screens.habits.list;
 
 import androidx.annotation.*;
 
-import com.google.auto.factory.*;
-
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.utils.*;
@@ -31,7 +29,6 @@ import org.isoron.uhabits.core.utils.*;
  * Provides a list of hints to be shown at the application startup, and takes
  * care of deciding when a new hint should be shown.
  */
-@AutoFactory
 public class HintList
 {
     private final Preferences prefs;
@@ -44,7 +41,7 @@ public class HintList
      *
      * @param hints initial list of hints
      */
-    public HintList(@Provided @NonNull Preferences prefs,
+    public HintList(@NonNull Preferences prefs,
                     @NonNull String hints[])
     {
         this.prefs = prefs;

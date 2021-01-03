@@ -28,8 +28,6 @@ import android.text.TextPaint
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
-import com.google.auto.factory.AutoFactory
-import com.google.auto.factory.Provided
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.NO
@@ -43,11 +41,19 @@ import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
+import javax.inject.Inject
 
-@AutoFactory
+class CheckmarkButtonViewFactory
+@Inject constructor(
+    @ActivityContext val context: Context,
+    val preferences: Preferences
+) {
+    fun create() = CheckmarkButtonView(context, preferences)
+}
+
 class CheckmarkButtonView(
-    @Provided @ActivityContext context: Context,
-    @Provided val preferences: Preferences
+    context: Context,
+    val preferences: Preferences
 ) : View(context),
     View.OnClickListener,
     View.OnLongClickListener {

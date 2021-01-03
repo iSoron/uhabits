@@ -17,28 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.inject;
+package org.isoron.uhabits.tasks
 
+import android.content.Context
+import org.isoron.uhabits.AndroidDirFinder
+import org.isoron.uhabits.inject.AppContext
+import javax.inject.Inject
 
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
-
-@Module
-public class ActivityContextModule
-{
-    private Context context;
-
-    public ActivityContextModule(Context context)
-    {
-        this.context = context;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
-    {
-        return context;
-    }
+class ExportDBTaskFactory
+@Inject constructor(
+    @AppContext private val context: Context,
+    private val system: AndroidDirFinder,
+) {
+    fun create(listener: ExportDBTask.Listener) = ExportDBTask(context, system, listener)
 }
