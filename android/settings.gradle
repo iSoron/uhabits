@@ -1,1 +1,1 @@
-include ':uhabits-android', ':uhabits-core-legacy', ':android-pickers', ':uhabits-core'
+include ':uhabits-android', ':android-pickers'
