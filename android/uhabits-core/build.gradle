@@ -3,9 +3,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 dependencies {
-    annotationProcessor "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     annotationProcessor "com.google.dagger:dagger:$DAGGER_VERSION"
-    compileOnly "com.google.auto.factory:auto-factory:$AUTO_FACTORY_VERSION"
     compileOnly "com.google.dagger:dagger:$DAGGER_VERSION"
     compileOnly 'javax.annotation:jsr250-api:1.0'
     compileOnly 'org.jetbrains:annotations:18.0.0'

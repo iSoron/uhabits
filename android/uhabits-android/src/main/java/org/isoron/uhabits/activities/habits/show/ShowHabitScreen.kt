@@ -20,7 +20,7 @@
 package org.isoron.uhabits.activities.habits.show
 
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.models.Habit
@@ -36,7 +36,6 @@ import org.isoron.uhabits.widgets.WidgetUpdater
 
 class ShowHabitScreen(
     val activity: ShowHabitActivity,
-    val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
     val habit: Habit,
     val intentFactory: IntentFactory,
     val numberPickerFactory: NumberPickerFactory,
@@ -79,7 +78,7 @@ class ShowHabitScreen(
     }
 
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
-        confirmDeleteDialogFactory.create(callback, 1).show()
+        ConfirmDeleteDialog(activity, callback, 1).show()
     }
 
     override fun close() {

@@ -20,19 +20,26 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
-import com.google.auto.factory.AutoFactory
-import com.google.auto.factory.Provided
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
+import javax.inject.Inject
 
-@AutoFactory
+class CheckmarkPanelViewFactory
+@Inject constructor(
+    @ActivityContext val context: Context,
+    val preferences: Preferences,
+    private val buttonFactory: CheckmarkButtonViewFactory
+) {
+    fun create() = CheckmarkPanelView(context, preferences, buttonFactory)
+}
+
 class CheckmarkPanelView(
-    @Provided @ActivityContext context: Context,
-    @Provided preferences: Preferences,
-    @Provided private val buttonFactory: CheckmarkButtonViewFactory
+    context: Context,
+    preferences: Preferences,
+    private val buttonFactory: CheckmarkButtonViewFactory
 ) : ButtonPanelView<CheckmarkButtonView>(context, preferences) {
 
     var values = IntArray(0)

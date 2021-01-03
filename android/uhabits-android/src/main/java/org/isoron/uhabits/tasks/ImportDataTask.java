@@ -23,8 +23,6 @@ import android.util.*;
 
 import androidx.annotation.NonNull;
 
-import com.google.auto.factory.*;
-
 import org.isoron.uhabits.core.io.*;
 import org.isoron.uhabits.core.models.ModelFactory;
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory;
@@ -32,7 +30,6 @@ import org.isoron.uhabits.core.tasks.*;
 
 import java.io.*;
 
-@AutoFactory(allowSubclasses = true)
 public class ImportDataTask implements Task
 {
     public static final int FAILED = 3;
@@ -53,8 +50,8 @@ public class ImportDataTask implements Task
     @NonNull
     private final Listener listener;
 
-    public ImportDataTask(@Provided @NonNull GenericImporter importer,
-                          @Provided @NonNull ModelFactory modelFactory,
+    public ImportDataTask(@NonNull GenericImporter importer,
+                          @NonNull ModelFactory modelFactory,
                           @NonNull File file,
                           @NonNull Listener listener)
     {

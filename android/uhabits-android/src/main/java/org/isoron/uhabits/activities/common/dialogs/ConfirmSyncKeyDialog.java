@@ -25,17 +25,14 @@ import android.content.res.*;
 import androidx.annotation.*;
 import androidx.appcompat.app.*;
 
-import com.google.auto.factory.*;
-
-import org.isoron.uhabits.R;
+import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.inject.*;
 
-@AutoFactory(allowSubclasses = true)
 public class ConfirmSyncKeyDialog extends AlertDialog
 {
-    protected ConfirmSyncKeyDialog(@Provided @ActivityContext Context context,
-                                   @NonNull OnConfirmedCallback callback)
+    public ConfirmSyncKeyDialog(@ActivityContext Context context,
+                                @NonNull OnConfirmedCallback callback)
     {
         super(context);
         setTitle(R.string.device_sync);

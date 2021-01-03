@@ -30,7 +30,6 @@ import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
-import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
@@ -67,7 +66,6 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
         val screen = ShowHabitScreen(
             activity = this,
-            confirmDeleteDialogFactory = ConfirmDeleteDialogFactory { this },
             habit = habit,
             intentFactory = IntentFactory(),
             numberPickerFactory = NumberPickerFactory(this),

@@ -20,18 +20,25 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
-import com.google.auto.factory.AutoFactory
-import com.google.auto.factory.Provided
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
+import javax.inject.Inject
 
-@AutoFactory
+class NumberPanelViewFactory
+@Inject constructor(
+    @ActivityContext val context: Context,
+    val preferences: Preferences,
+    val buttonFactory: NumberButtonViewFactory
+) {
+    fun create() = NumberPanelView(context, preferences, buttonFactory)
+}
+
 class NumberPanelView(
-    @Provided @ActivityContext context: Context,
-    @Provided preferences: Preferences,
-    @Provided private val buttonFactory: NumberButtonViewFactory
+    @ActivityContext context: Context,
+    preferences: Preferences,
+    private val buttonFactory: NumberButtonViewFactory
 ) : ButtonPanelView<NumberButtonView>(context, preferences) {
 
     var values = DoubleArray(0)

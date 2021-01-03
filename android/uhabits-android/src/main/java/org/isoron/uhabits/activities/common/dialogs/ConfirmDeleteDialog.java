@@ -25,8 +25,6 @@ import android.content.res.*;
 import androidx.annotation.*;
 import androidx.appcompat.app.*;
 
-import com.google.auto.factory.*;
-
 import org.isoron.uhabits.R;
 import org.isoron.uhabits.core.ui.callbacks.*;
 import org.isoron.uhabits.inject.*;
@@ -34,12 +32,11 @@ import org.isoron.uhabits.inject.*;
 /**
  * Dialog that asks the user confirmation before executing a delete operation.
  */
-@AutoFactory(allowSubclasses = true)
 public class ConfirmDeleteDialog extends AlertDialog
 {
-    protected ConfirmDeleteDialog(@Provided @ActivityContext Context context,
-                                  @NonNull OnConfirmedCallback callback,
-                                  int quantity)
+    public ConfirmDeleteDialog(@ActivityContext Context context,
+                               @NonNull OnConfirmedCallback callback,
+                               int quantity)
     {
         super(context);
         Resources res = context.getResources();

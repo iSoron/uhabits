@@ -27,8 +27,8 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
-import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialogFactory
-import org.isoron.uhabits.activities.common.dialogs.ConfirmSyncKeyDialogFactory
+import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
+import org.isoron.uhabits.activities.common.dialogs.ConfirmSyncKeyDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
@@ -91,8 +91,6 @@ class ListHabitsScreen
     private val taskRunner: TaskRunner,
     private val exportDBFactory: ExportDBTaskFactory,
     private val importTaskFactory: ImportDataTaskFactory,
-    private val confirmDeleteDialogFactory: ConfirmDeleteDialogFactory,
-    private val confirmSyncKeyDialogFactory: ConfirmSyncKeyDialogFactory,
     private val colorPickerFactory: ColorPickerDialogFactory,
     private val numberPickerFactory: NumberPickerFactory,
     private val behavior: Lazy<ListHabitsBehavior>
@@ -172,7 +170,7 @@ class ListHabitsScreen
     }
 
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback, quantity: Int) {
-        confirmDeleteDialogFactory.create(callback, quantity).show()
+        ConfirmDeleteDialog(activity, callback, quantity).show()
     }
 
     override fun showEditHabitsScreen(habits: List<Habit>) {
@@ -250,7 +248,7 @@ class ListHabitsScreen
     }
 
     override fun showConfirmInstallSyncKey(callback: OnConfirmedCallback) {
-        confirmSyncKeyDialogFactory.create(callback).show()
+        ConfirmSyncKeyDialog(activity, callback).show()
     }
 
     private fun getExecuteString(command: Command): String? {
