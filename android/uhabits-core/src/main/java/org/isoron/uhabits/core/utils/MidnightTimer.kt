@@ -29,7 +29,7 @@ import javax.inject.Inject
  * A class that emits events when a new day starts.
  */
 @AppScope
-class MidnightTimer @Inject constructor() {
+open class MidnightTimer @Inject constructor() {
     private val listeners: MutableList<MidnightListener> = LinkedList()
     private lateinit var executor: ScheduledExecutorService
 
