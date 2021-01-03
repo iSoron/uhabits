@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.list;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.commands.*;
 import org.isoron.uhabits.core.models.*;
@@ -104,7 +105,11 @@ public class HabitCardListCacheTest extends BaseUnitTest
         assertThat(cache.getScore(h.getId()), equalTo(score));
 
         int[] actualCheckmarks = cache.getCheckmarks(h.getId());
-        int[] expectedCheckmarks = h.getComputedEntries().getValues(today.minus(9), today);
+        int[] expectedCheckmarks = ArrayUtils.toPrimitive(h.getComputedEntries()
+                .getByInterval(today.minus(9), today)
+                .stream()
+                .map(Entry::getValue)
+                .toArray(Integer[]::new));
 
         assertThat(actualCheckmarks, equalTo(expectedCheckmarks));
     }

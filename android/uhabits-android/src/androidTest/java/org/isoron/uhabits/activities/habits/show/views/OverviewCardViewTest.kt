@@ -25,6 +25,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

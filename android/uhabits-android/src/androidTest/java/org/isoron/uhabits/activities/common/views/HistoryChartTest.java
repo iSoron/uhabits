@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.common.views;
 import androidx.test.ext.junit.runners.*;
 import androidx.test.filters.*;
 
+import org.apache.commons.lang3.*;
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
@@ -56,9 +57,16 @@ public class HistoryChartTest extends BaseViewTest
         habit = fixtures.createLongHabit();
         today = new Timestamp(DateUtils.getStartOfToday());
 
+        Integer[] entries = habit
+                .getComputedEntries()
+                .getByInterval(today.minus(300), today)
+                .stream()
+                .map(Entry::getValue)
+                .toArray(Integer[]::new);
+
         chart = new HistoryChart(targetContext);
         chart.setSkipEnabled(true);
-        chart.setEntries(habit.getComputedEntries().getAllValues());
+        chart.setEntries(ArrayUtils.toPrimitive(entries));
         chart.setColor(PaletteUtilsKt.toFixedAndroidColor(habit.getColor()));
         measureView(chart, dpToPixels(400), dpToPixels(200));
 

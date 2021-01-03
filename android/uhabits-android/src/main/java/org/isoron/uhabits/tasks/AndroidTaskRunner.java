@@ -26,7 +26,8 @@ import org.isoron.uhabits.core.tasks.*;
 
 import java.util.*;
 
-import dagger.*;
+import dagger.Module;
+import dagger.Provides;
 
 @Module
 public class AndroidTaskRunner implements TaskRunner

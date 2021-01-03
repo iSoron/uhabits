@@ -36,6 +36,7 @@ import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.preferences.*;
 import org.isoron.uhabits.core.tasks.*;
 import org.isoron.uhabits.core.ui.callbacks.*;
+import org.isoron.uhabits.core.ui.screens.habits.show.views.*;
 import org.isoron.uhabits.utils.*;
 import org.jetbrains.annotations.*;
 
@@ -178,7 +179,12 @@ public class HistoryEditorDialog extends AppCompatDialogFragment
         @Override
         public void doInBackground()
         {
-            checkmarks = habit.getComputedEntries().getAllValues();
+            HistoryCardViewModel model = new HistoryCardPresenter().present(
+                    habit,
+                    prefs.getFirstWeekday(),
+                    prefs.isSkipEnabled()
+            );
+            checkmarks = model.getEntries();
         }
 
         @Override

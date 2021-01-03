@@ -21,10 +21,7 @@ package org.isoron.uhabits.tasks;
 
 import android.content.*;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.auto.factory.*;
+import androidx.annotation.*;
 
 import org.isoron.uhabits.*;
 import org.isoron.uhabits.core.tasks.*;
@@ -33,7 +30,6 @@ import org.isoron.uhabits.utils.*;
 
 import java.io.*;
 
-@AutoFactory(allowSubclasses = true)
 public class ExportDBTask implements Task
 {
     private String filename;
@@ -46,8 +42,8 @@ public class ExportDBTask implements Task
     @NonNull
     private final Listener listener;
 
-    public ExportDBTask(@Provided @AppContext @NonNull Context context,
-                        @Provided @NonNull AndroidDirFinder system,
+    public ExportDBTask(@AppContext @NonNull Context context,
+                        @NonNull AndroidDirFinder system,
                         @NonNull Listener listener)
     {
         this.system = system;

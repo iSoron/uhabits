@@ -17,28 +17,24 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.inject;
+package org.isoron.uhabits.activities.habits.show.views
 
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.LinearLayout
+import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardViewModel
+import org.isoron.uhabits.databinding.ShowHabitNotesBinding
 
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
-
-@Module
-public class ActivityContextModule
-{
-    private Context context;
-
-    public ActivityContextModule(Context context)
-    {
-        this.context = context;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
-    {
-        return context;
+class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    private val binding = ShowHabitNotesBinding.inflate(LayoutInflater.from(context), this)
+    fun update(data: NotesCardViewModel) {
+        if (data.description.isEmpty()) {
+            visibility = GONE
+        } else {
+            visibility = VISIBLE
+            binding.habitNotes.text = data.description
+        }
+        invalidate()
     }
 }

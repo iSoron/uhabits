@@ -24,6 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

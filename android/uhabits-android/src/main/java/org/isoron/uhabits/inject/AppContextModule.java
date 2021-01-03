@@ -19,9 +19,10 @@
 
 package org.isoron.uhabits.inject;
 
-import android.content.*;
+import android.content.Context;
 
-import dagger.*;
+import dagger.Module;
+import dagger.Provides;
 
 @Module
 public class AppContextModule

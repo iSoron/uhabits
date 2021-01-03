@@ -17,28 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.inject;
+package org.isoron.uhabits.core.ui.screens.habits.list
 
+import org.isoron.uhabits.core.preferences.Preferences
+import javax.inject.Inject
 
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
-
-@Module
-public class ActivityContextModule
-{
-    private Context context;
-
-    public ActivityContextModule(Context context)
-    {
-        this.context = context;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
-    {
-        return context;
-    }
+class HintListFactory
+@Inject constructor(
+    val preferences: Preferences,
+) {
+    fun create(hints: Array<String>) = HintList(preferences, hints)
 }

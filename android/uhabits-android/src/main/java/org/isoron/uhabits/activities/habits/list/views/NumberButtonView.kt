@@ -28,8 +28,6 @@ import android.text.TextPaint
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
-import com.google.auto.factory.AutoFactory
-import com.google.auto.factory.Provided
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
@@ -38,6 +36,7 @@ import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.showMessage
 import java.text.DecimalFormat
+import javax.inject.Inject
 
 private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
 private val NORMAL_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.NORMAL)
@@ -55,10 +54,17 @@ fun Double.toShortString(): String = when {
     else -> DecimalFormat("#.##").format(this)
 }
 
-@AutoFactory
+class NumberButtonViewFactory
+@Inject constructor(
+    @ActivityContext val context: Context,
+    val preferences: Preferences
+) {
+    fun create() = NumberButtonView(context, preferences)
+}
+
 class NumberButtonView(
-    @Provided @ActivityContext context: Context,
-    @Provided val preferences: Preferences
+    @ActivityContext context: Context,
+    val preferences: Preferences
 ) : View(context),
     OnClickListener,
     OnLongClickListener {

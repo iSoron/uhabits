@@ -17,28 +17,28 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.inject;
+package org.isoron.uhabits.core.ui.screens.habits.show.views
 
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Timestamp
+import java.util.HashMap
 
-import android.content.Context;
+data class FrequencyCardViewModel(
+    val color: PaletteColor,
+    val firstWeekday: Int,
+    val frequency: HashMap<Timestamp, Array<Int>>,
+)
 
-import dagger.Module;
-import dagger.Provides;
-
-@Module
-public class ActivityContextModule
-{
-    private Context context;
-
-    public ActivityContextModule(Context context)
-    {
-        this.context = context;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
-    {
-        return context;
-    }
+class FrequencyCardPresenter {
+    fun present(
+        habit: Habit,
+        firstWeekday: Int,
+    ) = FrequencyCardViewModel(
+        color = habit.color,
+        frequency = habit.originalEntries.computeWeekdayFrequency(
+            isNumerical = habit.isNumerical
+        ),
+        firstWeekday = firstWeekday,
+    )
 }

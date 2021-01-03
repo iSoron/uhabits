@@ -22,8 +22,8 @@ package org.isoron.uhabits.widgets
 import android.content.Context
 import android.view.View
 import org.isoron.uhabits.activities.common.views.ScoreChart
-import org.isoron.uhabits.activities.habits.show.views.ScoreCardPresenter
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
 import org.isoron.uhabits.utils.toThemedAndroidColor
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
@@ -37,8 +37,12 @@ class ScoreWidget(
         pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {
-        val presenter = ScoreCardPresenter(habit, prefs.firstWeekday)
-        val viewModel = presenter.present(prefs.scoreCardSpinnerPosition)
+        val presenter = ScoreCardPresenter()
+        val viewModel = presenter.present(
+            habit = habit,
+            firstWeekday = prefs.firstWeekday,
+            spinnerPosition = prefs.scoreCardSpinnerPosition
+        )
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)

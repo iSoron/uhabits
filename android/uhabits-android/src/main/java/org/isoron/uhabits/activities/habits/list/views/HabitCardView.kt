@@ -34,8 +34,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.google.auto.factory.AutoFactory
-import com.google.auto.factory.Provided
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
@@ -47,13 +45,23 @@ import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toThemedAndroidColor
+import javax.inject.Inject
 
-@AutoFactory
+class HabitCardViewFactory
+@Inject constructor(
+    @ActivityContext val context: Context,
+    private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
+    private val numberPanelFactory: NumberPanelViewFactory,
+    private val behavior: ListHabitsBehavior
+) {
+    fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
+}
+
 class HabitCardView(
-    @Provided @ActivityContext context: Context,
-    @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
-    @Provided private val numberPanelFactory: NumberPanelViewFactory,
-    @Provided private val behavior: ListHabitsBehavior
+    @ActivityContext context: Context,
+    private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
+    private val numberPanelFactory: NumberPanelViewFactory,
+    private val behavior: ListHabitsBehavior
 ) : FrameLayout(context),
     ModelObservable.Listener {
 

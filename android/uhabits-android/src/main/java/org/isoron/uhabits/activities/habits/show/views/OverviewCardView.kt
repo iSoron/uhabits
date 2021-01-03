@@ -22,24 +22,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.invoke
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardViewModel
 import org.isoron.uhabits.databinding.ShowHabitOverviewBinding
 import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.toThemedAndroidColor
-
-data class OverviewCardViewModel(
-    val color: PaletteColor,
-    val scoreMonthDiff: Float,
-    val scoreYearDiff: Float,
-    val scoreToday: Float,
-    val totalCount: Long,
-)
 
 class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -69,28 +56,5 @@ class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         binding.yearDiffLabel.setTextColor(if (data.scoreYearDiff >= 0) androidColor else inactiveColor)
         binding.yearDiffLabel.text = formatPercentageDiff(data.scoreYearDiff)
         postInvalidate()
-    }
-}
-
-class OverviewCardPresenter(val habit: Habit) {
-    suspend fun present(): OverviewCardViewModel = Dispatchers.IO {
-        val today = DateUtils.getTodayWithOffset()
-        val lastMonth = today.minus(30)
-        val lastYear = today.minus(365)
-        val scores = habit.scores
-        val scoreToday = scores.get(today).value.toFloat()
-        val scoreLastMonth = scores.get(lastMonth).value.toFloat()
-        val scoreLastYear = scores.get(lastYear).value.toFloat()
-        val totalCount = habit.originalEntries.getKnown()
-            .filter { it.value == YES_MANUAL }
-            .count()
-            .toLong()
-        return@IO OverviewCardViewModel(
-            color = habit.color,
-            scoreToday = scoreToday,
-            scoreMonthDiff = scoreToday - scoreLastMonth,
-            scoreYearDiff = scoreToday - scoreLastYear,
-            totalCount = totalCount,
-        )
     }
 }

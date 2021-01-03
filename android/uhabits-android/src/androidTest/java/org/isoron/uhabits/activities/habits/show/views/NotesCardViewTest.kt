@@ -25,6 +25,7 @@ import androidx.test.filters.MediumTest
 import org.hamcrest.Matchers.equalTo
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.ui.screens.habits.show.views.NotesCardViewModel
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test

@@ -17,28 +17,20 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.inject;
+package org.isoron.uhabits.core.tasks
 
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
+import java.io.File
+import javax.inject.Inject
 
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
-
-@Module
-public class ActivityContextModule
-{
-    private Context context;
-
-    public ActivityContextModule(Context context)
-    {
-        this.context = context;
-    }
-
-    @Provides
-    @ActivityContext
-    public Context getContext()
-    {
-        return context;
-    }
+class ExportCSVTaskFactory
+@Inject constructor(
+    val habitList: HabitList
+) {
+    fun create(
+        selectedHabits: List<Habit>,
+        outputDir: File,
+        listener: ExportCSVTask.Listener,
+    ) = ExportCSVTask(habitList, selectedHabits, outputDir, listener)
 }

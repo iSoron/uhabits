@@ -81,13 +81,13 @@ public class WidgetBehavior
     }
 
     public void onIncrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
-        int currentValue = habit.getComputedEntries().getValues(timestamp, timestamp)[0];
+        int currentValue = habit.getComputedEntries().get(timestamp).getValue();
         setValue(habit, timestamp, currentValue + amount);
         notificationTray.cancel(habit);
     }
 
     public void onDecrement(@NotNull Habit habit, @NotNull Timestamp timestamp, int amount) {
-        int currentValue = habit.getComputedEntries().getValues(timestamp, timestamp)[0];
+        int currentValue = habit.getComputedEntries().get(timestamp).getValue();
         setValue(habit, timestamp, currentValue - amount);
         notificationTray.cancel(habit);
     }
