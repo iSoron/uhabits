@@ -18,20 +18,20 @@ jobs:
       with:
         java-version: 1.8
 
-    - name: Build APK & Run small tests
-      run: android/build.sh build
+    - name: Build & Run small tests
+      run: ./build.sh build
 
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
         name: debug-apk
-        path: android/build/*apk
+        path: uhabits-android/build/*apk
 
     - name: Upload build outputs
       uses: actions/upload-artifact@v2
       with:
         name: build
-        path: android/uhabits-android/build/outputs/
+        path: uhabits-android/uhabits-android/build/outputs/
 
   test:
     needs: build
@@ -47,10 +47,10 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: build
-        path: android/uhabits-android/build/outputs/
+        path: uhabits-android/uhabits-android/build/outputs/
 
     - name: Run medium tests
       uses: ReactiveCircus/android-emulator-runner@v2
       with:
         api-level: ${{ matrix.api-level }}
-        script: android/build.sh medium-tests
+        script: ./build.sh medium-tests
