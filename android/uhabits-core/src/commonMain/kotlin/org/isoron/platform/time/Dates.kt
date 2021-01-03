@@ -19,7 +19,6 @@
 
 package org.isoron.platform.time
 
-import org.isoron.uhabits.core.models.Timestamp
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -53,11 +52,6 @@ data class LocalDate(val daysSince2000: Int) {
                 5 -> DayOfWeek.THURSDAY
                 else -> DayOfWeek.FRIDAY
             }
-        }
-
-    val timestamp: Timestamp
-        get() {
-            return Timestamp(946684800000 + daysSince2000.toLong() * 86400000)
         }
 
     val year: Int

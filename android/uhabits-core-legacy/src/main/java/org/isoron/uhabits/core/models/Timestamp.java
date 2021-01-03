@@ -19,31 +19,29 @@
 
 package org.isoron.uhabits.core.models;
 
-import org.apache.commons.lang3.builder.*;
 import org.isoron.platform.time.LocalDate;
+import org.apache.commons.lang3.builder.*;
 import org.isoron.uhabits.core.utils.*;
-import org.jetbrains.annotations.*;
 
-import java.time.*;
 import java.util.*;
-
-import kotlin.*;
 
 import static java.util.Calendar.*;
 
-public final class Timestamp implements Comparable<Timestamp>
-{
+public final class Timestamp implements Comparable<Timestamp> {
     public static final long DAY_LENGTH = 86400000;
 
     public static final Timestamp ZERO = new Timestamp(0);
 
     private final long unixTime;
 
-    public Timestamp(long unixTime)
-    {
+    public static Timestamp fromLocalDate(LocalDate date) {
+        return new Timestamp(946684800000L + date.getDaysSince2000() * 86400000L);
+    }
+
+    public Timestamp(long unixTime) {
         if (unixTime < 0)
             throw new IllegalArgumentException(
-                "Invalid unix time: " + unixTime);
+                    "Invalid unix time: " + unixTime);
 
         if (unixTime % DAY_LENGTH != 0)
             unixTime = (unixTime / DAY_LENGTH) * DAY_LENGTH;
@@ -51,25 +49,21 @@ public final class Timestamp implements Comparable<Timestamp>
         this.unixTime = unixTime;
     }
 
-    public Timestamp(GregorianCalendar cal)
-    {
+    public Timestamp(GregorianCalendar cal) {
         this(cal.getTimeInMillis());
     }
 
-    public static Timestamp from(int year, int javaMonth, int day)
-    {
+    public static Timestamp from(int year, int javaMonth, int day) {
         GregorianCalendar cal = DateUtils.getStartOfTodayCalendar();
         cal.set(year, javaMonth, day, 0, 0, 0);
         return new Timestamp(cal.getTimeInMillis());
     }
 
-    public long getUnixTime()
-    {
+    public long getUnixTime() {
         return unixTime;
     }
 
-    public LocalDate toLocalDate()
-    {
+    public LocalDate toLocalDate() {
         long millisSince2000 = unixTime - 946684800000L;
         int daysSince2000 = (int) (millisSince2000 / 86400000);
         return new LocalDate(daysSince2000);
@@ -80,14 +74,12 @@ public final class Timestamp implements Comparable<Timestamp>
      * timestamp is newer, or zero if they are equal.
      */
     @Override
-    public int compareTo(Timestamp other)
-    {
+    public int compareTo(Timestamp other) {
         return Long.signum(this.unixTime - other.unixTime);
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;
@@ -95,31 +87,27 @@ public final class Timestamp implements Comparable<Timestamp>
         Timestamp timestamp = (Timestamp) o;
 
         return new EqualsBuilder()
-            .append(unixTime, timestamp.unixTime)
-            .isEquals();
+                .append(unixTime, timestamp.unixTime)
+                .isEquals();
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return new HashCodeBuilder(17, 37).append(unixTime).toHashCode();
     }
 
     /**
      * Given two timestamps, returns whichever timestamp is the oldest one.
      */
-    public static Timestamp oldest(Timestamp first, Timestamp second)
-    {
+    public static Timestamp oldest(Timestamp first, Timestamp second) {
         return first.unixTime < second.unixTime ? first : second;
     }
 
-    public Timestamp minus(int days)
-    {
+    public Timestamp minus(int days) {
         return plus(-days);
     }
 
-    public Timestamp plus(int days)
-    {
+    public Timestamp plus(int days) {
         return new Timestamp(unixTime + DAY_LENGTH * days);
     }
 
@@ -128,38 +116,32 @@ public final class Timestamp implements Comparable<Timestamp>
      * the other timestamp equals this one, returns zero. If the other timestamp
      * is older than this one, returns a negative number.
      */
-    public int daysUntil(Timestamp other)
-    {
+    public int daysUntil(Timestamp other) {
         return (int) ((other.unixTime - this.unixTime) / DAY_LENGTH);
     }
 
-    public boolean isNewerThan(Timestamp other)
-    {
+    public boolean isNewerThan(Timestamp other) {
         return compareTo(other) > 0;
     }
 
-    public boolean isOlderThan(Timestamp other)
-    {
+    public boolean isOlderThan(Timestamp other) {
         return compareTo(other) < 0;
     }
 
 
-    public Date toJavaDate()
-    {
+    public Date toJavaDate() {
         return new Date(unixTime);
     }
 
-    public GregorianCalendar toCalendar()
-    {
+    public GregorianCalendar toCalendar() {
         GregorianCalendar day =
-            new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+                new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         day.setTimeInMillis(unixTime);
         return day;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return DateFormats.getCSVDateFormat().format(new Date(unixTime));
     }
 
@@ -167,13 +149,11 @@ public final class Timestamp implements Comparable<Timestamp>
      * Returns an integer corresponding to the day of the week. Saturday maps
      * to 0, Sunday maps to 1, and so on.
      */
-    public int getWeekday()
-    {
+    public int getWeekday() {
         return toCalendar().get(DAY_OF_WEEK) % 7;
     }
 
-    Timestamp truncate(DateUtils.TruncateField field, int firstWeekday)
-    {
+    Timestamp truncate(DateUtils.TruncateField field, int firstWeekday) {
         return new Timestamp(DateUtils.truncate(field, unixTime, firstWeekday));
     }
 }
