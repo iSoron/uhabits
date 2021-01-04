@@ -23,7 +23,7 @@ AVDMANAGER="${ANDROID_HOME}/tools/bin/avdmanager"
 AVDNAME="uhabitsTest"
 GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
-ANDROID_OUTPUTS_DIR="uhabits-android/uhabits-android/build/outputs"
+ANDROID_OUTPUTS_DIR="uhabits-android/build/outputs"
 VERSION=$(cat uhabits-android/gradle.properties | grep VERSION_NAME | sed -e 's/.*=//g;s/ //g')
 
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
@@ -94,14 +94,14 @@ build_apk() {
         log_info "Building release APK..."
         $GRADLE assembleRelease
         cp -v \
-            uhabits-android/build/outputs/apk/release/uhabits-android-release.apk \
+            build/outputs/apk/release/uhabits-android-release.apk \
             build/loop-$VERSION-release.apk
     fi
 
     log_info "Building debug APK..."
     $GRADLE assembleDebug --stacktrace || fail
     cp -v \
-        uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk \
+        build/outputs/apk/debug/uhabits-android-debug.apk \
         build/loop-$VERSION-debug.apk
     
     cd ..
@@ -242,16 +242,21 @@ parse_opts() {
 }
 
 remove_build_dir() {
-    rm -rfv uhabits-core/build
-    rm -rfv uhabits-web/node_modules/upath/build
-    rm -rfv uhabits-web/node_modules/core-js/build
-    rm -rfv uhabits-web/build
-    rm -rfv uhabits-core-legacy/build
-    rm -rfv uhabits-server/build
-    rm -rfv uhabits-android/build
-    rm -rfv uhabits-android/uhabits-android/build
-    rm -rfv uhabits-android/android-pickers/build
-    rm -rfv uhabits-web/node_modules
+    rm -rfv ./uhabits-core/build
+    rm -rfv ./uhabits-web/node_modules/upath/build
+    rm -rfv ./uhabits-web/node_modules/core-js/build
+    rm -rfv ./uhabits-web/build
+    rm -rfv ./uhabits-core-legacy/build
+    rm -rfv ./uhabits-server/build
+    rm -rfv ./uhabits-android/build
+    rm -rfv ./uhabits-android/uhabits-android/build
+    rm -rfv ./uhabits-android/android-pickers/build
+    rm -rfv ./uhabits-web/node_modules
+    rm -rfv ./uhabits-core/.gradle
+    rm -rfv ./uhabits-core-legacy/.gradle
+    rm -rfv ./uhabits-server/.gradle
+    rm -rfv ./uhabits-android/.gradle
+    rm -rfv ./.gradle
 }
 
 main() {
