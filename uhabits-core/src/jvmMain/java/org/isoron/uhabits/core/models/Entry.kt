@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core.models
 
-import org.isoron.platform.time.LocalDate
-
 data class Entry(
     val timestamp: Timestamp,
     val value: Int,
