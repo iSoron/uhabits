@@ -89,14 +89,14 @@ build_apk() {
         $GRADLE :uhabits-android:assembleRelease
         cp -v \
             uhabits-android/build/outputs/apk/release/uhabits-android-release.apk \
-            build/loop-$VERSION-release.apk
+            uhabits-android/build/loop-$VERSION-release.apk
     fi
 
     log_info "Building debug APK..."
     $GRADLE :uhabits-android:assembleDebug --stacktrace || fail
     cp -v \
         uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk \
-        build/loop-$VERSION-debug.apk
+        uhabits-android/build/loop-$VERSION-debug.apk
 }
 
 build_instrumentation_apk() {

@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: build
-        path: uhabits-android/uhabits-android/build/outputs/
+        path: uhabits-android/build/outputs/
 
   test:
     needs: build
@@ -47,7 +47,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: build
-        path: uhabits-android/uhabits-android/build/outputs/
+        path: uhabits-android/build/outputs/
 
     - name: Run medium tests
       uses: ReactiveCircus/android-emulator-runner@v2
