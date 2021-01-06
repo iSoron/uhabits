@@ -21,7 +21,7 @@ build/
 captures/
 docs/
 gen/
-local.properties
+../local.properties
 crowdin.yaml
 crowdin.yml
 local

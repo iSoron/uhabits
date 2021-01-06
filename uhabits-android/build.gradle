@@ -1,10 +1,10 @@
 plugins {
-    id 'com.github.triplet.play' version '2.6.2'
+    id 'com.github.triplet.play' version '3.1.0'
     id "org.jlleitschuh.gradle.ktlint" version "9.4.1"
-    id 'com.android.application' version "4.1.0"
-    id "org.jetbrains.kotlin.android" version "$KOTLIN_VERSION"
-    id "org.jetbrains.kotlin.kapt" version "$KOTLIN_VERSION"
-    id "org.jetbrains.kotlin.android.extensions" version "$KOTLIN_VERSION"
+    id 'com.android.application'
+    id "org.jetbrains.kotlin.android"
+    id "org.jetbrains.kotlin.kapt"
+    id "org.jetbrains.kotlin.android.extensions"
 }
 
 repositories {
@@ -99,7 +99,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.google.zxing:core:3.4.1'
     implementation 'com.opencsv:opencsv:3.10'
-    implementation files("../uhabits-core/build/libs/uhabits-core-jvm.jar")
+    implementation project(":uhabits-core")
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     testImplementation "com.google.dagger:dagger:$DAGGER_VERSION"
