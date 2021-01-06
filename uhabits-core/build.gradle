@@ -19,7 +19,7 @@
 
 plugins {
     id "org.jetbrains.kotlin.multiplatform"
-    id "org.jlleitschuh.gradle.ktlint" version "9.4.1"
+    id "org.jlleitschuh.gradle.ktlint"
 }
 
 repositories {

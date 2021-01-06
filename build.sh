@@ -24,7 +24,7 @@ AVDNAME="uhabitsTest"
 GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
 ANDROID_OUTPUTS_DIR="uhabits-android/build/outputs"
-VERSION=$(cat uhabits-android/gradle.properties | grep VERSION_NAME | sed -e 's/.*=//g;s/ //g')
+VERSION=$(cat gradle.properties | grep VERSION_NAME | sed -e 's/.*=//g;s/ //g')
 
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
     echo "Error: ANDROID_HOME is not set correctly"
@@ -58,16 +58,12 @@ fail() {
 
 ktlint() {
     log_info "Running ktlint..."
-    cd uhabits-android
     $GRADLE ktlintCheck || fail
-    cd ..
 }
 
 build_core() {
     log_info "Building uhabits-core..."
-    cd uhabits-core
-    $GRADLE build || fail
-    cd ..
+    $GRADLE :uhabits-core:build || fail
 }
 
 
@@ -80,38 +76,33 @@ run_adb_as_root() {
 }
 
 build_apk() {
-    cd uhabits-android
-
     if [ ! -z $RELEASE ]; then
         log_info "Reading secret..."
-        source ../.secret/env || fail
+        source .secret/env || fail
     fi
 
     log_info "Removing old APKs..."
-    rm -vf build/*.apk
+    rm -vf uhabits-android/build/*.apk
 
     if [ ! -z $RELEASE ]; then
         log_info "Building release APK..."
-        $GRADLE assembleRelease
+        $GRADLE :uhabits-android:assembleRelease
         cp -v \
-            build/outputs/apk/release/uhabits-android-release.apk \
+            uhabits-android/build/outputs/apk/release/uhabits-android-release.apk \
             build/loop-$VERSION-release.apk
     fi
 
     log_info "Building debug APK..."
-    $GRADLE assembleDebug --stacktrace || fail
+    $GRADLE :uhabits-android:assembleDebug --stacktrace || fail
     cp -v \
-        build/outputs/apk/debug/uhabits-android-debug.apk \
+        uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk \
         build/loop-$VERSION-debug.apk
-    
-    cd ..
 }
 
 build_instrumentation_apk() {
     log_info "Building instrumentation APK..."
-    cd uhabits-android
     if [ ! -z $RELEASE ]; then
-        $GRADLE assembleAndroidTest  \
+        $GRADLE :uhabits-android:assembleAndroidTest  \
             -Pandroid.injected.signing.store.file=$LOOP_KEY_STORE \
             -Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
             -Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
@@ -119,7 +110,6 @@ build_instrumentation_apk() {
     else
         $GRADLE assembleAndroidTest || fail
     fi
-    cd ..
 }
 
 uninstall_apk() {
@@ -241,22 +231,22 @@ parse_opts() {
     done
 }
 
-remove_build_dir() {
-    rm -rfv ./uhabits-core/build
-    rm -rfv ./uhabits-web/node_modules/upath/build
-    rm -rfv ./uhabits-web/node_modules/core-js/build
-    rm -rfv ./uhabits-web/build
-    rm -rfv ./uhabits-core-legacy/build
-    rm -rfv ./uhabits-server/build
-    rm -rfv ./uhabits-android/build
-    rm -rfv ./uhabits-android/uhabits-android/build
-    rm -rfv ./uhabits-android/android-pickers/build
-    rm -rfv ./uhabits-web/node_modules
-    rm -rfv ./uhabits-core/.gradle
-    rm -rfv ./uhabits-core-legacy/.gradle
-    rm -rfv ./uhabits-server/.gradle
-    rm -rfv ./uhabits-android/.gradle
-    rm -rfv ./.gradle
+remove_build_dirs() {
+    rm -rfv uhabits-core/build
+    rm -rfv uhabits-web/node_modules/upath/build
+    rm -rfv uhabits-web/node_modules/core-js/build
+    rm -rfv uhabits-web/build
+    rm -rfv uhabits-core-legacy/build
+    rm -rfv uhabits-server/build
+    rm -rfv uhabits-android/build
+    rm -rfv uhabits-android/uhabits-android/build
+    rm -rfv uhabits-android/android-pickers/build
+    rm -rfv uhabits-web/node_modules
+    rm -rfv uhabits-core/.gradle
+    rm -rfv uhabits-core-legacy/.gradle
+    rm -rfv uhabits-server/.gradle
+    rm -rfv uhabits-android/.gradle
+    rm -rfv .gradle
 }
 
 main() {
@@ -290,7 +280,7 @@ main() {
             ;;
 
         clean)
-            remove_build_dir
+            remove_build_dirs
             ;;
 
         *)
