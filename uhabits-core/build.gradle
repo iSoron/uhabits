@@ -17,22 +17,9 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-//buildscript {
-//    repositories {
-//        google()
-//        jcenter()
-//        maven { url "https://plugins.gradle.org/m2/" }
-//        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-//    }
-//
-//    dependencies {
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21"
-//        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
-//    }
-//}
-
 plugins {
     id "org.jetbrains.kotlin.multiplatform" version "1.4.21"
+    id "org.jlleitschuh.gradle.ktlint" version "9.4.1"
 }
 
 repositories {
@@ -66,10 +53,7 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation kotlin('stdlib-jdk8')
-//                annotationProcessor "com.google.dagger:dagger:$DAGGER_VERSION"
                 compileOnly "com.google.dagger:dagger:$DAGGER_VERSION"
-//                compileOnly 'javax.annotation:jsr250-api:1.0'
-//                compileOnly 'org.jetbrains:annotations:18.0.0'
                 implementation "com.google.guava:guava:30.0-jre"
                 implementation "org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION"
                 implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$KX_COROUTINES_VERSION"
@@ -78,7 +62,6 @@ kotlin {
                 implementation 'com.opencsv:opencsv:3.10'
                 implementation 'commons-codec:commons-codec:1.15'
                 implementation 'org.apache.commons:commons-lang3:3.5'
-
             }
         }
 
