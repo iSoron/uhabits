@@ -25,12 +25,12 @@ To create a complete copy of the source code repository, open the terminal (Linu
 ```bash
 git clone https://github.com/iSoron/uhabits.git
 ```
-The repository will be downloaded to the directory `uhabits`. The Android files are located at `uhabits/android`.
+The repository will be downloaded to the directory `uhabits`.
 
 **Step 4: Open and run the project on Android Studio**
 
 1. Launch Android Studio and select "Open an existing Android Studio project".
-2. When the IDE asks you for the project location, select `uhabits/android` and click "Ok".
+2. When the IDE asks you for the project location, select `uhabits` and click "Ok".
 3. Android Studio will spend some time indexing the project. When this is complete, click the toolbar icon "Sync Project with Gradle File", located near the right corner of the top toolbar.
 4. The operation will likely fail several times due to missing Android SDK components. Each time it fails, click the link "Install missing platforms", "Install build tools", etc, and try again.
 5. To test the application, create a virtual Android device using the menu "Tools" and "AVD Manager". The default options should work fine, but free to customize the device.
@@ -81,11 +81,11 @@ The repository will be downloaded to the directory `uhabits`.
 
 **Step 4: Compile the source code**
 
-1. Navigate to the directory `uhabits/android`
+1. Navigate to the directory `uhabits`
 2. Run `./gradlew assembleDebug --stacktrace`
 
-If the compilation is successful, a debug APK will be generated somewhere inside the folder `uhabits/android/uhabits-android/build/`. Currently, the full path is the following, but it may change in the future:
+If the compilation is successful, a debug APK will be generated somewhere inside the folder `uhabits-android/build/`. Currently, the full path is the following, but it may change in the future:
 
-    ./uhabits/android/uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk
-
+    ./uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk
+    
 The APK can be installed using the tool `adb`, which should have been automatically installed at `/opt/android-sdk/platform-tools/adb` during compilation of the project.
