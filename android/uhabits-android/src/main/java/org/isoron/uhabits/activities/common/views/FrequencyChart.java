@@ -205,7 +205,7 @@ public class FrequencyChart extends ScrollableChart
         float rowHeight = rect.height() / 8.0f;
         prevRect.set(rect);
 
-        int[] localeWeekdayList = DateUtils.getWeekdaySequence(firstWeekday);
+        Integer[] localeWeekdayList = DateUtils.getWeekdaySequence(firstWeekday);
         for (int j = 0; j < localeWeekdayList.length; j++)
         {
             rect.set(0, 0, baseSize, baseSize);
