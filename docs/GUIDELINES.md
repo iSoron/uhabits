@@ -14,13 +14,14 @@ Please see `docs/BUILD.md` and `docs/TEST.md`
 
 ## Directory Layout
 
-* `android` Source code for the Android version of the app.
-* `core` Experimental Kotlin multiplatform code that will eventually be shared between all versions of the app (Android, iOS and web). Not currently used in production.
 * `docs` Documentation for developers.
 * `landing` Source code for our [landing page](http://loophabits.org/).
-* `ios` Experimental iOS port of Loop, based on Kotlin Multiplatform. Not currently used in production.
-* `server` Source code for any server-side components the app (for example, device sync).
-* `web` Experimental web port of Loop, based on Kotlin Multiplatform. Not currently used in production.
+* `uhabits-android` Android-specific code.
+* `uhabits-core` Common code used by all platforms (Android, iOS).
+* `uhabits-core-legacy` Proof-of-concept module, developed to evaluate the feasibility of using Kotlin multiplatform for the app; not currently used, and it will be removed soon, once all useful code is ported to the other modules.
+* `uhabits-ios` Experimental iOS port of Loop. Not currently used in production.
+* `uhabits-server` Source code for any server-side components the app (for example, device sync).
+* `uhabits-web` Experimental web port of Loop. Not currently used in production.
 
 ## Branching Policy
 
@@ -48,7 +49,7 @@ Further resources:
 
 ## Code Style
 
-For Kotlin, we follow [ktlint](https://ktlint.github.io/) style with default settings. This code style is enforced by our automated build pipeline. To make sure that Android Studio is configured according to ktlint, navigate to `android` and run `./gradlew ktlintApplyToIdea`. To check that all code is properly formatted, run `./gradlew ktlintCheck`. See more details in [ktlint-gradle](https://github.com/jlleitschuh/ktlint-gradle).
+For Kotlin, we follow [ktlint](https://ktlint.github.io/) style with default settings. This code style is enforced by our automated build pipeline. To make sure that IntelliJ and Android Studio are configured according to ktlint, run `./gradlew ktlintApplyToIdea`. To check that all code is properly formatted, run `./gradlew ktlintCheck`. See more details in [ktlint-gradle](https://github.com/jlleitschuh/ktlint-gradle).
 
 For legacy Java code, we don't have strict guidelines. Please follow a code style similar to the file you are modifying. Note that new classes should be written in Kotlin. Pull requests converting existing Java code to Kotlin are also welcome.
 
