@@ -6,3 +6,10 @@ plugins {
     id "org.jetbrains.kotlin.multiplatform" version "1.4.21" apply false
     id "org.jlleitschuh.gradle.ktlint" version "9.4.1"
 }
+
+// Needed for ktlint. Taken from: https://github.com/JLLeitschuh/ktlint-gradle/issues/181#issuecomment-443146206
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
