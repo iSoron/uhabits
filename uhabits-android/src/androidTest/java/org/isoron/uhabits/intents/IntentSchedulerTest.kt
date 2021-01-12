@@ -105,7 +105,7 @@ class IntentSchedulerTest : BaseAndroidTest() {
         setSystemTime("America/Chicago", 2020, JUNE, 2, 22, 46)
         val intent = ReminderReceiver.lastReceivedIntent
         assertNotNull(intent)
-        assertThat(parseId(intent.data!!), equalTo(habit.id))
+        assertThat(parseId(intent?.data!!), equalTo(habit.id))
     }
 
     @Test
