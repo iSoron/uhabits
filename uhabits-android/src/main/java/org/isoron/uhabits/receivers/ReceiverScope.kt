@@ -16,10 +16,9 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.receivers
 
-package org.isoron.uhabits.receivers;
-
-import javax.inject.*;
+import javax.inject.Scope
 
 @Scope
-public @interface ReceiverScope { }
+annotation class ReceiverScope
