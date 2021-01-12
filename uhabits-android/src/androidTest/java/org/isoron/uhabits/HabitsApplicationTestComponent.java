@@ -38,7 +38,7 @@ public interface HabitsApplicationTestComponent
     IntentScheduler getIntentScheduler();
 }
 
-@Module
+@dagger.Module
 class SingleThreadModule
 {
     @Provides
