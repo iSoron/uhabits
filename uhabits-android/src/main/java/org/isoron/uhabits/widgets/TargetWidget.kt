@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.widgets
 
+import android.app.PendingIntent
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup.LayoutParams
@@ -34,10 +35,12 @@ import org.isoron.uhabits.widgets.views.GraphWidgetView
 class TargetWidget(
     context: Context,
     id: Int,
-    private val habit: Habit
+    private val habit: Habit,
 ) : BaseWidget(context, id) {
+    override val defaultHeight: Int = 200
+    override val defaultWidth: Int = 200
 
-    override fun getOnClickPendingIntent(context: Context) =
+    override fun getOnClickPendingIntent(context: Context): PendingIntent? =
         pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) = runBlocking {
@@ -58,7 +61,4 @@ class TargetWidget(
             layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         }
     }
-
-    override fun getDefaultHeight() = 200
-    override fun getDefaultWidth() = 200
 }

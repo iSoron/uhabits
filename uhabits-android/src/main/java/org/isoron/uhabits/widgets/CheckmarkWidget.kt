@@ -21,7 +21,9 @@ package org.isoron.uhabits.widgets
 
 import android.app.PendingIntent
 import android.content.Context
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.utils.DateUtils
@@ -31,10 +33,13 @@ import org.isoron.uhabits.widgets.views.CheckmarkWidgetView
 open class CheckmarkWidget(
     context: Context,
     widgetId: Int,
-    protected val habit: Habit
+    protected val habit: Habit,
 ) : BaseWidget(context, widgetId) {
 
-    override fun getOnClickPendingIntent(context: Context): PendingIntent {
+    override val defaultHeight: Int = 125
+    override val defaultWidth: Int = 125
+
+    override fun getOnClickPendingIntent(context: Context): PendingIntent? {
         return if (habit.isNumerical) {
             pendingIntentFactory.setNumericalValue(context, habit, 10, null)
         } else {
@@ -42,20 +47,21 @@ open class CheckmarkWidget(
         }
     }
 
-    override fun refreshData(v: View) {
-        (v as CheckmarkWidgetView).apply {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun refreshData(widgetView: View) {
+        (widgetView as CheckmarkWidgetView).apply {
             val today = DateUtils.getTodayWithOffset()
             setBackgroundAlpha(preferedBackgroundAlpha)
-            setActiveColor(habit.color.toThemedAndroidColor(context))
-            setName(habit.name)
-            setEntryValue(habit.computedEntries.get(today).value)
+            activeColor = habit.color.toThemedAndroidColor(context)
+            name = habit.name
+            entryValue = habit.computedEntries.get(today).value
             if (habit.isNumerical) {
-                setNumerical(true)
-                setEntryState(getNumericalEntryState())
+                isNumerical = true
+                entryState = getNumericalEntryState()
             } else {
-                setEntryState(habit.computedEntries.get(today).value)
+                entryState = habit.computedEntries.get(today).value
             }
-            setPercentage(habit.scores.get(today).value.toFloat())
+            percentage = habit.scores[today].value.toFloat()
             refresh()
         }
     }
@@ -63,9 +69,6 @@ open class CheckmarkWidget(
     override fun buildView(): View {
         return CheckmarkWidgetView(context)
     }
-
-    override fun getDefaultHeight() = 125
-    override fun getDefaultWidth() = 125
 
     private fun getNumericalEntryState(): Int {
         return if (habit.isCompletedToday()) {

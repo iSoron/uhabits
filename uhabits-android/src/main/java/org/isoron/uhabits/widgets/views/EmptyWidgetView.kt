@@ -16,41 +16,28 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.widgets.views
 
-package org.isoron.uhabits.widgets.views;
+import android.content.Context
+import android.view.View
+import android.widget.TextView
+import org.isoron.uhabits.R
 
-import android.content.Context;
-import androidx.annotation.NonNull;
-import android.widget.TextView;
-
-import org.isoron.uhabits.R;
-
-public class EmptyWidgetView extends HabitWidgetView
-{
-
-    private TextView title;
-
-    public EmptyWidgetView(Context context)
-    {
-        super(context);
-        init();
+class EmptyWidgetView(context: Context?) : HabitWidgetView(context) {
+    private lateinit var title: TextView
+    fun setTitle(text: String?) {
+        title.text = text
     }
 
-    public void setTitle(String text)
-    {
-        title.setText(text);
+    override val innerLayoutId: Int
+        get() = R.layout.widget_graph
+
+    private fun init() {
+        title = findViewById<View>(R.id.title) as TextView
+        title.visibility = VISIBLE
     }
 
-    @Override
-    @NonNull
-    protected Integer getInnerLayoutId()
-    {
-        return R.layout.widget_graph;
-    }
-
-    private void init()
-    {
-        title = (TextView) findViewById(R.id.title);
-        title.setVisibility(VISIBLE);
+    init {
+        init()
     }
 }

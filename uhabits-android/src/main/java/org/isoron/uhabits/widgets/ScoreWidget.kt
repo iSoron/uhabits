@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.widgets
 
+import android.app.PendingIntent
 import android.content.Context
 import android.view.View
 import org.isoron.uhabits.activities.common.views.ScoreChart
@@ -30,10 +31,12 @@ import org.isoron.uhabits.widgets.views.GraphWidgetView
 class ScoreWidget(
     context: Context,
     id: Int,
-    private val habit: Habit
+    private val habit: Habit,
 ) : BaseWidget(context, id) {
+    override val defaultHeight: Int = 300
+    override val defaultWidth: Int = 300
 
-    override fun getOnClickPendingIntent(context: Context) =
+    override fun getOnClickPendingIntent(context: Context): PendingIntent? =
         pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {
@@ -57,7 +60,4 @@ class ScoreWidget(
         GraphWidgetView(context, ScoreChart(context)).apply {
             setTitle(habit.name)
         }
-
-    override fun getDefaultHeight() = 300
-    override fun getDefaultWidth() = 300
 }
