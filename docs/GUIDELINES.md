@@ -49,7 +49,7 @@ Further resources:
 
 ## Code Style
 
-For Kotlin, we follow [ktlint](https://ktlint.github.io/) style with default settings. This code style is enforced by our automated build pipeline. To make sure that IntelliJ and Android Studio are configured according to ktlint, run `./gradlew ktlintApplyToIdea`. To check that all code is properly formatted, run `./gradlew ktlintCheck`. See more details in [ktlint-gradle](https://github.com/jlleitschuh/ktlint-gradle).
+For Kotlin, we follow [ktlint](https://ktlint.github.io/) style with default settings. This code style is enforced by our automated build pipeline. To make sure that IntelliJ and Android Studio are configured according to ktlint, run `./gradlew ktlintApplyToIdea`. To check that all code is properly formatted, run `./gradlew ktlintCheck`. You can install a Git pre-commit hook to ensure that the code is properly formatted when you commit using `./gradlew addKtlintFormatGitPreCommitHook`. See more details in [ktlint-gradle](https://github.com/jlleitschuh/ktlint-gradle).
 
 For legacy Java code, we don't have strict guidelines. Please follow a code style similar to the file you are modifying. Note that new classes should be written in Kotlin. Pull requests converting existing Java code to Kotlin are also welcome.
 
