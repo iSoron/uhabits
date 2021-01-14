@@ -16,24 +16,20 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.activities.common.dialogs
 
-package org.isoron.uhabits.activities.common.dialogs;
-
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.ui.callbacks.*;
-import org.isoron.uhabits.utils.*;
+import com.android.colorpicker.ColorPickerDialog
+import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
+import org.isoron.uhabits.utils.toPaletteColor
 
 /**
  * Dialog that allows the user to choose a color.
  */
-public class ColorPickerDialog extends com.android.colorpicker.ColorPickerDialog
-{
-    public void setListener(OnColorPickedCallback callback)
-    {
-        super.setOnColorSelectedListener(c ->
-        {
-            PaletteColor pc = PaletteUtilsKt.toPaletteColor(c, getContext());
-            callback.onColorPicked(pc);
-        });
+class ColorPickerDialog : ColorPickerDialog() {
+    fun setListener(callback: OnColorPickedCallback) {
+        super.setOnColorSelectedListener { c: Int ->
+            val pc = c.toPaletteColor(context!!)
+            callback.onColorPicked(pc)
+        }
     }
 }

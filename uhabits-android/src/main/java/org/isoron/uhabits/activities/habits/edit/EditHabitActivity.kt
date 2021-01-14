@@ -197,7 +197,8 @@ class EditHabitActivity : AppCompatActivity() {
 
         binding.reminderDatePicker.setOnClickListener {
             val dialog = WeekdayPickerDialog()
-            dialog.setListener { days ->
+
+            dialog.setListener { days: WeekdayList ->
                 reminderDays = days
                 if (reminderDays.isEmpty) reminderDays = WeekdayList.EVERY_DAY
                 populateReminder()
