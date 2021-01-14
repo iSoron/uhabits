@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.components
+package org.isoron.uhabits.core.ui.views
 
 import kotlinx.coroutines.runBlocking
 import org.isoron.platform.gui.assertRenders
@@ -26,15 +26,10 @@ import org.isoron.platform.time.DayOfWeek.SUNDAY
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.ui.views.DarkTheme
-import org.isoron.uhabits.core.ui.views.HistoryChart
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.DIMMED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.ON
-import org.isoron.uhabits.core.ui.views.LightTheme
-import org.isoron.uhabits.core.ui.views.OnDateClickedListener
-import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.reset
@@ -45,7 +40,7 @@ import java.util.Locale
 class HistoryChartTest {
     val base = "views/HistoryChart"
 
-    val dateClickedListener = mock(OnDateClickedListener::class.java)
+    private val dateClickedListener = mock(OnDateClickedListener::class.java)!!
 
     val view = HistoryChart(
         today = LocalDate(2015, 1, 25),

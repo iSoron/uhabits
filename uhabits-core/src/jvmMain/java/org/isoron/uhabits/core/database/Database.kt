@@ -56,7 +56,7 @@ interface Database {
 
     val file: File?
 
-    interface ProcessCallback {
+    fun interface ProcessCallback {
         fun process(cursor: Cursor)
     }
 }

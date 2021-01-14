@@ -22,7 +22,7 @@ package org.isoron.uhabits.core.models.sqlite
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertNull
-import org.isoron.uhabits.core.BaseUnitTest.buildMemoryDatabase
+import org.isoron.uhabits.core.BaseUnitTest.Companion.buildMemoryDatabase
 import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN

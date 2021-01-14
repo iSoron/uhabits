@@ -40,7 +40,7 @@ public class RepositoryTest extends BaseUnitTest
     public void setUp() throws Exception
     {
         super.setUp();
-        this.db = buildMemoryDatabase();
+        this.db = BaseUnitTest.Companion.buildMemoryDatabase();
         repository = new Repository<>(ThingRecord.class, db);
 
         db.execute("drop table if exists tests");

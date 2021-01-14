@@ -29,11 +29,11 @@ import java.util.Locale
 class BarChartTest {
     val base = "views/BarChart"
     val today = LocalDate(2015, 1, 25)
-    val fmt = JavaLocalDateFormatter(Locale.US)
+    private val fmt = JavaLocalDateFormatter(Locale.US)
     val theme = LightTheme()
     val component = BarChart(theme, fmt)
-    val axis = (0..100).map { today.minus(it) }
-    val series1 = listOf(200.0, 0.0, 150.0, 137.0, 0.0, 0.0, 500.0, 30.0, 100.0, 0.0, 300.0)
+    private val axis = (0..100).map { today.minus(it) }
+    private val series1 = listOf(200.0, 0.0, 150.0, 137.0, 0.0, 0.0, 500.0, 30.0, 100.0, 0.0, 300.0)
 
     init {
         component.axis = axis
