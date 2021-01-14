@@ -16,28 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.inject
 
-package org.isoron.uhabits.inject;
-
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import dagger.Module
+import dagger.Provides
 
 @Module
-public class AppContextModule
-{
-    private final Context context;
-
-    public AppContextModule(@AppContext Context context)
-    {
-        this.context = context;
-    }
-
-    @Provides
-    @AppContext
-    Context getContext()
-    {
-        return context;
-    }
-}
+class AppContextModule(
+    @get:Provides
+    @get:AppContext
+    @param:AppContext val context: Context
+)
