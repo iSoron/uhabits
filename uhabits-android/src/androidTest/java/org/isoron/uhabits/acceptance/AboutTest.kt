@@ -16,42 +16,37 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.isoron.uhabits.acceptance
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.isoron.uhabits.BaseUserInterfaceTest
-import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
-import org.isoron.uhabits.acceptance.steps.CommonSteps.longClickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
-import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDoesNotDisplayText
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
-import org.isoron.uhabits.acceptance.steps.clearBackupFolder
-import org.isoron.uhabits.acceptance.steps.clearDownloadFolder
-import org.isoron.uhabits.acceptance.steps.copyBackupToDownloadFolder
-import org.isoron.uhabits.acceptance.steps.exportFullBackup
-import org.isoron.uhabits.acceptance.steps.importBackupFromDownloadFolder
+import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 @LargeTest
-class BackupTest : BaseUserInterfaceTest() {
+class AboutTest : BaseUserInterfaceTest() {
     @Test
-    fun shouldExportAndImportBackup() {
+    fun shouldDisplayAboutScreen() {
         launchApp()
-        clearDownloadFolder()
-        clearBackupFolder()
-        exportFullBackup()
-        copyBackupToDownloadFolder()
+        clickMenu(ListHabitsSteps.MenuItem.ABOUT)
+        verifyDisplaysText("Loop Habit Tracker")
+        verifyDisplaysText("Rate this app on Google Play")
+        verifyDisplaysText("Developers")
+        verifyDisplaysText("Translators")
+    }
 
-        longClickText("Wake up early")
-        clickMenu(ListHabitsSteps.MenuItem.DELETE)
-        clickText("Yes")
-        verifyDoesNotDisplayText("Wake up early")
-
-        importBackupFromDownloadFolder()
-
-        verifyDisplaysText("Wake up early")
+    @Test
+    fun shouldDisplayAboutScreenFromSettings() {
+        launchApp()
+        clickMenu(ListHabitsSteps.MenuItem.SETTINGS)
+        clickText("About")
+        verifyDisplaysText("Translators")
     }
 }
