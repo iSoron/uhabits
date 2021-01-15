@@ -16,30 +16,24 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.utils
 
-package org.isoron.uhabits.utils;
+import android.app.Activity
+import android.app.KeyguardManager
+import android.content.Context
+import android.os.Build
+import android.view.WindowManager
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.view.*;
+object SystemUtils {
+    val isAndroidOOrLater: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
-
-public class SystemUtils
-{
-    public static boolean isAndroidOOrLater()
-    {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
-    }
-
-    public static void unlockScreen(Activity activity)
-    {
-        if (isAndroidOOrLater()) {
-            KeyguardManager km =
-                    (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
-            km.requestDismissKeyguard(activity, null);
+    fun unlockScreen(activity: Activity) {
+        if (isAndroidOOrLater) {
+            val km = activity.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            km.requestDismissKeyguard(activity, null)
         } else {
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
         }
     }
 }
