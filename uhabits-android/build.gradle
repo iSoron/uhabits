@@ -26,11 +26,6 @@ plugins {
     id "org.jlleitschuh.gradle.ktlint"
 }
 
-repositories {
-    google()
-    jcenter()
-}
-
 android {
     compileSdkVersion COMPILE_SDK_VERSION as Integer
 

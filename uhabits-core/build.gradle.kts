@@ -17,28 +17,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-val DAGGER_VERSION = "2.25.4"
-val KOTLIN_VERSION = "1.4.21"
-val KX_COROUTINES_VERSION = "1.4.2"
-
 plugins {
     kotlin("multiplatform")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-repositories {
-    google()
-    jcenter()
-    mavenCentral()
-    maven(url = "https://plugins.gradle.org/m2/")
-    maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
-}
-
-
 kotlin {
-    jvm {
-        withJava()
-    }
+    jvm().withJava()
 
     sourceSets {
         val commonMain by getting {
@@ -58,10 +43,10 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                compileOnly("com.google.dagger:dagger:$DAGGER_VERSION")
+                compileOnly("com.google.dagger:dagger:2.25.4")
                 implementation("com.google.guava:guava:30.0-jre")
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$KX_COROUTINES_VERSION")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.21")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.4.2")
                 implementation("androidx.annotation:annotation:1.1.0")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
                 implementation("com.opencsv:opencsv:3.10")
