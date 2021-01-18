@@ -114,7 +114,7 @@ public class DatePickerDialog extends DialogFragment implements
     public interface OnDateSetListener {
 
         /**
-         * @param view The view associated with this listener.
+         * @param dialog The dialog associated with this listener.
          * @param year The year that was set.
          * @param monthOfYear The month that was set (0-11) for compatibility
          *            with {@link java.util.Calendar}.
