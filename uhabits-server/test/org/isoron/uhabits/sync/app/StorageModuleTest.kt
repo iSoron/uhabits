@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.sync.app
 
+import com.nhaarman.mockitokotlin2.whenever
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import kotlinx.coroutines.*
@@ -33,7 +34,7 @@ class StorageModuleTest : BaseApplicationTest() {
 
     @Test
     fun `when get succeeds should return data`(): Unit = runBlocking {
-        `when`(server.getData("k1")).thenReturn(data1)
+        whenever(server.getData("k1")).thenReturn(data1)
         withTestApplication(app()) {
             handleGet("/db/k1").apply {
                 assertEquals(HttpStatusCode.OK, response.status())
@@ -44,7 +45,7 @@ class StorageModuleTest : BaseApplicationTest() {
 
     @Test
     fun `when get version succeeds should return version`(): Unit = runBlocking {
-        `when`(server.getDataVersion("k1")).thenReturn(30)
+        whenever(server.getDataVersion("k1")).thenReturn(30)
         withTestApplication(app()) {
             handleGet("/db/k1/version").apply {
                 assertEquals(HttpStatusCode.OK, response.status())
@@ -55,7 +56,7 @@ class StorageModuleTest : BaseApplicationTest() {
 
     @Test
     fun `when get with invalid key should return 404`(): Unit = runBlocking {
-        `when`(server.getData("k1")).thenThrow(KeyNotFoundException())
+        whenever(server.getData("k1")).thenThrow(KeyNotFoundException())
         withTestApplication(app()) {
             handleGet("/db/k1").apply {
                 assertEquals(HttpStatusCode.NotFound, response.status())
@@ -78,7 +79,7 @@ class StorageModuleTest : BaseApplicationTest() {
 
     @Test
     fun `when put with invalid key should return 404`(): Unit = runBlocking {
-        `when`(server.put("k1", data1)).thenThrow(KeyNotFoundException())
+        whenever(server.put("k1", data1)).thenThrow(KeyNotFoundException())
         withTestApplication(app()) {
             handlePut("/db/k1", data1).apply {
                 assertEquals(HttpStatusCode.NotFound, response.status())
@@ -88,8 +89,8 @@ class StorageModuleTest : BaseApplicationTest() {
 
     @Test
     fun `when put with invalid version should return 409 and current data`(): Unit = runBlocking {
-        `when`(server.put("k1", data1)).thenThrow(EditConflictException())
-        `when`(server.getData("k1")).thenReturn(data2)
+        whenever(server.put("k1", data1)).thenThrow(EditConflictException())
+        whenever(server.getData("k1")).thenReturn(data2)
         withTestApplication(app()) {
             handlePut("/db/k1", data1).apply {
                 assertEquals(HttpStatusCode.Conflict, response.status())

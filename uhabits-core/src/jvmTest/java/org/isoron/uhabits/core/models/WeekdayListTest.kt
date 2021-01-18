@@ -20,8 +20,8 @@ package org.isoron.uhabits.core.models
 
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Test
 
@@ -29,21 +29,13 @@ class WeekdayListTest : BaseUnitTest() {
     @Test
     fun test() {
         val daysInt = 124
-        val daysArray = booleanArrayOf(
-            false,
-            false,
-            true,
-            true,
-            true,
-            true,
-            true
-        )
+        val daysArray = booleanArrayOf(false, false, true, true, true, true, true)
         var list = WeekdayList(daysArray)
-        assertThat(list.toArray(), IsEqual.equalTo(daysArray))
-        assertThat(list.toInteger(), IsEqual.equalTo(daysInt))
+        assertThat(list.toArray(), equalTo(daysArray))
+        assertThat(list.toInteger(), equalTo(daysInt))
         list = WeekdayList(daysInt)
-        assertThat(list.toArray(), IsEqual.equalTo(daysArray))
-        assertThat(list.toInteger(), IsEqual.equalTo(daysInt))
+        assertThat(list.toArray(), equalTo(daysArray))
+        assertThat(list.toInteger(), equalTo(daysInt))
     }
 
     @Test

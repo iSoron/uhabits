@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.core.commands
 
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
@@ -34,6 +34,7 @@ class DeleteHabitsCommandTest : BaseUnitTest() {
 
     @get:Rule
     var thrown = ExpectedException.none()!!
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {
@@ -56,9 +57,9 @@ class DeleteHabitsCommandTest : BaseUnitTest() {
 
     @Test
     fun testExecute() {
-        assertThat(habitList.size(), CoreMatchers.equalTo(4))
+        assertThat(habitList.size(), equalTo(4))
         command.run()
-        assertThat(habitList.size(), CoreMatchers.equalTo(1))
-        assertThat(habitList.getByPosition(0).name, CoreMatchers.equalTo("extra"))
+        assertThat(habitList.size(), equalTo(1))
+        assertThat(habitList.getByPosition(0).name, equalTo("extra"))
     }
 }

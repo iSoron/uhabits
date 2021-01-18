@@ -34,6 +34,7 @@ import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils
 import javax.inject.Inject
+import kotlin.math.roundToLong
 
 class NumberPickerFactory
 @Inject constructor(
@@ -52,7 +53,7 @@ class NumberPickerFactory
         val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
         val tvUnit = view.findViewById<TextView>(R.id.tvUnit)
 
-        val intValue = Math.round(value * 100).toInt()
+        val intValue = (value * 100).roundToLong().toInt()
 
         picker.minValue = 0
         picker.maxValue = Integer.MAX_VALUE / 100
@@ -86,13 +87,12 @@ class NumberPickerFactory
         }
 
         InterfaceUtils.setupEditorAction(
-            picker,
-            TextView.OnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE)
-                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
-                false
-            }
-        )
+            picker
+        ) { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
+            false
+        }
 
         return dialog
     }

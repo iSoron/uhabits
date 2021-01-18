@@ -19,9 +19,9 @@
 package org.isoron.uhabits.core.models
 
 import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Assert.assertNotEquals
@@ -41,11 +41,9 @@ class HabitTest : BaseUnitTest() {
 
     @Test
     fun testUuidGeneration() {
-        val (_, _, _, _, _, _, _, _, _, _, _, _, _, uuid) = modelFactory.buildHabit()
-        val (_, _, _, _, _, _, _, _, _, _, _, _, _, uuid1) = modelFactory.buildHabit()
-        assertNotNull(uuid)
-        assertNotNull(uuid1)
-        assertNotEquals(uuid, uuid1)
+        val uuid1 = modelFactory.buildHabit().uuid!!
+        val uuid2 = modelFactory.buildHabit().uuid!!
+        assertNotEquals(uuid1, uuid2)
     }
 
     @Test
@@ -57,18 +55,19 @@ class HabitTest : BaseUnitTest() {
         model.reminder = Reminder(8, 30, WeekdayList(1))
         val habit = modelFactory.buildHabit()
         habit.copyFrom(model)
-        assertThat(habit.isArchived, CoreMatchers.`is`(model.isArchived))
-        assertThat(habit.color, CoreMatchers.`is`(model.color))
-        assertThat(habit.frequency, CoreMatchers.equalTo(model.frequency))
-        assertThat(habit.reminder, CoreMatchers.equalTo(model.reminder))
+        assertTrue(habit.isArchived == model.isArchived)
+        assertThat(habit.isArchived, `is`(model.isArchived))
+        assertThat(habit.color, `is`(model.color))
+        assertThat(habit.frequency, equalTo(model.frequency))
+        assertThat(habit.reminder, equalTo(model.reminder))
     }
 
     @Test
     fun test_hasReminder() {
         val h = modelFactory.buildHabit()
-        assertThat(h.hasReminder(), CoreMatchers.`is`(false))
+        assertThat(h.hasReminder(), `is`(false))
         h.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
-        assertThat(h.hasReminder(), CoreMatchers.`is`(true))
+        assertThat(h.hasReminder(), `is`(true))
     }
 
     @Test
@@ -116,10 +115,7 @@ class HabitTest : BaseUnitTest() {
         assertTrue(habitList.isEmpty)
         val h = modelFactory.buildHabit()
         habitList.add(h)
-        assertThat(h.id, CoreMatchers.equalTo(0L))
-        assertThat(
-            h.uriString,
-            CoreMatchers.equalTo("content://org.isoron.uhabits/habit/0")
-        )
+        assertThat(h.id, equalTo(0L))
+        assertThat(h.uriString, equalTo("content://org.isoron.uhabits/habit/0"))
     }
 }

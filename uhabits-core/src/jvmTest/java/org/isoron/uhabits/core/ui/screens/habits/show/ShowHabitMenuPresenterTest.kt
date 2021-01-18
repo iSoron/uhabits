@@ -18,13 +18,15 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.show
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import org.apache.commons.io.FileUtils
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.junit.Test
-import org.mockito.Mockito
 import java.nio.file.Files
 
 class ShowHabitMenuPresenterTest : BaseUnitTest() {
@@ -32,11 +34,12 @@ class ShowHabitMenuPresenterTest : BaseUnitTest() {
     private lateinit var screen: ShowHabitMenuPresenter.Screen
     private lateinit var habit: Habit
     private lateinit var menu: ShowHabitMenuPresenter
+
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        system = Mockito.mock(ShowHabitMenuPresenter.System::class.java)
-        screen = Mockito.mock(ShowHabitMenuPresenter.Screen::class.java)
+        system = mock()
+        screen = mock()
         habit = fixtures.createShortHabit()
         menu = ShowHabitMenuPresenter(
             commandRunner,
@@ -51,16 +54,16 @@ class ShowHabitMenuPresenterTest : BaseUnitTest() {
     @Test
     fun testOnEditHabit() {
         menu.onEditHabit()
-        Mockito.verify(screen)!!.showEditHabitScreen(habit)
+        verify(screen).showEditHabitScreen(habit)
     }
 
     @Test
     @Throws(Exception::class)
     fun testOnExport() {
         val outputDir = Files.createTempDirectory("CSV").toFile()
-        Mockito.`when`(system.getCSVOutputDir()).thenReturn(outputDir)
+        whenever(system.getCSVOutputDir()).thenReturn(outputDir)
         menu.onExportCSV()
-        assertThat(FileUtils.listFiles(outputDir, null, false).size, CoreMatchers.equalTo(1))
+        assertThat(FileUtils.listFiles(outputDir, null, false).size, equalTo(1))
         FileUtils.deleteDirectory(outputDir)
     }
 }

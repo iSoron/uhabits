@@ -18,6 +18,10 @@
  */
 package org.isoron.uhabits.core.reminders
 
+import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Reminder
@@ -31,9 +35,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedTimeZone
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
-import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.Calendar
 import java.util.TimeZone
@@ -41,22 +43,20 @@ import java.util.TimeZone
 @RunWith(MockitoJUnitRunner::class)
 class ReminderSchedulerTest : BaseUnitTest() {
     private val habitId = 10L
-    private var habit: Habit? = null
-    private var reminderScheduler: ReminderScheduler? = null
+    private lateinit var habit: Habit
+    private lateinit var reminderScheduler: ReminderScheduler
 
-    @Mock
-    private val sys: ReminderScheduler.SystemScheduler? = null
+    private val sys: ReminderScheduler.SystemScheduler = mock()
+    private val widgetPreferences: WidgetPreferences = mock()
 
-    @Mock
-    private val widgetPreferences: WidgetPreferences? = null
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         habit = fixtures.createEmptyHabit()
-        habit!!.id = habitId
+        habit.id = habitId
         reminderScheduler =
-            ReminderScheduler(commandRunner, habitList, sys!!, widgetPreferences!!)
+            ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
         setFixedTimeZone(TimeZone.getTimeZone("GMT-4"))
     }
 
@@ -73,16 +73,16 @@ class ReminderSchedulerTest : BaseUnitTest() {
         habitList.add(h1)
         habitList.add(h2)
         habitList.add(h3)
-        reminderScheduler!!.scheduleAll()
-        Mockito.verify(sys)!!.scheduleShowReminder(
-            ArgumentMatchers.eq(unixTime(2015, 1, 27, 12, 30)),
-            ArgumentMatchers.eq(h1),
-            ArgumentMatchers.anyLong()
+        reminderScheduler.scheduleAll()
+        verify(sys).scheduleShowReminder(
+            eq(unixTime(2015, 1, 27, 12, 30)),
+            eq(h1),
+            anyLong()
         )
-        Mockito.verify(sys)!!.scheduleShowReminder(
-            ArgumentMatchers.eq(unixTime(2015, 1, 26, 22, 30)),
-            ArgumentMatchers.eq(h2),
-            ArgumentMatchers.anyLong()
+        verify(sys).scheduleShowReminder(
+            eq(unixTime(2015, 1, 26, 22, 30)),
+            eq(h2),
+            anyLong()
         )
     }
 
@@ -90,7 +90,7 @@ class ReminderSchedulerTest : BaseUnitTest() {
     fun testSchedule_atSpecificTime() {
         val atTime = unixTime(2015, 1, 30, 11, 30)
         val expectedCheckmarkTime = unixTime(2015, 1, 30, 0, 0)
-        habit!!.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
+        habit.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
         scheduleAndVerify(atTime, expectedCheckmarkTime, atTime)
     }
 
@@ -103,13 +103,14 @@ class ReminderSchedulerTest : BaseUnitTest() {
         val regularReminderTime = applyTimezone(unixTime(2015, 1, 2, 8, 30))
         val todayCheckmarkTime = unixTime(2015, 1, 1, 0, 0)
         val tomorrowCheckmarkTime = unixTime(2015, 1, 2, 0, 0)
-        habit!!.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
-        Mockito.`when`(widgetPreferences!!.getSnoozeTime(habitId)).thenReturn(snoozeTimeInFuture)
-        reminderScheduler!!.schedule(habit!!)
-        Mockito.verify(sys)!!.scheduleShowReminder(snoozeTimeInFuture, habit, todayCheckmarkTime)
-        Mockito.`when`(widgetPreferences.getSnoozeTime(habitId)).thenReturn(snoozeTimeInPast)
-        reminderScheduler!!.schedule(habit!!)
-        Mockito.verify(sys)!!.scheduleShowReminder(regularReminderTime, habit, tomorrowCheckmarkTime)
+        habit.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
+        whenever(widgetPreferences.getSnoozeTime(habitId)).thenReturn(snoozeTimeInFuture)
+        reminderScheduler.schedule(habit)
+        verify(sys).scheduleShowReminder(snoozeTimeInFuture, habit, todayCheckmarkTime)
+        whenever(widgetPreferences.getSnoozeTime(habitId)).thenReturn(snoozeTimeInPast)
+        reminderScheduler.schedule(habit)
+        verify(sys)
+            .scheduleShowReminder(regularReminderTime, habit, tomorrowCheckmarkTime)
     }
 
     @Test
@@ -118,7 +119,7 @@ class ReminderSchedulerTest : BaseUnitTest() {
         setFixedLocalTime(now)
         val expectedCheckmarkTime = unixTime(2015, 1, 26, 0, 0)
         val expectedReminderTime = unixTime(2015, 1, 26, 12, 30)
-        habit!!.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
+        habit.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime)
     }
 
@@ -128,13 +129,13 @@ class ReminderSchedulerTest : BaseUnitTest() {
         setFixedLocalTime(now)
         val expectedCheckmarkTime = unixTime(2015, 1, 27, 0, 0)
         val expectedReminderTime = unixTime(2015, 1, 27, 12, 30)
-        habit!!.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
+        habit.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
         scheduleAndVerify(null, expectedCheckmarkTime, expectedReminderTime)
     }
 
     @Test
     fun testSchedule_withoutReminder() {
-        reminderScheduler!!.schedule(habit!!)
+        reminderScheduler.schedule(habit)
     }
 
     override fun unixTime(year: Int, month: Int, day: Int, hour: Int, minute: Int): Long {
@@ -148,11 +149,11 @@ class ReminderSchedulerTest : BaseUnitTest() {
         expectedCheckmarkTime: Long,
         expectedReminderTime: Long
     ) {
-        if (atTime == null) reminderScheduler!!.schedule(habit!!) else reminderScheduler!!.scheduleAtTime(
-            habit!!,
+        if (atTime == null) reminderScheduler.schedule(habit) else reminderScheduler.scheduleAtTime(
+            habit,
             atTime
         )
-        Mockito.verify(sys)!!.scheduleShowReminder(
+        verify(sys).scheduleShowReminder(
             expectedReminderTime,
             habit,
             expectedCheckmarkTime

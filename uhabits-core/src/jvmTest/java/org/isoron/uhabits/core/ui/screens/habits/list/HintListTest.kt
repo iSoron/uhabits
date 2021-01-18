@@ -18,9 +18,12 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
+import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertNull
 import junit.framework.Assert.assertTrue
-import junit.framework.TestCase
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
@@ -29,42 +32,41 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito
 
 class HintListTest : BaseUnitTest() {
-    private var hintList: HintList? = null
+    private lateinit var hintList: HintList
     private lateinit var hints: Array<String>
 
     @Mock
-    private val prefs: Preferences? = null
-    private var today: Timestamp? = null
-    private var yesterday: Timestamp? = null
+    private val prefs: Preferences = mock()
+    private lateinit var today: Timestamp
+    private lateinit var yesterday: Timestamp
 
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         today = getToday()
-        yesterday = today!!.minus(1)
+        yesterday = today.minus(1)
         hints = arrayOf("hint1", "hint2", "hint3")
-        hintList = HintList(prefs!!, hints)
+        hintList = HintList(prefs, hints)
     }
 
     @Test
     @Throws(Exception::class)
     fun pop() {
-        Mockito.`when`(prefs!!.lastHintNumber).thenReturn(-1)
-        assertThat(hintList!!.pop(), equalTo("hint1"))
-        Mockito.verify(prefs).updateLastHint(0, today)
-        Mockito.`when`(prefs.lastHintNumber).thenReturn(2)
-        assertNull(hintList!!.pop())
+        whenever(prefs.lastHintNumber).thenReturn(-1)
+        assertThat(hintList.pop(), equalTo("hint1"))
+        verify(prefs).updateLastHint(0, today)
+        whenever(prefs.lastHintNumber).thenReturn(2)
+        assertNull(hintList.pop())
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldShow() {
-        Mockito.`when`(prefs!!.lastHintTimestamp).thenReturn(today)
-        TestCase.assertFalse(hintList!!.shouldShow())
-        Mockito.`when`(prefs.lastHintTimestamp).thenReturn(yesterday)
-        assertTrue(hintList!!.shouldShow())
+        whenever(prefs.lastHintTimestamp).thenReturn(today)
+        assertFalse(hintList.shouldShow())
+        whenever(prefs.lastHintTimestamp).thenReturn(yesterday)
+        assertTrue(hintList.shouldShow())
     }
 }

@@ -32,6 +32,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
 import org.isoron.uhabits.utils.StyledResources
 import java.util.Arrays
+import kotlin.math.max
 
 abstract class HabitWidgetView : FrameLayout {
     protected var background: InsetDrawable? = null
@@ -73,7 +74,7 @@ abstract class HabitWidgetView : FrameLayout {
         Arrays.fill(radii, cornerRadius)
         val shape = RoundRectShape(radii, null, null)
         val innerDrawable = ShapeDrawable(shape)
-        val insetLeftTop = Math.max(shadowRadius - shadowOffset, 0)
+        val insetLeftTop = max(shadowRadius - shadowOffset, 0)
         val insetRightBottom = shadowRadius + shadowOffset
         background = InsetDrawable(
             innerDrawable,

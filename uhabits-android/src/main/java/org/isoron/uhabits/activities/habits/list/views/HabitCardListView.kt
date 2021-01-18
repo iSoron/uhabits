@@ -170,22 +170,22 @@ class HabitCardListView(
     inner class TouchHelperCallback : ItemTouchHelper.Callback() {
         override fun getMovementFlags(
             recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder
+            viewHolder: ViewHolder
         ): Int {
             return makeMovementFlags(UP or DOWN, START or END)
         }
 
         override fun onMove(
             recyclerView: RecyclerView,
-            from: RecyclerView.ViewHolder,
-            to: RecyclerView.ViewHolder
+            from: ViewHolder,
+            to: ViewHolder
         ): Boolean {
             controller.get().drop(from.adapterPosition, to.adapterPosition)
             return true
         }
 
         override fun onSwiped(
-            viewHolder: RecyclerView.ViewHolder,
+            viewHolder: ViewHolder,
             direction: Int
         ) {
         }

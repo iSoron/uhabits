@@ -21,7 +21,7 @@ package org.isoron.platform.gui
 
 class FontAwesome {
     companion object {
-        val CHECK = "\uf00c"
-        val TIMES = "\uf00d"
+        const val CHECK = "\uf00c"
+        const val TIMES = "\uf00d"
     }
 }

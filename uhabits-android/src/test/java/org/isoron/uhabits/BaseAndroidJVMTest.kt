@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits
 
+import com.nhaarman.mockitokotlin2.spy
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.memory.MemoryModelFactory
@@ -29,7 +30,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -46,7 +46,7 @@ open class BaseAndroidJVMTest {
         setFixedLocalTime(fixedLocalTime)
         setStartDayOffset(0, 0)
         modelFactory = MemoryModelFactory()
-        habitList = Mockito.spy(modelFactory.buildHabitList())
+        habitList = spy(modelFactory.buildHabitList())
         fixtures = HabitFixtures(modelFactory, habitList)
         taskRunner = SingleThreadTaskRunner()
         commandRunner = CommandRunner(taskRunner)

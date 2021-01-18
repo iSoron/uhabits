@@ -71,7 +71,7 @@ class NumberPanelView(
             setupButtons()
         }
 
-    override fun createButton() = buttonFactory.create()!!
+    override fun createButton() = buttonFactory.create()
 
     @Synchronized
     override fun setupButtons() {

@@ -19,19 +19,20 @@
 
 package org.isoron.uhabits.sync.app
 
-import io.ktor.http.*
-import io.ktor.server.testing.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.sync.*
+import com.nhaarman.mockitokotlin2.whenever
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.withTestApplication
+import kotlinx.coroutines.runBlocking
+import org.isoron.uhabits.sync.ServiceUnavailable
 import org.junit.Test
-import org.mockito.*
-import org.mockito.Mockito.*
-import kotlin.test.*
+import kotlin.test.assertEquals
 
 class RegistrationModuleTest : BaseApplicationTest() {
     @Test
-    fun `when register succeeds should return generated key`():Unit = runBlocking {
-        `when`(server.register()).thenReturn("ABCDEF")
+    fun `when register succeeds should return generated key`(): Unit = runBlocking {
+        whenever(server.register()).thenReturn("ABCDEF")
         withTestApplication(app()) {
             val call = handleRequest(HttpMethod.Post, "/register")
             assertEquals(HttpStatusCode.OK, call.response.status())
@@ -40,8 +41,8 @@ class RegistrationModuleTest : BaseApplicationTest() {
     }
 
     @Test
-    fun `when registration is unavailable should return 503`():Unit = runBlocking {
-        `when`(server.register()).thenThrow(ServiceUnavailable())
+    fun `when registration is unavailable should return 503`(): Unit = runBlocking {
+        whenever(server.register()).thenThrow(ServiceUnavailable())
         withTestApplication(app()) {
             val call = handleRequest(HttpMethod.Post, "/register")
             assertEquals(HttpStatusCode.ServiceUnavailable, call.response.status())

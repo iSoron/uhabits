@@ -38,19 +38,13 @@ import org.mockito.Mockito.mock
 
 @Module
 class TestModule {
-    @Provides fun ListHabitsBehavior() = mock(ListHabitsBehavior::class.java)
+    @Provides fun listHabitsBehavior(): ListHabitsBehavior = mock(ListHabitsBehavior::class.java)
 }
 
 @ActivityScope
 @Component(
-    modules = arrayOf(
-        ActivityContextModule::class,
-        HabitsActivityModule::class,
-        ListHabitsModule::class,
-        HabitModule::class,
-        TestModule::class
-    ),
-    dependencies = arrayOf(HabitsApplicationComponent::class)
+    modules = [ActivityContextModule::class, HabitsActivityModule::class, ListHabitsModule::class, HabitModule::class, TestModule::class],
+    dependencies = [HabitsApplicationComponent::class]
 )
 interface HabitsActivityTestComponent {
     fun getCheckmarkPanelViewFactory(): CheckmarkPanelViewFactory

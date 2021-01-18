@@ -59,8 +59,8 @@ class HabitCardViewFactory
 
 class HabitCardView(
     @ActivityContext context: Context,
-    private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
-    private val numberPanelFactory: NumberPanelViewFactory,
+    checkmarkPanelFactory: CheckmarkPanelViewFactory,
+    numberPanelFactory: NumberPanelViewFactory,
     private val behavior: ListHabitsBehavior
 ) : FrameLayout(context),
     ModelObservable.Listener {
@@ -174,7 +174,7 @@ class HabitCardView(
         }
 
         clipToPadding = false
-        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         val margin = dp(3f).toInt()
         setPadding(margin, 0, margin, margin)
         addView(innerFrame)

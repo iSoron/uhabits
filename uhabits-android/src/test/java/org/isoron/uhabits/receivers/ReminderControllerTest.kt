@@ -18,6 +18,9 @@
  */
 package org.isoron.uhabits.receivers
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import org.isoron.uhabits.BaseAndroidJVMTest
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
@@ -25,7 +28,6 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.reminders.ReminderScheduler
 import org.isoron.uhabits.core.ui.NotificationTray
 import org.junit.Test
-import org.mockito.Mockito
 
 class ReminderControllerTest : BaseAndroidJVMTest() {
     private lateinit var controller: ReminderController
@@ -34,9 +36,9 @@ class ReminderControllerTest : BaseAndroidJVMTest() {
     private lateinit var preferences: Preferences
     override fun setUp() {
         super.setUp()
-        reminderScheduler = Mockito.mock(ReminderScheduler::class.java)
-        notificationTray = Mockito.mock(NotificationTray::class.java)
-        preferences = Mockito.mock(Preferences::class.java)
+        reminderScheduler = mock()
+        notificationTray = mock()
+        preferences = mock()
         controller = ReminderController(
             reminderScheduler,
             notificationTray,
@@ -47,24 +49,24 @@ class ReminderControllerTest : BaseAndroidJVMTest() {
     @Test
     @Throws(Exception::class)
     fun testOnDismiss() {
-        Mockito.verifyNoMoreInteractions(reminderScheduler)
-        Mockito.verifyNoMoreInteractions(notificationTray)
-        Mockito.verifyNoMoreInteractions(preferences)
+        verifyNoMoreInteractions(reminderScheduler)
+        verifyNoMoreInteractions(notificationTray)
+        verifyNoMoreInteractions(preferences)
     }
 
     @Test
     @Throws(Exception::class)
     fun testOnShowReminder() {
-        val habit = Mockito.mock(Habit::class.java)
+        val habit: Habit = mock()
         controller.onShowReminder(habit, Timestamp.ZERO.plus(100), 456)
-        Mockito.verify(notificationTray).show(habit, Timestamp.ZERO.plus(100), 456)
-        Mockito.verify(reminderScheduler).scheduleAll()
+        verify(notificationTray).show(habit, Timestamp.ZERO.plus(100), 456)
+        verify(reminderScheduler).scheduleAll()
     }
 
     @Test
     @Throws(Exception::class)
     fun testOnBootCompleted() {
         controller.onBootCompleted()
-        Mockito.verify(reminderScheduler).scheduleAll()
+        verify(reminderScheduler).scheduleAll()
     }
 }

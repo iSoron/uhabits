@@ -25,6 +25,8 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Scroller
+import kotlin.math.abs
+import kotlin.math.max
 
 /**
  * An AndroidView that implements scrolling.
@@ -71,7 +73,7 @@ class AndroidDataView(
         dx: Float,
         dy: Float,
     ): Boolean {
-        if (Math.abs(dx) > Math.abs(dy)) {
+        if (abs(dx) > abs(dy)) {
             val parent = parent
             parent?.requestDisallowInterceptTouchEvent(true)
         }
@@ -128,7 +130,7 @@ class AndroidDataView(
         view?.let { v ->
             var newDataOffset: Int =
                 scroller.currX / (v.dataColumnWidth * canvas.innerDensity).toInt()
-            newDataOffset = Math.max(0, newDataOffset)
+            newDataOffset = max(0, newDataOffset)
             if (newDataOffset != v.dataOffset) {
                 v.dataOffset = newDataOffset
                 postInvalidate()

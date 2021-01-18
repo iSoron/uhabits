@@ -20,7 +20,6 @@
 package org.isoron.uhabits.core.models.sqlite
 
 import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertNull
 import org.isoron.uhabits.core.BaseUnitTest.Companion.buildMemoryDatabase
 import org.isoron.uhabits.core.database.Repository
@@ -87,22 +86,17 @@ class SQLiteEntryListTest {
         val original = Entry(today, 150)
         entries.add(original)
 
-        val retrieved = getByTimestamp(1, today)
-        assertNotNull(retrieved)
-        assertEquals(original, retrieved!!.toEntry())
+        val retrieved = getByTimestamp(1, today)!!
+        assertEquals(original, retrieved.toEntry())
 
         val replacement = Entry(today, 90)
         entries.add(replacement)
 
-        val retrieved2 = getByTimestamp(1, today)
-        assertNotNull(retrieved2)
-        assertEquals(replacement, retrieved2!!.toEntry())
+        val retrieved2 = getByTimestamp(1, today)!!
+        assertEquals(replacement, retrieved2.toEntry())
     }
 
-    private fun getByTimestamp(
-        habitId: Int,
-        timestamp: Timestamp,
-    ): EntryRecord? {
+    private fun getByTimestamp(habitId: Int, timestamp: Timestamp): EntryRecord? {
         return repository.findFirst(
             "where habit = ? and timestamp = ?",
             habitId.toString(),

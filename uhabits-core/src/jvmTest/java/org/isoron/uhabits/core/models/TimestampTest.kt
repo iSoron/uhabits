@@ -18,8 +18,8 @@
  */
 package org.isoron.uhabits.core.models
 
+import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
-import junit.framework.TestCase
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
@@ -39,10 +39,10 @@ class TimestampTest : BaseUnitTest() {
         assertThat(t1.compareTo(t1), equalTo(0))
         assertThat(t1.compareTo(t3), lessThan(0))
         assertTrue(t1.isNewerThan(t2))
-        TestCase.assertFalse(t1.isNewerThan(t1))
-        TestCase.assertFalse(t2.isNewerThan(t1))
+        assertFalse(t1.isNewerThan(t1))
+        assertFalse(t2.isNewerThan(t1))
         assertTrue(t2.isOlderThan(t1))
-        TestCase.assertFalse(t1.isOlderThan(t2))
+        assertFalse(t1.isOlderThan(t2))
     }
 
     @Test

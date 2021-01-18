@@ -18,8 +18,12 @@
  */
 package org.isoron.uhabits.core.ui.widgets
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.reset
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
+import com.nhaarman.mockitokotlin2.whenever
 import org.isoron.uhabits.core.BaseUnitTest
-import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.nextToggleValueWithSkip
@@ -31,44 +35,43 @@ import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 
 class WidgetBehaviorTest : BaseUnitTest() {
     private lateinit var notificationTray: NotificationTray
     private lateinit var preferences: Preferences
     private lateinit var behavior: WidgetBehavior
-    private var habit: Habit? = null
-    private var today: Timestamp? = null
+    private lateinit var habit: Habit
+    private lateinit var today: Timestamp
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         habit = fixtures.createEmptyHabit()
-        commandRunner = Mockito.mock(CommandRunner::class.java)
-        notificationTray = Mockito.mock(NotificationTray::class.java)
-        preferences = Mockito.mock(Preferences::class.java)
+        commandRunner = mock()
+        notificationTray = mock()
+        preferences = mock()
         behavior = WidgetBehavior(habitList, commandRunner, notificationTray, preferences)
         today = getTodayWithOffset()
     }
 
     @Test
     fun testOnAddRepetition() {
-        behavior.onAddRepetition(habit!!, today)
-        Mockito.verify(commandRunner)!!.run(
-            CreateRepetitionCommand(habitList, habit!!, today!!, Entry.YES_MANUAL)
+        behavior.onAddRepetition(habit, today)
+        verify(commandRunner).run(
+            CreateRepetitionCommand(habitList, habit, today, Entry.YES_MANUAL)
         )
-        Mockito.verify(notificationTray)!!.cancel(habit!!)
-        Mockito.verifyZeroInteractions(preferences)
+        verify(notificationTray).cancel(habit)
+        verifyZeroInteractions(preferences)
     }
 
     @Test
     fun testOnRemoveRepetition() {
-        behavior.onRemoveRepetition(habit!!, today)
-        Mockito.verify(commandRunner)!!.run(
-            CreateRepetitionCommand(habitList, habit!!, today!!, Entry.NO)
+        behavior.onRemoveRepetition(habit, today)
+        verify(commandRunner).run(
+            CreateRepetitionCommand(habitList, habit, today, Entry.NO)
         )
-        Mockito.verify(notificationTray)!!.cancel(habit!!)
-        Mockito.verifyZeroInteractions(preferences)
+        verify(notificationTray).cancel(habit)
+        verifyZeroInteractions(preferences)
     }
 
     @Test
@@ -81,46 +84,46 @@ class WidgetBehaviorTest : BaseUnitTest() {
                 Entry.SKIP
             )
         ) {
-            Mockito.`when`(preferences.isSkipEnabled).thenReturn(skipEnabled)
+            whenever(preferences.isSkipEnabled).thenReturn(skipEnabled)
             val nextValue: Int = if (skipEnabled) nextToggleValueWithSkip(currentValue) else nextToggleValueWithoutSkip(
                 currentValue
             )
-            habit!!.originalEntries.add(Entry(today!!, currentValue))
-            behavior.onToggleRepetition(habit!!, today)
-            Mockito.verify(preferences)!!.isSkipEnabled
-            Mockito.verify(commandRunner)!!.run(
-                CreateRepetitionCommand(habitList, habit!!, today!!, nextValue)
+            habit.originalEntries.add(Entry(today, currentValue))
+            behavior.onToggleRepetition(habit, today)
+            verify(preferences).isSkipEnabled
+            verify(commandRunner).run(
+                CreateRepetitionCommand(habitList, habit, today, nextValue)
             )
-            Mockito.verify(notificationTray)!!.cancel(
-                habit!!
+            verify(notificationTray).cancel(
+                habit
             )
-            Mockito.reset(preferences, commandRunner, notificationTray)
+            reset(preferences, commandRunner, notificationTray)
         }
     }
 
     @Test
     fun testOnIncrement() {
         habit = fixtures.createNumericalHabit()
-        habit!!.originalEntries.add(Entry(today!!, 500))
-        habit!!.recompute()
-        behavior.onIncrement(habit!!, today!!, 100)
-        Mockito.verify(commandRunner)!!.run(
-            CreateRepetitionCommand(habitList, habit!!, today!!, 600)
+        habit.originalEntries.add(Entry(today, 500))
+        habit.recompute()
+        behavior.onIncrement(habit, today, 100)
+        verify(commandRunner).run(
+            CreateRepetitionCommand(habitList, habit, today, 600)
         )
-        Mockito.verify(notificationTray)!!.cancel(habit!!)
-        Mockito.verifyZeroInteractions(preferences)
+        verify(notificationTray).cancel(habit)
+        verifyZeroInteractions(preferences)
     }
 
     @Test
     fun testOnDecrement() {
         habit = fixtures.createNumericalHabit()
-        habit!!.originalEntries.add(Entry(today!!, 500))
-        habit!!.recompute()
-        behavior.onDecrement(habit!!, today!!, 100)
-        Mockito.verify(commandRunner)!!.run(
-            CreateRepetitionCommand(habitList, habit!!, today!!, 400)
+        habit.originalEntries.add(Entry(today, 500))
+        habit.recompute()
+        behavior.onDecrement(habit, today, 100)
+        verify(commandRunner).run(
+            CreateRepetitionCommand(habitList, habit, today, 400)
         )
-        Mockito.verify(notificationTray)!!.cancel(habit!!)
-        Mockito.verifyZeroInteractions(preferences)
+        verify(notificationTray).cancel(habit)
+        verifyZeroInteractions(preferences)
     }
 }

@@ -25,7 +25,8 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.endsWith
 import org.hamcrest.Matcher
 import org.isoron.uhabits.BaseUserInterfaceTest
 import org.isoron.uhabits.R
@@ -56,12 +57,12 @@ object ListHabitsSteps {
 
     private fun clickTextInsideOverflowMenu(id: Int) {
         Espresso.onView(
-            CoreMatchers.allOf(
+            allOf(
                 ViewMatchers.withContentDescription("More options"),
                 ViewMatchers.withParent(
                     ViewMatchers.withParent(
                         ViewMatchers.withClassName(
-                            CoreMatchers.endsWith("Toolbar")
+                            endsWith("Toolbar")
                         )
                     )
                 )
@@ -107,9 +108,9 @@ object ListHabitsSteps {
     fun longPressCheckmarks(habit: String?, count: Int) {
         CommonSteps.scrollToText(habit)
         Espresso.onView(
-            CoreMatchers.allOf(
+            allOf(
                 ViewMatchers.hasDescendant(ViewMatchers.withText(habit)),
-                ViewMatchers.withClassName(CoreMatchers.endsWith("HabitCardView"))
+                ViewMatchers.withClassName(endsWith("HabitCardView"))
             )
         ).perform(
             longClickDescendantWithClass(CheckmarkButtonView::class.java, count)

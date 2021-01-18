@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.models
 
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 data class Score(
@@ -40,7 +41,7 @@ data class Score(
             previousScore: Double,
             checkmarkValue: Double,
         ): Double {
-            val multiplier = Math.pow(0.5, sqrt(frequency) / 13.0)
+            val multiplier = 0.5.pow(sqrt(frequency) / 13.0)
             var score = previousScore * multiplier
             score += checkmarkValue * (1 - multiplier)
             return score

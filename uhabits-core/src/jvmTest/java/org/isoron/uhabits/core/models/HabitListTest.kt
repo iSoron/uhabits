@@ -19,10 +19,10 @@
 package org.isoron.uhabits.core.models
 
 import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertNull
-import junit.framework.TestCase
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Rule
@@ -64,48 +64,25 @@ class HabitListTest : BaseUnitTest() {
 
     @Test
     fun testSize() {
-        assertThat(habitList.size(), CoreMatchers.equalTo(10))
-        assertThat(activeHabits.size(), CoreMatchers.equalTo(6))
-        assertThat(reminderHabits.size(), CoreMatchers.equalTo(4))
+        assertThat(habitList.size(), equalTo(10))
+        assertThat(activeHabits.size(), equalTo(6))
+        assertThat(reminderHabits.size(), equalTo(4))
     }
 
     @Test
     fun testGetByPosition() {
-        assertThat(
-            habitList.getByPosition(0),
-            CoreMatchers.equalTo(
-                habitsArray[0]
-            )
-        )
-        assertThat(
-            habitList.getByPosition(3),
-            CoreMatchers.equalTo(
-                habitsArray[3]
-            )
-        )
-        assertThat(
-            habitList.getByPosition(9),
-            CoreMatchers.equalTo(
-                habitsArray[9]
-            )
-        )
-        assertThat(
-            activeHabits.getByPosition(0),
-            CoreMatchers.equalTo(
-                habitsArray[2]
-            )
-        )
-        assertThat(
-            reminderHabits.getByPosition(1),
-            CoreMatchers.equalTo(habitsArray[3])
-        )
+        assertThat(habitList.getByPosition(0), equalTo(habitsArray[0]))
+        assertThat(habitList.getByPosition(3), equalTo(habitsArray[3]))
+        assertThat(habitList.getByPosition(9), equalTo(habitsArray[9]))
+        assertThat(activeHabits.getByPosition(0), equalTo(habitsArray[2]))
+        assertThat(reminderHabits.getByPosition(1), equalTo(habitsArray[3]))
     }
 
     @Test
     fun testGetById() {
         val habit1 = habitsArray[0]
         val habit2 = habitList.getById(habit1.id!!)
-        assertThat(habit1, CoreMatchers.equalTo(habit2))
+        assertThat(habit1, equalTo(habit2))
     }
 
     @Test
@@ -128,41 +105,41 @@ class HabitListTest : BaseUnitTest() {
         }
 
         list.primaryOrder = HabitList.Order.BY_POSITION
-        assertThat(list.getByPosition(0), CoreMatchers.equalTo(h3))
-        assertThat(list.getByPosition(1), CoreMatchers.equalTo(h1))
-        assertThat(list.getByPosition(2), CoreMatchers.equalTo(h4))
-        assertThat(list.getByPosition(3), CoreMatchers.equalTo(h2))
+        assertThat(list.getByPosition(0), equalTo(h3))
+        assertThat(list.getByPosition(1), equalTo(h1))
+        assertThat(list.getByPosition(2), equalTo(h4))
+        assertThat(list.getByPosition(3), equalTo(h2))
         list.primaryOrder = HabitList.Order.BY_NAME_DESC
-        assertThat(list.getByPosition(0), CoreMatchers.equalTo(h4))
-        assertThat(list.getByPosition(1), CoreMatchers.equalTo(h3))
-        assertThat(list.getByPosition(2), CoreMatchers.equalTo(h2))
-        assertThat(list.getByPosition(3), CoreMatchers.equalTo(h1))
+        assertThat(list.getByPosition(0), equalTo(h4))
+        assertThat(list.getByPosition(1), equalTo(h3))
+        assertThat(list.getByPosition(2), equalTo(h2))
+        assertThat(list.getByPosition(3), equalTo(h1))
         list.primaryOrder = HabitList.Order.BY_NAME_ASC
-        assertThat(list.getByPosition(0), CoreMatchers.equalTo(h1))
-        assertThat(list.getByPosition(1), CoreMatchers.equalTo(h2))
-        assertThat(list.getByPosition(2), CoreMatchers.equalTo(h3))
-        assertThat(list.getByPosition(3), CoreMatchers.equalTo(h4))
+        assertThat(list.getByPosition(0), equalTo(h1))
+        assertThat(list.getByPosition(1), equalTo(h2))
+        assertThat(list.getByPosition(2), equalTo(h3))
+        assertThat(list.getByPosition(3), equalTo(h4))
         list.primaryOrder = HabitList.Order.BY_NAME_ASC
         list.remove(h1)
         list.add(h1)
-        assertThat(list.getByPosition(0), CoreMatchers.equalTo(h1))
+        assertThat(list.getByPosition(0), equalTo(h1))
         list.primaryOrder = HabitList.Order.BY_COLOR_ASC
         list.secondaryOrder = HabitList.Order.BY_NAME_ASC
-        assertThat(list.getByPosition(0), CoreMatchers.equalTo(h3))
-        assertThat(list.getByPosition(1), CoreMatchers.equalTo(h4))
-        assertThat(list.getByPosition(2), CoreMatchers.equalTo(h1))
-        assertThat(list.getByPosition(3), CoreMatchers.equalTo(h2))
+        assertThat(list.getByPosition(0), equalTo(h3))
+        assertThat(list.getByPosition(1), equalTo(h4))
+        assertThat(list.getByPosition(2), equalTo(h1))
+        assertThat(list.getByPosition(3), equalTo(h2))
         list.primaryOrder = HabitList.Order.BY_COLOR_DESC
         list.secondaryOrder = HabitList.Order.BY_NAME_ASC
-        assertThat(list.getByPosition(0), CoreMatchers.equalTo(h1))
-        assertThat(list.getByPosition(1), CoreMatchers.equalTo(h2))
-        assertThat(list.getByPosition(2), CoreMatchers.equalTo(h4))
-        assertThat(list.getByPosition(3), CoreMatchers.equalTo(h3))
+        assertThat(list.getByPosition(0), equalTo(h1))
+        assertThat(list.getByPosition(1), equalTo(h2))
+        assertThat(list.getByPosition(2), equalTo(h4))
+        assertThat(list.getByPosition(3), equalTo(h3))
         list.primaryOrder = HabitList.Order.BY_POSITION
-        assertThat(list.getByPosition(0), CoreMatchers.equalTo(h3))
-        assertThat(list.getByPosition(1), CoreMatchers.equalTo(h1))
-        assertThat(list.getByPosition(2), CoreMatchers.equalTo(h4))
-        assertThat(list.getByPosition(3), CoreMatchers.equalTo(h2))
+        assertThat(list.getByPosition(0), equalTo(h3))
+        assertThat(list.getByPosition(1), equalTo(h1))
+        assertThat(list.getByPosition(2), equalTo(h4))
+        assertThat(list.getByPosition(3), equalTo(h2))
     }
 
     @Test
@@ -182,18 +159,13 @@ class HabitListTest : BaseUnitTest() {
             val actualSequence = IntArray(10)
             for (j in 0..9) {
                 val habit = habitList.getByPosition(j)
-                assertThat(habit.position, CoreMatchers.equalTo(j))
+                assertThat(habit.position, equalTo(j))
                 actualSequence[j] = Math.toIntExact(habit.id!!)
             }
-            assertThat(
-                actualSequence,
-                CoreMatchers.equalTo(
-                    expectedSequence[i]
-                )
-            )
+            assertThat(actualSequence, equalTo(expectedSequence[i]))
         }
-        assertThat(activeHabits.indexOf(habitsArray[5]), CoreMatchers.equalTo(0))
-        assertThat(activeHabits.indexOf(habitsArray[2]), CoreMatchers.equalTo(1))
+        assertThat(activeHabits.indexOf(habitsArray[5]), equalTo(0))
+        assertThat(activeHabits.indexOf(habitsArray[2]), equalTo(1))
     }
 
     @Test
@@ -244,26 +216,20 @@ class HabitListTest : BaseUnitTest() {
             """.trimIndent()
         val writer = StringWriter()
         list.writeCSV(writer)
-        assertThat(writer.toString(), CoreMatchers.equalTo(expectedCSV))
+        assertThat(writer.toString(), equalTo(expectedCSV))
     }
 
     @Test
     @Throws(Exception::class)
     fun testAdd() {
         val h1 = fixtures.createEmptyHabit()
-        TestCase.assertFalse(h1.isArchived)
+        assertFalse(h1.isArchived)
         assertNull(h1.id)
-        assertThat(habitList.indexOf(h1), CoreMatchers.equalTo(-1))
+        assertThat(habitList.indexOf(h1), equalTo(-1))
         habitList.add(h1)
-        assertNotNull(h1.id)
-        assertThat(
-            habitList.indexOf(h1),
-            CoreMatchers.not(CoreMatchers.equalTo(-1))
-        )
-        assertThat(
-            activeHabits.indexOf(h1),
-            CoreMatchers.not(CoreMatchers.equalTo(-1))
-        )
+        h1.id!!
+        assertThat(habitList.indexOf(h1), not(equalTo(-1)))
+        assertThat(activeHabits.indexOf(h1), not(equalTo(-1)))
     }
 
     @Test

@@ -18,7 +18,15 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
-import junit.framework.TestCase
+import com.nhaarman.mockitokotlin2.KArgumentCaptor
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
+import junit.framework.Assert.assertFalse
+import junit.framework.Assert.assertNull
+import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
@@ -27,126 +35,113 @@ import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
 import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.junit.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers
-import org.mockito.Captor
-import org.mockito.Mock
-import org.mockito.Mockito
 
 class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
-    @Mock
-    private val screen: ListHabitsSelectionMenuBehavior.Screen? = null
+    private val screen: ListHabitsSelectionMenuBehavior.Screen = mock()
 
-    @Mock
-    private val adapter: ListHabitsSelectionMenuBehavior.Adapter? = null
-    private var behavior: ListHabitsSelectionMenuBehavior? = null
-    private var habit1: Habit? = null
-    private var habit2: Habit? = null
-    private var habit3: Habit? = null
+    private val adapter: ListHabitsSelectionMenuBehavior.Adapter = mock()
+    private lateinit var behavior: ListHabitsSelectionMenuBehavior
+    private lateinit var habit1: Habit
+    private lateinit var habit2: Habit
+    private lateinit var habit3: Habit
 
-    @Captor
-    private val colorPickerCallback: ArgumentCaptor<OnColorPickedCallback>? = null
+    private val colorPickerCallback: KArgumentCaptor<OnColorPickedCallback> = argumentCaptor()
 
-    @Captor
-    private val deleteCallback: ArgumentCaptor<OnConfirmedCallback>? = null
+    private val deleteCallback: KArgumentCaptor<OnConfirmedCallback> = argumentCaptor()
 
     @Test
     @Throws(Exception::class)
     fun canArchive() {
-        Mockito.`when`(adapter!!.selected).thenReturn(listOf(habit1, habit2))
-        TestCase.assertFalse(behavior!!.canArchive())
-        Mockito.`when`(adapter.selected).thenReturn(listOf(habit2, habit3))
-        TestCase.assertTrue(behavior!!.canArchive())
+        whenever(adapter.selected).thenReturn(listOf(habit1, habit2))
+        assertFalse(behavior.canArchive())
+        whenever(adapter.selected).thenReturn(listOf(habit2, habit3))
+        assertTrue(behavior.canArchive())
     }
 
     @Test
     @Throws(Exception::class)
     fun canEdit() {
-        Mockito.`when`(adapter!!.selected).thenReturn(listOf(habit1))
-        TestCase.assertTrue(behavior!!.canEdit())
-        Mockito.`when`(adapter.selected).thenReturn(listOf(habit1, habit2))
-        TestCase.assertFalse(behavior!!.canEdit())
+        whenever(adapter.selected).thenReturn(listOf(habit1))
+        assertTrue(behavior.canEdit())
+        whenever(adapter.selected).thenReturn(listOf(habit1, habit2))
+        assertFalse(behavior.canEdit())
     }
 
     @Test
     @Throws(Exception::class)
     fun canUnarchive() {
-        Mockito.`when`(adapter!!.selected).thenReturn(listOf(habit1, habit2))
-        TestCase.assertFalse(behavior!!.canUnarchive())
-        Mockito.`when`(adapter.selected).thenReturn(listOf(habit1))
-        TestCase.assertTrue(behavior!!.canUnarchive())
+        whenever(adapter.selected).thenReturn(listOf(habit1, habit2))
+        assertFalse(behavior.canUnarchive())
+        whenever(adapter.selected).thenReturn(listOf(habit1))
+        assertTrue(behavior.canUnarchive())
     }
 
     @Test
     @Throws(Exception::class)
     fun onArchiveHabits() {
-        TestCase.assertFalse(habit2!!.isArchived)
-        Mockito.`when`(adapter!!.selected).thenReturn(listOf(habit2))
-        behavior!!.onArchiveHabits()
-        TestCase.assertTrue(habit2!!.isArchived)
+        assertFalse(habit2.isArchived)
+        whenever(adapter.selected).thenReturn(listOf(habit2))
+        behavior.onArchiveHabits()
+        assertTrue(habit2.isArchived)
     }
 
     @Test
     @Throws(Exception::class)
     fun onChangeColor() {
-        assertThat(habit1!!.color, equalTo(PaletteColor(8)))
-        assertThat(habit2!!.color, equalTo(PaletteColor(8)))
-        Mockito.`when`(adapter!!.selected).thenReturn(listOf(habit1, habit2))
-        behavior!!.onChangeColor()
-        Mockito.verify(screen)!!
-            .showColorPicker(ArgumentMatchers.eq(PaletteColor(8)), colorPickerCallback!!.capture())
-        colorPickerCallback.value.onColorPicked(PaletteColor(30))
-        assertThat(habit1!!.color, equalTo(PaletteColor(30)))
+        assertThat(habit1.color, equalTo(PaletteColor(8)))
+        assertThat(habit2.color, equalTo(PaletteColor(8)))
+        whenever(adapter.selected).thenReturn(listOf(habit1, habit2))
+        behavior.onChangeColor()
+        verify(screen)
+            .showColorPicker(eq(PaletteColor(8)), colorPickerCallback.capture())
+        colorPickerCallback.lastValue.onColorPicked(PaletteColor(30))
+        assertThat(habit1.color, equalTo(PaletteColor(30)))
     }
 
     @Test
     @Throws(Exception::class)
     fun onDeleteHabits() {
-        val id = habit1!!.id
-        TestCase.assertNotNull(id)
-        TestCase.assertNotNull(habitList.getById(id!!))
-        Mockito.`when`(adapter!!.selected).thenReturn(listOf(habit1))
-        behavior!!.onDeleteHabits()
-        Mockito.verify(screen)!!.showDeleteConfirmationScreen(
-            deleteCallback!!.capture(),
-            ArgumentMatchers.eq(1)
-        )
-        deleteCallback.value.onConfirmed()
-        TestCase.assertNull(habitList.getById(id))
+        val id = habit1.id!!
+        habitList.getById(id)!!
+        whenever(adapter.selected).thenReturn(listOf(habit1))
+        behavior.onDeleteHabits()
+        verify(screen).showDeleteConfirmationScreen(deleteCallback.capture(), eq(1))
+        deleteCallback.lastValue.onConfirmed()
+        assertNull(habitList.getById(id))
     }
 
     @Test
     @Throws(Exception::class)
     fun onEditHabits() {
-        val selected: List<Habit> = listOf(habit1!!, habit2!!)
-        Mockito.`when`(adapter!!.selected).thenReturn(selected)
-        behavior!!.onEditHabits()
-        Mockito.verify(screen)!!.showEditHabitsScreen(selected)
+        val selected: List<Habit> = listOf(habit1, habit2)
+        whenever(adapter.selected).thenReturn(selected)
+        behavior.onEditHabits()
+        verify(screen).showEditHabitsScreen(selected)
     }
 
     @Test
     @Throws(Exception::class)
     fun onUnarchiveHabits() {
-        TestCase.assertTrue(habit1!!.isArchived)
-        Mockito.`when`(adapter!!.selected).thenReturn(listOf(habit1))
-        behavior!!.onUnarchiveHabits()
-        TestCase.assertFalse(habit1!!.isArchived)
+        assertTrue(habit1.isArchived)
+        whenever(adapter.selected).thenReturn(listOf(habit1))
+        behavior.onUnarchiveHabits()
+        assertFalse(habit1.isArchived)
     }
 
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         habit1 = fixtures.createShortHabit()
-        habit1!!.isArchived = true
+        habit1.isArchived = true
         habit2 = fixtures.createShortHabit()
         habit3 = fixtures.createShortHabit()
-        habitList.add(habit1!!)
-        habitList.add(habit2!!)
-        habitList.add(habit3!!)
+        habitList.add(habit1)
+        habitList.add(habit2)
+        habitList.add(habit3)
         behavior = ListHabitsSelectionMenuBehavior(
             habitList,
-            screen!!,
-            adapter!!,
+            screen,
+            adapter,
             commandRunner
         )
     }

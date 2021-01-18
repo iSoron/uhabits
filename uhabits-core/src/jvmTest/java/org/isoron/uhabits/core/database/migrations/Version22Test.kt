@@ -36,6 +36,7 @@ class Version22Test : BaseUnitTest() {
     var exception = ExpectedException.none()!!
     private lateinit var db: Database
     private lateinit var helper: MigrationHelper
+
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
@@ -49,48 +50,25 @@ class Version22Test : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun testKeepValidReps() {
-        db.query(
-            "select count(*) from repetitions"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(3)
-            )
+        db.query("select count(*) from repetitions") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(3))
         }
         helper.migrateTo(22)
-        db.query(
-            "select count(*) from repetitions"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(3)
-            )
+        db.query("select count(*) from repetitions") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(3))
         }
     }
 
     @Test
     @Throws(Exception::class)
     fun testRemoveRepsWithInvalidId() {
-        db.execute(
-            "insert into Repetitions(habit, timestamp, value) " +
-                "values (99999, 100, 2)"
-        )
-        db.query(
-            "select count(*) from repetitions where habit = 99999"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(1)
-            )
+        db.execute("insert into Repetitions(habit, timestamp, value) values (99999, 100, 2)")
+        db.query("select count(*) from repetitions where habit = 99999") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(1))
         }
         helper.migrateTo(22)
-        db.query(
-            "select count(*) from repetitions where habit = 99999"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(0)
-            )
+        db.query("select count(*) from repetitions where habit = 99999") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(0))
         }
     }
 
@@ -99,32 +77,19 @@ class Version22Test : BaseUnitTest() {
     fun testDisallowNewRepsWithInvalidRef() {
         helper.migrateTo(22)
         exception.expectMessage(Matchers.containsString("SQLITE_CONSTRAINT"))
-        db.execute(
-            "insert into Repetitions(habit, timestamp, value) " +
-                "values (99999, 100, 2)"
-        )
+        db.execute("insert into Repetitions(habit, timestamp, value) values (99999, 100, 2)")
     }
 
     @Test
     @Throws(Exception::class)
     fun testRemoveRepetitionsWithNullTimestamp() {
         db.execute("insert into repetitions(habit, value) values (0, 2)")
-        db.query(
-            "select count(*) from repetitions where timestamp is null"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(1)
-            )
+        db.query("select count(*) from repetitions where timestamp is null") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(1))
         }
         helper.migrateTo(22)
-        db.query(
-            "select count(*) from repetitions where timestamp is null"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(0)
-            )
+        db.query("select count(*) from repetitions where timestamp is null") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(0))
         }
     }
 
@@ -140,22 +105,12 @@ class Version22Test : BaseUnitTest() {
     @Throws(Exception::class)
     fun testRemoveRepetitionsWithNullHabit() {
         db.execute("insert into repetitions(timestamp, value) values (0, 2)")
-        db.query(
-            "select count(*) from repetitions where habit is null"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(1)
-            )
+        db.query("select count(*) from repetitions where habit is null") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(1))
         }
         helper.migrateTo(22)
-        db.query(
-            "select count(*) from repetitions where habit is null"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(0)
-            )
+        db.query("select count(*) from repetitions where habit is null") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(0))
         }
     }
 
@@ -164,42 +119,21 @@ class Version22Test : BaseUnitTest() {
     fun testDisallowNullHabit() {
         helper.migrateTo(22)
         exception.expectMessage(Matchers.containsString("SQLITE_CONSTRAINT"))
-        db.execute(
-            "insert into Repetitions(timestamp, value) " + "values (5, 2)"
-        )
+        db.execute("insert into Repetitions(timestamp, value) " + "values (5, 2)")
     }
 
     @Test
     @Throws(Exception::class)
     fun testRemoveDuplicateRepetitions() {
-        db.execute(
-            "insert into repetitions(habit, timestamp, value)" +
-                "values (0, 100, 2)"
-        )
-        db.execute(
-            "insert into repetitions(habit, timestamp, value)" +
-                "values (0, 100, 5)"
-        )
-        db.execute(
-            "insert into repetitions(habit, timestamp, value)" +
-                "values (0, 100, 10)"
-        )
-        db.query(
-            "select count(*) from repetitions where timestamp=100 and habit=0"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(3)
-            )
+        db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 2)")
+        db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 5)")
+        db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 10)")
+        db.query("select count(*) from repetitions where timestamp=100 and habit=0") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(3))
         }
         helper.migrateTo(22)
-        db.query(
-            "select count(*) from repetitions where timestamp=100 and habit=0"
-        ) { c: Cursor ->
-            assertThat(
-                c.getInt(0),
-                equalTo(1)
-            )
+        db.query("select count(*) from repetitions where timestamp=100 and habit=0") { c: Cursor ->
+            assertThat(c.getInt(0), equalTo(1))
         }
     }
 
@@ -207,14 +141,8 @@ class Version22Test : BaseUnitTest() {
     @Throws(Exception::class)
     fun testDisallowNewDuplicateTimestamps() {
         helper.migrateTo(22)
-        db.execute(
-            "insert into repetitions(habit, timestamp, value)" +
-                "values (0, 100, 2)"
-        )
+        db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 2)")
         exception.expectMessage(Matchers.containsString("SQLITE_CONSTRAINT"))
-        db.execute(
-            "insert into repetitions(habit, timestamp, value)" +
-                "values (0, 100, 5)"
-        )
+        db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 5)")
     }
 }

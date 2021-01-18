@@ -36,56 +36,26 @@ class ScoreTest : BaseUnitTest() {
     fun test_compute_withDailyHabit() {
         var check = 1
         val freq = 1.0
-        assertThat(
-            compute(freq, 0.0, check.toDouble()),
-            IsCloseTo.closeTo(0.051922, E)
-        )
-        assertThat(
-            compute(freq, 0.5, check.toDouble()),
-            IsCloseTo.closeTo(0.525961, E)
-        )
-        assertThat(
-            compute(freq, 0.75, check.toDouble()),
-            IsCloseTo.closeTo(0.762981, E)
-        )
+        assertThat(compute(freq, 0.0, check.toDouble()), IsCloseTo.closeTo(0.051922, E))
+        assertThat(compute(freq, 0.5, check.toDouble()), IsCloseTo.closeTo(0.525961, E))
+        assertThat(compute(freq, 0.75, check.toDouble()), IsCloseTo.closeTo(0.762981, E))
         check = 0
         assertThat(compute(freq, 0.0, check.toDouble()), IsCloseTo.closeTo(0.0, E))
-        assertThat(
-            compute(freq, 0.5, check.toDouble()),
-            IsCloseTo.closeTo(0.474039, E)
-        )
-        assertThat(
-            compute(freq, 0.75, check.toDouble()),
-            IsCloseTo.closeTo(0.711058, E)
-        )
+        assertThat(compute(freq, 0.5, check.toDouble()), IsCloseTo.closeTo(0.474039, E))
+        assertThat(compute(freq, 0.75, check.toDouble()), IsCloseTo.closeTo(0.711058, E))
     }
 
     @Test
     fun test_compute_withNonDailyHabit() {
         var check = 1
         val freq = 1 / 3.0
-        assertThat(
-            compute(freq, 0.0, check.toDouble()),
-            IsCloseTo.closeTo(0.030314, E)
-        )
-        assertThat(
-            compute(freq, 0.5, check.toDouble()),
-            IsCloseTo.closeTo(0.515157, E)
-        )
-        assertThat(
-            compute(freq, 0.75, check.toDouble()),
-            IsCloseTo.closeTo(0.757578, E)
-        )
+        assertThat(compute(freq, 0.0, check.toDouble()), IsCloseTo.closeTo(0.030314, E))
+        assertThat(compute(freq, 0.5, check.toDouble()), IsCloseTo.closeTo(0.515157, E))
+        assertThat(compute(freq, 0.75, check.toDouble()), IsCloseTo.closeTo(0.757578, E))
         check = 0
         assertThat(compute(freq, 0.0, check.toDouble()), IsCloseTo.closeTo(0.0, E))
-        assertThat(
-            compute(freq, 0.5, check.toDouble()),
-            IsCloseTo.closeTo(0.484842, E)
-        )
-        assertThat(
-            compute(freq, 0.75, check.toDouble()),
-            IsCloseTo.closeTo(0.727263, E)
-        )
+        assertThat(compute(freq, 0.5, check.toDouble()), IsCloseTo.closeTo(0.484842, E))
+        assertThat(compute(freq, 0.75, check.toDouble()), IsCloseTo.closeTo(0.727263, E))
     }
 
     companion object {

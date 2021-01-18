@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.core.commands
 
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
@@ -54,16 +54,13 @@ class ChangeHabitColorCommandTest : BaseUnitTest() {
 
     private fun checkNewColors() {
         for (habit in selected) {
-            assertThat(habit.color, CoreMatchers.equalTo(PaletteColor(0)))
+            assertThat(habit.color, equalTo(PaletteColor(0)))
         }
     }
 
     private fun checkOriginalColors() {
         var k = 0
         for (habit in selected)
-            assertThat(
-                habit.color,
-                CoreMatchers.equalTo(PaletteColor(++k))
-            )
+            assertThat(habit.color, equalTo(PaletteColor(++k)))
     }
 }

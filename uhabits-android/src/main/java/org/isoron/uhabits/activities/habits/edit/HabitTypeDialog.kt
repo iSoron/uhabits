@@ -36,7 +36,7 @@ class HabitTypeDialog : AppCompatDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = SelectHabitTypeBinding.inflate(inflater, container, false)
 
         binding.buttonYesNo.setOnClickListener {

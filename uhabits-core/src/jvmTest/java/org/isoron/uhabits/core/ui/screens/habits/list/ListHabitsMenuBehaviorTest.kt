@@ -18,7 +18,16 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
-import junit.framework.TestCase
+import com.nhaarman.mockitokotlin2.KArgumentCaptor
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.clearInvocations
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
+import com.nhaarman.mockitokotlin2.whenever
+import junit.framework.Assert.assertFalse
+import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
@@ -27,196 +36,144 @@ import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.junit.Test
-import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers
-import org.mockito.Captor
-import org.mockito.Mock
-import org.mockito.Mockito
 
 class ListHabitsMenuBehaviorTest : BaseUnitTest() {
-    private var behavior: ListHabitsMenuBehavior? = null
+    private lateinit var behavior: ListHabitsMenuBehavior
 
-    @Mock
-    private val screen: ListHabitsMenuBehavior.Screen? = null
+    private val screen: ListHabitsMenuBehavior.Screen = mock()
 
-    @Mock
-    private val adapter: ListHabitsMenuBehavior.Adapter? = null
+    private val adapter: ListHabitsMenuBehavior.Adapter = mock()
 
-    @Mock
-    private val prefs: Preferences? = null
+    private val prefs: Preferences = mock()
 
-    @Mock
-    private val themeSwitcher: ThemeSwitcher? = null
+    private val themeSwitcher: ThemeSwitcher = mock()
 
-    @Captor
-    private val matcherCaptor: ArgumentCaptor<HabitMatcher>? = null
+    private val matcherCaptor: KArgumentCaptor<HabitMatcher> = argumentCaptor()
 
-    @Captor
-    private val orderCaptor: ArgumentCaptor<HabitList.Order>? = null
+    private val orderCaptor: KArgumentCaptor<HabitList.Order> = argumentCaptor()
 
-    @Captor
-    private val secondaryOrderCaptor: ArgumentCaptor<HabitList.Order>? = null
+    private val secondaryOrderCaptor: KArgumentCaptor<HabitList.Order> = argumentCaptor()
 
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        behavior = ListHabitsMenuBehavior(screen!!, adapter!!, prefs!!, themeSwitcher!!)
-        Mockito.clearInvocations(adapter)
+        behavior = ListHabitsMenuBehavior(screen, adapter, prefs, themeSwitcher)
+        clearInvocations(adapter)
     }
 
     @Test
     fun testInitialFilter() {
-        Mockito.`when`(prefs!!.showArchived).thenReturn(true)
-        Mockito.`when`(prefs.showCompleted).thenReturn(true)
-        behavior = ListHabitsMenuBehavior(screen!!, adapter!!, prefs, themeSwitcher!!)
-        Mockito.verify(adapter).setFilter(
-            matcherCaptor!!.capture()
-        )
-        Mockito.verify(adapter).refresh()
-        Mockito.verifyNoMoreInteractions(adapter)
-        Mockito.clearInvocations(adapter)
-        TestCase.assertTrue(matcherCaptor.value.isArchivedAllowed)
-        TestCase.assertTrue(matcherCaptor.value.isCompletedAllowed)
-        Mockito.`when`(prefs.showArchived).thenReturn(false)
-        Mockito.`when`(prefs.showCompleted).thenReturn(false)
+        whenever(prefs.showArchived).thenReturn(true)
+        whenever(prefs.showCompleted).thenReturn(true)
         behavior = ListHabitsMenuBehavior(screen, adapter, prefs, themeSwitcher)
-        Mockito.verify(adapter).setFilter(
-            matcherCaptor.capture()
-        )
-        Mockito.verify(adapter).refresh()
-        Mockito.verifyNoMoreInteractions(adapter)
-        TestCase.assertFalse(matcherCaptor.value.isArchivedAllowed)
-        TestCase.assertFalse(matcherCaptor.value.isCompletedAllowed)
+        verify(adapter).setFilter(matcherCaptor.capture())
+        verify(adapter).refresh()
+        verifyNoMoreInteractions(adapter)
+        clearInvocations(adapter)
+        assertTrue(matcherCaptor.lastValue.isArchivedAllowed)
+        assertTrue(matcherCaptor.lastValue.isCompletedAllowed)
+        whenever(prefs.showArchived).thenReturn(false)
+        whenever(prefs.showCompleted).thenReturn(false)
+        behavior = ListHabitsMenuBehavior(screen, adapter, prefs, themeSwitcher)
+        verify(adapter).setFilter(matcherCaptor.capture())
+        verify(adapter).refresh()
+        verifyNoMoreInteractions(adapter)
+        assertFalse(matcherCaptor.lastValue.isArchivedAllowed)
+        assertFalse(matcherCaptor.lastValue.isCompletedAllowed)
     }
 
-    //    @Test
-    //    public void testOnCreateHabit()
-    //    {
-    //        behavior.onCreateHabit();
-    //        verify(screen).showCreateHabitScreen();
-    //    }
     @Test
     fun testOnSortByColor() {
-        behavior!!.onSortByColor()
-        Mockito.verify(adapter)!!.primaryOrder = orderCaptor!!.capture()
-        assertThat(
-            orderCaptor.value,
-            equalTo(HabitList.Order.BY_COLOR_ASC)
-        )
+        behavior.onSortByColor()
+        verify(adapter).primaryOrder = orderCaptor.capture()
+        assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_COLOR_ASC))
     }
 
     @Test
     fun testOnSortManually() {
-        behavior!!.onSortByManually()
-        Mockito.verify(adapter)!!.primaryOrder = orderCaptor!!.capture()
-        assertThat(
-            orderCaptor.value,
-            equalTo(HabitList.Order.BY_POSITION)
-        )
+        behavior.onSortByManually()
+        verify(adapter).primaryOrder = orderCaptor.capture()
+        assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_POSITION))
     }
 
     @Test
     fun testOnSortScore() {
-        behavior!!.onSortByScore()
-        Mockito.verify(adapter)!!.primaryOrder = orderCaptor!!.capture()
-        assertThat(
-            orderCaptor.value,
-            equalTo(HabitList.Order.BY_SCORE_DESC)
-        )
+        behavior.onSortByScore()
+        verify(adapter).primaryOrder = orderCaptor.capture()
+        assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_SCORE_DESC))
     }
 
     @Test
     fun testOnSortName() {
-        behavior!!.onSortByName()
-        Mockito.verify(adapter)!!.primaryOrder = orderCaptor!!.capture()
-        assertThat(
-            orderCaptor.value,
-            equalTo(HabitList.Order.BY_NAME_ASC)
-        )
+        behavior.onSortByName()
+        verify(adapter).primaryOrder = orderCaptor.capture()
+        assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_NAME_ASC))
     }
 
     @Test
     fun testOnSortStatus() {
-        Mockito.`when`(adapter!!.primaryOrder).thenReturn(HabitList.Order.BY_NAME_ASC)
-        behavior!!.onSortByStatus()
-        Mockito.verify(adapter).primaryOrder = orderCaptor!!.capture()
-        Mockito.verify(adapter).setSecondaryOrder(
-            secondaryOrderCaptor!!.capture()
-        )
-        assertThat(
-            orderCaptor.value,
-            equalTo(HabitList.Order.BY_STATUS_ASC)
-        )
-        assertThat(
-            secondaryOrderCaptor.value,
-            equalTo(HabitList.Order.BY_NAME_ASC)
-        )
+        whenever(adapter.primaryOrder).thenReturn(HabitList.Order.BY_NAME_ASC)
+        behavior.onSortByStatus()
+        verify(adapter).primaryOrder = orderCaptor.capture()
+        verify(adapter).setSecondaryOrder(secondaryOrderCaptor.capture())
+        assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_STATUS_ASC))
+        assertThat(secondaryOrderCaptor.lastValue, equalTo(HabitList.Order.BY_NAME_ASC))
     }
 
     @Test
     fun testOnSortStatusToggle() {
-        Mockito.`when`(adapter!!.primaryOrder).thenReturn(HabitList.Order.BY_STATUS_ASC)
-        behavior!!.onSortByStatus()
-        Mockito.verify(adapter).primaryOrder = orderCaptor!!.capture()
-        Mockito.verify(adapter, Mockito.never()).setSecondaryOrder(ArgumentMatchers.any())
-        assertThat(
-            orderCaptor.value,
-            equalTo(HabitList.Order.BY_STATUS_DESC)
-        )
+        whenever(adapter.primaryOrder).thenReturn(HabitList.Order.BY_STATUS_ASC)
+        behavior.onSortByStatus()
+        verify(adapter).primaryOrder = orderCaptor.capture()
+        verify(adapter, never()).setSecondaryOrder(ArgumentMatchers.any())
+        assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_STATUS_DESC))
     }
 
     @Test
     fun testOnToggleShowArchived() {
-        behavior!!.onToggleShowArchived()
-        Mockito.verify(adapter)!!.setFilter(
-            matcherCaptor!!.capture()
-        )
-        TestCase.assertTrue(matcherCaptor.value.isArchivedAllowed)
-        Mockito.clearInvocations(adapter)
-        behavior!!.onToggleShowArchived()
-        Mockito.verify(adapter)!!.setFilter(
-            matcherCaptor.capture()
-        )
-        TestCase.assertFalse(matcherCaptor.value.isArchivedAllowed)
+        behavior.onToggleShowArchived()
+        verify(adapter).setFilter(matcherCaptor.capture())
+        assertTrue(matcherCaptor.lastValue.isArchivedAllowed)
+        clearInvocations(adapter)
+        behavior.onToggleShowArchived()
+        verify(adapter).setFilter(matcherCaptor.capture())
+        assertFalse(matcherCaptor.lastValue.isArchivedAllowed)
     }
 
     @Test
     fun testOnToggleShowCompleted() {
-        behavior!!.onToggleShowCompleted()
-        Mockito.verify(adapter)!!.setFilter(
-            matcherCaptor!!.capture()
-        )
-        TestCase.assertTrue(matcherCaptor.value.isCompletedAllowed)
-        Mockito.clearInvocations(adapter)
-        behavior!!.onToggleShowCompleted()
-        Mockito.verify(adapter)!!.setFilter(
-            matcherCaptor.capture()
-        )
-        TestCase.assertFalse(matcherCaptor.value.isCompletedAllowed)
+        behavior.onToggleShowCompleted()
+        verify(adapter).setFilter(matcherCaptor.capture())
+        assertTrue(matcherCaptor.lastValue.isCompletedAllowed)
+        clearInvocations(adapter)
+        behavior.onToggleShowCompleted()
+        verify(adapter).setFilter(matcherCaptor.capture())
+        assertFalse(matcherCaptor.lastValue.isCompletedAllowed)
     }
 
     @Test
     fun testOnViewAbout() {
-        behavior!!.onViewAbout()
-        Mockito.verify(screen)!!.showAboutScreen()
+        behavior.onViewAbout()
+        verify(screen).showAboutScreen()
     }
 
     @Test
     fun testOnViewFAQ() {
-        behavior!!.onViewFAQ()
-        Mockito.verify(screen)!!.showFAQScreen()
+        behavior.onViewFAQ()
+        verify(screen).showFAQScreen()
     }
 
     @Test
     fun testOnViewSettings() {
-        behavior!!.onViewSettings()
-        Mockito.verify(screen)!!.showSettingsScreen()
+        behavior.onViewSettings()
+        verify(screen).showSettingsScreen()
     }
 
     @Test
     fun testOnToggleNightMode() {
-        behavior!!.onToggleNightMode()
-        Mockito.verify(themeSwitcher)!!.toggleNightMode()
-        Mockito.verify(screen)!!.applyTheme()
+        behavior.onToggleNightMode()
+        verify(themeSwitcher).toggleNightMode()
+        verify(screen).applyTheme()
     }
 }

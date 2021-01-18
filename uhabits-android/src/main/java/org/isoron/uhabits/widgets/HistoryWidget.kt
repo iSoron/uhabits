@@ -41,7 +41,7 @@ class HistoryWidget(
     override val defaultHeight: Int = 250
     override val defaultWidth: Int = 250
 
-    override fun getOnClickPendingIntent(context: Context): PendingIntent? {
+    override fun getOnClickPendingIntent(context: Context): PendingIntent {
         return pendingIntentFactory.showHabit(habit)
     }
 

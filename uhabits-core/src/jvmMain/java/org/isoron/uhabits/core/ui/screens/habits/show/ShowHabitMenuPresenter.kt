@@ -29,6 +29,8 @@ import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.isoron.uhabits.core.utils.DateUtils
 import java.io.File
 import java.util.Random
+import kotlin.math.max
+import kotlin.math.min
 
 class ShowHabitMenuPresenter(
     private val commandRunner: CommandRunner,
@@ -67,7 +69,7 @@ class ShowHabitMenuPresenter(
         habit.originalEntries.clear()
         var strength = 50.0
         for (i in 0 until 365 * 5) {
-            if (i % 7 == 0) strength = Math.max(0.0, Math.min(100.0, strength + 10 * random.nextGaussian()))
+            if (i % 7 == 0) strength = max(0.0, min(100.0, strength + 10 * random.nextGaussian()))
             if (random.nextInt(100) > strength) continue
             var value = Entry.YES_MANUAL
             if (habit.isNumerical) value = (1000 + 250 * random.nextGaussian() * strength / 100).toInt() * 1000

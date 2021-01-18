@@ -26,21 +26,21 @@ import org.junit.Before
 import org.junit.Test
 
 class ArchiveHabitsCommandTest : BaseUnitTest() {
-    private var command: ArchiveHabitsCommand? = null
-    private var habit: Habit? = null
+    private lateinit var command: ArchiveHabitsCommand
+    private lateinit var habit: Habit
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         habit = fixtures.createShortHabit()
-        habitList.add(habit!!)
-        command = ArchiveHabitsCommand(habitList, listOf(habit!!))
+        habitList.add(habit)
+        command = ArchiveHabitsCommand(habitList, listOf(habit))
     }
 
     @Test
     fun testExecute() {
-        assertFalse(habit!!.isArchived)
-        command!!.run()
-        assertTrue(habit!!.isArchived)
+        assertFalse(habit.isArchived)
+        command.run()
+        assertTrue(habit.isArchived)
     }
 }

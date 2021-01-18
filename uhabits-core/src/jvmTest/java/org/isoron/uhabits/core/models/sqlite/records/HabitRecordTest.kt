@@ -18,8 +18,8 @@
  */
 package org.isoron.uhabits.core.models.sqlite.records
 
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
@@ -31,41 +31,43 @@ import org.junit.Test
 class HabitRecordTest : BaseUnitTest() {
     @Test
     fun testCopyRestore1() {
-        val original = modelFactory.buildHabit()
-        original.name = "Hello world"
-        original.question = "Did you greet the world today?"
-        original.color = PaletteColor(1)
-        original.isArchived = true
-        original.frequency = Frequency.THREE_TIMES_PER_WEEK
-        original.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
-        original.id = 1000L
-        original.position = 20
+        val original = modelFactory.buildHabit().apply() {
+            name = "Hello world"
+            question = "Did you greet the world today?"
+            color = PaletteColor(1)
+            isArchived = true
+            frequency = Frequency.THREE_TIMES_PER_WEEK
+            reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
+            id = 1000L
+            position = 20
+        }
         val record = HabitRecord()
         record.copyFrom(original)
         val duplicate = modelFactory.buildHabit()
         record.copyTo(duplicate)
-        assertThat(original, IsEqual.equalTo(duplicate))
+        assertThat(original, equalTo(duplicate))
     }
 
     @Test
     fun testCopyRestore2() {
-        val original = modelFactory.buildHabit()
-        original.name = "Hello world"
-        original.question = "Did you greet the world today?"
-        original.color = PaletteColor(5)
-        original.isArchived = false
-        original.frequency = Frequency.DAILY
-        original.reminder = null
-        original.id = 1L
-        original.position = 15
-        original.type = Habit.NUMBER_HABIT
-        original.targetValue = 100.0
-        original.targetType = Habit.AT_LEAST
-        original.unit = "miles"
+        val original = modelFactory.buildHabit().apply() {
+            name = "Hello world"
+            question = "Did you greet the world today?"
+            color = PaletteColor(5)
+            isArchived = false
+            frequency = Frequency.DAILY
+            reminder = null
+            id = 1L
+            position = 15
+            type = Habit.NUMBER_HABIT
+            targetValue = 100.0
+            targetType = Habit.AT_LEAST
+            unit = "miles"
+        }
         val record = HabitRecord()
         record.copyFrom(original)
         val duplicate = modelFactory.buildHabit()
         record.copyTo(duplicate)
-        assertThat(original, IsEqual.equalTo(duplicate))
+        assertThat(original, equalTo(duplicate))
     }
 }

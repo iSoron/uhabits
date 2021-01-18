@@ -28,26 +28,26 @@ import org.junit.Before
 import org.junit.Test
 
 class CreateRepetitionCommandTest : BaseUnitTest() {
-    private var command: CreateRepetitionCommand? = null
-    private var habit: Habit? = null
-    private var today: Timestamp? = null
+    private lateinit var command: CreateRepetitionCommand
+    private lateinit var habit: Habit
+    private lateinit var today: Timestamp
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         habit = fixtures.createShortHabit()
-        habitList.add(habit!!)
+        habitList.add(habit)
         today = getToday()
-        command = CreateRepetitionCommand(habitList, habit!!, today!!, 100)
+        command = CreateRepetitionCommand(habitList, habit, today, 100)
     }
 
     @Test
     fun testExecute() {
-        val entries = habit!!.originalEntries
-        var entry = entries.get(today!!)
+        val entries = habit.originalEntries
+        var entry = entries.get(today)
         assertEquals(Entry.YES_MANUAL, entry.value)
-        command!!.run()
-        entry = entries.get(today!!)
+        command.run()
+        entry = entries.get(today)
         assertEquals(100, entry.value.toLong())
     }
 }

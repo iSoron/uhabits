@@ -18,8 +18,8 @@
  */
 package org.isoron.uhabits.core.models.sqlite.records
 
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Timestamp
@@ -32,6 +32,6 @@ class EntryRecordTest : BaseUnitTest() {
         val check = Entry(Timestamp.ZERO.plus(100), 50)
         val record = EntryRecord()
         record.copyFrom(check)
-        assertThat(check, IsEqual.equalTo(record.toEntry()))
+        assertThat(check, equalTo(record.toEntry()))
     }
 }

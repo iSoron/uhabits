@@ -109,7 +109,7 @@ class ScoreList {
                     }
                 }
                 if (values[offset] != Entry.SKIP) {
-                    val percentageCompleted = Math.min(1.0, rollingSum / numerator)
+                    val percentageCompleted = min(1.0, rollingSum / numerator)
                     previousValue = compute(freq, previousValue, percentageCompleted)
                 }
             }

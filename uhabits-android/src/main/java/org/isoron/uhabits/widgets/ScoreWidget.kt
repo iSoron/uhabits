@@ -36,7 +36,7 @@ class ScoreWidget(
     override val defaultHeight: Int = 300
     override val defaultWidth: Int = 300
 
-    override fun getOnClickPendingIntent(context: Context): PendingIntent? =
+    override fun getOnClickPendingIntent(context: Context): PendingIntent =
         pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {

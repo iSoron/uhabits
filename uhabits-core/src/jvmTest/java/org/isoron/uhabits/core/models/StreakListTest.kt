@@ -18,16 +18,16 @@
  */
 package org.isoron.uhabits.core.models
 
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Test
 
 class StreakListTest : BaseUnitTest() {
     private lateinit var habit: Habit
-    private var streaks: StreakList? = null
-    private var today: Timestamp? = null
+    private lateinit var streaks: StreakList
+    private lateinit var today: Timestamp
 
     @Throws(Exception::class)
     override fun setUp() {
@@ -42,26 +42,26 @@ class StreakListTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun testGetBest() {
-        var best = streaks!!.getBest(4)
-        assertThat(best.size, IsEqual.equalTo(4))
-        assertThat(best[0].length, IsEqual.equalTo(4))
-        assertThat(best[1].length, IsEqual.equalTo(3))
-        assertThat(best[2].length, IsEqual.equalTo(5))
-        assertThat(best[3].length, IsEqual.equalTo(6))
-        best = streaks!!.getBest(2)
-        assertThat(best.size, IsEqual.equalTo(2))
-        assertThat(best[0].length, IsEqual.equalTo(5))
-        assertThat(best[1].length, IsEqual.equalTo(6))
+        var best = streaks.getBest(4)
+        assertThat(best.size, equalTo(4))
+        assertThat(best[0].length, equalTo(4))
+        assertThat(best[1].length, equalTo(3))
+        assertThat(best[2].length, equalTo(5))
+        assertThat(best[3].length, equalTo(6))
+        best = streaks.getBest(2)
+        assertThat(best.size, equalTo(2))
+        assertThat(best[0].length, equalTo(5))
+        assertThat(best[1].length, equalTo(6))
     }
 
     @Test
     fun testGetBest_withUnknowns() {
         habit.originalEntries.clear()
-        habit.originalEntries.add(Entry(today!!, Entry.YES_MANUAL))
-        habit.originalEntries.add(Entry(today!!.minus(5), Entry.NO))
+        habit.originalEntries.add(Entry(today, Entry.YES_MANUAL))
+        habit.originalEntries.add(Entry(today.minus(5), Entry.NO))
         habit.recompute()
-        val best = streaks!!.getBest(5)
-        assertThat(best.size, IsEqual.equalTo(1))
-        assertThat(best[0].length, IsEqual.equalTo(1))
+        val best = streaks.getBest(5)
+        assertThat(best.size, equalTo(1))
+        assertThat(best[0].length, equalTo(1))
     }
 }

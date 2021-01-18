@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.io
 
-import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertTrue
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
@@ -34,7 +33,7 @@ import java.util.LinkedList
 import java.util.zip.ZipFile
 
 class HabitsCSVExporterTest : BaseUnitTest() {
-    private var baseDir: File? = null
+    private lateinit var baseDir: File
     @Before
     @Throws(Exception::class)
     override fun setUp() {
@@ -42,7 +41,6 @@ class HabitsCSVExporterTest : BaseUnitTest() {
         habitList.add(fixtures.createShortHabit())
         habitList.add(fixtures.createEmptyHabit())
         baseDir = Files.createTempDirectory("csv").toFile()
-        assertNotNull(baseDir)
     }
 
     @Throws(Exception::class)
@@ -59,7 +57,7 @@ class HabitsCSVExporterTest : BaseUnitTest() {
         val exporter = HabitsCSVExporter(
             habitList,
             selected,
-            baseDir!!
+            baseDir
         )
         val filename = exporter.writeArchive()
         assertAbsolutePathExists(filename)
@@ -84,7 +82,7 @@ class HabitsCSVExporterTest : BaseUnitTest() {
             val stream = zip.getInputStream(entry)
             val outputFilename = String.format(
                 "%s/%s",
-                baseDir!!.absolutePath,
+                baseDir.absolutePath,
                 entry.name
             )
             val out = File(outputFilename)
@@ -96,7 +94,7 @@ class HabitsCSVExporterTest : BaseUnitTest() {
     }
 
     private fun assertPathExists(s: String) {
-        assertAbsolutePathExists(String.format("%s/%s", baseDir!!.absolutePath, s))
+        assertAbsolutePathExists(String.format("%s/%s", baseDir.absolutePath, s))
     }
 
     private fun assertAbsolutePathExists(s: String) {

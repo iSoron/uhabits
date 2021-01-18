@@ -41,7 +41,7 @@ class PendingIntentFactory
 ) {
 
     fun addCheckmark(habit: Habit, timestamp: Timestamp?): PendingIntent =
-        PendingIntent.getBroadcast(
+        getBroadcast(
             context,
             1,
             Intent(context, WidgetReceiver::class.java).apply {
@@ -53,7 +53,7 @@ class PendingIntentFactory
         )
 
     fun dismissNotification(habit: Habit): PendingIntent =
-        PendingIntent.getBroadcast(
+        getBroadcast(
             context,
             0,
             Intent(context, ReminderReceiver::class.java).apply {
@@ -64,7 +64,7 @@ class PendingIntentFactory
         )
 
     fun removeRepetition(habit: Habit): PendingIntent =
-        PendingIntent.getBroadcast(
+        getBroadcast(
             context,
             3,
             Intent(context, WidgetReceiver::class.java).apply {
@@ -90,7 +90,7 @@ class PendingIntentFactory
         reminderTime: Long?,
         timestamp: Long
     ): PendingIntent =
-        PendingIntent.getBroadcast(
+        getBroadcast(
             context,
             (habit.id!! % Integer.MAX_VALUE).toInt() + 1,
             Intent(context, ReminderReceiver::class.java).apply {
@@ -103,7 +103,7 @@ class PendingIntentFactory
         )
 
     fun snoozeNotification(habit: Habit): PendingIntent =
-        PendingIntent.getBroadcast(
+        getBroadcast(
             context,
             0,
             Intent(context, ReminderReceiver::class.java).apply {
@@ -114,7 +114,7 @@ class PendingIntentFactory
         )
 
     fun toggleCheckmark(habit: Habit, timestamp: Long?): PendingIntent =
-        PendingIntent.getBroadcast(
+        getBroadcast(
             context,
             2,
             Intent(context, WidgetReceiver::class.java).apply {
@@ -145,7 +145,7 @@ class PendingIntentFactory
             )
 
     fun updateWidgets(): PendingIntent =
-        PendingIntent.getBroadcast(
+        getBroadcast(
             context,
             0,
             Intent(context, WidgetReceiver::class.java).apply {

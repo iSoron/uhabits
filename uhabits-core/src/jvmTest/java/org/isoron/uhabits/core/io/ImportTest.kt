@@ -21,7 +21,7 @@ package org.isoron.uhabits.core.io
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.IsEqual
+import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Frequency
@@ -46,11 +46,11 @@ class ImportTest : BaseUnitTest() {
     @Throws(IOException::class)
     fun testHabitBullCSV() {
         importFromFile("habitbull.csv")
-        assertThat(habitList.size(), IsEqual.equalTo(4))
+        assertThat(habitList.size(), equalTo(4))
         val habit = habitList.getByPosition(0)
-        assertThat(habit.name, IsEqual.equalTo("Breed dragons"))
-        assertThat(habit.description, IsEqual.equalTo("with love and fire"))
-        assertThat(habit.frequency, IsEqual.equalTo(Frequency.DAILY))
+        assertThat(habit.name, equalTo("Breed dragons"))
+        assertThat(habit.description, equalTo("with love and fire"))
+        assertThat(habit.frequency, equalTo(Frequency.DAILY))
         assertTrue(isChecked(habit, 2016, 3, 18))
         assertTrue(isChecked(habit, 2016, 3, 19))
         assertFalse(isChecked(habit, 2016, 3, 20))
@@ -60,10 +60,10 @@ class ImportTest : BaseUnitTest() {
     @Throws(IOException::class)
     fun testLoopDB() {
         importFromFile("loop.db")
-        assertThat(habitList.size(), IsEqual.equalTo(9))
+        assertThat(habitList.size(), equalTo(9))
         val habit = habitList.getByPosition(0)
-        assertThat(habit.name, IsEqual.equalTo("Wake up early"))
-        assertThat(habit.frequency, IsEqual.equalTo(Frequency.THREE_TIMES_PER_WEEK))
+        assertThat(habit.name, equalTo("Wake up early"))
+        assertThat(habit.frequency, equalTo(Frequency.THREE_TIMES_PER_WEEK))
         assertTrue(isChecked(habit, 2016, 3, 14))
         assertTrue(isChecked(habit, 2016, 3, 16))
         assertFalse(isChecked(habit, 2016, 3, 17))
@@ -73,33 +73,33 @@ class ImportTest : BaseUnitTest() {
     @Throws(IOException::class)
     fun testRewireDB() {
         importFromFile("rewire.db")
-        assertThat(habitList.size(), IsEqual.equalTo(3))
+        assertThat(habitList.size(), equalTo(3))
         var habit = habitList.getByPosition(1)
-        assertThat(habit.name, IsEqual.equalTo("Wake up early"))
-        assertThat(habit.frequency, IsEqual.equalTo(Frequency.THREE_TIMES_PER_WEEK))
+        assertThat(habit.name, equalTo("Wake up early"))
+        assertThat(habit.frequency, equalTo(Frequency.THREE_TIMES_PER_WEEK))
         assertFalse(habit.hasReminder())
         assertFalse(isChecked(habit, 2015, 12, 31))
         assertTrue(isChecked(habit, 2016, 1, 18))
         assertTrue(isChecked(habit, 2016, 1, 28))
         assertFalse(isChecked(habit, 2016, 3, 10))
         habit = habitList.getByPosition(2)
-        assertThat(habit.name, IsEqual.equalTo("brush teeth"))
-        assertThat(habit.frequency, IsEqual.equalTo(Frequency.THREE_TIMES_PER_WEEK))
-        assertThat(habit.hasReminder(), IsEqual.equalTo(true))
+        assertThat(habit.name, equalTo("brush teeth"))
+        assertThat(habit.frequency, equalTo(Frequency.THREE_TIMES_PER_WEEK))
+        assertThat(habit.hasReminder(), equalTo(true))
         val reminder = habit.reminder
-        assertThat(reminder!!.hour, IsEqual.equalTo(8))
-        assertThat(reminder.minute, IsEqual.equalTo(0))
+        assertThat(reminder!!.hour, equalTo(8))
+        assertThat(reminder.minute, equalTo(0))
         val reminderDays = booleanArrayOf(false, true, true, true, true, true, false)
-        assertThat(reminder.days.toArray(), IsEqual.equalTo(reminderDays))
+        assertThat(reminder.days.toArray(), equalTo(reminderDays))
     }
 
     @Test
     @Throws(IOException::class)
     fun testTickmateDB() {
         importFromFile("tickmate.db")
-        assertThat(habitList.size(), IsEqual.equalTo(3))
+        assertThat(habitList.size(), equalTo(3))
         val h = habitList.getByPosition(2)
-        assertThat(h.name, IsEqual.equalTo("Vegan"))
+        assertThat(h.name, equalTo("Vegan"))
         assertTrue(isChecked(h, 2016, 1, 24))
         assertTrue(isChecked(h, 2016, 2, 5))
         assertTrue(isChecked(h, 2016, 3, 18))

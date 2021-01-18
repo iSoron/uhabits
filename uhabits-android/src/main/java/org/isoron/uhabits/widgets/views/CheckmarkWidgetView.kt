@@ -37,14 +37,15 @@ import org.isoron.uhabits.inject.HabitsApplicationComponent
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.isoron.uhabits.utils.StyledResources
+import kotlin.math.min
 
 class CheckmarkWidgetView : HabitWidgetView {
     var activeColor: Int = 0
 
     var percentage = 0f
     var name: String? = null
-    protected lateinit var ring: RingView
-    protected lateinit var label: TextView
+    private lateinit var ring: RingView
+    private lateinit var label: TextView
     var entryValue = 0
     var entryState = 0
     var isNumerical = false
@@ -92,7 +93,7 @@ class CheckmarkWidgetView : HabitWidgetView {
         postInvalidate()
     }
 
-    protected val text: String
+    private val text: String
         get() = if (isNumerical) {
             (entryValue / 1000.0).toShortString()
         } else when (entryState) {
@@ -122,7 +123,7 @@ class CheckmarkWidgetView : HabitWidgetView {
         val height = MeasureSpec.getSize(heightMeasureSpec)
         var w = width.toFloat()
         var h = width * 1.25f
-        val scale = Math.min(width / w, height / h)
+        val scale = min(width / w, height / h)
         w *= scale
         h *= scale
         if (h < getDimension(context, R.dimen.checkmarkWidget_heightBreakpoint)) ring.visibility =
@@ -131,7 +132,7 @@ class CheckmarkWidgetView : HabitWidgetView {
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(h.toInt(), MeasureSpec.EXACTLY)
         var textSize = 0.15f * h
         val maxTextSize = getDimension(context, R.dimen.smallerTextSize)
-        textSize = Math.min(textSize, maxTextSize)
+        textSize = min(textSize, maxTextSize)
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         ring.setTextSize(textSize)
         ring.setThickness(0.15f * textSize)
@@ -139,8 +140,7 @@ class CheckmarkWidgetView : HabitWidgetView {
     }
 
     private fun init() {
-        val appComponent: HabitsApplicationComponent
-        appComponent = (context.applicationContext as HabitsApplication).component
+        val appComponent: HabitsApplicationComponent = (context.applicationContext as HabitsApplication).component
         preferences = appComponent.preferences
         ring = findViewById<View>(R.id.scoreRing) as RingView
         label = findViewById<View>(R.id.label) as TextView

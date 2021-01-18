@@ -28,8 +28,8 @@ import org.isoron.uhabits.BaseUserInterfaceTest
 object WidgetSteps {
     @Throws(Exception::class)
     fun clickCheckmarkWidget() {
-        val view_id = "org.isoron.uhabits:id/imageView"
-        BaseUserInterfaceTest.device.findObject(UiSelector().resourceId(view_id)).click()
+        val viewId = "org.isoron.uhabits:id/imageView"
+        BaseUserInterfaceTest.device.findObject(UiSelector().resourceId(viewId)).click()
     }
 
     @Throws(Exception::class)
@@ -66,7 +66,7 @@ object WidgetSteps {
             BaseUserInterfaceTest.device.findObject(UiSelector().description("Apps")).click()
             BaseUserInterfaceTest.device.findObject(UiSelector().description("Widgets")).click()
         } else {
-            val list_id = "com.android.launcher3:id/widgets_list_view"
+            val listId = "com.android.launcher3:id/widgets_list_view"
             BaseUserInterfaceTest.device.pressHome()
             BaseUserInterfaceTest.device.waitForIdle()
             BaseUserInterfaceTest.device.drag(w / 2, h / 2, w / 2, h / 2, 8)
@@ -76,10 +76,10 @@ object WidgetSteps {
             }
             button.click()
             if (VERSION.SDK_INT >= 28) {
-                UiScrollable(UiSelector().resourceId(list_id))
+                UiScrollable(UiSelector().resourceId(listId))
                     .scrollForward()
             }
-            UiScrollable(UiSelector().resourceId(list_id))
+            UiScrollable(UiSelector().resourceId(listId))
                 .scrollIntoView(UiSelector().text("Checkmark"))
         }
     }

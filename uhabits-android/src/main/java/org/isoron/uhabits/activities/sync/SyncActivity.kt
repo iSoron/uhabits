@@ -68,7 +68,7 @@ class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
             title = resources.getString(R.string.device_sync),
         )
         binding.syncLink.setOnClickListener { copyToClipboard() }
-        binding.instructions.setText(Html.fromHtml(resources.getString(R.string.sync_instructions)))
+        binding.instructions.text = Html.fromHtml(resources.getString(R.string.sync_instructions))
         setContentView(binding.root)
     }
 

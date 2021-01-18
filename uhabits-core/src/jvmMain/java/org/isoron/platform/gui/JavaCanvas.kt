@@ -23,6 +23,7 @@ import kotlinx.coroutines.runBlocking
 import org.isoron.platform.io.JavaFileOpener
 import org.isoron.platform.io.JavaResourceFile
 import java.awt.BasicStroke
+import java.awt.Graphics2D
 import java.awt.RenderingHints.KEY_ANTIALIASING
 import java.awt.RenderingHints.KEY_FRACTIONALMETRICS
 import java.awt.RenderingHints.KEY_TEXT_ANTIALIASING
@@ -54,7 +55,7 @@ class JavaCanvas(
     private var textAlign = TextAlign.CENTER
     val widthPx = image.width
     val heightPx = image.height
-    val g2d = image.createGraphics()
+    val g2d: Graphics2D = image.createGraphics()
 
     private val NOTO_REGULAR_FONT = createFont("fonts/NotoSans-Regular.ttf")
     private val NOTO_BOLD_FONT = createFont("fonts/NotoSans-Bold.ttf")
@@ -96,24 +97,28 @@ class JavaCanvas(
         val bx = bounds.x.roundToInt()
         val by = bounds.y.roundToInt()
 
-        if (textAlign == TextAlign.CENTER) {
-            g2d.drawString(
-                text,
-                toPixel(x) - bx - bWidth / 2,
-                toPixel(y) - by - bHeight / 2
-            )
-        } else if (textAlign == TextAlign.LEFT) {
-            g2d.drawString(
-                text,
-                toPixel(x) - bx,
-                toPixel(y) - by - bHeight / 2
-            )
-        } else {
-            g2d.drawString(
-                text,
-                toPixel(x) - bx - bWidth,
-                toPixel(y) - by - bHeight / 2
-            )
+        when (textAlign) {
+            TextAlign.CENTER -> {
+                g2d.drawString(
+                    text,
+                    toPixel(x) - bx - bWidth / 2,
+                    toPixel(y) - by - bHeight / 2
+                )
+            }
+            TextAlign.LEFT -> {
+                g2d.drawString(
+                    text,
+                    toPixel(x) - bx,
+                    toPixel(y) - by - bHeight / 2
+                )
+            }
+            else -> {
+                g2d.drawString(
+                    text,
+                    toPixel(x) - bx - bWidth,
+                    toPixel(y) - by - bHeight / 2
+                )
+            }
         }
     }
 

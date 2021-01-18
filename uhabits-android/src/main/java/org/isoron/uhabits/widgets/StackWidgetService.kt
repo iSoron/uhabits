@@ -48,7 +48,10 @@ class StackWidgetService : RemoteViewsService() {
 
 internal class StackRemoteViewsFactory(private val context: Context, intent: Intent) :
     RemoteViewsFactory {
-    private val widgetId: Int
+    private val widgetId: Int = intent.getIntExtra(
+        AppWidgetManager.EXTRA_APPWIDGET_ID,
+        AppWidgetManager.INVALID_APPWIDGET_ID
+    )
     private val habitIds: LongArray
     private val widgetType: StackWidgetType?
     private var remoteViews = ArrayList<RemoteViews>()
@@ -148,15 +151,11 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
     }
 
     init {
-        widgetId = intent.getIntExtra(
-            AppWidgetManager.EXTRA_APPWIDGET_ID,
-            AppWidgetManager.INVALID_APPWIDGET_ID
-        )
         val widgetTypeValue = intent.getIntExtra(StackWidgetService.WIDGET_TYPE, -1)
         val habitIdsStr = intent.getStringExtra(StackWidgetService.HABIT_IDS)
         if (widgetTypeValue < 0) throw RuntimeException("invalid widget type")
         if (habitIdsStr == null) throw RuntimeException("habitIdsStr is null")
-        widgetType = StackWidgetType.Companion.getWidgetTypeFromValue(widgetTypeValue)
+        widgetType = StackWidgetType.getWidgetTypeFromValue(widgetTypeValue)
         habitIds = splitLongs(habitIdsStr)
     }
 }

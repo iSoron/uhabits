@@ -37,7 +37,7 @@ class StreakWidget(
     override val defaultHeight: Int = 200
     override val defaultWidth: Int = 200
 
-    override fun getOnClickPendingIntent(context: Context): PendingIntent? =
+    override fun getOnClickPendingIntent(context: Context): PendingIntent =
         pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(view: View) {

@@ -56,7 +56,7 @@ class HabitCardViewTest : BaseViewTest() {
         view = component.getHabitCardViewFactory().create().apply {
             habit = habit1
             values = entries
-            score = habit1.scores.get(today).value
+            score = habit1.scores[today].value
             isSelected = false
             buttonCount = 5
         }

@@ -47,7 +47,7 @@ class WeekdayList {
         }
 
     fun toArray(): BooleanArray {
-        return Arrays.copyOf(weekdays, 7)
+        return weekdays.copyOf(7)
     }
 
     fun toInteger(): Int {

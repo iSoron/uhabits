@@ -19,8 +19,8 @@
 package org.isoron.uhabits.core.utils
 
 import junit.framework.Assert.assertEquals
-import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.applyTimezone
@@ -42,6 +42,7 @@ import java.util.TimeZone
 
 class DateUtilsTest : BaseUnitTest() {
     var firstWeekday = Calendar.SUNDAY
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {
@@ -54,7 +55,7 @@ class DateUtilsTest : BaseUnitTest() {
         val timestamp = unixTime(2015, Calendar.DECEMBER, 31)
         val date = Timestamp(timestamp).toCalendar()
         val formatted = formatHeaderDate(date)
-        assertThat(formatted, CoreMatchers.equalTo("Thu\n31"))
+        assertThat(formatted, equalTo("Thu\n31"))
     }
 
     @Test
@@ -64,24 +65,24 @@ class DateUtilsTest : BaseUnitTest() {
         var t0 = unixTime(2015, Calendar.JANUARY, 11)
         var t1 = unixTime(2015, Calendar.JANUARY, 16)
         var t2 = unixTime(2015, Calendar.JANUARY, 17)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
         expected = unixTime(2015, Calendar.JANUARY, 18)
         t0 = unixTime(2015, Calendar.JANUARY, 18)
         t1 = unixTime(2015, Calendar.JANUARY, 19)
         t2 = unixTime(2015, Calendar.JANUARY, 24)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
         firstWeekday = Calendar.WEDNESDAY
         expected = unixTime(2015, Calendar.JANUARY, 7)
         t0 = unixTime(2015, Calendar.JANUARY, 7)
         t1 = unixTime(2015, Calendar.JANUARY, 9)
         t2 = unixTime(2015, Calendar.JANUARY, 13)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
     }
 
     @Test
@@ -91,16 +92,16 @@ class DateUtilsTest : BaseUnitTest() {
         var t1 = unixTime(2016, Calendar.JUNE, 15)
         var t2 = unixTime(2016, Calendar.JUNE, 20)
         val field = DateUtils.TruncateField.MONTH
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
         expected = unixTime(2016, Calendar.DECEMBER, 1)
         t0 = unixTime(2016, Calendar.DECEMBER, 1)
         t1 = unixTime(2016, Calendar.DECEMBER, 15)
         t2 = unixTime(2016, Calendar.DECEMBER, 31)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
     }
 
     @Test
@@ -110,16 +111,16 @@ class DateUtilsTest : BaseUnitTest() {
         var t0 = unixTime(2016, Calendar.JANUARY, 20)
         var t1 = unixTime(2016, Calendar.FEBRUARY, 15)
         var t2 = unixTime(2016, Calendar.MARCH, 30)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
         expected = unixTime(2016, Calendar.APRIL, 1)
         t0 = unixTime(2016, Calendar.APRIL, 1)
         t1 = unixTime(2016, Calendar.MAY, 30)
         t2 = unixTime(2016, Calendar.JUNE, 20)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
     }
 
     @Test
@@ -129,16 +130,16 @@ class DateUtilsTest : BaseUnitTest() {
         var t0 = unixTime(2016, Calendar.JANUARY, 1)
         var t1 = unixTime(2016, Calendar.FEBRUARY, 25)
         var t2 = unixTime(2016, Calendar.DECEMBER, 31)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
         expected = unixTime(2017, Calendar.JANUARY, 1)
         t0 = unixTime(2017, Calendar.JANUARY, 1)
         t1 = unixTime(2017, Calendar.MAY, 30)
         t2 = unixTime(2017, Calendar.DECEMBER, 31)
-        assertThat(truncate(field, t0, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t1, firstWeekday), CoreMatchers.equalTo(expected))
-        assertThat(truncate(field, t2, firstWeekday), CoreMatchers.equalTo(expected))
+        assertThat(truncate(field, t0, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t1, firstWeekday), equalTo(expected))
+        assertThat(truncate(field, t2, firstWeekday), equalTo(expected))
     }
 
     @Test
@@ -146,41 +147,33 @@ class DateUtilsTest : BaseUnitTest() {
     fun testMillisecondsUntilTomorrow() {
         setFixedTimeZone(TimeZone.getTimeZone("GMT"))
         setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 23, 59))
-        assertThat(
-            millisecondsUntilTomorrowWithOffset(),
-            CoreMatchers.equalTo(
-                DateUtils.MINUTE_LENGTH
-            )
-        )
+        assertThat(millisecondsUntilTomorrowWithOffset(), equalTo(DateUtils.MINUTE_LENGTH))
         setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 20, 0))
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
-            CoreMatchers.equalTo(4 * DateUtils.HOUR_LENGTH)
+            equalTo(4 * DateUtils.HOUR_LENGTH)
         )
         setStartDayOffset(3, 30)
         setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 23, 59))
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
-            CoreMatchers.equalTo(3 * DateUtils.HOUR_LENGTH + 31 * DateUtils.MINUTE_LENGTH)
+            equalTo(3 * DateUtils.HOUR_LENGTH + 31 * DateUtils.MINUTE_LENGTH)
         )
         setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 2, 1, 0))
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
-            CoreMatchers.equalTo(2 * DateUtils.HOUR_LENGTH + 30 * DateUtils.MINUTE_LENGTH)
+            equalTo(2 * DateUtils.HOUR_LENGTH + 30 * DateUtils.MINUTE_LENGTH)
         )
     }
 
     @Test
     @Throws(Exception::class)
     fun testGetTodayWithOffset() {
-        assertThat(
-            getTodayWithOffset(),
-            CoreMatchers.equalTo(Timestamp(FIXED_LOCAL_TIME))
-        )
+        assertThat(getTodayWithOffset(), equalTo(Timestamp(FIXED_LOCAL_TIME)))
         setStartDayOffset(9, 0)
         assertThat(
             getTodayWithOffset(),
-            CoreMatchers.equalTo(Timestamp(FIXED_LOCAL_TIME - DateUtils.DAY_LENGTH))
+            equalTo(Timestamp(FIXED_LOCAL_TIME - DateUtils.DAY_LENGTH))
         )
     }
 
@@ -190,12 +183,12 @@ class DateUtilsTest : BaseUnitTest() {
         val timestamp = unixTime(2020, Calendar.SEPTEMBER, 3)
         assertThat(
             getStartOfDayWithOffset(timestamp + DateUtils.HOUR_LENGTH),
-            CoreMatchers.equalTo(timestamp)
+            equalTo(timestamp)
         )
         setStartDayOffset(3, 30)
         assertThat(
             getStartOfDayWithOffset(timestamp + 3 * DateUtils.HOUR_LENGTH + 29 * DateUtils.MINUTE_LENGTH),
-            CoreMatchers.equalTo(timestamp - DateUtils.DAY_LENGTH)
+            equalTo(timestamp - DateUtils.DAY_LENGTH)
         )
     }
 

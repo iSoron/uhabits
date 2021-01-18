@@ -18,6 +18,8 @@
  */
 package org.isoron.uhabits.core
 
+import com.nhaarman.mockitokotlin2.spy
+import com.nhaarman.mockitokotlin2.validateMockitoUsage
 import org.apache.commons.io.IOUtils
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.database.Database
@@ -37,7 +39,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.File
 import java.io.FileInputStream
@@ -78,7 +79,7 @@ open class BaseUnitTest {
         setFixedLocalTime(FIXED_LOCAL_TIME)
         setStartDayOffset(0, 0)
         val memoryModelFactory = MemoryModelFactory()
-        habitList = Mockito.spy(memoryModelFactory.buildHabitList())
+        habitList = spy(memoryModelFactory.buildHabitList())
         fixtures = HabitFixtures(memoryModelFactory, habitList)
         modelFactory = memoryModelFactory
         taskRunner = SingleThreadTaskRunner()
@@ -88,7 +89,7 @@ open class BaseUnitTest {
     @After
     @Throws(Exception::class)
     open fun tearDown() {
-        Mockito.validateMockitoUsage()
+        validateMockitoUsage()
         setFixedLocalTime(null)
         setStartDayOffset(0, 0)
     }

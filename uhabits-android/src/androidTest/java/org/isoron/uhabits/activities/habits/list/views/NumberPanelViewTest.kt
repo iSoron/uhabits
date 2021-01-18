@@ -73,27 +73,6 @@ class NumberPanelViewTest : BaseViewTest() {
         assertRenders(view, "$PATH/render.png")
     }
 
-//    // Flaky test
-//    @Test
-//    fun testRender_withDifferentColor() {
-//        view.color = PaletteUtils.getAndroidTestColor(1)
-//        assertRenders(view, "$PATH/render_different_color.png")
-//    }
-
-//    // Flaky test
-//    @Test
-//    fun testRender_Reversed() {
-//        prefs.isCheckmarkSequenceReversed = true
-//        assertRenders(view, "$PATH/render_reversed.png")
-//    }
-
-//    // Flaky test
-//    @Test
-//    fun testRender_withOffset() {
-//        view.dataOffset = 3
-//        assertRenders(view, "$PATH/render_offset.png")
-//    }
-
     @Test
     fun testEdit() {
         val timestamps = mutableListOf<Timestamp>()

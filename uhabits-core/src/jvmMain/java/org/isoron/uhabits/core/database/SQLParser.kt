@@ -71,7 +71,7 @@ object SQLParser {
         val buffer = BufferedInputStream(stream)
         val commands: MutableList<String> = ArrayList()
         val sb = StringBuffer()
-        try {
+        buffer.use { buffer ->
             val tokenizer = Tokenizer(buffer)
             var state = STATE_NONE
             while (tokenizer.hasNext()) {
@@ -104,7 +104,7 @@ object SQLParser {
                 }
                 if (state == STATE_NONE || state == STATE_STRING) {
                     if (state == STATE_NONE && isWhitespace(c)) {
-                        if (sb.length > 0 && sb[sb.length - 1] != ' ') {
+                        if (sb.isNotEmpty() && sb[sb.length - 1] != ' ') {
                             sb.append(' ')
                         }
                     } else {
@@ -112,8 +112,6 @@ object SQLParser {
                     }
                 }
             }
-        } finally {
-            buffer.close()
         }
         if (sb.isNotEmpty()) {
             commands.add(sb.toString().trim { it <= ' ' })

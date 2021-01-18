@@ -19,7 +19,7 @@
 package org.isoron.uhabits.core.commands
 
 import junit.framework.Assert.assertTrue
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
@@ -46,13 +46,8 @@ class CreateHabitCommandTest : BaseUnitTest() {
     fun testExecute() {
         assertTrue(habitList.isEmpty)
         command.run()
-        assertThat(habitList.size(), CoreMatchers.equalTo(1))
+        assertThat(habitList.size(), equalTo(1))
         val habit = habitList.getByPosition(0)
-        assertThat(
-            habit.name,
-            CoreMatchers.equalTo(
-                model.name
-            )
-        )
+        assertThat(habit.name, equalTo(model.name))
     }
 }

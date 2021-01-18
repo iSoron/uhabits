@@ -18,28 +18,29 @@
  */
 package org.isoron.uhabits.core.tasks
 
+import com.nhaarman.mockitokotlin2.inOrder
+import com.nhaarman.mockitokotlin2.mock
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito
 
 @RunWith(JUnit4::class)
 class SingleThreadTaskRunnerTest : BaseUnitTest() {
-    private var runner: SingleThreadTaskRunner? = null
-    private lateinit var task: Task
+    private lateinit var runner: SingleThreadTaskRunner
+    private var task: Task = mock()
+
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         runner = SingleThreadTaskRunner()
-        task = Mockito.mock(Task::class.java)
     }
 
     @Test
     fun test() {
-        runner!!.execute(task)
-        val inOrder = Mockito.inOrder(task)
-        inOrder.verify(task).onAttached(runner!!)
+        runner.execute(task)
+        val inOrder = inOrder(task)
+        inOrder.verify(task).onAttached(runner)
         inOrder.verify(task).onPreExecute()
         inOrder.verify(task).doInBackground()
         inOrder.verify(task).onPostExecute()
