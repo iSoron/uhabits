@@ -68,7 +68,7 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
             if (log.size > maxLineCount) log.removeFirst()
         }
         for (l in log) {
-            builder.appendln(l)
+            builder.appendLine(l)
         }
         return builder.toString()
     }
@@ -99,18 +99,18 @@ open class AndroidBugReporter @Inject constructor(@AppContext private val contex
     private fun getDeviceInfo(): String {
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         return buildString {
-            appendln("App Version Name: ${BuildConfig.VERSION_NAME}")
-            appendln("App Version Code: ${BuildConfig.VERSION_CODE}")
-            appendln("OS Version: ${System.getProperty("os.version")} (${Build.VERSION.INCREMENTAL})")
-            appendln("OS API Level: ${Build.VERSION.SDK_INT}")
-            appendln("Device: ${Build.DEVICE}")
-            appendln("Model (Product): ${Build.MODEL} (${Build.PRODUCT})")
-            appendln("Manufacturer: ${Build.MANUFACTURER}")
-            appendln("Other tags: ${Build.TAGS}")
-            appendln("Screen Width: ${wm.defaultDisplay.width}")
-            appendln("Screen Height: ${wm.defaultDisplay.height}")
-            appendln("External storage state: ${Environment.getExternalStorageState()}")
-            appendln()
+            appendLine("App Version Name: ${BuildConfig.VERSION_NAME}")
+            appendLine("App Version Code: ${BuildConfig.VERSION_CODE}")
+            appendLine("OS Version: ${System.getProperty("os.version")} (${Build.VERSION.INCREMENTAL})")
+            appendLine("OS API Level: ${Build.VERSION.SDK_INT}")
+            appendLine("Device: ${Build.DEVICE}")
+            appendLine("Model (Product): ${Build.MODEL} (${Build.PRODUCT})")
+            appendLine("Manufacturer: ${Build.MANUFACTURER}")
+            appendLine("Other tags: ${Build.TAGS}")
+            appendLine("Screen Width: ${wm.defaultDisplay.width}")
+            appendLine("Screen Height: ${wm.defaultDisplay.height}")
+            appendLine("External storage state: ${Environment.getExternalStorageState()}")
+            appendLine()
         }
     }
 }
