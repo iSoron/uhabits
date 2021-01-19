@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.ui.callbacks
 
-package org.isoron.uhabits.core.ui.callbacks;
-
-public interface OnConfirmedCallback
-{
-    void onConfirmed();
+fun interface OnConfirmedCallback {
+    fun onConfirmed()
 }

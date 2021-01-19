@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.ui.callbacks
 
-package org.isoron.uhabits.core.ui.callbacks;
+import org.isoron.uhabits.core.models.PaletteColor
 
-public interface OnFinishedCallback
-{
-    void onFinish();
+fun interface OnColorPickedCallback {
+    fun onColorPicked(color: PaletteColor)
 }

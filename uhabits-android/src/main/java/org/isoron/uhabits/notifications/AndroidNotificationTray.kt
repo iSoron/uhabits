@@ -53,7 +53,7 @@ class AndroidNotificationTray
 ) : NotificationTray.SystemTray {
     private var active = HashSet<Int>()
 
-    override fun log(msg: String) {
+    override fun log(msg: String?) {
         Log.d("AndroidNotificationTray", msg)
     }
 

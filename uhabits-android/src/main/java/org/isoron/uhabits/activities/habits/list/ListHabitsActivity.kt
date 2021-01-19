@@ -33,7 +33,7 @@ import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.sync.SyncManager
 import org.isoron.uhabits.core.tasks.TaskRunner
-import org.isoron.uhabits.core.ui.ThemeSwitcher.THEME_DARK
+import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_DARK
 import org.isoron.uhabits.core.utils.MidnightTimer
 import org.isoron.uhabits.database.AutoBackup
 import org.isoron.uhabits.inject.ActivityContextModule

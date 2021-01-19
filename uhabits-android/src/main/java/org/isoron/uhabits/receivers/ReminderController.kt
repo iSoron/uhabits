@@ -43,7 +43,7 @@ class ReminderController @Inject constructor(
 
     fun onShowReminder(
         habit: Habit,
-        timestamp: Timestamp?,
+        timestamp: Timestamp,
         reminderTime: Long
     ) {
         notificationTray.show(habit, timestamp, reminderTime)
