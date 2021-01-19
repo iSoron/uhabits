@@ -219,7 +219,7 @@ public abstract class HabitList implements Iterable<Habit>
      */
     public void writeCSV(@NonNull Writer out) throws IOException
     {
-        String header[] = {
+        String[] header = {
             "Position",
             "Name",
             "Question",

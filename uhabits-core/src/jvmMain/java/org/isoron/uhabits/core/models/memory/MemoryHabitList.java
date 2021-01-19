@@ -23,6 +23,7 @@ import androidx.annotation.*;
 
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.utils.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -96,7 +97,7 @@ public class MemoryHabitList extends HabitList
     @Override
     public synchronized Habit getByUUID(String uuid)
     {
-        for (Habit h : list) if (h.getUuid().equals(uuid)) return h;
+        for (Habit h : list) if (Objects.requireNonNull(h.getUuid()).equals(uuid)) return h;
         return null;
     }
 
@@ -114,12 +115,14 @@ public class MemoryHabitList extends HabitList
         return new MemoryHabitList(matcher, comparator, this);
     }
 
+    @NotNull
     @Override
     public synchronized Order getPrimaryOrder()
     {
         return primaryOrder;
     }
 
+    @NotNull
     @Override
     public synchronized Order getSecondaryOrder()
     {
@@ -288,7 +291,7 @@ public class MemoryHabitList extends HabitList
 
     public synchronized void resort()
     {
-        if (comparator != null) Collections.sort(list, comparator);
+        if (comparator != null) list.sort(comparator);
         getObservable().notifyListeners();
     }
 }

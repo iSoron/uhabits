@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 import org.isoron.uhabits.core.models.memory.*;
 import org.isoron.uhabits.core.models.sqlite.records.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -161,6 +162,7 @@ public class SQLiteHabitList extends HabitList
         return list.indexOf(h);
     }
 
+    @NotNull
     @Override
     public synchronized Iterator<Habit> iterator()
     {

@@ -22,6 +22,8 @@ package org.isoron.uhabits.core.models.sqlite.records;
 import org.isoron.uhabits.core.database.*;
 import org.isoron.uhabits.core.models.*;
 
+import java.util.Objects;
+
 /**
  * The SQLite database record corresponding to a {@link Habit}.
  */
@@ -108,7 +110,7 @@ public class HabitRecord
         if (model.hasReminder())
         {
             Reminder reminder = model.getReminder();
-            this.reminderHour = reminder.getHour();
+            this.reminderHour = Objects.requireNonNull(reminder).getHour();
             this.reminderMin = reminder.getMinute();
             this.reminderDays = reminder.getDays().toInteger();
         }

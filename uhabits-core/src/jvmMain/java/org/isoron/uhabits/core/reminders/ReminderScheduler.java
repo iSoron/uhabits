@@ -77,7 +77,7 @@ public class ReminderScheduler implements CommandRunner.Listener
             return;
         }
 
-        long reminderTime = habit.getReminder().getTimeInMillis();
+        long reminderTime = Objects.requireNonNull(habit.getReminder()).getTimeInMillis();
         long snoozeReminderTime = widgetPreferences.getSnoozeTime(habit.getId());
 
         if (snoozeReminderTime != 0)

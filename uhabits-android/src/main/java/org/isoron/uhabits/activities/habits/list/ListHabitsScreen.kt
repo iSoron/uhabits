@@ -215,7 +215,7 @@ class ListHabitsScreen
         )
     }
 
-    override fun showSendBugReportToDeveloperScreen(log: String) {
+    override fun showSendBugReportToDeveloperScreen(log: String?) {
         val to = R.string.bugReportTo
         val subject = R.string.bugReportSubject
         activity.showSendEmailScreen(to, subject, log)
@@ -230,10 +230,7 @@ class ListHabitsScreen
         activity.startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
-    override fun showColorPicker(
-        defaultColor: PaletteColor,
-        callback: OnColorPickedCallback
-    ) {
+    override fun showColorPicker(defaultColor: PaletteColor, callback: OnColorPickedCallback) {
         val picker = colorPickerFactory.create(defaultColor)
         picker.setListener(callback)
         picker.show(activity.supportFragmentManager, "picker")

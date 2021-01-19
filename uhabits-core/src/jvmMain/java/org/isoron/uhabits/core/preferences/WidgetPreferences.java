@@ -20,7 +20,6 @@
 package org.isoron.uhabits.core.preferences;
 
 import org.isoron.uhabits.core.AppScope;
-import org.isoron.uhabits.core.models.HabitNotFoundException;
 
 import javax.inject.Inject;
 
@@ -33,7 +32,7 @@ public class WidgetPreferences {
         this.storage = storage;
     }
 
-    public void addWidget(int widgetId, long habitIds[]) {
+    public void addWidget(int widgetId, long[] habitIds) {
         storage.putLongArray(getHabitIdKey(widgetId), habitIds);
     }
 

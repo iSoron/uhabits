@@ -16,54 +16,31 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.ui.screens.habits.list
 
-package org.isoron.uhabits.core.ui.screens.habits.list;
-
-import androidx.annotation.*;
-
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.preferences.*;
-import org.isoron.uhabits.core.utils.*;
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 
 /**
  * Provides a list of hints to be shown at the application startup, and takes
  * care of deciding when a new hint should be shown.
  */
-public class HintList
-{
-    private final Preferences prefs;
-
-    @NonNull
-    private final String[] hints;
-
-    /**
-     * Constructs a new list containing the provided hints.
-     *
-     * @param hints initial list of hints
-     */
-    public HintList(@NonNull Preferences prefs,
-                    @NonNull String hints[])
-    {
-        this.prefs = prefs;
-        this.hints = hints;
-    }
-
+class HintList(private val prefs: Preferences, private val hints: Array<String>) {
     /**
      * Returns a new hint to be shown to the user.
-     * <p>
+     *
+     *
      * The hint returned is marked as read on the list, and will not be returned
      * again. In case all hints have already been read, and there is nothing
      * left, returns null.
      *
      * @return the next hint to be shown, or null if none
      */
-    public String pop()
-    {
-        int next = prefs.getLastHintNumber() + 1;
-        if (next >= hints.length) return null;
-
-        prefs.updateLastHint(next, DateUtils.getToday());
-        return hints[next];
+    fun pop(): String? {
+        val next = prefs.lastHintNumber + 1
+        if (next >= hints.size) return null
+        prefs.updateLastHint(next, getToday())
+        return hints[next]
     }
 
     /**
@@ -71,10 +48,9 @@ public class HintList
      *
      * @return true if hint should be shown, false otherwise
      */
-    public boolean shouldShow()
-    {
-        Timestamp today = DateUtils.getToday();
-        Timestamp lastHintTimestamp = prefs.getLastHintTimestamp();
-        return (lastHintTimestamp.isOlderThan(today));
+    fun shouldShow(): Boolean {
+        val today = getToday()
+        val lastHintTimestamp = prefs.lastHintTimestamp
+        return lastHintTimestamp.isOlderThan(today)
     }
 }

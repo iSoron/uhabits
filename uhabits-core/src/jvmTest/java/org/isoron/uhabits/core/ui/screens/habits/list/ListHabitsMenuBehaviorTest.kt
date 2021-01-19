@@ -36,7 +36,6 @@ import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.junit.Test
-import org.mockito.ArgumentMatchers
 
 class ListHabitsMenuBehaviorTest : BaseUnitTest() {
     private lateinit var behavior: ListHabitsMenuBehavior
@@ -116,7 +115,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         whenever(adapter.primaryOrder).thenReturn(HabitList.Order.BY_NAME_ASC)
         behavior.onSortByStatus()
         verify(adapter).primaryOrder = orderCaptor.capture()
-        verify(adapter).setSecondaryOrder(secondaryOrderCaptor.capture())
+        verify(adapter).secondaryOrder = secondaryOrderCaptor.capture()
         assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_STATUS_ASC))
         assertThat(secondaryOrderCaptor.lastValue, equalTo(HabitList.Order.BY_NAME_ASC))
     }
@@ -126,7 +125,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         whenever(adapter.primaryOrder).thenReturn(HabitList.Order.BY_STATUS_ASC)
         behavior.onSortByStatus()
         verify(adapter).primaryOrder = orderCaptor.capture()
-        verify(adapter, never()).setSecondaryOrder(ArgumentMatchers.any())
+        verify(adapter, never()).secondaryOrder
         assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_STATUS_DESC))
     }
 

@@ -145,7 +145,7 @@ public class NotificationTray
         void log(String msg);
     }
 
-    class NotificationData
+    static class NotificationData
     {
         public final Timestamp timestamp;
 
@@ -229,7 +229,7 @@ public class NotificationTray
             if (!habit.hasReminder()) return false;
             Reminder reminder = habit.getReminder();
 
-            boolean reminderDays[] = reminder.getDays().toArray();
+            boolean[] reminderDays = Objects.requireNonNull(reminder).getDays().toArray();
             int weekday = timestamp.getWeekday();
 
             return reminderDays[weekday];

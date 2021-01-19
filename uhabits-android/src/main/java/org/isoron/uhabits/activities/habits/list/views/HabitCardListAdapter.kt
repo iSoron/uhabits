@@ -53,7 +53,7 @@ class HabitCardListAdapter @Inject constructor(
     ListHabitsSelectionMenuBehavior.Adapter {
     val observable: ModelObservable = ModelObservable()
     private var listView: HabitCardListView? = null
-    private val selected: LinkedList<Habit> = LinkedList()
+    override val selected: LinkedList<Habit> = LinkedList()
     override fun atMidnight() {
         cache.refreshAllHabits()
     }
@@ -90,9 +90,9 @@ class HabitCardListAdapter @Inject constructor(
         return getItem(position)!!.id!!
     }
 
-    override fun getSelected(): List<Habit> {
-        return LinkedList(selected)
-    }
+    // override fun getSelected(): List<Habit> {
+    //     return LinkedList(selected)
+    // }
 
     /**
      * Returns whether list of selected items is empty.
@@ -182,10 +182,10 @@ class HabitCardListAdapter @Inject constructor(
      * database operation to finish, the cache can be modified to reflect the
      * changes immediately.
      *
-     * @param habits list of habits to be removed
+     * @param selected list of habits to be removed
      */
-    override fun performRemove(habits: List<Habit>) {
-        for (habit in habits) cache.remove(habit.id!!)
+    override fun performRemove(selected: List<Habit>) {
+        for (habit in selected) cache.remove(habit.id!!)
     }
 
     /**
@@ -209,8 +209,8 @@ class HabitCardListAdapter @Inject constructor(
         cache.refreshAllHabits()
     }
 
-    override fun setFilter(matcher: HabitMatcher) {
-        cache.setFilter(matcher)
+    override fun setFilter(matcher: HabitMatcher?) {
+        if (matcher != null) cache.setFilter(matcher)
     }
 
     /**
@@ -225,19 +225,19 @@ class HabitCardListAdapter @Inject constructor(
         this.listView = listView
     }
 
-    override fun setPrimaryOrder(order: HabitList.Order) {
-        cache.primaryOrder = order
-        preferences.defaultPrimaryOrder = order
-    }
+    override var primaryOrder: HabitList.Order
+        get() = cache.primaryOrder
+        set(value) {
+            cache.primaryOrder = value
+            preferences.defaultPrimaryOrder = value
+        }
 
-    override fun setSecondaryOrder(order: HabitList.Order) {
-        cache.secondaryOrder = order
-        preferences.defaultSecondaryOrder = order
-    }
-
-    override fun getPrimaryOrder(): HabitList.Order {
-        return cache.primaryOrder
-    }
+    override var secondaryOrder: HabitList.Order
+        get() = cache.secondaryOrder
+        set(value) {
+            cache.secondaryOrder = value
+            preferences.defaultSecondaryOrder = value
+        }
 
     /**
      * Selects or deselects the item at a given position.
