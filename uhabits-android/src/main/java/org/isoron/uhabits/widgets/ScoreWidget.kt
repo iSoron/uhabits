@@ -52,7 +52,7 @@ class ScoreWidget(
             setIsTransparencyEnabled(true)
             setBucketSize(viewModel.bucketSize)
             setColor(habit.color.toThemedAndroidColor(context))
-            setScores(viewModel.scores)
+            setScores(viewModel.scores.toMutableList())
         }
     }
 

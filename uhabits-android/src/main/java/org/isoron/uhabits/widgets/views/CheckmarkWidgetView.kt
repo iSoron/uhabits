@@ -83,8 +83,10 @@ class CheckmarkWidgetView : HabitWidgetView {
                 setShadowAlpha(0x00)
             }
         }
-        ring.percentage = percentage
-        ring.color = fgColor
+        // ring.percentage = percentage
+        ring.setPercentage(percentage)
+        ring.setColor(fgColor)
+        // ring.color = fgColor
         ring.setBackgroundColor(bgColor)
         ring.setText(text)
         label.text = name

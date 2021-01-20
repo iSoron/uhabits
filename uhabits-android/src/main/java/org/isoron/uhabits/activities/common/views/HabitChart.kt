@@ -16,14 +16,11 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.activities.common.views
 
-package org.isoron.uhabits.activities.common.views;
+import org.isoron.uhabits.core.models.Habit
 
-import org.isoron.uhabits.core.models.Habit;
-
-public interface HabitChart
-{
-    void setHabit(Habit habit);
-
-    void refreshData();
+interface HabitChart {
+    fun setHabit(habit: Habit?)
+    fun refreshData()
 }

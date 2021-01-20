@@ -131,7 +131,7 @@ class HabitCardListView(
             super.onRestoreInstanceState(state)
             return
         }
-        dataOffset = state.bundle.getInt("dataOffset")
+        dataOffset = state.bundle!!.getInt("dataOffset")
         super.onRestoreInstanceState(state.superState)
     }
 
