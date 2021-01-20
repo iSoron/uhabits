@@ -68,7 +68,7 @@ class ModelObservable {
      * Interface implemented by objects that want to be notified when the model
      * changes.
      */
-    interface Listener {
+    fun interface Listener {
         /**
          * Called whenever the model associated to this observable has been
          * modified.
