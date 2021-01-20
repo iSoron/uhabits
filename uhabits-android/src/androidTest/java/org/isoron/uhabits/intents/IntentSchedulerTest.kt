@@ -97,7 +97,7 @@ class IntentSchedulerTest : BaseAndroidTest() {
 
         val habit = habitList.getByPosition(0)
         val scheduler = appComponent.intentScheduler
-        assertThat(scheduler.scheduleShowReminder(reminderTime, habit, 0), equalTo(OK))
+        assertThat(scheduler!!.scheduleShowReminder(reminderTime, habit, 0), equalTo(OK))
 
         setSystemTime("America/Chicago", 2020, JUNE, 2, 22, 44)
         assertNull(ReminderReceiver.lastReceivedIntent)
@@ -116,7 +116,7 @@ class IntentSchedulerTest : BaseAndroidTest() {
         val updateTime = 1591155900000 // 2020-06-02 22:45:00 (America/Chicago)
 
         val scheduler = appComponent.intentScheduler
-        assertThat(scheduler.scheduleWidgetUpdate(updateTime), equalTo(OK))
+        assertThat(scheduler!!.scheduleWidgetUpdate(updateTime), equalTo(OK))
 
         setSystemTime("America/Chicago", 2020, JUNE, 2, 22, 44)
         assertNull(WidgetReceiver.lastReceivedIntent)

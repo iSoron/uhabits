@@ -16,32 +16,25 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits
 
-package org.isoron.uhabits;
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.MediumTest
+import org.hamcrest.CoreMatchers
+import org.hamcrest.MatcherAssert
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.IOException
 
-import androidx.test.filters.*;
-
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import org.junit.*;
-import org.junit.runner.*;
-
-import java.io.*;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
-
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4::class)
 @MediumTest
-public class HabitsApplicationTest extends BaseAndroidTest
-{
+class HabitsApplicationTest : BaseAndroidTest() {
     @Test
-    public void test_getLogcat() throws IOException
-    {
-        String msg = "LOGCAT TEST";
-        new RuntimeException(msg).printStackTrace();
-
-        String log = new AndroidBugReporter(targetContext).getLogcat();
-        assertThat(log, containsString(msg));
+    @Throws(IOException::class)
+    fun test_getLogcat() {
+        val msg = "LOGCAT TEST"
+        RuntimeException(msg).printStackTrace()
+        val log = AndroidBugReporter(targetContext).getLogcat()
+        MatcherAssert.assertThat(log, CoreMatchers.containsString(msg))
     }
 }

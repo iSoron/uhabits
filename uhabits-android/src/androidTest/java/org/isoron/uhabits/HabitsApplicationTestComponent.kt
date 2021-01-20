@@ -16,35 +16,17 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits
 
-package org.isoron.uhabits;
-
-import org.isoron.uhabits.core.*;
-import org.isoron.uhabits.core.tasks.*;
-import org.isoron.uhabits.inject.*;
-import org.isoron.uhabits.intents.*;
-
-import dagger.*;
+import dagger.Component
+import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.inject.AppContextModule
+import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.isoron.uhabits.inject.HabitsModule
+import org.isoron.uhabits.intents.IntentScheduler
 
 @AppScope
-@Component(modules = {
-    AppContextModule.class,
-    HabitsModule.class,
-    SingleThreadModule.class,
-})
-public interface HabitsApplicationTestComponent
-    extends HabitsApplicationComponent
-{
-    IntentScheduler getIntentScheduler();
-}
-
-@dagger.Module
-class SingleThreadModule
-{
-    @Provides
-    @AppScope
-    static TaskRunner provideTaskRunner()
-    {
-        return new SingleThreadTaskRunner();
-    }
+@Component(modules = [AppContextModule::class, HabitsModule::class, SingleThreadModule::class])
+interface HabitsApplicationTestComponent : HabitsApplicationComponent {
+    val intentScheduler: IntentScheduler?
 }
