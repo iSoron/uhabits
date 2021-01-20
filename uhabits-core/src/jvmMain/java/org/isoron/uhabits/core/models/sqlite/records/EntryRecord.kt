@@ -16,40 +16,42 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.models.sqlite.records
 
-package org.isoron.uhabits.core.models.sqlite.records;
-
-import org.isoron.uhabits.core.database.*;
-import org.isoron.uhabits.core.models.*;
+import org.isoron.uhabits.core.database.Column
+import org.isoron.uhabits.core.database.Table
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Timestamp
 
 /**
- * The SQLite database record corresponding to a {@link Entry}.
+ * The SQLite database record corresponding to a [Entry].
  */
 @Table(name = "Repetitions")
-public class EntryRecord
-{
-    public HabitRecord habit;
+class EntryRecord {
+    var habit: HabitRecord? = null
 
-    @Column(name = "habit")
-    public Long habitId;
+    @field:Column(name = "habit")
+    var habitId: Long? = null
 
-    @Column
-    public Long timestamp;
+    @field:Column
+    var timestamp: Long? = null
 
-    @Column
-    public Integer value;
+    @field:Column
+    var value: Int? = null
 
-    @Column
-    public Long id;
-
-    public void copyFrom(Entry entry)
-    {
-        timestamp = entry.getTimestamp().getUnixTime();
-        value = entry.getValue();
+    @field:Column
+    var id: Long? = null
+    fun copyFrom(entry: Entry) {
+        timestamp = entry.timestamp.unixTime
+        value = entry.value
     }
 
-    public Entry toEntry()
-    {
-        return new Entry(new Timestamp(timestamp), value);
+    fun toEntry(): Entry {
+        return Entry(
+            Timestamp(
+                timestamp!!
+            ),
+            value!!
+        )
     }
 }
