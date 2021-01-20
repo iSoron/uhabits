@@ -33,7 +33,7 @@ import java.io.IOException
 import java.util.LinkedList
 import javax.inject.Inject
 
-class ListHabitsBehavior @Inject constructor(
+open class ListHabitsBehavior @Inject constructor(
     private val habitList: HabitList,
     private val dirFinder: DirFinder,
     private val taskRunner: TaskRunner,

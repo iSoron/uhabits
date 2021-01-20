@@ -25,7 +25,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
  * Provides a list of hints to be shown at the application startup, and takes
  * care of deciding when a new hint should be shown.
  */
-class HintList(private val prefs: Preferences, private val hints: Array<String>) {
+open class HintList(private val prefs: Preferences, private val hints: Array<String>) {
     /**
      * Returns a new hint to be shown to the user.
      *
@@ -36,7 +36,7 @@ class HintList(private val prefs: Preferences, private val hints: Array<String>)
      *
      * @return the next hint to be shown, or null if none
      */
-    fun pop(): String? {
+    open fun pop(): String? {
         val next = prefs.lastHintNumber + 1
         if (next >= hints.size) return null
         prefs.updateLastHint(next, getToday())
@@ -48,7 +48,7 @@ class HintList(private val prefs: Preferences, private val hints: Array<String>)
      *
      * @return true if hint should be shown, false otherwise
      */
-    fun shouldShow(): Boolean {
+    open fun shouldShow(): Boolean {
         val today = getToday()
         val lastHintTimestamp = prefs.lastHintTimestamp
         return lastHintTimestamp?.isOlderThan(today) == true

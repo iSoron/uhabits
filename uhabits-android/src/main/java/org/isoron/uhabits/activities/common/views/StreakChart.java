@@ -19,19 +19,27 @@
 
 package org.isoron.uhabits.activities.common.views;
 
-import android.content.*;
-import android.graphics.*;
-import android.util.*;
-import android.view.*;
-import android.view.ViewGroup.*;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 
-import org.isoron.uhabits.*;
-import org.isoron.uhabits.core.models.*;
-import org.isoron.uhabits.core.utils.*;
-import org.isoron.uhabits.utils.*;
+import org.isoron.uhabits.R;
+import org.isoron.uhabits.core.models.Streak;
+import org.isoron.uhabits.core.models.Timestamp;
+import org.isoron.uhabits.core.utils.DateUtils;
+import org.isoron.uhabits.utils.StyledResources;
 
-import java.text.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.TimeZone;
 
 import static android.view.View.MeasureSpec.*;
 import static org.isoron.uhabits.utils.InterfaceUtils.*;
@@ -98,7 +106,7 @@ public class StreakChart extends View
     public void populateWithRandomData()
     {
         Timestamp start = DateUtils.getToday();
-        LinkedList<Streak> streaks = new LinkedList<>();
+        List<Streak> streaks = new LinkedList<>();
 
         for (int i = 0; i < 10; i++)
         {

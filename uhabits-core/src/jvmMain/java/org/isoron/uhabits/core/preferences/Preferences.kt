@@ -29,7 +29,7 @@ import java.util.LinkedList
 import kotlin.math.max
 import kotlin.math.min
 
-class Preferences(private val storage: Storage) {
+open class Preferences(private val storage: Storage) {
     private val listeners: MutableList<Listener>
     private var shouldReverseCheckmarks: Boolean? = null
     fun addListener(listener: Listener) {
@@ -86,7 +86,7 @@ class Preferences(private val storage: Storage) {
         }
     val lastHintNumber: Int
         get() = storage.getInt("last_hint_number", -1)
-    val lastHintTimestamp: Timestamp?
+    open val lastHintTimestamp: Timestamp?
         get() {
             val unixTime = storage.getLong("last_hint_timestamp", -1)
             return if (unixTime < 0) null else Timestamp(unixTime)
@@ -171,7 +171,7 @@ class Preferences(private val storage: Storage) {
         return storage.getBoolean("pref_led_notifications", false)
     }
 
-    var isCheckmarkSequenceReversed: Boolean
+    open var isCheckmarkSequenceReversed: Boolean
         get() {
             if (shouldReverseCheckmarks == null) shouldReverseCheckmarks =
                 storage.getBoolean("pref_checkmark_reverse_order", false)
