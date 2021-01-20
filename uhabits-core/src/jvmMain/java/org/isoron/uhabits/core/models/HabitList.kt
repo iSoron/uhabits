@@ -16,51 +16,45 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.models
 
-package org.isoron.uhabits.core.models;
-
-import androidx.annotation.*;
-
-import com.opencsv.*;
-
-import java.io.*;
-import java.util.*;
-
-import javax.annotation.concurrent.*;
+import com.opencsv.CSVWriter
+import java.io.IOException
+import java.io.Writer
+import java.util.LinkedList
+import javax.annotation.concurrent.ThreadSafe
 
 /**
- * An ordered collection of {@link Habit}s.
+ * An ordered collection of [Habit]s.
  */
 @ThreadSafe
-public abstract class HabitList implements Iterable<Habit>
-{
-    private final ModelObservable observable;
-
-    @NonNull
-    protected final HabitMatcher filter;
+abstract class HabitList : Iterable<Habit> {
+    val observable: ModelObservable
+    @JvmField
+    protected val filter: HabitMatcher
 
     /**
      * Creates a new HabitList.
-     * <p>
+     *
+     *
      * Depending on the implementation, this list can either be empty or be
      * populated by some pre-existing habits, for example, from a certain
      * database.
      */
-    public HabitList()
-    {
-        observable = new ModelObservable();
-        filter = new HabitMatcherBuilder().setArchivedAllowed(true).build();
+    constructor() {
+        observable = ModelObservable()
+        filter = HabitMatcherBuilder().setArchivedAllowed(true).build()
     }
 
-    protected HabitList(@NonNull HabitMatcher filter)
-    {
-        observable = new ModelObservable();
-        this.filter = filter;
+    protected constructor(filter: HabitMatcher) {
+        observable = ModelObservable()
+        this.filter = filter
     }
 
     /**
      * Inserts a new habit in the list.
-     * <p>
+     *
+     *
      * If the id of the habit is null, the list will assign it a new id, which
      * is guaranteed to be unique in the scope of the list. If id is not null,
      * the caller should make sure that the list does not already contain
@@ -69,8 +63,8 @@ public abstract class HabitList implements Iterable<Habit>
      * @param habit the habit to be inserted
      * @throws IllegalArgumentException if the habit is already on the list.
      */
-    public abstract void add(@NonNull Habit habit)
-        throws IllegalArgumentException;
+    @Throws(IllegalArgumentException::class)
+    abstract fun add(habit: Habit)
 
     /**
      * Returns the habit with specified id.
@@ -78,8 +72,7 @@ public abstract class HabitList implements Iterable<Habit>
      * @param id the id of the habit
      * @return the habit, or null if none exist
      */
-    @Nullable
-    public abstract Habit getById(long id);
+    abstract fun getById(id: Long): Habit?
 
     /**
      * Returns the habit with specified UUID.
@@ -87,8 +80,7 @@ public abstract class HabitList implements Iterable<Habit>
      * @param uuid the UUID of the habit
      * @return the habit, or null if none exist
      */
-    @Nullable
-    public abstract Habit getByUUID(String uuid);
+    abstract fun getByUUID(uuid: String?): Habit?
 
     /**
      * Returns the habit that occupies a certain position.
@@ -97,8 +89,7 @@ public abstract class HabitList implements Iterable<Habit>
      * @return the habit at that position
      * @throws IndexOutOfBoundsException when the position is invalid
      */
-    @NonNull
-    public abstract Habit getByPosition(int position);
+    abstract fun getByPosition(position: Int): Habit
 
     /**
      * Returns the list of habits that match a given condition.
@@ -106,31 +97,23 @@ public abstract class HabitList implements Iterable<Habit>
      * @param matcher the matcher that checks the condition
      * @return the list of matching habits
      */
-    @NonNull
-    public abstract HabitList getFiltered(HabitMatcher matcher);
+    abstract fun getFiltered(matcher: HabitMatcher?): HabitList
+    abstract var primaryOrder: Order
+    abstract var secondaryOrder: Order
 
-    public ModelObservable getObservable()
-    {
-        return observable;
-    }
+    // /**
+    //  * Changes the order of the elements on the list.
+    //  *
+    //  * @param order the new order criterion
+    //  */
+    // abstract fun setPrimaryOrder(order: Order)
 
-    public abstract Order getPrimaryOrder();
-
-    public abstract Order getSecondaryOrder();
-
-    /**
-     * Changes the order of the elements on the list.
-     *
-     * @param order the new order criterion
-     */
-    public abstract void setPrimaryOrder(@NonNull Order order);
-
-    /**
-     * Changes the previous order of the elements on the list.
-     *
-     * @param order the new order criterion
-     */
-    public abstract void setSecondaryOrder(@NonNull Order order);
+    // /**
+    //  * Changes the previous order of the elements on the list.
+    //  *
+    //  * @param order the new order criterion
+    //  */
+    // abstract fun setSecondaryOrder(order: Order)
 
     /**
      * Returns the index of the given habit in the list, or -1 if the list does
@@ -139,31 +122,28 @@ public abstract class HabitList implements Iterable<Habit>
      * @param h the habit
      * @return the index of the habit, or -1 if not in the list
      */
-    public abstract int indexOf(@NonNull Habit h);
-
-    public boolean isEmpty()
-    {
-        return size() == 0;
-    }
+    abstract fun indexOf(h: Habit): Int
+    val isEmpty: Boolean
+        get() = size() == 0
 
     /**
      * Removes the given habit from the list.
-     * <p>
+     *
+     *
      * If the given habit is not in the list, does nothing.
      *
      * @param h the habit to be removed.
      */
-    public abstract void remove(@NonNull Habit h);
+    abstract fun remove(h: Habit)
 
     /**
      * Removes all the habits from the list.
      */
-    public void removeAll()
-    {
-        List<Habit> copy = new LinkedList<>();
-        for (Habit h : this) copy.add(h);
-        for (Habit h : copy) remove(h);
-        observable.notifyListeners();
+    open fun removeAll() {
+        val copy: MutableList<Habit> = LinkedList()
+        for (h in this) copy.add(h)
+        for (h in copy) remove(h)
+        observable.notifyListeners()
     }
 
     /**
@@ -172,40 +152,38 @@ public abstract class HabitList implements Iterable<Habit>
      * @param from the habit that should be moved
      * @param to   the habit that currently occupies the desired position
      */
-    public abstract void reorder(@NonNull Habit from, @NonNull Habit to);
-
-    public void repair()
-    {
-    }
+    abstract fun reorder(from: Habit, to: Habit)
+    open fun repair() {}
 
     /**
      * Returns the number of habits in this list.
      *
      * @return number of habits
      */
-    public abstract int size();
+    abstract fun size(): Int
 
     /**
      * Notifies the list that a certain list of habits has been modified.
-     * <p>
+     *
+     *
      * Depending on the implementation, this operation might trigger a write to
      * disk, or do nothing at all. To make sure that the habits get persisted,
      * this operation must be called.
      *
      * @param habits the list of habits that have been modified.
      */
-    public abstract void update(List<Habit> habits);
+    abstract fun update(habits: List<Habit?>?)
 
     /**
      * Notifies the list that a certain habit has been modified.
-     * <p>
-     * See {@link #update(List)} for more details.
+     *
+     *
+     * See [.update] for more details.
      *
      * @param habit the habit that has been modified.
      */
-    public void update(@NonNull Habit habit)
-    {
-        update(Collections.singletonList(habit));
+    fun update(habit: Habit) {
+        update(listOf(habit))
     }
 
     /**
@@ -217,9 +195,9 @@ public abstract class HabitList implements Iterable<Habit>
      * @param out the writer that will receive the result
      * @throws IOException if write operations fail
      */
-    public void writeCSV(@NonNull Writer out) throws IOException
-    {
-        String[] header = {
+    @Throws(IOException::class)
+    fun writeCSV(out: Writer) {
+        val header = arrayOf(
             "Position",
             "Name",
             "Question",
@@ -227,43 +205,27 @@ public abstract class HabitList implements Iterable<Habit>
             "NumRepetitions",
             "Interval",
             "Color"
-        };
-
-        CSVWriter csv = new CSVWriter(out);
-        csv.writeNext(header, false);
-
-        for (Habit habit : this)
-        {
-            Frequency freq = habit.getFrequency();
-
-            String[] cols = {
+        )
+        val csv = CSVWriter(out)
+        csv.writeNext(header, false)
+        for (habit in this) {
+            val (numerator, denominator) = habit.frequency
+            val cols = arrayOf(
                 String.format("%03d", indexOf(habit) + 1),
-                habit.getName(),
-                habit.getQuestion(),
-                habit.getDescription(),
-                Integer.toString(freq.getNumerator()),
-                Integer.toString(freq.getDenominator()),
-                habit.getColor().toCsvColor(),
-            };
-
-            csv.writeNext(cols, false);
+                habit.name,
+                habit.question,
+                habit.description,
+                numerator.toString(),
+                denominator.toString(),
+                habit.color.toCsvColor()
+            )
+            csv.writeNext(cols, false)
         }
-
-        csv.close();
+        csv.close()
     }
 
-    public abstract void resort();
-
-    public enum Order
-    {
-        BY_NAME_ASC,
-        BY_NAME_DESC,
-        BY_COLOR_ASC,
-        BY_COLOR_DESC,
-        BY_SCORE_ASC,
-        BY_SCORE_DESC,
-        BY_STATUS_ASC,
-        BY_STATUS_DESC,
-        BY_POSITION
+    abstract fun resort()
+    enum class Order {
+        BY_NAME_ASC, BY_NAME_DESC, BY_COLOR_ASC, BY_COLOR_DESC, BY_SCORE_ASC, BY_SCORE_DESC, BY_STATUS_ASC, BY_STATUS_DESC, BY_POSITION
     }
 }
