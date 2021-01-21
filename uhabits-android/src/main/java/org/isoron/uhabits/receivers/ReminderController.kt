@@ -54,9 +54,9 @@ class ReminderController @Inject constructor(
         showSnoozeDelayPicker(habit, context)
     }
 
-    fun onSnoozeDelayPicked(habit: Habit?, delayInMinutes: Int) {
+    fun onSnoozeDelayPicked(habit: Habit, delayInMinutes: Int) {
         reminderScheduler.snoozeReminder(habit, delayInMinutes.toLong())
-        notificationTray.cancel(habit!!)
+        notificationTray.cancel(habit)
     }
 
     fun onSnoozeTimePicked(habit: Habit?, hour: Int, minute: Int) {

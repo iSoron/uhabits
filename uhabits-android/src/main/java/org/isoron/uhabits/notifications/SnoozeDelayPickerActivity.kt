@@ -79,7 +79,7 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         val snoozeValues = resources.getIntArray(R.array.snooze_picker_values)
         if (snoozeValues[position] >= 0) {
-            reminderController!!.onSnoozeDelayPicked(habit, snoozeValues[position])
+            reminderController!!.onSnoozeDelayPicked(habit!!, snoozeValues[position])
             finish()
         } else showTimePicker()
     }

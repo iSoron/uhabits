@@ -80,7 +80,7 @@ class IntentScheduler
         return schedule(updateTime, intent, RTC)
     }
 
-    override fun log(componentName: String, msg: String) {
+    override fun log(componentName: String?, msg: String?) {
         Log.d(componentName, msg)
     }
 
