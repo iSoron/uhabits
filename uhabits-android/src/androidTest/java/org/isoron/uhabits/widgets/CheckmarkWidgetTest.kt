@@ -24,7 +24,9 @@ import android.widget.FrameLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
@@ -50,26 +52,26 @@ class CheckmarkWidgetTest : BaseViewTest() {
         entries = habit.computedEntries
         val widget = CheckmarkWidget(targetContext, 0, habit)
         view = convertToView(widget, 150, 200)
-        MatcherAssert.assertThat(entries.get(today).value, CoreMatchers.equalTo(Entry.YES_MANUAL))
+        assertThat(entries.get(today).value, equalTo(Entry.YES_MANUAL))
     }
 
     @Test
     @Throws(Exception::class)
     fun testClick() {
         val button = view.findViewById<View>(R.id.button) as Button
-        MatcherAssert.assertThat(
+        assertThat(
             button,
-            CoreMatchers.`is`(CoreMatchers.not(CoreMatchers.nullValue()))
+            `is`(CoreMatchers.not(CoreMatchers.nullValue()))
         )
 
         // A better test would be to capture the intent, but it doesn't seem
         // possible to capture intents sent to BroadcastReceivers.
         button.performClick()
         sleep(1000)
-        MatcherAssert.assertThat(entries.get(today).value, CoreMatchers.equalTo(Entry.SKIP))
+        assertThat(entries.get(today).value, equalTo(Entry.SKIP))
         button.performClick()
         sleep(1000)
-        MatcherAssert.assertThat(entries.get(today).value, CoreMatchers.equalTo(Entry.NO))
+        assertThat(entries.get(today).value, equalTo(Entry.NO))
     }
 
     @Test

@@ -99,8 +99,8 @@ open class BaseUserInterfaceTest {
 
     @Throws(Exception::class)
     protected fun rotateDevice() {
-        device!!.setOrientationLeft()
-        device!!.setOrientationNatural()
+        device.setOrientationLeft()
+        device.setOrientationNatural()
     }
 
     companion object {

@@ -62,7 +62,7 @@ class ScoreChart : ScrollableChart {
     private var nColumns = 0
     private var textColor = 0
     private var gridColor = 0
-    private var scores: MutableList<Score>? = null
+    private var scores: List<Score>? = null
     private var primaryColor = 0
 
     @Deprecated("")
@@ -113,7 +113,7 @@ class ScoreChart : ScrollableChart {
         postInvalidate()
     }
 
-    fun setScores(scores: MutableList<Score>) {
+    fun setScores(scores: List<Score>) {
         this.scores = scores
         postInvalidate()
     }

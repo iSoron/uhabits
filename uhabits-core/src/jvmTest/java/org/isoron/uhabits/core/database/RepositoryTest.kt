@@ -18,19 +18,20 @@
  */
 package org.isoron.uhabits.core.database
 
+import junit.framework.Assert.assertNull
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ToStringBuilder
-import org.hamcrest.MatcherAssert
-import org.hamcrest.core.IsEqual
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
 class RepositoryTest : BaseUnitTest() {
     private lateinit var repository: Repository<ThingRecord>
     private lateinit var db: Database
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {
@@ -54,11 +55,10 @@ class RepositoryTest : BaseUnitTest() {
                 "values (10, 20, 'hello', 8.0)"
         )
         val record = repository.find(10L)
-        Assert.assertNotNull(record)
-        MatcherAssert.assertThat(record!!.id, IsEqual.equalTo(10L))
-        MatcherAssert.assertThat(record.color, IsEqual.equalTo(20))
-        MatcherAssert.assertThat(record.name, IsEqual.equalTo("hello"))
-        MatcherAssert.assertThat(record.score, IsEqual.equalTo(8.0))
+        assertThat(record!!.id, equalTo(10L))
+        assertThat(record.color, equalTo(20))
+        assertThat(record.name, equalTo("hello"))
+        assertThat(record.score, equalTo(8.0))
     }
 
     @Test
@@ -71,11 +71,11 @@ class RepositoryTest : BaseUnitTest() {
             score = 5.0
         }
         repository.save(record)
-        MatcherAssert.assertThat(record, IsEqual.equalTo(repository.find(50L)))
+        assertThat(record, equalTo(repository.find(50L)))
         record.name = "world"
         record.score = 128.0
         repository.save(record)
-        MatcherAssert.assertThat(record, IsEqual.equalTo(repository.find(50L)))
+        assertThat(record, equalTo(repository.find(50L)))
     }
 
     @Test
@@ -88,9 +88,8 @@ class RepositoryTest : BaseUnitTest() {
         }
         repository.save(record)
         val retrieved = repository.find(record.id!!)
-        Assert.assertNotNull(retrieved)
-        Assert.assertNull(retrieved!!.name)
-        MatcherAssert.assertThat(record, IsEqual.equalTo(retrieved))
+        assertNull(retrieved!!.name)
+        assertThat(record, equalTo(retrieved))
     }
 
     @Test
@@ -108,8 +107,8 @@ class RepositoryTest : BaseUnitTest() {
             score = 2.0
         }
         repository.save(r2)
-        MatcherAssert.assertThat(r1.id, IsEqual.equalTo(1L))
-        MatcherAssert.assertThat(r2.id, IsEqual.equalTo(2L))
+        assertThat(r1.id, equalTo(1L))
+        assertThat(r2.id, equalTo(2L))
     }
 
     @Test
@@ -128,14 +127,14 @@ class RepositoryTest : BaseUnitTest() {
         }
         repository.save(rec2)
         val id = rec1.id!!
-        MatcherAssert.assertThat(rec1, IsEqual.equalTo(repository.find(id)))
-        MatcherAssert.assertThat(rec2, IsEqual.equalTo(repository.find(rec2.id!!)))
+        assertThat(rec1, equalTo(repository.find(id)))
+        assertThat(rec2, equalTo(repository.find(rec2.id!!)))
         repository.remove(rec1)
-        MatcherAssert.assertThat(rec1.id, IsEqual.equalTo(null))
-        Assert.assertNull(repository.find(id))
-        MatcherAssert.assertThat(rec2, IsEqual.equalTo(repository.find(rec2.id!!)))
+        assertThat(rec1.id, equalTo(null))
+        assertNull(repository.find(id))
+        assertThat(rec2, equalTo(repository.find(rec2.id!!)))
         repository.remove(rec1) // should have no effect
-        Assert.assertNull(repository.find(id))
+        assertNull(repository.find(id))
     }
 
     @Table(name = "tests")

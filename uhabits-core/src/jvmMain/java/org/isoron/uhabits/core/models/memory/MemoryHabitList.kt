@@ -151,16 +151,18 @@ class MemoryHabitList : HabitList {
         }
         val statusComparatorAsc =
             Comparator { h1: Habit, h2: Habit -> statusComparatorDesc.compare(h2, h1) }
-        if (order === Order.BY_POSITION) return positionComparator
-        if (order === Order.BY_NAME_ASC) return nameComparatorAsc
-        if (order === Order.BY_NAME_DESC) return nameComparatorDesc
-        if (order === Order.BY_COLOR_ASC) return colorComparatorAsc
-        if (order === Order.BY_COLOR_DESC) return colorComparatorDesc
-        if (order === Order.BY_SCORE_DESC) return scoreComparatorDesc
-        if (order === Order.BY_SCORE_ASC) return scoreComparatorAsc
-        if (order === Order.BY_STATUS_DESC) return statusComparatorDesc
-        if (order === Order.BY_STATUS_ASC) return statusComparatorAsc
-        throw IllegalStateException()
+        return when {
+            order === Order.BY_POSITION -> positionComparator
+            order === Order.BY_NAME_ASC -> nameComparatorAsc
+            order === Order.BY_NAME_DESC -> nameComparatorDesc
+            order === Order.BY_COLOR_ASC -> colorComparatorAsc
+            order === Order.BY_COLOR_DESC -> colorComparatorDesc
+            order === Order.BY_SCORE_DESC -> scoreComparatorDesc
+            order === Order.BY_SCORE_ASC -> scoreComparatorAsc
+            order === Order.BY_STATUS_DESC -> statusComparatorDesc
+            order === Order.BY_STATUS_ASC -> statusComparatorAsc
+            else -> throw IllegalStateException()
+        }
     }
 
     @Synchronized

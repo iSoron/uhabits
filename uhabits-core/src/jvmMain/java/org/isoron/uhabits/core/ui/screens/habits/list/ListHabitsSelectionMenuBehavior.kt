@@ -37,7 +37,7 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     var commandRunner: CommandRunner
 ) {
     fun canArchive(): Boolean {
-        for ((_, _, _, _, isArchived) in adapter.selected) if (isArchived) return false
+        for (habit in adapter.selected) if (habit.isArchived) return false
         return true
     }
 
@@ -46,7 +46,7 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     }
 
     fun canUnarchive(): Boolean {
-        for ((_, _, _, _, isArchived) in adapter.selected) if (!isArchived) return false
+        for (habit in adapter.selected) if (!habit.isArchived) return false
         return true
     }
 
@@ -56,23 +56,21 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     }
 
     fun onChangeColor() {
-        val selected = adapter.selected
-        val (color) = selected[0]
+        val (color) = adapter.selected[0]
         screen.showColorPicker(color) { selectedColor: PaletteColor ->
-            commandRunner.run(ChangeHabitColorCommand(habitList, selected, selectedColor))
+            commandRunner.run(ChangeHabitColorCommand(habitList, adapter.selected, selectedColor))
             adapter.clearSelection()
         }
     }
 
     fun onDeleteHabits() {
-        val selected = adapter.selected
         screen.showDeleteConfirmationScreen(
             {
-                adapter.performRemove(selected)
-                commandRunner.run(DeleteHabitsCommand(habitList, selected))
+                adapter.performRemove(adapter.selected)
+                commandRunner.run(DeleteHabitsCommand(habitList, adapter.selected))
                 adapter.clearSelection()
             },
-            selected.size
+            adapter.selected.size
         )
     }
 

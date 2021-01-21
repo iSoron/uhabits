@@ -33,16 +33,17 @@ import org.junit.runner.RunWith
 class ScoreChartTest : BaseViewTest() {
     private lateinit var habit: Habit
     private lateinit var view: ScoreChart
+
     @Before
     override fun setUp() {
         super.setUp()
         fixtures.purgeHabits(habitList)
         habit = fixtures.createLongHabit()
-        val (scores, bucketSize, _, color) = buildState(habit, prefs.firstWeekdayInt, 0)
+        val state = buildState(habit, prefs.firstWeekdayInt, 0)
         view = ScoreChart(targetContext).apply {
-            setScores(scores.toMutableList())
-            setColor(color.toFixedAndroidColor())
-            setBucketSize(bucketSize)
+            setScores(state.scores)
+            setColor(state.color.toFixedAndroidColor())
+            setBucketSize(state.bucketSize)
         }
         measureView(view, dpToPixels(300), dpToPixels(200))
     }
@@ -71,12 +72,8 @@ class ScoreChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withMonthlyBucket() {
-        val (scores, bucketSize) = buildState(
-            habit,
-            prefs.firstWeekdayInt,
-            2
-        )
-        view.setScores(scores.toMutableList())
+        val (scores, bucketSize) = buildState(habit, prefs.firstWeekdayInt, 2)
+        view.setScores(scores)
         view.setBucketSize(bucketSize)
         view.invalidate()
         assertRenders(view, BASE_PATH + "renderMonthly.png")
@@ -92,13 +89,9 @@ class ScoreChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withYearlyBucket() {
-        val (scores, bucketSize) = buildState(
-            habit,
-            prefs.firstWeekdayInt,
-            4
-        )
-        view.setScores(scores.toMutableList())
-        view.setBucketSize(bucketSize)
+        val state = buildState(habit, prefs.firstWeekdayInt, 4)
+        view.setScores(state.scores)
+        view.setBucketSize(state.bucketSize)
         view.invalidate()
         assertRenders(view, BASE_PATH + "renderYearly.png")
     }

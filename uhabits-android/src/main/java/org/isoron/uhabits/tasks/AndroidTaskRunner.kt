@@ -75,7 +75,6 @@ class AndroidTaskRunner : TaskRunner {
         }
 
         override fun onPreExecute() {
-            // isCancelled = task.isCanceled
             if (isCancelled) return
             for (l in listeners) l.onTaskStarted(task)
             activeTasks.add(this)

@@ -22,7 +22,6 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.content.Context
 import android.graphics.text.LineBreaker.BREAK_STRATEGY_BALANCED
 import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Build.VERSION_CODES.M
 import android.os.Handler
 import android.os.Looper
@@ -159,7 +158,7 @@ class HabitCardView(
             gravity = Gravity.CENTER_VERTICAL
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            if (SDK_INT >= LOLLIPOP) elevation = dp(1f)
+            elevation = dp(1f)
 
             addView(scoreRing)
             addView(label)
@@ -167,8 +166,7 @@ class HabitCardView(
             addView(numberPanel)
 
             setOnTouchListener { v, event ->
-                if (SDK_INT >= LOLLIPOP)
-                    v.background.setHotspot(event.x, event.y)
+                v.background.setHotspot(event.x, event.y)
                 false
             }
         }
@@ -247,7 +245,7 @@ class HabitCardView(
 
     private fun triggerRipple(x: Float, y: Float) {
         val background = innerFrame.background
-        if (SDK_INT >= LOLLIPOP) background.setHotspot(x, y)
+        background.setHotspot(x, y)
         background.state = intArrayOf(
             android.R.attr.state_pressed,
             android.R.attr.state_enabled
@@ -256,14 +254,6 @@ class HabitCardView(
     }
 
     private fun updateBackground(isSelected: Boolean) {
-        if (SDK_INT < LOLLIPOP) {
-            val background = when (isSelected) {
-                true -> sres.getDrawable(R.attr.selectedBackground)
-                false -> sres.getDrawable(R.attr.cardBackground)
-            }
-            innerFrame.setBackgroundDrawable(background)
-            return
-        }
 
         val background = when (isSelected) {
             true -> R.drawable.selected_box

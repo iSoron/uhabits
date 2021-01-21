@@ -23,8 +23,8 @@ import androidx.test.filters.MediumTest
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.core.ui.screens.habits.list.HintList
 import org.junit.Before
@@ -36,6 +36,7 @@ import org.junit.runner.RunWith
 class HintViewTest : BaseViewTest() {
     private lateinit var view: HintView
     private lateinit var list: HintList
+
     @Before
     override fun setUp() {
         super.setUp()
@@ -58,10 +59,10 @@ class HintViewTest : BaseViewTest() {
     @Test
     @Throws(Exception::class)
     fun testClick() {
-        MatcherAssert.assertThat(view.alpha, CoreMatchers.equalTo(1f))
+        assertThat(view.alpha, equalTo(1f))
         view.performClick()
         skipAnimation(view)
-        MatcherAssert.assertThat(view.alpha, CoreMatchers.equalTo(0f))
+        assertThat(view.alpha, equalTo(0f))
     }
 
     companion object {

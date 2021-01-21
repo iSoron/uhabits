@@ -30,12 +30,12 @@ import javax.annotation.concurrent.ThreadSafe
 @ThreadSafe
 abstract class HabitList : Iterable<Habit> {
     val observable: ModelObservable
+
     @JvmField
     protected val filter: HabitMatcher
 
     /**
      * Creates a new HabitList.
-     *
      *
      * Depending on the implementation, this list can either be empty or be
      * populated by some pre-existing habits, for example, from a certain
@@ -53,7 +53,6 @@ abstract class HabitList : Iterable<Habit> {
 
     /**
      * Inserts a new habit in the list.
-     *
      *
      * If the id of the habit is null, the list will assign it a new id, which
      * is guaranteed to be unique in the scope of the list. If id is not null,
@@ -115,7 +114,6 @@ abstract class HabitList : Iterable<Habit> {
     /**
      * Removes the given habit from the list.
      *
-     *
      * If the given habit is not in the list, does nothing.
      *
      * @param h the habit to be removed.
@@ -151,7 +149,6 @@ abstract class HabitList : Iterable<Habit> {
     /**
      * Notifies the list that a certain list of habits has been modified.
      *
-     *
      * Depending on the implementation, this operation might trigger a write to
      * disk, or do nothing at all. To make sure that the habits get persisted,
      * this operation must be called.
@@ -162,7 +159,6 @@ abstract class HabitList : Iterable<Habit> {
 
     /**
      * Notifies the list that a certain habit has been modified.
-     *
      *
      * See [.update] for more details.
      *
@@ -212,6 +208,14 @@ abstract class HabitList : Iterable<Habit> {
 
     abstract fun resort()
     enum class Order {
-        BY_NAME_ASC, BY_NAME_DESC, BY_COLOR_ASC, BY_COLOR_DESC, BY_SCORE_ASC, BY_SCORE_DESC, BY_STATUS_ASC, BY_STATUS_DESC, BY_POSITION
+        BY_NAME_ASC,
+        BY_NAME_DESC,
+        BY_COLOR_ASC,
+        BY_COLOR_DESC,
+        BY_SCORE_ASC,
+        BY_SCORE_DESC,
+        BY_STATUS_ASC,
+        BY_STATUS_DESC,
+        BY_POSITION
     }
 }

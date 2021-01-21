@@ -29,7 +29,7 @@ import org.isoron.uhabits.core.models.sqlite.SQLiteEntryList
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 
 class HabitFixtures(private val modelFactory: ModelFactory, private val habitList: HabitList) {
-    var NON_DAILY_HABIT_CHECKS = booleanArrayOf(
+    private var NON_DAILY_HABIT_CHECKS = booleanArrayOf(
         true, false, false, true, true, true, false, false, true, true
     )
 

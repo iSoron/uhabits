@@ -53,10 +53,6 @@ constructor(
         }
     }
 
-    // override fun getCurrentTheme(): Theme {
-    //     return currentTheme
-    // }
-
     override fun applyDarkTheme() {
         currentTheme = DarkTheme()
         context.setTheme(R.style.AppBaseThemeDark)

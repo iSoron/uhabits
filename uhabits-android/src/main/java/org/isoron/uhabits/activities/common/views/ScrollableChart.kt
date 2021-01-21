@@ -37,10 +37,10 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
         private set
     private var scrollerBucketSize = 1
     private var direction = 1
-    private var detector: GestureDetector? = null
-    private var scroller: Scroller? = null
-    private var scrollAnimator: ValueAnimator? = null
-    private var scrollController: ScrollController? = null
+    private lateinit var detector: GestureDetector
+    private lateinit var scroller: Scroller
+    private lateinit var scrollAnimator: ValueAnimator
+    private lateinit var scrollController: ScrollController
     private var maxDataOffset = 10000
 
     constructor(context: Context?) : super(context) {
@@ -52,11 +52,11 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
     }
 
     override fun onAnimationUpdate(animation: ValueAnimator) {
-        if (!scroller!!.isFinished) {
-            scroller!!.computeScrollOffset()
+        if (!scroller.isFinished) {
+            scroller.computeScrollOffset()
             updateDataOffset()
         } else {
-            scrollAnimator!!.cancel()
+            scrollAnimator.cancel()
         }
     }
 
@@ -70,9 +70,9 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
         velocityX: Float,
         velocityY: Float
     ): Boolean {
-        scroller!!.fling(
-            scroller!!.currX,
-            scroller!!.currY,
+        scroller.fling(
+            scroller.currX,
+            scroller.currY,
             direction * velocityX.toInt() / 2,
             0,
             0,
@@ -81,13 +81,13 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
             0
         )
         invalidate()
-        scrollAnimator!!.duration = scroller!!.duration.toLong()
-        scrollAnimator!!.start()
+        scrollAnimator.duration = scroller.duration.toLong()
+        scrollAnimator.start()
         return false
     }
 
     private val maxX: Int
-        private get() = maxDataOffset * scrollerBucketSize
+        get() = maxDataOffset * scrollerBucketSize
 
     public override fun onRestoreInstanceState(state: Parcelable) {
         if (state !is BundleSavedState) {
@@ -99,16 +99,16 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
         direction = state.bundle.getInt("direction")
         dataOffset = state.bundle.getInt("dataOffset")
         maxDataOffset = state.bundle.getInt("maxDataOffset")
-        scroller!!.startScroll(0, 0, x, y, 0)
-        scroller!!.computeScrollOffset()
+        scroller.startScroll(0, 0, x, y, 0)
+        scroller.computeScrollOffset()
         super.onRestoreInstanceState(state.superState)
     }
 
     public override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
         val bundle = Bundle().apply {
-            putInt("x", scroller!!.currX)
-            putInt("y", scroller!!.currY)
+            putInt("x", scroller.currX)
+            putInt("y", scroller.currY)
             putInt("dataOffset", dataOffset)
             putInt("direction", direction)
             putInt("maxDataOffset", maxDataOffset)
@@ -124,15 +124,15 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
             parent?.requestDisallowInterceptTouchEvent(true)
         }
         dx *= -direction
-        dx = min(dx, (maxX - scroller!!.currX).toFloat())
-        scroller!!.startScroll(
-            scroller!!.currX,
-            scroller!!.currY,
+        dx = min(dx, (maxX - scroller.currX).toFloat())
+        scroller.startScroll(
+            scroller.currX,
+            scroller.currY,
             dx.toInt(),
             dy.toInt(),
             0
         )
-        scroller!!.computeScrollOffset()
+        scroller.computeScrollOffset()
         updateDataOffset()
         return true
     }
@@ -143,7 +143,7 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return detector!!.onTouchEvent(event)
+        return detector.onTouchEvent(event)
     }
 
     fun setScrollDirection(direction: Int) {
@@ -155,11 +155,11 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
     fun setMaxDataOffset(maxDataOffset: Int) {
         this.maxDataOffset = maxDataOffset
         dataOffset = min(dataOffset, maxDataOffset)
-        scrollController!!.onDataOffsetChanged(dataOffset)
+        scrollController.onDataOffsetChanged(dataOffset)
         postInvalidate()
     }
 
-    fun setScrollController(scrollController: ScrollController?) {
+    fun setScrollController(scrollController: ScrollController) {
         this.scrollController = scrollController
     }
 
@@ -177,18 +177,18 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
     }
 
     fun reset() {
-        scroller!!.finalX = 0
-        scroller!!.computeScrollOffset()
+        scroller.finalX = 0
+        scroller.computeScrollOffset()
         updateDataOffset()
     }
 
     private fun updateDataOffset() {
-        var newDataOffset = scroller!!.currX / scrollerBucketSize
+        var newDataOffset = scroller.currX / scrollerBucketSize
         newDataOffset = max(0, newDataOffset)
         newDataOffset = min(maxDataOffset, newDataOffset)
         if (newDataOffset != dataOffset) {
             dataOffset = newDataOffset
-            scrollController!!.onDataOffsetChanged(dataOffset)
+            scrollController.onDataOffsetChanged(dataOffset)
             postInvalidate()
         }
     }

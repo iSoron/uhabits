@@ -34,12 +34,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Random
+import kotlin.math.abs
 
 open class BaseViewTest : BaseAndroidTest() {
     var similarityCutoff = 0.00018
-    override fun setUp() {
-        super.setUp()
-    }
 
     @Throws(IOException::class)
     protected fun assertRenders(view: View, expectedImagePath: String) {
@@ -134,10 +132,10 @@ open class BaseViewTest : BaseAndroidTest() {
                 if (random.nextInt(4) != 0) continue
                 val argb1 = colorToArgb(b1.getPixel(x, y))
                 val argb2 = colorToArgb(b2.getPixel(x, y))
-                distance += Math.abs(argb1[0] - argb2[0]).toDouble()
-                distance += Math.abs(argb1[1] - argb2[1]).toDouble()
-                distance += Math.abs(argb1[2] - argb2[2]).toDouble()
-                distance += Math.abs(argb1[3] - argb2[3]).toDouble()
+                distance += abs(argb1[0] - argb2[0]).toDouble()
+                distance += abs(argb1[1] - argb2[1]).toDouble()
+                distance += abs(argb1[2] - argb2[2]).toDouble()
+                distance += abs(argb1[3] - argb2[3]).toDouble()
             }
         }
         distance /= 255.0 * 16 * b1.width * b1.height

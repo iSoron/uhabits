@@ -19,12 +19,11 @@
 package org.isoron.uhabits.database
 
 import android.database.sqlite.SQLiteDatabase
-import org.hamcrest.MatcherAssert
-import org.hamcrest.core.IsEqual
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.BaseAndroidTest
 import org.isoron.uhabits.core.database.Cursor
 import org.junit.Test
-import java.util.HashMap
 
 class AndroidDatabaseTest : BaseAndroidTest() {
     private lateinit var db: AndroidDatabase
@@ -37,13 +36,11 @@ class AndroidDatabaseTest : BaseAndroidTest() {
     @Test
     @Throws(Exception::class)
     fun testInsert() {
-        val map = HashMap<String, Any?>()
-        map["name"] = "asd"
-        map["color"] = null
+        val map = mapOf(Pair("name", "asd"), Pair("color", null))
         db.insert("test", map)
         val c: Cursor = db.query("select * from test")
         c.moveToNext()
-        assertNull(c.getInt(0))
-        MatcherAssert.assertThat(c.getString(1), IsEqual.equalTo("asd"))
+        c.getInt(0)!!
+        assertThat(c.getString(1), equalTo("asd"))
     }
 }

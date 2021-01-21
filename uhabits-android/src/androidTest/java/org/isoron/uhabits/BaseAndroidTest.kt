@@ -27,8 +27,8 @@ import androidx.test.filters.MediumTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import junit.framework.TestCase
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.CoreMatchers.hasItems
+import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
@@ -109,9 +109,9 @@ abstract class BaseAndroidTest : TestCase() {
         val manager = AppWidgetManager.getInstance(targetContext)
         val installedProviders: MutableList<ComponentName> = LinkedList()
         for (info in manager.installedProviders) installedProviders.add(info.provider)
-        MatcherAssert.assertThat<List<ComponentName>>(
+        assertThat<List<ComponentName>>(
             installedProviders,
-            CoreMatchers.hasItems(provider)
+            hasItems(provider)
         )
     }
 
@@ -208,7 +208,6 @@ abstract class BaseAndroidTest : TestCase() {
 
     @Throws(Exception::class)
     fun restoreSystemTime() {
-        if (savedCalendar == null) throw NullPointerException()
         setSystemTime(savedCalendar)
     }
 

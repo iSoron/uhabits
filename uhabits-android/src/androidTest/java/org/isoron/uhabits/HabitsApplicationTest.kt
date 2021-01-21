@@ -20,8 +20,8 @@ package org.isoron.uhabits
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
@@ -35,6 +35,6 @@ class HabitsApplicationTest : BaseAndroidTest() {
         val msg = "LOGCAT TEST"
         RuntimeException(msg).printStackTrace()
         val log = AndroidBugReporter(targetContext).getLogcat()
-        MatcherAssert.assertThat(log, CoreMatchers.containsString(msg))
+        assertThat(log, containsString(msg))
     }
 }
