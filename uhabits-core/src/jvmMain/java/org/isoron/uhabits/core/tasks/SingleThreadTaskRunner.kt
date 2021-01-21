@@ -21,6 +21,9 @@ package org.isoron.uhabits.core.tasks
 import java.util.LinkedList
 
 class SingleThreadTaskRunner : TaskRunner {
+    override val activeTaskCount: Int
+        get() = 0
+
     private val listeners: MutableList<TaskRunner.Listener> = LinkedList()
     override fun addListener(listener: TaskRunner.Listener) {
         listeners.add(listener)
@@ -35,10 +38,6 @@ class SingleThreadTaskRunner : TaskRunner {
             task.onPostExecute()
         }
         for (l in listeners) l.onTaskFinished(task)
-    }
-
-    override fun getActiveTaskCount(): Int {
-        return 0
     }
 
     override fun publishProgress(task: Task, progress: Int) {

@@ -40,8 +40,8 @@ class TaskProgressBar(
         isIndeterminate = true
     }
 
-    override fun onTaskStarted(task: Task?) = update()
-    override fun onTaskFinished(task: Task?) = update()
+    override fun onTaskStarted(task: Task) = update()
+    override fun onTaskFinished(task: Task) = update()
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

@@ -16,27 +16,17 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.tasks
 
-package org.isoron.uhabits.core.tasks;
+interface TaskRunner {
+    fun addListener(listener: Listener)
+    fun removeListener(listener: Listener)
+    fun execute(task: Task)
+    fun publishProgress(task: Task, progress: Int)
+    val activeTaskCount: Int
 
-import androidx.annotation.*;
-
-public interface Task
-{
-    default void cancel() {}
-
-    default boolean isCanceled()
-    {
-        return false;
+    interface Listener {
+        fun onTaskStarted(task: Task)
+        fun onTaskFinished(task: Task)
     }
-
-    void doInBackground();
-
-    default void onAttached(@NonNull TaskRunner runner) {}
-
-    default void onPostExecute() {}
-
-    default void onPreExecute() {}
-
-    default void onProgressUpdate(int value) {}
 }

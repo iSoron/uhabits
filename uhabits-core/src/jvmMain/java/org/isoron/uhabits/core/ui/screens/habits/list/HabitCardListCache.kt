@@ -136,8 +136,9 @@ class HabitCardListCache @Inject constructor(
     @Synchronized
     fun refreshAllHabits() {
         if (currentFetchTask != null) currentFetchTask!!.cancel()
-        currentFetchTask = RefreshTask()
-        taskRunner.execute(currentFetchTask)
+        val task = RefreshTask()
+        currentFetchTask = task
+        taskRunner.execute(task)
     }
 
     @Synchronized

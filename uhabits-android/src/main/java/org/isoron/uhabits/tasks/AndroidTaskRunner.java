@@ -23,6 +23,8 @@ import android.os.*;
 
 import org.isoron.uhabits.core.*;
 import org.isoron.uhabits.core.tasks.*;
+import org.isoron.uhabits.core.tasks.Task;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -53,17 +55,18 @@ public class AndroidTaskRunner implements TaskRunner
     }
 
     @Override
-    public void addListener(Listener listener)
+    public void addListener(@NotNull Listener listener)
     {
         listeners.add(listener);
     }
 
     @Override
-    public void execute(Task task)
+    public void execute(@NotNull Task task)
     {
         task.onAttached(this);
         new CustomAsyncTask(task).execute();
     }
+
 
     @Override
     public int getActiveTaskCount()
@@ -72,7 +75,7 @@ public class AndroidTaskRunner implements TaskRunner
     }
 
     @Override
-    public void publishProgress(Task task, int progress)
+    public void publishProgress(@NotNull Task task, int progress)
     {
         CustomAsyncTask asyncTask = taskToAsyncTask.get(task);
         if (asyncTask == null) return;
@@ -80,10 +83,11 @@ public class AndroidTaskRunner implements TaskRunner
     }
 
     @Override
-    public void removeListener(Listener listener)
+    public void removeListener(@NotNull Listener listener)
     {
         listeners.remove(listener);
     }
+
 
     private class CustomAsyncTask extends AsyncTask<Void, Integer, Void>
     {
