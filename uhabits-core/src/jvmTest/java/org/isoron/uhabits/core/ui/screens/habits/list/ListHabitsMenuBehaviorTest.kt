@@ -19,6 +19,7 @@
 package org.isoron.uhabits.core.ui.screens.habits.list
 
 import com.nhaarman.mockitokotlin2.KArgumentCaptor
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.clearInvocations
 import com.nhaarman.mockitokotlin2.mock
@@ -125,7 +126,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         whenever(adapter.primaryOrder).thenReturn(HabitList.Order.BY_STATUS_ASC)
         behavior.onSortByStatus()
         verify(adapter).primaryOrder = orderCaptor.capture()
-        verify(adapter, never()).secondaryOrder
+        verify(adapter, never()).secondaryOrder = any()
         assertThat(orderCaptor.lastValue, equalTo(HabitList.Order.BY_STATUS_DESC))
     }
 
