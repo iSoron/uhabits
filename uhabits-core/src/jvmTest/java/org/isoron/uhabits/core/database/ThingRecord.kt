@@ -5,18 +5,18 @@ import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ToStringBuilder
 
 @Table(name = "tests")
-open class ThingRecord {
+class ThingRecord {
     @field:Column
-    open var id: Long? = null
+    var id: Long? = null
 
     @field:Column
-    open var name: String? = null
+    var name: String? = null
 
     @field:Column(name = "color_number")
-    open var color: Int? = null
+    var color: Int? = null
 
     @field:Column
-    open var score: Double? = null
+    var score: Double? = null
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
