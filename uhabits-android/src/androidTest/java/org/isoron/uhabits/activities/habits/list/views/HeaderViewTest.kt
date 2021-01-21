@@ -22,44 +22,44 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import org.isoron.uhabits.BaseViewTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class HeaderViewTest : BaseViewTest() {
-    private var view: HeaderView? = null
+    private lateinit var view: HeaderView
 
     @Before
     override fun setUp() {
         super.setUp()
         prefs = mock()
         view = HeaderView(targetContext, prefs, mock())
-        view!!.buttonCount = 5
+        view.buttonCount = 5
         measureView(view, dpToPixels(600), dpToPixels(48))
     }
 
     @Test
     @Throws(Exception::class)
     fun testRender() {
-        Mockito.`when`(prefs.isCheckmarkSequenceReversed).thenReturn(false)
+        whenever(prefs.isCheckmarkSequenceReversed).thenReturn(false)
         assertRenders(view, PATH + "render.png")
-        Mockito.verify(prefs).isCheckmarkSequenceReversed
-        Mockito.verifyNoMoreInteractions(prefs)
+        verify(prefs).isCheckmarkSequenceReversed
+        verifyNoMoreInteractions(prefs)
     }
 
     @Test
     @Throws(Exception::class)
     fun testRender_reverse() {
         doReturn(true).whenever(prefs).isCheckmarkSequenceReversed
-        // Mockito.`when`(prefs.isCheckmarkSequenceReversed).thenReturn(true)
         assertRenders(view, PATH + "render_reverse.png")
-        Mockito.verify(prefs).isCheckmarkSequenceReversed
-        Mockito.verifyNoMoreInteractions(prefs)
+        verify(prefs).isCheckmarkSequenceReversed
+        verifyNoMoreInteractions(prefs)
     }
 
     companion object {

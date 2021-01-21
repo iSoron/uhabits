@@ -41,6 +41,8 @@ import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.utils.InterfaceUtils.spToPixels
 import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.isoron.uhabits.utils.StyledResources
+import kotlin.math.min
+import kotlin.math.roundToLong
 
 class RingView : View {
     private var color: Int
@@ -140,7 +142,7 @@ class RingView : View {
         }
         pRing!!.color = color
         rect!![0f, 0f, diameter.toFloat()] = diameter.toFloat()
-        val angle = 360 * Math.round(percentage / precision) * precision
+        val angle = 360 * (percentage / precision).roundToLong() * precision
         activeCanvas!!.drawArc(rect!!, -90f, angle, true, pRing!!)
         pRing!!.color = inactiveColor!!
         activeCanvas.drawArc(rect!!, angle - 90, 360 - angle, true, pRing!!)
@@ -167,7 +169,7 @@ class RingView : View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
-        diameter = Math.min(height, width)
+        diameter = min(height, width)
         pRing!!.textSize = textSize
         em = pRing!!.measureText("M")
         setMeasuredDimension(diameter, diameter)

@@ -201,7 +201,7 @@ abstract class BaseAndroidTest : TestCase() {
         Thread.sleep(1000)
     }
 
-    private var savedCalendar: GregorianCalendar? = null
+    private lateinit var savedCalendar: GregorianCalendar
     fun saveSystemTime() {
         savedCalendar = GregorianCalendar()
     }
@@ -209,7 +209,7 @@ abstract class BaseAndroidTest : TestCase() {
     @Throws(Exception::class)
     fun restoreSystemTime() {
         if (savedCalendar == null) throw NullPointerException()
-        setSystemTime(savedCalendar!!)
+        setSystemTime(savedCalendar)
     }
 
     companion object {

@@ -119,16 +119,12 @@ class MemoryHabitList : HabitList {
 
     private fun getComparatorByOrder(order: Order): Comparator<Habit> {
         val nameComparatorAsc = Comparator<Habit> { habit1, habit2 ->
-            habit1.name.compareTo(
-                habit2.name
-            )
+            habit1.name.compareTo(habit2.name)
         }
         val nameComparatorDesc =
             Comparator { h1: Habit, h2: Habit -> nameComparatorAsc.compare(h2, h1) }
         val colorComparatorAsc = Comparator<Habit> { (color1), (color2) ->
-            color1.compareTo(
-                color2
-            )
+            color1.compareTo(color2)
         }
         val colorComparatorDesc =
             Comparator { h1: Habit, h2: Habit -> colorComparatorAsc.compare(h2, h1) }
@@ -140,9 +136,7 @@ class MemoryHabitList : HabitList {
         val scoreComparatorAsc =
             Comparator { h1: Habit, h2: Habit -> scoreComparatorDesc.compare(h2, h1) }
         val positionComparator =
-            Comparator<Habit> { habit1, habit2 ->
-                habit1.position.compareTo(habit2.position)
-            }
+            Comparator<Habit> { habit1, habit2 -> habit1.position.compareTo(habit2.position) }
         val statusComparatorDesc = Comparator { h1: Habit, h2: Habit ->
             if (h1.isCompletedToday() != h2.isCompletedToday()) {
                 return@Comparator if (h1.isCompletedToday()) -1 else 1
@@ -206,7 +200,7 @@ class MemoryHabitList : HabitList {
     }
 
     @Synchronized
-    override fun update(habits: List<Habit?>?) {
+    override fun update(habits: List<Habit>) {
         resort()
     }
 

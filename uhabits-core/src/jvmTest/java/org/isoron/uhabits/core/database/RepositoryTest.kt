@@ -29,16 +29,16 @@ import org.junit.Before
 import org.junit.Test
 
 class RepositoryTest : BaseUnitTest() {
-    private var repository: Repository<ThingRecord>? = null
-    private var db: Database? = null
+    private lateinit var repository: Repository<ThingRecord>
+    private lateinit var db: Database
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         db = buildMemoryDatabase()
-        repository = Repository(ThingRecord::class.java, db!!)
-        db!!.execute("drop table if exists tests")
-        db!!.execute(
+        repository = Repository(ThingRecord::class.java, db)
+        db.execute("drop table if exists tests")
+        db.execute(
             "create table tests(" +
                 "id integer not null primary key autoincrement, " +
                 "color_number integer not null, score float not null, " +
@@ -49,11 +49,11 @@ class RepositoryTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun testFind() {
-        db!!.execute(
+        db.execute(
             "insert into tests(id, color_number, name, score) " +
                 "values (10, 20, 'hello', 8.0)"
         )
-        val record = repository!!.find(10L)
+        val record = repository.find(10L)
         Assert.assertNotNull(record)
         MatcherAssert.assertThat(record!!.id, IsEqual.equalTo(10L))
         MatcherAssert.assertThat(record.color, IsEqual.equalTo(20))
@@ -64,38 +64,30 @@ class RepositoryTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun testSave_withId() {
-        val record = ThingRecord()
-        record.id = 50L
-        record.color = 10
-        record.name = "hello"
-        record.score = 5.0
-        repository!!.save(record)
-        MatcherAssert.assertThat(
-            record,
-            IsEqual.equalTo(
-                repository!!.find(50L)
-            )
-        )
+        val record = ThingRecord().apply {
+            id = 50L
+            color = 10
+            name = "hello"
+            score = 5.0
+        }
+        repository.save(record)
+        MatcherAssert.assertThat(record, IsEqual.equalTo(repository.find(50L)))
         record.name = "world"
         record.score = 128.0
-        repository!!.save(record)
-        MatcherAssert.assertThat(
-            record,
-            IsEqual.equalTo(
-                repository!!.find(50L)
-            )
-        )
+        repository.save(record)
+        MatcherAssert.assertThat(record, IsEqual.equalTo(repository.find(50L)))
     }
 
     @Test
     @Throws(Exception::class)
     fun testSave_withNull() {
-        val record = ThingRecord()
-        record.color = 50
-        record.name = null
-        record.score = 12.0
-        repository!!.save(record)
-        val retrieved = repository!!.find(record.id!!)
+        val record = ThingRecord().apply {
+            color = 50
+            name = null
+            score = 12.0
+        }
+        repository.save(record)
+        val retrieved = repository.find(record.id!!)
         Assert.assertNotNull(retrieved)
         Assert.assertNull(retrieved!!.name)
         MatcherAssert.assertThat(record, IsEqual.equalTo(retrieved))
@@ -104,16 +96,18 @@ class RepositoryTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun testSave_withoutId() {
-        val r1 = ThingRecord()
-        r1.color = 10
-        r1.name = "hello"
-        r1.score = 16.0
-        repository!!.save(r1)
-        val r2 = ThingRecord()
-        r2.color = 20
-        r2.name = "world"
-        r2.score = 2.0
-        repository!!.save(r2)
+        val r1 = ThingRecord().apply {
+            color = 10
+            name = "hello"
+            score = 16.0
+        }
+        repository.save(r1)
+        val r2 = ThingRecord().apply {
+            color = 20
+            name = "world"
+            score = 2.0
+        }
+        repository.save(r2)
         MatcherAssert.assertThat(r1.id, IsEqual.equalTo(1L))
         MatcherAssert.assertThat(r2.id, IsEqual.equalTo(2L))
     }
@@ -121,40 +115,27 @@ class RepositoryTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun testRemove() {
-        val rec1 = ThingRecord()
-        rec1.color = 10
-        rec1.name = "hello"
-        rec1.score = 16.0
-        repository!!.save(rec1)
-        val rec2 = ThingRecord()
-        rec2.color = 20
-        rec2.name = "world"
-        rec2.score = 32.0
-        repository!!.save(rec2)
+        val rec1 = ThingRecord().apply {
+            color = 10
+            name = "hello"
+            score = 16.0
+        }
+        repository.save(rec1)
+        val rec2 = ThingRecord().apply {
+            color = 20
+            name = "world"
+            score = 32.0
+        }
+        repository.save(rec2)
         val id = rec1.id!!
-        MatcherAssert.assertThat(
-            rec1,
-            IsEqual.equalTo(
-                repository!!.find(id)
-            )
-        )
-        MatcherAssert.assertThat(
-            rec2,
-            IsEqual.equalTo(
-                repository!!.find(rec2.id!!)
-            )
-        )
-        repository!!.remove(rec1)
+        MatcherAssert.assertThat(rec1, IsEqual.equalTo(repository.find(id)))
+        MatcherAssert.assertThat(rec2, IsEqual.equalTo(repository.find(rec2.id!!)))
+        repository.remove(rec1)
         MatcherAssert.assertThat(rec1.id, IsEqual.equalTo(null))
-        Assert.assertNull(repository!!.find(id))
-        MatcherAssert.assertThat(
-            rec2,
-            IsEqual.equalTo(
-                repository!!.find(rec2.id!!)
-            )
-        )
-        repository!!.remove(rec1) // should have no effect
-        Assert.assertNull(repository!!.find(id))
+        Assert.assertNull(repository.find(id))
+        MatcherAssert.assertThat(rec2, IsEqual.equalTo(repository.find(rec2.id!!)))
+        repository.remove(rec1) // should have no effect
+        Assert.assertNull(repository.find(id))
     }
 
     @Table(name = "tests")

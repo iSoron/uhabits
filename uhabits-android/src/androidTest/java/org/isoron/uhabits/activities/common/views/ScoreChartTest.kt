@@ -32,17 +32,18 @@ import org.junit.runner.RunWith
 @MediumTest
 class ScoreChartTest : BaseViewTest() {
     private lateinit var habit: Habit
-    private var view: ScoreChart? = null
+    private lateinit var view: ScoreChart
     @Before
     override fun setUp() {
         super.setUp()
         fixtures.purgeHabits(habitList)
         habit = fixtures.createLongHabit()
         val (scores, bucketSize, _, color) = buildState(habit, prefs.firstWeekdayInt, 0)
-        view = ScoreChart(targetContext)
-        view!!.setScores(scores.toMutableList())
-        view!!.setColor(color.toFixedAndroidColor())
-        view!!.setBucketSize(bucketSize)
+        view = ScoreChart(targetContext).apply {
+            setScores(scores.toMutableList())
+            setColor(color.toFixedAndroidColor())
+            setBucketSize(bucketSize)
+        }
         measureView(view, dpToPixels(300), dpToPixels(200))
     }
 
@@ -55,8 +56,8 @@ class ScoreChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withDataOffset() {
-        view!!.onScroll(null, null, -dpToPixels(150), 0f)
-        view!!.invalidate()
+        view.onScroll(null, null, -dpToPixels(150), 0f)
+        view.invalidate()
         assertRenders(view, BASE_PATH + "renderDataOffset.png")
     }
 
@@ -71,20 +72,20 @@ class ScoreChartTest : BaseViewTest() {
     @Throws(Throwable::class)
     fun testRender_withMonthlyBucket() {
         val (scores, bucketSize) = buildState(
-            habit!!,
+            habit,
             prefs.firstWeekdayInt,
             2
         )
-        view!!.setScores(scores.toMutableList())
-        view!!.setBucketSize(bucketSize)
-        view!!.invalidate()
+        view.setScores(scores.toMutableList())
+        view.setBucketSize(bucketSize)
+        view.invalidate()
         assertRenders(view, BASE_PATH + "renderMonthly.png")
     }
 
     @Test
     @Throws(Throwable::class)
     fun testRender_withTransparentBackground() {
-        view!!.setIsTransparencyEnabled(true)
+        view.setIsTransparencyEnabled(true)
         assertRenders(view, BASE_PATH + "renderTransparent.png")
     }
 
@@ -92,13 +93,13 @@ class ScoreChartTest : BaseViewTest() {
     @Throws(Throwable::class)
     fun testRender_withYearlyBucket() {
         val (scores, bucketSize) = buildState(
-            habit!!,
+            habit,
             prefs.firstWeekdayInt,
             4
         )
-        view!!.setScores(scores.toMutableList())
-        view!!.setBucketSize(bucketSize)
-        view!!.invalidate()
+        view.setScores(scores.toMutableList())
+        view.setBucketSize(bucketSize)
+        view.invalidate()
         assertRenders(view, BASE_PATH + "renderYearly.png")
     }
 

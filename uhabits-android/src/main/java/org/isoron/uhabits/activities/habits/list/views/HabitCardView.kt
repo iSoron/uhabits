@@ -92,9 +92,7 @@ class HabitCardView(
     var score
         get() = scoreRing.getPercentage().toDouble()
         set(value) {
-            // scoreRing.percentage = value.toFloat()
             scoreRing.setPercentage(value.toFloat())
-            // scoreRing.precision = 1.0f / 16
             scoreRing.setPrecision(1.0f / 16)
         }
 
@@ -228,7 +226,6 @@ class HabitCardView(
         }
         scoreRing.apply {
             setColor(c)
-            // color = c
         }
         checkmarkPanel.apply {
             color = c

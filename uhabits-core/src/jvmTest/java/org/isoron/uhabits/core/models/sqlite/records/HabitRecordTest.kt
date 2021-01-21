@@ -31,7 +31,7 @@ import org.junit.Test
 class HabitRecordTest : BaseUnitTest() {
     @Test
     fun testCopyRestore1() {
-        val original = modelFactory.buildHabit().apply() {
+        val original = modelFactory.buildHabit().apply {
             name = "Hello world"
             question = "Did you greet the world today?"
             color = PaletteColor(1)
@@ -50,7 +50,7 @@ class HabitRecordTest : BaseUnitTest() {
 
     @Test
     fun testCopyRestore2() {
-        val original = modelFactory.buildHabit().apply() {
+        val original = modelFactory.buildHabit().apply {
             name = "Hello world"
             question = "Did you greet the world today?"
             color = PaletteColor(5)

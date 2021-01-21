@@ -43,6 +43,7 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
     private var dialog: AlertDialog? = null
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
+        val intent = intent
         if (intent == null) finish()
         if (intent.data == null) finish()
         val app = applicationContext as HabitsApplication

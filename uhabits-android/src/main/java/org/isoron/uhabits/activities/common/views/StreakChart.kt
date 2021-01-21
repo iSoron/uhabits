@@ -37,6 +37,9 @@ import java.text.DateFormat
 import java.util.LinkedList
 import java.util.Random
 import java.util.TimeZone
+import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.min
 
 class StreakChart : View {
     private var paint: Paint? = null
@@ -72,7 +75,7 @@ class StreakChart : View {
      * @return max number of visible streaks
      */
     val maxStreakCount: Int
-        get() = Math.floor((measuredHeight / baseSize).toDouble()).toInt()
+        get() = floor((measuredHeight / baseSize).toDouble()).toInt()
 
     fun populateWithRandomData() {
         var start: Timestamp = getToday()
@@ -105,7 +108,7 @@ class StreakChart : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (streaks!!.size == 0) return
+        if (streaks!!.isEmpty()) return
         rect!![0f, 0f, internalWidth.toFloat()] = baseSize.toFloat()
         for (s in streaks!!) {
             drawRow(canvas, s, rect)
@@ -137,7 +140,7 @@ class StreakChart : View {
         val minTextSize = getDimension(context, R.dimen.tinyTextSize)
         val maxTextSize = getDimension(context, R.dimen.regularTextSize)
         val textSize = baseSize * 0.5f
-        paint!!.textSize = Math.max(Math.min(textSize, maxTextSize), minTextSize)
+        paint!!.textSize = max(min(textSize, maxTextSize), minTextSize)
         em = paint!!.fontSpacing
         textMargin = 0.5f * em
         updateMaxMinLengths()
@@ -149,8 +152,8 @@ class StreakChart : View {
         var availableWidth = internalWidth - 2 * maxLabelWidth
         if (shouldShowLabels) availableWidth -= 2 * textMargin
         var barWidth = percentage * availableWidth
-        val minBarWidth = paint!!.measureText(java.lang.Long.toString(streak.length.toLong())) + em
-        barWidth = Math.max(barWidth, minBarWidth)
+        val minBarWidth = paint!!.measureText(streak.length.toLong().toString()) + em
+        barWidth = max(barWidth, minBarWidth)
         val gap = (internalWidth - barWidth) / 2
         val paddingTopBottom = baseSize * 0.05f
         paint!!.color = percentageToColor(percentage)
@@ -168,7 +171,7 @@ class StreakChart : View {
         paint!!.color = percentageToTextColor(percentage)
         paint!!.textAlign = Paint.Align.CENTER
         canvas.drawText(
-            java.lang.Long.toString(streak.length.toLong()),
+            streak.length.toLong().toString(),
             rect.centerX(),
             yOffset,
             paint!!
@@ -189,7 +192,7 @@ class StreakChart : View {
         initColors()
         streaks = emptyList()
         val newDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM)
-        if (!isInEditMode) newDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"))
+        if (!isInEditMode) newDateFormat.timeZone = TimeZone.getTimeZone("GMT")
         dateFormat = newDateFormat
         rect = RectF()
         baseSize = resources.getDimensionPixelSize(R.dimen.baseSize)
@@ -232,11 +235,11 @@ class StreakChart : View {
         minLength = Long.MAX_VALUE
         shouldShowLabels = true
         for (s in streaks!!) {
-            maxLength = Math.max(maxLength, s.length.toLong())
-            minLength = Math.min(minLength, s.length.toLong())
+            maxLength = max(maxLength, s.length.toLong())
+            minLength = min(minLength, s.length.toLong())
             val lw1 = paint!!.measureText(dateFormat!!.format(s.start.toJavaDate()))
             val lw2 = paint!!.measureText(dateFormat!!.format(s.end.toJavaDate()))
-            maxLabelWidth = Math.max(maxLabelWidth, Math.max(lw1, lw2))
+            maxLabelWidth = max(maxLabelWidth, max(lw1, lw2))
         }
         if (internalWidth - 2 * maxLabelWidth < internalWidth * 0.25f) {
             maxLabelWidth = 0f

@@ -42,7 +42,7 @@ class NotificationTray @Inject constructor(
     private val preferences: Preferences,
     private val systemTray: SystemTray
 ) : CommandRunner.Listener, Preferences.Listener {
-    private val active: HashMap<Habit, NotificationData>
+    private val active: HashMap<Habit, NotificationData> = HashMap()
     fun cancel(habit: Habit) {
         val notificationId = getNotificationId(habit)
         systemTray.removeNotification(notificationId)
@@ -86,8 +86,7 @@ class NotificationTray @Inject constructor(
     }
 
     private fun reshowAll() {
-        for (habit in active.keys) {
-            val data = active[habit]!!
+        for ((habit, data) in active.entries) {
             taskRunner.execute(ShowNotificationTask(habit, data))
         }
     }
@@ -101,15 +100,15 @@ class NotificationTray @Inject constructor(
             reminderTime: Long
         )
 
-        fun log(msg: String?)
+        fun log(msg: String)
     }
 
     internal class NotificationData(val timestamp: Timestamp, val reminderTime: Long)
     private inner class ShowNotificationTask(private val habit: Habit, data: NotificationData) :
         Task {
         var todayValue = 0
-        private val timestamp: Timestamp
-        private val reminderTime: Long
+        private val timestamp: Timestamp = data.timestamp
+        private val reminderTime: Long = data.reminderTime
         override fun doInBackground() {
             val today = getTodayWithOffset()
             todayValue = habit.computedEntries.get(today).value
@@ -172,18 +171,9 @@ class NotificationTray @Inject constructor(
             val weekday = timestamp.weekday
             return reminderDays[weekday]
         }
-
-        init {
-            timestamp = data.timestamp
-            reminderTime = data.reminderTime
-        }
     }
 
     companion object {
         const val REMINDERS_CHANNEL_ID = "REMINDERS"
-    }
-
-    init {
-        active = HashMap()
     }
 }

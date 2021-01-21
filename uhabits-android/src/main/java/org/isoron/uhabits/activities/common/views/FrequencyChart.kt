@@ -38,6 +38,9 @@ import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.Random
 import kotlin.collections.HashMap
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 class FrequencyChart : ScrollableChart {
     private var pGrid: Paint? = null
@@ -90,8 +93,8 @@ class FrequencyChart : ScrollableChart {
 
     private fun getMaxFreq(frequency: HashMap<Timestamp, Array<Int>>): Int {
         var maxValue = 1
-        for (values in frequency.values) for (value in values) maxValue = Math.max(
-            value!!,
+        for (values in frequency.values) for (value in values) maxValue = max(
+            value,
             maxValue
         )
         return maxValue
@@ -102,7 +105,7 @@ class FrequencyChart : ScrollableChart {
         initColors()
     }
 
-    protected fun initPaints() {
+    private fun initPaints() {
         pText = Paint()
         pText!!.isAntiAlias = true
         pGraph = Paint()
@@ -155,7 +158,7 @@ class FrequencyChart : ScrollableChart {
         pGrid!!.strokeWidth = baseSize * 0.05f
         em = pText!!.fontSpacing
         columnWidth = baseSize.toFloat()
-        columnWidth = Math.max(columnWidth, maxMonthWidth * 1.2f)
+        columnWidth = max(columnWidth, maxMonthWidth * 1.2f)
         columnHeight = 8 * baseSize
         nColumns = (width / columnWidth).toInt()
         internalPaddingTop = 0
@@ -225,20 +228,20 @@ class FrequencyChart : ScrollableChart {
         // the real mark radius is scaled down by a factor depending on the maximal frequency
         val scale = 1.0f / maxFreq * value!!
         val radius = maxRadius * scale
-        val colorIndex = Math.min(colors.size - 1, Math.round((colors.size - 1) * scale))
+        val colorIndex = min((colors.size - 1), ((colors.size - 1) * scale).roundToInt())
         pGraph!!.color = colors[colorIndex]
         canvas.drawCircle(rect.centerX(), rect.centerY(), radius, pGraph!!)
     }
 
     private val maxMonthWidth: Float
-        private get() {
+        get() {
             var maxMonthWidth = 0f
             val day: GregorianCalendar =
                 getStartOfTodayCalendarWithOffset()
             for (i in 0..11) {
                 day[Calendar.MONTH] = i
                 val monthWidth = pText!!.measureText(dfMonth!!.format(day.time))
-                maxMonthWidth = Math.max(maxMonthWidth, monthWidth)
+                maxMonthWidth = max(maxMonthWidth, monthWidth)
             }
             return maxMonthWidth
         }

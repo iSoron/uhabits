@@ -101,20 +101,6 @@ abstract class HabitList : Iterable<Habit> {
     abstract var primaryOrder: Order
     abstract var secondaryOrder: Order
 
-    // /**
-    //  * Changes the order of the elements on the list.
-    //  *
-    //  * @param order the new order criterion
-    //  */
-    // abstract fun setPrimaryOrder(order: Order)
-
-    // /**
-    //  * Changes the previous order of the elements on the list.
-    //  *
-    //  * @param order the new order criterion
-    //  */
-    // abstract fun setSecondaryOrder(order: Order)
-
     /**
      * Returns the index of the given habit in the list, or -1 if the list does
      * not contain the habit.
@@ -172,7 +158,7 @@ abstract class HabitList : Iterable<Habit> {
      *
      * @param habits the list of habits that have been modified.
      */
-    abstract fun update(habits: List<Habit?>?)
+    abstract fun update(habits: List<Habit>)
 
     /**
      * Notifies the list that a certain habit has been modified.

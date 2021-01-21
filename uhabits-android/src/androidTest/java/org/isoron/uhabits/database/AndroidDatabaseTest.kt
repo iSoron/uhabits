@@ -27,11 +27,11 @@ import org.junit.Test
 import java.util.HashMap
 
 class AndroidDatabaseTest : BaseAndroidTest() {
-    private var db: AndroidDatabase? = null
+    private lateinit var db: AndroidDatabase
     override fun setUp() {
         super.setUp()
         db = AndroidDatabase(SQLiteDatabase.create(null), null)
-        db!!.execute("create table test(color int, name string)")
+        db.execute("create table test(color int, name string)")
     }
 
     @Test
@@ -40,8 +40,8 @@ class AndroidDatabaseTest : BaseAndroidTest() {
         val map = HashMap<String, Any?>()
         map["name"] = "asd"
         map["color"] = null
-        db!!.insert("test", map)
-        val c: Cursor = db!!.query("select * from test")
+        db.insert("test", map)
+        val c: Cursor = db.query("select * from test")
         c.moveToNext()
         assertNull(c.getInt(0))
         MatcherAssert.assertThat(c.getString(1), IsEqual.equalTo("asd"))

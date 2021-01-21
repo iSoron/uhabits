@@ -141,7 +141,7 @@ class ReminderScheduler @Inject constructor(
         ): SchedulerResult
 
         fun scheduleWidgetUpdate(updateTime: Long): SchedulerResult?
-        fun log(componentName: String?, msg: String?)
+        fun log(componentName: String, msg: String)
     }
 
     enum class SchedulerResult {

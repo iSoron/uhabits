@@ -62,6 +62,7 @@ class HabitCardListCache @Inject constructor(
     private val data: CacheData
     private var filteredHabits: HabitList
     private val taskRunner: TaskRunner
+
     @Synchronized
     fun cancelTasks() {
         currentFetchTask?.cancel()
@@ -195,6 +196,7 @@ class HabitCardListCache @Inject constructor(
         val habits: MutableList<Habit>
         val checkmarks: HashMap<Long?, IntArray>
         val scores: HashMap<Long?, Double>
+
         @Synchronized
         fun copyCheckmarksFrom(oldData: CacheData) {
             val empty = IntArray(checkmarkCount)
@@ -263,18 +265,14 @@ class HabitCardListCache @Inject constructor(
             if (runner != null) runner!!.publishProgress(this, -1)
             for (position in newData.habits.indices) {
                 if (isCancelled) return
-                val (_, _, _, id, _, _, _, _, _, _, _, _, _, _, computedEntries, _, scores) = newData.habits[position]
-                if (targetId != null && targetId != id) continue
-                newData.scores[id] = scores[today].value
+                val habit = newData.habits[position]
+                if (targetId != null && targetId != habit.id) continue
+                newData.scores[habit.id] = habit.scores[today].value
                 val list: MutableList<Int> = ArrayList()
-                for (
-                    (_, value) in computedEntries
-                        .getByInterval(dateFrom, today)
-                ) {
+                for ((_, value) in habit.computedEntries.getByInterval(dateFrom, today))
                     list.add(value)
-                }
                 val entries = list.toTypedArray()
-                newData.checkmarks[id] = ArrayUtils.toPrimitive(entries)
+                newData.checkmarks[habit.id] = ArrayUtils.toPrimitive(entries)
                 runner!!.publishProgress(this, position)
             }
         }

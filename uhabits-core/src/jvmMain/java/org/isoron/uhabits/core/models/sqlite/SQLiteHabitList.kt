@@ -31,7 +31,7 @@ import javax.inject.Inject
  * Implementation of a [HabitList] that is backed by SQLite.
  */
 class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory) : HabitList() {
-    private val repository: Repository<HabitRecord>
+    private val repository: Repository<HabitRecord> = modelFactory.buildHabitListRepository()
     private val list: MemoryHabitList = MemoryHabitList()
     private var loaded = false
     private fun loadRecords() {
@@ -197,13 +197,11 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     }
 
     @Synchronized
-    override fun update(habits: List<Habit?>?) {
+    override fun update(habits: List<Habit>) {
         loadRecords()
         list.update(habits)
-        for (h in habits!!) {
-            val record = repository.find(
-                h!!.id!!
-            ) ?: continue
+        for (h in habits) {
+            val record = repository.find(h.id!!) ?: continue
             record.copyFrom(h)
             repository.save(record)
         }
@@ -218,9 +216,5 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     @Synchronized
     fun reload() {
         loaded = false
-    }
-
-    init {
-        repository = modelFactory.buildHabitListRepository()
     }
 }

@@ -38,10 +38,11 @@ class TargetWidgetTest : BaseViewTest() {
         super.setUp()
         setTheme(R.style.WidgetTheme)
         prefs.widgetOpacity = 255
-        habit = fixtures.createLongNumericalHabit()
-        habit.color = PaletteColor(11)
-        habit.frequency = Frequency.WEEKLY
-        habit.recompute()
+        habit = fixtures.createLongNumericalHabit().apply {
+            color = PaletteColor(11)
+            frequency = Frequency.WEEKLY
+            recompute()
+        }
         val widget = TargetWidget(targetContext, 0, habit)
         view = convertToView(widget, 400, 400)
     }

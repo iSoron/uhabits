@@ -90,10 +90,6 @@ class HabitCardListAdapter @Inject constructor(
         return getItem(position)!!.id!!
     }
 
-    // override fun getSelected(): List<Habit> {
-    //     return LinkedList(selected)
-    // }
-
     /**
      * Returns whether list of selected items is empty.
      *
@@ -158,8 +154,8 @@ class HabitCardListAdapter @Inject constructor(
         observable.notifyListeners()
     }
 
-    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
-        notifyItemMoved(fromPosition, toPosition)
+    override fun onItemMoved(oldPosition: Int, newPosition: Int) {
+        notifyItemMoved(oldPosition, newPosition)
         observable.notifyListeners()
     }
 
@@ -209,8 +205,8 @@ class HabitCardListAdapter @Inject constructor(
         cache.refreshAllHabits()
     }
 
-    override fun setFilter(matcher: HabitMatcher?) {
-        if (matcher != null) cache.setFilter(matcher)
+    override fun setFilter(matcher: HabitMatcher) {
+        cache.setFilter(matcher)
     }
 
     /**

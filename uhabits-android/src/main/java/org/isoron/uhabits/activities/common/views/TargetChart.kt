@@ -31,6 +31,8 @@ import org.isoron.uhabits.activities.habits.list.views.toShortString
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.StyledResources
+import kotlin.math.max
+import kotlin.math.min
 
 class TargetChart : View {
     private var paint: Paint? = null
@@ -62,12 +64,12 @@ class TargetChart : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (labels.size == 0) return
+        if (labels.isEmpty()) return
         maxLabelSize = 0f
         for (label in labels) {
             paint!!.textSize = tinyTextSize
             val len = paint!!.measureText(label)
-            maxLabelSize = Math.max(maxLabelSize, len)
+            maxLabelSize = max(maxLabelSize, len)
         }
         val marginTop = (height - baseSize * labels.size) / 2.0f
         rect[0f, marginTop, width.toFloat()] = marginTop + baseSize
@@ -86,7 +88,7 @@ class TargetChart : View {
         val params = layoutParams
         if (params != null && params.height == ViewGroup.LayoutParams.MATCH_PARENT) {
             height = MeasureSpec.getSize(heightSpec)
-            if (labels.size > 0) baseSize = height / labels.size
+            if (labels.isNotEmpty()) baseSize = height / labels.size
         }
         heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
         widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
@@ -116,7 +118,7 @@ class TargetChart : View {
             rect.bottom - baseSize * 0.05f
         canvas.drawRoundRect(barRect, round, round, paint!!)
         var percentage = (values[row] / targets[row]).toFloat()
-        percentage = Math.min(1.0f, percentage)
+        percentage = min(1.0f, percentage)
 
         // Draw completed box
         var completedWidth = percentage * barRect.width()

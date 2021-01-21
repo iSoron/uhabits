@@ -33,7 +33,7 @@ import java.util.TimeZone
 class Timestamp(unixTime: Long) : Comparable<Timestamp> {
     val unixTime: Long
 
-    constructor(cal: GregorianCalendar) : this(cal.timeInMillis) {}
+    constructor(cal: GregorianCalendar) : this(cal.timeInMillis)
 
     fun toLocalDate(): LocalDate {
         val millisSince2000 = unixTime - 946684800000L

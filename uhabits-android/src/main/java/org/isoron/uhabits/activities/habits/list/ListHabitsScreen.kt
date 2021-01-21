@@ -173,8 +173,8 @@ class ListHabitsScreen
         ConfirmDeleteDialog(activity, callback, quantity).show()
     }
 
-    override fun showEditHabitsScreen(habits: List<Habit>) {
-        val intent = intentFactory.startEditActivity(activity, habits[0])
+    override fun showEditHabitsScreen(selected: List<Habit>) {
+        val intent = intentFactory.startEditActivity(activity, selected[0])
         activity.startActivity(intent)
     }
 
@@ -183,8 +183,8 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
-    override fun showHabitScreen(habit: Habit) {
-        val intent = intentFactory.startShowHabitActivity(activity, habit)
+    override fun showHabitScreen(h: Habit) {
+        val intent = intentFactory.startShowHabitActivity(activity, h)
         activity.startActivity(intent)
     }
 
@@ -215,7 +215,7 @@ class ListHabitsScreen
         )
     }
 
-    override fun showSendBugReportToDeveloperScreen(log: String?) {
+    override fun showSendBugReportToDeveloperScreen(log: String) {
         val to = R.string.bugReportTo
         val subject = R.string.bugReportSubject
         activity.showSendEmailScreen(to, subject, log)
@@ -287,13 +287,17 @@ class ListHabitsScreen
     private fun onImportData(file: File, onFinished: () -> Unit) {
         taskRunner.execute(
             importTaskFactory.create(file) { result ->
-                if (result == ImportDataTask.SUCCESS) {
-                    adapter.refresh()
-                    activity.showMessage(activity.resources.getString(R.string.habits_imported))
-                } else if (result == ImportDataTask.NOT_RECOGNIZED) {
-                    activity.showMessage(activity.resources.getString(R.string.file_not_recognized))
-                } else {
-                    activity.showMessage(activity.resources.getString(R.string.could_not_import))
+                when (result) {
+                    ImportDataTask.SUCCESS -> {
+                        adapter.refresh()
+                        activity.showMessage(activity.resources.getString(R.string.habits_imported))
+                    }
+                    ImportDataTask.NOT_RECOGNIZED -> {
+                        activity.showMessage(activity.resources.getString(R.string.file_not_recognized))
+                    }
+                    else -> {
+                        activity.showMessage(activity.resources.getString(R.string.could_not_import))
+                    }
                 }
                 onFinished()
             }

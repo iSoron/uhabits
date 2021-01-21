@@ -40,15 +40,13 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
         100000, 0, 100000
     )
 
-    @JvmOverloads
-    fun createEmptyHabit(id: Long? = null): Habit {
+    fun createEmptyHabit(): Habit {
         val habit = modelFactory.buildHabit()
         habit.name = "Meditate"
         habit.question = "Did you meditate this morning?"
         habit.description = "This is a test description"
         habit.color = PaletteColor(5)
         habit.frequency = DAILY
-        habit.id = id
         habitList.add(habit)
         return habit
     }
@@ -101,13 +99,14 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
     }
 
     fun createLongNumericalHabit(): Habit {
-        val habit = modelFactory.buildHabit()
-        habit.name = "Read"
-        habit.question = "How many pages did you walk today?"
-        habit.type = NUMBER_HABIT
-        habit.targetType = AT_LEAST
-        habit.targetValue = 200.0
-        habit.unit = "pages"
+        val habit = modelFactory.buildHabit().apply {
+            name = "Read"
+            question = "How many pages did you walk today?"
+            type = NUMBER_HABIT
+            targetType = AT_LEAST
+            targetValue = 200.0
+            unit = "pages"
+        }
         habitList.add(habit)
         var timestamp: Timestamp = getToday()
         for (value in LONG_NUMERICAL_HABIT_ENTRIES) {
@@ -119,10 +118,11 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
     }
 
     fun createShortHabit(): Habit {
-        val habit = modelFactory.buildHabit()
-        habit.name = "Wake up early"
-        habit.question = "Did you wake up before 6am?"
-        habit.frequency = Frequency(2, 3)
+        val habit = modelFactory.buildHabit().apply {
+            name = "Wake up early"
+            question = "Did you wake up before 6am?"
+            frequency = Frequency(2, 3)
+        }
         habitList.add(habit)
         var timestamp: Timestamp = getToday()
         for (c in LONG_HABIT_ENTRIES) {

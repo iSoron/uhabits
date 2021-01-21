@@ -32,6 +32,7 @@ import java.io.File
 import java.io.IOException
 import java.util.LinkedList
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 open class ListHabitsBehavior @Inject constructor(
     private val habitList: HabitList,
@@ -51,14 +52,11 @@ open class ListHabitsBehavior @Inject constructor(
         val oldValue = entries.get(timestamp!!).value.toDouble()
         screen.showNumberPicker(
             oldValue / 1000,
-            habit.unit,
-            { newValue: Double ->
-                val value = Math.round(newValue * 1000).toDouble()
-                commandRunner.run(
-                    CreateRepetitionCommand(habitList, habit, timestamp, value.toInt())
-                )
-            }
-        )
+            habit.unit
+        ) { newValue: Double ->
+            val value = (newValue * 1000).roundToInt()
+            commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value))
+        }
     }
 
     fun onExportCSV() {
@@ -154,7 +152,7 @@ open class ListHabitsBehavior @Inject constructor(
             callback: NumberPickerCallback
         )
 
-        fun showSendBugReportToDeveloperScreen(log: String?)
+        fun showSendBugReportToDeveloperScreen(log: String)
         fun showSendFileScreen(filename: String)
         fun showConfirmInstallSyncKey(callback: OnConfirmedCallback)
     }

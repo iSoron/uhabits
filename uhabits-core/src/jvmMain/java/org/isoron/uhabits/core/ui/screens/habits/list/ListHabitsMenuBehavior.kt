@@ -109,10 +109,7 @@ class ListHabitsMenuBehavior @Inject constructor(
 
     interface Adapter {
         fun refresh()
-        fun setFilter(matcher: HabitMatcher?)
-        // fun setSecondaryOrder(order: HabitList.Order)
-        // fun setPrimaryOrder(order: HabitList.Order)
-        // fun getPrimaryOrder(): HabitList.Order
+        fun setFilter(matcher: HabitMatcher)
         var primaryOrder: HabitList.Order
         var secondaryOrder: HabitList.Order
     }

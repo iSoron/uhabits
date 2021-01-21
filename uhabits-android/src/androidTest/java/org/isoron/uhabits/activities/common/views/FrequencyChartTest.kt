@@ -29,19 +29,17 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class FrequencyChartTest : BaseViewTest() {
-    private var view: FrequencyChart? = null
+    private lateinit var view: FrequencyChart
+
     @Before
     override fun setUp() {
         super.setUp()
         fixtures.purgeHabits(habitList)
         val habit = fixtures.createLongHabit()
-        view = FrequencyChart(targetContext)
-        view!!.setFrequency(
-            habit.originalEntries.computeWeekdayFrequency(
-                habit.isNumerical
-            )
-        )
-        view!!.setColor(habit.color.toFixedAndroidColor())
+        view = FrequencyChart(targetContext).apply {
+            setFrequency(habit.originalEntries.computeWeekdayFrequency(habit.isNumerical))
+            setColor(habit.color.toFixedAndroidColor())
+        }
         measureView(view, dpToPixels(300), dpToPixels(100))
     }
 
@@ -54,8 +52,8 @@ class FrequencyChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withDataOffset() {
-        view!!.onScroll(null, null, -dpToPixels(150), 0f)
-        view!!.invalidate()
+        view.onScroll(null, null, -dpToPixels(150), 0f)
+        view.invalidate()
         assertRenders(view, BASE_PATH + "renderDataOffset.png")
     }
 
@@ -69,7 +67,7 @@ class FrequencyChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withTransparentBackground() {
-        view!!.setIsBackgroundTransparent(true)
+        view.setIsBackgroundTransparent(true)
         assertRenders(view, BASE_PATH + "renderTransparent.png")
     }
 

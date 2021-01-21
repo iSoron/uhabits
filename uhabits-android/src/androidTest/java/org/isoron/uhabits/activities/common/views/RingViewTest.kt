@@ -31,16 +31,18 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class RingViewTest : BaseViewTest() {
-    private var view: RingView? = null
+    private lateinit var view: RingView
+
     @Before
     override fun setUp() {
         super.setUp()
-        view = RingView(targetContext)
-        view!!.setPercentage(0.6f)
-        view!!.setText("60%")
-        view!!.setColor(getAndroidTestColor(0))
-        view!!.setBackgroundColor(Color.WHITE)
-        view!!.setThickness(dpToPixels(3))
+        view = RingView(targetContext).apply {
+            setPercentage(0.6f)
+            setText("60%")
+            setColor(getAndroidTestColor(0))
+            setBackgroundColor(Color.WHITE)
+            setThickness(dpToPixels(3))
+        }
     }
 
     @Test
@@ -53,8 +55,8 @@ class RingViewTest : BaseViewTest() {
     @Test
     @Throws(IOException::class)
     fun testRender_withDifferentParams() {
-        view!!.setPercentage(0.25f)
-        view!!.setColor(getAndroidTestColor(5))
+        view.setPercentage(0.25f)
+        view.setColor(getAndroidTestColor(5))
         measureView(view, dpToPixels(200), dpToPixels(200))
         assertRenders(view, BASE_PATH + "renderDifferentParams.png")
     }

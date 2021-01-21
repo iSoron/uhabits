@@ -19,13 +19,13 @@
 
 package org.isoron.uhabits.sync.app
 
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import kotlinx.coroutines.*
 import org.isoron.uhabits.sync.*
 import org.junit.Test
-import org.mockito.Mockito.*
 import kotlin.test.*
 
 class StorageModuleTest : BaseApplicationTest() {

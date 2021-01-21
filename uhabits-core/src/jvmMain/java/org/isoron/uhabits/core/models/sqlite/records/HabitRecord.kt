@@ -85,8 +85,9 @@ class HabitRecord {
 
     @field:Column
     var uuid: String? = null
-    fun copyFrom(model: Habit?) {
-        id = model!!.id
+
+    fun copyFrom(model: Habit) {
+        id = model.id
         name = model.name
         description = model.description
         highlight = 0

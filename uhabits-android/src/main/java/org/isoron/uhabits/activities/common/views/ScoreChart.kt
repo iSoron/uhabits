@@ -42,6 +42,8 @@ import java.util.GregorianCalendar
 import java.util.LinkedList
 import java.util.Locale
 import java.util.Random
+import kotlin.math.max
+import kotlin.math.min
 
 class ScoreChart : ScrollableChart {
     private var pGrid: Paint? = null
@@ -89,7 +91,7 @@ class ScoreChart : ScrollableChart {
         for (i in 1..99) {
             val step = 0.1
             var current = previous + random.nextDouble() * step * 2 - step
-            current = Math.max(0.0, Math.min(1.0, current))
+            current = max(0.0, min(1.0, current))
             newScores.add(Score(timestamp.minus(i), current))
             previous = current
         }
@@ -178,14 +180,14 @@ class ScoreChart : ScrollableChart {
         if (height < 9) height = 200
         val maxTextSize = getDimension(context, R.dimen.tinyTextSize)
         val textSize = height * 0.06f
-        pText!!.textSize = Math.min(textSize, maxTextSize)
+        pText!!.textSize = min(textSize, maxTextSize)
         em = pText!!.fontSpacing
         val footerHeight = (3 * em).toInt()
         internalPaddingTop = em.toInt()
         baseSize = (height - footerHeight - internalPaddingTop) / 8
         columnWidth = baseSize.toFloat()
-        columnWidth = Math.max(columnWidth, maxDayWidth * 1.5f)
-        columnWidth = Math.max(columnWidth, maxMonthWidth * 1.2f)
+        columnWidth = max(columnWidth, maxDayWidth * 1.5f)
+        columnWidth = max(columnWidth, maxMonthWidth * 1.2f)
         nColumns = (width / columnWidth).toInt()
         columnWidth = width.toFloat() / nColumns
         setScrollerBucketSize(columnWidth.toInt())
@@ -193,7 +195,7 @@ class ScoreChart : ScrollableChart {
         val minStrokeWidth = dpToPixels(context, 1f)
         pGraph!!.textSize = baseSize * 0.5f
         pGraph!!.strokeWidth = baseSize * 0.1f
-        pGrid!!.strokeWidth = Math.min(minStrokeWidth, baseSize * 0.05f)
+        pGrid!!.strokeWidth = min(minStrokeWidth, baseSize * 0.05f)
         if (isTransparencyEnabled) initCache(width, height)
     }
 
@@ -298,7 +300,7 @@ class ScoreChart : ScrollableChart {
             for (i in 0..27) {
                 day[Calendar.DAY_OF_MONTH] = i
                 val monthWidth = pText!!.measureText(dfMonth!!.format(day.time))
-                maxDayWidth = Math.max(maxDayWidth, monthWidth)
+                maxDayWidth = max(maxDayWidth, monthWidth)
             }
             return maxDayWidth
         }
@@ -310,7 +312,7 @@ class ScoreChart : ScrollableChart {
             for (i in 0..11) {
                 day[Calendar.MONTH] = i
                 val monthWidth = pText!!.measureText(dfMonth!!.format(day.time))
-                maxMonthWidth = Math.max(maxMonthWidth, monthWidth)
+                maxMonthWidth = max(maxMonthWidth, monthWidth)
             }
             return maxMonthWidth
         }

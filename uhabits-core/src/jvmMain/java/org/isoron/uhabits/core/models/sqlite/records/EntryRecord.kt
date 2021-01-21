@@ -47,11 +47,6 @@ class EntryRecord {
     }
 
     fun toEntry(): Entry {
-        return Entry(
-            Timestamp(
-                timestamp!!
-            ),
-            value!!
-        )
+        return Entry(Timestamp(timestamp!!), value!!)
     }
 }

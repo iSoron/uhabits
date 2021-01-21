@@ -45,8 +45,6 @@ class HintViewTest : BaseViewTest() {
         val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         doReturn(true).whenever(list).shouldShow()
         doReturn(text).whenever(list).pop()
-        // Mockito.`when`(list.shouldShow()).thenReturn(true)
-        // Mockito.`when`(list.pop()).thenReturn(text)
         view.showNext()
         skipAnimation(view)
     }

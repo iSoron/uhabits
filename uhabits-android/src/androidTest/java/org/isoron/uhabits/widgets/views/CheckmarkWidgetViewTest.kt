@@ -32,25 +32,24 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class CheckmarkWidgetViewTest : BaseViewTest() {
-    private var view: CheckmarkWidgetView? = null
+    private lateinit var view: CheckmarkWidgetView
     @Before
     override fun setUp() {
         super.setUp()
         setTheme(R.style.WidgetTheme)
         val habit = fixtures.createShortHabit()
-        val name = habit.name
         val computedEntries = habit.computedEntries
         val scores = habit.scores
         val today = getTodayWithOffset()
-        view = CheckmarkWidgetView(targetContext)
         val score = scores[today].value
-        val percentage = score.toFloat()
-        view!!.activeColor = getAndroidTestColor(0)
-        view!!.entryState = computedEntries.get(today).value
-        view!!.entryValue = computedEntries.get(today).value
-        view!!.percentage = percentage
-        view!!.name = name
-        view!!.refresh()
+        view = CheckmarkWidgetView(targetContext).apply {
+            activeColor = getAndroidTestColor(0)
+            entryState = computedEntries.get(today).value
+            entryValue = computedEntries.get(today).value
+            percentage = score.toFloat()
+            name = habit.name
+        }
+        view.refresh()
         measureView(view, dpToPixels(100), dpToPixels(200))
     }
 

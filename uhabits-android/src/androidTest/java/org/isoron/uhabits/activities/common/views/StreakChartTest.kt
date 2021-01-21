@@ -29,15 +29,16 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class StreakChartTest : BaseViewTest() {
-    private var view: StreakChart? = null
+    private lateinit var view: StreakChart
     @Before
     override fun setUp() {
         super.setUp()
         fixtures.purgeHabits(habitList)
-        val (color, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, streaks) = fixtures.createLongHabit()
-        view = StreakChart(targetContext)
-        view!!.setColor(color.toFixedAndroidColor())
-        view!!.setStreaks(streaks.getBest(5))
+        val habit = fixtures.createLongHabit()
+        view = StreakChart(targetContext).apply {
+            setColor(habit.color.toFixedAndroidColor())
+            setStreaks(habit.streaks.getBest(5))
+        }
         measureView(view, dpToPixels(300), dpToPixels(100))
     }
 
@@ -57,7 +58,7 @@ class StreakChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withTransparentBackground() {
-        view!!.setIsBackgroundTransparent(true)
+        view.setIsBackgroundTransparent(true)
         assertRenders(view, BASE_PATH + "renderTransparent.png")
     }
 

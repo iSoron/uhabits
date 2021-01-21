@@ -51,19 +51,15 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     }
 
     fun onArchiveHabits() {
-        commandRunner.run(
-            ArchiveHabitsCommand(habitList, adapter.selected)
-        )
+        commandRunner.run(ArchiveHabitsCommand(habitList, adapter.selected))
         adapter.clearSelection()
     }
 
     fun onChangeColor() {
         val selected = adapter.selected
         val (color) = selected[0]
-        screen.showColorPicker(color) { selectedColor: PaletteColor? ->
-            commandRunner.run(
-                ChangeHabitColorCommand(habitList, selected, selectedColor!!)
-            )
+        screen.showColorPicker(color) { selectedColor: PaletteColor ->
+            commandRunner.run(ChangeHabitColorCommand(habitList, selected, selectedColor))
             adapter.clearSelection()
         }
     }
@@ -73,9 +69,7 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
         screen.showDeleteConfirmationScreen(
             {
                 adapter.performRemove(selected)
-                commandRunner.run(
-                    DeleteHabitsCommand(habitList, selected)
-                )
+                commandRunner.run(DeleteHabitsCommand(habitList, selected))
                 adapter.clearSelection()
             },
             selected.size
@@ -88,9 +82,7 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     }
 
     fun onUnarchiveHabits() {
-        commandRunner.run(
-            UnarchiveHabitsCommand(habitList, adapter.selected)
-        )
+        commandRunner.run(UnarchiveHabitsCommand(habitList, adapter.selected))
         adapter.clearSelection()
     }
 
