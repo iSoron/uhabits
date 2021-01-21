@@ -80,8 +80,7 @@ class RemoteSyncServer(
         try {
             val url = "${preferences.syncBaseURL}/db/$key"
             Log.i("RemoteSyncServer", "GET $url")
-            val data: SyncData = httpClient.get(url)
-            return@IO data
+            return@IO httpClient.get<SyncData>(url)
         } catch (e: ServerResponseException) {
             throw ServiceUnavailable()
         } catch (e: ClientRequestException) {

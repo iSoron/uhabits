@@ -27,6 +27,7 @@ import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardState
 import org.isoron.uhabits.databinding.ShowHabitOverviewBinding
 import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.toThemedAndroidColor
+import kotlin.math.abs
 
 class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -36,7 +37,7 @@ class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         return String.format(
             "%s%.0f%%",
             if (percentageDiff >= 0) "+" else "\u2212",
-            Math.abs(percentageDiff) * 100
+            abs(percentageDiff) * 100
         )
     }
 

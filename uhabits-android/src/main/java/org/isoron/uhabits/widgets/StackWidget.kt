@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.widgets
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
@@ -32,13 +33,20 @@ class StackWidget(
     context: Context,
     widgetId: Int,
     private val widgetType: StackWidgetType,
-    private val habits: List<Habit>
+    private val habits: List<Habit>,
 ) : BaseWidget(context, widgetId) {
+    override val defaultHeight: Int = 0
+    override val defaultWidth: Int = 0
 
-    override fun getOnClickPendingIntent(context: Context) = null
+    override fun getOnClickPendingIntent(context: Context): PendingIntent? = null
 
     override fun refreshData(v: View) {
         // unused
+    }
+
+    override fun buildView(): View? {
+        // unused
+        return null
     }
 
     override fun getRemoteViews(width: Int, height: Int): RemoteViews {
@@ -59,8 +67,4 @@ class StackWidget(
         )
         return remoteViews
     }
-
-    override fun buildView() = null // unused
-    override fun getDefaultHeight() = 0 // unused
-    override fun getDefaultWidth() = 0 // unused
 }

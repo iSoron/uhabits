@@ -392,7 +392,7 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
      * Returns mapping of any input degrees (0 to 360) to one of 12 visible output degrees (all
      * multiples of 30), where the input will be "snapped" to the closest visible degrees.
      * @param degrees The input degrees
-     * @param forceAboveOrBelow The output may be forced to either the higher or lower step, or may
+     * @param forceHigherOrLower The output may be forced to either the higher or lower step, or may
      * be allowed to snap to whichever is closer. Use 1 to force strictly higher, -1 to force
      * strictly lower, and 0 to snap to the closer one.
      * @return output degrees, will be a multiple of 30

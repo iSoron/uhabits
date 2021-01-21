@@ -35,8 +35,11 @@ import java.util.Locale
 class HistoryWidget(
     context: Context,
     id: Int,
-    private val habit: Habit
+    private val habit: Habit,
 ) : BaseWidget(context, id) {
+
+    override val defaultHeight: Int = 250
+    override val defaultWidth: Int = 250
 
     override fun getOnClickPendingIntent(context: Context): PendingIntent {
         return pendingIntentFactory.showHabit(habit)
@@ -72,7 +75,4 @@ class HistoryWidget(
         ).apply {
             setTitle(habit.name)
         }
-
-    override fun getDefaultHeight() = 250
-    override fun getDefaultWidth() = 250
 }

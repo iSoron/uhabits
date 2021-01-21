@@ -63,7 +63,7 @@ class BarChart(
         val nColumns = floor((safeWidth) / barGroupWidth).toInt()
         val marginLeft = (safeWidth - nColumns * barGroupWidth) / 2
         val maxBarHeight = height - footerHeight - paddingTop
-        var maxValue = series.map { it.max()!! }.max()!!
+        var maxValue = series.map { it.maxOrNull()!! }.maxOrNull()!!
         maxValue = max(maxValue, 1.0)
 
         canvas.setColor(theme.cardBackgroundColor)

@@ -19,14 +19,22 @@
 
 package org.isoron.uhabits.sync.app
 
-import io.ktor.http.*
-import io.ktor.server.testing.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.links.*
+import com.nhaarman.mockitokotlin2.whenever
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.TestApplicationCall
+import io.ktor.server.testing.TestApplicationEngine
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
+import io.ktor.server.testing.withTestApplication
+import kotlinx.coroutines.runBlocking
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.links.Link
+import org.isoron.uhabits.sync.links.toJson
 import org.junit.Test
-import org.mockito.Mockito.*
-import kotlin.test.*
+import kotlin.test.assertEquals
 
 class LinksModuleTest : BaseApplicationTest() {
     private val link = Link(
@@ -37,7 +45,7 @@ class LinksModuleTest : BaseApplicationTest() {
 
     @Test
     fun `when POST is successful should return link`(): Unit = runBlocking {
-        `when`(server.registerLink("SECRET")).thenReturn(link)
+        whenever(server.registerLink("SECRET")).thenReturn(link)
         withTestApplication(app()) {
             handlePost("/links", LinkRegisterRequestData(syncKey = "SECRET")).apply {
                 assertEquals(HttpStatusCode.OK, response.status())
@@ -48,7 +56,7 @@ class LinksModuleTest : BaseApplicationTest() {
 
     @Test
     fun `when GET is successful should return link`(): Unit = runBlocking {
-        `when`(server.getLink("ABC123")).thenReturn(link)
+        whenever(server.getLink("ABC123")).thenReturn(link)
         withTestApplication(app()) {
             handleGet("/links/ABC123").apply {
                 assertEquals(HttpStatusCode.OK, response.status())
@@ -59,7 +67,7 @@ class LinksModuleTest : BaseApplicationTest() {
 
     @Test
     fun `GET with invalid link id should return 404`(): Unit = runBlocking {
-        `when`(server.getLink("ABC123")).thenThrow(KeyNotFoundException())
+        whenever(server.getLink("ABC123")).thenThrow(KeyNotFoundException())
         withTestApplication(app()) {
             handleGet("/links/ABC123").apply {
                 assertEquals(HttpStatusCode.NotFound, response.status())
@@ -67,7 +75,10 @@ class LinksModuleTest : BaseApplicationTest() {
         }
     }
 
-    private fun TestApplicationEngine.handlePost(url: String, data: LinkRegisterRequestData): TestApplicationCall {
+    private fun TestApplicationEngine.handlePost(
+        url: String,
+        data: LinkRegisterRequestData
+    ): TestApplicationCall {
         return handleRequest(HttpMethod.Post, url) {
             addHeader(HttpHeaders.ContentType, ContentType.Application.Json.toString())
             setBody(data.toJson())
@@ -77,5 +88,4 @@ class LinksModuleTest : BaseApplicationTest() {
     private fun TestApplicationEngine.handleGet(url: String): TestApplicationCall {
         return handleRequest(HttpMethod.Get, url)
     }
-
 }

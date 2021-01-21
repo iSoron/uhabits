@@ -20,7 +20,7 @@
 package org.isoron.uhabits.core.database.migrations
 
 import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.MigrationHelper
@@ -39,7 +39,7 @@ class Version23Test : BaseUnitTest() {
         db = openDatabaseResource("/databases/022.db")
         helper = MigrationHelper(db)
         modelFactory = SQLModelFactory(db)
-        habitList = modelFactory.buildHabitList()
+        habitList = (modelFactory as SQLModelFactory).buildHabitList()
         fixtures = HabitFixtures(modelFactory, habitList)
     }
 
@@ -66,7 +66,7 @@ class Version23Test : BaseUnitTest() {
 
         for (i in 0 until descriptions.size) {
             cursor.moveToNext()
-            MatcherAssert.assertThat(cursor.getString(0), equalTo(descriptions[i]))
+            assertThat(cursor.getString(0), equalTo(descriptions[i]))
         }
     }
 
@@ -76,7 +76,7 @@ class Version23Test : BaseUnitTest() {
         val cursor = db.query("select description from Habits")
 
         while (cursor.moveToNext()) {
-            MatcherAssert.assertThat(cursor.getString(0), equalTo(""))
+            assertThat(cursor.getString(0), equalTo(""))
         }
     }
 }

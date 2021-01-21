@@ -26,7 +26,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
-import org.isoron.uhabits.core.models.WeekdayList.EVERY_DAY
+import org.isoron.uhabits.core.models.WeekdayList.Companion.EVERY_DAY
 import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.junit.Before
 import org.junit.Test

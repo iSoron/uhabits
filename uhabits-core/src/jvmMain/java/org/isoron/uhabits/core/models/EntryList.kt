@@ -156,15 +156,15 @@ open class EntryList {
             get() = begin.daysUntil(end) + 1
     }
 
-    /**
-     * Converts a list of intervals into a list of entries. Entries that fall outside of any
-     * interval receive value UNKNOWN. Entries that fall within an interval but do not appear
-     * in [original] receive value YES_AUTO. Entries provided in [original] are copied over.
-     *
-     * The intervals should be sorted by timestamp. The first element in the list should
-     * correspond to the newest interval.
-     */
     companion object {
+        /**
+         * Converts a list of intervals into a list of entries. Entries that fall outside of any
+         * interval receive value UNKNOWN. Entries that fall within an interval but do not appear
+         * in [original] receive value YES_AUTO. Entries provided in [original] are copied over.
+         *
+         * The intervals should be sorted by timestamp. The first element in the list should
+         * correspond to the newest interval.
+         */
         fun buildEntriesFromInterval(
             original: List<Entry>,
             intervals: List<Interval>,

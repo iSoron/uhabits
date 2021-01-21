@@ -36,6 +36,7 @@ import org.isoron.uhabits.core.utils.DateFormats
 import org.isoron.uhabits.inject.AppContext
 import java.util.Date
 import javax.inject.Inject
+import kotlin.math.min
 
 @AppScope
 class IntentScheduler
@@ -84,7 +85,7 @@ class IntentScheduler
     }
 
     private fun logReminderScheduled(habit: Habit, reminderTime: Long) {
-        val min = Math.min(5, habit.name.length)
+        val min = min(5, habit.name.length)
         val name = habit.name.substring(0, min)
         val df = DateFormats.getBackupDateFormat()
         val time = df.format(Date(reminderTime))

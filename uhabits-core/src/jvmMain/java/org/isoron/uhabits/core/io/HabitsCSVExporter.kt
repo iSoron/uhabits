@@ -37,6 +37,7 @@ import java.util.LinkedList
 import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
+import kotlin.math.min
 
 /**
  * Class that exports the application data to CSV files.
@@ -77,7 +78,7 @@ class HabitsCSVExporter(
 
     private fun sanitizeFilename(name: String): String {
         val s = name.replace("[^ a-zA-Z0-9\\._-]+".toRegex(), "")
-        return s.substring(0, Math.min(s.length, 100))
+        return s.substring(0, min(s.length, 100))
     }
 
     private fun writeHabits() {

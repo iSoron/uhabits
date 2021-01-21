@@ -153,10 +153,10 @@ private fun daysSince2000(year: Int, month: Int, day: Int): Int {
     result += ceil((year - 2000) / 4.0).toInt()
     result -= ceil((year - 2000) / 100.0).toInt()
     result += ceil((year - 2000) / 400.0).toInt()
-    if (isLeapYear(year)) {
-        result += leapOffset[month - 1]
+    result += if (isLeapYear(year)) {
+        leapOffset[month - 1]
     } else {
-        result += nonLeapOffset[month - 1]
+        nonLeapOffset[month - 1]
     }
     result += (day - 1)
     return result

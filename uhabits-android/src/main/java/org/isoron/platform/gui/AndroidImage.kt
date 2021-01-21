@@ -42,7 +42,7 @@ class AndroidImage(private val bmp: Bitmap) : Image {
     }
 }
 
-public fun Color.toInt(): Int {
+fun Color.toInt(): Int {
     return android.graphics.Color.argb(
         (255 * this.alpha).roundToInt(),
         (255 * this.red).roundToInt(),

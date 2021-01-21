@@ -19,18 +19,19 @@
 
 package org.isoron.uhabits.widgets
 
+import android.app.PendingIntent
 import android.content.Context
 import android.view.View
 import org.isoron.uhabits.widgets.views.EmptyWidgetView
 
 class EmptyWidget(
     context: Context,
-    widgetId: Int
+    widgetId: Int,
 ) : BaseWidget(context, widgetId) {
+    override val defaultHeight: Int = 200
+    override val defaultWidth: Int = 200
 
-    override fun getOnClickPendingIntent(context: Context) = null
+    override fun getOnClickPendingIntent(context: Context): PendingIntent? = null
     override fun refreshData(v: View) {}
     override fun buildView() = EmptyWidgetView(context)
-    override fun getDefaultHeight() = 200
-    override fun getDefaultWidth() = 200
 }

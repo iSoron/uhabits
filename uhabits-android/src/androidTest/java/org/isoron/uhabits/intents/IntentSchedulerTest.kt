@@ -103,9 +103,8 @@ class IntentSchedulerTest : BaseAndroidTest() {
         assertNull(ReminderReceiver.lastReceivedIntent)
 
         setSystemTime("America/Chicago", 2020, JUNE, 2, 22, 46)
-        val intent = ReminderReceiver.lastReceivedIntent
-        assertNotNull(intent)
-        assertThat(parseId(intent?.data!!), equalTo(habit.id))
+        val intent = ReminderReceiver.lastReceivedIntent!!
+        assertThat(parseId(intent.data!!), equalTo(habit.id))
     }
 
     @Test
@@ -123,7 +122,6 @@ class IntentSchedulerTest : BaseAndroidTest() {
         assertNull(WidgetReceiver.lastReceivedIntent)
 
         setSystemTime("America/Chicago", 2020, JUNE, 2, 22, 46)
-        val intent = WidgetReceiver.lastReceivedIntent
-        assertNotNull(intent)
+        WidgetReceiver.lastReceivedIntent!!
     }
 }

@@ -19,8 +19,7 @@
 
 package org.isoron.uhabits.sync.links
 
-import org.isoron.uhabits.sync.*
-import java.time.*
+import org.isoron.uhabits.sync.defaultMapper
 
 /**
  * A Link maps a public URL (such as https://sync.loophabits.org/links/B752A6)

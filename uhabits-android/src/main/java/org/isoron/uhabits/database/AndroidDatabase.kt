@@ -51,7 +51,7 @@ class AndroidDatabase(
         return db.update(tableName, contValues, where, params)
     }
 
-    override fun insert(tableName: String, values: Map<String, Any?>): Long? {
+    override fun insert(tableName: String, values: Map<String, Any?>): Long {
         val contValues = mapToContentValues(values)
         return db.insert(tableName, null, contValues)
     }

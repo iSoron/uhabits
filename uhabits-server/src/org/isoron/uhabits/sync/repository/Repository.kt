@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.sync.repository
 
-import com.sun.org.apache.xpath.internal.operations.*
-import org.isoron.uhabits.sync.*
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.SyncData
 
 /**
  * A class that knows how to store and retrieve a large number of [SyncData] items.

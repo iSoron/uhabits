@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.widgets
 
+import android.app.PendingIntent
 import android.content.Context
 import android.view.View
 import org.isoron.uhabits.activities.common.views.FrequencyChart
@@ -30,10 +31,12 @@ class FrequencyWidget(
     context: Context,
     widgetId: Int,
     private val habit: Habit,
-    private val firstWeekday: Int
+    private val firstWeekday: Int,
 ) : BaseWidget(context, widgetId) {
+    override val defaultHeight: Int = 200
+    override val defaultWidth: Int = 200
 
-    override fun getOnClickPendingIntent(context: Context) =
+    override fun getOnClickPendingIntent(context: Context): PendingIntent =
         pendingIntentFactory.showHabit(habit)
 
     override fun refreshData(v: View) {
@@ -50,7 +53,4 @@ class FrequencyWidget(
 
     override fun buildView() =
         GraphWidgetView(context, FrequencyChart(context))
-
-    override fun getDefaultHeight() = 200
-    override fun getDefaultWidth() = 200
 }

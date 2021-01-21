@@ -76,7 +76,7 @@ abstract class DateUtils {
             if (fixedLocalTime != null) return fixedLocalTime as Long
 
             val tz = getTimeZone()
-            val now = Date().getTime()
+            val now = Date().time
             return now + tz.getOffset(now)
         }
 

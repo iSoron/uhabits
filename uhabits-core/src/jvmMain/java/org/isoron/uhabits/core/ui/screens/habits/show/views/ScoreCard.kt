@@ -39,13 +39,13 @@ class ScoreCardPresenter(
     companion object {
         val BUCKET_SIZES = intArrayOf(1, 7, 31, 92, 365)
         fun getTruncateField(bucketSize: Int): DateUtils.TruncateField {
-            when (bucketSize) {
-                1 -> return DateUtils.TruncateField.DAY
-                7 -> return DateUtils.TruncateField.WEEK_NUMBER
-                31 -> return DateUtils.TruncateField.MONTH
-                92 -> return DateUtils.TruncateField.QUARTER
-                365 -> return DateUtils.TruncateField.YEAR
-                else -> return DateUtils.TruncateField.MONTH
+            return when (bucketSize) {
+                1 -> DateUtils.TruncateField.DAY
+                7 -> DateUtils.TruncateField.WEEK_NUMBER
+                31 -> DateUtils.TruncateField.MONTH
+                92 -> DateUtils.TruncateField.QUARTER
+                365 -> DateUtils.TruncateField.YEAR
+                else -> DateUtils.TruncateField.MONTH
             }
         }
 

@@ -27,6 +27,7 @@ import org.isoron.uhabits.acceptance.steps.CommonSteps.longClickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDoesNotDisplayText
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 import org.isoron.uhabits.acceptance.steps.clearBackupFolder
 import org.isoron.uhabits.acceptance.steps.clearDownloadFolder
 import org.isoron.uhabits.acceptance.steps.copyBackupToDownloadFolder
@@ -45,7 +46,7 @@ class BackupTest : BaseUserInterfaceTest() {
         copyBackupToDownloadFolder()
 
         longClickText("Wake up early")
-        ListHabitsSteps.clickMenu(ListHabitsSteps.MenuItem.DELETE)
+        clickMenu(ListHabitsSteps.MenuItem.DELETE)
         clickText("Yes")
         verifyDoesNotDisplayText("Wake up early")
 

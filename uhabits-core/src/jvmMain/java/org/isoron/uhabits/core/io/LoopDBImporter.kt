@@ -53,7 +53,7 @@ class LoopDBImporter
 
     override fun canHandle(file: File): Boolean {
         if (!file.isSQLite3File()) return false
-        val db = opener.open(file)!!
+        val db = opener.open(file)
         var canHandle = true
         val c = db.query("select count(*) from SQLITE_MASTER where name='Habits' or name='Repetitions'")
         if (!c.moveToNext() || c.getInt(0) != 2) {
@@ -70,7 +70,7 @@ class LoopDBImporter
     }
 
     override fun importHabitsFromFile(file: File) {
-        val db = opener.open(file)!!
+        val db = opener.open(file)
         val helper = MigrationHelper(db)
         helper.migrateTo(DATABASE_VERSION)
 

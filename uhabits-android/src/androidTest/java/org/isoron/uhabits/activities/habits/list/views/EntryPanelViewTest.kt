@@ -34,11 +34,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val PATH = "habits/list/CheckmarkPanelView"
+
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class EntryPanelViewTest : BaseViewTest() {
 
-    private val PATH = "habits/list/CheckmarkPanelView"
     private lateinit var view: CheckmarkPanelView
 
     @Before
@@ -74,27 +75,6 @@ class EntryPanelViewTest : BaseViewTest() {
     fun testRender() {
         assertRenders(view, "$PATH/render.png")
     }
-
-//    // Flaky test
-//    @Test
-//    fun testRender_withDifferentColor() {
-//        view.color = PaletteUtils.getAndroidTestColor(1)
-//        assertRenders(view, "$PATH/render_different_color.png")
-//    }
-
-//    // Flaky test
-//    @Test
-//    fun testRender_Reversed() {
-//        prefs.isCheckmarkSequenceReversed = true
-//        assertRenders(view, "$PATH/render_reversed.png")
-//    }
-
-//    // Flaky test
-//    @Test
-//    fun testRender_withOffset() {
-//        view.dataOffset = 3
-//        assertRenders(view, "$PATH/render_offset.png")
-//    }
 
     @Test
     fun testToggle() {

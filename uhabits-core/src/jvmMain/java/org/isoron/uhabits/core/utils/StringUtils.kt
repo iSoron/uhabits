@@ -59,11 +59,10 @@ class StringUtils {
         @JvmStatic
         fun splitLongs(str: String): LongArray {
             val parts: Array<String> = org.apache.commons.lang3.StringUtils.split(str, ',')
-            val numbers = LongArray(parts.size) {
+            return LongArray(parts.size) {
                 i ->
                 parts[i].toLong()
             }
-            return numbers
         }
     }
 }

@@ -37,7 +37,7 @@ open class MidnightTimer @Inject constructor() {
         this.listeners.add(listener)
     }
 
-    @Synchronized fun onPause() = executor.shutdownNow()
+    @Synchronized fun onPause(): MutableList<Runnable>? = executor.shutdownNow()
 
     @Synchronized fun onResume() {
         executor = Executors.newSingleThreadScheduledExecutor()

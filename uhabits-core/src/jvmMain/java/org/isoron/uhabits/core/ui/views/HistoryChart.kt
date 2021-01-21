@@ -192,15 +192,15 @@ class HistoryChart(
         val value = if (offset >= series.size) Square.OFF else series[offset]
         val squareColor: Color
         val color = theme.color(paletteColor.paletteIndex)
-        when (value) {
+        squareColor = when (value) {
             Square.ON -> {
-                squareColor = color
+                color
             }
             Square.OFF -> {
-                squareColor = theme.lowContrastTextColor
+                theme.lowContrastTextColor
             }
             Square.DIMMED, Square.HATCHED -> {
-                squareColor = color.blendWith(theme.cardBackgroundColor, 0.5)
+                color.blendWith(theme.cardBackgroundColor, 0.5)
             }
         }
 

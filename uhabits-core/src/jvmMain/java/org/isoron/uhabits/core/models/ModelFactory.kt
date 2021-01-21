@@ -31,13 +31,12 @@ interface ModelFactory {
     fun buildHabit(): Habit {
         val scores = buildScoreList()
         val streaks = buildStreakList()
-        val habit = Habit(
+        return Habit(
             scores = scores,
             streaks = streaks,
             originalEntries = buildOriginalEntries(),
             computedEntries = buildComputedEntries(),
         )
-        return habit
     }
     fun buildComputedEntries(): EntryList
     fun buildOriginalEntries(): EntryList

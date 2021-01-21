@@ -32,13 +32,8 @@ import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 
 @ActivityScope
 @Component(
-    modules = arrayOf(
-        ActivityContextModule::class,
-        HabitsActivityModule::class,
-        ListHabitsModule::class,
-        HabitModule::class
-    ),
-    dependencies = arrayOf(HabitsApplicationComponent::class)
+    modules = [ActivityContextModule::class, HabitsActivityModule::class, ListHabitsModule::class, HabitModule::class],
+    dependencies = [HabitsApplicationComponent::class]
 )
 interface HabitsActivityComponent {
     val colorPickerDialogFactory: ColorPickerDialogFactory
