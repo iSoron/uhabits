@@ -36,7 +36,7 @@ public class AndroidTaskRunner implements TaskRunner
 
     private final HashMap<Task, CustomAsyncTask> taskToAsyncTask;
 
-    private LinkedList<Listener> listeners;
+    private final LinkedList<Listener> listeners;
 
     public AndroidTaskRunner()
     {
