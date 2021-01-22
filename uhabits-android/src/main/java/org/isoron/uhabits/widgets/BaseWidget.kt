@@ -33,12 +33,13 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.intents.PendingIntentFactory
 
-abstract class BaseWidget(val context: Context, val id: Int) {
+abstract class BaseWidget(val context: Context, val id: Int, val stacked: Boolean) {
     private val widgetPrefs: WidgetPreferences
     protected val prefs: Preferences
     protected val pendingIntentFactory: PendingIntentFactory
     protected val commandRunner: CommandRunner
     private var dimensions: WidgetDimensions
+
     fun delete() {
         widgetPrefs.removeWidget(id)
     }
@@ -144,7 +145,12 @@ abstract class BaseWidget(val context: Context, val id: Int) {
     }
 
     protected val preferedBackgroundAlpha: Int
-        get() = prefs.widgetOpacity
+        get() {
+            return if (stacked)
+                255
+            else
+                prefs.widgetOpacity
+        }
 
     init {
         val app = context.applicationContext as HabitsApplication

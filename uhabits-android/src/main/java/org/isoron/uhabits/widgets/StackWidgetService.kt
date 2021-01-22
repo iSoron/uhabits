@@ -94,16 +94,17 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         prefs: Preferences
     ): BaseWidget {
         when (widgetType) {
-            StackWidgetType.CHECKMARK -> return CheckmarkWidget(context, widgetId, habit)
+            StackWidgetType.CHECKMARK -> return CheckmarkWidget(context, widgetId, habit, true)
             StackWidgetType.FREQUENCY -> return FrequencyWidget(
                 context,
                 widgetId,
                 habit,
-                prefs.firstWeekdayInt
+                prefs.firstWeekdayInt,
+                true
             )
-            StackWidgetType.SCORE -> return ScoreWidget(context, widgetId, habit)
-            StackWidgetType.HISTORY -> return HistoryWidget(context, widgetId, habit)
-            StackWidgetType.STREAKS -> return StreakWidget(context, widgetId, habit)
+            StackWidgetType.SCORE -> return ScoreWidget(context, widgetId, habit, true)
+            StackWidgetType.HISTORY -> return HistoryWidget(context, widgetId, habit, true)
+            StackWidgetType.STREAKS -> return StreakWidget(context, widgetId, habit, true)
         }
         throw IllegalStateException()
     }
