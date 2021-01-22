@@ -27,13 +27,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
 
     defaultConfig {
         versionCode(20001)
         versionName("2.0.1-alpha")
         minSdkVersion(23)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
         applicationId("org.isoron.uhabits")
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
     }
