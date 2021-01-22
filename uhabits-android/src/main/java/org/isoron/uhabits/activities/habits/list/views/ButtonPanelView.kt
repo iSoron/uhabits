@@ -25,6 +25,7 @@ import android.view.View.MeasureSpec.EXACTLY
 import android.widget.LinearLayout
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.toMeasureSpec
 
@@ -54,6 +55,12 @@ abstract class ButtonPanelView<T : View>(
 
     @Synchronized
     protected fun inflateButtons() {
+        if (preferences.isMidnightDelayEnabled) {
+            setStartDayOffset(3, 0)
+        } else {
+            setStartDayOffset(0, 0)
+        }
+
         val reverse = preferences.isCheckmarkSequenceReversed
 
         buttons.clear()

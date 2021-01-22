@@ -24,7 +24,7 @@ import android.content.Context
 import org.isoron.uhabits.core.database.UnsupportedDatabaseVersionException
 import org.isoron.uhabits.core.reminders.ReminderScheduler
 import org.isoron.uhabits.core.ui.NotificationTray
-import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.isoron.uhabits.inject.AppContextModule
 import org.isoron.uhabits.inject.DaggerHabitsApplicationComponent
 import org.isoron.uhabits.inject.HabitsApplicationComponent
@@ -67,14 +67,13 @@ class HabitsApplication : Application() {
             .habitsModule(HabitsModule(db))
             .build()
 
-        DateUtils.setStartDayOffset(3, 0)
-
         val habitList = component.habitList
         for (h in habitList) h.recompute()
 
-        widgetUpdater = component.widgetUpdater
-        widgetUpdater.startListening()
-        widgetUpdater.scheduleStartDayWidgetUpdate()
+        widgetUpdater = component.widgetUpdater.apply {
+            startListening()
+            scheduleStartDayWidgetUpdate()
+        }
 
         reminderScheduler = component.reminderScheduler
         reminderScheduler.startListening()
@@ -84,6 +83,12 @@ class HabitsApplication : Application() {
 
         val prefs = component.preferences
         prefs.lastAppVersion = BuildConfig.VERSION_CODE
+
+        if (prefs.isMidnightDelayEnabled) {
+            setStartDayOffset(3, 0)
+        } else {
+            setStartDayOffset(0, 0)
+        }
 
         val taskRunner = component.taskRunner
         taskRunner.execute {
