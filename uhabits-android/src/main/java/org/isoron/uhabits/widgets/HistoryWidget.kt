@@ -36,7 +36,8 @@ class HistoryWidget(
     context: Context,
     id: Int,
     private val habit: Habit,
-) : BaseWidget(context, id) {
+    stacked: Boolean = false,
+) : BaseWidget(context, id, stacked) {
 
     override val defaultHeight: Int = 250
     override val defaultWidth: Int = 250

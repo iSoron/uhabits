@@ -33,7 +33,8 @@ class StreakWidget(
     context: Context,
     id: Int,
     private val habit: Habit,
-) : BaseWidget(context, id) {
+    stacked: Boolean = false,
+) : BaseWidget(context, id, stacked) {
     override val defaultHeight: Int = 200
     override val defaultWidth: Int = 200
 
