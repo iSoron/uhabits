@@ -51,6 +51,6 @@ class HintList(private val prefs: Preferences, private val hints: Array<String>)
     fun shouldShow(): Boolean {
         val today = getToday()
         val lastHintTimestamp = prefs.lastHintTimestamp
-        return lastHintTimestamp.isOlderThan(today)
+        return lastHintTimestamp?.isOlderThan(today) == true
     }
 }

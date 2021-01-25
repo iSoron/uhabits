@@ -129,7 +129,7 @@ class ReminderScheduler @Inject constructor(
     fun snoozeReminder(habit: Habit, minutes: Long) {
         val now = applyTimezone(getLocalTime())
         val snoozedUntil = now + minutes * 60 * 1000
-        widgetPreferences.setSnoozeTime(habit.id, snoozedUntil)
+        widgetPreferences.setSnoozeTime(habit.id!!, snoozedUntil)
         schedule(habit)
     }
 
