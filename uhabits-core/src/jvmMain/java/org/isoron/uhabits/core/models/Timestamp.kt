@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core.models
 
-import org.apache.commons.lang3.builder.EqualsBuilder
-import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.utils.DateFormats.Companion.getCSVDateFormat
 import org.isoron.uhabits.core.utils.DateUtils
@@ -30,8 +28,7 @@ import java.util.Date
 import java.util.GregorianCalendar
 import java.util.TimeZone
 
-class Timestamp(unixTime: Long) : Comparable<Timestamp> {
-    val unixTime: Long
+data class Timestamp(var unixTime: Long) : Comparable<Timestamp> {
 
     constructor(cal: GregorianCalendar) : this(cal.timeInMillis)
 
@@ -47,19 +44,6 @@ class Timestamp(unixTime: Long) : Comparable<Timestamp> {
      */
     override fun compareTo(other: Timestamp): Int {
         return java.lang.Long.signum(unixTime - other.unixTime)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        val timestamp = other as Timestamp
-        return EqualsBuilder()
-            .append(unixTime, timestamp.unixTime)
-            .isEquals
-    }
-
-    override fun hashCode(): Int {
-        return HashCodeBuilder(17, 37).append(unixTime).toHashCode()
     }
 
     operator fun minus(days: Int): Timestamp {
@@ -140,9 +124,7 @@ class Timestamp(unixTime: Long) : Comparable<Timestamp> {
     }
 
     init {
-        var unixTime = unixTime
         require(unixTime >= 0) { "Invalid unix time: $unixTime" }
         if (unixTime % DAY_LENGTH != 0L) unixTime = unixTime / DAY_LENGTH * DAY_LENGTH
-        this.unixTime = unixTime
     }
 }
