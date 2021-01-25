@@ -78,7 +78,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         setResultOnPreferenceClick("bugReport", RESULT_BUG_REPORT)
     }
 
-    override fun onCreatePreferences(bundle: Bundle, s: String) {
+    override fun onCreatePreferences(bundle: Bundle?, s: String?) {
         // NOP
     }
 
