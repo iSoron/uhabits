@@ -41,7 +41,7 @@ constructor(
     preferences: Preferences,
 ) : ThemeSwitcher(preferences) {
 
-    private var currentTheme: Theme = LightTheme()
+    override var currentTheme: Theme = LightTheme()
 
     override fun getSystemTheme(): Int {
         if (SDK_INT < 29) return THEME_LIGHT
@@ -51,10 +51,6 @@ constructor(
         } else {
             THEME_LIGHT
         }
-    }
-
-    override fun getCurrentTheme(): Theme {
-        return currentTheme
     }
 
     override fun applyDarkTheme() {

@@ -20,7 +20,7 @@
 package org.isoron.uhabits.acceptance.steps
 
 import androidx.test.uiautomator.UiSelector
-import org.isoron.uhabits.BaseUserInterfaceTest.device
+import org.isoron.uhabits.BaseUserInterfaceTest.Companion.device
 import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu

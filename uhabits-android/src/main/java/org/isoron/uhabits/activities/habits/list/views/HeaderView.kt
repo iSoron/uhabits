@@ -25,8 +25,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Typeface
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.text.TextPaint
 import android.view.View.MeasureSpec.EXACTLY
 import org.isoron.uhabits.R
@@ -60,7 +58,7 @@ class HeaderView(
     init {
         setScrollerBucketSize(dim(R.dimen.checkmarkWidth).toInt())
         setBackgroundColor(sres.getColor(R.attr.headerBackgroundColor))
-        if (SDK_INT >= LOLLIPOP) elevation = dp(2.0f)
+        elevation = dp(2.0f)
     }
 
     override fun atMidnight() {

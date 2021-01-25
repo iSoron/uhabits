@@ -57,10 +57,10 @@ class AndroidNotificationTray
         Log.d("AndroidNotificationTray", msg)
     }
 
-    override fun removeNotification(id: Int) {
+    override fun removeNotification(notificationId: Int) {
         val manager = NotificationManagerCompat.from(context)
-        manager.cancel(id)
-        active.remove(id)
+        manager.cancel(notificationId)
+        active.remove(notificationId)
     }
 
     override fun showNotification(

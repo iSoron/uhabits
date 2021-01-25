@@ -83,8 +83,8 @@ class CheckmarkWidgetView : HabitWidgetView {
                 setShadowAlpha(0x00)
             }
         }
-        ring.percentage = percentage
-        ring.color = fgColor
+        ring.setPercentage(percentage)
+        ring.setColor(fgColor)
         ring.setBackgroundColor(bgColor)
         ring.setText(text)
         label.text = name
@@ -117,8 +117,6 @@ class CheckmarkWidgetView : HabitWidgetView {
         get() = R.layout.widget_checkmark
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var widthMeasureSpec = widthMeasureSpec
-        var heightMeasureSpec = heightMeasureSpec
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
         var w = width.toFloat()
@@ -128,15 +126,15 @@ class CheckmarkWidgetView : HabitWidgetView {
         h *= scale
         if (h < getDimension(context, R.dimen.checkmarkWidget_heightBreakpoint)) ring.visibility =
             GONE else ring.visibility = VISIBLE
-        widthMeasureSpec = MeasureSpec.makeMeasureSpec(w.toInt(), MeasureSpec.EXACTLY)
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(h.toInt(), MeasureSpec.EXACTLY)
+        val newWidthMeasureSpec = MeasureSpec.makeMeasureSpec(w.toInt(), MeasureSpec.EXACTLY)
+        val newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(h.toInt(), MeasureSpec.EXACTLY)
         var textSize = 0.15f * h
         val maxTextSize = getDimension(context, R.dimen.smallerTextSize)
         textSize = min(textSize, maxTextSize)
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         ring.setTextSize(textSize)
         ring.setThickness(0.15f * textSize)
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        super.onMeasure(newWidthMeasureSpec, newHeightMeasureSpec)
     }
 
     private fun init() {

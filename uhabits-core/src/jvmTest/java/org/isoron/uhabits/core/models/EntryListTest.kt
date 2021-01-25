@@ -381,5 +381,5 @@ class EntryListTest {
         }
     }
 
-    fun day(offset: Int) = DateUtils.getToday().minus(offset)!!
+    fun day(offset: Int) = DateUtils.getToday().minus(offset)
 }

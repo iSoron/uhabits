@@ -19,6 +19,7 @@
 package org.isoron.uhabits.core.ui.screens.habits.list
 
 import com.nhaarman.mockitokotlin2.KArgumentCaptor
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.clearInvocations
 import com.nhaarman.mockitokotlin2.eq
@@ -38,7 +39,6 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers
 import java.io.IOException
 import java.nio.file.Files
 
@@ -89,9 +89,9 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Throws(Exception::class)
     fun testOnExportCSV() {
         val outputDir = Files.createTempDirectory("CSV").toFile()
-        whenever(dirFinder.csvOutputDir).thenReturn(outputDir)
+        whenever(dirFinder.getCSVOutputDir()).thenReturn(outputDir)
         behavior.onExportCSV()
-        verify(screen).showSendFileScreen(ArgumentMatchers.any())
+        verify(screen).showSendFileScreen(any())
         assertThat(FileUtils.listFiles(outputDir, null, false).size, equalTo(1))
         FileUtils.deleteDirectory(outputDir)
     }
@@ -101,7 +101,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     fun testOnExportCSV_fail() {
         val outputDir = Files.createTempDirectory("CSV").toFile()
         outputDir.setWritable(false)
-        whenever(dirFinder.csvOutputDir).thenReturn(outputDir)
+        whenever(dirFinder.getCSVOutputDir()).thenReturn(outputDir)
         behavior.onExportCSV()
         verify(screen).showMessage(ListHabitsBehavior.Message.COULD_NOT_EXPORT)
         assertTrue(outputDir.delete())
@@ -131,11 +131,11 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Test
     @Throws(IOException::class)
     fun testOnSendBugReport() {
-        whenever(bugReporter.bugReport).thenReturn("hello")
+        whenever(bugReporter.getBugReport()).thenReturn("hello")
         behavior.onSendBugReport()
         verify(bugReporter).dumpBugReportToFile()
         verify(screen).showSendBugReportToDeveloperScreen("hello")
-        whenever(bugReporter.bugReport).thenThrow(IOException())
+        whenever(bugReporter.getBugReport()).thenThrow(IOException())
         behavior.onSendBugReport()
         verify(screen).showMessage(ListHabitsBehavior.Message.COULD_NOT_GENERATE_BUG_REPORT)
     }

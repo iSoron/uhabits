@@ -77,7 +77,7 @@ class HabitsCSVExporter(
     }
 
     private fun sanitizeFilename(name: String): String {
-        val s = name.replace("[^ a-zA-Z0-9\\._-]+".toRegex(), "")
+        val s = name.replace("[^ a-zA-Z0-9._-]+".toRegex(), "")
         return s.substring(0, min(s.length, 100))
     }
 

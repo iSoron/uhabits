@@ -168,6 +168,7 @@ class Repository<T>(
         get() {
             val fields: MutableList<Pair<Field, Column>> = ArrayList()
             for (f in klass.declaredFields) {
+                f.isAccessible = true
                 for (annotation in f.annotations) {
                     if (annotation !is Column) continue
                     fields.add(ImmutablePair(f, annotation))

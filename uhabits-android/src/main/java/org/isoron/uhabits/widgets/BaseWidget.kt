@@ -34,7 +34,7 @@ import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.intents.PendingIntentFactory
 
 abstract class BaseWidget(val context: Context, val id: Int) {
-    protected val widgetPrefs: WidgetPreferences
+    private val widgetPrefs: WidgetPreferences
     protected val prefs: Preferences
     protected val pendingIntentFactory: PendingIntentFactory
     protected val commandRunner: CommandRunner
@@ -120,9 +120,9 @@ abstract class BaseWidget(val context: Context, val id: Int) {
         return remoteViews
     }
 
-    private fun measureView(view: View, width: Int, height: Int) {
-        var width = width
-        var height = height
+    private fun measureView(view: View, w: Int, h: Int) {
+        var width = w
+        var height = h
         val inflater = LayoutInflater.from(context)
         val entireView = inflater.inflate(R.layout.widget_wrapper, null)
         var specWidth = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
@@ -144,7 +144,7 @@ abstract class BaseWidget(val context: Context, val id: Int) {
     }
 
     protected val preferedBackgroundAlpha: Int
-        protected get() = prefs.widgetOpacity
+        get() = prefs.widgetOpacity
 
     init {
         val app = context.applicationContext as HabitsApplication

@@ -20,12 +20,11 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import android.graphics.text.LineBreaker.BREAK_STRATEGY_BALANCED
 import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Build.VERSION_CODES.M
 import android.os.Handler
 import android.os.Looper
-import android.text.Layout
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
@@ -90,10 +89,10 @@ class HabitCardView(
         }
 
     var score
-        get() = scoreRing.percentage.toDouble()
+        get() = scoreRing.getPercentage().toDouble()
         set(value) {
-            scoreRing.percentage = value.toFloat()
-            scoreRing.precision = 1.0f / 16
+            scoreRing.setPercentage(value.toFloat())
+            scoreRing.setPrecision(1.0f / 16)
         }
 
     var unit
@@ -137,7 +136,7 @@ class HabitCardView(
             maxLines = 2
             ellipsize = TextUtils.TruncateAt.END
             layoutParams = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
-            if (SDK_INT >= M) breakStrategy = Layout.BREAK_STRATEGY_BALANCED
+            if (SDK_INT >= M) breakStrategy = BREAK_STRATEGY_BALANCED
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {
@@ -159,7 +158,7 @@ class HabitCardView(
             gravity = Gravity.CENTER_VERTICAL
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            if (SDK_INT >= LOLLIPOP) elevation = dp(1f)
+            elevation = dp(1f)
 
             addView(scoreRing)
             addView(label)
@@ -167,8 +166,7 @@ class HabitCardView(
             addView(numberPanel)
 
             setOnTouchListener { v, event ->
-                if (SDK_INT >= LOLLIPOP)
-                    v.background.setHotspot(event.x, event.y)
+                v.background.setHotspot(event.x, event.y)
                 false
             }
         }
@@ -225,7 +223,7 @@ class HabitCardView(
             setTextColor(c)
         }
         scoreRing.apply {
-            color = c
+            setColor(c)
         }
         checkmarkPanel.apply {
             color = c
@@ -247,7 +245,7 @@ class HabitCardView(
 
     private fun triggerRipple(x: Float, y: Float) {
         val background = innerFrame.background
-        if (SDK_INT >= LOLLIPOP) background.setHotspot(x, y)
+        background.setHotspot(x, y)
         background.state = intArrayOf(
             android.R.attr.state_pressed,
             android.R.attr.state_enabled
@@ -256,14 +254,6 @@ class HabitCardView(
     }
 
     private fun updateBackground(isSelected: Boolean) {
-        if (SDK_INT < LOLLIPOP) {
-            val background = when (isSelected) {
-                true -> sres.getDrawable(R.attr.selectedBackground)
-                false -> sres.getDrawable(R.attr.cardBackground)
-            }
-            innerFrame.setBackgroundDrawable(background)
-            return
-        }
 
         val background = when (isSelected) {
             true -> R.drawable.selected_box

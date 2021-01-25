@@ -19,13 +19,13 @@
 
 package org.isoron.uhabits.sync.app
 
+import com.nhaarman.mockitokotlin2.mock
 import io.ktor.application.*
 import org.isoron.uhabits.sync.server.*
-import org.mockito.Mockito.*
 
 open class BaseApplicationTest {
 
-    protected val server: AbstractSyncServer = mock(AbstractSyncServer::class.java)
+    protected val server: AbstractSyncServer = mock()
 
     protected fun app(): Application.() -> Unit = {
         SyncApplication(server).apply {

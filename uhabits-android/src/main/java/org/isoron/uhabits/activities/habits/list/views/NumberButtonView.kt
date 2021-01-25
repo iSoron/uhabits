@@ -161,15 +161,19 @@ class NumberButtonView(
             val label: String
             val typeface: Typeface
 
-            if (value >= 0) {
-                label = value.toShortString()
-                typeface = BOLD_TYPEFACE
-            } else if (preferences.areQuestionMarksEnabled()) {
-                label = resources.getString(R.string.fa_question)
-                typeface = getFontAwesome()
-            } else {
-                label = "0"
-                typeface = BOLD_TYPEFACE
+            when {
+                value >= 0 -> {
+                    label = value.toShortString()
+                    typeface = BOLD_TYPEFACE
+                }
+                preferences.areQuestionMarksEnabled() -> {
+                    label = resources.getString(R.string.fa_question)
+                    typeface = getFontAwesome()
+                }
+                else -> {
+                    label = "0"
+                    typeface = BOLD_TYPEFACE
+                }
             }
 
             pBold.color = activeColor

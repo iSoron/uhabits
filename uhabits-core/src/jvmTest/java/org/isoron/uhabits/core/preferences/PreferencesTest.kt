@@ -26,7 +26,7 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.HabitList
-import org.isoron.uhabits.core.models.Timestamp.ZERO
+import org.isoron.uhabits.core.models.Timestamp.Companion.ZERO
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.junit.Before
 import org.junit.Test
