@@ -51,7 +51,7 @@ kotlin {
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
                 implementation("com.opencsv:opencsv:3.10")
                 implementation("commons-codec:commons-codec:1.15")
-                implementation("org.apache.commons:commons-lang3:3.5")
+                implementation("org.apache.commons:commons-lang3:3.11")
             }
         }
 
