@@ -104,7 +104,7 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.2.1")
     implementation("com.google.zxing:core:3.4.1")
-    implementation("com.opencsv:opencsv:3.10")
+    implementation("com.opencsv:opencsv:5.3")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
