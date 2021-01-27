@@ -109,7 +109,7 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("com.google.dagger:dagger:$daggerVersion")
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.1")
     testImplementation("org.mockito:mockito-core:2.28.2")
     testImplementation("org.mockito:mockito-inline:2.8.9")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
