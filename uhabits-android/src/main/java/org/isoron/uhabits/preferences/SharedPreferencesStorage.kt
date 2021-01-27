@@ -79,7 +79,7 @@ class SharedPreferencesStorage
 
     override fun onSharedPreferenceChanged(
         sharedPreferences: SharedPreferences,
-        key: String
+        key: String?
     ) {
         val preferences = this.preferences ?: return
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)

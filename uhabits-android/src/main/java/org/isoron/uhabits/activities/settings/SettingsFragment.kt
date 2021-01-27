@@ -147,7 +147,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
 
     override fun onSharedPreferenceChanged(
         sharedPreferences: SharedPreferences,
-        key: String
+        key: String?
     ) {
         if (key == "pref_widget_opacity" && widgetUpdater != null) {
             Log.d("SettingsFragment", "updating widgets")
