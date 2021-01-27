@@ -45,12 +45,16 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         super.onCreate(bundle)
         val intent = intent
         if (intent == null) finish()
-        if (intent.data == null) finish()
         val app = applicationContext as HabitsApplication
         val appComponent = app.component
-        reminderController = appComponent.reminderController
-        habit = appComponent.habitList.getById(ContentUris.parseId(intent.data))
+        val data = intent.data
+        if (data == null) {
+            finish()
+        } else {
+            habit = appComponent.habitList.getById(ContentUris.parseId(data))
+        }
         if (habit == null) finish()
+        reminderController = appComponent.reminderController
         val theme = R.style.Theme_AppCompat_Light_Dialog_Alert
         dialog = AlertDialog.Builder(ContextThemeWrapper(this, theme))
             .setTitle(R.string.select_snooze_delay)

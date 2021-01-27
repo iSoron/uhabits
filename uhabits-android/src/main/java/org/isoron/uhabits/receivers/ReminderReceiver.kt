@@ -46,7 +46,8 @@ class ReminderReceiver : BroadcastReceiver() {
         Log.i(TAG, String.format("Received intent: %s", intent.toString()))
         var habit: Habit? = null
         val today: Long = getStartOfTodayWithOffset()
-        if (intent.data != null) habit = habits.getById(ContentUris.parseId(intent.data))
+        val data = intent.data
+        if (data != null) habit = habits.getById(ContentUris.parseId(data))
         val timestamp = intent.getLongExtra("timestamp", today)
         val reminderTime = intent.getLongExtra("reminderTime", today)
         try {
