@@ -33,6 +33,13 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="pref_midnight_delay"
+            android:summary="@string/pref_midnight_delay_description"
+            android:title="@string/pref_midnight_delay_title"
+            app:iconSpaceReserved="false" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="pref_skip_enabled"
             android:summary="@string/pref_skip_description"
             android:title="@string/pref_skip_title"
