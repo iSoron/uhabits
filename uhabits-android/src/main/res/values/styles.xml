@@ -89,6 +89,7 @@
         <item name="mediumContrastReverseTextColor">@color/grey_750</item>
         <item name="mediumContrastTextColor">@color/grey_500</item>
         <item name="palette">@array/darkPalette</item>
+        <item name="popupMenuBackground">@color/black</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
         <item name="selectedBackground">@drawable/selected_box_dark</item>
