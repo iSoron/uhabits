@@ -63,7 +63,6 @@ kotlin {
                 implementation("org.hamcrest:hamcrest:2.1")
                 implementation("nl.jqno.equalsverifier:equalsverifier:2.4.8")
                 implementation("org.apache.commons:commons-io:1.3.2")
-                implementation("org.mockito:mockito-core:2.28.2")
                 implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
             }
         }
