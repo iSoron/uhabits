@@ -78,7 +78,7 @@ class HabitCardListView(
         super.setAdapter(adapter)
     }
 
-    fun createHabitCardView(): View {
+    fun createHabitCardView(): HabitCardView {
         return cardViewFactory.create()
     }
 
@@ -109,6 +109,7 @@ class HabitCardListView(
     }
 
     fun attachCardView(holder: HabitCardViewHolder) {
+        (holder.itemView as HabitCardView).dataOffset = dataOffset
         attachedHolders.add(holder)
     }
 
