@@ -206,7 +206,7 @@ public class HabitCardListAdapter
                                                   int viewType)
     {
         if (listView == null) return null;
-        View view = listView.createHabitCardView();
+        HabitCardView view = listView.createHabitCardView();
         return new HabitCardViewHolder(view);
     }
 
