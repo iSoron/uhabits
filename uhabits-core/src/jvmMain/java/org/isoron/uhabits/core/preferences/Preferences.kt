@@ -183,6 +183,13 @@ open class Preferences(private val storage: Storage) {
             for (l in listeners) l.onCheckmarkSequenceChanged()
         }
 
+    open var isMidnightDelayEnabled: Boolean
+        get() = storage.getBoolean("pref_midnight_delay", false)
+        set(enabled) {
+            storage.putBoolean("pref_midnight_delay", enabled)
+            for (l in listeners) l.onCheckmarkSequenceChanged()
+        }
+
     fun updateLastHint(number: Int, timestamp: Timestamp) {
         storage.putInt("last_hint_number", number)
         storage.putLong("last_hint_timestamp", timestamp.unixTime)

@@ -86,6 +86,8 @@ class SharedPreferencesStorage
         when (key) {
             "pref_checkmark_reverse_order" ->
                 preferences.isCheckmarkSequenceReversed = getBoolean(key, false)
+            "pref_midnight_delay" ->
+                preferences.isMidnightDelayEnabled = getBoolean(key, false)
             "pref_sticky_notifications" ->
                 preferences.setNotificationsSticky(getBoolean(key, false))
             "pref_led_notifications" ->

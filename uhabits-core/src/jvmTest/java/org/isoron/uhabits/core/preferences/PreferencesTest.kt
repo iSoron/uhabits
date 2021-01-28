@@ -167,4 +167,12 @@ class PreferencesTest : BaseUnitTest() {
         assertTrue(prefs.showArchived)
         assertFalse(prefs.showCompleted)
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun testMidnightDelay() {
+        assertFalse(prefs.isMidnightDelayEnabled)
+        prefs.isMidnightDelayEnabled = true
+        assertTrue(prefs.isMidnightDelayEnabled)
+    }
 }
