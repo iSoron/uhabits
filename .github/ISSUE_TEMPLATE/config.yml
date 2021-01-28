@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Feature requests
-    url: https://github.com/iSoron/uhabits/discussions/categories/feature-requests
+    url: https://github.com/iSoron/uhabits/discussions/categories/feature-requests?discussions_q=category%3A%22Feature+Requests%22+sort%3Atop
     about:  Submit ideas for new features and for improving existing features
   - name: Help & FAQ
     url: https://github.com/iSoron/uhabits/discussions/categories/help-faq
