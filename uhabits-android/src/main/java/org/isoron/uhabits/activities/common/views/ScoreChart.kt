@@ -156,7 +156,7 @@ class ScoreChart : ScrollableChart {
                 drawMarker(activeCanvas, prevRect)
             }
             if (k == nColumns - 1) drawMarker(activeCanvas, rect)
-            prevRect!!.set(rect)
+            prevRect!!.set(rect!!)
             rect!![0f, 0f, columnWidth] = columnHeight.toFloat()
             rect!!.offset(k * columnWidth, internalPaddingTop.toFloat())
             drawFooter(activeCanvas, rect, timestamp)
