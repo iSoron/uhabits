@@ -19,6 +19,10 @@
 
 package org.isoron.uhabits.core.ui.views
 
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.reset
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import kotlinx.coroutines.runBlocking
 import org.isoron.platform.gui.assertRenders
 import org.isoron.platform.time.DayOfWeek
@@ -31,16 +35,12 @@ import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.ON
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.reset
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
 import java.util.Locale
 
 class HistoryChartTest {
     val base = "views/HistoryChart"
 
-    private val dateClickedListener = mock(OnDateClickedListener::class.java)!!
+    private val dateClickedListener: OnDateClickedListener = mock()
 
     val view = HistoryChart(
         today = LocalDate(2015, 1, 25),

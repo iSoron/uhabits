@@ -31,13 +31,11 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Test
-import org.mockito.Mock
 
 class HintListTest : BaseUnitTest() {
     private lateinit var hintList: HintList
     private lateinit var hints: Array<String>
 
-    @Mock
     private val prefs: Preferences = mock()
     private lateinit var today: Timestamp
     private lateinit var yesterday: Timestamp
