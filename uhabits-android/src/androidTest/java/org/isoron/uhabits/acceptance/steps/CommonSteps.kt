@@ -69,6 +69,10 @@ object CommonSteps : BaseUserInterfaceTest() {
         device.waitForIdle()
     }
 
+    fun offsetHeaders() {
+        device.swipe(750, 160, 600, 160, 20)
+    }
+
     fun scrollToText(text: String?) {
         try {
             if (device

@@ -114,7 +114,7 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
-    private var checkmarkPanel: CheckmarkPanelView
+    var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
     private var label: TextView
