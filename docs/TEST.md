@@ -47,6 +47,6 @@ Only the following Android versions are supported by our test suite:
 * Android 8.0 (API 26)
 * Android 8.1 (API 27)
 * Android 9.0 (API 28)
-* Android 10.0 (API 30)
+* Android 10.0 (API 29)
 
 After creating an emulator and configuring it exactly as described above, launch it, wait for it to finish booting up, then run `./build.sh large-tests`. As mentioned before, this script will uninstall the app before testing it, and therefore will delete all the user data.
