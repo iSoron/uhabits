@@ -37,28 +37,28 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     var commandRunner: CommandRunner
 ) {
     fun canArchive(): Boolean {
-        for (habit in adapter.selected) if (habit.isArchived) return false
+        for (habit in adapter.getSelected()) if (habit.isArchived) return false
         return true
     }
 
     fun canEdit(): Boolean {
-        return adapter.selected.size == 1
+        return adapter.getSelected().size == 1
     }
 
     fun canUnarchive(): Boolean {
-        for (habit in adapter.selected) if (!habit.isArchived) return false
+        for (habit in adapter.getSelected()) if (!habit.isArchived) return false
         return true
     }
 
     fun onArchiveHabits() {
-        commandRunner.run(ArchiveHabitsCommand(habitList, adapter.selected))
+        commandRunner.run(ArchiveHabitsCommand(habitList, adapter.getSelected()))
         adapter.clearSelection()
     }
 
     fun onChangeColor() {
-        val (color) = adapter.selected[0]
+        val (color) = adapter.getSelected()[0]
         screen.showColorPicker(color) { selectedColor: PaletteColor ->
-            commandRunner.run(ChangeHabitColorCommand(habitList, adapter.selected, selectedColor))
+            commandRunner.run(ChangeHabitColorCommand(habitList, adapter.getSelected(), selectedColor))
             adapter.clearSelection()
         }
     }
@@ -66,27 +66,27 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     fun onDeleteHabits() {
         screen.showDeleteConfirmationScreen(
             {
-                adapter.performRemove(adapter.selected)
-                commandRunner.run(DeleteHabitsCommand(habitList, adapter.selected))
+                adapter.performRemove(adapter.getSelected())
+                commandRunner.run(DeleteHabitsCommand(habitList, adapter.getSelected()))
                 adapter.clearSelection()
             },
-            adapter.selected.size
+            adapter.getSelected().size
         )
     }
 
     fun onEditHabits() {
-        screen.showEditHabitsScreen(adapter.selected)
+        screen.showEditHabitsScreen(adapter.getSelected())
         adapter.clearSelection()
     }
 
     fun onUnarchiveHabits() {
-        commandRunner.run(UnarchiveHabitsCommand(habitList, adapter.selected))
+        commandRunner.run(UnarchiveHabitsCommand(habitList, adapter.getSelected()))
         adapter.clearSelection()
     }
 
     interface Adapter {
         fun clearSelection()
-        val selected: List<Habit>
+        fun getSelected(): List<Habit>
         fun performRemove(selected: List<Habit>)
     }
 

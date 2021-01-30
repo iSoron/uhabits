@@ -53,7 +53,7 @@ class HabitCardListAdapter @Inject constructor(
     ListHabitsSelectionMenuBehavior.Adapter {
     val observable: ModelObservable = ModelObservable()
     private var listView: HabitCardListView? = null
-    override val selected: LinkedList<Habit> = LinkedList()
+    val selected: LinkedList<Habit> = LinkedList()
     override fun atMidnight() {
         cache.refreshAllHabits()
     }
@@ -69,6 +69,10 @@ class HabitCardListAdapter @Inject constructor(
         selected.clear()
         notifyDataSetChanged()
         observable.notifyListeners()
+    }
+
+    override fun getSelected(): List<Habit> {
+        return ArrayList(selected)
     }
 
     /**
