@@ -19,7 +19,7 @@ cd "$(dirname "$0")"
 
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
-AVDMANAGER="${ANDROID_HOME}/tools/bin/avdmanager"
+AVDMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/avdmanager"
 AVDNAME="uhabitsTest"
 GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
