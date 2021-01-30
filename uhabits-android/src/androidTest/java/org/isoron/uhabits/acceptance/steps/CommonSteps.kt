@@ -89,8 +89,8 @@ object CommonSteps : BaseUserInterfaceTest() {
     }
 
     fun verifyDisplayGraphs() {
-        verifyDisplaysView("HistoryCard")
-        verifyDisplaysView("ScoreCard")
+        verifyDisplaysView("HistoryCardView")
+        verifyDisplaysView("ScoreCardView")
     }
 
     fun verifyDisplaysText(text: String?) {
