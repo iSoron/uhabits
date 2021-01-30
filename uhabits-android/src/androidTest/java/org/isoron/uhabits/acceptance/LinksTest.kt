@@ -21,11 +21,13 @@ package org.isoron.uhabits.acceptance
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyOpensWebsite
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ABOUT
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.HELP
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
-import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -36,7 +38,7 @@ class LinksTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldLinkToSourceCode() {
         launchApp()
-        clickMenu(ListHabitsSteps.MenuItem.ABOUT)
+        clickMenu(ABOUT)
         clickText("View source code at GitHub")
         verifyOpensWebsite("github.com")
     }
@@ -45,7 +47,7 @@ class LinksTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldLinkToTranslationWebsite() {
         launchApp()
-        clickMenu(ListHabitsSteps.MenuItem.ABOUT)
+        clickMenu(ABOUT)
         clickText("Help translate this app")
         verifyOpensWebsite("translate.loophabits.org")
     }
@@ -54,7 +56,7 @@ class LinksTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldLinkToHelp() {
         launchApp()
-        clickMenu(ListHabitsSteps.MenuItem.HELP)
+        clickMenu(HELP)
         verifyOpensWebsite("github.com")
     }
 
@@ -62,7 +64,7 @@ class LinksTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldLinkToHelpFromSettings() {
         launchApp()
-        clickMenu(ListHabitsSteps.MenuItem.SETTINGS)
+        clickMenu(SETTINGS)
         clickText("Help & FAQ")
         verifyOpensWebsite("github.com")
     }

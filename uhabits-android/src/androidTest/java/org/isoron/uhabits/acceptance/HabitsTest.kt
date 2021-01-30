@@ -21,7 +21,10 @@ package org.isoron.uhabits.acceptance
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.isoron.uhabits.BaseUserInterfaceTest
-import org.isoron.uhabits.acceptance.steps.CommonSteps
+import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.EDIT_HABIT
+import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.LIST_HABITS
+import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.SELECT_HABIT_TYPE
+import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.SHOW_HABIT
 import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
 import org.isoron.uhabits.acceptance.steps.CommonSteps.longClickText
@@ -37,7 +40,13 @@ import org.isoron.uhabits.acceptance.steps.EditHabitSteps.pickFrequency
 import org.isoron.uhabits.acceptance.steps.EditHabitSteps.typeDescription
 import org.isoron.uhabits.acceptance.steps.EditHabitSteps.typeName
 import org.isoron.uhabits.acceptance.steps.EditHabitSteps.typeQuestion
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ADD
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ARCHIVE
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.DELETE
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.EDIT
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.TOGGLE_ARCHIVED
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.TOGGLE_COMPLETED
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.UNARCHIVE
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.longPressCheckmarks
 import org.junit.Test
@@ -61,11 +70,11 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     private fun shouldCreateHabit(description: String) {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
-        clickMenu(ListHabitsSteps.MenuItem.ADD)
-        verifyShowsScreen(CommonSteps.Screen.SELECT_HABIT_TYPE)
+        verifyShowsScreen(LIST_HABITS)
+        clickMenu(ADD)
+        verifyShowsScreen(SELECT_HABIT_TYPE)
         clickText("Yes or No")
-        verifyShowsScreen(CommonSteps.Screen.EDIT_HABIT)
+        verifyShowsScreen(EDIT_HABIT)
         val testName = "Hello world"
         typeName(testName)
         typeQuestion("Did you say hello to the world today?")
@@ -73,7 +82,7 @@ class HabitsTest : BaseUserInterfaceTest() {
         pickFrequency()
         pickColor(5)
         clickSave()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         verifyDisplaysText(testName)
     }
 
@@ -81,9 +90,9 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldShowHabitStatistics() {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         clickText("Track time")
-        verifyShowsScreen(CommonSteps.Screen.SHOW_HABIT)
+        verifyShowsScreen(SHOW_HABIT)
         verifyDisplayGraphs()
     }
 
@@ -91,9 +100,9 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldDeleteHabit() {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         longClickText("Track time")
-        clickMenu(ListHabitsSteps.MenuItem.DELETE)
+        clickMenu(DELETE)
         clickText("Yes")
         verifyDoesNotDisplayText("Track time")
     }
@@ -113,15 +122,15 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     private fun shouldEditHabit(description: String) {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         longClickText("Track time")
-        clickMenu(ListHabitsSteps.MenuItem.EDIT)
-        verifyShowsScreen(CommonSteps.Screen.EDIT_HABIT)
+        clickMenu(EDIT)
+        verifyShowsScreen(EDIT_HABIT)
         typeName("Take a walk")
         typeQuestion("Did you take a walk today?")
         typeDescription(description)
         clickSave()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         verifyDisplaysTextInSequence("Wake up early", "Take a walk", "Meditate")
         verifyDoesNotDisplayText("Track time")
     }
@@ -130,19 +139,19 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldEditHabit_fromStatisticsScreen() {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         clickText("Track time")
-        verifyShowsScreen(CommonSteps.Screen.SHOW_HABIT)
-        clickMenu(ListHabitsSteps.MenuItem.EDIT)
-        verifyShowsScreen(CommonSteps.Screen.EDIT_HABIT)
+        verifyShowsScreen(SHOW_HABIT)
+        clickMenu(EDIT)
+        verifyShowsScreen(EDIT_HABIT)
         typeName("Take a walk")
         typeQuestion("Did you take a walk today?")
         pickColor(10)
         clickSave()
-        verifyShowsScreen(CommonSteps.Screen.SHOW_HABIT)
+        verifyShowsScreen(SHOW_HABIT)
         verifyDisplaysText("Take a walk")
         pressBack()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         verifyDisplaysText("Take a walk")
         verifyDoesNotDisplayText("Track time")
     }
@@ -151,15 +160,15 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldArchiveAndUnarchiveHabits() {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         longClickText("Track time")
-        clickMenu(ListHabitsSteps.MenuItem.ARCHIVE)
+        clickMenu(ARCHIVE)
         verifyDoesNotDisplayText("Track time")
-        clickMenu(ListHabitsSteps.MenuItem.TOGGLE_ARCHIVED)
+        clickMenu(TOGGLE_ARCHIVED)
         verifyDisplaysText("Track time")
         longClickText("Track time")
-        clickMenu(ListHabitsSteps.MenuItem.UNARCHIVE)
-        clickMenu(ListHabitsSteps.MenuItem.TOGGLE_ARCHIVED)
+        clickMenu(UNARCHIVE)
+        clickMenu(TOGGLE_ARCHIVED)
         verifyDisplaysText("Track time")
     }
 
@@ -167,10 +176,10 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldToggleCheckmarksAndUpdateScore() {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         longPressCheckmarks("Wake up early", 2)
         clickText("Wake up early")
-        verifyShowsScreen(CommonSteps.Screen.SHOW_HABIT)
+        verifyShowsScreen(SHOW_HABIT)
         verifyDisplaysText("10%")
     }
 
@@ -178,15 +187,15 @@ class HabitsTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun shouldHideCompleted() {
         launchApp()
-        verifyShowsScreen(CommonSteps.Screen.LIST_HABITS)
+        verifyShowsScreen(LIST_HABITS)
         verifyDisplaysText("Track time")
         verifyDisplaysText("Wake up early")
-        clickMenu(ListHabitsSteps.MenuItem.TOGGLE_COMPLETED)
+        clickMenu(TOGGLE_COMPLETED)
         verifyDoesNotDisplayText("Track time")
         verifyDisplaysText("Wake up early")
         longPressCheckmarks("Wake up early", 1)
         verifyDoesNotDisplayText("Wake up early")
-        clickMenu(ListHabitsSteps.MenuItem.TOGGLE_COMPLETED)
+        clickMenu(TOGGLE_COMPLETED)
         verifyDisplaysText("Track time")
         verifyDisplaysText("Wake up early")
     }

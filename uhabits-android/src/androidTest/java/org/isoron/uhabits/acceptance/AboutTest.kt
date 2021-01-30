@@ -21,11 +21,12 @@ package org.isoron.uhabits.acceptance
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
-import org.isoron.uhabits.acceptance.steps.ListHabitsSteps
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ABOUT
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
-import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -35,7 +36,7 @@ class AboutTest : BaseUserInterfaceTest() {
     @Test
     fun shouldDisplayAboutScreen() {
         launchApp()
-        clickMenu(ListHabitsSteps.MenuItem.ABOUT)
+        clickMenu(ABOUT)
         verifyDisplaysText("Loop Habit Tracker")
         verifyDisplaysText("Rate this app on Google Play")
         verifyDisplaysText("Developers")
@@ -45,7 +46,7 @@ class AboutTest : BaseUserInterfaceTest() {
     @Test
     fun shouldDisplayAboutScreenFromSettings() {
         launchApp()
-        clickMenu(ListHabitsSteps.MenuItem.SETTINGS)
+        clickMenu(SETTINGS)
         clickText("About")
         verifyDisplaysText("Translators")
     }

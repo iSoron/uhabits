@@ -20,11 +20,11 @@ package org.isoron.uhabits.acceptance
 
 import androidx.test.filters.LargeTest
 import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
 import org.isoron.uhabits.acceptance.steps.CommonSteps.pressHome
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
 import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickCheckmarkWidget
-import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickText
 import org.isoron.uhabits.acceptance.steps.WidgetSteps.dragCheckmarkWidgetToHomeScreen
 import org.isoron.uhabits.acceptance.steps.WidgetSteps.verifyCheckmarkWidgetIsShown
 import org.junit.Test

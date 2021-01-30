@@ -33,15 +33,6 @@ object WidgetSteps {
     }
 
     @Throws(Exception::class)
-    fun clickText(s: String) {
-        var textObject = BaseUserInterfaceTest.device.findObject(UiSelector().text(s))
-        if (!textObject.waitForExists(1000)) {
-            textObject = BaseUserInterfaceTest.device.findObject(UiSelector().text(s.toUpperCase()))
-        }
-        textObject.click()
-    }
-
-    @Throws(Exception::class)
     fun dragCheckmarkWidgetToHomeScreen() {
         openWidgetScreen()
         dragWidgetToHomeScreen()
