@@ -50,7 +50,7 @@ fun copyBackupToDownloadFolder() {
 fun importBackupFromDownloadFolder() {
     clickMenu(SETTINGS)
     clickText("Import data")
-    device.click(100, 180) // Click menu button
+    device.click(50, 90) // Click menu button
     device.findObject(UiSelector().textContains("Download")).click()
     device.findObject(UiSelector().textContains("Loop")).click()
 }

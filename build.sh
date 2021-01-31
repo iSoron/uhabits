@@ -176,7 +176,7 @@ create_avd() {
     $AVDMANAGER create avd \
             --name $AVDNAME \
             --package "system-images;android-$API;default;x86_64" \
-            --device pixel_xl || fail
+            --device "Nexus 4" || fail
 }
 
 wait_for_device() {
