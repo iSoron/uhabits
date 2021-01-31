@@ -19,6 +19,11 @@
 * **Refactoring:**
   * Convert files to Kotlin (@olegivo)
 
+### 1.8.12 (Jan 30, 2021)
+
+* Fix bug that caused incorrect check marks to show after scrolling (#713)
+* Fix issue preventing widgets from updating at midnight (#680)
+
 ### 1.8.11 (Dec 29, 2020)
 
 * Fix theme issues on Xiaomi phones
