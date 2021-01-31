@@ -19,20 +19,18 @@
 
 package org.isoron.uhabits.regression
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.filters.LargeTest
-import org.hamcrest.CoreMatchers
-import org.hamcrest.CoreMatchers.allOf
 import org.isoron.uhabits.BaseUserInterfaceTest
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.EDIT_HABIT
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.LIST_HABITS
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.SELECT_HABIT_TYPE
 import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.createHabit
 import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
 import org.isoron.uhabits.acceptance.steps.CommonSteps.longClickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.offsetHeaders
 import org.isoron.uhabits.acceptance.steps.CommonSteps.scrollToText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysCheckmarks
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyShowsScreen
 import org.isoron.uhabits.acceptance.steps.EditHabitSteps.clickSave
@@ -41,6 +39,8 @@ import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ADD
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.DELETE
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.longPressCheckmarks
+import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
+import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.junit.Test
 
 @LargeTest
@@ -56,17 +56,14 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
         longClickText("Track time")
         clickMenu(DELETE)
         clickText("Yes")
-
         clickMenu(ADD)
         verifyShowsScreen(SELECT_HABIT_TYPE)
         clickText("Yes or No")
-
         verifyShowsScreen(EDIT_HABIT)
         typeName("Hello world")
         clickSave()
-
         verifyDisplaysText("Hello world")
-        longPressCheckmarks("Hello world", 3)
+        longPressCheckmarks("Hello world", count = 3)
     }
 
     /**
@@ -76,47 +73,14 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun should_update_out_of_screen_checkmarks_when_scrolling_horizontally() {
         launchApp()
-
         verifyShowsScreen(LIST_HABITS)
-        longPressCheckmarks("Wake up early", 1)
-
+        longPressCheckmarks("Wake up early", count = 1)
         verifyShowsScreen(LIST_HABITS)
-        assertCorrectNumberCheckmarks(listOf(2, -1, -1, -1))
-
-        fun createHabit(habitName: String) {
-            clickMenu(ADD)
-            verifyShowsScreen(SELECT_HABIT_TYPE)
-            clickText("Yes or No")
-
-            verifyShowsScreen(EDIT_HABIT)
-            typeName(habitName)
-            clickSave()
-        }
-
-        createHabit("H")
-        createHabit("H")
-        createHabit("H")
-        createHabit("H")
-        createHabit("H")
-        createHabit("H")
-        createHabit("H")
+        verifyDisplaysCheckmarks("Wake up early", listOf(YES_MANUAL, UNKNOWN, UNKNOWN, UNKNOWN))
+        for (i in 1..10) createHabit("Habit $i")
         createHabit("Last Habit")
-
         scrollToText("Last Habit")
         offsetHeaders()
-        assertCorrectNumberCheckmarks(listOf(-1, -1, -1, -1))
-    }
-
-    private fun assertCorrectNumberCheckmarks(vals: List<Int>) {
-        val habit = "Wake up early"
-
-        scrollToText(habit)
-
-        Espresso.onView(
-            allOf(
-                ViewMatchers.hasDescendant(ViewMatchers.withText(habit)),
-                ViewMatchers.withClassName(CoreMatchers.endsWith("HabitCardView"))
-            )
-        ).check(HasButtonsViewAssertion(vals))
+        verifyDisplaysCheckmarks("Wake up early", listOf(UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN))
     }
 }

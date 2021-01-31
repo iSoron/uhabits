@@ -177,7 +177,7 @@ class HabitsTest : BaseUserInterfaceTest() {
     fun shouldToggleCheckmarksAndUpdateScore() {
         launchApp()
         verifyShowsScreen(LIST_HABITS)
-        longPressCheckmarks("Wake up early", 2)
+        longPressCheckmarks("Wake up early", count = 2)
         clickText("Wake up early")
         verifyShowsScreen(SHOW_HABIT)
         verifyDisplaysText("10%")
@@ -193,7 +193,7 @@ class HabitsTest : BaseUserInterfaceTest() {
         clickMenu(TOGGLE_COMPLETED)
         verifyDoesNotDisplayText("Track time")
         verifyDisplaysText("Wake up early")
-        longPressCheckmarks("Wake up early", 1)
+        longPressCheckmarks("Wake up early", count = 1)
         verifyDoesNotDisplayText("Wake up early")
         clickMenu(TOGGLE_COMPLETED)
         verifyDisplaysText("Track time")

@@ -1,4 +1,4 @@
-package org.isoron.uhabits.regression
+package org.isoron.uhabits.acceptance.steps
 
 import android.view.View
 import androidx.test.espresso.NoMatchingViewException

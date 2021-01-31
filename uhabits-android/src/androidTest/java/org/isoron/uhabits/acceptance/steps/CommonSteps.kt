@@ -155,6 +155,25 @@ object CommonSteps : BaseUserInterfaceTest() {
         }
     }
 
+    fun verifyDisplaysCheckmarks(habitName: String, vals: List<Int>) {
+        scrollToText(habitName)
+        Espresso.onView(
+            CoreMatchers.allOf(
+                ViewMatchers.hasDescendant(ViewMatchers.withText(habitName)),
+                ViewMatchers.withClassName(CoreMatchers.endsWith("HabitCardView"))
+            )
+        ).check(HasButtonsViewAssertion(vals))
+    }
+
+    fun createHabit(habitName: String) {
+        ListHabitsSteps.clickMenu(ListHabitsSteps.MenuItem.ADD)
+        verifyShowsScreen(Screen.SELECT_HABIT_TYPE)
+        clickText("Yes or No")
+        verifyShowsScreen(Screen.EDIT_HABIT)
+        EditHabitSteps.typeName(habitName)
+        EditHabitSteps.clickSave()
+    }
+
     enum class Screen {
         LIST_HABITS, SHOW_HABIT, EDIT_HABIT, SELECT_HABIT_TYPE
     }
