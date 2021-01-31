@@ -103,4 +103,12 @@ class PendingIntentFactory
                         if (timestamp != null) putExtra("timestamp", timestamp)
                     },
                     FLAG_UPDATE_CURRENT)
+
+    fun updateWidgets(): PendingIntent =
+            PendingIntent.getBroadcast(
+                    context, 0,
+                    Intent(context, WidgetReceiver::class.java).apply {
+                        action = WidgetReceiver.ACTION_UPDATE_WIDGETS_VALUE
+                    },
+                    FLAG_UPDATE_CURRENT)
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.8.12 (TBD)
+
+* Fix bug that caused incorrect check marks to show after scrolling (#713)
+* Fix issue preventing widgets from updating at midnight (#680)
+
 ### 1.8.11 (Dev 29, 2020)
 
 * Fix theme issues on Xiaomi phones

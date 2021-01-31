@@ -45,7 +45,7 @@ class IntentScheduler
     private val manager =
             context.getSystemService(ALARM_SERVICE) as AlarmManager
 
-    fun schedule(timestamp: Long, intent: PendingIntent) {
+    fun schedule(timestamp: Long, intent: PendingIntent, alarmType: Int) {
         Log.d("IntentScheduler",
               "timestamp=" + timestamp + " current=" + System.currentTimeMillis())
         if (timestamp < System.currentTimeMillis()) {
@@ -54,17 +54,22 @@ class IntentScheduler
             return;
         }
         if (SDK_INT >= M)
-            manager.setExactAndAllowWhileIdle(RTC_WAKEUP, timestamp, intent)
+            manager.setExactAndAllowWhileIdle(alarmType, timestamp, intent)
         else
-            manager.setExact(RTC_WAKEUP, timestamp, intent)
+            manager.setExact(alarmType, timestamp, intent)
     }
 
     override fun scheduleShowReminder(reminderTime: Long,
                                       habit: Habit,
                                       timestamp: Long) {
         val intent = pendingIntents.showReminder(habit, reminderTime, timestamp)
-        schedule(reminderTime, intent)
+        schedule(reminderTime, intent, RTC_WAKEUP)
         logReminderScheduled(habit, reminderTime)
+    }
+
+    override fun scheduleWidgetUpdate(updateTime: Long) {
+        val intent = pendingIntents.updateWidgets()
+        schedule(updateTime, intent, RTC)
     }
 
     override fun log(componentName: String, msg: String) {

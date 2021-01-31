@@ -62,6 +62,7 @@ class HabitsApplication : Application() {
 
         widgetUpdater = component.widgetUpdater
         widgetUpdater.startListening()
+        widgetUpdater.scheduleStartDayWidgetUpdate()
 
         reminderScheduler = component.reminderScheduler
         reminderScheduler.startListening()
