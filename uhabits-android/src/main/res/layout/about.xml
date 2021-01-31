@@ -115,22 +115,23 @@
 
                 <!--
                 This file lists developers who contributed with at least 100 lines
-                of code or 5 commits to our code base. All other contributors
-                are acknowledge in the GitHub Contributors page, linked at the
-                bottom of the list. If you qualify, please feel free to submit
-                a pull request adding yourself here.
+                of code or 5 commits to our code base, sorted by the number of commits.
+                All other contributors are acknowledge in the GitHub Contributors page,
+                linked at the bottom of the list. If you qualify, please feel free to
+                submit a pull request adding yourself here.
                 -->
                 <TextView style="@style/About.Item" android:text="Álinson Santos Xavier"/>
-                <TextView style="@style/About.Item" android:text="Victor Yu"/>
-                <TextView style="@style/About.Item" android:text="Joseph Tran"/>
+                <TextView style="@style/About.Item" android:text="Quentin Hibon"/>
+                <TextView style="@style/About.Item" android:text="Oleg Ivashchenko"/>
+                <TextView style="@style/About.Item" android:text="Rechee Jozil"/>
                 <TextView style="@style/About.Item" android:text="Luboš Luňák"/>
-                <TextView style="@style/About.Item" android:text="Christoph Hennemann"/>
+                <TextView style="@style/About.Item" android:text="Kristian Tashkov"/>
+                <TextView style="@style/About.Item" android:text="Victor Yu"/>
                 <TextView style="@style/About.Item" android:text="Денис (sciamano)"/>
+                <TextView style="@style/About.Item" android:text="Christoph Hennemann"/>
+                <TextView style="@style/About.Item" android:text="Joseph Tran"/>
                 <TextView style="@style/About.Item" android:text="Nikhil (regularcoder)"/>
                 <TextView style="@style/About.Item" android:text="JanetQC"/>
-                <TextView style="@style/About.Item" android:text="olegivo"/>
-                <TextView style="@style/About.Item" android:text="Kristian Tashkov"/>
-                <TextView style="@style/About.Item" android:text="Quentin Hibon (hiqua)"/>
                 <TextView
                         android:id="@+id/tvContributors"
                         style="@style/About.Item.Clickable"
