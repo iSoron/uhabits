@@ -1,2 +1,3 @@
-1.8.11:
-* Fix theme issues on Xiaomi phones
+1.8.12:
+* Fix bug that caused incorrect check marks to show after scrolling
+* Fix issue preventing widgets from updating at midnight
