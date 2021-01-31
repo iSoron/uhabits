@@ -129,6 +129,8 @@
                 <TextView style="@style/About.Item" android:text="Nikhil (regularcoder)"/>
                 <TextView style="@style/About.Item" android:text="JanetQC"/>
                 <TextView style="@style/About.Item" android:text="olegivo"/>
+                <TextView style="@style/About.Item" android:text="Kristian Tashkov"/>
+                <TextView style="@style/About.Item" android:text="Quentin Hibon (hiqua)"/>
                 <TextView
                         android:id="@+id/tvContributors"
                         style="@style/About.Item.Clickable"
