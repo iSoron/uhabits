@@ -123,9 +123,13 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         updateWeekdayPreference()
         updateSyncPreferences()
 
-        // Temporarily disable this; we now always ask
-        findPreference("reminderSound").isVisible = false
         findPreference("pref_snooze_interval").isVisible = false
+
+        if (VERSION.SDK_INT < Build.VERSION_CODES.O)
+            findPreference("reminderCustomize").isVisible = false
+        else {
+            findPreference("reminderSound").isVisible = false
+        }
     }
 
     private fun updateSyncPreferences() {
