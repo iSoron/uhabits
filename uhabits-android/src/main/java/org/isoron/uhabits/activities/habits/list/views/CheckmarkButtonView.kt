@@ -116,7 +116,7 @@ class CheckmarkButtonView(
 
     private inner class Drawer {
         private val rect = RectF()
-        private val lowContrastColor = sres.getColor(R.attr.lowContrastTextColor)
+        private val medContrastColor = sres.getColor(R.attr.mediumContrastTextColor)
 
         private val paint = TextPaint().apply {
             typeface = getFontAwesome()
@@ -129,7 +129,7 @@ class CheckmarkButtonView(
             paint.color = when (value) {
                 YES_MANUAL -> color
                 SKIP -> color
-                else -> lowContrastColor
+                else -> medContrastColor
             }
             val id = when (value) {
                 SKIP -> R.string.fa_skipped
