@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
@@ -24,7 +24,7 @@ AVDNAME="uhabitsTest"
 GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
 ANDROID_OUTPUTS_DIR="uhabits-android/build/outputs"
-VERSION=$(cat gradle.properties | grep VERSION_NAME | sed -e 's/.*=//g;s/ //g')
+VERSION=$(grep VERSION_NAME gradle.properties | sed -e 's/.*=//g;s/ //g')
 
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
     echo "Error: ANDROID_HOME is not set correctly"
@@ -76,37 +76,38 @@ run_adb_as_root() {
 }
 
 build_apk() {
-    if [ ! -z $RELEASE ]; then
+    if [ -n "$RELEASE" ]; then
         log_info "Reading secret..."
+        # shellcheck disable=SC1091
         source .secret/env || fail
     fi
 
     log_info "Removing old APKs..."
     rm -vf uhabits-android/build/*.apk
 
-    if [ ! -z $RELEASE ]; then
+    if [ -n "$RELEASE" ]; then
         log_info "Building release APK..."
         $GRADLE :uhabits-android:assembleRelease
         cp -v \
             uhabits-android/build/outputs/apk/release/uhabits-android-release.apk \
-            uhabits-android/build/loop-$VERSION-release.apk
+            uhabits-android/build/loop-"$VERSION"-release.apk
     fi
 
     log_info "Building debug APK..."
     $GRADLE :uhabits-android:assembleDebug --stacktrace || fail
     cp -v \
         uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk \
-        uhabits-android/build/loop-$VERSION-debug.apk
+        uhabits-android/build/loop-"$VERSION"-debug.apk
 }
 
 build_instrumentation_apk() {
     log_info "Building instrumentation APK..."
-    if [ ! -z $RELEASE ]; then
+    if [ -n "$RELEASE" ]; then
         $GRADLE :uhabits-android:assembleAndroidTest  \
-            -Pandroid.injected.signing.store.file=$LOOP_KEY_STORE \
-            -Pandroid.injected.signing.store.password=$LOOP_STORE_PASSWORD \
-            -Pandroid.injected.signing.key.alias=$LOOP_KEY_ALIAS \
-            -Pandroid.injected.signing.key.password=$LOOP_KEY_PASSWORD || fail
+            -Pandroid.injected.signing.store.file="$LOOP_KEY_STORE" \
+            -Pandroid.injected.signing.store.password="$LOOP_STORE_PASSWORD" \
+            -Pandroid.injected.signing.key.alias="$LOOP_KEY_ALIAS" \
+            -Pandroid.injected.signing.key.password="$LOOP_KEY_PASSWORD" || fail
     else
         $GRADLE assembleAndroidTest || fail
     fi
@@ -125,7 +126,7 @@ install_test_butler() {
 
 install_apk() {
     log_info "Installing APK..."
-    if [ ! -z $RELEASE ]; then
+    if [ -n "$RELEASE" ]; then
         $ADB install -r ${ANDROID_OUTPUTS_DIR}/apk/release/uhabits-android-release.apk || fail
     else
         $ADB install -t -r ${ANDROID_OUTPUTS_DIR}/apk/debug/uhabits-android-debug.apk || fail
@@ -144,7 +145,7 @@ run_instrumented_tests() {
     SIZE=$1
     log_info "Running instrumented tests..."
     $ADB shell am instrument \
-        -r -e coverage true -e size $SIZE \
+        -r -e coverage true -e size "$SIZE" \
         -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
         | tee ${ANDROID_OUTPUTS_DIR}/instrument.txt
 
@@ -181,7 +182,8 @@ create_avd() {
 
 wait_for_device() {
     log_info "Waiting for device..."
-    adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+    # shellcheck disable=SC2016
+    adb wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do sleep 1; done; input keyevent 82'
     sleep 15
 }
 
@@ -194,10 +196,10 @@ run_avd() {
 stop_avd() {
     log_info "Stopping emulator..."
     # https://stackoverflow.com/a/38652520
-    adb devices | grep emulator | cut -f1 | while read line; do
-        adb -s $line emu kill
+    adb devices | grep emulator | cut -f1 | while read -r line; do
+        adb -s "$line" emu kill
     done
-    while [[ ! -z $(pgrep emulator) ]]; do sleep 1; done
+    while [[ -n $(pgrep emulator) ]]; do sleep 1; done
 }
 
 run_tests() {
@@ -207,7 +209,7 @@ run_tests() {
     uninstall_apk
     install_apk
     install_test_apk
-    run_instrumented_tests $SIZE
+    run_instrumented_tests "$SIZE"
     fetch_logcat
     uninstall_test_apk
 }
@@ -219,9 +221,10 @@ build_android() {
 }
 
 parse_opts() {
-    OPTS=`getopt -o r --long release -n 'build.sh' -- "$@"`
-    if [ $? != 0 ] ; then exit 1; fi
-    eval set -- "$OPTS" 
+    if ! OPTS="$(getopt -o r --long release -n 'build.sh' -- "$@")" ; then
+      exit 1;
+    fi
+    eval set -- "$OPTS"
 
     while true; do
         case "$1" in
@@ -252,26 +255,26 @@ remove_build_dirs() {
 main() {
     case "$1" in
         build)
-            shift; parse_opts $*
+            shift; parse_opts "$@"
             ktlint
             build_core
             build_android
             ;;
 
         medium-tests)
-            shift; parse_opts $*
-            for attempt in {1..3}; do
+            shift; parse_opts "$@"
+            for _ in {1..3}; do
                 (run_tests medium) && exit 0
             done
             exit 1
             ;;
 
         large-tests)
-            shift; parse_opts $*
+            shift; parse_opts "$@"
             stop_avd
             remove_avd
-            for api in 28; do
-                create_avd $api
+            for api in {28..28}; do
+                create_avd "$api"
                 run_avd
                 run_tests large
                 stop_avd
@@ -302,5 +305,5 @@ END
     esac
 }
 
-main $*
+main "$@"
     
