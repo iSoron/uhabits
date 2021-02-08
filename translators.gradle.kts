@@ -1,4 +1,34 @@
+import com.crowdin.client.Client
+import com.crowdin.client.core.model.Credentials
 import groovy.xml.MarkupBuilder
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven(url = "https://jitpack.io")
+    }
+    dependencies {
+        "classpath"("com.github.crowdin:crowdin-api-client-java:1.3.3")
+    }
+}
+
+task("fetchTranslators") {
+    doLast {
+        val reader = file("token_crowdin").bufferedReader()
+        val t = reader.readLine()
+
+        // Using test values
+        var organization = "loop-habit-tracker"
+        organization = "loop-habit-tracker-api-test"
+        var projectId = 162051L
+        projectId = 440668L
+        val baseUrl = "https://translate.loophabits.org"
+
+        val client = Client(Credentials(t, organization, baseUrl))
+        val res = client.usersApi.listProjectMembers(projectId, null, 5, null)
+        println(res)
+    }
+}
 
 task("updateTranslators") {
     doLast {
