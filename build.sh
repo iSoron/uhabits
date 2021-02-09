@@ -166,6 +166,18 @@ uninstall_test_apk() {
     $ADB uninstall ${PACKAGE_NAME}.test
 }
 
+fetch_images() {
+    log_info "Fetching images"
+    rm -rf ${ANDROID_OUTPUTS_DIR}/test-screenshots
+    $ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots ${ANDROID_OUTPUTS_DIR}/
+    $ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/
+}
+
+accept_images() {
+    find ${ANDROID_OUTPUTS_DIR}/test-screenshots -name '*.expected*' -delete
+    rsync -av ${ANDROID_OUTPUTS_DIR}/test-screenshots/ uhabits-android/src/androidTest/assets/
+}
+
 remove_avd() {
     log_info "Removing AVD..."
     $AVDMANAGER delete avd --name $AVDNAME
@@ -282,6 +294,14 @@ main() {
             done
             ;;
 
+        fetch-images)
+            fetch_images
+            ;;
+
+        accept-images)
+            accept_images
+            ;;
+
         clean)
             remove_build_dirs
             ;;
@@ -292,8 +312,10 @@ Usage: $0 <command> [options]
 Builds and tests Loop Habit Tracker
 
 Commands:
+    accept-images     Copies fetched images to corresponding assets folder
     build             Build the app
     clean             Remove all build directories
+    fetch-images      Fetches failed view test images from device
     large-tests       Run large-sized tests on connected device
     medium-tests      Run medium-sized tests on connected device
 
