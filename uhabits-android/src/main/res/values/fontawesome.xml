@@ -24,7 +24,7 @@
 	<string translatable="false" name="fa_check">&#xf00c;</string>
 	<string translatable="false" name="fa_times">&#xf00d;</string>
 	<string translatable="false" name="fa_skipped">&#xf068;</string>
-    <string translatable="false" name="fa_bell_o">&#xf0a2;</string>
+    <string translatable="false" name="fa_bell_o">&#xf0f3;</string>
 	<string translatable="false" name="fa_calendar">&#xf073;</string>
 	<string translatable="false" name="fa_exclamation_circle">&#xf06a;</string>
 	<string translatable="false" name="fa_question">&#xf128;</string>
