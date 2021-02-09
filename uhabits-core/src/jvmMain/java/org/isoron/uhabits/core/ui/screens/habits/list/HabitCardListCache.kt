@@ -73,6 +73,11 @@ class HabitCardListCache @Inject constructor(
         return data.checkmarks[habitId]!!
     }
 
+    @Synchronized
+    fun hasNoHabit(): Boolean {
+        return allHabits.isEmpty
+    }
+
     /**
      * Returns the habits that occupies a certain position on the list.
      *

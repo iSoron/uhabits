@@ -62,6 +62,10 @@ class HabitCardListAdapter @Inject constructor(
         cache.cancelTasks()
     }
 
+    fun hasNoHabit(): Boolean {
+        return cache.hasNoHabit()
+    }
+
     /**
      * Sets all items as not selected.
      */

@@ -28,6 +28,7 @@
 	<string translatable="false" name="fa_calendar">&#xf073;</string>
 	<string translatable="false" name="fa_exclamation_circle">&#xf06a;</string>
 	<string translatable="false" name="fa_question">&#xf128;</string>
+	<string translatable="false" name="fa_umbrella_beach">&#xf5ca;</string>
 
     <!--<string translatable="false" name="fa_glass">&#xf000;</string>-->
 	<!--<string translatable="false" name="fa_music">&#xf001;</string>-->
