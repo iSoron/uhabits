@@ -101,12 +101,6 @@ open class Preferences(private val storage: Storage) {
         set(showCompleted) {
             storage.putBoolean("pref_show_completed", showCompleted)
         }
-    val snoozeInterval: Long
-        get() = storage.getString("pref_snooze_interval", "15").toLong()
-
-    fun setSnoozeInterval(interval: Int) {
-        storage.putString("pref_snooze_interval", interval.toString())
-    }
 
     var theme: Int
         get() = storage.getInt("pref_theme", ThemeSwitcher.THEME_AUTOMATIC)

@@ -64,14 +64,12 @@
     <string name="interval_custom">Anpassad...</string>
     <string name="pref_toggle_title">Växla med snabb tryckning</string>
     <string name="pref_toggle_description">Markera genom att trycka snabbt istället för att hålla ner. Mer bekvämt, men kan orsaka oavsiktliga aktiveringar.</string>
-    <string name="pref_snooze_interval_title">Standard tid på snooze</string>
     <string name="pref_rate_this_app">Betygsätt oss på Google Play</string>
     <string name="pref_send_feedback">Skicka feedback till utvecklarna</string>
     <string name="pref_view_source_code">Visa källkod på GitHub</string>
     <string name="links">Länkar</string>
     <string name="name">Namn</string>
     <string name="settings">Inställningar</string>
-    <string name="snooze_interval">Intervall snooze</string>
     <string name="select_snooze_delay">Välj snoozelängd</string>
     <string name="hint_title">Visste du att?</string>
     <string name="hint_drag">För att flytta på poster - tryck och håll nere på den vana du vill flytta, sedan flytta den till önskad plats.</string>

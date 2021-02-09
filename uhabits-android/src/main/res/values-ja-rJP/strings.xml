@@ -68,14 +68,12 @@
     <string name="interval_custom">カスタム...</string>
     <string name="pref_toggle_title">タップすると繰り返しを切り替えられます</string>
     <string name="pref_toggle_description">この機能は便利ですが、間違って切り替えが起こる可能性があります。</string>
-    <string name="pref_snooze_interval_title">リマインダーのスヌーズ間隔</string>
     <string name="pref_rate_this_app">Google Play でこのアプリを評価</string>
     <string name="pref_send_feedback">開発者にフィードバックを送信</string>
     <string name="pref_view_source_code">GitHub でソースコードを参照</string>
     <string name="links">リンク</string>
     <string name="name">タイトル</string>
     <string name="settings">設定</string>
-    <string name="snooze_interval">スヌーズ間隔</string>
     <string name="select_snooze_delay">スヌーズ遅延を設定</string>
     <string name="hint_title">ご存知ですか?</string>
     <string name="hint_drag">エントリーを並べ替えるには、習慣の名前を長押しして、正しい場所にドラッグしてください。</string>

@@ -64,14 +64,12 @@
     <string name="interval_custom">Personalizza...</string>
     <string name="pref_toggle_title">Spunta le ripetizioni velocemente</string>
     <string name="pref_toggle_description">Metti le spunte con un tocco singolo invece che tenendo premuto. Più comodo, ma potrebbe causare delle spunte accidentali.</string>
-    <string name="pref_snooze_interval_title">Intervallo di ritardo dei promemoria</string>
     <string name="pref_rate_this_app">Valuta quest\'app su Google Play</string>
     <string name="pref_send_feedback">Manda un feedback allo sviluppatore</string>
     <string name="pref_view_source_code">Vedi il codice sorgente su GitHub</string>
     <string name="links">Links</string>
     <string name="name">Nome</string>
     <string name="settings">Impostazioni</string>
-    <string name="snooze_interval">Snooze</string>
     <string name="select_snooze_delay">Seleziona ritardo posticipo</string>
     <string name="hint_title">Lo sapevi?</string>
     <string name="hint_drag">Per riordinare le voci, tieni premuto sul nome dell\'abitudine, poi spostala nella posizione corretta.</string>

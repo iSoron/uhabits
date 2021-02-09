@@ -64,14 +64,12 @@
     <string name="interval_custom">Kustom</string>
     <string name="pref_toggle_title">Tandai dengan cepat.</string>
     <string name="pref_toggle_description">Beri tanda cek dengan sekali ketuk bukan tekan-dan-tahan. Lebih nyaman, namun dapat menyebabkan kesalahan penandaan.</string>
-    <string name="pref_snooze_interval_title">Durasi tunda sejenak pada pengingat</string>
     <string name="pref_rate_this_app">Berikan rating aplikasi ini di Google Play</string>
     <string name="pref_send_feedback">Kirimkan umpan balik kepada Developer</string>
     <string name="pref_view_source_code">Lihat kode aplikasi di GitHub</string>
     <string name="links">Tautan</string>
     <string name="name">Nama</string>
     <string name="settings">Pengaturan</string>
-    <string name="snooze_interval">Durasi tunda sejenak</string>
     <string name="select_snooze_delay">Atur jeda penundaan</string>
     <string name="hint_title">Sudahkah Anda tahu?</string>
     <string name="hint_drag">Untuk mengatur urutan, tekan dan tahan judul Kebiasaan lalu tempatkan pada posisi yang Anda inginkan.</string>

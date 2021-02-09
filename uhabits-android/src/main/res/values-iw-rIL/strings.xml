@@ -66,14 +66,12 @@
     <string name="interval_24_hour">24 שעות</string>
     <string name="pref_toggle_title">סימון הרגלים בלחיצה קצרה</string>
     <string name="pref_toggle_description">סמנו יעדים בהקשה קצרה במקום לחיצה ממושכת. נוח יותר, אך יכול להוביל ללחיצות לא מכוונות.</string>
-    <string name="pref_snooze_interval_title">מרווח נדנוד לתזכורות</string>
     <string name="pref_rate_this_app">דרג/י אותנו ב- Google Play</string>
     <string name="pref_send_feedback">שליחת משוב למפתחים</string>
     <string name="pref_view_source_code">צפייה בקוד המקור ב-GitHub</string>
     <string name="links">קישורים</string>
     <string name="name">שם</string>
     <string name="settings">הגדרות</string>
-    <string name="snooze_interval">זמן בין נדנודים</string>
     <string name="hint_title">הידעת?</string>
     <string name="hint_drag">לשינוי סדר הההרגלים, לחצו לחיצה ארוכה על ההרגל וגררו אותו למקום הרצוי.</string>
     <string name="hint_landscape">ניתן לראות ימים נוספים ע\"י סיבוב המסך לתצוגה רוחבית.</string>

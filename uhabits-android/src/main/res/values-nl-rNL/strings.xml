@@ -64,14 +64,12 @@
     <string name="interval_custom">Aangepast...</string>
     <string name="pref_toggle_title">Wijzig herhalingen door kort indrukken</string>
     <string name="pref_toggle_description">Zet vinkjes met een enkel tikje in plaats van ingedrukt houden. Handiger, maar kan onbedoelde wijzigingen veroorzaken.</string>
-    <string name="pref_snooze_interval_title">Snooze interval voor herinneringen</string>
     <string name="pref_rate_this_app">Beoordeel deze app in Google Play</string>
     <string name="pref_send_feedback">Stuur feedback aan de ontwikkelaar</string>
     <string name="pref_view_source_code">Bekijk de broncode op GitHub</string>
     <string name="links">Links</string>
     <string name="name">Naam</string>
     <string name="settings">Instellingen</string>
-    <string name="snooze_interval">Snooze interval</string>
     <string name="select_snooze_delay">Snooze vertraging selecteren</string>
     <string name="hint_title">Wist je dat?</string>
     <string name="hint_drag">Om de rijen te ordenen, houdt de gewoonte ingedrukt en sleep het naar de gewenste plek.</string>

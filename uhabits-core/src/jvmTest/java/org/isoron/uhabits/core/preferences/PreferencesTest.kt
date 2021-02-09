@@ -119,9 +119,6 @@ class PreferencesTest : BaseUnitTest() {
         assertFalse(prefs.shouldMakeNotificationsLed())
         prefs.setNotificationsLed(true)
         assertTrue(prefs.shouldMakeNotificationsLed())
-        assertThat(prefs.snoozeInterval, equalTo(15L))
-        prefs.setSnoozeInterval(30)
-        assertThat(prefs.snoozeInterval, equalTo(30L))
     }
 
     @Test

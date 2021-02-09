@@ -64,14 +64,12 @@
     <string name="interval_custom">Egyedi...</string>
     <string name="pref_toggle_title">Bejelölés rövid koppintással</string>
     <string name="pref_toggle_description">Bejelölés koppintással nyomva tartás helyett. Kényelmesebb, de véletlen bejelöléseket okozhat.</string>
-    <string name="pref_snooze_interval_title">Szundi időtartama emlékeztetőnél</string>
     <string name="pref_rate_this_app">Értékeld az alkalmazást a Google Play-en</string>
     <string name="pref_send_feedback">Visszajelzés küldése a fejlesztőnek</string>
     <string name="pref_view_source_code">Forráskód megtekintése a GitHub-on</string>
     <string name="links">Linkek</string>
     <string name="name">Megnevezés</string>
     <string name="settings">Beállítások</string>
-    <string name="snooze_interval">Szundi időtartama</string>
     <string name="select_snooze_delay">Szundi beállítása</string>
     <string name="hint_title">Tudtad?</string>
     <string name="hint_drag">Az elemek újrarendezéséhez a koppints a szokás nevére, majd húzd a megfelelő helyre.</string>

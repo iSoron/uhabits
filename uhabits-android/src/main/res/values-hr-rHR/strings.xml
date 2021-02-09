@@ -66,14 +66,12 @@
     <string name="interval_24_hour">24 sata</string>
     <string name="pref_toggle_title">Označi ponavljanja sa kratkim pritisk.</string>
     <string name="pref_toggle_description">Zgodnije je, no može uzrokovati slučajna označavanja.</string>
-    <string name="pref_snooze_interval_title">Interval odgađanja na podsjetnicima</string>
     <string name="pref_rate_this_app">Ocijeni ovu aplikaciju na Google Playu</string>
     <string name="pref_send_feedback">Pošalji povratne informacije raz. programeru</string>
     <string name="pref_view_source_code">Pogledaj izvorni kod na GitHubu</string>
     <string name="links">Poveznice</string>
     <string name="name">Naziv</string>
     <string name="settings">Postavke</string>
-    <string name="snooze_interval">Interval odgađanja</string>
     <string name="hint_title">Jeste li znali?</string>
     <string name="hint_drag">Za razmještanje unosa, pritisnite i držite naziv navike, pa ih premjestite na točno mjesto.</string>
     <string name="hint_landscape">Možete vidjeti više dana prebacivanjem uređaja u vodoravnu orijentaciju.</string>

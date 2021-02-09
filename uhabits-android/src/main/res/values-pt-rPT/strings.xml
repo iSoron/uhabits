@@ -64,14 +64,12 @@
     <string name="interval_custom">Personalizar...</string>
     <string name="pref_toggle_title">Toque para alternar entre repetições</string>
     <string name="pref_toggle_description">Mais conveniente, mas pode causar toques acidentais</string>
-    <string name="pref_snooze_interval_title">Intervalo da opção \'Mais Tarde\' nos lembretes</string>
     <string name="pref_rate_this_app">Avaliar a app no Google Play</string>
     <string name="pref_send_feedback">Enviar feedback ao programador</string>
     <string name="pref_view_source_code">Ver código-fonte no GitHub</string>
     <string name="links">Hiperligações</string>
     <string name="name">Nome</string>
     <string name="settings">Definições</string>
-    <string name="snooze_interval">Intervalo da opção \'Mais Tarde\'</string>
     <string name="select_snooze_delay">Definir tempo de suspensão</string>
     <string name="hint_title">Sabia que?</string>
     <string name="hint_drag">Para reorganizar a lista, mantenha pressionado o nome do hábito e arraste-o para o lugar certo.</string>

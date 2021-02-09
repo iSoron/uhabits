@@ -87,16 +87,6 @@
             android:key="reminderCategory"
             android:title="@string/reminder">
 
-        <ListPreference
-                android:defaultValue="@string/snooze_interval_default"
-                android:dialogTitle="@string/snooze_interval"
-                android:entries="@array/snooze_interval_names"
-                android:entryValues="@array/snooze_interval_values"
-                android:key="pref_snooze_interval"
-                android:summary="%s"
-                android:title="@string/pref_snooze_interval_title"
-                app:iconSpaceReserved="false" />
-
         <Preference
                 android:key="reminderSound"
                 android:title="@string/reminder_sound"

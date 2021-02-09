@@ -65,14 +65,12 @@
     <string name="interval_8_hour">8 сати</string>
     <string name="pref_toggle_title">Маркирај кратким додиром</string>
     <string name="pref_toggle_description">Практичније, али може доћи до случајног маркирања.</string>
-    <string name="pref_snooze_interval_title">Одлагање подсетника</string>
     <string name="pref_rate_this_app">Оцени апликацију</string>
     <string name="pref_send_feedback">Повратне информације</string>
     <string name="pref_view_source_code">Изворни кôд на GitHub-у</string>
     <string name="links">Везе</string>
     <string name="name">Име</string>
     <string name="settings">Поставке</string>
-    <string name="snooze_interval">Време одлагања</string>
     <string name="hint_title">Да ли сте знали?</string>
     <string name="hint_drag">Притисните и држите име навике да бисте је прераспоредили.</string>
     <string name="hint_landscape">Положите уређај да бисте видели више дана.</string>

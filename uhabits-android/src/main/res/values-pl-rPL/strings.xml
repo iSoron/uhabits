@@ -64,14 +64,12 @@
     <string name="interval_custom">Niestandardowe...</string>
     <string name="pref_toggle_title">Przełącz powtarzanie krótkim naciśnięciem</string>
     <string name="pref_toggle_description">Wygodniejsze, ale może spowodować przypadkowe przełączenia.</string>
-    <string name="pref_snooze_interval_title">Czas drzemki między przypomnieniami</string>
     <string name="pref_rate_this_app">Oceń tę aplikację w Google Play</string>
     <string name="pref_send_feedback">Prześlij uwagi do programisty</string>
     <string name="pref_view_source_code">Zobacz kod źródłowy na GitHub\'ie</string>
     <string name="links">Linki</string>
     <string name="name">Nazwa</string>
     <string name="settings">Ustawienia</string>
-    <string name="snooze_interval">Czas drzemki</string>
     <string name="select_snooze_delay">Wybierz długość drzemki</string>
     <string name="hint_title">Czy wiesz że?</string>
     <string name="hint_drag">Aby zmienić kolejność naciśnij i przytrzymaj na nazwie nawyku i przesuń go na odpowiednie miejsce.</string>
