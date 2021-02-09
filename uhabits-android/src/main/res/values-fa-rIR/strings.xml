@@ -66,14 +66,12 @@
     <string name="interval_24_hour">۲۴ ساعت</string>
     <string name="pref_toggle_title">با اشاره‌ی کوتاه‌مدت وضعیت عادت را تغییر بده</string>
     <string name="pref_toggle_description">تیک زدن با تک‌ضربه در مقابل ضربه‌زدن و نگه‌داشتن راحت‌تر است ولی ممکن است باعث شود اشتباهی عادتی را تیک بزنید.</string>
-    <string name="pref_snooze_interval_title">بازه به تعویق انداختن یادآورها</string>
     <string name="pref_rate_this_app">به این برنامه در گوگل‌پلی امتیاز بدهید</string>
     <string name="pref_send_feedback">ارسال بازخورد به توسعه‌دهنده</string>
     <string name="pref_view_source_code">دیدن منبع برنامه در گیت‌هاب</string>
     <string name="links">لینک‌ها</string>
     <string name="name">نام</string>
     <string name="settings">تنظیمات</string>
-    <string name="snooze_interval">بازه به تعویق انداختن</string>
     <string name="hint_title">آیا می دانستید؟</string>
     <string name="hint_drag">برای جابجایی عناوین، انگشتتان را روی نام عادت مورد نظر بگذارید و نگه دارید، سپس آن را به محل صحیح بکشید.</string>
     <string name="hint_landscape">با قرار دادن گوشی در حالت افقی می‌توانید روزهای بیشتری را ببینید.</string>

@@ -66,14 +66,12 @@
     <string name="interval_24_hour">24 часа</string>
     <string name="pref_toggle_title">Маркиране с кратко натискане</string>
     <string name="pref_toggle_description">Поставяне на отметки с кратко натискане вместо с натискане и задържане. По-удобно, но може да доведе до неволно маркиране.</string>
-    <string name="pref_snooze_interval_title">Интервал на напомняне след отлагане</string>
     <string name="pref_rate_this_app">Оценяване на това приложение в Google Play</string>
     <string name="pref_send_feedback">Изпращане на отзиви към разработчика</string>
     <string name="pref_view_source_code">Преглед на програмния код в GitHub</string>
     <string name="links">Препратки</string>
     <string name="name">Име</string>
     <string name="settings">Настройки</string>
-    <string name="snooze_interval">Интервал на отлагане</string>
     <string name="hint_title">Знаете ли че?</string>
     <string name="hint_drag">За да пренаредите записите, натиснете и задръжте върху името на навика и го придърпайте до правилното място.</string>
     <string name="hint_landscape">Може да виждате повече дни като обърнете телефона си в хоризонтално положение.</string>

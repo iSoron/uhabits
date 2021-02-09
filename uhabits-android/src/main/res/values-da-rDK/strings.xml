@@ -66,14 +66,12 @@
     <string name="interval_24_hour">24 timer</string>
     <string name="pref_toggle_title">Tjek vaner med kort tryk</string>
     <string name="pref_toggle_description">Sæt tjekmærker med et enkelt tryk i stedet for tryk-og-hold. Mere bekvemmeligt, men kan forårsage uhensigtede tryk.</string>
-    <string name="pref_snooze_interval_title">Snooze interval på påmindelser</string>
     <string name="pref_rate_this_app">Bedøm denne app på Google Play</string>
     <string name="pref_send_feedback">Send feedback til udvikleren</string>
     <string name="pref_view_source_code">Se kildekoden på GitHub</string>
     <string name="links">Henvisninger</string>
     <string name="name">Navn</string>
     <string name="settings">Indstillinger</string>
-    <string name="snooze_interval">Snooze interval</string>
     <string name="hint_title">Vidste du?</string>
     <string name="hint_drag">For at omarrangere poster, tryk og hold på navnet på den vane, og træk den til det korrekte sted.</string>
     <string name="hint_landscape">Du kan se flere dage ved at sætte telefonen i liggende tilstand.</string>

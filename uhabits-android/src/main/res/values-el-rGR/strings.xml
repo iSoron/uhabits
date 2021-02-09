@@ -66,14 +66,12 @@
     <string name="interval_24_hour">24 Ωρο</string>
     <string name="pref_toggle_title">Κάντε εναλλαγή των επαναλήψεων με σύντομο πάτημα</string>
     <string name="pref_toggle_description">Βολικότερο, αλλά ίσως προκαλέσει ακούσιες εναλλαγές.</string>
-    <string name="pref_snooze_interval_title">Διάστημα αναβολής υπενθυμίσεων</string>
     <string name="pref_rate_this_app">Βαθμολογήστε αυτή την εφαρμογή στο Google Play</string>
     <string name="pref_send_feedback">Στείλετε σχόλια</string>
     <string name="pref_view_source_code">Δείτε τον πηγαίο κώδικα στο GitHub</string>
     <string name="links">Σύνδεσμοι</string>
     <string name="name">Όνομα</string>
     <string name="settings">Ρυθμίσεις</string>
-    <string name="snooze_interval">Διάστημα αναβολής</string>
     <string name="hint_title">Γνωρίζατε;</string>
     <string name="hint_drag">Αναδιατάξετε τις συνήθειες πατώντας παρατεταμένα στο όνομα και σύροντας στην σωστή θέση.</string>
     <string name="hint_landscape">Μπορείτε να δείτε περισσότερες ημέρες στην οριζόντια προβολή.</string>

@@ -66,14 +66,12 @@
     <string name="interval_24_hour">24 மணி நேரம்</string>
     <string name="pref_toggle_title">சிறிய அழுத்தலின் மூலம் தாவு</string>
     <string name="pref_toggle_description">சரிப் பார்ப்பு குறி யை இட அழுத்தி பிடிப்பதற்கு பதில் ஒரு முறை தட்டலாம். இது முன்னதை விட எளிமையானது. ஆனால் இது தற்செயலான தாவல்களுக்கு வழி வகுக்கும்.</string>
-    <string name="pref_snooze_interval_title">எச்சரிகையை தள்ளி வைக்க வேண்டிய நேரம்</string>
     <string name="pref_rate_this_app">Google Play-ல் இந்த செயலியை மதிப்பிட</string>
     <string name="pref_send_feedback">இந்த செயலியை மேம்படுத்த உங்கள் கருத்துகளை பகிர</string>
     <string name="pref_view_source_code">இந்த செயலியின் மூல நிரலை GitHub வலைதளத்தில் பார்க்கவும்</string>
     <string name="links">இணைப்புகள்</string>
     <string name="name">பெயர்</string>
     <string name="settings">அமைப்புகள்</string>
-    <string name="snooze_interval">தாமத காலம்</string>
     <string name="hint_title">உங்களுக்கு தெரியுமா?</string>
     <string name="hint_drag">பதிவுகளை மறுசீரைமக்க, தேவையான பழக்க பதிவின் மீது அழுத்தி பிடித்து பின் தேவையான இடத்திற்கு அதை இழுக்கவும்.</string>
     <string name="hint_landscape">உங்கள் கைப்பேசியை அகலவாக்கில் வைக்கும்போது இன்னும் அதிக நாட்களை காண முடியும்.</string>

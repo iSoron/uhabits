@@ -72,7 +72,6 @@
     <string name="pref_toggle_title">टॉगल पुनरावृत्ति  हल्का दबाने से</string>
     <string name="pref_toggle_description">\"
 अधिक सुविधाजनक है, लेकिन आकस्मिक टॉगल  हो सकता है ।\"</string>
-    <string name="pref_snooze_interval_title">रिमाइंडर मे स्नूज़ अंतराल</string>
     <string name="pref_rate_this_app">\"
 गूगले प्ले पर इस ऐप्लिकेशन को रेट करें\"</string>
     <string name="pref_send_feedback">डेवेलपर को प्रतिक्रिया भेजें </string>
@@ -80,8 +79,6 @@
     <string name="links">लिंक</string>
     <string name="name">नाम</string>
     <string name="settings">सेटिंग्स</string>
-    <string name="snooze_interval">\"
-झपकी का अंतराल\"</string>
     <string name="hint_title">क्या आप जानते .?</string>
     <string name="hint_drag">\"
 प्रविष्टियों को पुनर्व्यवस्थित करने के लिए, आदत के नाम पर प्रेस करें और सही जगह पर खींचें।\"</string>

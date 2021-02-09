@@ -64,14 +64,12 @@
     <string name="interval_custom">Benutzerdeffiniert...</string>
     <string name="pref_toggle_title">Markierung durch kurzes Drücken ändern</string>
     <string name="pref_toggle_description">Markierungen durch einfaches Tippen setzen anstatt durch Tippen und Halten. Bequemer, kann aber versehentlich eine Markierung ändern.</string>
-    <string name="pref_snooze_interval_title">\"Später erinnern\"-Intervall bei Erinnerungen</string>
     <string name="pref_rate_this_app">Bewerte diese App auf Google Play</string>
     <string name="pref_send_feedback">Sende dem Entwickler Feedback</string>
     <string name="pref_view_source_code">Zeige den Quellcode auf GitHub</string>
     <string name="links">Links</string>
     <string name="name">Name</string>
     <string name="settings">Einstellungen</string>
-    <string name="snooze_interval">\"Später erinnern\"-Intervall</string>
     <string name="select_snooze_delay">Schlummer-Intervall auswählen</string>
     <string name="hint_title">Wusstest du?</string>
     <string name="hint_drag">Um Einträge umzusortieren, tippe, halte und ziehe sie an die richtige Stelle.</string>

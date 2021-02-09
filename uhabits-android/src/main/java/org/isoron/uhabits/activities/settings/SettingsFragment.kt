@@ -123,8 +123,6 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         updateWeekdayPreference()
         updateSyncPreferences()
 
-        findPreference("pref_snooze_interval").isVisible = false
-
         if (VERSION.SDK_INT < Build.VERSION_CODES.O)
             findPreference("reminderCustomize").isVisible = false
         else {

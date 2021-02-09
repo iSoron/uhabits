@@ -64,14 +64,12 @@
     <string name="interval_custom">Tùy chỉnh...</string>
     <string name="pref_toggle_title">Bấm nhanh để chuyển trạng thái</string>
     <string name="pref_toggle_description">Chỉ cần chạm một lần để đánh dấu thay cho việc nhấn giữ. Tiện lợi hơn nhưng có thể đánh dấu sai.</string>
-    <string name="pref_snooze_interval_title">Khoảng thời gian báo lại lời nhắc</string>
     <string name="pref_rate_this_app">Đánh giá ứng dụng trên Google Play</string>
     <string name="pref_send_feedback">Gửi phản hồi cho nhà phát triển</string>
     <string name="pref_view_source_code">Xem mã nguồn trên Github</string>
     <string name="links">Liên kết</string>
     <string name="name">Tên</string>
     <string name="settings">Cài đặt</string>
-    <string name="snooze_interval">Khoảng thời gian tạm dừng</string>
     <string name="select_snooze_delay">Chọn độ trễ báo lại</string>
     <string name="hint_title">Bạn đã biết?</string>
     <string name="hint_drag">Để sắp xếp lại các mục, nhấn giữ tên thói quen, sau đó kéo tới vị trí chính xác.</string>

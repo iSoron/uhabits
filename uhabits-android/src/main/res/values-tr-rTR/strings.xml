@@ -64,14 +64,12 @@
     <string name="interval_custom">Özel...</string>
     <string name="pref_toggle_title">Tek dokunuşla işaretle veya işareti kaldır</string>
     <string name="pref_toggle_description">Alışkanlıklarınızı, uzun dokunuş yerine tek dokunuşla işaretlemenizi sağlar. Kullanımı daha kolaydır ancak hatalı olarak işaretleme yapılmasına neden olabilir.</string>
-    <string name="pref_snooze_interval_title">Hatırlatmalardaki erteleme süresi</string>
     <string name="pref_rate_this_app">Google Play\'de uygulamayı oyla</string>
     <string name="pref_send_feedback">Geliştiriciye geri bildirim gönder</string>
     <string name="pref_view_source_code">Github\'da kaynak kodunu gör</string>
     <string name="links">Bağlantılar</string>
     <string name="name">Ad</string>
     <string name="settings">Ayarlar</string>
-    <string name="snooze_interval">Erteleme süresi</string>
     <string name="select_snooze_delay">Erteleme süresini ayarla</string>
     <string name="hint_title">Biliyor muydun?</string>
     <string name="hint_drag">Girdileri sıralamak için, alışkanlık adının üstüne basılı tut ve doğru yere sürükle.</string>

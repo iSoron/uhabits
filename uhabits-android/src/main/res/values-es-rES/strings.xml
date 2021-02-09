@@ -64,14 +64,12 @@
     <string name="interval_custom">Personalizar...</string>
     <string name="pref_toggle_title">Marca las repeticiones con una pulsación corta</string>
     <string name="pref_toggle_description">Más cómodo, pero puede causar marcas accidentales.</string>
-    <string name="pref_snooze_interval_title">Tiempo de espera al aplazar recordatorios</string>
     <string name="pref_rate_this_app">Valora esta aplicación en Google Play</string>
     <string name="pref_send_feedback">Enviar sugerencias al desarrollador</string>
     <string name="pref_view_source_code">Ver código fuente en GitHub</string>
     <string name="links">Enlaces</string>
     <string name="name">Nombre</string>
     <string name="settings">Configuración</string>
-    <string name="snooze_interval">Intervalo de espera</string>
     <string name="select_snooze_delay">Seleccione el retardo de la interrupción</string>
     <string name="hint_title">¿Sabías qué?</string>
     <string name="hint_drag">Para reordenar las entradas, mantén la pulsado sobre el nombre del hábito, después arrástralo a su posición correcta.</string>

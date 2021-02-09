@@ -64,14 +64,12 @@
     <string name="interval_custom">Vlastné ...</string>
     <string name="pref_toggle_title">Prepnúť krátkym stlačením</string>
     <string name="pref_toggle_description">Pridajte začiarknutie jediným klepnutím namiesto stlačenia a podržania. Je to pohodlnejšie, ale môže dôjsť k náhodným prepnutiam.</string>
-    <string name="pref_snooze_interval_title">Interval odloženia pripomienok</string>
     <string name="pref_rate_this_app">Ohodnoťte túto aplikáciu na Google Play</string>
     <string name="pref_send_feedback">Odošlite spätnú väzbu vývojárovi</string>
     <string name="pref_view_source_code">Zobraziť zdrojový kód na stránke GitHub</string>
     <string name="links">Odkazy</string>
     <string name="name">Názov</string>
     <string name="settings">Nastavenia</string>
-    <string name="snooze_interval">Interval odloženia</string>
     <string name="select_snooze_delay">Nastaviť dĺžku odloženia</string>
     <string name="hint_title">Vedeli ste?</string>
     <string name="hint_drag">Pre zmenu usporiadania záznamov, stlačte a podržte názov návyku a potom ho presuňte na správne miesto.</string>

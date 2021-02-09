@@ -29,28 +29,6 @@
     <string name="bugReportSubject">Bug Report - Loop Habit Tracker</string>
     <string name="syncBaseURL" formatted="false">https://sync.loophabits.org</string>
 
-    <string-array name="snooze_interval_names">
-        <item>@string/interval_15_minutes</item>
-        <item>@string/interval_30_minutes</item>
-        <item>@string/interval_1_hour</item>
-        <item>@string/interval_2_hour</item>
-        <item>@string/interval_4_hour</item>
-        <item>@string/interval_8_hour</item>
-        <item>@string/interval_24_hour</item>
-        <item>@string/interval_always_ask</item>
-    </string-array>
-
-    <string-array name="snooze_interval_values" translatable="false">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>120</item>
-        <item>240</item>
-        <item>480</item>
-        <item>1440</item>
-        <item>-1</item>
-    </string-array>
-
     <string-array name="snooze_picker_names">
         <item>@string/interval_15_minutes</item>
         <item>@string/interval_30_minutes</item>
@@ -98,8 +76,6 @@
         <item>@string/quarter</item>
         <item>@string/year</item>
     </string-array>
-
-    <string name="snooze_interval_default" translatable="false">15</string>
 
     <string-array name="widget_opacity_entries">
         <item>100%</item>

@@ -64,14 +64,12 @@
     <string name="interval_custom">Pertsonalizatua...</string>
     <string name="pref_toggle_title">Ukitze laburrarekin markatu</string>
     <string name="pref_toggle_description">Ukitze bakar batekin marka jartzen du ukitu eta mantendu egin beharrean. Erosoagoa, baina nahi gabeko markak ekar litzake.</string>
-    <string name="pref_snooze_interval_title">Atzeratze tartea oroigarrietan</string>
     <string name="pref_rate_this_app">Aplikazio hau Google Playen puntuatu</string>
     <string name="pref_send_feedback">Zure iritzia garatzaileari bidali</string>
     <string name="pref_view_source_code">Iturburu kodea GitHuben ikusi</string>
     <string name="links">Loturak</string>
     <string name="name">Izena</string>
     <string name="settings">Ezarpenak</string>
-    <string name="snooze_interval">Atzeratze tartea</string>
     <string name="select_snooze_delay">Aukeratu atzerapen denbora</string>
     <string name="hint_title">Ba al zenekien?</string>
     <string name="hint_drag">Sarrerak berrantolatzeko, sakatu eta mantendu ohituraren izena, ondoren mugi ezazu leku aproposera.</string>

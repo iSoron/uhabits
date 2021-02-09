@@ -64,14 +64,12 @@
     <string name="interval_custom">自定义</string>
     <string name="pref_toggle_title">轻触以启动重复</string>
     <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
-    <string name="pref_snooze_interval_title">提醒延迟间隔</string>
     <string name="pref_rate_this_app">去Play商店评价这个应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
     <string name="pref_view_source_code">在Github上查看源代码</string>
     <string name="links">链接</string>
     <string name="name">习惯标题</string>
     <string name="settings">设置</string>
-    <string name="snooze_interval">推迟提醒间隔</string>
     <string name="select_snooze_delay">设定暂停提醒的重复时间</string>
     <string name="hint_title">你知道吗？</string>
     <string name="hint_drag">如果要重新排列习惯，按住习惯的名字拖到想要的位置</string>
