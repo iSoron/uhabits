@@ -34,32 +34,54 @@ import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.str
 
 class EmptyListView(context: Context) : LinearLayout(context) {
+    var textTextView: TextView
+    var iconTextView: TextView
+
     init {
         orientation = VERTICAL
         gravity = CENTER
         visibility = View.GONE
 
+        iconTextView = TextView(context).apply {
+            text = str(R.string.fa_star_half_o)
+            typeface = getFontAwesome()
+            textSize = sp(40.0f)
+            gravity = CENTER
+            setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
+        }
+
         addView(
-            TextView(context).apply {
-                text = str(R.string.fa_star_half_o)
-                typeface = getFontAwesome()
-                textSize = sp(40.0f)
-                gravity = CENTER
-                setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
-            },
+            iconTextView,
             MATCH_PARENT,
             WRAP_CONTENT
         )
 
+        textTextView = TextView(context).apply {
+            text = str(R.string.no_habits_found)
+            gravity = CENTER
+            setPadding(0, dp(20.0f).toInt(), 0, 0)
+            setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
+        }
         addView(
-            TextView(context).apply {
-                text = str(R.string.no_habits_found)
-                gravity = CENTER
-                setPadding(0, dp(20.0f).toInt(), 0, 0)
-                setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
-            },
+            textTextView,
             MATCH_PARENT,
             WRAP_CONTENT
         )
+    }
+
+    fun showDone() {
+        visibility = VISIBLE
+        iconTextView.text = str(R.string.fa_umbrella_beach)
+        textTextView.text = str(R.string.no_habits_left_to_do)
+    }
+
+    fun showEmpty() {
+        visibility = VISIBLE
+        iconTextView.text = str(R.string.fa_star_half_o)
+        textTextView.text = str(R.string.no_habits_found)
+    }
+
+    fun hide() {
+        visibility = GONE
     }
 }

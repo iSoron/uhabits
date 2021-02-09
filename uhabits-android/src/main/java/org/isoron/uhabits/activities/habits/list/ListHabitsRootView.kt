@@ -140,9 +140,14 @@ class ListHabitsRootView @Inject constructor(
     }
 
     private fun updateEmptyView() {
-        llEmpty.visibility = when (listAdapter.itemCount) {
-            0 -> VISIBLE
-            else -> GONE
+        if (listAdapter.itemCount == 0) {
+            if (listAdapter.hasNoHabit()) {
+                llEmpty.showEmpty()
+            } else {
+                llEmpty.showDone()
+            }
+        } else {
+            llEmpty.hide()
         }
     }
 }
