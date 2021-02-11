@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt") version kotlinVersion apply (false)
     id("org.jetbrains.kotlin.android.extensions") version kotlinVersion apply (false)
     id("org.jetbrains.kotlin.multiplatform") version kotlinVersion apply (false)
-    id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
+    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
 }
 
 allprojects {
