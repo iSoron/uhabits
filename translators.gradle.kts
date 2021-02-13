@@ -1,9 +1,10 @@
 import groovy.xml.MarkupBuilder
+import java.io.StringWriter
 
 task("updateTranslators") {
     doLast {
         fun updateTranslatorLayouts() {
-            val writer = file("uhabits-android/src/main/res/layout/about_translators.xml").bufferedWriter()
+            val writer = StringWriter()
             val indent = "    "
             val xml = MarkupBuilder(groovy.util.IndentPrinter(writer, indent))
             xml.doubleQuotes = true
@@ -30,6 +31,12 @@ task("updateTranslators") {
                         )
                     }
                 }
+            }
+            val newContent = writer.toString()
+            val path = "uhabits-android/src/main/res/layout/about_translators.xml"
+            val currentContent = file(path).readText()
+            if (currentContent != newContent) {
+                file(path).writeText(newContent)
             }
         }
 
