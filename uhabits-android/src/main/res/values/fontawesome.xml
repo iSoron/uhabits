@@ -19,7 +19,7 @@
   -->
 
 <resources>
-    <string translatable="false" name="fa_star_half_o">&#xf123;</string>
+    <string translatable="false" name="fa_star_half_o">&#xf5c0;</string>
 	<string translatable="false" name="fa_arrow_circle_up">&#xf0aa;</string>
 	<string translatable="false" name="fa_check">&#xf00c;</string>
 	<string translatable="false" name="fa_times">&#xf00d;</string>
