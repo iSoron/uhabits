@@ -58,6 +58,20 @@ class ImportTest : BaseUnitTest() {
 
     @Test
     @Throws(IOException::class)
+    fun testHabitBullCSV2() {
+        importFromFile("habitbull2.csv")
+        assertThat(habitList.size(), equalTo(6))
+        val habit = habitList.getByPosition(2)
+        assertThat(habit.name, equalTo("H3"))
+        assertThat(habit.description, equalTo("Habit 3"))
+        assertThat(habit.frequency, equalTo(Frequency.DAILY))
+        assertTrue(isChecked(habit, 2019, 4, 11))
+        assertTrue(isChecked(habit, 2019, 5, 7))
+        assertFalse(isChecked(habit, 2019, 6, 14))
+    }
+
+    @Test
+    @Throws(IOException::class)
     fun testLoopDB() {
         importFromFile("loop.db")
         assertThat(habitList.size(), equalTo(9))
@@ -129,7 +143,7 @@ class ImportTest : BaseUnitTest() {
             ),
             RewireDBImporter(habitList, modelFactory, databaseOpener),
             TickmateDBImporter(habitList, modelFactory, databaseOpener),
-            HabitBullCSVImporter(habitList, modelFactory)
+            HabitBullCSVImporter(habitList, modelFactory, StandardLogging())
         )
         assertTrue(importer.canHandle(file))
         importer.importHabitsFromFile(file)

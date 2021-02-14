@@ -25,11 +25,19 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
-import org.isoron.uhabits.core.utils.DateUtils
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.MONTH
+import java.util.Calendar.YEAR
+import java.util.Date
+import java.util.GregorianCalendar
 import java.util.HashMap
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -39,7 +47,10 @@ class HabitBullCSVImporter
 @Inject constructor(
     private val habitList: HabitList,
     private val modelFactory: ModelFactory,
+    logging: Logging,
 ) : AbstractImporter() {
+
+    val logger = logging.getLogger("HabitBullCSVImporter")
 
     override fun canHandle(file: File): Boolean {
         val reader = BufferedReader(FileReader(file))
@@ -50,19 +61,11 @@ class HabitBullCSVImporter
     override fun importHabitsFromFile(file: File) {
         val reader = CSVReader(FileReader(file))
         val map = HashMap<String, Habit>()
-        for (line in reader) {
-            val name = line[0]
+        for (cols in reader) {
+            val name = cols[0]
             if (name == "HabitName") continue
-            val description = line[1]
-            val dateString = line[3].split("-").toTypedArray()
-            val year = dateString[0].toInt()
-            val month = dateString[1].toInt()
-            val day = dateString[2].toInt()
-            val date = DateUtils.getStartOfTodayCalendar()
-            date[year, month - 1] = day
-            val timestamp = Timestamp(date.timeInMillis)
-            val value = line[4].toInt()
-            if (value != 1) continue
+            val description = cols[1]
+            val timestamp = parseTimestamp(cols[3])
             var h = map[name]
             if (h == null) {
                 h = modelFactory.buildHabit()
@@ -71,8 +74,46 @@ class HabitBullCSVImporter
                 h.frequency = Frequency.DAILY
                 habitList.add(h)
                 map[name] = h
+                logger.info("Creating habit: $name")
             }
-            h.originalEntries.add(Entry(timestamp, Entry.YES_MANUAL))
+            if (parseInt(cols[4]) == 1) {
+                h.originalEntries.add(Entry(timestamp, Entry.YES_MANUAL))
+            }
+        }
+    }
+
+    private fun parseTimestamp(rawValue: String): Timestamp {
+        val formats = listOf(
+            DateFormat.getDateInstance(DateFormat.SHORT),
+            SimpleDateFormat("yyyy-MM-dd", Locale.US),
+            SimpleDateFormat("MM/dd/yyyy", Locale.US),
+        )
+        var parsedDate: Date? = null
+        for (fmt in formats) {
+            try {
+                parsedDate = fmt.parse(rawValue)
+            } catch (e: ParseException) {
+                // ignored
+            }
+        }
+        if (parsedDate == null) {
+            throw Exception("Unrecognized date format: $rawValue")
+        }
+        val parsedCalendar = GregorianCalendar()
+        parsedCalendar.time = parsedDate
+        return Timestamp.from(
+            parsedCalendar[YEAR],
+            parsedCalendar[MONTH],
+            parsedCalendar[DAY_OF_MONTH],
+        )
+    }
+
+    private fun parseInt(rawValue: String): Int {
+        return try {
+            rawValue.toInt()
+        } catch (e: NumberFormatException) {
+            logger.error("Could not parse int: $rawValue. Replacing by zero.")
+            0
         }
     }
 }
