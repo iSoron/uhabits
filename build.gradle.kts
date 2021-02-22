@@ -8,6 +8,10 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
 }
 
+apply {
+    from("translators.gradle.kts")
+}
+
 allprojects {
     repositories {
         google()

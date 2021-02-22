@@ -1,3 +1,5 @@
+
+
 /*
  * Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
  *
@@ -26,7 +28,12 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
+tasks.compileLint {
+    dependsOn("updateTranslators")
+}
+
 android {
+
     compileSdkVersion(30)
 
     defaultConfig {

@@ -87,6 +87,7 @@ build_apk() {
 
     if [ -n "$RELEASE" ]; then
         log_info "Building release APK..."
+        $GRADLE updateTranslators
         $GRADLE :uhabits-android:assembleRelease
         cp -v \
             uhabits-android/build/outputs/apk/release/uhabits-android-release.apk \
