@@ -20,7 +20,7 @@
  */
 
 plugins {
-    id("com.github.triplet.play") version "3.2.0"
+    id("com.github.triplet.play") version "3.3.0-agp4.2"
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
