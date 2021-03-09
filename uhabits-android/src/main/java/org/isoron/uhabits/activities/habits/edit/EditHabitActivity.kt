@@ -23,15 +23,22 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
+import android.text.Spanned
 import android.text.format.DateFormat
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.android.datetimepicker.time.RadialPickerLayout
 import com.android.datetimepicker.time.TimePickerDialog
-import kotlinx.android.synthetic.main.activity_edit_habit.*
+import kotlinx.android.synthetic.main.activity_edit_habit.nameInput
+import kotlinx.android.synthetic.main.activity_edit_habit.notesInput
+import kotlinx.android.synthetic.main.activity_edit_habit.questionInput
+import kotlinx.android.synthetic.main.activity_edit_habit.targetInput
+import kotlinx.android.synthetic.main.activity_edit_habit.unitInput
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
@@ -264,12 +271,12 @@ class EditHabitActivity : AppCompatActivity() {
     private fun validate(): Boolean {
         var isValid = true
         if (nameInput.text.isEmpty()) {
-            nameInput.error = getString(R.string.validation_cannot_be_blank)
+            nameInput.error = getFormattedValidationError(R.string.validation_cannot_be_blank)
             isValid = false
         }
         if (habitType == Habit.NUMBER_HABIT) {
             if (unitInput.text.isEmpty()) {
-                unitInput.error = getString(R.string.validation_cannot_be_blank)
+                unitInput.error = getFormattedValidationError(R.string.validation_cannot_be_blank)
                 isValid = false
             }
             if (targetInput.text.isEmpty()) {
@@ -320,6 +327,11 @@ class EditHabitActivity : AppCompatActivity() {
             window.statusBarColor = darkerAndroidColor
             binding.toolbar.setBackgroundColor(androidColor)
         }
+    }
+
+    private fun getFormattedValidationError(@StringRes resId: Int): Spanned {
+        val html = "<font color=#FFFFFF>${getString(resId)}</font>"
+        return Html.fromHtml(html)
     }
 
     override fun onSaveInstanceState(state: Bundle) {
