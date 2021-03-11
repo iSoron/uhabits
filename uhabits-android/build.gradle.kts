@@ -75,7 +75,7 @@ android {
 
 dependencies {
     val daggerVersion = "2.33"
-    val kotlinVersion = "1.4.30"
+    val kotlinVersion = "1.4.31"
     val kxCoroutinesVersion = "1.4.2"
     val ktorVersion = "1.5.1"
     val espressoVersion = "3.3.0"
