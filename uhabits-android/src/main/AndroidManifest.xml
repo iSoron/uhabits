@@ -148,6 +148,7 @@
 
         <activity
             android:name=".notifications.SnoozeDelayPickerActivity"
+            android:taskAffinity=""
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

@@ -61,7 +61,6 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
             .setItems(R.array.snooze_picker_names, null)
             .create()
         dialog!!.listView.onItemClickListener = this
-        dialog!!.setOnDismissListener { finish() }
         dialog!!.show()
         SystemUtils.unlockScreen(this)
     }
@@ -94,8 +93,14 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         overridePendingTransition(0, 0)
     }
 
+    override fun onResume() {
+        SystemUtils.unlockScreen(this)
+        super.onResume()
+        if (dialog != null) dialog!!.show()
+    }
+
     override fun onPause() {
-        if (dialog != null) dialog!!.dismiss()
         super.onPause()
+        if (dialog != null) dialog!!.dismiss()
     }
 }
