@@ -237,6 +237,8 @@
     <string name="sync_key_already_installed">Sync key already installed</string>
     <string name="pref_unknown_title">Show question marks for missing data</string>
     <string name="pref_unknown_description">Differentiate days without data from actual lapses. To enter a lapse, toggle twice.</string>
+    <string name="pref_higher_contrast_title">Use higher contrast for symbols</string>
+    <string name="pref_higher_contrast_description">Task progress symbols will use a higher contrast font color.</string>
     <string name="you_are_now_a_developer">You are now a developer</string>
     <string name="activity_not_found">No app was found to support this action</string>
     <string name="pref_midnight_delay_title">Extend day a few hours past midnight</string>

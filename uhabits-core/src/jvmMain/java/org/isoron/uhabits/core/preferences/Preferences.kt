@@ -230,6 +230,10 @@ open class Preferences(private val storage: Storage) {
         return storage.getBoolean("pref_unknown_enabled", false)
     }
 
+    fun isHigherContrastEnabled(): Boolean {
+        return storage.getBoolean("pref_higher_contrast_enabled", false)
+    }
+
     /**
      * @return An integer representing the first day of the week. Sunday
      * corresponds to 1, Monday to 2, and so on, until Saturday, which is

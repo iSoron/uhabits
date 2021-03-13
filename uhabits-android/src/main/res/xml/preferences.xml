@@ -53,6 +53,13 @@
             app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_higher_contrast_enabled"
+            android:summary="@string/pref_higher_contrast_description"
+            android:title="@string/pref_higher_contrast_title"
+            app:iconSpaceReserved="false" />
+
+        <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="pref_checkmark_reverse_order"
                 android:summary="@string/reverse_days_description"
