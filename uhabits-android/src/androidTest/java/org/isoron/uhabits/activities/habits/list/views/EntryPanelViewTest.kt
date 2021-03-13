@@ -45,8 +45,6 @@ class EntryPanelViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        prefs.isCheckmarkSequenceReversed = false
-
         val checkmarks = intArrayOf(
             YES_MANUAL,
             YES_MANUAL,
