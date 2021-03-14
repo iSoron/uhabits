@@ -25,6 +25,7 @@ import org.isoron.platform.gui.AndroidDataView
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
@@ -53,12 +54,15 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
         habit = component.habitList.getById(arguments!!.getLong("habit"))!!
         preferences = component.preferences
 
+        val themeSwitcher = AndroidThemeSwitcher(activity!!, preferences)
+        themeSwitcher.apply()
+
         chart = HistoryChart(
             dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
             firstWeekday = preferences.firstWeekday,
             paletteColor = habit.color,
             series = emptyList(),
-            theme = LightTheme(),
+            theme = themeSwitcher.currentTheme,
             today = DateUtils.getTodayWithOffset().toLocalDate(),
             onDateClickedListener = onDateClickedListener ?: OnDateClickedListener { },
             padding = 10.0,
