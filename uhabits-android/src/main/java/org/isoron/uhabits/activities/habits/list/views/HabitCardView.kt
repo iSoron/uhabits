@@ -212,7 +212,7 @@ class HabitCardView(
 
         fun getActiveColor(habit: Habit): Int {
             return when (habit.isArchived) {
-                true -> sres.getColor(R.attr.mediumContrastTextColor)
+                true -> sres.getColor(R.attr.contrast60)
                 false -> habit.color.toThemedAndroidColor(context)
             }
         }

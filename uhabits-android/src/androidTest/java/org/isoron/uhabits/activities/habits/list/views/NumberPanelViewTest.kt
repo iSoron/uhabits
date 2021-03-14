@@ -41,8 +41,6 @@ class NumberPanelViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
-        prefs.isCheckmarkSequenceReversed = false
-
         val checkmarks = doubleArrayOf(
             1400.0,
             5300.0,
@@ -68,11 +66,10 @@ class NumberPanelViewTest : BaseViewTest() {
         view.onDetachedFromWindow()
     }
 
-    // Flaky
-    // @Test
-    // fun testRender() {
-    //     assertRenders(view, "$PATH/render.png")
-    // }
+    @Test
+    fun testRender() {
+        assertRenders(view, "$PATH/render.png")
+    }
 
     @Test
     fun testEdit() {

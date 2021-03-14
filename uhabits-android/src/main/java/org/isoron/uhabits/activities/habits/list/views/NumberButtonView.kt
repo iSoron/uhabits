@@ -128,8 +128,8 @@ class NumberButtonView(
         private val rect: RectF = RectF()
         private val sr = StyledResources(context)
 
-        private val lightGrey: Int
-        private val darkGrey: Int
+        private val lowContrast: Int
+        private val mediumContrast: Int
 
         private val pRegular: TextPaint = TextPaint().apply {
             textSize = getDimension(context, R.dimen.smallerTextSize)
@@ -147,14 +147,14 @@ class NumberButtonView(
 
         init {
             em = pBold.measureText("m")
-            lightGrey = sr.getColor(R.attr.lowContrastTextColor)
-            darkGrey = sr.getColor(R.attr.mediumContrastTextColor)
+            lowContrast = sr.getColor(R.attr.contrast40)
+            mediumContrast = sr.getColor(R.attr.contrast60)
         }
 
         fun draw(canvas: Canvas) {
             val activeColor = when {
-                value <= 0.0 -> lightGrey
-                value < threshold -> darkGrey
+                value <= 0.0 -> lowContrast
+                value < threshold -> mediumContrast
                 else -> color
             }
 

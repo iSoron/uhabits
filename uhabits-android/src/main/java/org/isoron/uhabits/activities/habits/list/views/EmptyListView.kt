@@ -47,7 +47,7 @@ class EmptyListView(context: Context) : LinearLayout(context) {
             typeface = getFontAwesome()
             textSize = sp(40.0f)
             gravity = CENTER
-            setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
+            setTextColor(sres.getColor(R.attr.contrast60))
         }
 
         addView(
@@ -60,7 +60,7 @@ class EmptyListView(context: Context) : LinearLayout(context) {
             text = str(R.string.no_habits_found)
             gravity = CENTER
             setPadding(0, dp(20.0f).toInt(), 0, 0)
-            setTextColor(sres.getColor(R.attr.mediumContrastTextColor))
+            setTextColor(sres.getColor(R.attr.contrast60))
         }
         addView(
             textTextView,

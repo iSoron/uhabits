@@ -67,19 +67,19 @@ class CheckmarkWidgetView : HabitWidgetView {
         when (entryState) {
             YES_MANUAL, SKIP -> {
                 bgColor = activeColor
-                fgColor = res.getColor(R.attr.highContrastReverseTextColor)
+                fgColor = res.getColor(R.attr.contrast0)
                 setShadowAlpha(0x4f)
                 backgroundPaint!!.color = bgColor
                 frame!!.setBackgroundDrawable(background)
             }
             YES_AUTO, NO, UNKNOWN -> {
                 bgColor = res.getColor(R.attr.cardBgColor)
-                fgColor = res.getColor(R.attr.mediumContrastTextColor)
+                fgColor = res.getColor(R.attr.contrast60)
                 setShadowAlpha(0x00)
             }
             else -> {
                 bgColor = res.getColor(R.attr.cardBgColor)
-                fgColor = res.getColor(R.attr.mediumContrastTextColor)
+                fgColor = res.getColor(R.attr.contrast60)
                 setShadowAlpha(0x00)
             }
         }

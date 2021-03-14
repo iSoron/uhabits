@@ -26,13 +26,12 @@
     <attr name="useHabitColorAsPrimary" format="boolean"/>
     <attr name="aboutScreenColor" format="reference"/>
 
-    <attr name="highContrastTextColor" format="reference"/>
-    <attr name="mediumContrastTextColor" format="reference"/>
-    <attr name="lowContrastTextColor" format="reference"/>
-
-    <attr name="highContrastReverseTextColor" format="reference"/>
-    <attr name="mediumContrastReverseTextColor" format="reference"/>
-    <attr name="lowContrastReverseTextColor" format="reference"/>
+    <attr name="contrast0" format="reference"/>
+    <attr name="contrast20" format="reference"/>
+    <attr name="contrast40" format="reference"/>
+    <attr name="contrast60" format="reference"/>
+    <attr name="contrast80" format="reference"/>
+    <attr name="contrast100" format="reference"/>
 
     <attr name="iconAdd" format="reference"/>
     <attr name="iconArchive" format="reference"/>

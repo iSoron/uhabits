@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/score"
-                android:textColor="?mediumContrastTextColor"/>
+                android:textColor="?attr/contrast60"/>
 
         </LinearLayout>
 
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/month"
-                android:textColor="?mediumContrastTextColor"/>
+                android:textColor="?attr/contrast60"/>
 
         </LinearLayout>
 
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/year"
-                android:textColor="?mediumContrastTextColor"/>
+                android:textColor="?attr/contrast60"/>
 
         </LinearLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/total"
-                android:textColor="?mediumContrastTextColor"/>
+                android:textColor="?attr/contrast60"/>
 
         </LinearLayout>
     </LinearLayout>

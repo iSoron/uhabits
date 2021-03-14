@@ -187,7 +187,7 @@ class RingView : View {
         pRing!!.textAlign = Paint.Align.CENTER
         val res = StyledResources(context)
         if (backgroundColor == null) backgroundColor = res.getColor(R.attr.cardBgColor)
-        if (inactiveColor == null) inactiveColor = res.getColor(R.attr.highContrastTextColor)
+        if (inactiveColor == null) inactiveColor = res.getColor(R.attr.contrast100)
         inactiveColor = setAlpha(inactiveColor!!, 0.1f)
         rect = RectF()
     }

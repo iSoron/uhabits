@@ -44,7 +44,7 @@ class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
     fun setState(state: OverviewCardState) {
         val androidColor = state.color.toThemedAndroidColor(context)
         val res = StyledResources(context)
-        val inactiveColor = res.getColor(R.attr.mediumContrastTextColor)
+        val inactiveColor = res.getColor(R.attr.contrast60)
         binding.monthDiffLabel.setTextColor(if (state.scoreMonthDiff >= 0) androidColor else inactiveColor)
         binding.monthDiffLabel.text = formatPercentageDiff(state.scoreMonthDiff)
         binding.scoreLabel.setTextColor(androidColor)

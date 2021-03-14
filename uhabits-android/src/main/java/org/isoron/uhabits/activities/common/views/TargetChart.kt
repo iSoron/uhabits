@@ -165,9 +165,9 @@ class TargetChart : View {
         paint!!.textAlign = Paint.Align.CENTER
         paint!!.isAntiAlias = true
         val res = StyledResources(context)
-        lowContrastTextColor = res.getColor(R.attr.lowContrastTextColor)
-        mediumContrastTextColor = res.getColor(R.attr.mediumContrastTextColor)
-        highContrastReverseTextColor = res.getColor(R.attr.highContrastReverseTextColor)
+        lowContrastTextColor = res.getColor(R.attr.contrast20)
+        mediumContrastTextColor = res.getColor(R.attr.contrast60)
+        highContrastReverseTextColor = res.getColor(R.attr.contrast0)
         tinyTextSize = getDimension(context, R.dimen.tinyTextSize)
     }
 

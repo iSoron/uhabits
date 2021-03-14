@@ -334,8 +334,8 @@ class ScoreChart : ScrollableChart {
     private fun initColors() {
         val res = StyledResources(context)
         primaryColor = Color.BLACK
-        textColor = res.getColor(R.attr.mediumContrastTextColor)
-        gridColor = res.getColor(R.attr.lowContrastTextColor)
+        textColor = res.getColor(R.attr.contrast60)
+        gridColor = res.getColor(R.attr.contrast20)
         internalBackgroundColor = res.getColor(R.attr.cardBgColor)
     }
 

@@ -33,6 +33,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
+import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
@@ -116,7 +117,8 @@ class CheckmarkButtonView(
 
     private inner class Drawer {
         private val rect = RectF()
-        private val lowContrastColor = sres.getColor(R.attr.lowContrastTextColor)
+        private val lowContrastColor = sres.getColor(R.attr.contrast40)
+        private val mediumContrastColor = sres.getColor(R.attr.contrast60)
 
         private val paint = TextPaint().apply {
             typeface = getFontAwesome()
@@ -128,7 +130,12 @@ class CheckmarkButtonView(
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
                 YES_MANUAL -> color
+                YES_AUTO -> mediumContrastColor
                 SKIP -> color
+                NO -> {
+                    if (preferences.areQuestionMarksEnabled()) mediumContrastColor
+                    else lowContrastColor
+                }
                 else -> lowContrastColor
             }
             val id = when (value) {

@@ -207,11 +207,11 @@ class StreakChart : View {
         colors[3] = primaryColor
         colors[2] = Color.argb(192, red, green, blue)
         colors[1] = Color.argb(96, red, green, blue)
-        colors[0] = res.getColor(R.attr.lowContrastTextColor)
+        colors[0] = res.getColor(R.attr.contrast20)
         textColors = IntArray(3)
-        textColors[2] = res.getColor(R.attr.highContrastReverseTextColor)
-        textColors[1] = res.getColor(R.attr.mediumContrastTextColor)
-        textColors[0] = res.getColor(R.attr.lowContrastReverseTextColor)
+        textColors[2] = res.getColor(R.attr.contrast0)
+        textColors[1] = res.getColor(R.attr.contrast60)
+        textColors[0] = res.getColor(R.attr.contrast80)
     }
 
     private fun initPaints() {
