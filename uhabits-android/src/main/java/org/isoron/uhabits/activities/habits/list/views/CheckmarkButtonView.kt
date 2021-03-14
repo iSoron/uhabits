@@ -124,7 +124,6 @@ class CheckmarkButtonView(
             typeface = getFontAwesome()
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
-            textSize = dim(R.dimen.smallTextSize)
         }
 
         fun draw(canvas: Canvas) {
@@ -147,6 +146,12 @@ class CheckmarkButtonView(
                 }
                 else -> R.string.fa_check
             }
+
+            paint.textSize = when (value) {
+                UNKNOWN -> dim(R.dimen.smallerTextSize)
+                else -> dim(R.dimen.smallTextSize)
+            }
+
             val label = resources.getString(id)
             val em = paint.measureText("m")
 

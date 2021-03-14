@@ -33,6 +33,7 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.showMessage
 import java.text.DecimalFormat
@@ -131,22 +132,22 @@ class NumberButtonView(
         private val lowContrast: Int
         private val mediumContrast: Int
 
-        private val pRegular: TextPaint = TextPaint().apply {
+        private val pUnit: TextPaint = TextPaint().apply {
             textSize = getDimension(context, R.dimen.smallerTextSize)
             typeface = NORMAL_TYPEFACE
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
         }
 
-        private val pBold: TextPaint = TextPaint().apply {
-            textSize = getDimension(context, R.dimen.smallTextSize)
+        private val pNumber: TextPaint = TextPaint().apply {
+            textSize = dim(R.dimen.smallTextSize)
             typeface = BOLD_TYPEFACE
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
         }
 
         init {
-            em = pBold.measureText("m")
+            em = pNumber.measureText("m")
             lowContrast = sr.getColor(R.attr.contrast40)
             mediumContrast = sr.getColor(R.attr.contrast60)
         }
@@ -160,31 +161,36 @@ class NumberButtonView(
 
             val label: String
             val typeface: Typeface
+            val textSize: Float
 
             when {
                 value >= 0 -> {
                     label = value.toShortString()
                     typeface = BOLD_TYPEFACE
+                    textSize = dim(R.dimen.smallTextSize)
                 }
                 preferences.areQuestionMarksEnabled() -> {
                     label = resources.getString(R.string.fa_question)
                     typeface = getFontAwesome()
+                    textSize = dim(R.dimen.smallerTextSize)
                 }
                 else -> {
                     label = "0"
                     typeface = BOLD_TYPEFACE
+                    textSize = dim(R.dimen.smallTextSize)
                 }
             }
 
-            pBold.color = activeColor
-            pBold.typeface = typeface
-            pRegular.color = activeColor
+            pNumber.textSize = textSize
+            pNumber.color = activeColor
+            pNumber.typeface = typeface
+            pUnit.color = activeColor
 
             rect.set(0f, 0f, width.toFloat(), height.toFloat())
-            canvas.drawText(label, rect.centerX(), rect.centerY(), pBold)
+            canvas.drawText(label, rect.centerX(), rect.centerY(), pNumber)
 
-            rect.offset(0f, 1.2f * em)
-            canvas.drawText(units, rect.centerX(), rect.centerY(), pRegular)
+            rect.offset(0f, 1.3f * em)
+            canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
         }
     }
 }
