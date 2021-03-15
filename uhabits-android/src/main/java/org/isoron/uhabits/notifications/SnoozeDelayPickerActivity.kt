@@ -93,9 +93,4 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         super.finish()
         overridePendingTransition(0, 0)
     }
-
-    override fun onPause() {
-        if (dialog != null) dialog!!.dismiss()
-        super.onPause()
-    }
 }
