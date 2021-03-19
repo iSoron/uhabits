@@ -275,10 +275,6 @@ class EditHabitActivity : AppCompatActivity() {
             isValid = false
         }
         if (habitType == Habit.NUMBER_HABIT) {
-            if (unitInput.text.isEmpty()) {
-                unitInput.error = getFormattedValidationError(R.string.validation_cannot_be_blank)
-                isValid = false
-            }
             if (targetInput.text.isEmpty()) {
                 targetInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false

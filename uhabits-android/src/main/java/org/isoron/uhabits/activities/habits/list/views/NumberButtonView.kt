@@ -186,11 +186,16 @@ class NumberButtonView(
             pNumber.typeface = typeface
             pUnit.color = activeColor
 
-            rect.set(0f, 0f, width.toFloat(), height.toFloat())
-            canvas.drawText(label, rect.centerX(), rect.centerY(), pNumber)
-
-            rect.offset(0f, 1.3f * em)
-            canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
+            if (units.isBlank()) {
+                rect.set(0f, 0f, width.toFloat(), height.toFloat())
+                rect.offset(0f, 0.5f * em)
+                canvas.drawText(label, rect.centerX(), rect.centerY(), pNumber)
+            } else {
+                rect.set(0f, 0f, width.toFloat(), height.toFloat())
+                canvas.drawText(label, rect.centerX(), rect.centerY(), pNumber)
+                rect.offset(0f, 1.3f * em)
+                canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
+            }
         }
     }
 }

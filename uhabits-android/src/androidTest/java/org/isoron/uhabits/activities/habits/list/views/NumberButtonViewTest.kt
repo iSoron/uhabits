@@ -74,6 +74,13 @@ class NumberButtonViewTest : BaseViewTest() {
     }
 
     @Test
+    fun testRender_emptyUnits() {
+        view.value = 500.0
+        view.units = ""
+        assertRenders(view, "$PATH/render_unitless.png")
+    }
+
+    @Test
     fun testRender_belowThreshold() {
         view.value = 99.0
         assertRenders(view, "$PATH/render_below.png")
