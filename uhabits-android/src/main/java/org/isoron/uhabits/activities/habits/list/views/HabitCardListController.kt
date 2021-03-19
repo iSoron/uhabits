@@ -156,7 +156,7 @@ class HabitCardListController @Inject constructor(
         }
 
         private fun notifyListener() {
-            if (activeMode === SelectionMode())
+            if (activeMode is SelectionMode)
                 selectionMenu.get().onSelectionChange()
             else
                 selectionMenu.get().onSelectionFinish()

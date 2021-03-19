@@ -199,4 +199,15 @@ class HabitsTest : BaseUserInterfaceTest() {
         verifyDisplaysText("Track time")
         verifyDisplaysText("Wake up early")
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun shouldAllowMultipleSelection() {
+        launchApp()
+        verifyShowsScreen(LIST_HABITS)
+        verifyDisplaysText("Track time")
+        longClickText("Wake up early")
+        longClickText("Track time")
+        verifyDisplaysText("2")
+    }
 }
