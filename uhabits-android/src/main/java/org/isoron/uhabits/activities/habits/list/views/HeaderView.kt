@@ -122,7 +122,7 @@ class HeaderView(
 
             repeat(buttonCount) { index ->
                 rect.set(0f, 0f, width, height)
-                rect.offset(canvas.width.toFloat(), 0f)
+                rect.offset(canvas.width.toFloat() - dp(3.0f), 0f)
 
                 if (isReversed) rect.offset(-(index + 1) * width, 0f)
                 else rect.offset((index - buttonCount) * width, 0f)
