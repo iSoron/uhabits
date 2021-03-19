@@ -59,6 +59,7 @@
         <item name="widgetShadowAlpha">0.25</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowBackgroundColor">@color/grey_200</item>
+        <item name="android:textColorAlertDialogListItem">@color/grey_800</item>
     </style>
 
     <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
@@ -102,6 +103,7 @@
         <item name="windowBackgroundColor">@color/grey_900</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
+        <item name="android:textColorAlertDialogListItem">@color/grey_100</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
