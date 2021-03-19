@@ -117,6 +117,7 @@ class CheckmarkButtonView(
 
     private inner class Drawer {
         private val rect = RectF()
+        private val bgColor = sres.getColor(R.attr.cardBgColor)
         private val lowContrastColor = sres.getColor(R.attr.contrast40)
         private val mediumContrastColor = sres.getColor(R.attr.contrast60)
 
@@ -128,9 +129,7 @@ class CheckmarkButtonView(
 
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
-                YES_MANUAL -> color
-                YES_AUTO -> mediumContrastColor
-                SKIP -> color
+                YES_MANUAL, YES_AUTO, SKIP -> color
                 NO -> {
                     if (preferences.areQuestionMarksEnabled()) mediumContrastColor
                     else lowContrastColor
@@ -146,6 +145,13 @@ class CheckmarkButtonView(
                 }
                 else -> R.string.fa_check
             }
+            if (value == YES_AUTO) {
+                paint.strokeWidth = 5f
+                paint.style = Paint.Style.STROKE
+            } else {
+                paint.strokeWidth = 0f
+                paint.style = Paint.Style.FILL
+            }
 
             paint.textSize = when (value) {
                 UNKNOWN -> dim(R.dimen.smallerTextSize)
@@ -158,6 +164,12 @@ class CheckmarkButtonView(
             rect.set(0f, 0f, width.toFloat(), height.toFloat())
             rect.offset(0f, 0.4f * em)
             canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
+
+            if (value == YES_AUTO) {
+                paint.color = bgColor
+                paint.style = Paint.Style.FILL
+                canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
+            }
         }
     }
 }
