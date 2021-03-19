@@ -53,7 +53,6 @@ class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context,
             binding.numericalSpinner.visibility = GONE
         }
 
-        binding.numericalSpinner.onItemSelectedListener = null
         binding.numericalSpinner.setSelection(state.numericalSpinnerPosition)
         binding.boolSpinner.setSelection(state.boolSpinnerPosition)
     }
