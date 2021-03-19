@@ -90,10 +90,14 @@ class BarChart(
             val y = height - footerHeight - barHeight
             canvas.setColor(colors[s])
             val r = round(barWidth * 0.15)
-            canvas.fillRect(x, y + r, barWidth, barHeight - r)
-            canvas.fillRect(x + r, y, barWidth - 2 * r, r)
-            canvas.fillCircle(x + r, y + r, r)
-            canvas.fillCircle(x + barWidth - r, y + r, r)
+            if (2 * r < barHeight) {
+                canvas.fillRect(x, y + r, barWidth, barHeight - r)
+                canvas.fillRect(x + r, y, barWidth - 2 * r, r)
+                canvas.fillCircle(x + r, y + r, r)
+                canvas.fillCircle(x + barWidth - r, y + r, r)
+            } else {
+                canvas.fillRect(x, y, barWidth, barHeight)
+            }
             canvas.setFontSize(theme.smallTextSize)
             canvas.setTextAlign(TextAlign.CENTER)
             canvas.setColor(colors[s])
