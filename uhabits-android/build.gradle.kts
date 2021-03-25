@@ -87,7 +87,7 @@ dependencies {
     androidTestImplementation("com.linkedin.testbutler:test-butler-library:2.2.1")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
-    androidTestImplementation("androidx.annotation:annotation:1.1.0")
+    androidTestImplementation("androidx.annotation:annotation:1.2.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.3.0")
