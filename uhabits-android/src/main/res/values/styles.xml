@@ -52,7 +52,7 @@
         <item name="palette">@array/lightPalette</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
-        <item name="selectedBackground">@drawable/selected_box_light</item>
+        <item name="selectedBackground">@drawable/selected_box</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="useHabitColorAsPrimary">true</item>
         <item name="widgetBackgroundAlpha">1</item>
@@ -93,7 +93,7 @@
         <item name="popupMenuBackground">@color/black</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="scrollableRecyclerViewStyle">@style/ScrollableRecyclerViewStyle</item>
-        <item name="selectedBackground">@drawable/selected_box_dark</item>
+        <item name="selectedBackground">@drawable/selected_box</item>
         <item name="textColorAlertDialogListItem">@color/grey_100</item>
         <item name="toolbarPopupTheme">@style/ThemeOverlay.AppCompat</item>
         <item name="useHabitColorAsPrimary">false</item>
@@ -120,7 +120,7 @@
         <item name="contrast60">@color/grey_700</item>
         <item name="contrast80">@color/grey_700</item>
         <item name="contrast100">@color/grey_200</item>
-        <item name="selectedBackground">@drawable/selected_box_amoled</item>
+        <item name="selectedBackground">@drawable/selected_box</item>
         <item name="textColorAlertDialogListItem">@color/grey_100</item>
         <item name="windowBackgroundColor">@color/black</item>
     </style>
@@ -168,6 +168,8 @@
 
     <style name="Card" parent="CardCommon">
         <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:elevation">1dp</item>
+        <item name="android:background">?attr/cardBgColor</item>
     </style>
 
     <style name="CardHeader">
@@ -190,6 +192,7 @@
     <style name="About.Item.Clickable">
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
+        <item name="android:background">@drawable/ripple_transparent</item>
     </style>
 
     <style name="Toolbar">
