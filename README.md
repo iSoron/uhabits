@@ -127,5 +127,5 @@ contribute, even if you are not a software developer.
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
-[build]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines#building
+[build]: https://github.com/iSoron/uhabits/blob/dev/docs/BUILD.md
 [beta]: https://play.google.com/apps/testing/org.isoron.uhabits
