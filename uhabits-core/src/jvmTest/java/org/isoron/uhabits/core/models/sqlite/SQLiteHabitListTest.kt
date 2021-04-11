@@ -157,6 +157,14 @@ class SQLiteHabitListTest : BaseUnitTest() {
         val h = habitList.getById(2)
         habitList.remove(h!!)
         assertThat(habitList.indexOf(h), equalTo(-1))
+
+        habitList.add(h)
+        val primaryOrder = habitList.primaryOrder
+        habitList.primaryOrder = HabitList.Order.BY_NAME_DESC
+        habitList.remove(h)
+        assertThat(habitList.indexOf(h), equalTo(-1))
+        habitList.primaryOrder = primaryOrder
+
         var rec = repository.find(2L)
         assertNull(rec)
         rec = repository.find(3L)!!

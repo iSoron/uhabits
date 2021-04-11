@@ -131,7 +131,9 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     @Synchronized
     override fun remove(h: Habit) {
         loadRecords()
-        reorder(h, list.getByPosition(size() - 1))
+        if (Order.BY_POSITION.equals(list.primaryOrder)) {
+            reorder(h, list.getByPosition(size() - 1))
+        }
         list.remove(h)
         val record = repository.find(
             h.id!!
