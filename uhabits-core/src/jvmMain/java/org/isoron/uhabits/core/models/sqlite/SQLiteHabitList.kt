@@ -131,9 +131,6 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     @Synchronized
     override fun remove(h: Habit) {
         loadRecords()
-        if (Order.BY_POSITION.equals(list.primaryOrder)) {
-            reorder(h, list.getByPosition(size() - 1))
-        }
         list.remove(h)
         val record = repository.find(
             h.id!!
@@ -142,6 +139,7 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
             h.originalEntries.clear()
             repository.remove(record)
         }
+        rebuildOrder()
         observable.notifyListeners()
     }
 
