@@ -157,6 +157,20 @@ class SQLiteHabitListTest : BaseUnitTest() {
         val h = habitList.getById(2)
         habitList.remove(h!!)
         assertThat(habitList.indexOf(h), equalTo(-1))
+
+        var rec = repository.find(2L)
+        assertNull(rec)
+        rec = repository.find(3L)!!
+        assertThat(rec.position, equalTo(1))
+    }
+
+    @Test
+    fun testRemove_orderByName() {
+        habitList.primaryOrder = HabitList.Order.BY_NAME_DESC
+        val h = habitList.getById(2)
+        habitList.remove(h!!)
+        assertThat(habitList.indexOf(h), equalTo(-1))
+
         var rec = repository.find(2L)
         assertNull(rec)
         rec = repository.find(3L)!!
