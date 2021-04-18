@@ -304,14 +304,14 @@ class EditHabitActivity : AppCompatActivity() {
             freqNum == 1 && freqDen == 7 -> getString(R.string.every_week)
             freqNum == 1 && freqDen > 1 -> getString(R.string.every_x_days, freqDen)
             freqDen == 7 -> getString(R.string.x_times_per_week, freqNum)
-            freqDen == 31 -> getString(R.string.x_times_per_month, freqNum)
-            else -> "Unknown"
+            freqDen == 30 || freqDen == 31 -> getString(R.string.x_times_per_month, freqNum)
+            else -> "$freqNum/$freqDen"
         }
         binding.numericalFrequencyPicker.text = when (freqDen) {
             1 -> getString(R.string.every_day)
             7 -> getString(R.string.every_week)
             30 -> getString(R.string.every_month)
-            else -> "Unknown"
+            else -> "$freqNum/$freqDen"
         }
     }
 

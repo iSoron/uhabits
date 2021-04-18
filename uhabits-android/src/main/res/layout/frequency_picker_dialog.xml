@@ -45,6 +45,7 @@
     </LinearLayout>
 
     <LinearLayout
+            android:id="@+id/everyXDaysContainer"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical">
@@ -53,11 +54,6 @@
                 android:id="@+id/everyXDaysRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Every" />
 
         <EditText
                 android:id="@+id/everyXDaysTextView"
@@ -71,14 +67,10 @@
                 android:maxLength="2"
                 android:text="3" />
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="days" />
-
     </LinearLayout>
 
     <LinearLayout
+            android:id="@+id/xTimesPerWeekContainer"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical">
@@ -98,16 +90,13 @@
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
                 android:maxLength="2"
-                android:text="5" />
+                android:text="3" />
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="times per week" />
 
     </LinearLayout>
 
     <LinearLayout
+            android:id="@+id/xTimesPerMonthContainer"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical">
@@ -128,11 +117,6 @@
                 android:inputType="number"
                 android:maxLength="2"
                 android:text="10" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="times per month" />
 
     </LinearLayout>
 

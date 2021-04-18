@@ -25,7 +25,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import kotlinx.android.synthetic.main.frequency_picker_dialog.view.*
@@ -44,6 +46,21 @@ class FrequencyPickerDialog(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
         contentView = inflater.inflate(R.layout.frequency_picker_dialog, null)
+
+        addBeforeAfterText(
+            this.getString(R.string.every_x_days),
+            contentView.everyXDaysContainer,
+        )
+
+        addBeforeAfterText(
+            this.getString(R.string.x_times_per_week),
+            contentView.xTimesPerWeekContainer,
+        )
+
+        addBeforeAfterText(
+            this.getString(R.string.x_times_per_month),
+            contentView.xTimesPerMonthContainer,
+        )
 
         contentView.everyDayRadioButton.setOnClickListener {
             check(contentView.everyDayRadioButton)
@@ -82,6 +99,19 @@ class FrequencyPickerDialog(
             .setView(contentView)
             .setPositiveButton(R.string.save) { _, _ -> onSaveClicked() }
             .create()
+    }
+
+    private fun addBeforeAfterText(
+        str: String,
+        container: LinearLayout
+    ) {
+        val parts = str.split("%d")
+        container.addView(
+            TextView(activity).apply { text = parts[0].trim() }, 1,
+        )
+        container.addView(
+            TextView(activity).apply { text = parts[1].trim() }, 3,
+        )
     }
 
     private fun onSaveClicked() {

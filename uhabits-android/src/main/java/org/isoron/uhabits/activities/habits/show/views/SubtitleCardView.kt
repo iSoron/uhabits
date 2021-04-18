@@ -33,7 +33,6 @@ import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.formatTime
 import org.isoron.uhabits.utils.toThemedAndroidColor
-import java.util.Locale
 
 class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -99,13 +98,6 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
             }
             return resources.getString(R.string.every_x_days, den)
         }
-        return String.format(
-            Locale.US,
-            "%d %s %d %s",
-            num,
-            resources.getString(R.string.times_every),
-            den,
-            resources.getString(R.string.days),
-        )
+        return "$num/$den"
     }
 }
