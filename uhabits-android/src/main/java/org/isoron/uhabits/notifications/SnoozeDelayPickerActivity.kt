@@ -34,7 +34,6 @@ import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_LIGHT
 import org.isoron.uhabits.receivers.ReminderController
-import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.SystemUtils
 import org.isoron.uhabits.utils.toThemedAndroidColor
 import java.util.Calendar
