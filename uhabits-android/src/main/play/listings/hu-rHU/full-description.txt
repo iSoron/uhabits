@@ -1,0 +1,29 @@
+A Loop Szokásrögzítő segít hosszú távú pozitív szokások kialakításában és fenntartásában. A részletes diagramok és statisztikák tiszta képet adnak arról, hogyan feljődtek szokásai az idő során. Az alkalmazás teljesen hirdetés mentes, nyílt forráskódú és tiszteli a magánéletét. 
+
+<b>Gyönyörű minimalista felület</b>
+A Loop elegáns és minimalista felülettel rendelkezik, amelyet nagyon könnyű használni, még az új felhasználók számára is. A sebességre optimalizált alkalmazás régebbi telefonokon is jól működik.
+
+<b>Szokás pontszám</b>
+A Loop fejlett képlettel rendelkezik a szokások erősségének kiszámításához. Minden egyes ismétlés erősíti a szokást, a kihagyott napok pedig gyengítik. Néhány hosszú kihagyás után elmaradt nap azonban nem fogja teljesen megsemmisíteni a haladást, ellentétben számos más alkalmazással.
+
+<b>Rugalmas ütemezés</b>
+A napi szokások mellett a Loop összetettebb ütemezéssel rendelkező szokásokat is támogatja, például hetente háromszor vagy minden másnap.
+
+<b>Emlékeztetők</b>
+Ütemezzen értesítéseket, hogy emlékeztesse Önt a szokásaira. Minden szokásnak meg lehet a maga emlékeztetője, a nap egy meghatározott időpontjában. Könnyen kipipálhatja vagy elvetheti szokását közvetlenül az értesítésből.
+
+<b>Widgetek</b>
+Emlékeztesse magát a szokásaira, amikor feloldja a telefont. A színes widgetek lehetővé teszik a szokások nyomon követését közvetlenül a kezdőképernyőről, az alkalmazás megnyitása nélkül is.
+
+<b>Vegye át az adatainak irányítását</b>
+Ha tovább kívánja elemezni az adatait, vagy áthelyezni őket egy másik szolgáltatásba, a Loop lehetővé teszi, hogy exportálja őket táblázatokba (CSV) vagy adatbázis fájlokba (SQLite). A tapasztalt felhasználók más alkalmazásokon keresztül is tudnak pipákat hozzáadni, például a Taskeren.
+
+<b>Határok nélkül</b>
+Annyi szokást követhet nyomon, amennyit csak szeretne. A Loop nem szab korlátokat arra, hogy hány szokása lehet. Minden funkció elérhető az összes felhasználó számára. Nincsenek alkalmazáson belüli vásárlások.
+
+<b>Teljesen hirdetésmentes és nyílt forráskódú</b>
+Nincsenek hirdetések, bosszantó értesítések vagy tolakodó engedélyek ebben az alkalmazásban, és soha nem is lesznek. Az alkalmazás teljesen nyílt forráskódú (GPLv3).
+
+<b>Offline módon működik, és tiszteletben tartja a magánéletét</b>
+A hurok nem igényel internetkapcsolatot vagy online fiók regisztrációt. Bizalmas adatait soha nem küldjük el senkinek. Sem a fejlesztők, sem harmadik fél nem férhetnek hozzá.
+

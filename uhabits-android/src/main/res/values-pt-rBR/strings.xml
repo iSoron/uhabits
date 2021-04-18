@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop - Acompanhador de Hábitos</string>
     <string name="main_activity_title">Hábitos</string>
     <string name="action_settings">Configurações</string>
@@ -28,10 +28,22 @@
     <string name="add_habit">Adicionar hábito</string>
     <string name="color_picker_default_title">Mudar cor</string>
     <string name="toast_habit_created">Hábito criado.</string>
-    <string name="toast_habit_deleted">Hábito deletado.</string>
-    <string name="toast_habit_changed">Hábito modificado.</string>
-    <string name="toast_habit_archived">Hábitos arquivados.</string>
-    <string name="toast_habit_unarchived">Hábitos restaurados.</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Hábito modificado.</item>
+        <item quantity="other">Hábitos modificados.</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Hábito deletado.</item>
+        <item quantity="other">Hábitos deletados.</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Hábito arquivado.</item>
+        <item quantity="other">Hábitos arquivados.</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Hábito desarquivado.</item>
+        <item quantity="other">Hábitos desarquivados.</item>
+    </plurals>
     <string name="overview">Visão geral</string>
     <string name="habit_strength">Estabilidade</string>
     <string name="history">Histórico</string>
@@ -41,6 +53,7 @@
     <string name="save">Salvar</string>
     <string name="streaks">Correntes</string>
     <string name="no_habits_found">Você não tem nenhum hábito ativo</string>
+    <string name="no_habits_left_to_do">Tudo terminado!</string>
     <string name="long_press_to_toggle">Sustente por um segundo para marcar ou desmarcar</string>
     <string name="reminder_off">Desligado</string>
     <string name="create_habit">Criar hábito</string>
@@ -64,20 +77,24 @@
     <string name="interval_custom">Personalizar...</string>
     <string name="pref_toggle_title">Marcar repetições com um toque curto</string>
     <string name="pref_toggle_description">Mais conveniente, mas pode causar marcações acidentais</string>
-    <string name="pref_snooze_interval_title">Duração do \"mais tarde\" nos lembretes</string>
     <string name="pref_rate_this_app">Avaliar esse app no Google Play</string>
     <string name="pref_send_feedback">Mandar sugestões para o desenvolvedor</string>
     <string name="pref_view_source_code">Ver código-fonte no GitHub</string>
     <string name="links">Links</string>
     <string name="name">Nome</string>
     <string name="settings">Configurações</string>
-    <string name="snooze_interval">Duração do \"mais tarde\"</string>
     <string name="select_snooze_delay">Selecionar duração do \"mais tarde\"</string>
     <string name="hint_title">Dica</string>
     <string name="hint_drag">Para mudar a ordem dos hábitos, aperte no nome do hábito, sustente e arraste.</string>
     <string name="hint_landscape">Para ver mais dias, coloque seu aparelho em modo paisagem.</string>
-    <string name="delete_habits">Deletar hábitos</string>
-    <string name="delete_habits_message">Os hábitos escolhidos serão deletados permanentemente. Esta ação não pode ser desfeita.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Excluir hábito?</item>
+        <item quantity="other">Excluir hábitos?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">O hábito será excluído permanentemente. Esta ação não pode ser desfeita.</item>
+        <item quantity="other">Os hábitos serão excluídos permanentemente. Esta ação não pode ser desfeita.</item>
+    </plurals>
     <string name="habit_not_found">Hábito deletado / não encontrado</string>
     <string name="weekends">Fim de semana</string>
     <string name="any_weekday">Segunda a sexta</string>
@@ -147,6 +164,7 @@
     <string name="by_name">Por nome</string>
     <string name="by_color">Por cor</string>
     <string name="by_score">Por score</string>
+    <string name="by_status">Por status</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Pressione e segure para alterar o valor</string>
     <string name="change_value">Alterar valor</string>
@@ -170,16 +188,30 @@
     <string name="example_notes">(Opcional)</string>
     <string name="yes_or_no_example">Ex.: Você acordou cedo hoje? Você se exercitou? Você jogou xadrez?</string>
     <string name="measurable">Mensurável</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">Ex.: Quantos km você correu hoje? Quantas páginas você leu? Quantas calorias você comeu?</string>
+    <string name="measurable_example">ex.: Quantos km você correu hoje? Quantas páginas você leu?</string>
     <string name="x_times_per_week">%d vezes por semana</string>
     <string name="x_times_per_month">%d vezes por mês</string>
     <string name="yes_or_no_short_example">ex: Exercício</string>
     <string name="color">Cor</string>
     <string name="example_target">ex: 15</string>
     <string name="measurable_short_example">ex. Correr</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">Ex: Quantos km você correu hoje?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">Ex: km</string>
+    <string name="measurable_question_example">Ex: Quantos km você correu hoje?</string>
+    <string name="measurable_units_example">Ex: km</string>
     <string name="every_month">Todo mês</string>
     <string name="validation_cannot_be_blank">Não pode estar em branco</string>
     <string name="today">Hoje</string>
+    <string name="enter">Entrar</string>
+    <string name="no_habits">Nenhum hábito encontrado</string>
+    <string name="no_numerical_habits">Nenhum hábito mensurável encontrado</string>
+    <string name="no_boolean_habits">Nenhum hábito sim-ou-não encontrado</string>
+    <string name="increment">Incrementar</string>
+    <string name="decrement">Decrementar</string>
+    <string name="pref_skip_title">Habilitar dias de folga</string>
+    <string name="pref_skip_description">Clique duas vezes para adicionar um dia de folga. Esses dias mantêm a estabilidade do hábito inalterada e não quebram a corrente.</string>
+    <string name="pref_unknown_title">Mostrar interrogação para dados ausentes</string>
+    <string name="pref_unknown_description">Mostra dias sem dados e dias com lapsos de forma diferente. Para inserir um lapso, clique duas vezes.</string>
+    <string name="you_are_now_a_developer">Você agora é um desenvolvedor!</string>
+    <string name="activity_not_found">Nenhum app encontrado para executar esta ação</string>
+    <string name="pref_midnight_delay_title">Prolongar dia algumas horas depois da meia-noite</string>
+    <string name="pref_midnight_delay_description">Espere até às 3:00 para mostrar um novo dia. Útil se você costuma dormir depois da meia-noite. Requer reinicialização do aplicativo.</string>
 </resources>

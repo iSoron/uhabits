@@ -16,7 +16,7 @@ Benachrichtigungen können zeitlich konfiguriert und als Erinnerung verwendet we
 Denken Sie immer an Erinnerungen, Sie ihr Telefon entsperren. Mit farbenfrohen Widgets behalten Sie Ihre Gewohnheiten immer im Überblick, direkt auf dem Homescreen ihn die App zu öffnen.
 
 <b>Behalten Sie die Kontrolle über Ihre Daten</b>
-Daten können zur weiteren Analyse, oder auch zum Verschieben zu einem weiteren Anbieter, als Tabelle (CSV) oder Datenbank (SQLite) exportiert werden. Power User können Checkmarks in anderen Apps hinzufügen, wie zum Beispiel Tasker.
+Daten können zur weiteren Analyse, oder auch zum Verschieben zu einem weiteren Anbieter, als Tabelle (CSV) oder Datenbank (SQLite) exportiert werden. Power User können Häkchen durch andere Apps hinzufügen, wie zum Beispiel Tasker.
 
 <b>Keine Einschränkungen</b>
 Erstellen Sie so viele Gewohnheiten, wie Sie möchten. Loop setzt keinerlei Einschränkungen was die Anzahl der erstellbaren Gewohnheiten betrifft. Alle Funktionen sind für alle User verfügbar. Es gibt keine In-App-Käufe.

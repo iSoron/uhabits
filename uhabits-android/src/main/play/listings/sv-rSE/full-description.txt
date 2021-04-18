@@ -4,7 +4,7 @@ Loop Habit Tracker hjälper dig att skapa och upprätthålla långsiktiga, gynns
 Loop har ett elegant och minimalistiskt gränssnitt som är mycket lättanvänt, även för förstagångsanvändare. Appen är optimerad för hastighet och fungerar bra även på äldre telefoner.
 
 <b>Vanepoäng</b>
-Loop har en avancerad formel för att beräkna dina vanors styrka. Varje upprepning gör din vana starkare och varje missad dag gör den svagare. Ett par missade dagar efter en lång serie kommer dock inte förstöra dina framsteg helt, till skillnad från många andra "don't-break-the-chain"-appar.
+Loop har en avancerad formel för att beräkna dina vanors styrka. Varje upprepning gör din vana starkare och varje missad dag gör den svagare. Ett par missade dagar efter en lång serie kommer dock inte förstöra dina framsteg helt, till skillnad från många andra vaneappar.
 
 <b>Flexibla scheman</b>
 Förutom dagliga vanor stödjer Loop vanor med mer komplexa scheman, t.ex. 3 gånger per vecka eller varannan dag.
