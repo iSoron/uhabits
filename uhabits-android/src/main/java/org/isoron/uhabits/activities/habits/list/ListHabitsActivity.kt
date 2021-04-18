@@ -26,10 +26,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.isoron.uhabits.BaseExceptionHandler
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.sync.SyncManager
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_DARK
 import org.isoron.uhabits.core.utils.MidnightTimer
@@ -47,6 +49,7 @@ class ListHabitsActivity : AppCompatActivity() {
     lateinit var screen: ListHabitsScreen
     lateinit var prefs: Preferences
     lateinit var midnightTimer: MidnightTimer
+    lateinit var syncManager: SyncManager
     private val scope = CoroutineScope(Dispatchers.Main)
 
     private lateinit var menu: ListHabitsMenu
@@ -63,6 +66,7 @@ class ListHabitsActivity : AppCompatActivity() {
         component.themeSwitcher.apply()
 
         prefs = appComponent.preferences
+        syncManager = appComponent.syncManager
         pureBlack = prefs.isPureBlackEnabled
         midnightTimer = appComponent.midnightTimer
         rootView = component.listHabitsRootView
@@ -79,6 +83,9 @@ class ListHabitsActivity : AppCompatActivity() {
         midnightTimer.onPause()
         screen.onDettached()
         adapter.cancelRefresh()
+        scope.launch {
+            syncManager.onPause()
+        }
         super.onPause()
     }
 
@@ -87,6 +94,9 @@ class ListHabitsActivity : AppCompatActivity() {
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
+        scope.launch {
+            syncManager.onResume()
+        }
         taskRunner.run {
             AutoBackup(this@ListHabitsActivity).run()
         }

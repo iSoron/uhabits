@@ -29,6 +29,7 @@ import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.core.reminders.ReminderScheduler
+import org.isoron.uhabits.core.sync.SyncManager
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.ui.screens.habits.list.HabitCardListCache
@@ -63,4 +64,5 @@ interface HabitsApplicationComponent {
     val taskRunner: TaskRunner
     val widgetPreferences: WidgetPreferences
     val widgetUpdater: WidgetUpdater
+    val syncManager: SyncManager
 }

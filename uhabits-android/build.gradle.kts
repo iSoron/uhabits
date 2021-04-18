@@ -122,6 +122,7 @@ dependencies {
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.3.0")
+    implementation("com.google.zxing:core:3.4.1")
     implementation("com.opencsv:opencsv:5.4")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")

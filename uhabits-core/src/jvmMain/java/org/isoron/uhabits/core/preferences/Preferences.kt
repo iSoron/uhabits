@@ -204,6 +204,27 @@ open class Preferences(private val storage: Storage) {
         set(value) {
             storage.putBoolean("pref_skip_enabled", value)
         }
+    val syncBaseURL: String
+        get() = storage.getString("pref_sync_base_url", "")
+    val syncKey: String
+        get() = storage.getString("pref_sync_key", "")
+    val encryptionKey: String
+        get() = storage.getString("pref_encryption_key", "")
+    val isSyncEnabled: Boolean
+        get() = storage.getBoolean("pref_sync_enabled", false)
+
+    fun enableSync(syncKey: String, encKey: String) {
+        storage.putBoolean("pref_sync_enabled", true)
+        storage.putString("pref_sync_key", syncKey)
+        storage.putString("pref_encryption_key", encKey)
+        for (l in listeners) l.onSyncEnabled()
+    }
+
+    fun disableSync() {
+        storage.putBoolean("pref_sync_enabled", false)
+        storage.putString("pref_sync_key", "")
+        storage.putString("pref_encryption_key", "")
+    }
 
     fun areQuestionMarksEnabled(): Boolean {
         return storage.getBoolean("pref_unknown_enabled", false)
@@ -240,6 +261,7 @@ open class Preferences(private val storage: Storage) {
     interface Listener {
         fun onCheckmarkSequenceChanged() {}
         fun onNotificationsChanged() {}
+        fun onSyncEnabled() {}
     }
 
     interface Storage {

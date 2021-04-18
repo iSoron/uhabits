@@ -22,6 +22,8 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".HabitsApplication"
@@ -40,6 +42,14 @@
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
 
+        <activity
+            android:name=".activities.sync.SyncActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.settings.SettingsActivity" />
+        </activity>
+
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw" />
@@ -49,6 +59,16 @@
             android:exported="true"
             android:label="@string/main_activity_title"
             android:launchMode="singleTop">
+            <tools:validation testUrl="https://loophabits.org/sync/123" />
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="loophabits.org"
+                    android:pathPrefix="/sync" />
+            </intent-filter>
         </activity>
 
         <activity-alias
