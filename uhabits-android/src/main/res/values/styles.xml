@@ -125,6 +125,26 @@
         <item name="windowBackgroundColor">@color/black</item>
     </style>
 
+    <style name="BaseDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="contrast0">@color/white</item>
+        <item name="contrast20">@color/grey_300</item>
+        <item name="contrast40">@color/grey_350</item>
+        <item name="contrast60">@color/grey_500</item>
+        <item name="contrast80">@color/grey_700</item>
+        <item name="contrast100">@color/grey_800</item>
+        <item name="palette">@array/lightPalette</item>
+    </style>
+
+    <style name="BaseDialogDark" parent="Theme.AppCompat.Dialog">
+        <item name="contrast0">@color/grey_900</item>
+        <item name="contrast20">@color/grey_800</item>
+        <item name="contrast40">@color/grey_750</item>
+        <item name="contrast60">@color/grey_500</item>
+        <item name="contrast80">@color/grey_300</item>
+        <item name="contrast100">@color/grey_100</item>
+        <item name="palette">@array/darkPalette</item>
+    </style>
+
     <style name="WidgetTheme" parent="AppBaseThemeDark">
         <item name="cardBgColor">@color/grey_850</item>
         <item name="contrast0">@color/white</item>

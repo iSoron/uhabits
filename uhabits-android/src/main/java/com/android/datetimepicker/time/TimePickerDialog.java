@@ -23,6 +23,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyCharacterMap;
@@ -44,6 +45,7 @@ import com.android.datetimepicker.Utils;
 import com.android.datetimepicker.time.RadialPickerLayout.OnValueSelectedListener;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.utils.StyledResources;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -101,7 +103,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
     private int mInitialHourOfDay;
     private int mInitialMinute;
     private boolean mIs24HourMode;
-    private boolean mThemeDark;
 
     // For hardware IME input.
     private char mPlaceholderText;
@@ -173,21 +174,7 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
         mInitialMinute = minute;
         mIs24HourMode = is24HourMode;
         mInKbMode = false;
-        mThemeDark = false;
         mSelectedColor = color;
-    }
-
-    /**
-     * Set a dark or light theme. NOTE: this will only take effect for the next onCreateView.
-     */
-    public void setThemeDark(boolean dark)
-    {
-        mThemeDark = dark;
-    }
-
-    public boolean isThemeDark()
-    {
-        return mThemeDark;
     }
 
     public void setOnTimeSetListener(OnTimeSetListener callback)
@@ -213,7 +200,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
             mInitialMinute = savedInstanceState.getInt(KEY_MINUTE);
             mIs24HourMode = savedInstanceState.getBoolean(KEY_IS_24_HOUR_VIEW);
             mInKbMode = savedInstanceState.getBoolean(KEY_IN_KB_MODE);
-            mThemeDark = savedInstanceState.getBoolean(KEY_DARK_THEME);
             mSelectedColor = savedInstanceState.getInt(KEY_SELECTED_COLOR);
         }
     }
@@ -239,8 +225,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
         mSelectHours = res.getString(R.string.select_hours);
         mMinutePickerDescription = res.getString(R.string.minute_picker_description);
         mSelectMinutes = res.getString(R.string.select_minutes);
-        //mSelectedColor = res.getColor(mThemeDark ? R.color.red : R.color.blue);
-        mUnselectedColor = res.getColor(mThemeDark ? R.color.white : R.color.numbers_text_color);
 
         mHourView = (TextView) view.findViewById(R.id.hours);
         mHourView.setOnKeyListener(keyboardListener);
@@ -374,31 +358,25 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
         }
 
 
-//        // Set the theme at the end so that the initialize()s above don't counteract the theme.
-//        mTimePicker.setTheme(getActivity().getApplicationContext(), mThemeDark);
-//        // Prepare some palette to use.
-//        int white = res.getColor(R.color.white);
-//        int circleBackground = res.getColor(R.color.circle_background);
-//        int line = res.getColor(R.color.line_background);
-//        int timeDisplay = res.getColor(R.color.numbers_text_color);
-//        ColorStateList doneTextColor = res.getColorStateList(R.color.done_text_color);
-//        int doneBackground = R.drawable.done_background_color;
-//
-//        int darkGray = res.getColor(R.color.dark_gray);
-//        int lightGray = res.getColor(R.color.light_gray);
-//        int darkLine = res.getColor(R.color.line_dark);
-//        ColorStateList darkDoneTextColor = res.getColorStateList(R.color.done_text_color_dark);
-//        int darkDoneBackground = R.drawable.done_background_color_dark;
+        StyledResources styledResources = new StyledResources(getActivity());
+        int contrast0 = styledResources.getColor(R.attr.contrast0);
+        int contrast20 = styledResources.getColor(R.attr.contrast20);
+        int contrast60 = styledResources.getColor(R.attr.contrast60);
+        int contrast80 = styledResources.getColor(R.attr.contrast80);
+        view.findViewById(R.id.time_display_background).setBackgroundColor(Color.BLUE);
+        view.findViewById(R.id.time_display).setBackgroundColor(contrast0);
+        ((TextView) view.findViewById(R.id.separator)).setTextColor(contrast80);
+        ((TextView) view.findViewById(R.id.ampm_label)).setTextColor(contrast80);
+        view.findViewById(R.id.line).setBackgroundColor(contrast20);
+        mDoneButton.setTextColor(contrast80);
+        mDoneButton.setBackgroundColor(contrast0);
+        mClearButton.setTextColor(contrast80);
+        mClearButton.setBackgroundColor(contrast0);
+        mTimePicker.setBackgroundColor(contrast20);
+        mUnselectedColor = contrast80;
+        mMinuteView.setTextColor(mUnselectedColor);
+        mHourView.setTextColor(mSelectedColor);
 
-        // Set the palette for each view based on the theme.
-//        view.findViewById(R.id.time_display_background).setBackgroundColor(mThemeDark? darkGray : white);
-//        view.findViewById(R.id.time_display).setBackgroundColor(mThemeDark? darkGray : white);
-//        ((TextView) view.findViewById(R.id.separator)).setTextColor(mThemeDark? white : timeDisplay);
-//        ((TextView) view.findViewById(R.id.ampm_label)).setTextColor(mThemeDark? white : timeDisplay);
-//        view.findViewById(R.id.line).setBackgroundColor(mThemeDark? darkLine : line);
-//        mDoneButton.setTextColor(mThemeDark? darkDoneTextColor : doneTextColor);
-//        mTimePicker.setBackgroundColor(mThemeDark? lightGray : circleBackground);
-//        mDoneButton.setBackgroundResource(mThemeDark? darkDoneBackground : doneBackground);
         return view;
     }
 
@@ -448,7 +426,6 @@ public class TimePickerDialog extends AppCompatDialogFragment implements OnValue
             if (mInKbMode) {
                 outState.putIntegerArrayList(KEY_TYPED_TIMES, mTypedTimes);
             }
-            outState.putBoolean(KEY_DARK_THEME, mThemeDark);
             outState.putInt(KEY_SELECTED_COLOR, mSelectedColor);
         }
     }

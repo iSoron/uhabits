@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.View;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.utils.StyledResources;
 
 /**
  * A view to show a series of numbers in a circular pattern.
@@ -87,7 +88,8 @@ public class RadialTextsView extends View {
         }
 
         // Set up the paint.
-        int numbersTextColor = res.getColor(R.color.numbers_text_color);
+        StyledResources styledResources = new StyledResources(getContext());
+        int numbersTextColor = styledResources.getColor(R.attr.contrast80);
         mPaint.setColor(numbersTextColor);
         String typefaceFamily = res.getString(R.string.radial_numbers_typeface);
         mTypefaceLight = Typeface.create(typefaceFamily, Typeface.NORMAL);
@@ -141,17 +143,6 @@ public class RadialTextsView extends View {
 
         mTextGridValuesDirty = true;
         mIsInitialized = true;
-    }
-
-    /* package */ void setTheme(Context context, boolean themeDark) {
-        Resources res = context.getResources();
-        int textColor;
-        if (themeDark) {
-            textColor = res.getColor(R.color.white);
-        } else {
-            textColor = res.getColor(R.color.numbers_text_color);
-        }
-        mPaint.setColor(textColor);
     }
 
     /**

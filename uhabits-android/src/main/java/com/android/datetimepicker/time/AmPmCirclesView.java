@@ -27,6 +27,7 @@ import com.android.*;
 import com.android.datetimepicker.*;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.utils.StyledResources;
 
 import java.text.*;
 
@@ -73,10 +74,10 @@ public class AmPmCirclesView extends View {
             return;
         }
 
+        StyledResources styledResources = new StyledResources(context);
+        mUnselectedColor = styledResources.getColor(R.attr.contrast0);
+
         Resources res = context.getResources();
-        mUnselectedColor = res.getColor(R.color.white);
-        //mSelectedColor = res.getColor(R.color.blue);
-        //mAmPmTextColor = res.getColor(R.color.ampm_text_color);
         mSelectedAlpha = SELECTED_ALPHA;
         String typefaceFamily = res.getString(R.string.sans_serif);
         Typeface tf = Typeface.create(typefaceFamily, Typeface.NORMAL);
@@ -96,21 +97,6 @@ public class AmPmCirclesView extends View {
         mAmOrPmPressed = -1;
 
         mIsInitialized = true;
-    }
-
-    /* package */ void setTheme(Context context, boolean themeDark) {
-        Resources res = context.getResources();
-        if (themeDark) {
-            mUnselectedColor = res.getColor(R.color.dark_gray);
-            mSelectedColor = res.getColor(R.color.red);
-            mAmPmTextColor = res.getColor(R.color.white);
-            mSelectedAlpha = SELECTED_ALPHA_THEME_DARK;
-        } else {
-            mUnselectedColor = res.getColor(R.color.white);
-            //mSelectedColor = res.getColor(R.color.blue);
-            //mAmPmTextColor = res.getColor(R.color.ampm_text_color);
-            mSelectedAlpha = SELECTED_ALPHA;
-        }
     }
 
     public void setAmOrPm(int amOrPm) {

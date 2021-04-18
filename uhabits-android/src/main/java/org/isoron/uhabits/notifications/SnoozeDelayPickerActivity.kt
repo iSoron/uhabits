@@ -20,10 +20,8 @@ package org.isoron.uhabits.notifications
 
 import android.app.AlertDialog
 import android.content.ContentUris
-import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
@@ -32,21 +30,33 @@ import com.android.datetimepicker.time.RadialPickerLayout
 import com.android.datetimepicker.time.TimePickerDialog
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_LIGHT
 import org.isoron.uhabits.receivers.ReminderController
+import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.SystemUtils
+import org.isoron.uhabits.utils.toThemedAndroidColor
 import java.util.Calendar
 
 class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
     private var habit: Habit? = null
     private var reminderController: ReminderController? = null
     private var dialog: AlertDialog? = null
+    private var color: Int = 0
+
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         val intent = intent
         if (intent == null) finish()
         val app = applicationContext as HabitsApplication
         val appComponent = app.component
+        val themeSwitcher = AndroidThemeSwitcher(this, appComponent.preferences)
+        if (themeSwitcher.getSystemTheme() == THEME_LIGHT) {
+            setTheme(R.style.BaseDialog)
+        } else {
+            setTheme(R.style.BaseDialogDark)
+        }
         val data = intent.data
         if (data == null) {
             finish()
@@ -54,9 +64,9 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
             habit = appComponent.habitList.getById(ContentUris.parseId(data))
         }
         if (habit == null) finish()
+        color = habit!!.color.toThemedAndroidColor(this)
         reminderController = appComponent.reminderController
-        val theme = R.style.Theme_AppCompat_Light_Dialog_Alert
-        dialog = AlertDialog.Builder(ContextThemeWrapper(this, theme))
+        dialog = AlertDialog.Builder(this)
             .setTitle(R.string.select_snooze_delay)
             .setItems(R.array.snooze_picker_names, null)
             .create()
@@ -76,7 +86,7 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
             calendar[Calendar.HOUR_OF_DAY],
             calendar[Calendar.MINUTE],
             DateFormat.is24HourFormat(this),
-            Color.BLUE
+            color
         )
         dialog.show(supportFragmentManager, "timePicker")
     }

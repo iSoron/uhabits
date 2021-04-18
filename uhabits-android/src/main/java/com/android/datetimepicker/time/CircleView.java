@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.View;
 
 import org.isoron.uhabits.R;
+import org.isoron.uhabits.utils.StyledResources;
 
 /**
  * Draws a simple white circle on which the numbers will be drawn.
@@ -48,9 +49,9 @@ public class CircleView extends View {
     public CircleView(Context context) {
         super(context);
 
-        Resources res = context.getResources();
-        mCircleColor = res.getColor(R.color.white);
-        mDotColor = res.getColor(R.color.numbers_text_color);
+        StyledResources styledResources = new StyledResources(context);
+        mCircleColor = styledResources.getColor(R.attr.contrast0);
+        mDotColor = mCircleColor;
         mPaint.setAntiAlias(true);
 
         mIsInitialized = false;
@@ -75,17 +76,6 @@ public class CircleView extends View {
         }
 
         mIsInitialized = true;
-    }
-
-    /* package */ void setTheme(Context context, boolean dark) {
-        Resources res = context.getResources();
-        if (dark) {
-            mCircleColor = res.getColor(R.color.dark_gray);
-            mDotColor = res.getColor(R.color.light_gray);
-        } else {
-            mCircleColor = res.getColor(R.color.white);
-            mDotColor = res.getColor(R.color.numbers_text_color);
-        }
     }
 
 

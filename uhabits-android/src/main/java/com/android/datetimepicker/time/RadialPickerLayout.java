@@ -219,15 +219,6 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener {
         mTimeInitialized = true;
     }
 
-    /* package */ void setTheme(Context context, boolean themeDark) {
-        mCircleView.setTheme(context, themeDark);
-        mAmPmCirclesView.setTheme(context, themeDark);
-        mHourRadialTextsView.setTheme(context, themeDark);
-        mMinuteRadialTextsView.setTheme(context, themeDark);
-        mHourRadialSelectorView.setTheme(context, themeDark);
-        mMinuteRadialSelectorView.setTheme(context, themeDark);
-   }
-
     public void setTime(int hours, int minutes) {
         setItem(HOUR_INDEX, hours);
         setItem(MINUTE_INDEX, minutes);

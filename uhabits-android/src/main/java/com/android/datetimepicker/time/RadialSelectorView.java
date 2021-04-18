@@ -140,15 +140,6 @@ public class RadialSelectorView extends View {
         mIsInitialized = true;
     }
 
-    /* package */ void setTheme(Context context, boolean themeDark) {
-        Resources res = context.getResources();
-        if (themeDark) {
-            mSelectionAlpha = SELECTED_ALPHA_THEME_DARK;
-        } else {
-            mSelectionAlpha = SELECTED_ALPHA;
-        }
-    }
-
     /**
      * Set the selection.
      * @param selectionDegrees The degrees to be selected.
