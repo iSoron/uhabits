@@ -124,8 +124,6 @@ class CheckmarkWidgetView : HabitWidgetView {
         val scale = min(width / w, height / h)
         w *= scale
         h *= scale
-        if (h < getDimension(context, R.dimen.checkmarkWidget_heightBreakpoint)) ring.visibility =
-            GONE else ring.visibility = VISIBLE
         val newWidthMeasureSpec = MeasureSpec.makeMeasureSpec(w.toInt(), MeasureSpec.EXACTLY)
         val newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(h.toInt(), MeasureSpec.EXACTLY)
         var textSize = 0.15f * h

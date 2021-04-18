@@ -27,5 +27,4 @@
     <dimen name="smallerTextSize">12sp</dimen>
     <dimen name="tinyTextSize">10sp</dimen>
     <dimen name="habitNameWidth">160dp</dimen>
-    <dimen name="checkmarkWidget_heightBreakpoint">55dp</dimen>
 </resources>
