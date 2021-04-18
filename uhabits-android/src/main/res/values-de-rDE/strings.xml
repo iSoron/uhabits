@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -24,18 +24,18 @@
     <string name="edit">Bearbeiten</string>
     <string name="delete">Löschen</string>
     <string name="archive">Archivieren</string>
-    <string name="unarchive">Dearchivieren</string>
+    <string name="unarchive">Aus Archiv zurückholen</string>
     <string name="add_habit">Gewohnheit hinzufügen</string>
     <string name="color_picker_default_title">Farbe ändern</string>
     <string name="toast_habit_created">Gewohnheit erstellt</string>
     <string name="toast_habit_deleted">Gewohnheiten gelöscht</string>
     <string name="toast_habit_changed">Gewohnheit geändert</string>
     <string name="toast_habit_archived">Gewohnheiten archiviert</string>
-    <string name="toast_habit_unarchived">Gewohnheiten dearchiviert</string>
+    <string name="toast_habit_unarchived">Gewohnheiten nicht archiviert</string>
     <string name="overview">Übersicht</string>
     <string name="habit_strength">Stärke</string>
     <string name="history">Verlauf</string>
-    <string name="clear">Löschen</string>
+    <string name="clear">Leeren</string>
     <string name="days">Tagen</string>
     <string name="reminder">Erinnerung</string>
     <string name="save">Speichern</string>
@@ -61,15 +61,17 @@
     <string name="interval_8_hour">8 Stunden</string>
     <string name="interval_24_hour">24 Stunden</string>
     <string name="interval_always_ask">Immer fragen</string>
-    <string name="interval_custom">Benutzerdeffiniert...</string>
-    <string name="pref_toggle_title">Markierung durch kurzes Drücken ändern</string>
-    <string name="pref_toggle_description">Markierungen durch einfaches Tippen setzen anstatt durch Tippen und Halten. Bequemer, kann aber versehentlich eine Markierung ändern.</string>
+    <string name="interval_custom">Benutzerdefiniert...</string>
+    <string name="pref_toggle_title">Markierung durch kurzes Tippen ändern</string>
+    <string name="pref_toggle_description">Abhaken durch einfaches Tippen, anstatt durch Tippen und Halten. Bequemer, kann aber eine falsche Auswahl verursachen.</string>
+    <string name="pref_snooze_interval_title">\"Später erinnern\"-Intervall bei Erinnerungen</string>
     <string name="pref_rate_this_app">Bewerte diese App auf Google Play</string>
     <string name="pref_send_feedback">Sende dem Entwickler Feedback</string>
     <string name="pref_view_source_code">Zeige den Quellcode auf GitHub</string>
     <string name="links">Links</string>
     <string name="name">Name</string>
     <string name="settings">Einstellungen</string>
+    <string name="snooze_interval">\"Später erinnern\"-Intervall</string>
     <string name="select_snooze_delay">Schlummer-Intervall auswählen</string>
     <string name="hint_title">Wusstest du?</string>
     <string name="hint_drag">Um Einträge umzusortieren, tippe, halte und ziehe sie an die richtige Stelle.</string>
@@ -81,14 +83,14 @@
     <string name="any_weekday">Montag bis Freitag</string>
     <string name="any_day">Jeden Tag</string>
     <string name="select_weekdays">Wähle Tage aus</string>
-    <string name="export_to_csv">Exportiere als CSV</string>
+    <string name="export_to_csv">Daten als CSV exportieren</string>
     <string name="done_label">Fertig</string>
     <string name="clear_label">Löschen</string>
     <string name="select_hours">Wähle Stunden</string>
     <string name="select_minutes">Wähle Minuten</string>
     <string name="about">Über</string>
-    <string name="translators">Übersetzer</string>
-    <string name="developers">Entwickler</string>
+    <string name="translators">Übersetzer:innen</string>
+    <string name="developers">Entwickler:innen</string>
     <string name="version_n">Version %s</string>
     <string name="frequency">Häufigkeit</string>
     <string name="checkmark">Häkchen</string>
@@ -134,7 +136,7 @@
     <string name="sticky_notifications_description">Verhindert das Wegwischen von Benachrichtigungen.</string>
     <string name="led_notifications">Benachrichtigungs-LED</string>
     <string name="led_notifications_description">Blinkende LED für Erinnerungen anzeigen. Nur verfügbar in Geräten mit LED Benachrichtigungs-LED.</string>
-    <string name="repair_database">Repariere Datenbank</string>
+    <string name="repair_database">Datenbank reparieren</string>
     <string name="database_repaired">Datenbank repariert.</string>
     <string name="uncheck">Abwählen</string>
     <string name="toggle">Umschalten</string>
@@ -148,7 +150,7 @@
     <string name="export">Exportieren</string>
     <string name="long_press_to_edit">Gedrückt halten, um den Wert zu ändern</string>
     <string name="change_value">Wert ändern</string>
-    <string name="calendar">Kalendar</string>
+    <string name="calendar">Kalender</string>
     <string name="unit">Einheit</string>
     <string name="example_question_boolean">z.B. Hast du heute trainiert?</string>
     <string name="question">Frage</string>

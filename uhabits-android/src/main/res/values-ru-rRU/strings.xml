@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">Настроить...</string>
     <string name="pref_toggle_title">Отмечать коротким нажатием</string>
     <string name="pref_toggle_description">Ставить галочки коротким нажатием вместо удержания. Удобнее, но может стать причиной случайных отметок.</string>
+    <string name="pref_snooze_interval_title">Интервал откладывания напоминаний</string>
     <string name="pref_rate_this_app">Оценить приложение в Google Play</string>
     <string name="pref_send_feedback">Отправить сообщение разработчику</string>
     <string name="pref_view_source_code">Посмотреть исходный код на GitHub</string>
     <string name="links">Ссылки</string>
     <string name="name">Название</string>
     <string name="settings">Настройки</string>
+    <string name="snooze_interval">Интервал откладывания</string>
     <string name="select_snooze_delay">Задержка повтора</string>
     <string name="hint_title">А вы знали?</string>
     <string name="hint_drag">Чтобы поменять порядок записей, нажмите и удерживайте название записи, затем перетащите её на нужное место.</string>

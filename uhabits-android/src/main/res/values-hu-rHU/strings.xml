@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">Egyedi...</string>
     <string name="pref_toggle_title">Bejelölés rövid koppintással</string>
     <string name="pref_toggle_description">Bejelölés koppintással nyomva tartás helyett. Kényelmesebb, de véletlen bejelöléseket okozhat.</string>
+    <string name="pref_snooze_interval_title">Szundi időtartama emlékeztetőnél</string>
     <string name="pref_rate_this_app">Értékeld az alkalmazást a Google Play-en</string>
     <string name="pref_send_feedback">Visszajelzés küldése a fejlesztőnek</string>
     <string name="pref_view_source_code">Forráskód megtekintése a GitHub-on</string>
     <string name="links">Linkek</string>
     <string name="name">Megnevezés</string>
     <string name="settings">Beállítások</string>
+    <string name="snooze_interval">Szundi időtartama</string>
     <string name="select_snooze_delay">Szundi beállítása</string>
     <string name="hint_title">Tudtad?</string>
     <string name="hint_drag">Az elemek újrarendezéséhez a koppints a szokás nevére, majd húzd a megfelelő helyre.</string>
@@ -151,7 +153,7 @@
     <string name="by_color">Színek szerint</string>
     <string name="by_score">Pont szerint</string>
     <string name="export">Exportálás</string>
-    <string name="long_press_to_edit">Az érték módosításához tartsa lenyomva</string>
+    <string name="long_press_to_edit">Az érték módosításához tartsd lenyomva</string>
     <string name="change_value">Érték módosítása</string>
     <string name="calendar">Naptár</string>
     <string name="unit">Egység</string>
@@ -165,7 +167,7 @@
     <string name="pref_view_privacy">Adatvédelmi nyilatkozat</string>
     <string name="view_all_contributors">Az összes közreműködő megtekintése&#8230;</string>
     <string name="database">Adatbázis</string>
-    <string name="widget_opacity_title">Ablak áttetszősége</string>
+    <string name="widget_opacity_title">A widget áttetszősége</string>
     <string name="widget_opacity_description">A widgetet átlátszóbbá vagy takaróbbá teszi az induló képernyőn.</string>
     <string name="first_day_of_the_week">A hét első napja</string>
     <string name="default_reminder_question">Teljesítetted ma ezt a szokást?</string>

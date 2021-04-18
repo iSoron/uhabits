@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">Personnaliser...</string>
     <string name="pref_toggle_title">Valider l\'habitude avec un appui court</string>
     <string name="pref_toggle_description">Valide l\'habitude avec un appui court plutôt qu\'un appuie long. Plus pratique, mais peut causer des activations accidentelles.</string>
+    <string name="pref_snooze_interval_title">Intervalle de report des rappels</string>
     <string name="pref_rate_this_app">Notez cette app sur le Google Play Store</string>
     <string name="pref_send_feedback">Envoyez un avis au développeur</string>
     <string name="pref_view_source_code">Voir le code source sur GitHub</string>
     <string name="links">Liens</string>
     <string name="name">Nom</string>
     <string name="settings">Paramètres</string>
+    <string name="snooze_interval">Intervalle de report</string>
     <string name="select_snooze_delay">Définir le délai de répétition</string>
     <string name="hint_title">Le saviez-vous ?</string>
     <string name="hint_drag">Pour réordonner les habitudes, faites un appui long sur le nom de l\'habitude et placez-la à la bonne place.</string>

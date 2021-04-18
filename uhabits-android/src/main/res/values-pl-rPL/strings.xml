@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">Niestandardowe...</string>
     <string name="pref_toggle_title">Przełącz powtarzanie krótkim naciśnięciem</string>
     <string name="pref_toggle_description">Wygodniejsze, ale może spowodować przypadkowe przełączenia.</string>
+    <string name="pref_snooze_interval_title">Czas drzemki między przypomnieniami</string>
     <string name="pref_rate_this_app">Oceń tę aplikację w Google Play</string>
     <string name="pref_send_feedback">Prześlij uwagi do programisty</string>
     <string name="pref_view_source_code">Zobacz kod źródłowy na GitHub\'ie</string>
     <string name="links">Linki</string>
     <string name="name">Nazwa</string>
     <string name="settings">Ustawienia</string>
+    <string name="snooze_interval">Czas drzemki</string>
     <string name="select_snooze_delay">Wybierz długość drzemki</string>
     <string name="hint_title">Czy wiesz że?</string>
     <string name="hint_drag">Aby zmienić kolejność naciśnij i przytrzymaj na nazwie nawyku i przesuń go na odpowiednie miejsce.</string>
@@ -161,9 +163,9 @@
     <string name="view_all_contributors">Zobacz wszystkich współtwórców</string>
     <string name="database">Baza danych</string>
     <string name="widget_opacity_title">Przezroczystość widżetu</string>
-    <string name="widget_opacity_description">Widżety na ekranie głównym bardziej przezroczyste lub matowe.</string>
+    <string name="widget_opacity_description">Sprawia, że widżety są bardziej przezroczyste lub bardziej nieprzezroczyste na ekranie głównym.</string>
     <string name="first_day_of_the_week">Pierwszy dzień tygodnia</string>
-    <string name="default_reminder_question">Czy wyrwałeś dziś w nawyku?</string>
+    <string name="default_reminder_question">Czy wytrwałeś dziś w nawyku?</string>
     <string name="notes">Notatki</string>
     <string name="example_notes">(opcjonalne)</string>
     <string name="yes_or_no_example">np. Czy obudziłeś się dzisiaj wcześnie? Czy ćwiczyłeś? Czy grałeś w szachy?</string>
@@ -175,7 +177,7 @@
     <string name="color">Kolor</string>
     <string name="example_target">np. 15</string>
     <string name="measurable_short_example">np. Bieg</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">np. Ile km przejechałeś dzisiaj?</string>
+    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">np. Ile km przebiegłeś dzisiaj?</string>
     <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">np. kilometry</string>
     <string name="every_month">Co miesiąc</string>
     <string name="validation_cannot_be_blank">Nie może być puste</string>

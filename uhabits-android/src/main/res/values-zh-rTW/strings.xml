@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">自訂</string>
     <string name="pref_toggle_title">換成輕碰來記錄習慣</string>
     <string name="pref_toggle_description">雖然更方便，但有可能變成不小心就點到</string>
+    <string name="pref_snooze_interval_title">延後提醒的間隔</string>
     <string name="pref_rate_this_app">在 Google Play 上評價這個 App</string>
     <string name="pref_send_feedback">傳送改進意見給開發者</string>
     <string name="pref_view_source_code">在 GitHub 上查看原始碼</string>
     <string name="links">連結</string>
     <string name="name">習慣名稱</string>
     <string name="settings">偏好設定</string>
+    <string name="snooze_interval">延後時間間隔</string>
     <string name="select_snooze_delay">選擇延後通知</string>
     <string name="hint_title">你知道嗎？</string>
     <string name="hint_drag">如果要重新排列習慣，可以將其拖曳到理想的位置</string>

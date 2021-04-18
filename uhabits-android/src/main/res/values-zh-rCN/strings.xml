@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">自定义</string>
     <string name="pref_toggle_title">轻触以启动重复</string>
     <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
+    <string name="pref_snooze_interval_title">提醒延迟间隔</string>
     <string name="pref_rate_this_app">去Play商店评价这个应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
     <string name="pref_view_source_code">在Github上查看源代码</string>
     <string name="links">链接</string>
     <string name="name">习惯标题</string>
     <string name="settings">设置</string>
+    <string name="snooze_interval">推迟提醒间隔</string>
     <string name="select_snooze_delay">设定暂停提醒的重复时间</string>
     <string name="hint_title">你知道吗？</string>
     <string name="hint_drag">如果要重新排列习惯，按住习惯的名字拖到想要的位置</string>
@@ -134,7 +136,7 @@
     <string name="sticky_notifications">使提醒持久</string>
     <string name="sticky_notifications_description">防止提醒被滑掉</string>
     <string name="led_notifications">提示灯</string>
-    <string name="led_notifications_description">仅有LED提示灯的手机才有闪烁提醒。</string>
+    <string name="led_notifications_description">仅有 LED 提示灯的手机才有闪烁提醒。</string>
     <string name="repair_database">修复数据库</string>
     <string name="database_repaired">数据库已修复</string>
     <string name="uncheck">取消选中</string>
@@ -170,13 +172,13 @@
     <string name="yes_or_no_example">例如，你今天早起吗？ 你运动了吗？ 你下国际象棋了吗？</string>
     <string name="measurable">可计量的</string>
     <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">例如，您今天跑了几英里？您阅读了几页？你吃了多少卡路里？</string>
-    <string name="x_times_per_week">每周%d 次</string>
-    <string name="x_times_per_month">每月%d 次</string>
-    <string name="yes_or_no_short_example">例如，锻炼</string>
+    <string name="x_times_per_week">每周 %d 次</string>
+    <string name="x_times_per_month">每月 %d 次</string>
+    <string name="yes_or_no_short_example">例如：锻炼</string>
     <string name="color">颜色</string>
     <string name="example_target">例如：15</string>
-    <string name="measurable_short_example">例如，跑步</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">例如，今天你跑了多少英里？</string>
+    <string name="measurable_short_example">例如：跑步</string>
+    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">例如：今天你跑了多少公里？</string>
     <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">例如：英里</string>
     <string name="every_month">每月</string>
     <string name="validation_cannot_be_blank">不能为空</string>

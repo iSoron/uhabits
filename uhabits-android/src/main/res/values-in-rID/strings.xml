@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">Kustom</string>
     <string name="pref_toggle_title">Tandai dengan cepat.</string>
     <string name="pref_toggle_description">Beri tanda cek dengan sekali ketuk bukan tekan-dan-tahan. Lebih nyaman, namun dapat menyebabkan kesalahan penandaan.</string>
+    <string name="pref_snooze_interval_title">Durasi tunda sejenak pada pengingat</string>
     <string name="pref_rate_this_app">Berikan rating aplikasi ini di Google Play</string>
     <string name="pref_send_feedback">Kirimkan umpan balik kepada Developer</string>
     <string name="pref_view_source_code">Lihat kode aplikasi di GitHub</string>
     <string name="links">Tautan</string>
     <string name="name">Nama</string>
     <string name="settings">Pengaturan</string>
+    <string name="snooze_interval">Durasi tunda sejenak</string>
     <string name="select_snooze_delay">Atur jeda penundaan</string>
     <string name="hint_title">Sudahkah Anda tahu?</string>
     <string name="hint_drag">Untuk mengatur urutan, tekan dan tahan judul Kebiasaan lalu tempatkan pada posisi yang Anda inginkan.</string>
@@ -111,10 +113,10 @@
     <string name="help_translate">Bantu menerjemahkan aplikasi ini</string>
     <string name="night_mode">Mode malam</string>
     <string name="use_pure_black">Gunakan warna hitam pada mode malam</string>
-    <string name="pure_black_description">Ganti warna latar abu-abu dengan warna hitam pada mode malam. Mengurangi penggunaan baterai pada layar AMOLED.</string>
+    <string name="pure_black_description">Ganti warna latar abu-abu dengan warna hitam pada mode gelap. Mengurangi penggunaan baterai pada layar AMOLED.</string>
     <string name="interface_preferences">Antar muka</string>
     <string name="reverse_days">Balik urutan hari</string>
-    <string name="reverse_days_description">Tampilkan hari dalam urutan terbalik pada layar utama</string>
+    <string name="reverse_days_description">Tampilkan hari dalam urutan terbalik pada layar utama.</string>
     <string name="day">Hari</string>
     <string name="week">Minggu</string>
     <string name="month">Bulan</string>
@@ -126,7 +128,7 @@
     <string name="every_x_weeks">Setiap %d minggu</string>
     <string name="score">Skor</string>
     <string name="reminder_sound">Suara pengingat</string>
-    <string name="none">Hening</string>
+    <string name="none">Tidak ada</string>
     <string name="filter">Saring</string>
     <string name="hide_completed">Sembunyikan yang selesai</string>
     <string name="hide_archived">Sembunyikan arsip</string>

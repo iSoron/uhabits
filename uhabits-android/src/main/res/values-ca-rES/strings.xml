@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">Personalitza...</string>
     <string name="pref_toggle_title">Activar/desactivar repeticions prement curt</string>
     <string name="pref_toggle_description">Posar les marques de verificació amb un sol toc enlloc de prémer i mantenir. Més adequat, però pot causar activacions accidentals.</string>
+    <string name="pref_snooze_interval_title">Interval d\'endarreriment en recordatoris</string>
     <string name="pref_rate_this_app">Valora aquesta app a Google Play</string>
     <string name="pref_send_feedback">Enviar resposta al desenvolupador</string>
     <string name="pref_view_source_code">Veure codi font a Github</string>
     <string name="links">Enllaços</string>
     <string name="name">Nom</string>
     <string name="settings">Ajustaments</string>
+    <string name="snooze_interval">Interval d\'endarreriment</string>
     <string name="select_snooze_delay">Selecciona el retard de l\'endarreriment</string>
     <string name="hint_title">Ho sabies?</string>
     <string name="hint_drag">Per a ordenar les entrades, prem i mantè sobre el nom de l\'hàbit, després arrossega\'l al lloc correcte.</string>

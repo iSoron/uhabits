@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -41,7 +41,7 @@
     <string name="save">Salva</string>
     <string name="streaks">Serie</string>
     <string name="no_habits_found">Non hai abitudini attive</string>
-    <string name="long_press_to_toggle">Premi e mantieni premuto per completare o annullare</string>
+    <string name="long_press_to_toggle">Tieni premuto per completare o annullare</string>
     <string name="reminder_off">Disabilitato</string>
     <string name="create_habit">Crea abitudine</string>
     <string name="edit_habit">Modifica abitudine</string>
@@ -64,12 +64,14 @@
     <string name="interval_custom">Personalizza...</string>
     <string name="pref_toggle_title">Spunta le ripetizioni velocemente</string>
     <string name="pref_toggle_description">Metti le spunte con un tocco singolo invece che tenendo premuto. Più comodo, ma potrebbe causare delle spunte accidentali.</string>
+    <string name="pref_snooze_interval_title">Intervallo di ritardo dei promemoria</string>
     <string name="pref_rate_this_app">Valuta quest\'app su Google Play</string>
     <string name="pref_send_feedback">Manda un feedback allo sviluppatore</string>
     <string name="pref_view_source_code">Vedi il codice sorgente su GitHub</string>
     <string name="links">Links</string>
     <string name="name">Nome</string>
     <string name="settings">Impostazioni</string>
+    <string name="snooze_interval">Snooze</string>
     <string name="select_snooze_delay">Seleziona ritardo posticipo</string>
     <string name="hint_title">Lo sapevi?</string>
     <string name="hint_drag">Per riordinare le voci, tieni premuto sul nome dell\'abitudine, poi spostala nella posizione corretta.</string>

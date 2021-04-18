@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -64,12 +64,14 @@
     <string name="interval_custom">Anpassad...</string>
     <string name="pref_toggle_title">Växla med snabb tryckning</string>
     <string name="pref_toggle_description">Markera genom att trycka snabbt istället för att hålla ner. Mer bekvämt, men kan orsaka oavsiktliga aktiveringar.</string>
+    <string name="pref_snooze_interval_title">Standard tid på snooze</string>
     <string name="pref_rate_this_app">Betygsätt oss på Google Play</string>
     <string name="pref_send_feedback">Skicka feedback till utvecklarna</string>
     <string name="pref_view_source_code">Visa källkod på GitHub</string>
     <string name="links">Länkar</string>
     <string name="name">Namn</string>
     <string name="settings">Inställningar</string>
+    <string name="snooze_interval">Intervall snooze</string>
     <string name="select_snooze_delay">Välj snoozelängd</string>
     <string name="hint_title">Visste du att?</string>
     <string name="hint_drag">För att flytta på poster - tryck och håll nere på den vana du vill flytta, sedan flytta den till önskad plats.</string>
@@ -96,7 +98,7 @@
     <string name="version_n">Version %s</string>
     <string name="frequency">Frekvens</string>
     <string name="checkmark">Kryssruta</string>
-    <string name="best_streaks">Bästa streak</string>
+    <string name="best_streaks">Bästa serie</string>
     <string name="every_day">Varje dag</string>
     <string name="every_week">Varje vecka</string>
     <string name="help">Hjälp och FAQ</string>
@@ -169,7 +171,7 @@
     <string name="first_day_of_the_week">Första dagen i veckan</string>
     <string name="default_reminder_question">Har du genomfört denna vana idag?</string>
     <string name="notes">Anteckningar</string>
-    <string name="example_notes">(valfri)</string>
+    <string name="example_notes">(valfritt)</string>
     <string name="yes_or_no_example">t.ex. Vaknade du tidigt idag? Tränade du? Spelade du schack?</string>
     <string name="measurable">Mätbar</string>
     <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">t.ex. Hur många kilometer sprang du idag? Hur många sidor läste du? Hur många kalorier åt du?</string>

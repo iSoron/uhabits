@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -47,7 +47,7 @@
     <string name="edit_habit">Змінити звичку</string>
     <string name="check">Відзначити</string>
     <string name="snooze">Відкласти</string>
-    <string name="intro_title_1">Ласкаво просимо</string>
+    <string name="intro_title_1">Вітаємо</string>
     <string name="intro_description_1">Трекер звичок Loop допомагає Вам розвивати і підтримувати корисні звички.</string>
     <string name="intro_title_2">Додайте нові звички</string>
     <string name="intro_description_2">Щодня, після виконання Вашої звички, ставте пташку в програмі.</string>
@@ -64,16 +64,18 @@
     <string name="interval_custom">Налаштувати...</string>
     <string name="pref_toggle_title">Відзначати коротким натисканням</string>
     <string name="pref_toggle_description">Ставити пташки коротким натисканням, замість утримування. Дещо зручніше, але може стати причиною випадкових натискань.</string>
+    <string name="pref_snooze_interval_title">Час відкладення нагадувань</string>
     <string name="pref_rate_this_app">Оцінити цю програму в Google Play</string>
     <string name="pref_send_feedback">Надіслати відгук розробникові</string>
     <string name="pref_view_source_code">Подивитися вихідний код на GitHub</string>
     <string name="links">Посилання</string>
     <string name="name">Назва</string>
     <string name="settings">Налаштування</string>
+    <string name="snooze_interval">Час відкладення</string>
     <string name="select_snooze_delay">Встановити повторне нагадування</string>
     <string name="hint_title">Чи знаете ви, що?</string>
     <string name="hint_drag">Аби змінити порядок записів, натисніть і утримуйте назву запису, опісля перетягніть запис на потрібне місце.</string>
-    <string name="hint_landscape">У поземному режимі відображається більше днів.</string>
+    <string name="hint_landscape">У ландшафтному режимі відображається більше днів.</string>
     <string name="delete_habits">Вилучити звички</string>
     <string name="delete_habits_message">Звички буде вилучено. Цю дію не можна скасувати.</string>
     <string name="habit_not_found">Звичку вилучено / не знайдено</string>
