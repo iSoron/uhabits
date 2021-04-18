@@ -30,7 +30,7 @@
         <item name="android:textColor">@color/grey_800</item>
         <item name="cardBackground">@drawable/card_light_background</item>
         <item name="cardBgColor">@color/grey_50</item>
-        <item name="colorAccent">#303030</item>
+        <item name="colorAccent">?aboutScreenColor</item>
         <item name="colorPrimary">#363636</item>
         <item name="colorPrimaryDark">#303030</item>
         <item name="dialogIconChangeColor">@drawable/ic_action_color_light</item>
@@ -60,6 +60,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="windowBackgroundColor">@color/grey_200</item>
         <item name="android:textColorAlertDialogListItem">@color/grey_800</item>
+        <item name="singleLineTitle">false</item>
     </style>
 
     <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
@@ -104,6 +105,7 @@
         <item name="buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
         <item name="android:textColorAlertDialogListItem">@color/grey_100</item>
+        <item name="singleLineTitle">false</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">

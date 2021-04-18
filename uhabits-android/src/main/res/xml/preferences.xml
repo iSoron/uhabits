@@ -24,35 +24,35 @@
             android:key="interfaceCategory"
             android:title="@string/interface_preferences">
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_short_toggle"
                 android:summary="@string/pref_toggle_description"
                 android:title="@string/pref_toggle_title"
                 app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_midnight_delay"
             android:summary="@string/pref_midnight_delay_description"
             android:title="@string/pref_midnight_delay_title"
             app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_skip_enabled"
             android:summary="@string/pref_skip_description"
             android:title="@string/pref_skip_title"
             app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_unknown_enabled"
             android:summary="@string/pref_unknown_description"
             android:title="@string/pref_unknown_title"
             app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_checkmark_reverse_order"
                 android:summary="@string/reverse_days_description"
@@ -60,7 +60,7 @@
                 app:iconSpaceReserved="false" />
 
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_pure_black"
                 android:summary="@string/pure_black_description"
@@ -92,14 +92,14 @@
                 android:title="@string/reminder_sound"
                 app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_sticky_notifications"
                 android:summary="@string/sticky_notifications_description"
                 android:title="@string/sticky_notifications"
                 app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_led_notifications"
                 android:summary="@string/led_notifications_description"
@@ -189,7 +189,7 @@
             android:key="devCategory"
             android:title="Development">
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_developer"
                 android:title="Enable developer mode"
