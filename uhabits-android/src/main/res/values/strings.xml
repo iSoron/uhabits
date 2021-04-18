@@ -203,7 +203,7 @@
     <string name="example_notes">(Optional)</string>
     <string name="yes_or_no_example">e.g. Did you wake up early today? Did you exercise? Did you play chess?</string>
     <string name="measurable">Measurable</string>
-    <string name="measurable_example">e.g. How many miles did you run today? How many pages did you read? How many calories did you eat?</string>
+    <string name="measurable_example">e.g. How many miles did you run today? How many pages did you read?</string>
     <string name="x_times_per_week">%d times per week</string>
     <string name="x_times_per_month">%d times per month</string>
     <string name="yes_or_no_short_example">e.g. Exercise</string>
