@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.inject
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import org.isoron.uhabits.core.AppScope
@@ -34,8 +33,6 @@ import org.isoron.uhabits.core.models.sqlite.SQLiteHabitList
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.core.reminders.ReminderScheduler
-import org.isoron.uhabits.core.sync.AbstractSyncServer
-import org.isoron.uhabits.core.sync.NetworkManager
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.database.AndroidDatabase
@@ -44,8 +41,6 @@ import org.isoron.uhabits.intents.IntentScheduler
 import org.isoron.uhabits.io.AndroidLogging
 import org.isoron.uhabits.notifications.AndroidNotificationTray
 import org.isoron.uhabits.preferences.SharedPreferencesStorage
-import org.isoron.uhabits.sync.AndroidNetworkManager
-import org.isoron.uhabits.sync.RemoteSyncServer
 import org.isoron.uhabits.utils.DatabaseUtils
 import java.io.File
 
@@ -112,18 +107,6 @@ class HabitsModule(dbFile: File) {
     @AppScope
     fun getLogging(): Logging {
         return AndroidLogging()
-    }
-
-    @Provides
-    @AppScope
-    fun getNetworkManager(@AppContext context: Context): NetworkManager {
-        return AndroidNetworkManager(context)
-    }
-
-    @Provides
-    @AppScope
-    fun getSyncServer(preferences: Preferences): AbstractSyncServer {
-        return RemoteSyncServer(preferences)
     }
 
     @Provides

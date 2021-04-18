@@ -22,13 +22,11 @@ package org.isoron.uhabits.activities.habits.list
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
-import org.isoron.uhabits.activities.common.dialogs.ConfirmSyncKeyDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
@@ -53,8 +51,6 @@ import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.FILE_NOT_RECOGNIZED
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.IMPORT_FAILED
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.IMPORT_SUCCESSFUL
-import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.SYNC_ENABLED
-import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.SYNC_KEY_ALREADY_INSTALLED
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
 import org.isoron.uhabits.inject.ActivityContext
@@ -103,14 +99,6 @@ class ListHabitsScreen
 
     fun onAttached() {
         commandRunner.addListener(this)
-        if (activity.intent.action == "android.intent.action.VIEW") {
-            val uri = activity.intent.data!!.toString()
-            val parts = uri.replace(Regex("^.*sync/"), "").split("#")
-            val syncKey = parts[0]
-            val encKey = parts[1]
-            Log.i("ListHabitsScreen", "sync: $syncKey enc: $encKey")
-            behavior.get().onSyncKeyOffer(syncKey, encKey)
-        }
     }
 
     fun onDettached() {
@@ -208,8 +196,6 @@ class ListHabitsScreen
                     DATABASE_REPAIRED -> R.string.database_repaired
                     COULD_NOT_GENERATE_BUG_REPORT -> R.string.bug_report_failed
                     FILE_NOT_RECOGNIZED -> R.string.file_not_recognized
-                    SYNC_ENABLED -> R.string.sync_enabled
-                    SYNC_KEY_ALREADY_INSTALLED -> R.string.sync_key_already_installed
                 }
             )
         )
@@ -242,10 +228,6 @@ class ListHabitsScreen
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
         numberPickerFactory.create(value, unit, callback).show()
-    }
-
-    override fun showConfirmInstallSyncKey(callback: OnConfirmedCallback) {
-        ConfirmSyncKeyDialog(activity, callback).show()
     }
 
     private fun getExecuteString(command: Command): String? {

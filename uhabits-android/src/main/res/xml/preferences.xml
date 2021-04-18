@@ -115,30 +115,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="deviceSync"
-        android:title="@string/device_sync" >
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_sync_enabled_dummy"
-            android:summary="@string/pref_sync_summary"
-            android:title="@string/pref_sync_title"
-            app:iconSpaceReserved="false" />
-
-        <Preference
-            android:key="pref_sync_display"
-            android:title="@string/display_sync_code"
-            app:iconSpaceReserved="false">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetClass="org.isoron.uhabits.activities.sync.SyncActivity"
-                android:targetPackage="org.isoron.uhabits" />
-        </Preference>
-
-    </PreferenceCategory>
-
-
-    <PreferenceCategory
             android:key="databaseCategory"
             android:title="@string/database">
 

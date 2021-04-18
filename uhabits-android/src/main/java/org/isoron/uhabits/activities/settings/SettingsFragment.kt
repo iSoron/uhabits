@@ -19,7 +19,6 @@
 package org.isoron.uhabits.activities.settings
 
 import android.app.backup.BackupManager
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -28,7 +27,6 @@ import android.os.Build.VERSION
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
@@ -43,7 +41,6 @@ import org.isoron.uhabits.activities.habits.list.RESULT_REPAIR_DB
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getLongWeekdayNames
-import org.isoron.uhabits.intents.IntentFactory
 import org.isoron.uhabits.notifications.AndroidNotificationTray.Companion.createAndroidNotificationChannel
 import org.isoron.uhabits.notifications.RingtoneManager
 import org.isoron.uhabits.widgets.WidgetUpdater
@@ -100,13 +97,6 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
             intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID)
             startActivity(intent)
             return true
-        } else if (key == "pref_sync_enabled_dummy") {
-            if (prefs.isSyncEnabled) {
-                prefs.disableSync()
-            } else {
-                val context: Context? = activity
-                context!!.startActivity(IntentFactory().startSyncActivity(context))
-            }
         }
         return super.onPreferenceTreeClick(preference)
     }
@@ -121,19 +111,12 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
             devCategory.isVisible = false
         }
         updateWeekdayPreference()
-        updateSyncPreferences()
 
         if (VERSION.SDK_INT < Build.VERSION_CODES.O)
             findPreference("reminderCustomize").isVisible = false
         else {
             findPreference("reminderSound").isVisible = false
         }
-    }
-
-    private fun updateSyncPreferences() {
-        findPreference("pref_sync_display").isVisible = prefs.isSyncEnabled
-        (findPreference("pref_sync_enabled_dummy") as CheckBoxPreference).isChecked =
-            prefs.isSyncEnabled
     }
 
     private fun updateWeekdayPreference() {
@@ -157,7 +140,6 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         }
         BackupManager.dataChanged("org.isoron.uhabits")
         updateWeekdayPreference()
-        updateSyncPreferences()
     }
 
     private fun setResultOnPreferenceClick(key: String, result: Int) {

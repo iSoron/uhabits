@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.ExportCSVTask
 import org.isoron.uhabits.core.tasks.TaskRunner
-import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import java.io.File
 import java.io.IOException
@@ -111,17 +110,6 @@ open class ListHabitsBehavior @Inject constructor(
         )
     }
 
-    fun onSyncKeyOffer(syncKey: String, encryptionKey: String) {
-        if (prefs.syncKey == syncKey) {
-            screen.showMessage(Message.SYNC_KEY_ALREADY_INSTALLED)
-            return
-        }
-        screen.showConfirmInstallSyncKey {
-            prefs.enableSync(syncKey, encryptionKey)
-            screen.showMessage(Message.SYNC_ENABLED)
-        }
-    }
-
     enum class Message {
         COULD_NOT_EXPORT,
         IMPORT_SUCCESSFUL,
@@ -129,8 +117,6 @@ open class ListHabitsBehavior @Inject constructor(
         DATABASE_REPAIRED,
         COULD_NOT_GENERATE_BUG_REPORT,
         FILE_NOT_RECOGNIZED,
-        SYNC_ENABLED,
-        SYNC_KEY_ALREADY_INSTALLED
     }
 
     interface BugReporter {
@@ -161,6 +147,5 @@ open class ListHabitsBehavior @Inject constructor(
 
         fun showSendBugReportToDeveloperScreen(log: String)
         fun showSendFileScreen(filename: String)
-        fun showConfirmInstallSyncKey(callback: OnConfirmedCallback)
     }
 }

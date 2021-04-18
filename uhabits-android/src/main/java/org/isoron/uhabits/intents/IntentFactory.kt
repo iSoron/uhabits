@@ -28,7 +28,6 @@ import org.isoron.uhabits.activities.habits.edit.EditHabitActivity
 import org.isoron.uhabits.activities.habits.show.ShowHabitActivity
 import org.isoron.uhabits.activities.intro.IntroActivity
 import org.isoron.uhabits.activities.settings.SettingsActivity
-import org.isoron.uhabits.activities.sync.SyncActivity
 import org.isoron.uhabits.core.models.Habit
 import javax.inject.Inject
 
@@ -100,9 +99,5 @@ class IntentFactory
         val intent = startEditActivity(context)
         intent.putExtra("habitType", habitType)
         return intent
-    }
-
-    fun startSyncActivity(context: Context): Intent {
-        return Intent(context, SyncActivity::class.java)
     }
 }
