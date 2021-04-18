@@ -41,6 +41,8 @@
     <attr name="iconUnarchive" format="reference"/>
     <attr name="dialogIconChangeColor" format="reference"/>
     <attr name="iconFilter" format="reference"/>
+    <attr name="iconArrowUp" format="reference"/>
+    <attr name="iconArrowDown" format="reference"/>
 
     <attr name="toolbarPopupTheme" format="reference"/>
 

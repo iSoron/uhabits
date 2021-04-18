@@ -102,6 +102,7 @@ class ListHabitsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        invalidateOptionsMenu()
         return menu.onItemSelected(item)
     }
 

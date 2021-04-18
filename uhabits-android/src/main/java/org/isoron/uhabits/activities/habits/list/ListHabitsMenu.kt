@@ -25,11 +25,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.inject.ActivityScope
+import org.isoron.uhabits.utils.StyledResources
 import javax.inject.Inject
 
 @ActivityScope
@@ -50,6 +52,29 @@ class ListHabitsMenu @Inject constructor(
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
+        updateArrows(menu)
+    }
+
+    private fun updateArrows(menu: Menu) {
+        val styledResources = StyledResources(activity)
+        val sortManual = menu.findItem(R.id.actionSortManual)
+        val sortName = menu.findItem(R.id.actionSortName)
+        val sortColor = menu.findItem(R.id.actionSortColor)
+        val sortScore = menu.findItem(R.id.actionSortScore)
+        val sortStatus = menu.findItem(R.id.actionSortStatus)
+        val arrowUp = styledResources.getDrawable(R.attr.iconArrowUp)
+        val arrowDown = styledResources.getDrawable(R.attr.iconArrowDown)
+        when (preferences.defaultPrimaryOrder) {
+            HabitList.Order.BY_NAME_ASC -> sortName.icon = arrowDown
+            HabitList.Order.BY_NAME_DESC -> sortName.icon = arrowUp
+            HabitList.Order.BY_COLOR_ASC -> sortColor.icon = arrowDown
+            HabitList.Order.BY_COLOR_DESC -> sortColor.icon = arrowUp
+            HabitList.Order.BY_SCORE_ASC -> sortScore.icon = arrowDown
+            HabitList.Order.BY_SCORE_DESC -> sortScore.icon = arrowUp
+            HabitList.Order.BY_STATUS_ASC -> sortStatus.icon = arrowDown
+            HabitList.Order.BY_STATUS_DESC -> sortStatus.icon = arrowUp
+            HabitList.Order.BY_POSITION -> sortManual.icon = arrowUp
+        }
     }
 
     fun onItemSelected(item: MenuItem): Boolean {
