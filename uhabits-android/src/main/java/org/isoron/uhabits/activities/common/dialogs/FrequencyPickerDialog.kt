@@ -30,6 +30,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import kotlinx.android.synthetic.main.activity_edit_habit.view.*
 import kotlinx.android.synthetic.main.frequency_picker_dialog.view.*
 import org.isoron.uhabits.R
 
@@ -66,6 +67,8 @@ class FrequencyPickerDialog(
             check(contentView.everyDayRadioButton)
             unfocusAll()
         }
+
+        contentView.everyXDaysRadioButton
 
         contentView.everyXDaysRadioButton.setOnClickListener {
             check(contentView.everyXDaysRadioButton)
