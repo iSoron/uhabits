@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop - Gewohnheiten Tracking</string>
     <string name="main_activity_title">Gewohnheiten</string>
     <string name="action_settings">Einstellungen</string>
@@ -28,19 +28,31 @@
     <string name="add_habit">Gewohnheit hinzufügen</string>
     <string name="color_picker_default_title">Farbe ändern</string>
     <string name="toast_habit_created">Gewohnheit erstellt</string>
-    <string name="toast_habit_deleted">Gewohnheiten gelöscht</string>
-    <string name="toast_habit_changed">Gewohnheit geändert</string>
-    <string name="toast_habit_archived">Gewohnheiten archiviert</string>
-    <string name="toast_habit_unarchived">Gewohnheiten nicht archiviert</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Gewohnheit geändert</item>
+        <item quantity="other">Gewohnheiten geändert</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Gewohnheit gelöscht</item>
+        <item quantity="other">Gewohnheiten gelöscht</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Gewohnheit archiviert</item>
+        <item quantity="other">Gewohnheiten archiviert</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Gewohnheit wiederhergestellt</item>
+        <item quantity="other">Gewohnheiten wiederhergestellt</item>
+    </plurals>
     <string name="overview">Übersicht</string>
     <string name="habit_strength">Stärke</string>
     <string name="history">Verlauf</string>
     <string name="clear">Leeren</string>
-    <string name="days">Tagen</string>
     <string name="reminder">Erinnerung</string>
     <string name="save">Speichern</string>
     <string name="streaks">Serien</string>
     <string name="no_habits_found">Du hast keine aktiven Gewohnheiten</string>
+    <string name="no_habits_left_to_do">Alle Gewohnheiten für heute erledigt!</string>
     <string name="long_press_to_toggle">Tippe und halte um aus- bzw. abzuwählen</string>
     <string name="reminder_off">Aus</string>
     <string name="create_habit">Gewohnheit erstellen</string>
@@ -64,20 +76,24 @@
     <string name="interval_custom">Benutzerdefiniert...</string>
     <string name="pref_toggle_title">Markierung durch kurzes Tippen ändern</string>
     <string name="pref_toggle_description">Abhaken durch einfaches Tippen, anstatt durch Tippen und Halten. Bequemer, kann aber eine falsche Auswahl verursachen.</string>
-    <string name="pref_snooze_interval_title">\"Später erinnern\"-Intervall bei Erinnerungen</string>
     <string name="pref_rate_this_app">Bewerte diese App auf Google Play</string>
     <string name="pref_send_feedback">Sende dem Entwickler Feedback</string>
     <string name="pref_view_source_code">Zeige den Quellcode auf GitHub</string>
     <string name="links">Links</string>
     <string name="name">Name</string>
     <string name="settings">Einstellungen</string>
-    <string name="snooze_interval">\"Später erinnern\"-Intervall</string>
     <string name="select_snooze_delay">Schlummer-Intervall auswählen</string>
     <string name="hint_title">Wusstest du?</string>
     <string name="hint_drag">Um Einträge umzusortieren, tippe, halte und ziehe sie an die richtige Stelle.</string>
     <string name="hint_landscape">Du kannst mehr Tage sehen, wenn du dein Smartphone quer hältst.</string>
-    <string name="delete_habits">Lösche Gewohnheiten</string>
-    <string name="delete_habits_message">Die Gewohnheit wird für immer gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Gewohnheit löschen?</item>
+        <item quantity="other">Gewohnheiten löschen?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Die Gewohnheit wird für immer gelöscht. Dies kann nicht rückgängig gemacht werden.</item>
+        <item quantity="other">Die Gewohnheiten werden für immer gelöscht. Dies kann nicht rückgängig gemacht werden.</item>
+    </plurals>
     <string name="habit_not_found">Gewohnheit gelöscht / nicht gefunden</string>
     <string name="weekends">An Wochenenden</string>
     <string name="any_weekday">Montag bis Freitag</string>
@@ -147,6 +163,7 @@
     <string name="by_name">Nach Name</string>
     <string name="by_color">Nach Farbe</string>
     <string name="by_score">Nach Wertung</string>
+    <string name="by_status">Nach Zustand</string>
     <string name="export">Exportieren</string>
     <string name="long_press_to_edit">Gedrückt halten, um den Wert zu ändern</string>
     <string name="change_value">Wert ändern</string>
@@ -170,16 +187,30 @@
     <string name="example_notes">(Optional)</string>
     <string name="yes_or_no_example">z.B. Bist du heute früh wach geworden? Hast du trainiert? Hast du Schach gespielt?</string>
     <string name="measurable">Messbar</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">z.B. Wie viele Kilometer bist du heute gelaufen? Wie viele Seiten hast du gelesen? Wie viele Kalorien hast du gegessen?</string>
+    <string name="measurable_example">z.B. Wie viele Kilometer bist du heute gelaufen? Wie viele Seiten hast du gelesen?</string>
     <string name="x_times_per_week">%d mal pro Woche</string>
     <string name="x_times_per_month">%d mal pro Monat</string>
     <string name="yes_or_no_short_example">z.B. Übung</string>
     <string name="color">Farbe</string>
     <string name="example_target">z.B. 15</string>
     <string name="measurable_short_example">z.B. Laufen</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">z.B. Wie viele Kilometer bist du heute gelaufen?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">z.B. Kilometer</string>
+    <string name="measurable_question_example">z.B. Wie viele Kilometer bist du heute gelaufen?</string>
+    <string name="measurable_units_example">z.B. Kilometer</string>
     <string name="every_month">Monatlich</string>
     <string name="validation_cannot_be_blank">Darf nicht leer sein</string>
     <string name="today">Heute</string>
+    <string name="enter">Eingabe</string>
+    <string name="no_habits">Keine Gewohnheiten gefunden</string>
+    <string name="no_numerical_habits">Keine messbaren Gewohnheiten gefunden</string>
+    <string name="no_boolean_habits">Keine Ja-oder-Nein-Gewohnheiten gefunden</string>
+    <string name="increment">Erweiterung</string>
+    <string name="decrement">Verringerung</string>
+    <string name="pref_skip_title">Tage überspringen aktivieren</string>
+    <string name="pref_skip_description">Zwei mal markieren, um eine Lücke einzutragen statt abzuhaken. Lücken lassen deine Wertung unverändert und beenden deine Serie nicht.</string>
+    <string name="pref_unknown_title">Fragezeichen für fehlende Daten anzeigen</string>
+    <string name="pref_unknown_description">Tage ohne Daten von tatsächlichen Lücken unterscheiden. Um eine Lücke einzutragen zweimal markieren.</string>
+    <string name="you_are_now_a_developer">Du bist jetzt ein Entwickler</string>
+    <string name="activity_not_found">Für diese Aktion wurde keine App gefunden.</string>
+    <string name="pref_midnight_delay_title">Den Tag um ein paar Stunden nach Mitternacht verlängern</string>
+    <string name="pref_midnight_delay_description">Bis 3:00 Uhr warten, bevor ein neuer Tag angezeigt wird. Nützlich, wenn du normalerweise nach Mitternacht schlafen gehst. Benötigt einen Neustart der App.</string>
 </resources>

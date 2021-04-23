@@ -16,7 +16,7 @@ Zakazana obaveštenja kao podsetnik za vaše navike. Svaka navika može da ima s
 Podsetite se svojih navika kad god otključate telefon. Šareni vidžeti omogućavaju praćenje navika direktno sa početnog ekrana, čak i bez otvaranja aplikacije.
 
 <b>Preuzmite kontrolu nad podacima</b>
-Ako želite da dalje analizirate podatke ili ih premestite na drugu uslugu, „Loop“ omogućava izvoz u tabele (CSV) ili u fajl baze podataka (SKuLajt). Za napredne korisnike, potvrde se mogu dodati i kroz druge aplikacije, kao što je Tasker.
+Ako želite da dalje analizirate podatke ili ih premestite na drugu uslugu, „Loop“ omogućava izvoz u tabele (CSV) ili u fajl baze podataka (SQLite). Za napredne korisnike, potvrde se mogu dodati i kroz druge aplikacije, kao što je Tasker.
 
 <b>Bez ograničenja</b>
 Pratite onoliko navika koliko želite. „Loop“ ne nameće veštačka ograničenja koliko navika možete imati. Sve mogućnosti su dostupne svim korisnicima. Nema kupovina u aplikaciji.

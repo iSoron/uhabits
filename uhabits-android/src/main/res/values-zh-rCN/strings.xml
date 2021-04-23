@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop习惯记录</string>
     <string name="main_activity_title">习惯</string>
     <string name="action_settings">设置</string>
@@ -28,19 +28,27 @@
     <string name="add_habit">添加新习惯</string>
     <string name="color_picker_default_title">选择颜色</string>
     <string name="toast_habit_created">习惯已创建</string>
-    <string name="toast_habit_deleted">习惯已删除</string>
-    <string name="toast_habit_changed">习惯已被修改.</string>
-    <string name="toast_habit_archived">习惯存档成功.</string>
-    <string name="toast_habit_unarchived">存档已取消.</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="other">习惯已更改</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="other">习惯已删除</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="other">习惯已存档</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="other">已对习惯进行了取消存档操作</item>
+    </plurals>
     <string name="overview">总览</string>
     <string name="habit_strength">习惯强度</string>
     <string name="history">历史</string>
     <string name="clear">取消</string>
-    <string name="days">天</string>
     <string name="reminder">提醒</string>
     <string name="save">保存</string>
     <string name="streaks">连续完成次数</string>
     <string name="no_habits_found">你还没有任何习惯</string>
+    <string name="no_habits_left_to_do">你今天的工作完成了!</string>
     <string name="long_press_to_toggle">长按 标记/取消标记</string>
     <string name="reminder_off">关闭</string>
     <string name="create_habit">新建习惯</string>
@@ -64,20 +72,22 @@
     <string name="interval_custom">自定义</string>
     <string name="pref_toggle_title">轻触以启动重复</string>
     <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
-    <string name="pref_snooze_interval_title">提醒延迟间隔</string>
     <string name="pref_rate_this_app">去Play商店评价这个应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
     <string name="pref_view_source_code">在Github上查看源代码</string>
     <string name="links">链接</string>
     <string name="name">习惯标题</string>
     <string name="settings">设置</string>
-    <string name="snooze_interval">推迟提醒间隔</string>
     <string name="select_snooze_delay">设定暂停提醒的重复时间</string>
     <string name="hint_title">你知道吗？</string>
     <string name="hint_drag">如果要重新排列习惯，按住习惯的名字拖到想要的位置</string>
     <string name="hint_landscape">转至横屏查看更多日期</string>
-    <string name="delete_habits">删除该习惯</string>
-    <string name="delete_habits_message">习惯会被永久删除，且该操作不可恢复</string>
+    <plurals name="delete_habits_title">
+        <item quantity="other">删除习惯？</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="other">习惯将被永久地删除。此操作无法撤消。</item>
+    </plurals>
     <string name="habit_not_found">习惯已删/找不到</string>
     <string name="weekends">周末</string>
     <string name="any_weekday">工作日</string>
@@ -148,6 +158,7 @@
     <string name="by_name">根据名称</string>
     <string name="by_color">根据颜色</string>
     <string name="by_score">根据分数</string>
+    <string name="by_status">按状态</string>
     <string name="export">导出</string>
     <string name="long_press_to_edit">长按可更改值</string>
     <string name="change_value">更改值</string>
@@ -171,16 +182,30 @@
     <string name="example_notes">(可选)</string>
     <string name="yes_or_no_example">例如，你今天早起吗？ 你运动了吗？ 你下国际象棋了吗？</string>
     <string name="measurable">可计量的</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">例如，您今天跑了几英里？您阅读了几页？你吃了多少卡路里？</string>
+    <string name="measurable_example">例如，今天你跑了几公里？你阅读了几页书？</string>
     <string name="x_times_per_week">每周 %d 次</string>
     <string name="x_times_per_month">每月 %d 次</string>
     <string name="yes_or_no_short_example">例如：锻炼</string>
     <string name="color">颜色</string>
     <string name="example_target">例如：15</string>
     <string name="measurable_short_example">例如：跑步</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">例如：今天你跑了多少公里？</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">例如：英里</string>
+    <string name="measurable_question_example">例如：今天你跑了几公里？</string>
+    <string name="measurable_units_example">例如：公里</string>
     <string name="every_month">每月</string>
     <string name="validation_cannot_be_blank">不能为空</string>
     <string name="today">今日</string>
+    <string name="enter">输入</string>
+    <string name="no_habits">找不到习惯</string>
+    <string name="no_numerical_habits">找不到可测量的习惯。</string>
+    <string name="no_boolean_habits">没有找到“是或不是”的习惯</string>
+    <string name="increment">增量</string>
+    <string name="decrement">减量</string>
+    <string name="pref_skip_title">启用跳过天数</string>
+    <string name="pref_skip_description">切换两次以添加跳过而不是复选标记。跳过将保持您的得分不变，且不会打破你的连续纪录</string>
+    <string name="pref_unknown_title">对丢失的数据显示问号</string>
+    <string name="pref_unknown_description">区分没有数据和实际犯错的日子。要输一个过失，请切换两次。</string>
+    <string name="you_are_now_a_developer">你现在是一个开发者！</string>
+    <string name="activity_not_found">没有找到支持此操作的应用</string>
+    <string name="pref_midnight_delay_title">将一天延长到午夜过后几个小时</string>
+    <string name="pref_midnight_delay_description">等到凌晨3点再展现新的一天。如果你通常在午夜后入睡，这很有用。需要重新启动应用程序。</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,8 +17,8 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
-    <string name="app_name">Loop Habit Tracker</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Loop Vanedagbok</string>
     <string name="main_activity_title">Vanor</string>
     <string name="action_settings">Inställningar</string>
     <string name="edit">Redigera</string>
@@ -28,19 +28,31 @@
     <string name="add_habit">Lägg till vana</string>
     <string name="color_picker_default_title">Byt färg</string>
     <string name="toast_habit_created">Vana skapad</string>
-    <string name="toast_habit_deleted">Vanor borttagna</string>
-    <string name="toast_habit_changed">Vana ändrad</string>
-    <string name="toast_habit_archived">Vanor arkiverade</string>
-    <string name="toast_habit_unarchived">Vanor återställda</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Vanan ändrades</item>
+        <item quantity="other">Vanorna ändrades</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Vanan raderades</item>
+        <item quantity="other">Vanorna raderades</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Vanan arkiverades</item>
+        <item quantity="other">Vanorna arkiverades</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Vanan avarkiverades</item>
+        <item quantity="other">Vanorna avarkiverades</item>
+    </plurals>
     <string name="overview">Översikt</string>
     <string name="habit_strength">Vanestyrka</string>
     <string name="history">Historik</string>
     <string name="clear">Rensa</string>
-    <string name="days">dagar</string>
     <string name="reminder">Påminnelse</string>
     <string name="save">Spara</string>
     <string name="streaks">Streaks</string>
     <string name="no_habits_found">Du har inga aktiva vanor</string>
+    <string name="no_habits_left_to_do">Du är klar för idag!</string>
     <string name="long_press_to_toggle">Tryck-och-håll för att markera eller avmarkera</string>
     <string name="reminder_off">Av</string>
     <string name="create_habit">Skapa vana</string>
@@ -64,20 +76,24 @@
     <string name="interval_custom">Anpassad...</string>
     <string name="pref_toggle_title">Växla med snabb tryckning</string>
     <string name="pref_toggle_description">Markera genom att trycka snabbt istället för att hålla ner. Mer bekvämt, men kan orsaka oavsiktliga aktiveringar.</string>
-    <string name="pref_snooze_interval_title">Standard tid på snooze</string>
     <string name="pref_rate_this_app">Betygsätt oss på Google Play</string>
     <string name="pref_send_feedback">Skicka feedback till utvecklarna</string>
     <string name="pref_view_source_code">Visa källkod på GitHub</string>
     <string name="links">Länkar</string>
     <string name="name">Namn</string>
     <string name="settings">Inställningar</string>
-    <string name="snooze_interval">Intervall snooze</string>
     <string name="select_snooze_delay">Välj snoozelängd</string>
     <string name="hint_title">Visste du att?</string>
     <string name="hint_drag">För att flytta på poster - tryck och håll nere på den vana du vill flytta, sedan flytta den till önskad plats.</string>
     <string name="hint_landscape">Du kan se mer dagar genom att hålla telefonen i landskapsläge.</string>
-    <string name="delete_habits">Ta bort vanor</string>
-    <string name="delete_habits_message">Vanorna kommer att tas bort permanent. Du kan inte ångra detta.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Radera vana?</item>
+        <item quantity="other">Radera vanor?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Vanan kommer att raderas permanent. Denna åtgärd går inte att ångra.</item>
+        <item quantity="other">Vanorna kommer att raderas permanent. Denna åtgärd går inte att ångra.</item>
+    </plurals>
     <string name="habit_not_found">Vana borttagen / hittades inte</string>
     <string name="weekends">Helger</string>
     <string name="any_weekday">Måndag till fredag</string>
@@ -98,6 +114,11 @@
     <string name="version_n">Version %s</string>
     <string name="frequency">Frekvens</string>
     <string name="checkmark">Kryssruta</string>
+    <string name="checkmark_stack_widget" formatted="false">Stapelwidget med kryssruta</string>
+    <string name="frequency_stack_widget" formatted="false">Stapelwidget med frekvens</string>
+    <string name="score_stack_widget" formatted="false">Stapelwidget med poäng</string>
+    <string name="history_stack_widget" formatted="false">Stapelwidget med historik</string>
+    <string name="streaks_stack_widget" formatted="false">Stapelwidget med serier</string>
     <string name="best_streaks">Bästa serie</string>
     <string name="every_day">Varje dag</string>
     <string name="every_week">Varje vecka</string>
@@ -151,6 +172,7 @@
     <string name="by_name">Efter namn</string>
     <string name="by_color">Efter färg</string>
     <string name="by_score">Efter poäng</string>
+    <string name="by_status">Efter status</string>
     <string name="export">Exportera</string>
     <string name="long_press_to_edit">Tryck och håll ned för att ändra värdet</string>
     <string name="change_value">Ändra värde</string>
@@ -174,16 +196,30 @@
     <string name="example_notes">(valfritt)</string>
     <string name="yes_or_no_example">t.ex. Vaknade du tidigt idag? Tränade du? Spelade du schack?</string>
     <string name="measurable">Mätbar</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">t.ex. Hur många kilometer sprang du idag? Hur många sidor läste du? Hur många kalorier åt du?</string>
+    <string name="measurable_example">t.ex. Hur många kilometer sprang du idag? Hur många sidor läste du?</string>
     <string name="x_times_per_week">%d gånger per vecka</string>
     <string name="x_times_per_month">%d gånger per månad</string>
     <string name="yes_or_no_short_example">t.ex. Träna</string>
     <string name="color">Färg</string>
     <string name="example_target">t.ex. 15</string>
     <string name="measurable_short_example">t.ex. Spring</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">t.ex. Hur många kilometer sprang du idag?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">t.ex. kilometer</string>
+    <string name="measurable_question_example">t.ex. Hur många kilometer sprang du idag?</string>
+    <string name="measurable_units_example">t.ex. kilometer</string>
     <string name="every_month">Varje månad</string>
     <string name="validation_cannot_be_blank">Får inte vara tomt</string>
     <string name="today">Idag</string>
+    <string name="enter">Ange</string>
+    <string name="no_habits">Inga vanor hittades</string>
+    <string name="no_numerical_habits">Inga mätbara vanor hittades</string>
+    <string name="no_boolean_habits">Inga ja-eller-nej-vanor hittades</string>
+    <string name="increment">Öka</string>
+    <string name="decrement">Minska</string>
+    <string name="pref_skip_title">Aktivera överhoppning av dagar</string>
+    <string name="pref_skip_description">Växla två gånger för att hoppa över istället för att bocka för. Att hoppa över behåller dina poäng oförändrade och bryter inte din serie.</string>
+    <string name="pref_unknown_title">Visa frågetecken för data som saknas</string>
+    <string name="pref_unknown_description">Skilj dagar utan data från faktiska misslyckanden. För att ange ett misslyckanden, växla två gånger.</string>
+    <string name="you_are_now_a_developer">Du är nu en utvecklare</string>
+    <string name="activity_not_found">Ingen app som stödjer åtgärden hittades.</string>
+    <string name="pref_midnight_delay_title">Förläng dagen några timmar efter midnatt</string>
+    <string name="pref_midnight_delay_description">Vänta till 3:00 innan en ny dag visas. Användbart om du vanligtvis går och lägger dig efter midnatt. Kräver omstart av appen.</string>
 </resources>

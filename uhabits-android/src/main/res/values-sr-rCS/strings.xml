@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">„Loop“ — praćenje navika</string>
+    <string name="main_activity_title">Navike</string>
+    <string name="action_settings">Postavke</string>
+    <string name="edit">Uređivanje</string>
+    <string name="delete">Obriši</string>
+    <string name="archive">Arhiviraj</string>
+    <string name="unarchive">Dearhiviraj</string>
+    <string name="add_habit">Nova navika</string>
+    <string name="color_picker_default_title">Izmeni boju</string>
+    <string name="toast_habit_created">Navika napravljena</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Navika izmenjena</item>
+        <item quantity="few">Navike izmenjene</item>
+        <item quantity="other">Navike izmenjene</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Navika obrisana</item>
+        <item quantity="few">Navike obrisane</item>
+        <item quantity="other">Navike obrisane</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Navika arhivirana</item>
+        <item quantity="few">Navike arhivirane</item>
+        <item quantity="other">Navike arhivirane</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Navika dearhivirana</item>
+        <item quantity="few">Navike dearhivirane</item>
+        <item quantity="other">Navike dearhivirane</item>
+    </plurals>
+    <string name="overview">Pregled</string>
+    <string name="habit_strength">Moć navike</string>
+    <string name="history">Istorija</string>
+    <string name="clear">Očisti</string>
+    <string name="reminder">Podsetnik</string>
+    <string name="save">Sačuvaj</string>
+    <string name="streaks">Nizovi</string>
+    <string name="no_habits_found">Nemate aktivnih navika</string>
+    <string name="no_habits_left_to_do">Završili ste za danas!</string>
+    <string name="long_press_to_toggle">Dug pritisak za menjanje stanja</string>
+    <string name="reminder_off">isključen</string>
+    <string name="create_habit">Stvaranje navike</string>
+    <string name="edit_habit">Uređivanje navike</string>
+    <string name="check">Potvrdi</string>
+    <string name="snooze">Kasnije</string>
+    <string name="intro_title_1">Dobro došli</string>
+    <string name="intro_description_1">„Loop“ vam pomaže da stvorite i održite zdrave navike.</string>
+    <string name="intro_title_2">Stvorite nove navike</string>
+    <string name="intro_description_2">Svakog dana, nakon što obavite zacrtano, otkačite polje u aplikaciji.</string>
+    <string name="intro_title_4">Pratite svoj napredak</string>
+    <string name="intro_description_4">Detaljni grafikoni će vam pokazati kako su se vaše navike vremenom poboljšale.</string>
+    <string name="interval_15_minutes">15 minuta</string>
+    <string name="interval_30_minutes">30 minuta</string>
+    <string name="interval_1_hour">1 sat</string>
+    <string name="interval_2_hour">2 sata</string>
+    <string name="interval_4_hour">4 sata</string>
+    <string name="interval_8_hour">8 sati</string>
+    <string name="interval_24_hour">24 sata</string>
+    <string name="interval_always_ask">Uvek pitaj</string>
+    <string name="interval_custom">Prilagođeno...</string>
+    <string name="pref_toggle_title">Menjaj stanje dodirom</string>
+    <string name="pref_toggle_description">Stavlja kvačice dodirom umesto dugog pritiska. Zgodnije, ali može slučajno doći do prebacivanja.</string>
+    <string name="pref_rate_this_app">Oceni aplikaciju</string>
+    <string name="pref_send_feedback">Povratne informacije</string>
+    <string name="pref_view_source_code">Izvorni kôd na Githabu</string>
+    <string name="links">Veze</string>
+    <string name="name">Naziv</string>
+    <string name="settings">Postavke</string>
+    <string name="select_snooze_delay">Izaberite vreme odlaganja</string>
+    <string name="hint_title">Da li ste znali?</string>
+    <string name="hint_drag">Pritisnite i držite naziv navike pa je prevucite da biste ih preuredili.</string>
+    <string name="hint_landscape">U položenom režimu možete videti više dana.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Obrisati naviku?</item>
+        <item quantity="few">Obrisati navike?</item>
+        <item quantity="other">Brisanje navika</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Navike će biti trajno obrisane. Ova radnja je nepovratna.</item>
+        <item quantity="few">Navike će biti trajno obrisane. Ova radnja je nepovratna.</item>
+        <item quantity="other">Navike će biti trajno obrisane. Ova radnja je nepovratna.</item>
+    </plurals>
+    <string name="habit_not_found">Navika obrisana / ne postoji</string>
+    <string name="weekends">vikendom</string>
+    <string name="any_weekday">radnim danima</string>
+    <string name="any_day">svakog dana</string>
+    <string name="select_weekdays">Izbor dana</string>
+    <string name="export_to_csv">Izvezi kao CSV</string>
+    <string name="done_label">Završeno</string>
+    <string name="clear_label">Očisti</string>
+    <string name="select_hours">Izbor časova</string>
+    <string name="select_minutes">Izbor minuta</string>
+    <string name="about">O programu</string>
+    <string name="translators">Prevodioci</string>
+    <string name="developers">Programeri</string>
+    <string name="version_n">verzija %s</string>
+    <string name="frequency">Učestalost</string>
+    <string name="checkmark">Kvačica</string>
+    <string name="best_streaks">Najbolji nizovi</string>
+    <string name="every_day">svakog dana</string>
+    <string name="every_week">svake nedelje</string>
+    <string name="help">Pomoć i ČPP</string>
+    <string name="could_not_export">Ne mogu da izvezem podatke.</string>
+    <string name="could_not_import">Ne mogu da uvezem podatke.</string>
+    <string name="file_not_recognized">Fajl nije prepoznat.</string>
+    <string name="habits_imported">Navike su uspešno uvezene.</string>
+    <string name="import_data">Uvezi podatke</string>
+    <string name="export_full_backup">Napravi rezervnu kopiju</string>
+    <string name="import_data_summary">Pored sopstvenog formata, program podržava i uvoz fajlova napravljenih u „Tickmate“, „HabitBull“ i „Rewire“. Detaljnije u ČPP.</string>
+    <string name="export_as_csv_summary">Pravi fajl koji možete otvoriti u programu za rad sa tabelama (npr. Majkrosoft Eksel ili Openofis Kalk). Ne može se uvesti nazad u aplikaciju.</string>
+    <string name="export_full_backup_summary">Pravi fajl sa svim podacima. Može se kasnije uvoziti.</string>
+    <string name="bug_report_failed">Ne mogu da napravim izveštaj o grešci.</string>
+    <string name="generate_bug_report">Napravi izveštaj o grešci</string>
+    <string name="troubleshooting">Rešavanje problema</string>
+    <string name="help_translate">Pomozite prevođenje</string>
+    <string name="night_mode">Tamna tema</string>
+    <string name="use_pure_black">Čista crna u tamnoj temi</string>
+    <string name="pure_black_description">Menja sivu pozadinu sa čistom crnom u tamnoj temi. Smanjuje potrošnju baterije kod telefona sa AMOLED ekranom.</string>
+    <string name="interface_preferences">Sučelje</string>
+    <string name="reverse_days">Obrni redosled dana</string>
+    <string name="reverse_days_description">Prikaz dana u obrnutom redu na glavnom ekranu.</string>
+    <string name="day">dan</string>
+    <string name="week">nedelja</string>
+    <string name="month">mesec</string>
+    <string name="quarter">tromesečje</string>
+    <string name="year">godina</string>
+    <string name="total">ukupno</string>
+    <string name="yes_or_no">Da ili ne</string>
+    <string name="every_x_days">Svakih %d dana</string>
+    <string name="every_x_weeks">Svake %d nedelje</string>
+    <string name="score">snaga</string>
+    <string name="reminder_sound">Zvuk podsetnika</string>
+    <string name="none">bez zvuka</string>
+    <string name="filter">Filter</string>
+    <string name="hide_completed">Sakrij završeno</string>
+    <string name="hide_archived">Sakrij arhivirano</string>
+    <string name="sticky_notifications">Učini obaveštenja trajnim</string>
+    <string name="sticky_notifications_description">Sprečava uklanjanje obaveštenja.</string>
+    <string name="led_notifications">Svetlo obaveštenja</string>
+    <string name="led_notifications_description">Prikazuje trepćuće svetlo kao podsetnik. Samo na telefonima sa LED svetlom za obaveštavanje.</string>
+    <string name="repair_database">Popravi bazu podataka</string>
+    <string name="database_repaired">Baza podataka popravljena</string>
+    <string name="uncheck">Opozovi</string>
+    <string name="toggle">Obrni</string>
+    <string name="action">Radnja</string>
+    <string name="habit">Navika</string>
+    <string name="sort">Razvrstaj</string>
+    <string name="manually">ručno</string>
+    <string name="by_name">po nazivu</string>
+    <string name="by_color">po boji</string>
+    <string name="by_score">po rezultatu</string>
+    <string name="by_status">po stanju</string>
+    <string name="export">Izvoz</string>
+    <string name="long_press_to_edit">Dug pritisak za promenu vrednosti</string>
+    <string name="change_value">Izmeni vrednost</string>
+    <string name="calendar">Kalendar</string>
+    <string name="unit">Jedinica</string>
+    <string name="example_question_boolean">npr. Da li ste vežbali danas?</string>
+    <string name="question">Pitanje</string>
+    <string name="target">Cilj</string>
+    <string name="yes">Da</string>
+    <string name="no">Ne</string>
+    <string name="customize_notification_summary">Menjajte zvuk, vibraciju, svetlo i druge postavke obaveštavanja</string>
+    <string name="customize_notification">Prilagodite obaveštenja</string>
+    <string name="pref_view_privacy">Prikaz politike privatnosti</string>
+    <string name="view_all_contributors">prikaži sve saradnike&#8230;</string>
+    <string name="database">Baza podataka</string>
+    <string name="widget_opacity_title">Prozirnost vidžeta</string>
+    <string name="widget_opacity_description">Menja prozirnost vidžeta na početnom ekranu.</string>
+    <string name="first_day_of_the_week">Prvi dan u nedelji</string>
+    <string name="default_reminder_question">Da li ste danas ovo obavili?</string>
+    <string name="notes">Napomene</string>
+    <string name="example_notes">nije obavezno</string>
+    <string name="yes_or_no_example">npr. Da li ste danas rano ustali? Da li ste vežbali? Jeste li igrali šah?</string>
+    <string name="measurable">Merljivo</string>
+    <string name="measurable_example">npr. Koliko ste kilometara pretrčali danas? Koliko ste stranica pročitali?</string>
+    <string name="x_times_per_week">%d puta nedeljno</string>
+    <string name="x_times_per_month">%d puta mesečno</string>
+    <string name="yes_or_no_short_example">npr. vežbanje</string>
+    <string name="color">Boja</string>
+    <string name="example_target">npr. 15</string>
+    <string name="measurable_short_example">npr. trčanje</string>
+    <string name="measurable_question_example">npr. Koliko ste danas pretrčali?</string>
+    <string name="measurable_units_example">npr. km</string>
+    <string name="every_month">svakog meseca</string>
+    <string name="validation_cannot_be_blank">ne može biti prazno</string>
+    <string name="today">Danas</string>
+    <string name="enter">Ulaz</string>
+    <string name="no_habits">Nema navika</string>
+    <string name="no_numerical_habits">Nema merljivih navika</string>
+    <string name="no_boolean_habits">Nema da/ne navika</string>
+    <string name="increment">povećanje</string>
+    <string name="decrement">umanjenje</string>
+    <string name="pref_skip_title">Omogući preskakanje dana</string>
+    <string name="pref_skip_description">Dvaput promenite da biste preskočili umesto otkačinjanja. Preskakanje zadržava rezultat nepromenjenim i ne prekida niz.</string>
+    <string name="pref_unknown_title">Prikaz upitnika gde nema podataka</string>
+    <string name="pref_unknown_description">Razlikuje dane bez podataka sa stvarnim propuštanjem. Za preskok, potvrdite dva puta.</string>
+    <string name="you_are_now_a_developer">Postali ste programer</string>
+    <string name="activity_not_found">Nema aplikacije koja podržava ovu radnju</string>
+    <string name="pref_midnight_delay_title">Produžite dan nekoliko sati iza ponoći</string>
+    <string name="pref_midnight_delay_description">Čeka do 03:00 da pokaže novi dan. Korisno ako obično idete na spavanje posle ponoći. Zahteva ponovno pokretanje.</string>
+</resources>

@@ -48,7 +48,6 @@
     <string name="habit_strength">Estabilidade</string>
     <string name="history">Histórico</string>
     <string name="clear">Limpar</string>
-    <string name="days">dias</string>
     <string name="reminder">Lembrete</string>
     <string name="save">Salvar</string>
     <string name="streaks">Correntes</string>
@@ -193,8 +192,8 @@
     <string name="x_times_per_month">%d vezes por mês</string>
     <string name="yes_or_no_short_example">ex: Exercício</string>
     <string name="color">Cor</string>
-    <string name="example_target">ex: 15</string>
-    <string name="measurable_short_example">ex. Correr</string>
+    <string name="example_target">Ex: 15</string>
+    <string name="measurable_short_example">Ex: Correr</string>
     <string name="measurable_question_example">Ex: Quantos km você correu hoje?</string>
     <string name="measurable_units_example">Ex: km</string>
     <string name="every_month">Todo mês</string>
