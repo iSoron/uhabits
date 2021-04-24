@@ -27,9 +27,11 @@ import org.isoron.uhabits.acceptance.steps.CommonSteps.verifyDisplaysText
 import org.isoron.uhabits.acceptance.steps.WidgetSteps.clickCheckmarkWidget
 import org.isoron.uhabits.acceptance.steps.WidgetSteps.dragCheckmarkWidgetToHomeScreen
 import org.isoron.uhabits.acceptance.steps.WidgetSteps.verifyCheckmarkWidgetIsShown
+import org.junit.Ignore
 import org.junit.Test
 
 @LargeTest
+@Ignore("Flaky")
 class WidgetTest : BaseUserInterfaceTest() {
     @Test
     @Throws(Exception::class)

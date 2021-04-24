@@ -24,7 +24,6 @@ import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.linkedin.android.testbutler.TestButler
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
@@ -44,8 +43,6 @@ open class BaseUserInterfaceTest {
     @Throws(Exception::class)
     fun setUp() {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        TestButler.setup(ApplicationProvider.getApplicationContext())
-        TestButler.verifyAnimationsDisabled(ApplicationProvider.getApplicationContext())
         val app =
             ApplicationProvider.getApplicationContext<Context>().applicationContext as HabitsApplication
         component = app.component
@@ -60,7 +57,6 @@ open class BaseUserInterfaceTest {
     @Throws(Exception::class)
     fun tearDown() {
         for (i in 0..9) device.pressBack()
-        TestButler.teardown(ApplicationProvider.getApplicationContext())
     }
 
     @Throws(Exception::class)

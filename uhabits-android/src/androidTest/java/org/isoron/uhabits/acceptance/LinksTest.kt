@@ -28,11 +28,13 @@ import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ABOUT
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.HELP
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
+@Ignore("Fails on GitHub Actions")
 class LinksTest : BaseUserInterfaceTest() {
     @Test
     @Throws(Exception::class)
