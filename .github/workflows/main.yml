@@ -37,7 +37,7 @@ jobs:
           # 23,  # Failing tests
           # 24,  # Failing tests
           # 25,  # Failing tests
-          # 26,  # Failing tests
+          26,
           27,
           28,
           # 29,  # Crashes constantly, see: https://issuetracker.google.com/issues/159732638 
