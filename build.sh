@@ -20,7 +20,7 @@ cd "$(dirname "$0")" || exit
 ADB="${ANDROID_HOME}/platform-tools/adb"
 ANDROID_OUTPUTS_DIR="uhabits-android/build/outputs"
 AVDMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/avdmanager"
-AVDNAME="uhabitsTest"
+AVD_PREFIX="uhabitsTest"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
@@ -70,43 +70,46 @@ core_build() {
 # -----------------------------------------------------------------------------
 
 # shellcheck disable=SC2016
-_setup_android_emulator() {
+android_test() {
     API=$1
+    AVDNAME=${AVD_PREFIX}${API}
 
-    log_info "Stopping Android emulator..."
-    adb devices | grep emulator | cut -f1 | while read -r line; do
-        adb -s "$line" emu kill
-    done
-    while [[ -n $(pgrep emulator) ]]; do sleep 1; done
+    (
+        flock 10
+        log_info "Stopping Android emulator..."
+        while [[ -n $(pgrep -f ${AVDNAME}) ]]; do
+            pkill -9 -f ${AVDNAME}
+        done
 
-    log_info "Removing existing Android virtual device..."
-    $AVDMANAGER delete avd --name $AVDNAME
+        log_info "Removing existing Android virtual device..."
+        $AVDMANAGER delete avd --name $AVDNAME
 
-    log_info "Creating new Android virtual device (API $API)..."
-    (echo "y" | $SDKMANAGER --install "system-images;android-$API;default;x86_64") || return 1
-    $AVDMANAGER create avd \
-            --name $AVDNAME \
-            --package "system-images;android-$API;default;x86_64" \
-            --device "Nexus 4" || return 1
+        log_info "Creating new Android virtual device (API $API)..."
+        (echo "y" | $SDKMANAGER --install "system-images;android-$API;default;x86_64") || return 1
+        $AVDMANAGER create avd \
+                --name $AVDNAME \
+                --package "system-images;android-$API;default;x86_64" \
+                --device "Nexus 4" || return 1
+
+        flock -u 10
+    ) 10>/tmp/uhabitsTest.lock
 
     log_info "Launching emulator..."
-    $EMULATOR @$AVDNAME 1>/dev/null 2>&1 &
-    $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do sleep 1; done; input keyevent 82' || return 1
+    $EMULATOR -avd $AVDNAME -port 6${API}0 1>/dev/null 2>&1 &
+    log_info "Waiting for emulator to boot..."
+    export ADB="$ADB -s emulator-6${API}0"
+    $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82' || return 1
     $ADB root || return 1
     sleep 5
 
     log_info "Disabling animations..."
-    adb shell settings put global window_animation_scale 0 || return 1
-    adb shell settings put global transition_animation_scale 0 || return 1
-    adb shell settings put global animator_duration_scale 0 || return 1
+    $ADB shell settings put global window_animation_scale 0 || return 1
+    $ADB shell settings put global transition_animation_scale 0 || return 1
+    $ADB shell settings put global animator_duration_scale 0 || return 1
 
     log_info "Acquiring wake lock..."
-    adb shell 'echo android-test > /sys/power/wake_lock' || return 1
+    $ADB shell 'echo android-test > /sys/power/wake_lock' || return 1
 
-    return 0
-}
-
-_install_apks() {
     if [ -n "$RELEASE" ]; then
         log_info "Installing release APK..."
         $ADB install -r ${ANDROID_OUTPUTS_DIR}/apk/release/uhabits-android-release.apk || return 1
@@ -117,26 +120,40 @@ _install_apks() {
     log_info "Installing test APK..."
     $ADB install -r ${ANDROID_OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || return 1
 
-    return 0
-}
-
-_run_instrumented_tests() {
     for size in medium large; do
         log_info "Running $size instrumented tests..."
+        OUT_INSTRUMENT=${ANDROID_OUTPUTS_DIR}/instrument-${API}.txt
+        OUT_LOGCAT=${ANDROID_OUTPUTS_DIR}/logcat-${API}.txt
         $ADB shell am instrument \
             -r -e coverage true -e size $size \
             -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
-            | tee ${ANDROID_OUTPUTS_DIR}/instrument.txt
-        if grep "\(INSTRUMENTATION_STATUS_CODE.*-1\|FAILURES\|ABORTED\|onError\|Error type\|crashed\)" $ANDROID_OUTPUTS_DIR/instrument.txt; then
+            | tee $OUT_INSTRUMENT
+        if grep "\(INSTRUMENTATION_STATUS_CODE.*-1\|FAILURES\|ABORTED\|onError\|Error type\|crashed\)" $OUT_INSTRUMENT; then
             log_error "Some $size instrumented tests failed."
-            log_error "Saving logcat: ${ANDROID_OUTPUTS_DIR}/logcat.txt..."
-            $ADB logcat -d > ${ANDROID_OUTPUTS_DIR}/logcat.txt
+            log_error "Saving logcat: $OUT_LOGCAT..."
+            $ADB logcat -d > $OUT_LOGCAT
             return 1
         fi
-        log_info "$size tests passed"
+        log_info "$size tests passed."
     done
 
     return 0
+}
+
+android_test_parallel() {
+    for API in $*; do
+        (
+            LOG=build/android-test-$API.log
+            log_info "API $API: Running tests..."
+            if android_test $API 1>$LOG 2>&1; then
+                log_info "API $API: Passed"
+            else
+                log_error "API $API: Failed. See $LOG for more details."
+            fi
+            pkill -9 -f ${AVD_PREFIX}${API}
+        )&
+    done
+    wait
 }
 
 android_build() {
@@ -176,13 +193,6 @@ android_build() {
     else
         $GRADLE assembleAndroidTest || fail
     fi
-}
-
-android_test() {
-    API=$1
-    _setup_android_emulator $API || return 1
-    _install_apks || return 1
-    _run_instrumented_tests || return 1
 
     return 0
 }
@@ -224,15 +234,17 @@ Usage:
     build.sh build [options]
     build.sh clean [options]
     build.sh android-tests <API> [options]
+    build.sh android-tests-parallel <API> <API>... [options]
     build.sh android-fetch-images [options]
     build.sh android-accept-images [options]
 
 Commands:
-    build                  Build the app and run small tests
-    clean                  Remove all build directories
-    android-tests          Run medium and large Android tests on an emulator
-    android-fetch-images   Fetch failed view test images from device
-    android-accept-images  Copy fetched images to corresponding assets folder
+    build                   Build the app and run small tests
+    clean                   Remove all build directories
+    android-tests           Run medium and large Android tests on an emulator
+    android-tests-parallel  Tests multiple API levels simultaneously
+    android-fetch-images    Fetch failed view test images from device
+    android-accept-images   Copy fetched images to corresponding assets folder
 
 Options:
     -r  --release       Build and test release version, instead of debug
@@ -279,6 +291,10 @@ main() {
             done
             log_error "Maximum number of attempts reached. Failing."
             return 1
+            ;;
+        android-tests-parallel)
+            shift; _parse_opts "$@"
+            android_test_parallel $*
             ;;
         android-fetch-images)
             android_fetch_images
