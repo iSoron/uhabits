@@ -127,7 +127,7 @@ _run_instrumented_tests() {
             -r -e coverage true -e size $size \
             -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
             | tee ${ANDROID_OUTPUTS_DIR}/instrument.txt
-        if grep "\(INSTRUMENTATION_STATUS_CODE.*-1\|FAILURES\|ABORTED\|onError\|Error type\)" $ANDROID_OUTPUTS_DIR/instrument.txt; then
+        if grep "\(INSTRUMENTATION_STATUS_CODE.*-1\|FAILURES\|ABORTED\|onError\|Error type\|crashed\)" $ANDROID_OUTPUTS_DIR/instrument.txt; then
             log_error "Some $size instrumented tests failed."
             log_error "Saving logcat: ${ANDROID_OUTPUTS_DIR}/logcat.txt..."
             $ADB logcat -d > ${ANDROID_OUTPUTS_DIR}/logcat.txt

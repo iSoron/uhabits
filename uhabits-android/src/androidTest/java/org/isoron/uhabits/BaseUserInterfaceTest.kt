@@ -56,7 +56,8 @@ open class BaseUserInterfaceTest {
     @After
     @Throws(Exception::class)
     fun tearDown() {
-        for (i in 0..9) device.pressBack()
+        device.pressBack()
+        device.pressBack()
     }
 
     @Throws(Exception::class)

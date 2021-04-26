@@ -30,6 +30,7 @@ jobs:
   AndroidTest:
     needs: Build
     runs-on: macOS-10.15
+    timeout-minutes: 45
     strategy:
       matrix:
         api: [
@@ -37,7 +38,7 @@ jobs:
           # 24,  # Failing tests
           # 25,  # Failing tests
           # 26,  # Failing tests
-          # 27,  # Failing tests
+          27,
           28,
           # 29,  # Crashes constantly, see: https://issuetracker.google.com/issues/159732638 
           # 30,  # Not available yet

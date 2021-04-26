@@ -19,9 +19,11 @@
 
 package org.isoron.uhabits.acceptance.steps
 
+import android.os.Build.VERSION.SDK_INT
 import androidx.test.uiautomator.UiSelector
 import org.isoron.uhabits.BaseUserInterfaceTest.Companion.device
 import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
+import org.isoron.uhabits.acceptance.steps.CommonSteps.pressBack
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 
@@ -31,7 +33,8 @@ const val DOWNLOAD_FOLDER = "/sdcard/Download/"
 fun exportFullBackup() {
     clickMenu(SETTINGS)
     clickText("Export full backup")
-    device.pressBack()
+    if (SDK_INT < 28) return
+    pressBack()
 }
 
 fun clearDownloadFolder() {

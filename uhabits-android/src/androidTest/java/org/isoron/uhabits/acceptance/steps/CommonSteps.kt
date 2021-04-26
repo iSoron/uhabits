@@ -120,10 +120,12 @@ object CommonSteps : BaseUserInterfaceTest() {
     private fun verifyDisplaysView(className: String) {
         Espresso.onView(ViewMatchers.withClassName(CoreMatchers.endsWith(className)))
             .check(ViewAssertions.matches(ViewMatchers.isEnabled()))
+        device.waitForIdle()
     }
 
     fun verifyDoesNotDisplayText(text: String?) {
         Espresso.onView(ViewMatchers.withText(text)).check(ViewAssertions.doesNotExist())
+        device.waitForIdle()
     }
 
     @Throws(Exception::class)
