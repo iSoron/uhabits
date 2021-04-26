@@ -20,6 +20,7 @@
 package org.isoron.uhabits.acceptance.steps
 
 import android.os.Build.VERSION.SDK_INT
+import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiSelector
 import org.isoron.uhabits.BaseUserInterfaceTest.Companion.device
 import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
@@ -53,9 +54,26 @@ fun copyBackupToDownloadFolder() {
 fun importBackupFromDownloadFolder() {
     clickMenu(SETTINGS)
     clickText("Import data")
-    device.click(50, 90) // Click menu button
-    device.findObject(UiSelector().textContains("Download")).click()
-    device.findObject(UiSelector().textContains("Loop")).click()
+    if (SDK_INT >= 26) {
+        device.click(50, 90) // Click menu button
+        device.findObject(UiSelector().textContains("Download")).click()
+        device.findObject(UiSelector().textContains("Loop")).click()
+    } else {
+        while (!device.hasObject(By.textContains("Show file size"))) {
+            device.click(720, 100) // Click overflow menu
+            Thread.sleep(1000)
+        }
+        if (device.hasObject(By.textContains("Show internal"))) {
+            device.findObject(UiSelector().textContains("Show internal")).click()
+            Thread.sleep(1000)
+        } else {
+            device.pressBack()
+        }
+        device.click(50, 90) // Click menu button
+        device.findObject(UiSelector().textContains("Android")).click()
+        device.findObject(UiSelector().textContains("Download")).click()
+        device.findObject(UiSelector().textContains("Loop")).click()
+    }
 }
 
 fun openLauncher() {
