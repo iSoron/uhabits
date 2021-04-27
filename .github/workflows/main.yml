@@ -34,9 +34,9 @@ jobs:
     strategy:
       matrix:
         api: [
-          # 23,  # Failing tests
-          # 24,  # Failing tests
-          # 25,  # Failing tests
+          23,
+          24,
+          25,
           26,
           27,
           28,
