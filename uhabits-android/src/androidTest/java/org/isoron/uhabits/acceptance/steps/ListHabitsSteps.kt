@@ -29,6 +29,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.endsWith
 import org.hamcrest.Matcher
 import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.BaseUserInterfaceTest.Companion.device
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.views.CheckmarkButtonView
 import java.util.LinkedList
@@ -53,6 +54,7 @@ object ListHabitsSteps {
                 CommonSteps.clickText(R.string.hide_completed)
             }
         }
+        device.waitForIdle()
     }
 
     private fun clickTextInsideOverflowMenu(id: Int) {

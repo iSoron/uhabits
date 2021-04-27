@@ -75,7 +75,8 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     }
 
     fun onEditHabits() {
-        screen.showEditHabitsScreen(adapter.getSelected())
+        val selected = adapter.getSelected()
+        if (selected.isNotEmpty()) screen.showEditHabitsScreen(selected)
         adapter.clearSelection()
     }
 

@@ -45,6 +45,7 @@ object CommonSteps : BaseUserInterfaceTest() {
     fun clickText(text: String?) {
         scrollToText(text)
         Espresso.onView(ViewMatchers.withText(text)).perform(ViewActions.click())
+        device.waitForIdle()
     }
 
     fun clickText(@StringRes id: Int) {
@@ -62,6 +63,7 @@ object CommonSteps : BaseUserInterfaceTest() {
     fun longClickText(text: String?) {
         scrollToText(text)
         Espresso.onView(ViewMatchers.withText(text)).perform(ViewActions.longClick())
+        device.waitForIdle()
     }
 
     fun pressHome() {

@@ -96,6 +96,7 @@ android_test() {
 
     log_info "Launching emulator..."
     $EMULATOR -avd $AVDNAME -port 6${API}0 1>/dev/null 2>&1 &
+
     log_info "Waiting for emulator to boot..."
     export ADB="$ADB -s emulator-6${API}0"
     $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82' || return 1

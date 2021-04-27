@@ -54,11 +54,22 @@ fun copyBackupToDownloadFolder() {
 fun importBackupFromDownloadFolder() {
     clickMenu(SETTINGS)
     clickText("Import data")
-    if (SDK_INT >= 26) {
+    if (SDK_INT <= 23) {
+        while (!device.hasObject(By.textContains("Show file size"))) {
+            device.click(720, 100) // Click overflow menu
+            Thread.sleep(1000)
+        }
+        if (device.hasObject(By.textContains("Show SD card"))) {
+            device.findObject(UiSelector().textContains("Show SD card")).click()
+            Thread.sleep(1000)
+        } else {
+            device.pressBack()
+        }
         device.click(50, 90) // Click menu button
+        device.findObject(UiSelector().textContains("Internal storage")).click()
         device.findObject(UiSelector().textContains("Download")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
-    } else {
+    } else if (SDK_INT <= 25) {
         while (!device.hasObject(By.textContains("Show file size"))) {
             device.click(720, 100) // Click overflow menu
             Thread.sleep(1000)
@@ -71,6 +82,10 @@ fun importBackupFromDownloadFolder() {
         }
         device.click(50, 90) // Click menu button
         device.findObject(UiSelector().textContains("Android")).click()
+        device.findObject(UiSelector().textContains("Download")).click()
+        device.findObject(UiSelector().textContains("Loop")).click()
+    } else {
+        device.click(50, 90) // Click menu button
         device.findObject(UiSelector().textContains("Download")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
     }
