@@ -93,7 +93,7 @@ dependencies {
     androidTestImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     compileOnly("javax.annotation:jsr250-api:1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
-    implementation("com.github.paolorotolo:appintro:3.4.0")
+    implementation("com.github.paolorotolo:appintro:4.1.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
     implementation("com.google.guava:guava:30.1.1-android")
