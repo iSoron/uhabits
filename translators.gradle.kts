@@ -61,6 +61,7 @@ task("updateTranslators") {
                 "Romanian" to "Română",
                 "Russian" to "Русский",
                 "Serbian (Cyrillic)" to "српски",
+                "Serbian (Latin)" to "српски",
                 "Spanish" to "Español",
                 "Swedish" to "Svenska",
                 "Tamil" to "தமிழ்\u200E",
@@ -79,7 +80,8 @@ task("updateTranslators") {
                 val name = entry["Name"]!!.replace(Regex(" *\\(.*\\) *"), "")
                 if (name.contains("REMOVED")) continue
                 if (entry["Winning (Words)"]!!.toInt() < 10 &&
-                    entry["Translated (Words)"]!!.toInt() < 100
+                    entry["Translated (Words)"]!!.toInt() < 100 &&
+                    entry["Approved (Words)"]!!.toInt() <= 0
                 ) {
                     continue
                 }

@@ -91,9 +91,9 @@
     <string name="hint_drag">Pritisnite i držite naziv navike pa je prevucite da biste ih preuredili.</string>
     <string name="hint_landscape">U položenom režimu možete videti više dana.</string>
     <plurals name="delete_habits_title">
-        <item quantity="one">Obrisati naviku?</item>
+        <item quantity="one">Obrisati navike?</item>
         <item quantity="few">Obrisati navike?</item>
-        <item quantity="other">Brisanje navika</item>
+        <item quantity="other">Obrisati navike?</item>
     </plurals>
     <plurals name="delete_habits_message">
         <item quantity="one">Navike će biti trajno obrisane. Ova radnja je nepovratna.</item>
@@ -127,7 +127,7 @@
     <string name="import_data">Uvezi podatke</string>
     <string name="export_full_backup">Napravi rezervnu kopiju</string>
     <string name="import_data_summary">Pored sopstvenog formata, program podržava i uvoz fajlova napravljenih u „Tickmate“, „HabitBull“ i „Rewire“. Detaljnije u ČPP.</string>
-    <string name="export_as_csv_summary">Pravi fajl koji možete otvoriti u programu za rad sa tabelama (npr. Majkrosoft Eksel ili Openofis Kalk). Ne može se uvesti nazad u aplikaciju.</string>
+    <string name="export_as_csv_summary">Pravi fajl koji možete otvoriti u programu za rad sa tabelama (npr. Microsoft Excel ili OpenOffice Calc). Ne može se uvesti nazad u aplikaciju.</string>
     <string name="export_full_backup_summary">Pravi fajl sa svim podacima. Može se kasnije uvoziti.</string>
     <string name="bug_report_failed">Ne mogu da napravim izveštaj o grešci.</string>
     <string name="generate_bug_report">Napravi izveštaj o grešci</string>

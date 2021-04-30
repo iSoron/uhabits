@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Трекер звичок Loop</string>
     <string name="main_activity_title">Звички</string>
     <string name="action_settings">Налаштування</string>
@@ -28,19 +28,39 @@
     <string name="add_habit">Додати звичку</string>
     <string name="color_picker_default_title">Змінити колір</string>
     <string name="toast_habit_created">Звичку створено</string>
-    <string name="toast_habit_deleted">Звички вилучено</string>
-    <string name="toast_habit_changed">Звичку змінено</string>
-    <string name="toast_habit_archived">Звички архівовано</string>
-    <string name="toast_habit_unarchived">Звички повернуто з архіву</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Звичку змінено</item>
+        <item quantity="few">Звички змінено</item>
+        <item quantity="many">Звички змінено</item>
+        <item quantity="other">Звички змінено</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Звичку вилучено</item>
+        <item quantity="few">Звички вилучено</item>
+        <item quantity="many">Звички вилучено</item>
+        <item quantity="other">Звички вилучено</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Звичку архівовано</item>
+        <item quantity="few">Звички архівовано</item>
+        <item quantity="many">Звички архівовано</item>
+        <item quantity="other">Звички архівовано</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Звичку розархівовано</item>
+        <item quantity="few">Звички розархівовано</item>
+        <item quantity="many">Звички розархівовано</item>
+        <item quantity="other">Звички розархівовано</item>
+    </plurals>
     <string name="overview">Огляд</string>
     <string name="habit_strength">Сила звички</string>
     <string name="history">Історія</string>
     <string name="clear">Очистити</string>
-    <string name="days">дні(-в)</string>
     <string name="reminder">Нагадування</string>
     <string name="save">Зберегти</string>
     <string name="streaks">Серії</string>
     <string name="no_habits_found">У Вас немає активних звичок</string>
+    <string name="no_habits_left_to_do">На сьогодні все!</string>
     <string name="long_press_to_toggle">Натисніть та утримуйте, щоб встановити або зняти пташку</string>
     <string name="reminder_off">Вимкнути</string>
     <string name="create_habit">Додати звичку</string>
@@ -64,20 +84,28 @@
     <string name="interval_custom">Налаштувати...</string>
     <string name="pref_toggle_title">Відзначати коротким натисканням</string>
     <string name="pref_toggle_description">Ставити пташки коротким натисканням, замість утримування. Дещо зручніше, але може стати причиною випадкових натискань.</string>
-    <string name="pref_snooze_interval_title">Час відкладення нагадувань</string>
     <string name="pref_rate_this_app">Оцінити цю програму в Google Play</string>
     <string name="pref_send_feedback">Надіслати відгук розробникові</string>
     <string name="pref_view_source_code">Подивитися вихідний код на GitHub</string>
     <string name="links">Посилання</string>
     <string name="name">Назва</string>
     <string name="settings">Налаштування</string>
-    <string name="snooze_interval">Час відкладення</string>
     <string name="select_snooze_delay">Встановити повторне нагадування</string>
     <string name="hint_title">Чи знаете ви, що?</string>
     <string name="hint_drag">Аби змінити порядок записів, натисніть і утримуйте назву запису, опісля перетягніть запис на потрібне місце.</string>
     <string name="hint_landscape">У ландшафтному режимі відображається більше днів.</string>
-    <string name="delete_habits">Вилучити звички</string>
-    <string name="delete_habits_message">Звички буде вилучено. Цю дію не можна скасувати.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Вилучити звичку?</item>
+        <item quantity="few">Вилучити звички?</item>
+        <item quantity="many">Вилучити звички?</item>
+        <item quantity="other">Вилучити звички?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Звичка вилучиться назавжди. Цю дію неможливо скасувати.</item>
+        <item quantity="few">Звички вилучаться назавжди. Цю дію неможливо скасувати.</item>
+        <item quantity="many">Звички вилучаться назавжди. Цю дію неможливо скасувати.</item>
+        <item quantity="other">Звички вилучаться назавжди. Цю дію неможливо скасувати.</item>
+    </plurals>
     <string name="habit_not_found">Звичку вилучено / не знайдено</string>
     <string name="weekends">У вихідні</string>
     <string name="any_weekday">У будні</string>
@@ -156,6 +184,7 @@
     <string name="by_name">За назвою</string>
     <string name="by_color">За кольором</string>
     <string name="by_score">За сталістю</string>
+    <string name="by_status">За станом</string>
     <string name="export">Експортувати</string>
     <string name="long_press_to_edit">Натисніть і утримуйте, аби змінити значення</string>
     <string name="change_value">Змінити значення</string>
@@ -179,16 +208,30 @@
     <string name="example_notes">(необов\'язково)</string>
     <string name="yes_or_no_example">напр., чи прокинулися сьогодні зрання? Чи виконали вправи? Або грали в шахи?</string>
     <string name="measurable">Вимірювальні</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">напр., скільки кілометрів Ви сьогодні пробігли? Скільки сторінок за день прочитали? Скільки калорій нині спожили?</string>
+    <string name="measurable_example">напр.: Скільки кілометрів ви сьогодні пробігли? Скільки сторінок прочитали?</string>
     <string name="x_times_per_week">%d разів на тиждень</string>
     <string name="x_times_per_month">%d разів на місяць</string>
     <string name="yes_or_no_short_example">напр., вправа</string>
     <string name="color">Колір</string>
     <string name="example_target">напр., 15</string>
     <string name="measurable_short_example">напр., біг</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">напр., скільки кілометрів сьогодні пробігли?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">напр., кілометри</string>
+    <string name="measurable_question_example">напр., скільки кілометрів сьогодні пробігли?</string>
+    <string name="measurable_units_example">напр., кілометри</string>
     <string name="every_month">Щомісяця</string>
     <string name="validation_cannot_be_blank">Обов\'язкове поле</string>
     <string name="today">Сьогодні</string>
+    <string name="enter">Увести</string>
+    <string name="no_habits">Звичок не знайдено</string>
+    <string name="no_numerical_habits">Вимірюваних звичок не знайдено</string>
+    <string name="no_boolean_habits">Звичок так/ні не знайдено</string>
+    <string name="increment">Збільшити</string>
+    <string name="decrement">Зменшити</string>
+    <string name="pref_skip_title">Увімкнути пропускання днів</string>
+    <string name="pref_skip_description">Перемкніть двічі, щоб додати пропуск замість галочки. Пропуски зберігають ваш результат незмінним і не переривають серію.</string>
+    <string name="pref_unknown_title">Показувати знаки питання для відсутніх даних</string>
+    <string name="pref_unknown_description">Відрізняти дні без даних від фактичних пропусків. Щоб увести пропуск, перемкніть двічі.</string>
+    <string name="you_are_now_a_developer">Тепер ви – розробник</string>
+    <string name="activity_not_found">Не знайдено програми для підтримки цієї дії</string>
+    <string name="pref_midnight_delay_title">Продовжити день на кілька годин після опівночі</string>
+    <string name="pref_midnight_delay_description">Почекати до 3:00 перед показом нового дня. Корисно, якщо ви зазвичай лягаєте спати після опівночі. Потрібно перезапустити програму.</string>
 </resources>

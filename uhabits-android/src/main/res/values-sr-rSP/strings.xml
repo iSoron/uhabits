@@ -91,9 +91,9 @@
     <string name="hint_drag">Притисните и држите назив навике па је превуците да бисте их преуредили.</string>
     <string name="hint_landscape">У положеном режиму можете видети више дана.</string>
     <plurals name="delete_habits_title">
-        <item quantity="one">Обрисати навику?</item>
+        <item quantity="one">Обрисати навикe?</item>
         <item quantity="few">Обрисати навике?</item>
-        <item quantity="other">Брисање навика</item>
+        <item quantity="other">Обрисати навике?</item>
     </plurals>
     <plurals name="delete_habits_message">
         <item quantity="one">Навике ће бити трајно обрисане. Ова радња је неповратна.</item>
@@ -205,7 +205,7 @@
     <string name="every_month">сваког месеца</string>
     <string name="validation_cannot_be_blank">не може бити празно</string>
     <string name="today">Данас</string>
-    <string name="enter">Улаз</string>
+    <string name="enter">Унос</string>
     <string name="no_habits">Нема навика</string>
     <string name="no_numerical_habits">Нема мерљивих навика</string>
     <string name="no_boolean_habits">Нема да/не навика</string>

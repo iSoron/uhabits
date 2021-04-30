@@ -1,8 +1,8 @@
 Name,Languages,"Translated (Words)","Target Words","Approved (Words)",Voted,"""+"" votes received","""-"" votes received","Winning (Words)"
-"Alinson Xavier (iSoron)","Portuguese, Brazilian; Japanese; Spanish; Portuguese; Italian; Chinese Simplified; French; Hungarian; German; Arabic; Hindi; Slovenian; Catalan; Greek; Korean; Bulgarian; Chinese Traditional; Polish; Russian; Serbian (Cyrillic); Turkish; Ukrainian; Czech; Indonesian; Croatian; Danish; Dutch; Romanian; Swedish; Basque; Persian; Vietnamese; Telugu; Finnish; Tamil; Afrikaans; Esperanto; Hebrew",14708,17119,892,0,1707,70,3985
-"Slobodan Simić (Слободан Симић) (slsimic)","Serbian (Cyrillic); Serbian (Latin)",2052,1829,1013,12,33,0,890
+"Alinson Xavier (iSoron)","Portuguese, Brazilian; Japanese; Spanish; Portuguese; Italian; Chinese Simplified; French; Hungarian; German; Arabic; Hindi; Slovenian; Catalan; Greek; Korean; Bulgarian; Chinese Traditional; Polish; Russian; Serbian (Cyrillic); Turkish; Ukrainian; Czech; Indonesian; Croatian; Danish; Dutch; Romanian; Swedish; Basque; Persian; Vietnamese; Telugu; Finnish; Tamil; Afrikaans; Esperanto; Hebrew",14790,17211,1272,0,1707,70,4259
+"Slobodan Simić (Слободан Симић) (slsimic)","Serbian (Latin); Serbian (Cyrillic)",2053,1830,2105,12,33,0,1982
+"Oglaigh Rystard (oglaignaheireann)","Ukrainian; Portuguese; Catalan; Greek; Basque; Romanian; Italian",1103,1037,1327,1,13,6,954
 "David (Cliff122)",Swedish,1040,1019,725,6,0,0,700
-"Oglaigh Rystard (oglaignaheireann)","Ukrainian; Portuguese; Catalan; Greek; Basque; Romanian; Italian",952,917,1124,1,13,6,803
 dukelc,Slovak,919,880,0,0,0,0,0
 KMakoto,"Chinese Traditional",745,1146,949,0,0,0,745
 "Evren (evrenkiymaz)",Turkish,688,604,0,71,4,0,0
@@ -12,7 +12,7 @@ Tomairuka,Japanese,633,1636,909,43,0,0,564
 "Dmitriy Bogdanov (di72nn)",Russian,625,572,1175,0,34,0,519
 reyhoon,Persian,624,759,0,1,1,0,0
 Osoitz,Basque,610,545,0,9,0,0,3
-fabian.bouchal,German,548,527,0,6,0,3,0
+fabian.bouchal,German,548,527,0,6,0,3,72
 boban77,Czech,509,461,0,2,0,0,0
 "Yoav Argov (YoavArgov)",Hebrew,501,461,0,0,1,8,3
 REMOVED_USER,Norwegian,501,498,501,0,148,0,501
@@ -20,7 +20,7 @@ REMOVED_USER,Norwegian,501,498,501,0,148,0,501
 "chrrris1987 (Chrrris1987)",Dutch,467,478,0,23,0,0,0
 "Huy Ngo (huyngo)",Vietnamese,461,695,0,1,0,0,0
 "黄克 (hk13127)","Chinese Simplified",461,765,0,1,0,0,0
-"Arkadiusz Bubak (epitek)",Polish,458,416,0,24,0,3,0
+"Arkadiusz Bubak (epitek)",Polish,458,416,29,24,0,3,0
 marco.baturan,Esperanto,452,452,0,0,0,0,0
 "Sief Tarek (sieftarek135)",Arabic,447,455,0,0,0,0,0
 "Omer I.S. (omeritzics)",Hebrew,428,366,0,14,1,0,0
@@ -28,7 +28,7 @@ marco.baturan,Esperanto,452,452,0,0,0,0,0
 "Diana Karaseva (Sun_Dianka)",Russian,399,373,0,10,1,0,221
 "Alexander Jansson (dalecarlian)",Swedish,396,406,507,0,0,3,399
 luiandresgonzalez,Spanish,383,403,0,1,0,0,0
-"Thamara Andrade (tkcandrade)","Portuguese, Brazilian",380,387,0,0,1,0,0
+"Thamara Andrade (tkcandrade)","Portuguese, Brazilian",380,387,0,0,1,0,252
 "Sølv Ræven (soelvraeven)",Danish,370,370,0,0,0,0,0
 "Isti (eisti)",Hungarian,367,329,0,0,0,0,0
 "Anh Quân (dangquanuet)",Vietnamese,362,530,0,42,1,0,0
@@ -39,30 +39,31 @@ Seoyul,Korean,339,825,0,0,27,0,0
 "Michael Malak (MichaelKMalak)",Arabic,304,271,0,0,0,0,0
 "Elina Salminen (salminen.elina.m)",Finnish,297,227,0,0,0,0,0
 ayane.m,Japanese,292,863,0,1,2,0,22
-cobalt59,German,237,234,0,1,23,1,0
+"Marius Teufelweich (teufelweich)",German,249,256,606,4,0,0,146
+cobalt59,German,237,234,0,1,23,1,132
 "QWERT (lurenjia01)","Chinese Simplified",236,407,0,0,0,0,0
 beriain,Basque,234,235,0,0,2,0,0
+"Intan Ayunda (Intan_Ayunda)",Indonesian,228,239,336,0,0,0,135
 pnhpnh,Vietnamese,225,343,0,1,3,0,0
-"Dika Fitrian Dwi Putra (OsamuDazai)",Indonesian,221,215,0,0,0,0,0
+"Dika Fitrian Dwi Putra (OsamuDazai)",Indonesian,221,215,0,0,0,0,33
 easyrepro,Telugu,214,297,0,0,0,0,0
 taras-ko,Ukrainian,211,183,0,1,4,0,19
-sojusnik,German,207,200,1,0,30,0,0
-axmed99,Ukrainian,203,177,0,40,0,0,1
-"Heru Yen (heruyen)",Indonesian,201,201,0,0,0,0,0
+sojusnik,German,207,200,1,0,30,0,66
+axmed99,Ukrainian,203,177,0,40,0,0,53
+"Heru Yen (heruyen)",Indonesian,201,201,0,0,0,0,2
 Ishmaeel,Turkish,193,174,0,129,6,0,0
-"Intan Ayunda (Intan_Ayunda)",Indonesian,186,187,0,0,0,0,0
 fbruna17,Danish,181,179,0,1,0,0,0
 "Omry Cohen (omrycohen)",Hebrew,175,156,0,1,0,0,0
 Bryanx,Dutch,174,165,0,5,0,0,0
 "Pierre GALIEGUE (pierre.galiegue)",French,171,194,0,24,2,0,0
 DionysosDV,Greek,165,153,0,0,0,0,0
-"Marius Teufelweich (teufelweich)",German,164,166,0,4,0,0,0
 "Gustavo Lima (GustavoLima)",Portuguese,158,177,0,1,4,10,0
 "Aputsiak Niels Janussen (aputtu)",Danish,153,171,0,0,0,0,0
-plitwin,Polish,145,128,0,1,16,0,0
+plitwin,Polish,145,128,0,1,16,0,26
 "Lương Vĩnh Khang (LuongVinhKhang)",Vietnamese,144,256,0,0,46,1,0
-azzamsa,Indonesian,142,136,0,48,0,1,7
-"Neysa Nasywa (neysanasywa)",Indonesian,140,141,0,0,0,0,0
+azzamsa,Indonesian,142,136,0,48,0,1,50
+"Neysa Nasywa (neysanasywa)",Indonesian,140,141,0,0,0,0,35
+JY3,"Chinese Simplified",136,217,80,0,0,0,80
 "Mohammed Imthath (mimthath4)",Tamil,136,274,0,0,11,0,0
 roptat,French,132,154,0,112,88,5,0
 "Trần Thái (tranhoangthai2001)",Vietnamese,127,186,0,8,1,0,0
@@ -74,7 +75,6 @@ Sebastian05067,Spanish,114,133,0,55,18,0,0
 REMOVED_USER,Arabic,111,106,0,22,21,2,0
 mohmans,Arabic,109,103,0,2,0,0,0
 "Ivan Krušlin (krux3r)",Croatian,108,122,503,0,0,0,108
-JY3,"Chinese Simplified",108,157,0,0,0,0,0
 "Iabin Arteaga (iabin)",Spanish,108,111,0,4,20,0,0
 2kaafone,Finnish,105,90,0,0,0,0,0
 "Adam Jurkiewicz (hasztagg)",Polish,104,105,529,0,0,0,104
@@ -85,7 +85,7 @@ JY3,"Chinese Simplified",108,157,0,0,0,0,0
 ranmagen,Hebrew,91,78,0,0,0,0,0
 LoneWanderer,"Chinese Traditional",90,137,0,4,0,0,0
 "Vo - (voyl)","Chinese Traditional",89,126,0,0,5,0,0
-ikkaz,Indonesian,89,84,0,5,0,0,0
+ikkaz,Indonesian,89,84,0,5,0,0,4
 "Irene K (Heaun)",Korean,88,75,0,25,0,0,0
 "Kumar Anand (kumar0500)",Hindi,87,125,0,0,0,0,0
 Prosta4ok_ua,Ukrainian,87,84,0,1,0,0,17
@@ -93,17 +93,17 @@ Prosta4ok_ua,Ukrainian,87,84,0,1,0,0,17
 helectron,Persian,84,102,0,1,0,0,0
 "Radu Cebotari (wildProgrammer)",Romanian,84,92,0,1,0,0,0
 "Israa Z (sosozozo)",Arabic,79,87,0,43,11,0,3
-"Sofia Neves (sofiasonev)","Portuguese, Brazilian",79,84,0,1,0,0,0
+"Sofia Neves (sofiasonev)","Portuguese, Brazilian",79,84,0,1,0,0,46
 Tiralka,French,79,91,0,92,1,0,0
 "Jacob Roller (jdr28070)",Korean,79,61,0,0,0,0,0
 "Toni Mustonen (toni.mustonen)",Finnish,78,72,0,0,0,0,0
-"Michael (quelbs)",German,76,75,0,1,0,0,0
+"Michael (quelbs)",German,76,75,0,1,0,0,39
 "Fauz Aladeem (topfauz)",Arabic,76,77,0,0,0,1,0
 RealDonald,Dutch,67,69,0,121,10,0,0
 sirekanyan,"Armenian; Russian",66,65,0,0,0,0,0
 "Константин К. (kocyak1991)",Russian,64,60,0,0,1,2,0
 "Laura Sophie (laurasophie20)",German,62,67,0,4,0,0,0
-raden20,Indonesian,61,62,177,0,1,0,61
+raden20,Indonesian,61,62,177,0,1,0,64
 "Jan Wojtecki (j4nw)",Polish,58,46,0,0,0,0,26
 "Deepak Bharathi (deepakbharathi1994)",Tamil,56,107,0,0,11,4,0
 "Андрій Козицький (andriikozytskyi1108)",Ukrainian,52,52,0,0,1,0,0
@@ -113,7 +113,7 @@ govindap,"Japanese; Hindi",51,114,0,6,1,0,0
 "Peter Williams (williamspete001)",Japanese,49,133,0,1,0,0,3
 "Behnood HRazy (behnoodhr)",Persian,49,70,0,0,0,0,0
 J3ll3nl,Dutch,48,48,0,0,17,1,3
-"tat bz (Tat_i)",German,48,56,0,55,0,0,0
+"tat bz (Tat_i)",German,48,56,0,55,0,0,27
 vach,Armenian,47,36,0,0,0,0,0
 andowero,Czech,47,38,0,0,0,0,0
 "Andrew Firnes (Anechan)",Russian,47,47,0,3,0,0,29
@@ -137,7 +137,7 @@ hrexen,Armenian,37,37,0,0,0,0,0
 REMOVED_USER,Swedish,36,33,0,5,1,0,0
 "Abdulrahman (D7M)",Arabic,36,39,0,0,0,0,0
 "長谷川知里 (chase0213)",Japanese,34,138,0,13,0,0,24
-"Piotr Łuczyński (peterluczynski)",Polish,33,30,0,6,5,0,0
+"Piotr Łuczyński (peterluczynski)",Polish,33,30,0,6,5,0,2
 "milad farahani (miladfarmahini90)",Persian,33,44,0,18,0,0,3
 "Luis E. Perichon (luisperichon)",Spanish,33,40,0,104,0,0,0
 andriikozytskyi2625,Ukrainian,31,23,0,0,0,0,0
@@ -150,7 +150,7 @@ yancyn,"Chinese Simplified",30,40,0,0,0,0,0
 "Ruud Schouten (ruudschouten)",Dutch,29,32,0,41,3,0,0
 "Guillaume Collic (gcollic)",French,26,28,0,126,11,0,0
 "Niraj Yadav (neverforgetniraj)",Hindi,26,48,0,0,0,0,0
-"Radoslaw Biernacki (radoslaw.biernacki)",Polish,26,24,0,8,0,0,0
+"Radoslaw Biernacki (radoslaw.biernacki)",Polish,26,24,0,8,0,0,1
 "Jonny I (jonny99dj)",Italian,26,26,0,5,0,0,0
 "Aaron Dalton (Perlkonig)",French,26,25,0,141,1,0,0
 "Eddie (eddieattaboy)","Chinese Traditional",25,34,0,1,0,0,0
@@ -228,7 +228,7 @@ bziuum,Polish,4,4,0,0,0,0,0
 "Thoum Ptrgnt (thomas.petrignet)",French,3,3,0,2,0,3,0
 "Vagner Roberto (vagner.trompete)","Portuguese, Brazilian",3,3,0,0,0,0,0
 "Unnie Here (Carb)",Hindi,3,8,0,0,0,0,0
-carsten_kafke,German,3,3,0,43,0,0,0
+carsten_kafke,German,3,3,0,43,0,0,3
 Magidxz,Arabic,3,3,0,0,0,0,0
 atomjani,Hungarian,3,3,0,0,0,0,0
 "Péter Bernát (bernatp)",Hungarian,3,2,0,0,0,0,0
@@ -268,7 +268,7 @@ iSoron2,"Portuguese, Brazilian",1,1,0,0,0,0,0
 "Anastasiia Bondarenko (nastasya.bondarenko.97)",Russian,1,1,0,0,0,0,0
 "Patrick Pimenta (trickap1)","Portuguese, Brazilian",1,1,0,0,0,0,0
 axd,Spanish,1,1,0,15,0,0,0
-jonesses,German,1,1,0,1,0,0,0
+jonesses,German,1,1,0,1,0,0,1
 "박찌 (perpact20)",Korean,1,1,0,0,0,0,0
 "Kan Black (kanblack.va)",Vietnamese,1,2,0,0,0,1,0
 REMOVED_USER,Russian,1,2,0,6,1,0,1

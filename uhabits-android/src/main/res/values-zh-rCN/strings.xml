@@ -18,7 +18,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Loop习惯记录</string>
+    <string name="app_name">Loop 习惯记录</string>
     <string name="main_activity_title">习惯</string>
     <string name="action_settings">设置</string>
     <string name="edit">编辑</string>
@@ -54,19 +54,19 @@
     <string name="create_habit">新建习惯</string>
     <string name="edit_habit">编辑习惯</string>
     <string name="check">标记</string>
-    <string name="snooze">以后再说</string>
+    <string name="snooze">稍后提醒</string>
     <string name="intro_title_1">欢迎</string>
-    <string name="intro_description_1">循环习惯记录器帮助你建立和维持好习惯.</string>
-    <string name="intro_title_2">建立一些新习惯</string>
+    <string name="intro_description_1">Loop 习惯追踪器能帮你养成和保持好习惯。</string>
+    <string name="intro_title_2">养成一些新习惯</string>
     <string name="intro_description_2">每当你完成一项习惯后，就在应用上做一个标记</string>
     <string name="intro_title_4">记录你的进步</string>
     <string name="intro_description_4">详细图表展示长期以来习惯养成情况</string>
-    <string name="interval_15_minutes">15分钟</string>
-    <string name="interval_30_minutes">30分钟</string>
-    <string name="interval_1_hour">1小时</string>
-    <string name="interval_2_hour">2小时</string>
-    <string name="interval_4_hour">4小时</string>
-    <string name="interval_8_hour">8小时</string>
+    <string name="interval_15_minutes">15 分钟</string>
+    <string name="interval_30_minutes">30 分钟</string>
+    <string name="interval_1_hour">1 小时</string>
+    <string name="interval_2_hour">2 小时</string>
+    <string name="interval_4_hour">4 小时</string>
+    <string name="interval_8_hour">8 小时</string>
     <string name="interval_24_hour">24 小时</string>
     <string name="interval_always_ask">总是询问</string>
     <string name="interval_custom">自定义</string>
@@ -74,11 +74,11 @@
     <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
     <string name="pref_rate_this_app">去Play商店评价这个应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
-    <string name="pref_view_source_code">在Github上查看源代码</string>
+    <string name="pref_view_source_code">在 GitHub 上查看源代码</string>
     <string name="links">链接</string>
     <string name="name">习惯标题</string>
     <string name="settings">设置</string>
-    <string name="select_snooze_delay">设定暂停提醒的重复时间</string>
+    <string name="select_snooze_delay">设定延后提醒间隔时间</string>
     <string name="hint_title">你知道吗？</string>
     <string name="hint_drag">如果要重新排列习惯，按住习惯的名字拖到想要的位置</string>
     <string name="hint_landscape">转至横屏查看更多日期</string>
@@ -93,7 +93,7 @@
     <string name="any_weekday">工作日</string>
     <string name="any_day">每天</string>
     <string name="select_weekdays">选择天数</string>
-    <string name="export_to_csv">导出数据 (CSV)</string>
+    <string name="export_to_csv">导出为 CSV</string>
     <string name="done_label">完成</string>
     <string name="clear_label">取消</string>
     <string name="select_hours">选择小时</string>
@@ -114,7 +114,7 @@
     <string name="habits_imported">习惯导入成功</string>
     <string name="import_data">导入数据</string>
     <string name="export_full_backup">导出完整备份</string>
-    <string name="import_data_summary">支持此应用导出的备份文件， 也支持 Tickmate ， HabitBull 或 Rewire 导出文件，请参阅常见问题以获取更多信息。</string>
+    <string name="import_data_summary">支持本应用导出的完整备份文件，也支持 Tickmate、HabitBull 或 Rewire 的导出文件，请参阅常见问题以获取更多信息。</string>
     <string name="export_as_csv_summary">生成可以通过电子表格软件打开的文件，如 Microsoft Excel 或 OpenOffice Calc。该文件无法重新导入。</string>
     <string name="export_full_backup_summary">生成一个包含所有数据的文件。该文件可以重新导入。</string>
     <string name="bug_report_failed">错误报告生成失败</string>
@@ -123,8 +123,8 @@
     <string name="help_translate">帮助翻译这个应用</string>
     <string name="night_mode">夜间模式</string>
     <string name="use_pure_black">在夜间模式中使用纯黑色</string>
-    <string name="pure_black_description">\"以纯黑色背景代替夜间模式中的灰色背景。
-这将帮助减少 AMOLED 屏幕手机的电量使用。\"</string>
+    <string name="pure_black_description">以纯黑色背景代替夜间模式中的灰色背景。
+这可以降低 AMOLED 屏幕手机的耗电量。</string>
     <string name="interface_preferences">界面</string>
     <string name="reverse_days">反向顺序的日子</string>
     <string name="reverse_days_description">在主界面显示反向顺序的日子</string>

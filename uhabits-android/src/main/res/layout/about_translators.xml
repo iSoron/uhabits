@@ -23,9 +23,11 @@
     <TextView style="@style/About.Item" android:text="Laura Sophie" />
     <TextView style="@style/About.Item" android:text="Marius Teufelweich" />
     <TextView style="@style/About.Item" android:text="Matthias Meisser" />
+    <TextView style="@style/About.Item" android:text="Michael" />
     <TextView style="@style/About.Item" android:text="cobalt59" />
     <TextView style="@style/About.Item" android:text="fabian.bouchal" />
     <TextView style="@style/About.Item" android:text="sojusnik" />
+    <TextView style="@style/About.Item" android:text="tat bz" />
     <TextView style="@style/About.Item.Language" android:text="Español" />
     <TextView style="@style/About.Item" android:text="Ander Raso Vazquez" />
     <TextView style="@style/About.Item" android:text="Iabin Arteaga" />
@@ -77,6 +79,7 @@
     <TextView style="@style/About.Item" android:text="Bernardo Lopes" />
     <TextView style="@style/About.Item" android:text="Gustavo Lima" />
     <TextView style="@style/About.Item" android:text="Martim Parente" />
+    <TextView style="@style/About.Item" android:text="Sofia Neves" />
     <TextView style="@style/About.Item" android:text="Thamara Andrade" />
     <TextView style="@style/About.Item.Language" android:text="Română" />
     <TextView style="@style/About.Item" android:text="Andreea Muscalagiu" />
@@ -114,6 +117,7 @@
     <TextView style="@style/About.Item" android:text="Andreas Michelakis" />
     <TextView style="@style/About.Item" android:text="DionysosDV" />
     <TextView style="@style/About.Item.Language" android:text="Български" />
+    <TextView style="@style/About.Item" android:text="MStefanov" />
     <TextView style="@style/About.Item" android:text="Mihail Stefanov" />
     <TextView style="@style/About.Item.Language" android:text="Русский" />
     <TextView style="@style/About.Item" android:text="Andrew Firnes" />
