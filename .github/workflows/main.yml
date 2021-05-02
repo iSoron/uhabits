@@ -55,6 +55,9 @@ jobs:
         name: uhabits-android
         path: uhabits-android/build/outputs/
 
+    - name: Install flock
+      run: brew install util-linux
+
     - name: Run Android Tests
       run: ./build.sh android-tests ${{ matrix.api }}
 

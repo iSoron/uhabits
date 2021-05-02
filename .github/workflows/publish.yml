@@ -27,6 +27,9 @@ jobs:
       with:
         java-version: 1.8
 
+    - name: Install flock
+      run: brew install util-linux
+
     - name: Build APK & Run small tests
       env:
         RELEASE: 1
