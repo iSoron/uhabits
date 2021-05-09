@@ -26,7 +26,6 @@ task("updateTranslators") {
                 val name = entry["Name"]!!
                 if (!translators.containsKey(lang)) {
                     translators[lang] = mutableListOf()
-                    println(lang)
                 }
                 translators[lang]!!.add(name)
                 translators[lang]!!.sort()
@@ -87,7 +86,6 @@ task("updateTranslators") {
                 }
                 if (!translators.containsKey(lang)) {
                     translators[lang] = mutableListOf()
-                    println(lang)
                 }
                 if (translators[lang]!!.contains(name)) continue
                 translators[lang]!!.add(name)

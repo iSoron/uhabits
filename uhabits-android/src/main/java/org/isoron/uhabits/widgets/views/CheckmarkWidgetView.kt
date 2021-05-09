@@ -37,6 +37,7 @@ import org.isoron.uhabits.inject.HabitsApplicationComponent
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.isoron.uhabits.utils.StyledResources
+import kotlin.math.max
 import kotlin.math.min
 
 class CheckmarkWidgetView : HabitWidgetView {
@@ -95,7 +96,7 @@ class CheckmarkWidgetView : HabitWidgetView {
 
     private val text: String
         get() = if (isNumerical) {
-            (entryValue / 1000.0).toShortString()
+            (max(0, entryValue) / 1000.0).toShortString()
         } else when (entryState) {
             YES_MANUAL, YES_AUTO -> resources.getString(R.string.fa_check)
             SKIP -> resources.getString(R.string.fa_skipped)
@@ -130,7 +131,11 @@ class CheckmarkWidgetView : HabitWidgetView {
         val maxTextSize = getDimension(context, R.dimen.smallerTextSize)
         textSize = min(textSize, maxTextSize)
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-        ring.setTextSize(textSize)
+        if (isNumerical) {
+            ring.setTextSize(textSize * 0.75f)
+        } else {
+            ring.setTextSize(textSize)
+        }
         ring.setThickness(0.15f * textSize)
         super.onMeasure(newWidthMeasureSpec, newHeightMeasureSpec)
     }

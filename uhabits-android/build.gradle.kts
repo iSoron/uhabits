@@ -45,10 +45,24 @@ android {
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
     }
 
+    signingConfigs {
+        if (System.getenv("LOOP_KEY_ALIAS") != null) {
+            create("release") {
+                keyAlias = System.getenv("LOOP_KEY_ALIAS")
+                keyPassword = System.getenv("LOOP_KEY_PASSWORD")
+                storeFile = file(System.getenv("LOOP_KEY_STORE"))
+                storePassword = System.getenv("LOOP_STORE_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         getByName("release") {
             minifyEnabled(true)
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
+            if (signingConfigs.findByName("release") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
 
         getByName("debug") {

@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.1] - 2021-04-30
+## [2.0.1] - 2021-05-09
 
 ### Added
 - Make midnight delay optional and disabled by default (@hiqua)

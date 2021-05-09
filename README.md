@@ -111,18 +111,18 @@ contribute, even if you are not a software developer.
   You should have received a copy of the GNU General Public License along
   with this program. If not, see <http://www.gnu.org/licenses/>.
 
-[screen1]: screenshots/uhabits1.png
-[screen2]: screenshots/uhabits2.png
-[screen3]: screenshots/uhabits3.png
-[screen4]: screenshots/uhabits4.png
-[screen5]: screenshots/uhabits5.png
-[screen6]: screenshots/uhabits6.png
-[screen1th]: screenshots/uhabits1_th.png
-[screen2th]: screenshots/uhabits2_th.png
-[screen3th]: screenshots/uhabits3_th.png
-[screen4th]: screenshots/uhabits4_th.png
-[screen5th]: screenshots/uhabits5_th.png
-[screen6th]: screenshots/uhabits6_th.png
+[screen1]: screenshots/1.png
+[screen2]: screenshots/2.png
+[screen3]: screenshots/3.png
+[screen4]: screenshots/4.png
+[screen5]: screenshots/5.png
+[screen6]: screenshots/6.png
+[screen1th]: screenshots/1.thumb.png
+[screen2th]: screenshots/2.thumb.png
+[screen3th]: screenshots/3.thumb.png
+[screen4th]: screenshots/4.thumb.png
+[screen5th]: screenshots/5.thumb.png
+[screen6th]: screenshots/6.thumb.png
 [poedit]: http://translate.loophabits.org
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
