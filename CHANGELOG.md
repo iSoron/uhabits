@@ -4,6 +4,7 @@
 
 ### Fixed
 - Fix crash caused by numerical habits with zero target (#903)
+- Fix small issues with font size
 
 ## [2.0.1] - 2021-05-09
 

@@ -153,7 +153,7 @@ class CheckmarkButtonView(
                 paint.style = Paint.Style.FILL
             }
 
-            paint.textSize = when (value) {
+            paint.textSize = when (id) {
                 UNKNOWN -> dim(R.dimen.smallerTextSize)
                 else -> dim(R.dimen.smallTextSize)
             }
