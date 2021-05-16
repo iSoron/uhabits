@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.0.2] - Unreleased
+
+### Fixed
+- Fix crash caused by numerical habits with zero target (#903)
+
 ## [2.0.1] - 2021-05-09
 
 ### Added

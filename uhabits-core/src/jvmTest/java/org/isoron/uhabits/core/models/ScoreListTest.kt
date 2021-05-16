@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.models
 
+import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.number.IsCloseTo
 import org.hamcrest.number.OrderingComparison
@@ -119,6 +120,14 @@ class ScoreListTest : BaseUnitTest() {
             0.0
         )
         checkScoreValues(expectedValues)
+    }
+
+    @Test
+    fun test_withZeroTarget() {
+        habit = fixtures.createNumericalHabit()
+        habit.targetValue = 0.0
+        habit.recompute()
+        assertTrue(habit.scores[today].value.isFinite())
     }
 
     @Test
