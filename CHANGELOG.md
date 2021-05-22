@@ -3,9 +3,10 @@
 ## [2.0.2] - Unreleased
 
 ### Fixed
-- Fix crash caused by numerical habits with zero target (#903)
-- Fix small issues with font size
+- Fix crash caused by numerical habits with zero target (@iSoron, #903)
+- Fix small issues with font size (@iSoron)
 - Allow fractional target values (@sumanabhi, #911)
+- Fix IllegalStateException in androidx.customview.view (@iSoron, #906)
 
 ## [2.0.1] - 2021-05-09
 
