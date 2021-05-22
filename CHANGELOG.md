@@ -5,6 +5,7 @@
 ### Fixed
 - Fix crash caused by numerical habits with zero target (#903)
 - Fix small issues with font size
+- Allow fractional target values (@sumanabhi, #911)
 
 ## [2.0.1] - 2021-05-09
 
