@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.2] - Unreleased
+## [2.0.2] - 2021-05-23
 
 ### Changed
 - Make checkmark widget resizable
