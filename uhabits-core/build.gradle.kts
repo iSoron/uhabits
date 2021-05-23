@@ -67,3 +67,10 @@ kotlin {
         }
     }
 }
+
+tasks.named<org.gradle.language.jvm.tasks.ProcessResources>("jvmProcessResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+tasks.named<org.gradle.language.jvm.tasks.ProcessResources>("jvmTestProcessResources") {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}

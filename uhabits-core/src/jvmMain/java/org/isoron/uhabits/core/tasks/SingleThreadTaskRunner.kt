@@ -31,7 +31,7 @@ class SingleThreadTaskRunner : TaskRunner {
 
     override fun execute(task: Task) {
         for (l in listeners) l.onTaskStarted(task)
-        if (!task.isCanceled) {
+        if (!task.isCanceled()) {
             task.onAttached(this)
             task.onPreExecute()
             task.doInBackground()

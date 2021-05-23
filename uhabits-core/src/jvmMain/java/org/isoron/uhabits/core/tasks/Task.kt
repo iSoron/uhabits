@@ -20,9 +20,7 @@ package org.isoron.uhabits.core.tasks
 
 fun interface Task {
     fun cancel() {}
-    val isCanceled: Boolean
-        get() = false
-
+    fun isCanceled() = false
     fun doInBackground()
     fun onAttached(runner: TaskRunner) {}
     fun onPostExecute() {}
