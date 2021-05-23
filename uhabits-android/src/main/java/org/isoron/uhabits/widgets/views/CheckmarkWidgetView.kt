@@ -120,14 +120,7 @@ class CheckmarkWidgetView : HabitWidgetView {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
-        var w = width.toFloat()
-        var h = width * 1.25f
-        val scale = min(width / w, height / h)
-        w *= scale
-        h *= scale
-        val newWidthMeasureSpec = MeasureSpec.makeMeasureSpec(w.toInt(), MeasureSpec.EXACTLY)
-        val newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(h.toInt(), MeasureSpec.EXACTLY)
-        var textSize = 0.15f * h
+        var textSize = 0.15f * height
         val maxTextSize = getDimension(context, R.dimen.smallerTextSize)
         textSize = min(textSize, maxTextSize)
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
@@ -137,7 +130,7 @@ class CheckmarkWidgetView : HabitWidgetView {
             ring.setTextSize(textSize)
         }
         ring.setThickness(0.15f * textSize)
-        super.onMeasure(newWidthMeasureSpec, newHeightMeasureSpec)
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 
     private fun init() {
