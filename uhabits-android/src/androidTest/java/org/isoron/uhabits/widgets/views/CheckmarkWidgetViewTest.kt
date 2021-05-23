@@ -50,7 +50,7 @@ class CheckmarkWidgetViewTest : BaseViewTest() {
             name = habit.name
         }
         view.refresh()
-        measureView(view, dpToPixels(100), dpToPixels(200))
+        measureView(view, dpToPixels(100), dpToPixels(125))
     }
 
     @Test

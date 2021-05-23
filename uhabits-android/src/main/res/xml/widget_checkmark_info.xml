@@ -23,7 +23,7 @@
                     android:minWidth="40dp"
                     android:initialLayout="@layout/widget_wrapper"
                     android:previewImage="@drawable/widget_preview_checkmark"
-                    android:resizeMode="none"
+                    android:resizeMode="vertical|horizontal"
                     android:updatePeriodMillis="3600000"
                     android:configure="org.isoron.uhabits.widgets.activities.HabitPickerDialog"
                     android:widgetCategory="home_screen">

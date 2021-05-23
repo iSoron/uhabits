@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop Gewoonte tracker</string>
     <string name="main_activity_title">Gewoontes</string>
     <string name="action_settings">Instellingen</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">Nieuwe gewoonte</string>
     <string name="color_picker_default_title">Verander kleur</string>
     <string name="toast_habit_created">Gewoonte aangemaakt.</string>
-    <string name="toast_habit_deleted">Gewoontes verwijderd</string>
-    <string name="toast_habit_changed">Gewoonte gewijzigd.</string>
-    <string name="toast_habit_archived">Gewoontes gearchiveerd</string>
-    <string name="toast_habit_unarchived">Gewoontes hersteld uit archief</string>
     <string name="overview">Overzicht</string>
     <string name="habit_strength">Gewoonte-sterkte</string>
     <string name="history">Geschiedenis</string>
     <string name="clear">Wis</string>
-    <string name="days">dagen</string>
     <string name="reminder">Herinnering</string>
     <string name="save">Opslaan</string>
     <string name="streaks">Reeksen</string>
@@ -64,20 +59,16 @@
     <string name="interval_custom">Aangepast...</string>
     <string name="pref_toggle_title">Wijzig herhalingen door kort indrukken</string>
     <string name="pref_toggle_description">Zet vinkjes met een enkel tikje in plaats van ingedrukt houden. Handiger, maar kan onbedoelde wijzigingen veroorzaken.</string>
-    <string name="pref_snooze_interval_title">Snooze interval voor herinneringen</string>
     <string name="pref_rate_this_app">Beoordeel deze app in Google Play</string>
     <string name="pref_send_feedback">Stuur feedback aan de ontwikkelaar</string>
     <string name="pref_view_source_code">Bekijk de broncode op GitHub</string>
     <string name="links">Links</string>
     <string name="name">Naam</string>
     <string name="settings">Instellingen</string>
-    <string name="snooze_interval">Snooze interval</string>
     <string name="select_snooze_delay">Snooze vertraging selecteren</string>
     <string name="hint_title">Wist je dat?</string>
     <string name="hint_drag">Om de rijen te ordenen, houdt de gewoonte ingedrukt en sleep het naar de gewenste plek.</string>
     <string name="hint_landscape">Je kunt meer dagen zien door de telefoon in horizontale modus te zetten.</string>
-    <string name="delete_habits">Verwijder gewoontes</string>
-    <string name="delete_habits_message">De gewoontes zullen permanent verwijderd worden. Deze actie kan niet ongedaan gemaakt worden.</string>
     <string name="habit_not_found">Gewoonte verwijderd / niet gevonden</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Maandag tot vrijdag</string>
@@ -111,7 +102,7 @@
     <string name="generate_bug_report">Genereer foutenrapport</string>
     <string name="troubleshooting">Probleemoplossing</string>
     <string name="help_translate">Help deze app te vertalen</string>
-    <string name="night_mode">Nachtmodus</string>
+    <string name="night_mode" comment="dark_theme">Nachtmodus</string>
     <string name="use_pure_black">Gebruik puur zwart bij nachtmodus</string>
     <string name="pure_black_description">Vervangt grijze achtergronden door puur zwart in nachtmodus. Vermindert batterijgebruik bij telefoons met AMOLED scherm.</string>
     <string name="interface_preferences">Interface</string>
@@ -170,15 +161,14 @@
     <string name="example_notes">(Optioneel)</string>
     <string name="yes_or_no_example">bijv. Ben je vandaag vroeg wakker geworden? Heb je gesport? Heb je geschaakt?</string>
     <string name="measurable">Meetbaar</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">bijv. Hoeveel kilometer heb je vandaag hardgelopen? Hoeveel pagina\'s heb je gelezen? Hoeveel calorieën heb je gegeten?</string>
     <string name="x_times_per_week">%d keer per week</string>
     <string name="x_times_per_month">%d keer per maand</string>
     <string name="yes_or_no_short_example">bijv. Sporten</string>
     <string name="color">Kleur</string>
     <string name="example_target">bijv. 15</string>
     <string name="measurable_short_example">bijv. Hardlopen</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">bijv. Hoeveel kilometer heb je vandaag hardgelopen?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">bijv. kilometers</string>
+    <string name="measurable_question_example">bijv. Hoeveel kilometer heb je vandaag hardgelopen?</string>
+    <string name="measurable_units_example">bijv. kilometers</string>
     <string name="every_month">Elke maand</string>
     <string name="validation_cannot_be_blank">Mag niet leeg zijn</string>
     <string name="today">Vandaag</string>

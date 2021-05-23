@@ -130,7 +130,7 @@
     <string name="generate_bug_report">Membuat laporan masalah</string>
     <string name="troubleshooting">Troubleshoot</string>
     <string name="help_translate">Bantu menerjemahkan aplikasi ini</string>
-    <string name="night_mode">Mode malam</string>
+    <string name="night_mode" comment="dark_theme">Mode malam</string>
     <string name="use_pure_black">Gunakan warna hitam pekat pada mode malam</string>
     <string name="pure_black_description">Ganti warna latar abu-abu dengan warna hitam pada mode malam. Mengurangi penggunaan baterai pada layar AMOLED.</string>
     <string name="interface_preferences">Antarmuka</string>

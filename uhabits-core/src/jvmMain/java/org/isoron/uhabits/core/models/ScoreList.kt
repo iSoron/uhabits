@@ -22,6 +22,7 @@ import org.isoron.uhabits.core.models.Score.Companion.compute
 import java.util.ArrayList
 import java.util.HashMap
 import javax.annotation.concurrent.ThreadSafe
+import kotlin.math.max
 import kotlin.math.min
 
 @ThreadSafe
@@ -93,11 +94,15 @@ class ScoreList {
         for (i in values.indices) {
             val offset = values.size - i - 1
             if (isNumerical) {
-                rollingSum += values[offset]
+                rollingSum += max(0, values[offset])
                 if (offset + denominator < values.size) {
                     rollingSum -= values[offset + denominator]
                 }
-                val percentageCompleted = min(1.0, rollingSum / 1000 / targetValue)
+                val percentageCompleted = if (targetValue > 0) {
+                    min(1.0, rollingSum / 1000 / targetValue)
+                } else {
+                    1.0
+                }
                 previousValue = compute(freq, previousValue, percentageCompleted)
             } else {
                 if (values[offset] == Entry.YES_MANUAL) {

@@ -30,7 +30,7 @@ jobs:
   AndroidTest:
     needs: Build
     runs-on: macOS-10.15
-    timeout-minutes: 45
+    timeout-minutes: 60
     strategy:
       matrix:
         api: [

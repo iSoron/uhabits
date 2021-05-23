@@ -136,6 +136,7 @@ class BarChart(
             canvas.drawLine(0.0, y, width, y)
             canvas.setColor(theme.mediumContrastTextColor)
             canvas.setTextAlign(TextAlign.CENTER)
+            canvas.setFontSize(theme.smallTextSize)
             var prevMonth = -1
             var prevYear = -1
             val isLargeInterval = axis.size < 2 || (axis[0].distanceTo(axis[1]) > 300)

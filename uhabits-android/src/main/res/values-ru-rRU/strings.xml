@@ -139,7 +139,7 @@
     <string name="generate_bug_report">Сгенерировать отчёт об ошибке</string>
     <string name="troubleshooting">Устранение неполадок</string>
     <string name="help_translate">Помогите перевести это приложение</string>
-    <string name="night_mode">Ночной режим</string>
+    <string name="night_mode" comment="dark_theme">Ночной режим</string>
     <string name="use_pure_black">Использовать подлинный чёрный в ночном режиме</string>
     <string name="pure_black_description">Заменяет серый фон на подлинный чёрный в ночном режиме. Сокращает расход батареи в телефонах с дисплеем AMOLED.</string>
     <string name="interface_preferences">Интерфейс</string>

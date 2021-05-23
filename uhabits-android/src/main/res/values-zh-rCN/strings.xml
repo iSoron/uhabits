@@ -121,7 +121,7 @@
     <string name="generate_bug_report">生成错误报告</string>
     <string name="troubleshooting">故障排除</string>
     <string name="help_translate">帮助翻译这个应用</string>
-    <string name="night_mode">夜间模式</string>
+    <string name="night_mode" comment="dark_theme">深色主题</string>
     <string name="use_pure_black">在夜间模式中使用纯黑色</string>
     <string name="pure_black_description">以纯黑色背景代替夜间模式中的灰色背景。
 这可以降低 AMOLED 屏幕手机的耗电量。</string>

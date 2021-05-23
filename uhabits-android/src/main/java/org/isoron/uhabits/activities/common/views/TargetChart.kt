@@ -117,7 +117,11 @@ class TargetChart : View {
         barRect[rect.left + stop + padding, rect.top + baseSize * 0.05f, rect.right - padding] =
             rect.bottom - baseSize * 0.05f
         canvas.drawRoundRect(barRect, round, round, paint!!)
-        var percentage = (values[row] / targets[row]).toFloat()
+        var percentage = if (targets[row] > 0) {
+            (values[row] / targets[row]).toFloat()
+        } else {
+            1.0f
+        }
         percentage = min(1.0f, percentage)
 
         // Draw completed box

@@ -107,7 +107,7 @@
     <string name="select_weekdays">Избор дана</string>
     <string name="export_to_csv">Извези као CSV</string>
     <string name="done_label">Завршено</string>
-    <string name="clear_label">Очисти</string>
+    <string name="clear_label">Обриши</string>
     <string name="select_hours">Избор часова</string>
     <string name="select_minutes">Избор минута</string>
     <string name="about">О програму</string>
@@ -133,7 +133,7 @@
     <string name="generate_bug_report">Направи извештај о грешци</string>
     <string name="troubleshooting">Решавање проблема</string>
     <string name="help_translate">Помозите превођење</string>
-    <string name="night_mode">Тамна тема</string>
+    <string name="night_mode" comment="dark_theme">Тамна тема</string>
     <string name="use_pure_black">Чиста црна у тамној теми</string>
     <string name="pure_black_description">Мења сиву позадину са чистом црном у тамној теми. Смањује потрошњу батерије код телефона са АМОЛЕД екраном.</string>
     <string name="interface_preferences">Сучеље</string>
