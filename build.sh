@@ -286,7 +286,7 @@ main() {
                 _print_usage
                 exit 1
             fi
-            for attempt in {1..3}; do
+            for attempt in {1..5}; do
                 log_info "Running Android tests (attempt $attempt)..."
                 android_test $1 && return 0
             done
