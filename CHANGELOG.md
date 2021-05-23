@@ -7,6 +7,7 @@
 - Fix small issues with font size (@iSoron)
 - Allow fractional target values (@sumanabhi, #911)
 - Fix IllegalStateException in androidx.customview.view (@iSoron, #906)
+- Fix crash when selecting habit frequency in some languages (@iSoron, #926)
 
 ## [2.0.1] - 2021-05-09
 

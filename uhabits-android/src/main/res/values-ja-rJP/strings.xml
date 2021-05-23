@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">ループ習慣トラッカー</string>
     <string name="main_activity_title">習慣</string>
     <string name="action_settings">設定</string>
@@ -28,19 +28,24 @@
     <string name="add_habit">習慣を追加</string>
     <string name="color_picker_default_title">色の変更</string>
     <string name="toast_habit_created">習慣を作成しました</string>
-    <string name="toast_habit_deleted">習慣を削除しました</string>
-    <string name="toast_habit_changed">習慣を変更しました</string>
-    <string name="toast_habit_archived">習慣をアーカイブしました</string>
-    <string name="toast_habit_unarchived">習慣のアーカイブを解除しました</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="other">習慣を変更しました</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="other">習慣を削除しました</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="other">習慣をアーカイブしました</item>
+    </plurals>
     <string name="overview">概要</string>
     <string name="habit_strength">習慣の強さ</string>
     <string name="history">履歴</string>
     <string name="clear">クリア</string>
-    <string name="days">日</string>
     <string name="reminder">リマインダー</string>
     <string name="save">保存</string>
     <string name="streaks">連続記録</string>
     <string name="no_habits_found">習慣はありません</string>
+    <string name="no_habits_left_to_do">今日は終わり！</string>
     <string name="long_press_to_toggle">長押しするとチェックを付けたり外したりできます</string>
     <string name="reminder_off">オフ</string>
     <string name="create_habit">習慣を作成</string>
@@ -64,20 +69,22 @@
     <string name="interval_custom">カスタム...</string>
     <string name="pref_toggle_title">タップでチェックをON/OFF</string>
     <string name="pref_toggle_description">長押しではなくシングルタップでチェックを付けます。より便利ですが、誤って切り替えが起こる可能性があります。</string>
-    <string name="pref_snooze_interval_title">リマインダーのスヌーズ間隔</string>
     <string name="pref_rate_this_app">Google Play でこのアプリを評価</string>
     <string name="pref_send_feedback">開発者にフィードバックを送信</string>
     <string name="pref_view_source_code">GitHub でソースコードを参照</string>
     <string name="links">リンク</string>
     <string name="name">タイトル</string>
     <string name="settings">設定</string>
-    <string name="snooze_interval">スヌーズ間隔</string>
     <string name="select_snooze_delay">スヌーズの遅延時間を設定</string>
     <string name="hint_title">ご存知ですか?</string>
     <string name="hint_drag">エントリーを並べ替えるには、習慣の名前を長押しして、正しい場所にドラッグしてください。</string>
     <string name="hint_landscape">お使いの携帯電話を横置きモードにすることで、より多くの日数を見ることができます。</string>
-    <string name="delete_habits">習慣を削除</string>
-    <string name="delete_habits_message">習慣は完全に削除されます。この操作を元に戻すことはできません。</string>
+    <plurals name="delete_habits_title">
+        <item quantity="other">習慣を削除</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="other">習慣は完全に削除されます。この操作を元に戻すことはできません。</item>
+    </plurals>
     <string name="habit_not_found">習慣が削除されているか、見つかりませんでした</string>
     <string name="weekends">週末</string>
     <string name="any_weekday">月曜日から金曜日</string>
@@ -111,7 +118,7 @@
     <string name="generate_bug_report">バグレポートの作成</string>
     <string name="troubleshooting">トラブルシューティング</string>
     <string name="help_translate">このアプリの翻訳を支援する</string>
-    <string name="night_mode">ダークテーマ</string>
+    <string name="night_mode" comment="dark_theme">ダークテーマ</string>
     <string name="use_pure_black">ダークテーマで完全な黒を使用する</string>
     <string name="pure_black_description">夜間モードで灰色の背景を完全な黒で置き換えます。AMOLED ディスプレイの電話でバッテリー使用量を抑えます。</string>
     <string name="interface_preferences">インターフェース</string>
@@ -147,6 +154,7 @@
     <string name="by_name">名前で並び替え</string>
     <string name="by_color">色で並び替え</string>
     <string name="by_score">得点で並び替え</string>
+    <string name="by_status">ステータス順</string>
     <string name="export">エクスポート</string>
     <string name="long_press_to_edit">長押しすると値を変更できます</string>
     <string name="change_value">値を変更する</string>
@@ -170,16 +178,17 @@
     <string name="example_notes">（省略可）</string>
     <string name="yes_or_no_example">例：今日は早く起きましたか？運動しましたか？チェスをしましたか？</string>
     <string name="measurable">数えられるもの</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">例：今日は何km走りましたか? 何ページ本を読みましたか? 何kcal食べましたか?</string>
+    <string name="measurable_example">例：今日は何キロ走ったの？何ページ読んだの？</string>
     <string name="x_times_per_week">1 週間に %d 回</string>
     <string name="x_times_per_month">1 か月に %d 回</string>
     <string name="yes_or_no_short_example">例：運動</string>
     <string name="color">色</string>
     <string name="example_target">例：15</string>
     <string name="measurable_short_example">例：ランニング</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">例：今日は何km走りましたか?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">例：km</string>
+    <string name="measurable_question_example">例：今日は何km走りましたか?</string>
+    <string name="measurable_units_example">例：km</string>
     <string name="every_month">毎月</string>
     <string name="validation_cannot_be_blank">空白にはできません</string>
     <string name="today">今日</string>
+    <string name="no_habits">習慣が見つかりませんでした</string>
 </resources>

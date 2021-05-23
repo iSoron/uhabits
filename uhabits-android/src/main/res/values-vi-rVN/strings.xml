@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Trình theo dõi thói quen Loop</string>
     <string name="main_activity_title">Thói quen</string>
     <string name="action_settings">Cài đặt</string>
@@ -28,19 +28,27 @@
     <string name="add_habit">Thêm thói quen</string>
     <string name="color_picker_default_title">Thay đổi màu sắc</string>
     <string name="toast_habit_created">Thói quen đã được tạo</string>
-    <string name="toast_habit_deleted">Thói quen đã bị xóa</string>
-    <string name="toast_habit_changed">Thói quen đã được thay đổi</string>
-    <string name="toast_habit_archived">Thói quen đã được lưu trữ</string>
-    <string name="toast_habit_unarchived">Thói quen đã bị huỷ lưu trữ</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="other">Thói quen đã được thay đổi</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="other">Thói quen đã bị xóa</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="other">Thói quen đã được lưu trữ</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="other">Thói quen đã bị huỷ lưu trữ</item>
+    </plurals>
     <string name="overview">Tổng quan</string>
     <string name="habit_strength">Độ mạnh của thói quen</string>
     <string name="history">Lịch sử</string>
     <string name="clear">Xoá</string>
-    <string name="days">ngày</string>
     <string name="reminder">Nhắc nhở</string>
     <string name="save">Lưu</string>
     <string name="streaks">Mức độ</string>
     <string name="no_habits_found">Bạn có không có thói quen nào đang hoạt động</string>
+    <string name="no_habits_left_to_do">Bạn đã xong tất cả cho ngày hôm nay!</string>
     <string name="long_press_to_toggle">Nhấn giữ để đánh dấu hoặc bỏ đánh dấu</string>
     <string name="reminder_off">Tắt</string>
     <string name="create_habit">Tạo thói quen</string>
@@ -64,20 +72,22 @@
     <string name="interval_custom">Tùy chỉnh...</string>
     <string name="pref_toggle_title">Bấm nhanh để chuyển trạng thái</string>
     <string name="pref_toggle_description">Chỉ cần chạm một lần để đánh dấu thay cho việc nhấn giữ. Tiện lợi hơn nhưng có thể đánh dấu sai.</string>
-    <string name="pref_snooze_interval_title">Khoảng thời gian báo lại lời nhắc</string>
     <string name="pref_rate_this_app">Đánh giá ứng dụng trên Google Play</string>
     <string name="pref_send_feedback">Gửi phản hồi cho nhà phát triển</string>
     <string name="pref_view_source_code">Xem mã nguồn trên Github</string>
     <string name="links">Liên kết</string>
     <string name="name">Tên</string>
     <string name="settings">Cài đặt</string>
-    <string name="snooze_interval">Khoảng thời gian tạm dừng</string>
     <string name="select_snooze_delay">Chọn độ trễ báo lại</string>
-    <string name="hint_title">Bạn đã biết?</string>
+    <string name="hint_title">Bạn có biết?</string>
     <string name="hint_drag">Để sắp xếp lại các mục, nhấn giữ tên thói quen, sau đó kéo tới vị trí chính xác.</string>
     <string name="hint_landscape">Bạn có thể xoay ngang điện thoại để xem được nhiều ngày hơn.</string>
-    <string name="delete_habits">Xoá bỏ thói quen</string>
-    <string name="delete_habits_message">Thói quen sẽ bị xoá vĩnh viễn. Hành động này không thể khôi phục.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="other">Xoá thói quen?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="other">Thói quen sẽ bị xoá vĩnh viễn. Hành động này không thể được hoàn tác.</item>
+    </plurals>
     <string name="habit_not_found">Thói quen đã bị xoá hoặc không tìm thấy</string>
     <string name="weekends">Cuối tuần</string>
     <string name="any_weekday">Thứ hai đến thứ sáu</string>
@@ -94,24 +104,24 @@
     <string name="version_n">Phiên bản %s</string>
     <string name="frequency">Tần suất</string>
     <string name="checkmark">Đánh dấu</string>
-    <string name="best_streaks">Duy trì lâu nhất</string>
+    <string name="best_streaks">Chuỗi dài nhất</string>
     <string name="every_day">Hàng ngày</string>
     <string name="every_week">Hàng tuần</string>
     <string name="help">Trợ giúp &amp; Câu hỏi</string>
     <string name="could_not_export">Xuất dữ liệu thất bại.</string>
     <string name="could_not_import">Nhập dữ liệu thất bại.</string>
-    <string name="file_not_recognized">Không xác nhận được file.</string>
+    <string name="file_not_recognized">Không nhận ra được tệp.</string>
     <string name="habits_imported">Thói quen được nhập thành công.</string>
     <string name="import_data">Nhập dữ liệu</string>
-    <string name="export_full_backup">Xuất toàn bộ sao lưu</string>
+    <string name="export_full_backup">Xuất bản sao lưu đầy đủ</string>
     <string name="import_data_summary">Hỗ trợ các bản sao lưu đầy đủ được xuất ra bởi ứng dụng, cũng như các file được tạo bởi Tickmate, HabitBull hoặc Rewire. Xem FAQ để biết thêm thông tin.</string>
-    <string name="export_as_csv_summary">Các file tạo ra có thể mở bằng các phần mềm bảng tính như Microsoft Excel hoặc OpenOffice Calc. Nhưng file này không thể nhập lại.</string>
+    <string name="export_as_csv_summary">Tạo ra các tệp có thể được mở bằng các phần mềm bảng tính như Microsoft Excel hoặc OpenOffice Calc. Tệp này không thể được nhập lại.</string>
     <string name="export_full_backup_summary">Tạo ra một tệp chứa tất cả dữ liệu của bạn. Tệp này có thể nhập lại.</string>
     <string name="bug_report_failed">Tạo báo cáo về lỗi.</string>
     <string name="generate_bug_report">Tạo báo cáo lỗi</string>
     <string name="troubleshooting">Xử lí sự cố</string>
     <string name="help_translate">Giúp dịch ứng dụng</string>
-    <string name="night_mode">Chế độ ban đêm</string>
+    <string name="night_mode" comment="dark_theme">Chế độ ban đêm</string>
     <string name="use_pure_black">Sử dụng màu đen thuần trong chế độ ban đêm</string>
     <string name="pure_black_description">Thay thế nền màu xám bởi màu đen thuần trong chế độ ban đêm. Giảm thiểu việc sử dụng pin của điện thoại có màn hình AMOLED.</string>
     <string name="interface_preferences">Giao diện</string>
@@ -147,6 +157,7 @@
     <string name="by_name">Theo tên</string>
     <string name="by_color">Theo màu sắc</string>
     <string name="by_score">Theo điểm số</string>
+    <string name="by_status">Theo trạng thái</string>
     <string name="export">Xuất dữ liệu ra</string>
     <string name="long_press_to_edit">Nhấn và giữ để thay đổi giá trị</string>
     <string name="change_value">Thay đổi giá trị</string>
@@ -170,16 +181,30 @@
     <string name="example_notes">(Không bắt buộc)</string>
     <string name="yes_or_no_example">Ví dụ: Hôm nay bạn có dậy sớm không? Bạn có tập thể dục? Bạn có chơi cờ vua không?</string>
     <string name="measurable">Có thể đo lường</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">Ví dụ như bạn chạy bao nhiêu dặm ngày hôm nay? Bạn đã đọc bao nhiêu trang sách? Bạn đã ăn bao nhiêu calo?</string>
+    <string name="measurable_example">Ví dụ: Hôm nay bạn đã chạy bao nhiêu dặm? Bạn đã đọc bao nhiêu trang?</string>
     <string name="x_times_per_week">%d lần mỗi tuần</string>
     <string name="x_times_per_month">%d lần mỗi tháng</string>
     <string name="yes_or_no_short_example">Ví dụ: Tập thể dục</string>
     <string name="color">Màu sắc</string>
     <string name="example_target">Ví dụ: 15</string>
     <string name="measurable_short_example">Ví dụ: Chạy</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">Ví dụ: Bao nhiêu dặm bạn đã chạy ngày hôm nay?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">Ví dụ: Dặm</string>
+    <string name="measurable_question_example">Ví dụ: Bao nhiêu dặm bạn đã chạy ngày hôm nay?</string>
+    <string name="measurable_units_example">Ví dụ: Dặm</string>
     <string name="every_month">Hàng tháng</string>
     <string name="validation_cannot_be_blank">Không thể để trống</string>
     <string name="today">Hôm nay</string>
+    <string name="enter">Nhập</string>
+    <string name="no_habits">Không tìm thấy thói quen nào</string>
+    <string name="no_numerical_habits">Không tìm thấy thói quen có thể đo lường nào</string>
+    <string name="no_boolean_habits">Không tìm thấy thói quen có hoặc không nào</string>
+    <string name="increment">Tăng lên</string>
+    <string name="decrement">Giảm xuống</string>
+    <string name="pref_skip_title">Bật bỏ qua ngày</string>
+    <string name="pref_skip_description">Bật/tắt hai lần để thêm một lần bỏ qua thay vì dấu kiểm. Bỏ qua giữ cho số điểm của bạn không thay đổi và không phá vỡ chuỗi của bạn.</string>
+    <string name="pref_unknown_title">Hiện dấu hỏi cho dữ liệu bị thiếu</string>
+    <string name="pref_unknown_description">Phân biệt những ngày không có dữ liệu với những lần trôi đi thực tế. Để nhập một lần trôi đi, hãy bật/tắt hai lần.</string>
+    <string name="you_are_now_a_developer">Bạn đã là nhà phát triển</string>
+    <string name="activity_not_found">Không tìm thấy ứng dụng nào để hỗ trợ hành động này</string>
+    <string name="pref_midnight_delay_title">Kéo dài ngày thêm một vài giờ sau nửa đêm</string>
+    <string name="pref_midnight_delay_description">Chờ đến 3:00 sáng để hiện một ngày mới. Rất hữu ích nếu bạn thường đi ngủ sau nửa đêm. Yêu cầu khởi động lại ứng dụng.</string>
 </resources>

@@ -56,7 +56,7 @@
     <string name="check">标记</string>
     <string name="snooze">稍后提醒</string>
     <string name="intro_title_1">欢迎</string>
-    <string name="intro_description_1">Loop 习惯追踪器能帮你养成和保持好习惯。</string>
+    <string name="intro_description_1">Loop 习惯记录能帮你养成和保持好习惯。</string>
     <string name="intro_title_2">养成一些新习惯</string>
     <string name="intro_description_2">每当你完成一项习惯后，就在应用上做一个标记</string>
     <string name="intro_title_4">记录你的进步</string>
@@ -72,7 +72,7 @@
     <string name="interval_custom">自定义</string>
     <string name="pref_toggle_title">轻触以启动重复</string>
     <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
-    <string name="pref_rate_this_app">去Play商店评价这个应用</string>
+    <string name="pref_rate_this_app">去 Play 商店评价这个应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
     <string name="pref_view_source_code">在 GitHub 上查看源代码</string>
     <string name="links">链接</string>
@@ -121,7 +121,7 @@
     <string name="generate_bug_report">生成错误报告</string>
     <string name="troubleshooting">故障排除</string>
     <string name="help_translate">帮助翻译这个应用</string>
-    <string name="night_mode">夜间模式</string>
+    <string name="night_mode" comment="dark_theme">深色主题</string>
     <string name="use_pure_black">在夜间模式中使用纯黑色</string>
     <string name="pure_black_description">以纯黑色背景代替夜间模式中的灰色背景。
 这可以降低 AMOLED 屏幕手机的耗电量。</string>
@@ -155,16 +155,16 @@
     <string name="habit">习惯</string>
     <string name="sort">排序</string>
     <string name="manually">手动</string>
-    <string name="by_name">根据名称</string>
-    <string name="by_color">根据颜色</string>
-    <string name="by_score">根据分数</string>
+    <string name="by_name">按名称</string>
+    <string name="by_color">按颜色</string>
+    <string name="by_score">按分数</string>
     <string name="by_status">按状态</string>
     <string name="export">导出</string>
     <string name="long_press_to_edit">长按可更改值</string>
     <string name="change_value">更改值</string>
     <string name="calendar">日历</string>
     <string name="unit">单位</string>
-    <string name="example_question_boolean">例如：您今天锻炼了吗？</string>
+    <string name="example_question_boolean">例如：你今天锻炼了吗？</string>
     <string name="question">问题</string>
     <string name="target">目标</string>
     <string name="yes">是</string>
@@ -172,17 +172,17 @@
     <string name="customize_notification_summary">更改声音、振动、灯光和其他通知设置</string>
     <string name="customize_notification">自定义通知</string>
     <string name="pref_view_privacy">查看隐私政策</string>
-    <string name="view_all_contributors">查看所有贡献者&#8230;</string>
-    <string name="database">资料库</string>
-    <string name="widget_opacity_title">部件不透明度</string>
-    <string name="widget_opacity_description">使小部件在主屏幕上更加透明或更加不透明。</string>
+    <string name="view_all_contributors">查看所有贡献者</string>
+    <string name="database">数据库</string>
+    <string name="widget_opacity_title">微件不透明度</string>
+    <string name="widget_opacity_description">使微件在主屏幕上更加透明或更加不透明。</string>
     <string name="first_day_of_the_week">一周的起始日</string>
     <string name="default_reminder_question">你今天养成这个习惯了吗？</string>
     <string name="notes">备注</string>
-    <string name="example_notes">(可选)</string>
-    <string name="yes_or_no_example">例如，你今天早起吗？ 你运动了吗？ 你下国际象棋了吗？</string>
-    <string name="measurable">可计量的</string>
-    <string name="measurable_example">例如，今天你跑了几公里？你阅读了几页书？</string>
+    <string name="example_notes">（可选）</string>
+    <string name="yes_or_no_example">例如：你今天早起了吗？你锻炼了吗？你下棋了吗？</string>
+    <string name="measurable">可量化的</string>
+    <string name="measurable_example">例如：今天你跑了几公里？你阅读了几页书？</string>
     <string name="x_times_per_week">每周 %d 次</string>
     <string name="x_times_per_month">每月 %d 次</string>
     <string name="yes_or_no_short_example">例如：锻炼</string>
@@ -196,8 +196,8 @@
     <string name="today">今日</string>
     <string name="enter">输入</string>
     <string name="no_habits">找不到习惯</string>
-    <string name="no_numerical_habits">找不到可测量的习惯。</string>
-    <string name="no_boolean_habits">没有找到“是或不是”的习惯</string>
+    <string name="no_numerical_habits">找不到可量化的习惯</string>
+    <string name="no_boolean_habits">找不到“是或不是”类的习惯</string>
     <string name="increment">增量</string>
     <string name="decrement">减量</string>
     <string name="pref_skip_title">启用跳过天数</string>
@@ -205,7 +205,7 @@
     <string name="pref_unknown_title">对丢失的数据显示问号</string>
     <string name="pref_unknown_description">区分没有数据和实际犯错的日子。要输一个过失，请切换两次。</string>
     <string name="you_are_now_a_developer">你现在是一个开发者！</string>
-    <string name="activity_not_found">没有找到支持此操作的应用</string>
+    <string name="activity_not_found">找不到支持此操作的应用</string>
     <string name="pref_midnight_delay_title">将一天延长到午夜过后几个小时</string>
     <string name="pref_midnight_delay_description">等到凌晨3点再展现新的一天。如果你通常在午夜后入睡，这很有用。需要重新启动应用程序。</string>
 </resources>

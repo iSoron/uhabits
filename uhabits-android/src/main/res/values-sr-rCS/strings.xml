@@ -133,7 +133,7 @@
     <string name="generate_bug_report">Napravi izveštaj o grešci</string>
     <string name="troubleshooting">Rešavanje problema</string>
     <string name="help_translate">Pomozite prevođenje</string>
-    <string name="night_mode">Tamna tema</string>
+    <string name="night_mode" comment="dark_theme">Tamna tema</string>
     <string name="use_pure_black">Čista crna u tamnoj temi</string>
     <string name="pure_black_description">Menja sivu pozadinu sa čistom crnom u tamnoj temi. Smanjuje potrošnju baterije kod telefona sa AMOLED ekranom.</string>
     <string name="interface_preferences">Sučelje</string>

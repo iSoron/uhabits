@@ -148,7 +148,7 @@
     <string name="generate_bug_report">Створити звіт про помилку</string>
     <string name="troubleshooting">Усунення несправностей</string>
     <string name="help_translate">Допоможіть перекласти цю програму</string>
-    <string name="night_mode">Нічний режим</string>
+    <string name="night_mode" comment="dark_theme">Нічний режим</string>
     <string name="use_pure_black">Користати цілком чорне тло у нічному режимі</string>
     <string name="pure_black_description">Замінює сіре тло на цілком чорне у нічному режимі. Зменшує використання батареї в телефонах із дисплеєм AMOLED.</string>
     <string name="interface_preferences">Оболонка</string>

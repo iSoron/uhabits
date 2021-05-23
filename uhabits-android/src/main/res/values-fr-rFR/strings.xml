@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop - Suivi d\'habitudes</string>
     <string name="main_activity_title">Habitudes</string>
     <string name="action_settings">Paramètres</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">Ajouter une habitude</string>
     <string name="color_picker_default_title">Changer la couleur</string>
     <string name="toast_habit_created">Habitude créée</string>
-    <string name="toast_habit_deleted">Habitudes supprimées</string>
-    <string name="toast_habit_changed">Habitude changée</string>
-    <string name="toast_habit_archived">Habitudes archivées</string>
-    <string name="toast_habit_unarchived">Habitudes désarchivées</string>
     <string name="overview">Vue d\'ensemble</string>
     <string name="habit_strength">Force de l\'habitude</string>
     <string name="history">Historique</string>
     <string name="clear">Supprimer</string>
-    <string name="days">jours</string>
     <string name="reminder">Rappel</string>
     <string name="save">Sauvegarder</string>
     <string name="streaks">Séries</string>
@@ -64,20 +59,16 @@
     <string name="interval_custom">Personnaliser...</string>
     <string name="pref_toggle_title">Valider l\'habitude avec un appui court</string>
     <string name="pref_toggle_description">Valide l\'habitude avec un appui court plutôt qu\'un appuie long. Plus pratique, mais peut causer des activations accidentelles.</string>
-    <string name="pref_snooze_interval_title">Intervalle de report des rappels</string>
     <string name="pref_rate_this_app">Notez cette app sur le Google Play Store</string>
     <string name="pref_send_feedback">Envoyez un avis au développeur</string>
     <string name="pref_view_source_code">Voir le code source sur GitHub</string>
     <string name="links">Liens</string>
     <string name="name">Nom</string>
     <string name="settings">Paramètres</string>
-    <string name="snooze_interval">Intervalle de report</string>
     <string name="select_snooze_delay">Définir le délai de répétition</string>
     <string name="hint_title">Le saviez-vous ?</string>
     <string name="hint_drag">Pour réordonner les habitudes, faites un appui long sur le nom de l\'habitude et placez-la à la bonne place.</string>
     <string name="hint_landscape">Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage.</string>
-    <string name="delete_habits">Supprimer des habitudes</string>
-    <string name="delete_habits_message">Les habitudes seront supprimées définitivement. Cette action est irréversible.</string>
     <string name="habit_not_found">Habitude supprimée / introuvable</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Du lundi au vendredi</string>
@@ -111,7 +102,7 @@
     <string name="generate_bug_report">Générer un rapport de bug.</string>
     <string name="troubleshooting">Résolution de problèmes</string>
     <string name="help_translate">Aider à traduire cette application</string>
-    <string name="night_mode">Mode Nuit</string>
+    <string name="night_mode" comment="dark_theme">Mode Nuit</string>
     <string name="use_pure_black">Utiliser un noir pur dans le mode nuit</string>
     <string name="pure_black_description">Remplace le fond gris par un noir pur dans le mode nuit ; cela réduit l’usage de la batterie des appareils ayant un écran AMOLED.</string>
     <string name="interface_preferences">Interface</string>
@@ -170,15 +161,14 @@
     <string name="example_notes">(Facultatif) </string>
     <string name="yes_or_no_example">Par exemple, vous êtes-vous réveillé tôt aujourd\'hui ? Avez-vous fait de l\'exercice ? Avez-vous joué aux échecs ? </string>
     <string name="measurable">Quantifiable</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">Par exemple, combien de km avez-vous couru aujourd\'hui ? Combien de pages avez-vous lu ? Combien de calories avez-vous mangé ? </string>
     <string name="x_times_per_week">%d fois par semaine</string>
     <string name="x_times_per_month">%d fois par mois</string>
     <string name="yes_or_no_short_example">Par ex, Entrainement</string>
     <string name="color">Couleur</string>
     <string name="example_target">Par ex, 15</string>
     <string name="measurable_short_example">Par ex, Courir</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">Par ex, Combien de km avez-vous couru aujourd\'hui? </string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">Par ex, km</string>
+    <string name="measurable_question_example">Par ex, Combien de km avez-vous couru aujourd\'hui? </string>
+    <string name="measurable_units_example">Par ex, km</string>
     <string name="every_month">Tous les mois</string>
     <string name="validation_cannot_be_blank">Ne peut pas être vide</string>
     <string name="today">Aujourd\'hui</string>

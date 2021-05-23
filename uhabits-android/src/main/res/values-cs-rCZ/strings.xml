@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">Zvyky</string>
     <string name="action_settings">Nastavení</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">Přidat zvyk</string>
     <string name="color_picker_default_title">Změnit barvu</string>
     <string name="toast_habit_created">Zvyk vytvořen.</string>
-    <string name="toast_habit_deleted">Zvyky smazány.</string>
-    <string name="toast_habit_changed">Zvyk změněn.</string>
-    <string name="toast_habit_archived">Archivováno.</string>
-    <string name="toast_habit_unarchived">Zvyky obnoveny.</string>
     <string name="overview">Přehled</string>
     <string name="habit_strength">Síla zvyku</string>
     <string name="history">Historie</string>
     <string name="clear">Smazat</string>
-    <string name="days">dní</string>
     <string name="reminder">Připomenutí</string>
     <string name="save">Uložit</string>
     <string name="streaks">Série</string>
@@ -64,20 +59,16 @@
     <string name="interval_custom">Vlastní...</string>
     <string name="pref_toggle_title">Označte opakování krátkým stisknutím</string>
     <string name="pref_toggle_description">Praktičtější, ale může způsobit nechtěné označení.</string>
-    <string name="pref_snooze_interval_title">Doba odložení upomínky</string>
     <string name="pref_rate_this_app">Ohodnoťte nás v Google Play</string>
     <string name="pref_send_feedback">Zpětná vazba vývojáři</string>
     <string name="pref_view_source_code">Zobrazit zdroj. kód na GitHub</string>
     <string name="links">Odkazy</string>
     <string name="name">Jméno</string>
     <string name="settings">Nastavení</string>
-    <string name="snooze_interval">Interval odkladu</string>
     <string name="select_snooze_delay">Nastavit délku odložení</string>
     <string name="hint_title">Věděli jste?</string>
     <string name="hint_drag">Přeřazení záznamů proveď stisknutím a podržením názvu zvyku a poté přesunutím na správné místo.</string>
     <string name="hint_landscape">Můžeš vidět více dnů otočením telefonu na šířku.</string>
-    <string name="delete_habits">Smazat zvyky</string>
-    <string name="delete_habits_message">Označené zvyky budou navždy odstraněny. Toto nelze vzít zpět.</string>
     <string name="habit_not_found">Zvyk smazán / nenalezen</string>
     <string name="weekends">Víkendy</string>
     <string name="any_weekday">Pondělí až pátek</string>
@@ -111,7 +102,7 @@
     <string name="generate_bug_report">Generovat výpis chyb</string>
     <string name="troubleshooting">Řešení problémů</string>
     <string name="help_translate">Pomozte s překladem aplikace</string>
-    <string name="night_mode">Noční téma</string>
+    <string name="night_mode" comment="dark_theme">Noční téma</string>
     <string name="use_pure_black">Zobrazit čistě černou v nočním tématu</string>
     <string name="pure_black_description">Nahradí šedé pozadí čistou černou v nočním tématu. Snižuje spotřebu baterie v telefonech s AMOLED displejem.</string>
     <string name="interface_preferences">Rozhraní</string>
@@ -170,15 +161,14 @@
     <string name="example_notes">(nepovinné)</string>
     <string name="yes_or_no_example">např. Vzbudil ses dnes brzy? Cvičil jsi dnes? Hrál jsi šachy?</string>
     <string name="measurable">Měřitelný</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">např. Kolik kilometrů jsi dnes uběhl? Kolik stránek jsi přečetl? Kolik kalorií jsi snědl?</string>
     <string name="x_times_per_week">%d krát týdně</string>
     <string name="x_times_per_month">%d krát za měsíc</string>
     <string name="yes_or_no_short_example">např. Cvičení</string>
     <string name="color">Barva</string>
     <string name="example_target">např. 15</string>
     <string name="measurable_short_example">např. Běh</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">Např. kolik mil jste dnes uběhl?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">např. míle</string>
+    <string name="measurable_question_example">Např. kolik mil jste dnes uběhl?</string>
+    <string name="measurable_units_example">např. míle</string>
     <string name="every_month">Každý měsíc</string>
     <string name="validation_cannot_be_blank">Musíte vyplnit</string>
     <string name="today">Dnes</string>

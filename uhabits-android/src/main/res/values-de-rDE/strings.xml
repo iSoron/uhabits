@@ -99,7 +99,7 @@
     <string name="any_weekday">Montag bis Freitag</string>
     <string name="any_day">Jeden Tag</string>
     <string name="select_weekdays">Tage auswählen</string>
-    <string name="export_to_csv">Daten als CSV exportieren</string>
+    <string name="export_to_csv">Exportiere als CSV</string>
     <string name="done_label">Fertig</string>
     <string name="clear_label">Löschen</string>
     <string name="select_hours">Stunden auswählen</string>
@@ -118,18 +118,18 @@
     <string name="could_not_import">Fehler beim Importieren der Daten.</string>
     <string name="file_not_recognized">Datei nicht erkannt.</string>
     <string name="habits_imported">Gewohnheiten erfolgreich importiert.</string>
-    <string name="import_data">Importiere Daten</string>
+    <string name="import_data">Daten importieren</string>
     <string name="export_full_backup">Exportiere vollständige Sicherung</string>
-    <string name="import_data_summary">Unterstützt vollständige Sicherungen dieser App, sowie von Tickmate, HabitBull und Rewire erzeugte Sicherungen. Siehe FAQ für weitere Informationen.</string>
+    <string name="import_data_summary">Unterstützt vollständige Sicherungen dieser App, als auch von Tickmate, HabitBull und Rewire. Siehe FAQ für weitere Informationen.</string>
     <string name="export_as_csv_summary">Erstellt Dateien, die von Tabellenkalkulationsprogrammen wie Microsoft Excel oder LibreOffice Calc geöffnet werden können. Diese Dateien können nicht wieder importiert werden.</string>
     <string name="export_full_backup_summary">Erstellt eine Datei, die alle deine Daten enthält. Diese Datei kann wieder importiert werden.</string>
     <string name="bug_report_failed">Fehler beim Erstellen eines Fehlerberichts.</string>
     <string name="generate_bug_report">Erstelle einen Fehlerbericht</string>
     <string name="troubleshooting">Fehlerbehebung</string>
     <string name="help_translate">Hilf mit, diese App zu übersetzen</string>
-    <string name="night_mode">Nachtmodus</string>
+    <string name="night_mode" comment="dark_theme">Nachtmodus</string>
     <string name="use_pure_black">Verwende reines Schwarz im Nachtmodus</string>
-    <string name="pure_black_description">Ersetzt im Nachtmodus das Grau des Hintergrunds durch ein reines Schwarz. Reduziert den Stromverbrauch von Smartphones mit einem AMOLED Display.</string>
+    <string name="pure_black_description">Ersetzt im Nachtmodus das Grau des Hintergrunds durch Schwarz. Reduziert den Stromverbrauch von Smartphones mit AMOLED Displays.</string>
     <string name="interface_preferences">Oberfläche</string>
     <string name="reverse_days">Kehre die Tagesreihenfolge um</string>
     <string name="reverse_days_description">Zeigt die Tage im Hauptfenster in umgekehrter Reihenfolge an.</string>
@@ -211,6 +211,6 @@
     <string name="pref_unknown_description">Tage ohne Daten von tatsächlichen Lücken unterscheiden. Um eine Lücke einzutragen zweimal markieren.</string>
     <string name="you_are_now_a_developer">Du bist nun ein Entwickler</string>
     <string name="activity_not_found">Für diese Aktion wurde keine App gefunden.</string>
-    <string name="pref_midnight_delay_title">Den Tag um ein paar Stunden nach Mitternacht verlängern</string>
+    <string name="pref_midnight_delay_title">Verlängere den Tag um ein paar Stunden nach Mitternacht</string>
     <string name="pref_midnight_delay_description">Bis 3:00 Uhr warten, bevor ein neuer Tag angezeigt wird. Nützlich, wenn du normalerweise nach Mitternacht schlafen gehst. Benötigt einen Neustart der App.</string>
 </resources>

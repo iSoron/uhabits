@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">הרגלים</string>
     <string name="action_settings">הגדרות</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">הרגל חדש</string>
     <string name="color_picker_default_title">שינוי צבע</string>
     <string name="toast_habit_created">הרגל נוצר</string>
-    <string name="toast_habit_deleted">הרגלים נמחקו</string>
-    <string name="toast_habit_changed">הרגל השתנה</string>
-    <string name="toast_habit_archived">הרגלים הועברו לארכיון</string>
-    <string name="toast_habit_unarchived">הרגלים הוצאו מארכיון</string>
     <string name="overview">סקירה כללית</string>
     <string name="habit_strength">חוזק ההרגל</string>
     <string name="history">היסטוריה</string>
     <string name="clear">ניקוי</string>
-    <string name="days">ימים</string>
     <string name="reminder">תזכורת</string>
     <string name="save">שמירה</string>
     <string name="streaks">רצף</string>
@@ -64,20 +59,16 @@
     <string name="interval_custom">התאמה אישית...</string>
     <string name="pref_toggle_title">סימון הרגלים בלחיצה קצרה</string>
     <string name="pref_toggle_description">סמנו יעדים בהקשה קצרה במקום לחיצה ממושכת. נוח יותר, אך יכול להוביל ללחיצות לא מכוונות.</string>
-    <string name="pref_snooze_interval_title">מרווח נדנוד לתזכורות</string>
     <string name="pref_rate_this_app">דירוג היישום ב־Google Play</string>
     <string name="pref_send_feedback">שליחת משוב למפתחים</string>
     <string name="pref_view_source_code">צפייה בקוד המקור ב־GitHub</string>
     <string name="links">קישורים</string>
     <string name="name">שם</string>
     <string name="settings">הגדרות</string>
-    <string name="snooze_interval">זמן בין נדנודים</string>
     <string name="select_snooze_delay">הגדר זמן לדחיית תזכורת</string>
     <string name="hint_title">הידעת?</string>
     <string name="hint_drag">לשינוי סדר ההרגלים, יש ללחוץ לחיצה ארוכה על ההרגל ולגרור אותו למקום הרצוי.</string>
     <string name="hint_landscape">ניתן לראות ימים נוספים ע\"י סיבוב המסך לתצוגה רוחבית.</string>
-    <string name="delete_habits">מחיקת הרגלים</string>
-    <string name="delete_habits_message">ההרגלים יימחקו לצמיתות. פעולה זו אינה ניתנת לביטול.</string>
     <string name="habit_not_found">הרגל נמחק / לא נמצא</string>
     <string name="weekends">סופי שבוע</string>
     <string name="any_weekday">ימי חול</string>
@@ -111,7 +102,7 @@
     <string name="generate_bug_report">הפקת דוח שגיאות</string>
     <string name="troubleshooting">פתרון תקלות</string>
     <string name="help_translate">עזרו לנו לתרגם את האפליקציה</string>
-    <string name="night_mode">מצב לילה</string>
+    <string name="night_mode" comment="dark_theme">מצב לילה</string>
     <string name="use_pure_black">רקע שחור למצב לילה</string>
     <string name="pure_black_description">החלפת הרקע האפור במצב לילה לשחור מוחלט. מפחית בזבוז סוללה במכשירים עם תצוגת AMOLED.</string>
     <string name="interface_preferences">ממשק</string>
@@ -170,15 +161,14 @@
     <string name="example_notes">(רשות)</string>
     <string name="yes_or_no_example">למשל: האם התעוררת מוקדם היום? האם עשית פעילות גופנית? האם שיחקת שחמט?</string>
     <string name="measurable">ניתנים למדידה</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">למשל: כמה קילומטרים רצת היום? כמה עמודים קראת? כמה קלוריות צברת?</string>
     <string name="x_times_per_week">%d פעמים בשבוע</string>
     <string name="x_times_per_month">%d פעמים בחודש</string>
     <string name="yes_or_no_short_example">למשל פעילות גופנית</string>
     <string name="color">צבע</string>
     <string name="example_target">למשל 15</string>
     <string name="measurable_short_example">למשל ריצה</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">למשל: כמה קילומטרים רצת היום?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">למשל קילומטרים</string>
+    <string name="measurable_question_example">למשל: כמה קילומטרים רצת היום?</string>
+    <string name="measurable_units_example">למשל קילומטרים</string>
     <string name="every_month">כל חודש</string>
     <string name="validation_cannot_be_blank">לא יכול להיות ריק</string>
     <string name="today">היום</string>

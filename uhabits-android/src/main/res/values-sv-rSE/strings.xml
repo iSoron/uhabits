@@ -136,7 +136,7 @@
     <string name="generate_bug_report">Generera felrapport</string>
     <string name="troubleshooting">Felsökning</string>
     <string name="help_translate">Hjälp till att översätta appen</string>
-    <string name="night_mode">Nattläge</string>
+    <string name="night_mode" comment="dark_theme">Nattläge</string>
     <string name="use_pure_black">Använd svart färg i nattläge</string>
     <string name="pure_black_description">Ersätter gråa bakgrunder med svart färg i nattläge. Reducerar batterianvändningen för telefoner med AMOLED-skärm.</string>
     <string name="interface_preferences">Gränssnitt</string>

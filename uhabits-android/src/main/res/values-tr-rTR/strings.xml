@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop Alışkanlık Takibi</string>
     <string name="main_activity_title">Alışkanlıklar</string>
     <string name="action_settings">Ayarlar</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">Alışkanlık ekle</string>
     <string name="color_picker_default_title">Renk Değiştir</string>
     <string name="toast_habit_created">Alışkanlık oluşturuldu.</string>
-    <string name="toast_habit_deleted">Alışkanlık silindi.</string>
-    <string name="toast_habit_changed">Alışkanlık değiştirildi</string>
-    <string name="toast_habit_archived">Alışkanlık arşivlendi.</string>
-    <string name="toast_habit_unarchived">Alışkanlık arşivden çıkarıldı.</string>
     <string name="overview">Genel Bakış</string>
     <string name="habit_strength">Alışkanlık gücü</string>
     <string name="history">Geçmiş</string>
     <string name="clear">Temizle</string>
-    <string name="days">gün</string>
     <string name="reminder">Hatırlatma</string>
     <string name="save">Kaydet</string>
     <string name="streaks">Seriler</string>
@@ -64,20 +59,16 @@
     <string name="interval_custom">Özel...</string>
     <string name="pref_toggle_title">Tek dokunuşla işaretle veya işareti kaldır</string>
     <string name="pref_toggle_description">Alışkanlıklarınızı, uzun dokunuş yerine tek dokunuşla işaretlemenizi sağlar. Kullanımı daha kolaydır ancak hatalı olarak işaretleme yapılmasına neden olabilir.</string>
-    <string name="pref_snooze_interval_title">Hatırlatmalardaki erteleme süresi</string>
     <string name="pref_rate_this_app">Google Play\'de uygulamayı oyla</string>
     <string name="pref_send_feedback">Geliştiriciye geri bildirim gönder</string>
     <string name="pref_view_source_code">Github\'da kaynak kodunu gör</string>
     <string name="links">Bağlantılar</string>
     <string name="name">Ad</string>
     <string name="settings">Ayarlar</string>
-    <string name="snooze_interval">Erteleme süresi</string>
     <string name="select_snooze_delay">Erteleme süresini ayarla</string>
     <string name="hint_title">Biliyor muydun?</string>
     <string name="hint_drag">Girdileri sıralamak için, alışkanlık adının üstüne basılı tut ve doğru yere sürükle.</string>
     <string name="hint_landscape">Cihazını yatay tutarak daha fazla gün görebilirsin.</string>
-    <string name="delete_habits">Alışkanlıkları Sil</string>
-    <string name="delete_habits_message">Alışkanlıklar kalıcı olarak silinecek. Bu eylem geri alınamaz.</string>
     <string name="habit_not_found">Alışkanlık silinmiş ya da bulunamadı</string>
     <string name="weekends">Hafta sonları</string>
     <string name="any_weekday">Pazartesinden Cumaya</string>
@@ -111,7 +102,7 @@
     <string name="generate_bug_report">Hata raporu üret</string>
     <string name="troubleshooting">Sorun Giderme</string>
     <string name="help_translate">Bu uygulamanın çevirisine yardım et</string>
-    <string name="night_mode">Gece kipi</string>
+    <string name="night_mode" comment="dark_theme">Gece kipi</string>
     <string name="use_pure_black">Gece kipinde saf siyah kullan</string>
     <string name="pure_black_description">Gece kipinde gri arkaplanını, saf siyah ile değiştir. AMOLED ekranlı cihazlarda pil kullanımını azaltabilir.</string>
     <string name="interface_preferences">Arayüz</string>
@@ -170,15 +161,14 @@
     <string name="example_notes">(Tercihe bağlı)</string>
     <string name="yes_or_no_example">Örneğin,  Bugün erken uyandın mı? Spor yaptın mı? Satranç oynadın mı?</string>
     <string name="measurable">Ölçülebilir</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">Örneğin, Bugün kaç km. koştunuz? Kaç sayfa kitap okudunuz? Kaç kalorilik yemek yediniz?</string>
     <string name="x_times_per_week">Haftada %d kez</string>
     <string name="x_times_per_month">Ayda %d kez</string>
     <string name="yes_or_no_short_example">Örneğin, Spor</string>
     <string name="color">Renk</string>
     <string name="example_target">Ör. 15</string>
     <string name="measurable_short_example">Örneğin, Koşu</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">Örneğin, Bugün kaç km. koştunuz?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">Örneğin, Km.</string>
+    <string name="measurable_question_example">Örneğin, Bugün kaç km. koştunuz?</string>
+    <string name="measurable_units_example">Örneğin, Km.</string>
     <string name="every_month">Her ay</string>
     <string name="validation_cannot_be_blank">Boş bırakılamaz</string>
     <string name="today">Bugün</string>
