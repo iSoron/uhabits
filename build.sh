@@ -133,6 +133,9 @@ android_test() {
             log_error "Some $size instrumented tests failed."
             log_error "Saving logcat: $OUT_LOGCAT..."
             $ADB logcat -d > $OUT_LOGCAT
+            log_error "Fetching test screenshots..."
+            $ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots ${ANDROID_OUTPUTS_DIR}/
+            $ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/
             return 1
         fi
         log_info "$size tests passed."
@@ -198,13 +201,6 @@ android_build() {
     return 0
 }
 
-android_fetch_images() {
-    log_info "Fetching images"
-    rm -rf ${ANDROID_OUTPUTS_DIR}/test-screenshots
-    $ADB pull /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots ${ANDROID_OUTPUTS_DIR}/
-    $ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/
-}
-
 android_accept_images() {
     find ${ANDROID_OUTPUTS_DIR}/test-screenshots -name '*.expected*' -delete
     rsync -av ${ANDROID_OUTPUTS_DIR}/test-screenshots/ uhabits-android/src/androidTest/assets/
@@ -233,18 +229,14 @@ CI/CD script for Loop Habit Tracker.
 
 Usage:
     build.sh build [options]
-    build.sh clean [options]
     build.sh android-tests <API> [options]
     build.sh android-tests-parallel <API> <API>... [options]
-    build.sh android-fetch-images [options]
     build.sh android-accept-images [options]
 
 Commands:
     build                   Build the app and run small tests
-    clean                   Remove all build directories
     android-tests           Run medium and large Android tests on an emulator
     android-tests-parallel  Tests multiple API levels simultaneously
-    android-fetch-images    Fetch failed view test images from device
     android-accept-images   Copy fetched images to corresponding assets folder
 
 Options:
@@ -274,11 +266,9 @@ main() {
     case "$1" in
         build)
             shift; _parse_opts "$@"
+            clean
             core_build
             android_build
-            ;;
-        clean)
-            clean
             ;;
         android-tests)
             shift; _parse_opts "$@"
@@ -296,9 +286,6 @@ main() {
         android-tests-parallel)
             shift; _parse_opts "$@"
             android_test_parallel $*
-            ;;
-        android-fetch-images)
-            android_fetch_images
             ;;
         android-accept-images)
             android_accept_images
