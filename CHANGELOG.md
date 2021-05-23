@@ -2,12 +2,16 @@
 
 ## [2.0.2] - Unreleased
 
+### Changed
+- Make checkmark widget resizable
+
 ### Fixed
 - Fix crash caused by numerical habits with zero target (@iSoron, #903)
 - Fix small issues with font size (@iSoron)
 - Allow fractional target values (@sumanabhi, #911)
 - Fix IllegalStateException in androidx.customview.view (@iSoron, #906)
 - Fix crash when selecting habit frequency in some languages (@iSoron, #926)
+- Fix IllegalArgumentException in RingView (@iSoron, #904)
 
 ## [2.0.1] - 2021-05-09
 
