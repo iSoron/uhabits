@@ -9,7 +9,6 @@ assignees: ''
 
 ## Pre-submission checklist
 - [ ] I am submitting a bug report, not a feature request.
-- [ ] I am running the latest version of Loop Habit Tracker.
 - [ ] I have have searched for similar issues, but did not find any matches.
 
 ## Description
@@ -27,4 +26,4 @@ If applicable, add screenshots to help explain your problem.
 ## System information
  - Phone: [e.g. Google Pixel 4]
  - Phone Operating System: [e.g. Android 10]
- - App version: [e.g. 1.8.9]
+ - App version: [e.g. 2.0.2]
