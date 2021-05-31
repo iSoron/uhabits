@@ -15,7 +15,7 @@ will be closed without further consideration.
 
 ## Pre-submission checklist
 - [ ] I am submitting a bug report, not a feature request.
-- [ ] I have have searched for similar issues, but did not find any matches.
+- [ ] I have searched for similar issues, but did not find any matches.
 
 ## Description
 A clear and concise description of what the problem is.
