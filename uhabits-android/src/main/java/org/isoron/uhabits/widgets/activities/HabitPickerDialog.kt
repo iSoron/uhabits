@@ -65,7 +65,6 @@ open class HabitPickerDialog : Activity() {
         widgetUpdater = component.widgetUpdater
         widgetId = intent.extras?.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID) ?: 0
 
-
         val habitIds = ArrayList<Long>()
         val habitNames = ArrayList<String>()
         for (h in habitList) {

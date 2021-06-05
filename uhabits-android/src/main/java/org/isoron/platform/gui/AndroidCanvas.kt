@@ -36,6 +36,7 @@ class AndroidCanvas : Canvas {
     var innerDensity = 1.0
     var innerWidth = 0
     var innerHeight = 0
+    var mHeight = 15
 
     var paint = Paint().apply {
         isAntiAlias = true
@@ -64,11 +65,10 @@ class AndroidCanvas : Canvas {
     }
 
     override fun drawText(text: String, x: Double, y: Double) {
-        textPaint.getTextBounds(text, 0, text.length, textBounds)
         innerCanvas.drawText(
             text,
             x.toDp(),
-            y.toDp() - textBounds.exactCenterY(),
+            y.toDp() + 0.6f * mHeight,
             textPaint,
         )
     }
@@ -126,10 +126,17 @@ class AndroidCanvas : Canvas {
             Font.BOLD -> Typeface.DEFAULT_BOLD
             Font.FONT_AWESOME -> getFontAwesome(context)
         }
+        updateMHeight()
     }
 
     override fun setFontSize(size: Double) {
         textPaint.textSize = size.toDp()
+        updateMHeight()
+    }
+
+    private fun updateMHeight() {
+        textPaint.getTextBounds("m", 0, 1, textBounds)
+        mHeight = textBounds.height()
     }
 
     override fun setStrokeWidth(size: Double) {

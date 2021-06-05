@@ -4,6 +4,7 @@
 ### Fixed
 - Improve automatic checkmarks for monthly habits (@iSoron, 947)
 - Fix small theme issues (@iSoron)
+- Fix ANR on some Samsung phones (@iSoron, #962)
 
 ## [2.0.2] - 2021-05-23
 
