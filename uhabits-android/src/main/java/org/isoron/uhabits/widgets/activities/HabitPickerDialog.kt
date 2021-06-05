@@ -31,6 +31,7 @@ import android.widget.ListView
 import android.widget.TextView
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.widgets.WidgetUpdater
 import java.util.ArrayList
@@ -58,10 +59,12 @@ open class HabitPickerDialog : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val component = (applicationContext as HabitsApplication).component
+        AndroidThemeSwitcher(this, component.preferences).apply()
         val habitList = component.habitList
         widgetPreferences = component.widgetPreferences
         widgetUpdater = component.widgetUpdater
         widgetId = intent.extras?.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID) ?: 0
+
 
         val habitIds = ArrayList<Long>()
         val habitNames = ArrayList<String>()
