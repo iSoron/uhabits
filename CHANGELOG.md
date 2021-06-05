@@ -3,6 +3,7 @@
 ## [2.0.3] - [Unreleased]
 ### Fixed
 - Improve automatic checkmarks for monthly habits (@iSoron, 947)
+- Fix small issues with the pure black theme (@iSoron)
 
 ## [2.0.2] - 2021-05-23
 

@@ -129,6 +129,7 @@
         <item name="selectedBackground">@drawable/selected_box</item>
         <item name="textColorAlertDialogListItem">@color/grey_100</item>
         <item name="windowBackgroundColor">@color/black</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.PureBlack</item>
     </style>
 
     <style name="BaseDialog" parent="Theme.AppCompat.Light.Dialog">
@@ -150,6 +151,11 @@
         <item name="contrast100">@color/grey_100</item>
         <item name="palette">@array/darkPalette</item>
     </style>
+
+    <style name="PreferenceThemeOverlay.v14.Material.PureBlack">
+        <item name="android:background">@color/black</item>
+    </style>
+
 
     <style name="WidgetTheme" parent="AppBaseThemeDark">
         <item name="cardBgColor">@color/grey_850</item>
