@@ -20,14 +20,13 @@ package org.isoron.uhabits.activities.habits.show.views
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.habits.edit.formatFrequency
 import org.isoron.uhabits.activities.habits.list.views.toShortString
-import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
 import org.isoron.uhabits.utils.InterfaceUtils
@@ -49,7 +48,11 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
     fun setState(state: SubtitleCardState) {
         val color = state.color.toThemedAndroidColor(context)
         val reminder = state.reminder
-        binding.frequencyLabel.text = state.frequency.format(resources)
+        binding.frequencyLabel.text = formatFrequency(
+            state.frequency.numerator,
+            state.frequency.denominator,
+            resources,
+        )
         binding.questionLabel.setTextColor(color)
         binding.questionLabel.text = state.question
         binding.reminderLabel.text = if (reminder != null) {
@@ -71,33 +74,5 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         }
 
         postInvalidate()
-    }
-
-    @SuppressLint("StringFormatMatches")
-    private fun Frequency.format(resources: Resources): String {
-        val num = this.numerator
-        val den = this.denominator
-        if (num == den) {
-            return resources.getString(R.string.every_day)
-        }
-        if (den == 7) {
-            return resources.getString(R.string.x_times_per_week, num)
-        }
-        if (den == 30 || den == 31) {
-            return resources.getString(R.string.x_times_per_month, num)
-        }
-        if (num == 1) {
-            if (den == 7) {
-                return resources.getString(R.string.every_week)
-            }
-            if (den % 7 == 0) {
-                return resources.getString(R.string.every_x_weeks, den / 7)
-            }
-            if (den == 30 || den == 31) {
-                return resources.getString(R.string.every_month)
-            }
-            return resources.getString(R.string.every_x_days, den)
-        }
-        return "$num/$den"
     }
 }
