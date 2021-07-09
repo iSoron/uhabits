@@ -129,3 +129,4 @@ contribute, even if you are not a software developer.
 [fdroid]: http://f-droid.org/app/org.isoron.uhabits
 [build]: https://github.com/iSoron/uhabits/blob/dev/docs/BUILD.md
 [beta]: https://play.google.com/apps/testing/org.isoron.uhabits
+ 
