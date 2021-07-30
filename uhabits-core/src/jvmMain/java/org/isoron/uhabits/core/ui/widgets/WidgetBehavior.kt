@@ -46,8 +46,8 @@ class WidgetBehavior @Inject constructor(
         setValue(habit, timestamp, Entry.NO)
     }
 
-    fun onToggleRepetition(habit: Habit, timestamp: Timestamp?) {
-        val currentValue = habit.originalEntries.get(timestamp!!).value
+    fun onToggleRepetition(habit: Habit, timestamp: Timestamp) {
+        val currentValue = habit.originalEntries.get(timestamp).value
         val newValue: Int
         newValue =
             if (preferences.isSkipEnabled) nextToggleValueWithSkip(
