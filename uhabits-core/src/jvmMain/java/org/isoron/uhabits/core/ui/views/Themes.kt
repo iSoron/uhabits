@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Color
+import org.isoron.uhabits.core.models.PaletteColor
 
 abstract class Theme {
     open val appBackgroundColor = Color(0xf4f4f4)
@@ -34,6 +35,10 @@ abstract class Theme {
     open val statusBarBackgroundColor = Color(0x333333)
     open val toolbarBackgroundColor = Color(0xf4f4f4)
     open val toolbarColor = Color(0xffffff)
+
+    fun color(paletteColor: PaletteColor): Color {
+        return color(paletteColor.paletteIndex)
+    }
 
     open fun color(paletteIndex: Int): Color {
         return when (paletteIndex) {

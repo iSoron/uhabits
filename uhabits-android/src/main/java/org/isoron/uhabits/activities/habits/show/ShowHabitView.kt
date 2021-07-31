@@ -35,7 +35,12 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
     }
 
     fun setState(data: ShowHabitState) {
-        setupToolbar(binding.toolbar, title = data.title, color = data.color)
+        setupToolbar(
+            binding.toolbar,
+            title = data.title,
+            color = data.color,
+            theme = data.theme,
+        )
         binding.subtitleCard.setState(data.subtitle)
         binding.overviewCard.setState(data.overview)
         binding.notesCard.setState(data.notes)

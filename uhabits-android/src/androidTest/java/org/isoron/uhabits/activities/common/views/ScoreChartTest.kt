@@ -23,6 +23,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter.Companion.buildState
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.isoron.uhabits.utils.toFixedAndroidColor
 import org.junit.Before
 import org.junit.Test
@@ -39,7 +40,12 @@ class ScoreChartTest : BaseViewTest() {
         super.setUp()
         fixtures.purgeHabits(habitList)
         habit = fixtures.createLongHabit()
-        val state = buildState(habit, prefs.firstWeekdayInt, 0)
+        val state = buildState(
+            habit = habit,
+            firstWeekday = prefs.firstWeekdayInt,
+            spinnerPosition = 0,
+            theme = LightTheme(),
+        )
         view = ScoreChart(targetContext).apply {
             setScores(state.scores)
             setColor(state.color.toFixedAndroidColor())
@@ -72,7 +78,7 @@ class ScoreChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withMonthlyBucket() {
-        val (scores, bucketSize) = buildState(habit, prefs.firstWeekdayInt, 2)
+        val (scores, bucketSize) = buildState(habit, prefs.firstWeekdayInt, 2, LightTheme())
         view.setScores(scores)
         view.setBucketSize(bucketSize)
         view.invalidate()
@@ -89,7 +95,7 @@ class ScoreChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withYearlyBucket() {
-        val state = buildState(habit, prefs.firstWeekdayInt, 4)
+        val state = buildState(habit, prefs.firstWeekdayInt, 4, LightTheme())
         view.setScores(state.scores)
         view.setBucketSize(state.bucketSize)
         view.invalidate()

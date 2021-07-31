@@ -57,6 +57,7 @@ data class ShowHabitState(
     val frequency: FrequencyCardState,
     val history: HistoryCardState,
     val bar: BarCardState,
+    val theme: Theme,
 )
 
 class ShowHabitPresenter(
@@ -94,11 +95,14 @@ class ShowHabitPresenter(
                 title = habit.name,
                 color = habit.color,
                 isNumerical = habit.isNumerical,
+                theme = theme,
                 subtitle = SubtitleCardPresenter.buildState(
                     habit = habit,
+                    theme = theme,
                 ),
                 overview = OverviewCardPresenter.buildState(
                     habit = habit,
+                    theme = theme,
                 ),
                 notes = NotesCardPresenter.buildState(
                     habit = habit,
@@ -106,18 +110,22 @@ class ShowHabitPresenter(
                 target = TargetCardPresenter.buildState(
                     habit = habit,
                     firstWeekday = preferences.firstWeekdayInt,
+                    theme = theme,
                 ),
                 streaks = StreakCartPresenter.buildState(
                     habit = habit,
+                    theme = theme,
                 ),
                 scores = ScoreCardPresenter.buildState(
                     spinnerPosition = preferences.scoreCardSpinnerPosition,
                     habit = habit,
                     firstWeekday = preferences.firstWeekdayInt,
+                    theme = theme,
                 ),
                 frequency = FrequencyCardPresenter.buildState(
                     habit = habit,
                     firstWeekday = preferences.firstWeekdayInt,
+                    theme = theme,
                 ),
                 history = HistoryCardPresenter.buildState(
                     habit = habit,

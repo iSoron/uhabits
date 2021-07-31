@@ -22,10 +22,11 @@ package org.isoron.uhabits.widgets
 import android.app.PendingIntent
 import android.content.Context
 import android.view.View
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.activities.common.views.ScoreChart
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
-import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class ScoreWidget(
@@ -44,7 +45,8 @@ class ScoreWidget(
         val viewModel = ScoreCardPresenter.buildState(
             habit = habit,
             firstWeekday = prefs.firstWeekdayInt,
-            spinnerPosition = prefs.scoreCardSpinnerPosition
+            spinnerPosition = prefs.scoreCardSpinnerPosition,
+            theme = WidgetTheme(),
         )
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
@@ -52,7 +54,7 @@ class ScoreWidget(
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
             setBucketSize(viewModel.bucketSize)
-            setColor(habit.color.toThemedAndroidColor(context))
+            setColor(WidgetTheme().color(habit.color).toInt())
             setScores(viewModel.scores)
         }
     }

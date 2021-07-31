@@ -40,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_edit_habit.notesInput
 import kotlinx.android.synthetic.main.activity_edit_habit.questionInput
 import kotlinx.android.synthetic.main.activity_edit_habit.targetInput
 import kotlinx.android.synthetic.main.activity_edit_habit.unitInput
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
@@ -58,7 +59,6 @@ import org.isoron.uhabits.databinding.ActivityEditHabitBinding
 import org.isoron.uhabits.utils.ColorUtils
 import org.isoron.uhabits.utils.formatTime
 import org.isoron.uhabits.utils.toFormattedString
-import org.isoron.uhabits.utils.toThemedAndroidColor
 
 fun formatFrequency(freqNum: Int, freqDen: Int, resources: Resources) = when {
     freqNum == 1 && (freqDen == 30 || freqDen == 31) -> resources.getString(R.string.every_month)
@@ -148,7 +148,7 @@ class EditHabitActivity : AppCompatActivity() {
 
         val colorPickerDialogFactory = ColorPickerDialogFactory(this)
         binding.colorButton.setOnClickListener {
-            val dialog = colorPickerDialogFactory.create(color)
+            val dialog = colorPickerDialogFactory.create(color, themeSwitcher.currentTheme)
             dialog.setListener { paletteColor ->
                 this.color = paletteColor
                 updateColors()
@@ -320,7 +320,7 @@ class EditHabitActivity : AppCompatActivity() {
     }
 
     private fun updateColors() {
-        androidColor = color.toThemedAndroidColor(this)
+        androidColor = themeSwitcher.currentTheme.color(color).toInt()
         binding.colorButton.backgroundTintList = ColorStateList.valueOf(androidColor)
         if (!themeSwitcher.isNightMode) {
             val darkerAndroidColor = ColorUtils.mixColors(Color.BLACK, androidColor, 0.15f)

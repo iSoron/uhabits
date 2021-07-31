@@ -23,15 +23,15 @@ import android.content.res.Resources
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.show.views.TargetCardState
 import org.isoron.uhabits.databinding.ShowHabitTargetBinding
-import org.isoron.uhabits.utils.toThemedAndroidColor
 
 class TargetCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = ShowHabitTargetBinding.inflate(LayoutInflater.from(context), this)
     fun setState(state: TargetCardState) {
-        val androidColor = state.color.toThemedAndroidColor(context)
+        val androidColor = state.theme.color(state.color).toInt()
         binding.targetChart.setValues(state.values)
         binding.targetChart.setTargets(state.targets)
         binding.targetChart.setLabels(state.intervals.map { intervalToLabel(resources, it) })

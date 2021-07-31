@@ -24,12 +24,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.views.BarCardState
 import org.isoron.uhabits.core.ui.views.BarChart
 import org.isoron.uhabits.databinding.ShowHabitBarBinding
-import org.isoron.uhabits.utils.toThemedAndroidColor
 import java.util.Locale
 
 class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -37,7 +37,7 @@ class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     private var binding = ShowHabitBarBinding.inflate(LayoutInflater.from(context), this)
 
     fun setState(state: BarCardState) {
-        val androidColor = state.color.toThemedAndroidColor(context)
+        val androidColor = state.theme.color(state.color).toInt()
         binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.US)).apply {
             series = mutableListOf(state.entries.map { it.value / 1000.0 })
             colors = mutableListOf(theme.color(state.color.paletteIndex))

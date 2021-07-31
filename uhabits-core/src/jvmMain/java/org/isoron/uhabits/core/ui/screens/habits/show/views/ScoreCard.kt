@@ -23,6 +23,7 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 
 data class ScoreCardState(
@@ -30,6 +31,7 @@ data class ScoreCardState(
     val bucketSize: Int,
     val spinnerPosition: Int,
     val color: PaletteColor,
+    val theme: Theme,
 )
 
 class ScoreCardPresenter(
@@ -53,6 +55,7 @@ class ScoreCardPresenter(
             habit: Habit,
             firstWeekday: Int,
             spinnerPosition: Int,
+            theme: Theme,
         ): ScoreCardState {
             val bucketSize = BUCKET_SIZES[spinnerPosition]
             val today = DateUtils.getTodayWithOffset()
@@ -77,6 +80,7 @@ class ScoreCardPresenter(
                 scores = scores,
                 bucketSize = bucketSize,
                 spinnerPosition = spinnerPosition,
+                theme = theme,
             )
         }
     }

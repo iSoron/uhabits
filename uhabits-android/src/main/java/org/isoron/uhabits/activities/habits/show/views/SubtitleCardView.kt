@@ -24,6 +24,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.edit.formatFrequency
 import org.isoron.uhabits.activities.habits.list.views.toShortString
@@ -31,7 +32,6 @@ import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.formatTime
-import org.isoron.uhabits.utils.toThemedAndroidColor
 
 class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -46,7 +46,7 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
 
     @SuppressLint("SetTextI18n")
     fun setState(state: SubtitleCardState) {
-        val color = state.color.toThemedAndroidColor(context)
+        val color = state.theme.color(state.color).toInt()
         val reminder = state.reminder
         binding.frequencyLabel.text = formatFrequency(
             state.frequency.numerator,
