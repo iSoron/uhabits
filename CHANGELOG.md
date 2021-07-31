@@ -5,6 +5,9 @@
 - Improve automatic checkmarks for monthly habits (@iSoron, 947)
 - Fix small theme issues (@iSoron)
 - Fix ANR on some Samsung phones (@iSoron, #962)
+- Fix exception in CheckmarkWidget.refreshData (@iSoron, #907)
+- Fix notification adding checkmarks to the wrong day (@hiqua, #969)
+- Fix dates before the year 2000 (@iSoron)
 
 ## [2.0.2] - 2021-05-23
 
