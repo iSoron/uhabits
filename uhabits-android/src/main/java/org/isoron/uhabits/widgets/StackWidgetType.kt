@@ -19,10 +19,8 @@
 package org.isoron.uhabits.widgets
 
 import org.isoron.uhabits.R
+import java.lang.IllegalStateException
 
-/**
- * Created by victoryu on 11/3/17.
- */
 enum class StackWidgetType(val value: Int) {
     CHECKMARK(0), FREQUENCY(1), SCORE(2), // habit strength widget
     HISTORY(3), STREAKS(4), TARGET(5);
@@ -36,44 +34,44 @@ enum class StackWidgetType(val value: Int) {
                 HISTORY.value == value -> HISTORY
                 STREAKS.value == value -> STREAKS
                 TARGET.value == value -> TARGET
-                else -> null
+                else -> throw IllegalStateException()
             }
         }
 
         fun getStackWidgetLayoutId(type: StackWidgetType?): Int {
-            when (type) {
-                CHECKMARK -> return R.layout.checkmark_stackview_widget
-                FREQUENCY -> return R.layout.frequency_stackview_widget
-                SCORE -> return R.layout.score_stackview_widget
-                HISTORY -> return R.layout.history_stackview_widget
-                STREAKS -> return R.layout.streak_stackview_widget
-                TARGET -> return R.layout.target_stackview_widget
+            return when (type) {
+                CHECKMARK -> R.layout.checkmark_stackview_widget
+                FREQUENCY -> R.layout.frequency_stackview_widget
+                SCORE -> R.layout.score_stackview_widget
+                HISTORY -> R.layout.history_stackview_widget
+                STREAKS -> R.layout.streak_stackview_widget
+                TARGET -> R.layout.target_stackview_widget
+                else -> throw IllegalStateException()
             }
-            return 0
         }
 
         fun getStackWidgetAdapterViewId(type: StackWidgetType?): Int {
-            when (type) {
-                CHECKMARK -> return R.id.checkmarkStackWidgetView
-                FREQUENCY -> return R.id.frequencyStackWidgetView
-                SCORE -> return R.id.scoreStackWidgetView
-                HISTORY -> return R.id.historyStackWidgetView
-                STREAKS -> return R.id.streakStackWidgetView
-                TARGET -> return R.id.targetStackWidgetView
+            return when (type) {
+                CHECKMARK -> R.id.checkmarkStackWidgetView
+                FREQUENCY -> R.id.frequencyStackWidgetView
+                SCORE -> R.id.scoreStackWidgetView
+                HISTORY -> R.id.historyStackWidgetView
+                STREAKS -> R.id.streakStackWidgetView
+                TARGET -> R.id.targetStackWidgetView
+                else -> throw IllegalStateException()
             }
-            return 0
         }
 
         fun getStackWidgetEmptyViewId(type: StackWidgetType?): Int {
-            when (type) {
-                CHECKMARK -> return R.id.checkmarkStackWidgetEmptyView
-                FREQUENCY -> return R.id.frequencyStackWidgetEmptyView
-                SCORE -> return R.id.scoreStackWidgetEmptyView
-                HISTORY -> return R.id.historyStackWidgetEmptyView
-                STREAKS -> return R.id.streakStackWidgetEmptyView
-                TARGET -> return R.id.targetStackWidgetEmptyView
+            return when (type) {
+                CHECKMARK -> R.id.checkmarkStackWidgetEmptyView
+                FREQUENCY -> R.id.frequencyStackWidgetEmptyView
+                SCORE -> R.id.scoreStackWidgetEmptyView
+                HISTORY -> R.id.historyStackWidgetEmptyView
+                STREAKS -> R.id.streakStackWidgetEmptyView
+                TARGET -> R.id.targetStackWidgetEmptyView
+                else -> throw IllegalStateException()
             }
-            return 0
         }
     }
 }

@@ -93,20 +93,20 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         habit: Habit,
         prefs: Preferences
     ): BaseWidget {
-        when (widgetType) {
-            StackWidgetType.CHECKMARK -> return CheckmarkWidget(context, widgetId, habit, true)
-            StackWidgetType.FREQUENCY -> return FrequencyWidget(
+        return when (widgetType) {
+            StackWidgetType.CHECKMARK -> CheckmarkWidget(context, widgetId, habit, true)
+            StackWidgetType.FREQUENCY -> FrequencyWidget(
                 context,
                 widgetId,
                 habit,
                 prefs.firstWeekdayInt,
                 true
             )
-            StackWidgetType.SCORE -> return ScoreWidget(context, widgetId, habit, true)
-            StackWidgetType.HISTORY -> return HistoryWidget(context, widgetId, habit, true)
-            StackWidgetType.STREAKS -> return StreakWidget(context, widgetId, habit, true)
+            StackWidgetType.SCORE -> ScoreWidget(context, widgetId, habit, true)
+            StackWidgetType.HISTORY -> HistoryWidget(context, widgetId, habit, true)
+            StackWidgetType.STREAKS -> StreakWidget(context, widgetId, habit, true)
+            else -> throw IllegalStateException()
         }
-        throw IllegalStateException()
     }
 
     override fun getLoadingView(): RemoteViews {
