@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.edit
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
@@ -58,6 +59,16 @@ import org.isoron.uhabits.utils.ColorUtils
 import org.isoron.uhabits.utils.formatTime
 import org.isoron.uhabits.utils.toFormattedString
 import org.isoron.uhabits.utils.toThemedAndroidColor
+
+fun formatFrequency(freqNum: Int, freqDen: Int, resources: Resources) = when {
+    freqNum == 1 && (freqDen == 30 || freqDen == 31) -> resources.getString(R.string.every_month)
+    freqDen == 30 || freqDen == 31 -> resources.getString(R.string.x_times_per_month, freqNum)
+    freqNum == 1 && freqDen == 1 -> resources.getString(R.string.every_day)
+    freqNum == 1 && freqDen == 7 -> resources.getString(R.string.every_week)
+    freqNum == 1 && freqDen > 1 -> resources.getString(R.string.every_x_days, freqDen)
+    freqDen == 7 -> resources.getString(R.string.x_times_per_week, freqNum)
+    else -> "$freqNum/$freqDen"
+}
 
 class EditHabitActivity : AppCompatActivity() {
 
@@ -299,14 +310,7 @@ class EditHabitActivity : AppCompatActivity() {
 
     @SuppressLint("StringFormatMatches")
     private fun populateFrequency() {
-        binding.booleanFrequencyPicker.text = when {
-            freqNum == 1 && freqDen == 1 -> getString(R.string.every_day)
-            freqNum == 1 && freqDen == 7 -> getString(R.string.every_week)
-            freqNum == 1 && freqDen > 1 -> getString(R.string.every_x_days, freqDen)
-            freqDen == 7 -> getString(R.string.x_times_per_week, freqNum)
-            freqDen == 30 || freqDen == 31 -> getString(R.string.x_times_per_month, freqNum)
-            else -> "$freqNum/$freqDen"
-        }
+        binding.booleanFrequencyPicker.text = formatFrequency(freqNum, freqDen, resources)
         binding.numericalFrequencyPicker.text = when (freqDen) {
             1 -> getString(R.string.every_day)
             7 -> getString(R.string.every_week)

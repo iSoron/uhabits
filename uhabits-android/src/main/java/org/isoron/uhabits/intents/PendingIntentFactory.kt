@@ -63,13 +63,14 @@ class PendingIntentFactory
             FLAG_UPDATE_CURRENT
         )
 
-    fun removeRepetition(habit: Habit): PendingIntent =
+    fun removeRepetition(habit: Habit, timestamp: Timestamp?): PendingIntent =
         getBroadcast(
             context,
             3,
             Intent(context, WidgetReceiver::class.java).apply {
                 action = WidgetReceiver.ACTION_REMOVE_REPETITION
                 data = Uri.parse(habit.uriString)
+                if (timestamp != null) putExtra("timestamp", timestamp.unixTime)
             },
             FLAG_UPDATE_CURRENT
         )

@@ -107,7 +107,7 @@ class AndroidNotificationTray
         val removeRepetitionAction = Action(
             R.drawable.ic_action_cancel,
             context.getString(R.string.no),
-            pendingIntents.removeRepetition(habit)
+            pendingIntents.removeRepetition(habit, timestamp)
         )
 
         val enterAction = Action(
