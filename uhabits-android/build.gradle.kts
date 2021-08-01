@@ -20,7 +20,7 @@
  */
 
 plugins {
-    id("com.github.triplet.play") version "3.2.0"
+    id("com.github.triplet.play") version "3.5.0"
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
@@ -118,7 +118,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kxCoroutinesVersion")
-    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.3.0")
