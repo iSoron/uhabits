@@ -33,7 +33,7 @@ application {
 }
 
 dependencies {
-    val ktorVersion = "1.6.1"
+    val ktorVersion = "1.6.2"
     val kotlinVersion = "1.5.20"
     val logbackVersion = "1.2.3"
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
