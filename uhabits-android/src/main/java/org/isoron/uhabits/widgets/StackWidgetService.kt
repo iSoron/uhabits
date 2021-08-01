@@ -53,7 +53,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         AppWidgetManager.INVALID_APPWIDGET_ID
     )
     private val habitIds: LongArray
-    private val widgetType: StackWidgetType?
+    private val widgetType: StackWidgetType
     private var remoteViews = ArrayList<RemoteViews>()
     override fun onCreate() {}
     override fun onDestroy() {}
@@ -105,7 +105,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
             StackWidgetType.SCORE -> ScoreWidget(context, widgetId, habit, true)
             StackWidgetType.HISTORY -> HistoryWidget(context, widgetId, habit, true)
             StackWidgetType.STREAKS -> StreakWidget(context, widgetId, habit, true)
-            else -> throw IllegalStateException()
+            StackWidgetType.TARGET -> TargetWidget(context, widgetId, habit, true)
         }
     }
 
@@ -157,6 +157,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         if (widgetTypeValue < 0) throw RuntimeException("invalid widget type")
         if (habitIdsStr == null) throw RuntimeException("habitIdsStr is null")
         widgetType = StackWidgetType.getWidgetTypeFromValue(widgetTypeValue)
+            ?: throw RuntimeException("unknown widget type value: $widgetTypeValue")
         habitIds = splitLongs(habitIdsStr)
     }
 }
