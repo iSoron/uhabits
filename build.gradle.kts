@@ -1,6 +1,6 @@
 plugins {
     val kotlinVersion = "1.5.0"
-    id("com.android.application") version ("4.1.0") apply (false)
+    id("com.android.application") version ("4.2.0") apply (false)
     id("org.jetbrains.kotlin.android") version kotlinVersion apply (false)
     id("org.jetbrains.kotlin.kapt") version kotlinVersion apply (false)
     id("org.jetbrains.kotlin.android.extensions") version kotlinVersion apply (false)
