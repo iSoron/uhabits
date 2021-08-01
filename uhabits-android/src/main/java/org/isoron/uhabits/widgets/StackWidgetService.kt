@@ -86,7 +86,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
 
     override fun getViewAt(position: Int): RemoteViews? {
         Log.i("StackRemoteViewsFactory", "getViewAt $position")
-        return if (position < 0 || position > remoteViews.size) null else remoteViews[position]
+        return if (0 <= position && position < remoteViews.size) remoteViews[position] else null
     }
 
     private fun constructWidget(
