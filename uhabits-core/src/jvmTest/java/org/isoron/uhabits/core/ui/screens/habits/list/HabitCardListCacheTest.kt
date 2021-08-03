@@ -43,7 +43,7 @@ class HabitCardListCacheTest : BaseUnitTest() {
         for (i in 0..9) {
             if (i == 3) habitList.add(fixtures.createLongHabit()) else habitList.add(fixtures.createShortHabit())
         }
-        cache = HabitCardListCache(habitList, commandRunner, taskRunner)
+        cache = HabitCardListCache(habitList, commandRunner, taskRunner, mock())
         cache.setCheckmarkCount(10)
         cache.refreshAllHabits()
         cache.onAttached()
