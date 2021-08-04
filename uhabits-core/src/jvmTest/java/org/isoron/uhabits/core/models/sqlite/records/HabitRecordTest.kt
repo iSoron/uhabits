@@ -22,7 +22,8 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Frequency
-import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
@@ -59,9 +60,9 @@ class HabitRecordTest : BaseUnitTest() {
             reminder = null
             id = 1L
             position = 15
-            type = Habit.NUMBER_HABIT
+            type = HabitType.NUMERICAL
             targetValue = 100.0
-            targetType = Habit.AT_LEAST
+            targetType = NumericalHabitType.AT_LEAST
             unit = "miles"
         }
         val record = HabitRecord()

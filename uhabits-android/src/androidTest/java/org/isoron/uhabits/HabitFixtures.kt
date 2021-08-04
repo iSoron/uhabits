@@ -23,10 +23,10 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Frequency.Companion.DAILY
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.Habit.Companion.AT_LEAST
-import org.isoron.uhabits.core.models.Habit.Companion.NUMBER_HABIT
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.ModelFactory
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
@@ -102,8 +102,8 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
         val habit = modelFactory.buildHabit().apply {
             name = "Read"
             question = "How many pages did you walk today?"
-            type = NUMBER_HABIT
-            targetType = AT_LEAST
+            type = HabitType.NUMERICAL
+            targetType = NumericalHabitType.AT_LEAST
             targetValue = 200.0
             unit = "pages"
         }

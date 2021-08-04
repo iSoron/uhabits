@@ -84,8 +84,8 @@ class HabitTest : BaseUnitTest() {
     @Throws(Exception::class)
     fun test_isCompleted_numerical() {
         val h = modelFactory.buildHabit()
-        h.type = Habit.NUMBER_HABIT
-        h.targetType = Habit.AT_LEAST
+        h.type = HabitType.NUMERICAL
+        h.targetType = NumericalHabitType.AT_LEAST
         h.targetValue = 100.0
         assertFalse(h.isCompletedToday())
         h.originalEntries.add(Entry(getToday(), 200000))
@@ -97,7 +97,7 @@ class HabitTest : BaseUnitTest() {
         h.originalEntries.add(Entry(getToday(), 50000))
         h.recompute()
         assertFalse(h.isCompletedToday())
-        h.targetType = Habit.AT_MOST
+        h.targetType = NumericalHabitType.AT_MOST
         h.originalEntries.add(Entry(getToday(), 200000))
         h.recompute()
         assertFalse(h.isCompletedToday())
