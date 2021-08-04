@@ -68,6 +68,19 @@ data class Habit(
         }
     }
 
+    fun isFailedToday(): Boolean {
+        val today = DateUtils.getTodayWithOffset()
+        val value = computedEntries.get(today).value
+        return if (isNumerical) {
+            when (targetType) {
+                NumericalHabitType.AT_LEAST -> value / 1000.0 < targetValue
+                NumericalHabitType.AT_MOST -> value / 1000.0 > targetValue
+            }
+        } else {
+            value == Entry.NO
+        }
+    }
+
     fun recompute() {
         computedEntries.recomputeFrom(
             originalEntries = originalEntries,
