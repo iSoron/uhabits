@@ -22,7 +22,9 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.ModelFactory
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.sqlite.SQLiteEntryList
@@ -65,11 +67,11 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
 
     fun createNumericalHabit(): Habit {
         val habit = modelFactory.buildHabit()
-        habit.type = Habit.NUMBER_HABIT
+        habit.type = HabitType.NUMERICAL
         habit.name = "Run"
         habit.question = "How many miles did you run today?"
         habit.unit = "miles"
-        habit.targetType = Habit.AT_LEAST
+        habit.targetType = NumericalHabitType.AT_LEAST
         habit.targetValue = 2.0
         habit.color = PaletteColor(1)
         saveIfSQLite(habit)
@@ -86,11 +88,11 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
 
     fun createLongNumericalHabit(reference: Timestamp): Habit {
         val habit = modelFactory.buildHabit()
-        habit.type = Habit.NUMBER_HABIT
+        habit.type = HabitType.NUMERICAL
         habit.name = "Walk"
         habit.question = "How many steps did you walk today?"
         habit.unit = "steps"
-        habit.targetType = Habit.AT_LEAST
+        habit.targetType = NumericalHabitType.AT_LEAST
         habit.targetValue = 100.0
         habit.color = PaletteColor(1)
         saveIfSQLite(habit)

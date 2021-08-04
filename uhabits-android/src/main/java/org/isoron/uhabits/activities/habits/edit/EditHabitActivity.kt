@@ -35,11 +35,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.android.datetimepicker.time.RadialPickerLayout
 import com.android.datetimepicker.time.TimePickerDialog
-import kotlinx.android.synthetic.main.activity_edit_habit.nameInput
-import kotlinx.android.synthetic.main.activity_edit_habit.notesInput
-import kotlinx.android.synthetic.main.activity_edit_habit.questionInput
-import kotlinx.android.synthetic.main.activity_edit_habit.targetInput
-import kotlinx.android.synthetic.main.activity_edit_habit.unitInput
+import kotlinx.android.synthetic.main.activity_edit_habit.*
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
@@ -51,6 +47,8 @@ import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
@@ -77,7 +75,7 @@ class EditHabitActivity : AppCompatActivity() {
     private lateinit var commandRunner: CommandRunner
 
     var habitId = -1L
-    var habitType = -1
+    lateinit var habitType: HabitType
     var unit = ""
     var color = PaletteColor(11)
     var androidColor = 0
@@ -116,12 +114,12 @@ class EditHabitActivity : AppCompatActivity() {
             binding.unitInput.setText(habit.unit)
             binding.targetInput.setText(habit.targetValue.toString())
         } else {
-            habitType = intent.getIntExtra("habitType", Habit.YES_NO_HABIT)
+            habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
         }
 
         if (state != null) {
             habitId = state.getLong("habitId")
-            habitType = state.getInt("habitType")
+            habitType = HabitType.fromInt(state.getInt("habitType"))
             color = PaletteColor(state.getInt("paletteColor"))
             freqNum = state.getInt("freqNum")
             freqDen = state.getInt("freqDen")
@@ -132,13 +130,16 @@ class EditHabitActivity : AppCompatActivity() {
 
         updateColors()
 
-        if (habitType == Habit.YES_NO_HABIT) {
-            binding.unitOuterBox.visibility = View.GONE
-            binding.targetOuterBox.visibility = View.GONE
-        } else {
-            binding.nameInput.hint = getString(R.string.measurable_short_example)
-            binding.questionInput.hint = getString(R.string.measurable_question_example)
-            binding.frequencyOuterBox.visibility = View.GONE
+        when (habitType) {
+            HabitType.YES_NO -> {
+                binding.unitOuterBox.visibility = View.GONE
+                binding.targetOuterBox.visibility = View.GONE
+            }
+            HabitType.NUMERICAL -> {
+                binding.nameInput.hint = getString(R.string.measurable_short_example)
+                binding.questionInput.hint = getString(R.string.measurable_question_example)
+                binding.frequencyOuterBox.visibility = View.GONE
+            }
         }
 
         setSupportActionBar(binding.toolbar)
@@ -255,9 +256,9 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         habit.frequency = Frequency(freqNum, freqDen)
-        if (habitType == Habit.NUMBER_HABIT) {
+        if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = targetInput.text.toString().toDouble()
-            habit.targetType = Habit.AT_LEAST
+            habit.targetType = NumericalHabitType.AT_LEAST
             habit.unit = unitInput.text.trim().toString()
         }
         habit.type = habitType
@@ -285,7 +286,7 @@ class EditHabitActivity : AppCompatActivity() {
             nameInput.error = getFormattedValidationError(R.string.validation_cannot_be_blank)
             isValid = false
         }
-        if (habitType == Habit.NUMBER_HABIT) {
+        if (habitType == HabitType.NUMERICAL) {
             if (targetInput.text.isEmpty()) {
                 targetInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
@@ -338,7 +339,7 @@ class EditHabitActivity : AppCompatActivity() {
         super.onSaveInstanceState(state)
         with(state) {
             putLong("habitId", habitId)
-            putInt("habitType", habitType)
+            putInt("habitType", habitType.value)
             putInt("paletteColor", color.paletteIndex)
             putInt("androidColor", androidColor)
             putInt("freqNum", freqNum)
