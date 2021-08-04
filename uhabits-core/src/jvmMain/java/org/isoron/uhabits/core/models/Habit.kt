@@ -31,9 +31,9 @@ data class Habit(
     var position: Int = 0,
     var question: String = "",
     var reminder: Reminder? = null,
-    var targetType: Int = AT_LEAST,
+    var targetType: NumericalHabitType = NumericalHabitType.AT_LEAST,
     var targetValue: Double = 0.0,
-    var type: Int = YES_NO_HABIT,
+    var type: HabitType = HabitType.YES_NO,
     var unit: String = "",
     var uuid: String? = null,
     val computedEntries: EntryList,
@@ -48,7 +48,7 @@ data class Habit(
     var observable = ModelObservable()
 
     val isNumerical: Boolean
-        get() = type == NUMBER_HABIT
+        get() = type == HabitType.NUMERICAL
 
     val uriString: String
         get() = "content://org.isoron.uhabits/habit/$id"
@@ -59,10 +59,9 @@ data class Habit(
         val today = DateUtils.getTodayWithOffset()
         val value = computedEntries.get(today).value
         return if (isNumerical) {
-            if (targetType == AT_LEAST) {
-                value / 1000.0 >= targetValue
-            } else {
-                value / 1000.0 <= targetValue
+            when (targetType) {
+                NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
+                NumericalHabitType.AT_MOST -> value / 1000.0 <= targetValue
             }
         } else {
             value != Entry.NO && value != Entry.UNKNOWN
@@ -146,18 +145,11 @@ data class Habit(
         result = 31 * result + position
         result = 31 * result + question.hashCode()
         result = 31 * result + (reminder?.hashCode() ?: 0)
-        result = 31 * result + targetType
+        result = 31 * result + targetType.value
         result = 31 * result + targetValue.hashCode()
-        result = 31 * result + type
+        result = 31 * result + type.value
         result = 31 * result + unit.hashCode()
         result = 31 * result + (uuid?.hashCode() ?: 0)
         return result
-    }
-
-    companion object {
-        const val AT_LEAST = 0
-        const val AT_MOST = 1
-        const val NUMBER_HABIT = 1
-        const val YES_NO_HABIT = 0
     }
 }
