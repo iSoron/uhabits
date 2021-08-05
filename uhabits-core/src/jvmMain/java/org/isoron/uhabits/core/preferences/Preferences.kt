@@ -258,7 +258,7 @@ open class Preferences(private val storage: Storage) {
             putString(key, joinLongs(values))
         }
 
-        fun getLongArray(key: String, defValue: LongArray): LongArray? {
+        fun getLongArray(key: String, defValue: LongArray): LongArray {
             val string = getString(key, "")
             return if (string.isEmpty()) defValue else splitLongs(
                 string

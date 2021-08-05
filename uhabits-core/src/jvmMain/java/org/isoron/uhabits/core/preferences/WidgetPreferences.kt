@@ -27,19 +27,18 @@ class WidgetPreferences @Inject constructor(private val storage: Preferences.Sto
         storage.putLongArray(getHabitIdKey(widgetId), habitIds)
     }
 
-    fun getHabitIdsFromWidgetId(widgetId: Int): LongArray? {
-        var habitIds: LongArray?
+    fun getHabitIdsFromWidgetId(widgetId: Int): LongArray {
         val habitIdKey = getHabitIdKey(widgetId)
-        try {
-            habitIds = storage.getLongArray(habitIdKey, longArrayOf(-1))
+        return try {
+            storage.getLongArray(habitIdKey, longArrayOf())
         } catch (e: ClassCastException) {
             // Up to Loop 1.7.11, this preference was not an array, but a single
             // long. Trying to read the old preference causes a cast exception.
-            habitIds = LongArray(1)
-            habitIds[0] = storage.getLong(habitIdKey, -1)
-            storage.putLongArray(habitIdKey, habitIds)
+            when (val habitId = storage.getLong(habitIdKey, -1)) {
+                -1L -> longArrayOf()
+                else -> longArrayOf(habitId)
+            }
         }
-        return habitIds
     }
 
     fun removeWidget(id: Int) {

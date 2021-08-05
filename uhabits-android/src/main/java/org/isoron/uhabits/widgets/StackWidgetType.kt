@@ -27,14 +27,14 @@ enum class StackWidgetType(val value: Int) {
 
     companion object {
         fun getWidgetTypeFromValue(value: Int): StackWidgetType? {
-            return when {
-                CHECKMARK.value == value -> CHECKMARK
-                FREQUENCY.value == value -> FREQUENCY
-                SCORE.value == value -> SCORE
-                HISTORY.value == value -> HISTORY
-                STREAKS.value == value -> STREAKS
-                TARGET.value == value -> TARGET
-                else -> throw IllegalStateException()
+            return when (value) {
+                CHECKMARK.value -> CHECKMARK
+                FREQUENCY.value -> FREQUENCY
+                SCORE.value -> SCORE
+                HISTORY.value -> HISTORY
+                STREAKS.value -> STREAKS
+                TARGET.value -> TARGET
+                else -> null
             }
         }
 
