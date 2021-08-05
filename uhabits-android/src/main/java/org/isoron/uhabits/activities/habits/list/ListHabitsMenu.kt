@@ -52,6 +52,11 @@ class ListHabitsMenu @Inject constructor(
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
+        if (preferences.areQuestionMarksEnabled || preferences.isSkipEnabled) {
+            hideCompletedItem.title = activity.resources.getString(R.string.hide_entered)
+        } else {
+            hideCompletedItem.title = activity.resources.getString(R.string.hide_completed)
+        }
         updateArrows(menu)
     }
 

@@ -102,7 +102,7 @@ class CheckmarkWidgetView : HabitWidgetView {
             SKIP -> resources.getString(R.string.fa_skipped)
             UNKNOWN -> {
                 run {
-                    if (preferences!!.areQuestionMarksEnabled()) {
+                    if (preferences!!.areQuestionMarksEnabled) {
                         return resources.getString(R.string.fa_question)
                     } else {
                         resources.getString(R.string.fa_times)

@@ -131,7 +131,7 @@ class CheckmarkButtonView(
             paint.color = when (value) {
                 YES_MANUAL, YES_AUTO, SKIP -> color
                 NO -> {
-                    if (preferences.areQuestionMarksEnabled()) mediumContrastColor
+                    if (preferences.areQuestionMarksEnabled) mediumContrastColor
                     else lowContrastColor
                 }
                 else -> lowContrastColor
@@ -140,7 +140,7 @@ class CheckmarkButtonView(
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
                 UNKNOWN -> {
-                    if (preferences.areQuestionMarksEnabled()) R.string.fa_question
+                    if (preferences.areQuestionMarksEnabled) R.string.fa_question
                     else R.string.fa_times
                 }
                 else -> R.string.fa_check

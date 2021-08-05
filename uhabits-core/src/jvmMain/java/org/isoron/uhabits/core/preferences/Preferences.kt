@@ -205,9 +205,12 @@ open class Preferences(private val storage: Storage) {
             storage.putBoolean("pref_skip_enabled", value)
         }
 
-    fun areQuestionMarksEnabled(): Boolean {
-        return storage.getBoolean("pref_unknown_enabled", false)
-    }
+    var areQuestionMarksEnabled: Boolean
+        get() = storage.getBoolean("pref_unknown_enabled", false)
+        set(value) {
+            storage.putBoolean("pref_unknown_enabled", value)
+            for (l in listeners) l.onQuestionMarksChanged()
+        }
 
     /**
      * @return An integer representing the first day of the week. Sunday
@@ -240,6 +243,7 @@ open class Preferences(private val storage: Storage) {
     interface Listener {
         fun onCheckmarkSequenceChanged() {}
         fun onNotificationsChanged() {}
+        fun onQuestionMarksChanged() {}
     }
 
     interface Storage {
