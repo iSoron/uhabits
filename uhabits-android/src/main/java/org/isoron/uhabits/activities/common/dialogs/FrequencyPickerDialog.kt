@@ -160,26 +160,28 @@ class FrequencyPickerDialog(
 
     private fun populateViews() {
         uncheckAll()
-        if (freqNumerator == 1) {
-            if (freqDenominator == 1) {
-                contentView.everyDayRadioButton.isChecked = true
-            } else {
-                contentView.everyXDaysRadioButton.isChecked = true
-                contentView.everyXDaysTextView.setText(freqDenominator.toString())
-                focus(contentView.everyXDaysTextView)
-            }
+        if (freqDenominator == 30 || freqDenominator == 31) {
+            contentView.xTimesPerMonthRadioButton.isChecked = true
+            contentView.xTimesPerMonthTextView.setText(freqNumerator.toString())
+            focus(contentView.xTimesPerMonthTextView)
         } else {
-            if (freqDenominator == 7) {
-                contentView.xTimesPerWeekRadioButton.isChecked = true
-                contentView.xTimesPerWeekTextView.setText(freqNumerator.toString())
-                focus(contentView.xTimesPerWeekTextView)
-            } else if (freqDenominator == 30 || freqDenominator == 31) {
-                contentView.xTimesPerMonthRadioButton.isChecked = true
-                contentView.xTimesPerMonthTextView.setText(freqNumerator.toString())
-                focus(contentView.xTimesPerMonthTextView)
+            if (freqNumerator == 1) {
+                if (freqDenominator == 1) {
+                    contentView.everyDayRadioButton.isChecked = true
+                } else {
+                    contentView.everyXDaysRadioButton.isChecked = true
+                    contentView.everyXDaysTextView.setText(freqDenominator.toString())
+                    focus(contentView.everyXDaysTextView)
+                }
             } else {
-                Log.w("FrequencyPickerDialog", "Unknown frequency: $freqNumerator/$freqDenominator")
-                contentView.everyDayRadioButton.isChecked = true
+                if (freqDenominator == 7) {
+                    contentView.xTimesPerWeekRadioButton.isChecked = true
+                    contentView.xTimesPerWeekTextView.setText(freqNumerator.toString())
+                    focus(contentView.xTimesPerWeekTextView)
+                } else {
+                    Log.w("FrequencyPickerDialog", "Unknown frequency: $freqNumerator/$freqDenominator")
+                    contentView.everyDayRadioButton.isChecked = true
+                }
             }
         }
     }

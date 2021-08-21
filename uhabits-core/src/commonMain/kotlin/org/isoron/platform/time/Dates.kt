@@ -72,10 +72,20 @@ data class LocalDate(val daysSince2000: Int) {
             return dayCache
         }
 
+    val monthLength: Int
+        get() = when (month) {
+            4, 6, 9, 11 -> 30
+            2 -> if (isLeapYear(year)) 29 else 28
+            else -> 31
+        }
+
     private fun updateYearMonthDayCache() {
         var currYear = 2000
         var currDay = 0
-
+        if (daysSince2000 < 0) {
+            currYear -= 400
+            currDay -= 146097
+        }
         while (true) {
             val currYearLength = if (isLeapYear(currYear)) 366 else 365
             if (daysSince2000 < currDay + currYearLength) {
@@ -86,10 +96,8 @@ data class LocalDate(val daysSince2000: Int) {
                 currDay += currYearLength
             }
         }
-
         var currMonth = 1
         val monthOffset = if (isLeapYear(currYear)) leapOffset else nonLeapOffset
-
         while (true) {
             if (daysSince2000 < currDay + monthOffset[currMonth]) {
                 monthCache = currMonth
@@ -98,7 +106,6 @@ data class LocalDate(val daysSince2000: Int) {
                 currMonth++
             }
         }
-
         currDay += monthOffset[currMonth - 1]
         dayCache = daysSince2000 - currDay + 1
     }

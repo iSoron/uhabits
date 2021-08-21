@@ -109,7 +109,7 @@ abstract class BaseWidgetProvider : AppWidgetProvider() {
     }
 
     protected fun getHabitsFromWidgetId(widgetId: Int): List<Habit> {
-        val selectedIds = widgetPrefs.getHabitIdsFromWidgetId(widgetId)!!
+        val selectedIds = widgetPrefs.getHabitIdsFromWidgetId(widgetId)
         val selectedHabits = ArrayList<Habit>(selectedIds.size)
         for (id in selectedIds) {
             val h = habits.getById(id) ?: throw HabitNotFoundException()

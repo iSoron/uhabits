@@ -44,6 +44,7 @@ import org.isoron.uhabits.utils.addAtBottom
 import org.isoron.uhabits.utils.addAtTop
 import org.isoron.uhabits.utils.addBelow
 import org.isoron.uhabits.utils.buildToolbar
+import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.setupToolbar
@@ -93,6 +94,7 @@ class ListHabitsRootView @Inject constructor(
             title = resources.getString(R.string.main_activity_title),
             color = PaletteColor(17),
             displayHomeAsUpEnabled = false,
+            theme = currentTheme(),
         )
         addView(rootView, MATCH_PARENT, MATCH_PARENT)
         listAdapter.setListView(listView)

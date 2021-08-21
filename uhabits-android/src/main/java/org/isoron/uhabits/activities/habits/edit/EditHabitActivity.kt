@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.edit
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
@@ -39,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_edit_habit.notesInput
 import kotlinx.android.synthetic.main.activity_edit_habit.questionInput
 import kotlinx.android.synthetic.main.activity_edit_habit.targetInput
 import kotlinx.android.synthetic.main.activity_edit_habit.unitInput
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
@@ -57,7 +59,16 @@ import org.isoron.uhabits.databinding.ActivityEditHabitBinding
 import org.isoron.uhabits.utils.ColorUtils
 import org.isoron.uhabits.utils.formatTime
 import org.isoron.uhabits.utils.toFormattedString
-import org.isoron.uhabits.utils.toThemedAndroidColor
+
+fun formatFrequency(freqNum: Int, freqDen: Int, resources: Resources) = when {
+    freqNum == 1 && (freqDen == 30 || freqDen == 31) -> resources.getString(R.string.every_month)
+    freqDen == 30 || freqDen == 31 -> resources.getString(R.string.x_times_per_month, freqNum)
+    freqNum == 1 && freqDen == 1 -> resources.getString(R.string.every_day)
+    freqNum == 1 && freqDen == 7 -> resources.getString(R.string.every_week)
+    freqNum == 1 && freqDen > 1 -> resources.getString(R.string.every_x_days, freqDen)
+    freqDen == 7 -> resources.getString(R.string.x_times_per_week, freqNum)
+    else -> "$freqNum/$freqDen"
+}
 
 class EditHabitActivity : AppCompatActivity() {
 
@@ -137,7 +148,7 @@ class EditHabitActivity : AppCompatActivity() {
 
         val colorPickerDialogFactory = ColorPickerDialogFactory(this)
         binding.colorButton.setOnClickListener {
-            val dialog = colorPickerDialogFactory.create(color)
+            val dialog = colorPickerDialogFactory.create(color, themeSwitcher.currentTheme)
             dialog.setListener { paletteColor ->
                 this.color = paletteColor
                 updateColors()
@@ -299,14 +310,7 @@ class EditHabitActivity : AppCompatActivity() {
 
     @SuppressLint("StringFormatMatches")
     private fun populateFrequency() {
-        binding.booleanFrequencyPicker.text = when {
-            freqNum == 1 && freqDen == 1 -> getString(R.string.every_day)
-            freqNum == 1 && freqDen == 7 -> getString(R.string.every_week)
-            freqNum == 1 && freqDen > 1 -> getString(R.string.every_x_days, freqDen)
-            freqDen == 7 -> getString(R.string.x_times_per_week, freqNum)
-            freqDen == 30 || freqDen == 31 -> getString(R.string.x_times_per_month, freqNum)
-            else -> "$freqNum/$freqDen"
-        }
+        binding.booleanFrequencyPicker.text = formatFrequency(freqNum, freqDen, resources)
         binding.numericalFrequencyPicker.text = when (freqDen) {
             1 -> getString(R.string.every_day)
             7 -> getString(R.string.every_week)
@@ -316,7 +320,7 @@ class EditHabitActivity : AppCompatActivity() {
     }
 
     private fun updateColors() {
-        androidColor = color.toThemedAndroidColor(this)
+        androidColor = themeSwitcher.currentTheme.color(color).toInt()
         binding.colorButton.backgroundTintList = ColorStateList.valueOf(androidColor)
         if (!themeSwitcher.isNightMode) {
             val darkerAndroidColor = ColorUtils.mixColors(Color.BLACK, androidColor, 0.15f)

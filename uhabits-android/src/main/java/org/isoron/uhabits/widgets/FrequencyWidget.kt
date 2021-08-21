@@ -22,9 +22,10 @@ package org.isoron.uhabits.widgets
 import android.app.PendingIntent
 import android.content.Context
 import android.view.View
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.activities.common.views.FrequencyChart
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class FrequencyWidget(
@@ -47,7 +48,7 @@ class FrequencyWidget(
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         (widgetView.dataView as FrequencyChart).apply {
             setFirstWeekday(firstWeekday)
-            setColor(habit.color.toThemedAndroidColor(context))
+            setColor(WidgetTheme().color(habit.color).toInt())
             setFrequency(habit.originalEntries.computeWeekdayFrequency(habit.isNumerical))
         }
     }

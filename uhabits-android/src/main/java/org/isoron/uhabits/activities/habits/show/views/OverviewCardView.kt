@@ -22,11 +22,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardState
 import org.isoron.uhabits.databinding.ShowHabitOverviewBinding
 import org.isoron.uhabits.utils.StyledResources
-import org.isoron.uhabits.utils.toThemedAndroidColor
 import kotlin.math.abs
 
 class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -42,7 +42,7 @@ class OverviewCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
     }
 
     fun setState(state: OverviewCardState) {
-        val androidColor = state.color.toThemedAndroidColor(context)
+        val androidColor = state.theme.color(state.color).toInt()
         val res = StyledResources(context)
         val inactiveColor = res.getColor(R.attr.contrast60)
         binding.monthDiffLabel.setTextColor(if (state.scoreMonthDiff >= 0) androidColor else inactiveColor)

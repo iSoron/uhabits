@@ -22,12 +22,14 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.ui.views.Theme
 import java.util.HashMap
 
 data class FrequencyCardState(
     val color: PaletteColor,
     val firstWeekday: Int,
     val frequency: HashMap<Timestamp, Array<Int>>,
+    val theme: Theme,
 )
 
 class FrequencyCardPresenter {
@@ -35,12 +37,14 @@ class FrequencyCardPresenter {
         fun buildState(
             habit: Habit,
             firstWeekday: Int,
+            theme: Theme
         ) = FrequencyCardState(
             color = habit.color,
             frequency = habit.originalEntries.computeWeekdayFrequency(
                 isNumerical = habit.isNumerical
             ),
             firstWeekday = firstWeekday,
+            theme = theme,
         )
     }
 }

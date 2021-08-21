@@ -32,6 +32,7 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.intents.PendingIntentFactory
+import kotlin.math.max
 
 abstract class BaseWidget(val context: Context, val id: Int, val stacked: Boolean) {
     private val widgetPrefs: WidgetPreferences
@@ -103,8 +104,8 @@ abstract class BaseWidget(val context: Context, val id: Int, val stacked: Boolea
 
     private fun getBitmapFromView(view: View): Bitmap {
         view.invalidate()
-        val width = view.measuredWidth
-        val height = view.measuredHeight
+        val width = max(1, view.measuredWidth)
+        val height = max(1, view.measuredHeight)
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         view.draw(canvas)

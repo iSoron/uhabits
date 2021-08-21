@@ -28,6 +28,7 @@ import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList.Companion.EVERY_DAY
 import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -54,6 +55,7 @@ class SubtitleCardViewTest : BaseViewTest() {
                 reminder = Reminder(8, 30, EVERY_DAY),
                 unit = "",
                 targetValue = 0.0,
+                theme = LightTheme(),
             )
         )
         measureView(view, 800f, 200f)

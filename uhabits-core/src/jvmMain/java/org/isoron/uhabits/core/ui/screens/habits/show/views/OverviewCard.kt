@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 
 data class OverviewCardState(
@@ -30,11 +31,12 @@ data class OverviewCardState(
     val scoreYearDiff: Float,
     val scoreToday: Float,
     val totalCount: Long,
+    val theme: Theme,
 )
 
 class OverviewCardPresenter {
     companion object {
-        fun buildState(habit: Habit): OverviewCardState {
+        fun buildState(habit: Habit, theme: Theme): OverviewCardState {
             val today = DateUtils.getTodayWithOffset()
             val lastMonth = today.minus(30)
             val lastYear = today.minus(365)
@@ -52,6 +54,7 @@ class OverviewCardPresenter {
                 scoreMonthDiff = scoreToday - scoreLastMonth,
                 scoreYearDiff = scoreToday - scoreLastYear,
                 totalCount = totalCount,
+                theme = theme,
             )
         }
     }
