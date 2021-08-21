@@ -1,10 +1,14 @@
 # Changelog
 
-## [2.0.3] - [Unreleased]
+## [2.0.3] - 2021-08-21
 ### Fixed
-- Improve automatic checkmarks for monthly habits (@iSoron, 947)
+- Improve automatic checkmarks for monthly habits (@iSoron, #947)
 - Fix small theme issues (@iSoron)
 - Fix ANR on some Samsung phones (@iSoron, #962)
+- Fix dates before the year 2000 (@iSoron, #967)
+- Fix notification adding checkmarks to the wrong day (@hiqua, #969)
+- Fix crashes in widgets (@hiqua, @iSoron, #907, #966, #965)
+- Fix crash when moving habits (@hiqua, #968)
 
 ## [2.0.2] - 2021-05-23
 

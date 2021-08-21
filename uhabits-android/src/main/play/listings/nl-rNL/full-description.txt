@@ -15,7 +15,7 @@ Plan notificaties om jezelf te herinneren aan je gewoontes. Elke gewoonte kan zi
 <b>Widgets</b>
 Wordt bij elke telefoonontgrendeling herinnerd aan je gewoontes. Kleurrijke widgets maken het mogelijk je gewoontes direct vanuit het startscherm te tracken, zonder de app te openen.
 
-<b>Neem controle over uw gegevens</b>
+<b>Neem controle over je gegevens</b>
 Als je jouw gegevens verder wilt analyseren, of wil verplaatsen in een andere service, dan geeft Loop je de mogelijkheid het te exporteren naar spreadsheets (CSV) of naar een databasebestand (SQlite). Voor hoofdgebruikers kunnen vinkjes worden toegevoegd via andere apps, zoals Tasker.
 
 <b>Geen beperkingen</b>

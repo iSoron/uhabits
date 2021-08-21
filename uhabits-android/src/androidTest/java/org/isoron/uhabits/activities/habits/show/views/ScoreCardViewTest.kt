@@ -25,6 +25,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter.Companion.buildState
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,7 +44,14 @@ class ScoreCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.scoreCard) as ScoreCardView
-        view.setState(buildState(habit = habit, firstWeekday = 0, spinnerPosition = 0))
+        view.setState(
+            buildState(
+                habit = habit,
+                firstWeekday = 0,
+                spinnerPosition = 0,
+                theme = LightTheme(),
+            )
+        )
         measureView(view, 800f, 600f)
     }
 

@@ -172,4 +172,5 @@
     <string name="every_month">Každý měsíc</string>
     <string name="validation_cannot_be_blank">Musíte vyplnit</string>
     <string name="today">Dnes</string>
+    <string name="you_are_now_a_developer">Nyní jste vývojář</string>
 </resources>

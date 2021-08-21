@@ -32,13 +32,15 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val component = (application as HabitsApplication).component
-        AndroidThemeSwitcher(this, component.preferences).apply()
+        val themeSwitcher = AndroidThemeSwitcher(this, component.preferences)
+        themeSwitcher.apply()
 
         val binding = SettingsActivityBinding.inflate(LayoutInflater.from(this))
         binding.root.setupToolbar(
             toolbar = binding.toolbar,
             title = resources.getString(R.string.settings),
             color = PaletteColor(11),
+            theme = themeSwitcher.currentTheme,
         )
         setContentView(binding.root)
     }

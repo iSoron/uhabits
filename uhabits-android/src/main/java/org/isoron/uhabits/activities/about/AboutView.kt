@@ -26,6 +26,7 @@ import org.isoron.uhabits.BuildConfig
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.databinding.AboutBinding
+import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.setupToolbar
 
 @SuppressLint("ViewConstructor")
@@ -41,7 +42,8 @@ class AboutView(
         setupToolbar(
             toolbar = binding.toolbar,
             color = PaletteColor(11),
-            title = resources.getString(R.string.about)
+            title = resources.getString(R.string.about),
+            theme = currentTheme(),
         )
         val version = resources.getString(R.string.version_n)
         binding.tvContributors.setOnClickListener { screen.showCodeContributorsWebsite() }

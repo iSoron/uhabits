@@ -24,10 +24,11 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.isoron.uhabits.core.utils.DateUtils
-import org.isoron.uhabits.utils.toThemedAndroidColor
 import org.isoron.uhabits.widgets.views.CheckmarkWidgetView
 
 open class CheckmarkWidget(
@@ -53,7 +54,7 @@ open class CheckmarkWidget(
         (widgetView as CheckmarkWidgetView).apply {
             val today = DateUtils.getTodayWithOffset()
             setBackgroundAlpha(preferedBackgroundAlpha)
-            activeColor = habit.color.toThemedAndroidColor(context)
+            activeColor = WidgetTheme().color(habit.color).toInt()
             name = habit.name
             entryValue = habit.computedEntries.get(today).value
             if (habit.isNumerical) {

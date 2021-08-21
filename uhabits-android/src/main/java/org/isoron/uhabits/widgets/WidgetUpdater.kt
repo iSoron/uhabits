@@ -95,7 +95,7 @@ class WidgetUpdater
         val modifiedWidgetIds = when (modifiedHabitId) {
             null -> widgetIds.toList()
             else -> widgetIds.filter { w ->
-                widgetPrefs.getHabitIdsFromWidgetId(w)!!.contains(modifiedHabitId)
+                widgetPrefs.getHabitIdsFromWidgetId(w).contains(modifiedHabitId)
             }
         }
 

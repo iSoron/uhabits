@@ -33,6 +33,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
@@ -41,9 +42,9 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
-import org.isoron.uhabits.utils.toThemedAndroidColor
 import javax.inject.Inject
 
 class HabitCardViewFactory
@@ -213,7 +214,7 @@ class HabitCardView(
         fun getActiveColor(habit: Habit): Int {
             return when (habit.isArchived) {
                 true -> sres.getColor(R.attr.contrast60)
-                false -> habit.color.toThemedAndroidColor(context)
+                false -> currentTheme().color(habit.color).toInt()
             }
         }
 

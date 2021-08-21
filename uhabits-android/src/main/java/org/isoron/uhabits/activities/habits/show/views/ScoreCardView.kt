@@ -24,16 +24,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardState
 import org.isoron.uhabits.databinding.ShowHabitScoreBinding
-import org.isoron.uhabits.utils.toThemedAndroidColor
 
 class ScoreCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private var binding = ShowHabitScoreBinding.inflate(LayoutInflater.from(context), this)
 
     fun setState(state: ScoreCardState) {
-        val androidColor = state.color.toThemedAndroidColor(context)
+        val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
         binding.spinner.setSelection(state.spinnerPosition)
         binding.scoreView.setScores(state.scores)

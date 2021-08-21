@@ -23,6 +23,7 @@ import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.io.Logging
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitList.Order
@@ -54,8 +55,12 @@ import javax.inject.Inject
 class HabitCardListCache @Inject constructor(
     private val allHabits: HabitList,
     private val commandRunner: CommandRunner,
-    taskRunner: TaskRunner
+    taskRunner: TaskRunner,
+    logging: Logging,
 ) : CommandRunner.Listener {
+
+    private val logger = logging.getLogger("HabitCardListCache")
+
     private var checkmarkCount = 0
     private var currentFetchTask: Task? = null
     private var listener: Listener
@@ -316,8 +321,17 @@ class HabitCardListCache @Inject constructor(
             toPosition: Int
         ) {
             data.habits.removeAt(fromPosition)
-            data.habits.add(toPosition, habit)
-            listener.onItemMoved(fromPosition, toPosition)
+
+            // Workaround for https://github.com/iSoron/uhabits/issues/968
+            val checkedToPosition = if (toPosition > data.habits.size) {
+                logger.error("performMove: $toPosition is strictly higher than ${data.habits.size}")
+                data.habits.size
+            } else {
+                toPosition
+            }
+
+            data.habits.add(checkedToPosition, habit)
+            listener.onItemMoved(fromPosition, checkedToPosition)
         }
 
         @Synchronized

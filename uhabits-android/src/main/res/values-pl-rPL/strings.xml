@@ -28,6 +28,30 @@
     <string name="add_habit">Dodaj nawyk</string>
     <string name="color_picker_default_title">Zmień kolor</string>
     <string name="toast_habit_created">Utworzono nawyk</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Zmieniono nawyk</item>
+        <item quantity="few">Zmieniono nawyki</item>
+        <item quantity="many">Zmieniono nawyki</item>
+        <item quantity="other">Zmieniono nawyki</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Nawyk usunięty</item>
+        <item quantity="few">Nawyki usunięte</item>
+        <item quantity="many">Nawyki usunięte</item>
+        <item quantity="other">Usunięto nawyki</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Zarchiwizowano nawyk</item>
+        <item quantity="few">Zarchiwizowano nawyki</item>
+        <item quantity="many">Zarchiwizowano nawyki</item>
+        <item quantity="other">Zarchiwizowano nawyki</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Nawyk przywrócony z archiwum</item>
+        <item quantity="few">Nawyki przywrócone z archiwum</item>
+        <item quantity="many">Nawyk przywrócony z archiwum</item>
+        <item quantity="other">Nawyki zostały przywrócone z archiwum</item>
+    </plurals>
     <string name="overview">Przegląd</string>
     <string name="habit_strength">Siła nawyku</string>
     <string name="history">Historia</string>
@@ -70,6 +94,18 @@
     <string name="hint_title">Czy wiesz że?</string>
     <string name="hint_drag">Aby zmienić kolejność naciśnij i przytrzymaj na nazwie nawyku i przesuń go na odpowiednie miejsce.</string>
     <string name="hint_landscape">Możesz zobaczyć więcej dni trzymając telefon poziomo.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Usunąć nawyk?</item>
+        <item quantity="few">Usunąć nawyki?</item>
+        <item quantity="many">Usunąć nawyki?</item>
+        <item quantity="other">Usunąć nawyki?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Nawyk zostanie trwale usunięty. Tej czynności nie można cofnąć.</item>
+        <item quantity="few">Nawyki zostaną trwale usunięte. Tej czynności nie można cofnąć.</item>
+        <item quantity="many">Nawyki zostaną trwale usunięte. Tej czynności nie można cofnąć.</item>
+        <item quantity="other">Nawyki zostaną trwale usunięte. Tej operacji nie można cofnąć.</item>
+    </plurals>
     <string name="habit_not_found">Nawyk usunięty/nie znaleziony</string>
     <string name="weekends">Weekendy</string>
     <string name="any_weekday">Dni robocze</string>

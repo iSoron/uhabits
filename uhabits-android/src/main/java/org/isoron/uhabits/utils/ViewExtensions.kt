@@ -40,8 +40,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
+import org.isoron.platform.gui.toInt
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.views.Theme
 import java.io.File
 
 fun RelativeLayout.addBelow(
@@ -157,6 +161,7 @@ fun View.setupToolbar(
     toolbar: Toolbar,
     title: String,
     color: PaletteColor,
+    theme: Theme,
     displayHomeAsUpEnabled: Boolean = true,
 ) {
     toolbar.elevation = InterfaceUtils.dpToPixels(context, 2f)
@@ -165,7 +170,7 @@ fun View.setupToolbar(
     val toolbarColor = if (!res.getBoolean(R.attr.useHabitColorAsPrimary)) {
         StyledResources(context).getColor(R.attr.colorPrimary)
     } else {
-        color.toThemedAndroidColor(context)
+        theme.color(color).toInt()
     }
     val darkerColor = ColorUtils.mixColors(toolbarColor, Color.BLACK, 0.75f)
     toolbar.background = ColorDrawable(toolbarColor)
@@ -173,6 +178,13 @@ fun View.setupToolbar(
     activity.window.statusBarColor = darkerColor
     activity.setSupportActionBar(toolbar)
     activity.supportActionBar?.setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
+}
+
+fun View.currentTheme(): Theme {
+    val component = (context.applicationContext as HabitsApplication).component
+    val themeSwitcher = AndroidThemeSwitcher(context, component.preferences)
+    themeSwitcher.apply()
+    return themeSwitcher.currentTheme
 }
 
 fun Int.toMeasureSpec(mode: Int) =
