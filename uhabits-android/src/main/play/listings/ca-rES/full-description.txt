@@ -1,4 +1,4 @@
-Loop Seguiment d'hàbits t'ajuda a crear i mantenir en la teva vida hàbits positius de llarg termini. Estadístiques i gràfiques detallades et donen una imatge clara de com els teus hàbits han millorat en el temps. L'app és completament sense anuncis, de codi obert i respecta la teva privadesa.
+Loop Seguiment d'hàbits t'ajuda a crear i mantenir en la teva vida hàbits positius de llarg termini. Gràfics i estadístiques detallades us proporcionen una imatge clara de com els vostres hàbits han millorat amb el pas del temps. L'aplicació Blokada és totalment lliure de publicitat, de codi obert i respecta la vostra privadesa.
 
 <b>Interfície minimalista, lleugera i bonica</b>
 Loop té una interfície elegant i minimalista que es molt fàcil d'usar, inclús per als usuaris primerencs. Altament optimitzada per a que sigui ràpida, l'app funciona bé inclús en telèfons antics.

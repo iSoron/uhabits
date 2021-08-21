@@ -28,6 +28,18 @@
     <string name="add_habit">加入新習慣</string>
     <string name="color_picker_default_title">選擇顏色</string>
     <string name="toast_habit_created">習慣已增加</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="other">習慣更改完成</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="other">習慣已刪除</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="other">習慣已封存</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="other">習慣已取消封存</item>
+    </plurals>
     <string name="overview">總覽</string>
     <string name="habit_strength">習慣強度</string>
     <string name="history">歴史紀錄</string>
@@ -36,6 +48,7 @@
     <string name="save">儲存</string>
     <string name="streaks">記錄</string>
     <string name="no_habits_found">你還沒有建立任何習慣</string>
+    <string name="no_habits_left_to_do">今天預定的任務已全數完成！</string>
     <string name="long_press_to_toggle">請以長按來標記或取消標記</string>
     <string name="reminder_off">關閉</string>
     <string name="create_habit">新增習慣</string>
@@ -69,6 +82,12 @@
     <string name="hint_title">你知道嗎？</string>
     <string name="hint_drag">如果要重新排列習慣，可以將其拖曳到理想的位置</string>
     <string name="hint_landscape">把手機橫放可以看到更多天數</string>
+    <plurals name="delete_habits_title">
+        <item quantity="other">你確定要刪除習慣？</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="other">此習慣會被永久刪除，而且無法復原</item>
+    </plurals>
     <string name="habit_not_found">習慣已刪除 / 搜尋不到</string>
     <string name="weekends">週末</string>
     <string name="any_weekday">工作日</string>
@@ -142,6 +161,7 @@
     <string name="by_name">根據名稱</string>
     <string name="by_color">根據顏色</string>
     <string name="by_score">根據分數</string>
+    <string name="by_status">依據狀態</string>
     <string name="export">匯出</string>
     <string name="long_press_to_edit">持續按住來改換數值</string>
     <string name="change_value">更改數值</string>
@@ -164,7 +184,8 @@
     <string name="notes">備註</string>
     <string name="example_notes">（非必要的）</string>
     <string name="yes_or_no_example">例如： 你今天有早起嗎？你有運動嗎？你有下棋嗎？</string>
-    <string name="measurable">可測量進度</string>
+    <string name="measurable">可量化的</string>
+    <string name="measurable_example">例如：今天你跑了幾英哩？你讀了幾頁書？</string>
     <string name="x_times_per_week">每周 %d 次</string>
     <string name="x_times_per_month">每月 %d 次</string>
     <string name="yes_or_no_short_example">例如：運動</string>
@@ -176,4 +197,18 @@
     <string name="every_month">每個月</string>
     <string name="validation_cannot_be_blank">必填</string>
     <string name="today">今天</string>
+    <string name="enter">輸入</string>
+    <string name="no_habits">找不到任何習慣</string>
+    <string name="no_numerical_habits">找不到可衡量的習慣</string>
+    <string name="no_boolean_habits">找不到是非題的習慣</string>
+    <string name="increment">遞增</string>
+    <string name="decrement">遞减</string>
+    <string name="pref_skip_title">啟用跳過天數功能</string>
+    <string name="pref_skip_description">切換兩次、設定跳過，以取代完成標記。跳過功能將維持你的分數不變，不打破你的連續紀錄。</string>
+    <string name="pref_unknown_title">在資料缺漏處顯示問號</string>
+    <string name="pref_unknown_description">將沒有數據的天數與逾期者分開。要更改逾期設定，請切換兩次。</string>
+    <string name="you_are_now_a_developer">你現在已成為開發人員！</string>
+    <string name="activity_not_found">找不到可以處理這個動作的應用程式。</string>
+    <string name="pref_midnight_delay_title">將一天延長到午夜過後幾個小時</string>
+    <string name="pref_midnight_delay_description">凌晨3點後再顯示新的一天。如果你通常在午夜以後才睡，這能幫上忙。重新啟動後才生效。</string>
 </resources>

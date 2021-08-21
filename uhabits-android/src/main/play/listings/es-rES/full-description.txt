@@ -1,7 +1,7 @@
-Loop Habit Tracker te ayuda a crear y mantener hábitos positivos y a largo plazo en tu vida. Gráficos detallados y las estadísticas te dan una idea clara de cómo tus hábitos han mejorado con el tiempo. La aplicación es completamente gratis, de código abierto y respeta tu privacidad.
+Loop Habit Tracker te ayuda a crear y mantener hábitos positivos de largo plazo en tu vida. Gráficos detallados y estadísticas te dan una idea clara de cómo tus hábitos han mejorado con el tiempo. La aplicación es completamente gratis, de código abierto y respeta tu privacidad.
 
-<b>Interfase hermosa, minimalista y liviana</b>
-Loop tiene una interfaz elegante y minimalista que es muy fácil de usar, incluso para usuarios nuevos. Muy optimizada para la velocidad, la aplicación funciona bien incluso en teléfonos más antiguos.
+<b>Interfaz hermosa, minimalista y liviana</b>
+Loop tiene una interfaz elegante y minimalista que es muy fácil de usar, incluso para usuarios nuevos. Altamente optimizada para la velocidad, la aplicación funciona bien incluso en teléfonos más antiguos.
 
 <b>Puntaje de hábitos</b>
 Loop tiene una fórmula avanzada para calcular la fuerza de tus hábitos. Cada repetición fortalece tu hábito y cada día perdido lo debilita. Sin embargo, unos días perdidos después de una larga racha no destruirán por completo tu progreso, a diferencia de muchas otras aplicaciones del tipo "no rompas la cadena".
@@ -13,15 +13,15 @@ Además de los hábitos diarios, Loop admite hábitos con horarios más complejo
 Programa notificaciones para recordarte tus hábitos. Cada hábito puede tener su propio recordatorio, a la hora elegida del día. Marca o descarta fácilmente tu hábito directamente de la notificación.
 
 <b>Widgets</b>
-Recuerda tus hábitos apenas desbloqueando el teléfono. Los widgets de colores te permiten rastrear tus hábitos directamente desde tu pantalla de inicio, sin siquiera abrir la aplicación.
+Recuerde sus hábitos cada vez que desbloquee su teléfono. Los widgets de colores te permiten rastrear tus hábitos directamente desde tu pantalla de inicio, sin siquiera abrir la aplicación.
 
 <b>Toma el control de tus datos</b>
-Si quieres analizar más tus datos o moverlos a otro servicio, Loop le permite exportarlo a hojas de cálculo, (CSV) o a un archivo de base de datos (SQLite). Para usuarios avanzados, se pueden marcar hábitos a través de otras aplicaciones, como Tasker.
+Si deseas analizar más sus datos o moverlos a otro servicio, Loop te permite exportarlos a hojas de cálculo (CSV) o a un archivo de base de datos (SQLite). Para usuarios avanzados, se pueden marcar hábitos a través de otras aplicaciones, como Tasker.
 
 <b>Sin limitaciones</b>
 Rastrea tantos hábitos como desees. Loop no impone límites artificiales sobre cuántos hábitos puedes tener. Todas las características están disponibles para todos los usuarios. No hay compras dentro de la aplicación.
 
-<b>Completamente sin publicidades y código abierto</b>
+<b>Completamente sin anuncios y código abierto</b>
 No hay publicidades, notificaciones molestas o permisos intrusivos en esta aplicación, y nunca los habrá. La aplicación es completamente de código abierto (Licencia GPLv3).
 
 <b>Funciona sin conexión y respeta tu privacidad</b>

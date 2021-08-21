@@ -28,6 +28,18 @@
     <string name="add_habit">Nieuwe gewoonte</string>
     <string name="color_picker_default_title">Verander kleur</string>
     <string name="toast_habit_created">Gewoonte aangemaakt.</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Gewoonte gewijzigd</item>
+        <item quantity="other">Gewoontes gewijzigd</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Gewoontes verwijderd</item>
+        <item quantity="other">Gewoontes verwijderd</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Gewoontes gearchiveerd</item>
+        <item quantity="other">Gewoontes gearchiveerd</item>
+    </plurals>
     <string name="overview">Overzicht</string>
     <string name="habit_strength">Gewoonte-sterkte</string>
     <string name="history">Geschiedenis</string>
@@ -36,6 +48,7 @@
     <string name="save">Opslaan</string>
     <string name="streaks">Reeksen</string>
     <string name="no_habits_found">Je hebt geen actieve gewoontes</string>
+    <string name="no_habits_left_to_do">Je bent klaar voor vandaag!</string>
     <string name="long_press_to_toggle">Houdt ingedrukt om te selecteren of deselecteren</string>
     <string name="reminder_off">Uit</string>
     <string name="create_habit">Gewoonte aanmaken</string>
@@ -68,7 +81,7 @@
     <string name="select_snooze_delay">Snooze vertraging selecteren</string>
     <string name="hint_title">Wist je dat?</string>
     <string name="hint_drag">Om de rijen te ordenen, houdt de gewoonte ingedrukt en sleep het naar de gewenste plek.</string>
-    <string name="hint_landscape">Je kunt meer dagen zien door de telefoon in horizontale modus te zetten.</string>
+    <string name="hint_landscape">Je kunt meer dagen zien door de telefoon in landschapsmodus te zetten.</string>
     <string name="habit_not_found">Gewoonte verwijderd / niet gevonden</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Maandag tot vrijdag</string>
@@ -95,7 +108,7 @@
     <string name="habits_imported">Gewoontes succesvol geïmporteerd.</string>
     <string name="import_data">Importeer gegevens</string>
     <string name="export_full_backup">Exporteer volledige backup</string>
-    <string name="import_data_summary">Ondersteunt volledige back-ups geëxporteerd door deze app, evenals bestanden die worden gegenereerd door Tickmate, HabitBull of Rewire. Zie FAQ voor meer informatie.</string>
+    <string name="import_data_summary">Ondersteunt volledige back-ups geëxporteerd door deze app, evenals bestanden die worden gegenereerd door Tickmate, HabitBull of Rewire. Zie de veel gestelde vragen voor meer informatie.</string>
     <string name="export_as_csv_summary">Genereert bestanden die geopend kunnen worden door spreadsheet software zoals Microsoft Excel of OpenOffice Calc. Dit bestand kan niet opnieuw worden geïmporteerd.</string>
     <string name="export_full_backup_summary">Genereert een bestand met al uw gegevens. Dit bestand kan ook terug geïmporteerd worden.</string>
     <string name="bug_report_failed">Het genereren van het foutenrapport is mislukt.</string>
@@ -103,8 +116,8 @@
     <string name="troubleshooting">Probleemoplossing</string>
     <string name="help_translate">Help deze app te vertalen</string>
     <string name="night_mode" comment="dark_theme">Nachtmodus</string>
-    <string name="use_pure_black">Gebruik puur zwart bij nachtmodus</string>
-    <string name="pure_black_description">Vervangt grijze achtergronden door puur zwart in nachtmodus. Vermindert batterijgebruik bij telefoons met AMOLED scherm.</string>
+    <string name="use_pure_black">Gebruik puur zwart bij het donkere thema</string>
+    <string name="pure_black_description">Vervangt grijze achtergronden door puur zwart in het donkere thema. Vermindert batterijgebruik bij telefoons met AMOLED scherm.</string>
     <string name="interface_preferences">Interface</string>
     <string name="reverse_days">Omgekeerde volgorde van dagen</string>
     <string name="reverse_days_description">Toon dagen in omgekeerde volgorde op het hoofdscherm</string>
@@ -130,7 +143,7 @@
     <string name="repair_database">Database repareren</string>
     <string name="database_repaired">Database gerepareerd.</string>
     <string name="uncheck">Deselecteren</string>
-    <string name="toggle">Omkeren</string>
+    <string name="toggle">Schakel</string>
     <string name="action">Actie</string>
     <string name="habit">Gewoonte</string>
     <string name="sort">Sorteren</string>
@@ -138,6 +151,7 @@
     <string name="by_name">Op naam</string>
     <string name="by_color">Op kleur</string>
     <string name="by_score">Op score</string>
+    <string name="by_status">Per status</string>
     <string name="export">Exporteren</string>
     <string name="long_press_to_edit">Ingedrukt houden om de waarde te wijzigen</string>
     <string name="change_value">Waarde wijzigen</string>
@@ -150,17 +164,18 @@
     <string name="no">Nee</string>
     <string name="customize_notification_summary">Wijzig geluid, trilling, licht en andere instellingen voor meldingen</string>
     <string name="customize_notification">Meldingen aanpassen</string>
-    <string name="pref_view_privacy">Bekijk privacybeleid</string>
+    <string name="pref_view_privacy">Privacybeleid bekijken</string>
     <string name="view_all_contributors">Bekijk alle bijdragers&#8230;</string>
     <string name="database">Database</string>
     <string name="widget_opacity_title">Widget doorzichtigheid</string>
-    <string name="widget_opacity_description">Maakt widgets transparanter of minder doorschijnend op je home screen.</string>
+    <string name="widget_opacity_description">Maakt widgets transparanter of minder doorschijnend op je start scherm.</string>
     <string name="first_day_of_the_week">Eerste dag van de week</string>
     <string name="default_reminder_question">Heb je deze gewoonte vandaag voltooid?</string>
     <string name="notes">Notities</string>
     <string name="example_notes">(Optioneel)</string>
     <string name="yes_or_no_example">bijv. Ben je vandaag vroeg wakker geworden? Heb je gesport? Heb je geschaakt?</string>
     <string name="measurable">Meetbaar</string>
+    <string name="measurable_example">bijv. Hoeveel kilometer heb je vandaag gelopen? Hoeveel pagina\'s heb je gelezen?</string>
     <string name="x_times_per_week">%d keer per week</string>
     <string name="x_times_per_month">%d keer per maand</string>
     <string name="yes_or_no_short_example">bijv. Sporten</string>
@@ -172,4 +187,18 @@
     <string name="every_month">Elke maand</string>
     <string name="validation_cannot_be_blank">Mag niet leeg zijn</string>
     <string name="today">Vandaag</string>
+    <string name="enter">Voer in</string>
+    <string name="no_habits">Geen gewoontes gevonden</string>
+    <string name="no_numerical_habits">Geen meetbare gewoontes gevonden</string>
+    <string name="no_boolean_habits">Geen ja-of-nee-gewoontes gevonden</string>
+    <string name="increment">Verhogen</string>
+    <string name="decrement">Verlagen</string>
+    <string name="pref_skip_title">Overgeslagen dagen inschakelen</string>
+    <string name="pref_skip_description">Schakel tweemaal om een overgeslagen dag toe te voegen in plaats van een vinkje. Overgeslagen dagen houden je score ongewijzigd en verbreken je streak niet.</string>
+    <string name="pref_unknown_title">Vraagtekens weergeven wanneer gegevens ontbreken</string>
+    <string name="pref_unknown_description">Onderscheid dagen zonder gegevens van daadwerkelijke verlopen dagen. Klik twee keer om een verlopen dag in te voeren.</string>
+    <string name="you_are_now_a_developer">Je bent nu een ontwikkelaar!</string>
+    <string name="activity_not_found">Er is geen app gevonden om deze actie uit te voeren.</string>
+    <string name="pref_midnight_delay_title">Verleng de dag tot een paar uur na middernacht</string>
+    <string name="pref_midnight_delay_description">Wacht tot 3:00 uur om een nieuwe dag te beginnen. Handig als je normaal gesproken na middernacht gaat slapen. Dit vereist het opnieuw opstarten van de app.</string>
 </resources>

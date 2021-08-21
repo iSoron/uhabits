@@ -28,6 +28,22 @@
     <string name="add_habit">Ajouter une habitude</string>
     <string name="color_picker_default_title">Changer la couleur</string>
     <string name="toast_habit_created">Habitude créée</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Habitude modifiée</item>
+        <item quantity="other">Habitudes modifiées</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Habitude supprimée</item>
+        <item quantity="other">Habitudes supprimées</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Habitude archivée</item>
+        <item quantity="other">Habitudes archivées</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Habitude désarchivée</item>
+        <item quantity="other">Habitudes désarchivées</item>
+    </plurals>
     <string name="overview">Vue d\'ensemble</string>
     <string name="habit_strength">Force de l\'habitude</string>
     <string name="history">Historique</string>
@@ -36,6 +52,7 @@
     <string name="save">Sauvegarder</string>
     <string name="streaks">Séries</string>
     <string name="no_habits_found">Vous n\'avez pas d\'habitudes actives</string>
+    <string name="no_habits_left_to_do">Vous avez fait toutes vos habitudes d\'aujourd\'hui !</string>
     <string name="long_press_to_toggle">Appuyez longtemps pour cocher ou décocher</string>
     <string name="reminder_off">Aucun</string>
     <string name="create_habit">Créer une habitude</string>
@@ -69,6 +86,14 @@
     <string name="hint_title">Le saviez-vous ?</string>
     <string name="hint_drag">Pour réordonner les habitudes, faites un appui long sur le nom de l\'habitude et placez-la à la bonne place.</string>
     <string name="hint_landscape">Vous pouvez voir plus de jours en mettant votre téléphone en mode paysage.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Supprimer cette habitude ?</item>
+        <item quantity="other">Supprimer ces habitudes ?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">L\'habitude va être supprimée définitivement. Cette action ne peut pas être annulée.</item>
+        <item quantity="other">Les habitudes vont être supprimées définitivements. Cette action ne peut pas être annulée.</item>
+    </plurals>
     <string name="habit_not_found">Habitude supprimée / introuvable</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Du lundi au vendredi</string>
@@ -138,6 +163,7 @@
     <string name="by_name">Par nom</string>
     <string name="by_color">Par couleur</string>
     <string name="by_score">Par score</string>
+    <string name="by_status">Par statut</string>
     <string name="export">Exporter</string>
     <string name="long_press_to_edit">Appuyez et maintenez pour changer la valeur</string>
     <string name="change_value">Modifier la valeur</string>
@@ -161,6 +187,8 @@
     <string name="example_notes">(Facultatif) </string>
     <string name="yes_or_no_example">Par exemple, vous êtes-vous réveillé tôt aujourd\'hui ? Avez-vous fait de l\'exercice ? Avez-vous joué aux échecs ? </string>
     <string name="measurable">Quantifiable</string>
+    <string name="measurable_example">Par exemple : Quelle distance avez vous parcouru aujourd\'hui ? 
+Combien de pages avez-vous lu ?</string>
     <string name="x_times_per_week">%d fois par semaine</string>
     <string name="x_times_per_month">%d fois par mois</string>
     <string name="yes_or_no_short_example">Par ex, Entrainement</string>
@@ -172,4 +200,18 @@
     <string name="every_month">Tous les mois</string>
     <string name="validation_cannot_be_blank">Ne peut pas être vide</string>
     <string name="today">Aujourd\'hui</string>
+    <string name="enter">Inscrire</string>
+    <string name="no_habits">Aucune habitude trouvée :(</string>
+    <string name="no_numerical_habits">Aucune habitude quantifiable trouvée</string>
+    <string name="no_boolean_habits">Aucune habitude binaire trouvée</string>
+    <string name="increment">Augmenter</string>
+    <string name="decrement">Diminuer</string>
+    <string name="pref_skip_title">Pouvoir passer des jours</string>
+    <string name="pref_skip_description">Appuyer deux fois pour passer un jour au lieu de valider. Passer des jours ne change pas votre score et ne brise pas votre série.</string>
+    <string name="pref_unknown_title">Afficher des points d\'interrogations pour les données manquantes</string>
+    <string name="pref_unknown_description">Différentié les jours sans donnée des jours sans avoir fait les habitudes. Pour passer un jour, appuyez deux fois longtemps au lieu d\'une seul fois.</string>
+    <string name="you_are_now_a_developer">Vous êtes désormais un développeur !</string>
+    <string name="activity_not_found">Aucune application trouvée pour faire cette action</string>
+    <string name="pref_midnight_delay_title">Prolonger les jours de quelques heures après minuit </string>
+    <string name="pref_midnight_delay_description">Attendre jusqu\'à trois heures du matin pour changer de jour. Très utile si vous avez l\'habitude d\'aller dormir après minuit. (Redémarrage nécessaire)</string>
 </resources>

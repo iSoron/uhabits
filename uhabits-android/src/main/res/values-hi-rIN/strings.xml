@@ -23,11 +23,23 @@
     <string name="action_settings">सेटिंग्स</string>
     <string name="edit">संपादित करें</string>
     <string name="delete">हटाएँ</string>
-    <string name="archive">संग्रहीत करें</string>
-    <string name="unarchive">असंगृहीत करें</string>
+    <string name="archive">संग्रहित करें</string>
+    <string name="unarchive">असंग्रहीत करें</string>
     <string name="add_habit">आदत जोड़ें</string>
     <string name="color_picker_default_title">रंग बदलें</string>
     <string name="toast_habit_created">आदत बनायी गई</string>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">आदत हटाई गई</item>
+        <item quantity="other">आदतें हटाई गई</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">आदत संग्रहित की गई</item>
+        <item quantity="other">आदतें संग्रहीत की गई</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">आदत असंग्रहीत की गई</item>
+        <item quantity="other">आदतें असंग्रहीत की गई</item>
+    </plurals>
     <string name="overview">अवलोकन</string>
     <string name="habit_strength">आदत शक्ति</string>
     <string name="history">पूर्वलेख</string>
@@ -37,6 +49,7 @@
     <string name="streaks">प्रवर्ति</string>
     <string name="no_habits_found">\"आपकी कोई सक्रिय आदत नही है
 \"</string>
+    <string name="no_habits_left_to_do">आप के आज के सभी कार्य समाप्त होते हैं </string>
     <string name="long_press_to_toggle">चेक या अनचेक करने के लिए दबाएँ व दबाएँ रखें </string>
     <string name="reminder_off">बंद</string>
     <string name="create_habit">नयी आदत बनाएं </string>
@@ -77,6 +90,14 @@
 प्रविष्टियों को पुनर्व्यवस्थित करने के लिए, आदत के नाम पर प्रेस करें और सही जगह पर खींचें।\"</string>
     <string name="hint_landscape">\"
  अपने फोन को लांडसकपे मोड मे रख कर आप अधिक दिनों से देख सकते हैं\"</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">आदत हटाये?</item>
+        <item quantity="other">आदत हटाएँ</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">आदत हमेशा के लिये हटा दी जाएगी। इसे वापस नहीं लाया जा सकता।</item>
+        <item quantity="other">आदतें हमेशा के लिये हटा दी जाएगी। उन्हे वापस नहीं लाया जा सकता।</item>
+    </plurals>
     <string name="habit_not_found">आदत हटाई गई / नहीं मिली</string>
     <string name="weekends">\"
 सप्ताहांत\"</string>
@@ -157,6 +178,7 @@
     <string name="sticky_notifications">सुचनाए स्थयी रखे</string>
     <string name="sticky_notifications_description">नोटिफिकेशन को स्वाइप करने से रोकता है!</string>
     <string name="led_notifications">नोटिफिकेशन लाइट</string>
+    <string name="led_notifications_description">स्मरण के लिए एक चमकती रोशनी दिखाता है। यह केवल एलईडी नोटिफिकेशन लाइट वाले फोन में उपलब्ध है।</string>
     <string name="repair_database">डेटाबेस को रिपेयर करें</string>
     <string name="database_repaired">डेटाबेस रिपेयर सफल</string>
     <string name="uncheck">निशान हटाएँ</string>
@@ -168,7 +190,9 @@
     <string name="by_name">नाम द्वारा</string>
     <string name="by_color">रंग द्वारा</string>
     <string name="by_score">स्कोर से</string>
+    <string name="by_status">स्थिति से</string>
     <string name="export">एक्सपोर्ट करे</string>
+    <string name="long_press_to_edit">बदलने के लिए दबाकर रखें</string>
     <string name="change_value">वैल्यू बदलें</string>
     <string name="calendar">कैलेंडर</string>
     <string name="unit">इकाई</string>
@@ -190,4 +214,32 @@
     <string name="example_notes">वैकल्पिक</string>
     <string name="yes_or_no_example">उदा। क्या आप आज जल्दी उठ गए? क्या आपने व्यायाम किया? क्या आपने शतरंज खेला?</string>
     <string name="measurable">मापें</string>
+    <string name="measurable_example">जैसे आज आप कितने मील दौड़े? आपने कितने पन्ने पढ़े?</string>
+    <string name="x_times_per_week">\"
+प्रति सप्ताह %d बार\"</string>
+    <string name="x_times_per_month">\"
+प्रति माह %d बार\"</string>
+    <string name="yes_or_no_short_example">जैसे व्यायाम</string>
+    <string name="color">रंग</string>
+    <string name="example_target">जैसे १५</string>
+    <string name="measurable_short_example">जैसे दौड</string>
+    <string name="measurable_question_example">जैसे आज आप कितने मील दौड़े?</string>
+    <string name="measurable_units_example">जैसे मील</string>
+    <string name="every_month">प्रति माह</string>
+    <string name="validation_cannot_be_blank">इसे खाली नहीं रखा जा सकता</string>
+    <string name="today">आज</string>
+    <string name="enter">दर्ज करें</string>
+    <string name="no_habits">कोई आदत नहीं मिली</string>
+    <string name="no_numerical_habits">कोई मापने योग्य आदत नहीं मिली</string>
+    <string name="no_boolean_habits">हां - या - ना में आदत नहीं मिली</string>
+    <string name="increment">वृद्धि (Increment)</string>
+    <string name="decrement">घटौंती</string>
+    <string name="pref_skip_title">दिन छोड़ना सक्षम करें</string>
+    <string name="pref_skip_description">चेकमार्क के बजाय स्किप जोड़ने के लिए दो बार टॉगल करें। स्किप आपके स्कोर को जारी रखते हैं और आपकी स्ट्रीक को नहीं तोड़ते हैं।</string>
+    <string name="pref_unknown_title">खोयी जानकारी के लिए प्रश्न चिह्न दिखाएं</string>
+    <string name="pref_unknown_description">वास्तविक चूकों और बिना जानकारीवाले दिनों में अंतर करें। चूक दर्ज करने के लिए, दो बार टॉगल करें।</string>
+    <string name="you_are_now_a_developer">अब आप एक विकसक हैं</string>
+    <string name="activity_not_found">इस कार्रवाई को संभालने के लिए कोई ऐप नहीं मिला</string>
+    <string name="pref_midnight_delay_title">मध्यरात्रि से कुछ घंटे बाद तक दिन बढ़ाएँ</string>
+    <string name="pref_midnight_delay_description">नया दिन दिखाने के लिए सुबह 3:00 बजे तक प्रतीक्षा करें। उपयोगी अगर आप आमतौर पर आधी रात के बाद सोने जाते हैं। ऐप पुनरारंभ की आवश्यकता होगी।</string>
 </resources>
