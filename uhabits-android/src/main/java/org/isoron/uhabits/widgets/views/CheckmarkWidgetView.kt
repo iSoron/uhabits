@@ -39,6 +39,7 @@ import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.isoron.uhabits.utils.StyledResources
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 class CheckmarkWidgetView : HabitWidgetView {
     var activeColor: Int = 0
@@ -118,19 +119,25 @@ class CheckmarkWidgetView : HabitWidgetView {
         get() = R.layout.widget_checkmark
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val width = MeasureSpec.getSize(widthMeasureSpec)
-        val height = MeasureSpec.getSize(heightMeasureSpec)
-        var textSize = 0.15f * height
-        val maxTextSize = getDimension(context, R.dimen.smallerTextSize)
-        textSize = min(textSize, maxTextSize)
+        var width = MeasureSpec.getSize(widthMeasureSpec)
+        var height = MeasureSpec.getSize(heightMeasureSpec)
+        if (height >= width) {
+            height = min(height, (width * 1.5).roundToInt())
+        } else {
+            width = min(width, height)
+        }
+        val textSize = min(0.2f * width, getDimension(context, R.dimen.smallerTextSize))
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         if (isNumerical) {
-            ring.setTextSize(textSize * 0.75f)
+            ring.setTextSize(textSize * 0.9f)
         } else {
             ring.setTextSize(textSize)
         }
-        ring.setThickness(0.15f * textSize)
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        ring.setThickness(0.03f * width)
+        super.onMeasure(
+            MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
+        )
     }
 
     private fun init() {
