@@ -75,7 +75,7 @@ android_test() {
     AVDNAME=${AVD_PREFIX}${API}
 
     (
-        /usr/local/opt/util-linux/bin/flock 10
+        flock 10
         log_info "Stopping Android emulator..."
         while [[ -n $(pgrep -f ${AVDNAME}) ]]; do
             pkill -9 -f ${AVDNAME}
@@ -91,7 +91,7 @@ android_test() {
                 --package "system-images;android-$API;default;x86_64" \
                 --device "Nexus 4" || return 1
 
-        /usr/local/opt/util-linux/bin/flock -u 10
+        flock -u 10
     ) 10>/tmp/uhabitsTest.lock
 
     log_info "Launching emulator..."
