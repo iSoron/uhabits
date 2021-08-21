@@ -28,6 +28,22 @@
     <string name="add_habit">Alışkanlık ekle</string>
     <string name="color_picker_default_title">Renk Değiştir</string>
     <string name="toast_habit_created">Alışkanlık oluşturuldu.</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Alışkanlık değiştirildi</item>
+        <item quantity="other">Alışkanlıklar değiştirildi</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Alışkanlık silindi</item>
+        <item quantity="other">Alışkanlıklar silindi</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Alışkanlık arşivlendi</item>
+        <item quantity="other">Alışkanlıklar arşivlendi</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Alışkanlık arşivden çıkarıldı</item>
+        <item quantity="other">Alışkanlıklar arşivden çıkarıldı</item>
+    </plurals>
     <string name="overview">Genel Bakış</string>
     <string name="habit_strength">Alışkanlık gücü</string>
     <string name="history">Geçmiş</string>
@@ -40,11 +56,11 @@
     <string name="reminder_off">Kapalı</string>
     <string name="create_habit">Alışkanlık oluştur</string>
     <string name="edit_habit">Alışkanlık düzenle</string>
-    <string name="check">Yaptım</string>
+    <string name="check">İşaretle</string>
     <string name="snooze">Sonra</string>
     <string name="intro_title_1">Hoşgeldin</string>
     <string name="intro_description_1">Loop Alışkanlık Takibi, iyi alışkanlıklar edinmene ve sürdürmene yardımcı olur.</string>
-    <string name="intro_title_2">Yeni alışkanlıklar oluştur</string>
+    <string name="intro_title_2">Yeni alışkanlıklar oluşturun</string>
     <string name="intro_description_2">Alışkanlığınızı gerçekleştirdikten sonra her gün uygulamada yapıldı işareti koyun.</string>
     <string name="intro_title_4">Gelişimini izle</string>
     <string name="intro_description_4">Detaylı grafiklerle, zaman içinde alışkanlıklarının nasıl geliştiğini gör.</string>
@@ -68,7 +84,11 @@
     <string name="select_snooze_delay">Erteleme süresini ayarla</string>
     <string name="hint_title">Biliyor muydun?</string>
     <string name="hint_drag">Girdileri sıralamak için, alışkanlık adının üstüne basılı tut ve doğru yere sürükle.</string>
-    <string name="hint_landscape">Cihazını yatay tutarak daha fazla gün görebilirsin.</string>
+    <string name="hint_landscape">Cihazınızı yatay tutarak daha fazla gün görüntüleyebilirsiniz.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Alışkanlık silinsin mi?</item>
+        <item quantity="other">Alışkanlıklar silinsin mi?</item>
+    </plurals>
     <string name="habit_not_found">Alışkanlık silinmiş ya da bulunamadı</string>
     <string name="weekends">Hafta sonları</string>
     <string name="any_weekday">Pazartesinden Cumaya</string>
@@ -99,12 +119,12 @@
     <string name="export_as_csv_summary">Üretilen dosyalar, Microsoft Excel veya OpenOffice Calc. gibi hesap taplosu uygulamaları ile açılabilir. Bu dosya yeniden içeri aktarılamaz.</string>
     <string name="export_full_backup_summary">Tüm verilerini içeren bir dosya üretir. Bu dosya yeniden içeri aktarılabilir.</string>
     <string name="bug_report_failed">Hata raporu oluşturulamadı.</string>
-    <string name="generate_bug_report">Hata raporu üret</string>
+    <string name="generate_bug_report">Hata raporu oluştur</string>
     <string name="troubleshooting">Sorun Giderme</string>
     <string name="help_translate">Bu uygulamanın çevirisine yardım et</string>
-    <string name="night_mode" comment="dark_theme">Gece kipi</string>
-    <string name="use_pure_black">Gece kipinde saf siyah kullan</string>
-    <string name="pure_black_description">Gece kipinde gri arkaplanını, saf siyah ile değiştir. AMOLED ekranlı cihazlarda pil kullanımını azaltabilir.</string>
+    <string name="night_mode" comment="dark_theme">Gece modu</string>
+    <string name="use_pure_black">Gece modunda saf siyah kullan</string>
+    <string name="pure_black_description">Gece modunda gri arkaplanı saf siyah ile değiştirir. AMOLED ekranlı cihazlarda pil kullanımını azaltır.</string>
     <string name="interface_preferences">Arayüz</string>
     <string name="reverse_days">Günleri ters sırala</string>
     <string name="reverse_days_description">Ana ekranda günleri tersten göster</string>

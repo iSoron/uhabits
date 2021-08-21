@@ -190,5 +190,7 @@
     <string name="every_month">毎月</string>
     <string name="validation_cannot_be_blank">空白にはできません</string>
     <string name="today">今日</string>
+    <string name="enter">入力</string>
     <string name="no_habits">習慣が見つかりませんでした</string>
+    <string name="you_are_now_a_developer">これで開発者になりました!</string>
 </resources>

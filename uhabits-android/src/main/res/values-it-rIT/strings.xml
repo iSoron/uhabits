@@ -206,6 +206,7 @@
     <string name="increment">Incremento</string>
     <string name="decrement">Decremento</string>
     <string name="pref_skip_title">Abilita salta giorni</string>
+    <string name="pref_skip_description">Attiva/disattiva due volte per aggiungere un salto invece di una spunta. Un salto mantiene il tuo punteggio invariato e non interrompe il tuo punteggio.</string>
     <string name="pref_unknown_title">Mostra punti interrogativi per i dati mancanti</string>
     <string name="you_are_now_a_developer">Ora sei uno sviluppatore</string>
     <string name="activity_not_found">Nessuna app disponibile per gestire questa azione</string>

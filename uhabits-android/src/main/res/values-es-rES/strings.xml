@@ -28,9 +28,17 @@
     <string name="add_habit">Agregar hábito</string>
     <string name="color_picker_default_title">Cambiar color</string>
     <string name="toast_habit_created">Hábito creado</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Hábito cambiado</item>
+        <item quantity="other">Hábitos cambiados</item>
+    </plurals>
     <plurals name="toast_habits_deleted">
-        <item quantity="one">Español</item>
-        <item quantity="other">Spanish</item>
+        <item quantity="one">Hábito eliminado</item>
+        <item quantity="other">Hábitos eliminados</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Hábito archivado</item>
+        <item quantity="other">Hábitos archivados</item>
     </plurals>
     <plurals name="toast_habits_unarchived">
         <item quantity="one">Hábito desarchivado</item>
