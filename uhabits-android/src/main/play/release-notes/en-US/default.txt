@@ -1,4 +1,4 @@
-2.0.2:
+2.0.3:
 * Bug fixes
 2.0:
 * Track numeric habits (e.g. how many pages did you read?)
