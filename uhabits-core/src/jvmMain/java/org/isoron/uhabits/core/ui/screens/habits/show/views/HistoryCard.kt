@@ -75,11 +75,11 @@ class HistoryCardPresenter(
             }
         } else {
             val currentValue = habit.computedEntries.get(timestamp).value
-            val nextValue = if (preferences.isSkipEnabled) {
-                Entry.nextToggleValueWithSkip(currentValue)
-            } else {
-                Entry.nextToggleValueWithoutSkip(currentValue)
-            }
+            val nextValue = Entry.nextToggleValue(
+                value = currentValue,
+                isSkipEnabled = preferences.isSkipEnabled,
+                areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
+            )
             commandRunner.run(
                 CreateRepetitionCommand(
                     habitList,

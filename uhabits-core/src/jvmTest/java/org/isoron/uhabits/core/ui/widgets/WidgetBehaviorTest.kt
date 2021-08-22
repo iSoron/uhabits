@@ -26,8 +26,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
-import org.isoron.uhabits.core.models.Entry.Companion.nextToggleValueWithSkip
-import org.isoron.uhabits.core.models.Entry.Companion.nextToggleValueWithoutSkip
+import org.isoron.uhabits.core.models.Entry.Companion.nextToggleValue
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
@@ -42,6 +41,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
     private lateinit var behavior: WidgetBehavior
     private lateinit var habit: Habit
     private lateinit var today: Timestamp
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {
@@ -81,12 +81,14 @@ class WidgetBehaviorTest : BaseUnitTest() {
                 Entry.NO,
                 Entry.YES_MANUAL,
                 Entry.YES_AUTO,
-                Entry.SKIP
+                Entry.SKIP,
             )
         ) {
             whenever(preferences.isSkipEnabled).thenReturn(skipEnabled)
-            val nextValue: Int = if (skipEnabled) nextToggleValueWithSkip(currentValue) else nextToggleValueWithoutSkip(
-                currentValue
+            val nextValue: Int = nextToggleValue(
+                currentValue,
+                isSkipEnabled = skipEnabled,
+                areQuestionMarksEnabled = false
             )
             habit.originalEntries.add(Entry(today, currentValue))
             behavior.onToggleRepetition(habit, today)

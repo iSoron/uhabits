@@ -21,8 +21,7 @@ package org.isoron.uhabits.core.ui.widgets
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
-import org.isoron.uhabits.core.models.Entry.Companion.nextToggleValueWithSkip
-import org.isoron.uhabits.core.models.Entry.Companion.nextToggleValueWithoutSkip
+import org.isoron.uhabits.core.models.Entry.Companion.nextToggleValue
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.Timestamp
@@ -48,13 +47,11 @@ class WidgetBehavior @Inject constructor(
 
     fun onToggleRepetition(habit: Habit, timestamp: Timestamp) {
         val currentValue = habit.originalEntries.get(timestamp).value
-        val newValue: Int
-        newValue =
-            if (preferences.isSkipEnabled) nextToggleValueWithSkip(
-                currentValue
-            ) else nextToggleValueWithoutSkip(
-                currentValue
-            )
+        val newValue = nextToggleValue(
+            value = currentValue,
+            isSkipEnabled = preferences.isSkipEnabled,
+            areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
+        )
         setValue(habit, timestamp, newValue)
         notificationTray.cancel(habit)
     }
