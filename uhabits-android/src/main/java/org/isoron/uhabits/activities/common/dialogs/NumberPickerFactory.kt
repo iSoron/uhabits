@@ -33,6 +33,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils
+import java.text.DecimalFormatSymbols
 import javax.inject.Inject
 import kotlin.math.roundToLong
 
@@ -51,7 +52,10 @@ class NumberPickerFactory
 
         val picker = view.findViewById<NumberPicker>(R.id.picker)
         val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
-        val tvUnit = view.findViewById<TextView>(R.id.tvUnit)
+
+        view.findViewById<TextView>(R.id.tvUnit).text = unit
+        view.findViewById<TextView>(R.id.tvSeparator).text =
+            DecimalFormatSymbols.getInstance().decimalSeparator.toString()
 
         val intValue = (value * 100).roundToLong().toInt()
 
@@ -61,19 +65,17 @@ class NumberPickerFactory
         picker.wrapSelectorWheel = false
 
         picker2.minValue = 0
-        picker2.maxValue = 19
-        picker2.setFormatter { v -> String.format("%02d", 5 * v) }
-        picker2.value = intValue % 100 / 5
+        picker2.maxValue = 99
+        picker2.setFormatter { v -> String.format("%02d", v) }
+        picker2.value = intValue % 100
         refreshInitialValue(picker2)
-
-        tvUnit.text = unit
 
         val dialog = AlertDialog.Builder(context)
             .setView(view)
             .setTitle(R.string.change_value)
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 picker.clearFocus()
-                val v = picker.value + 0.05 * picker2.value
+                val v = picker.value + 0.01 * picker2.value
                 callback.onNumberPicked(v)
             }
             .setOnDismissListener {
