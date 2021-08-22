@@ -64,7 +64,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:maxLength="2"
+                android:maxLength="3"
                 android:text="3" />
 
     </LinearLayout>
@@ -89,7 +89,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:inputType="number"
-                android:maxLength="2"
+                android:maxLength="1"
                 android:text="3" />
 
 
