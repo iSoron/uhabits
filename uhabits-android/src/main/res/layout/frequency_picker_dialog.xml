@@ -120,4 +120,42 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/xTimesPerYDaysContainer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical">
+
+        <RadioButton
+            android:id="@+id/xTimesPerYDaysRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/xTimesPerYDaysXTextView"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/bg_input_box"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:inputType="number"
+            android:maxLength="3"
+            android:text="3" />
+
+
+        <EditText
+            android:id="@+id/xTimesPerYDaysYTextView"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@drawable/bg_input_box"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:inputType="number"
+            android:maxLength="3"
+            android:text="14" />
+
+    </LinearLayout>
+
 </LinearLayout>
