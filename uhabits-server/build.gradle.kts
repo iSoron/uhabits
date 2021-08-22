@@ -48,6 +48,8 @@ dependencies {
     implementation("io.prometheus:simpleclient_hotspot:0.11.0")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
 }
 
 tasks.withType<ShadowJar> {
