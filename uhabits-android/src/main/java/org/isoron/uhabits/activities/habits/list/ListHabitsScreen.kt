@@ -101,7 +101,7 @@ class ListHabitsScreen
         commandRunner.addListener(this)
     }
 
-    fun onDettached() {
+    fun onDetached() {
         commandRunner.removeListener(this)
     }
 
