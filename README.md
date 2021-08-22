@@ -90,7 +90,7 @@ contribute, even if you are not a software developer.
   is already completed, you are also very welcome to join and proofread it.
 
 * **Write some code.** If you are an Android developer, you are very welcome to
-  contribute with code. Please see `docs/GUIDELINES.md`.
+  contribute with code. Please see the [guidelines](https://github.com/iSoron/uhabits/blob/dev/docs/GUIDELINES.md).
 
 ## License
 
