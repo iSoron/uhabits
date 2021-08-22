@@ -38,7 +38,7 @@
         <item quantity="other">习惯已存档</item>
     </plurals>
     <plurals name="toast_habits_unarchived">
-        <item quantity="other">已对习惯进行了取消存档操作</item>
+        <item quantity="other">习惯已取消存档</item>
     </plurals>
     <string name="overview">总览</string>
     <string name="habit_strength">习惯强度</string>
@@ -48,7 +48,7 @@
     <string name="save">保存</string>
     <string name="streaks">连续完成次数</string>
     <string name="no_habits_found">你还没有任何习惯</string>
-    <string name="no_habits_left_to_do">你今天的工作完成了!</string>
+    <string name="no_habits_left_to_do">你已经完成了今天所有的习惯！</string>
     <string name="long_press_to_toggle">长按 标记/取消标记</string>
     <string name="reminder_off">关闭</string>
     <string name="create_habit">新建习惯</string>
@@ -70,7 +70,7 @@
     <string name="interval_24_hour">24 小时</string>
     <string name="interval_always_ask">总是询问</string>
     <string name="interval_custom">自定义</string>
-    <string name="pref_toggle_title">轻触以启动重复</string>
+    <string name="pref_toggle_title">短按切换</string>
     <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
     <string name="pref_rate_this_app">去 Play 商店评价这个应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
@@ -121,9 +121,9 @@
     <string name="generate_bug_report">生成错误报告</string>
     <string name="troubleshooting">故障排除</string>
     <string name="help_translate">帮助翻译这个应用</string>
-    <string name="night_mode">夜间模式</string>
-    <string name="use_pure_black">在夜间模式中使用纯黑色</string>
-    <string name="pure_black_description">以纯黑色背景代替夜间模式中的灰色背景。
+    <string name="night_mode" comment="dark_theme">深色主题</string>
+    <string name="use_pure_black">在深色主题中使用纯黑色</string>
+    <string name="pure_black_description">以纯黑色背景代替深色主题中的灰色背景。
 这可以降低 AMOLED 屏幕手机的耗电量。</string>
     <string name="interface_preferences">界面</string>
     <string name="reverse_days">反向顺序的日子</string>
@@ -134,19 +134,19 @@
     <string name="quarter">季度</string>
     <string name="year">年</string>
     <string name="total">总数</string>
-    <string name="yes_or_no">是或否</string>
+    <string name="yes_or_no">完成与否</string>
     <string name="every_x_days">每 %d 天</string>
     <string name="every_x_weeks">每 %d 周</string>
     <string name="score">成绩</string>
     <string name="reminder_sound">提醒声音</string>
     <string name="none">无</string>
     <string name="filter">筛选</string>
-    <string name="hide_completed">隐藏已完成项目</string>
+    <string name="hide_completed">隐藏已完成</string>
     <string name="hide_archived">隐藏已存档</string>
     <string name="sticky_notifications">使提醒持久</string>
     <string name="sticky_notifications_description">防止提醒被滑掉</string>
-    <string name="led_notifications">提示灯</string>
-    <string name="led_notifications_description">仅有 LED 提示灯的手机才有闪烁提醒。</string>
+    <string name="led_notifications">通知指示灯</string>
+    <string name="led_notifications_description">通过闪烁指示灯来提醒。仅限于有 LED 通知指示灯的手机。</string>
     <string name="repair_database">修复数据库</string>
     <string name="database_repaired">数据库已修复</string>
     <string name="uncheck">取消选中</string>
@@ -175,11 +175,11 @@
     <string name="view_all_contributors">查看所有贡献者</string>
     <string name="database">数据库</string>
     <string name="widget_opacity_title">微件不透明度</string>
-    <string name="widget_opacity_description">使微件在主屏幕上更加透明或更加不透明。</string>
-    <string name="first_day_of_the_week">一周的起始日</string>
-    <string name="default_reminder_question">你今天养成这个习惯了吗？</string>
+    <string name="widget_opacity_description">调整主屏幕上微件的不透明度</string>
+    <string name="first_day_of_the_week">一周的第一天</string>
+    <string name="default_reminder_question">你今天完成这个习惯了吗？</string>
     <string name="notes">备注</string>
-    <string name="example_notes">（可选）</string>
+    <string name="example_notes">（选填）</string>
     <string name="yes_or_no_example">例如：你今天早起了吗？你锻炼了吗？你下棋了吗？</string>
     <string name="measurable">可量化的</string>
     <string name="measurable_example">例如：今天你跑了几公里？你阅读了几页书？</string>
@@ -206,6 +206,6 @@
     <string name="pref_unknown_description">区分没有数据和实际犯错的日子。要输一个过失，请切换两次。</string>
     <string name="you_are_now_a_developer">你现在是一个开发者！</string>
     <string name="activity_not_found">找不到支持此操作的应用</string>
-    <string name="pref_midnight_delay_title">将一天延长到午夜过后几个小时</string>
-    <string name="pref_midnight_delay_description">等到凌晨3点再展现新的一天。如果你通常在午夜后入睡，这很有用。需要重新启动应用程序。</string>
+    <string name="pref_midnight_delay_title">将一天延长到午夜后的几个小时</string>
+    <string name="pref_midnight_delay_description">凌晨 3 点后再显示新的一天。如果你通常在午夜后入睡，这会很有用。重启应用后生效。</string>
 </resources>

@@ -41,6 +41,7 @@ import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.utils.InterfaceUtils.spToPixels
 import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.isoron.uhabits.utils.StyledResources
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToLong
 
@@ -48,7 +49,7 @@ class RingView : View {
     private var color: Int
     private var precision: Float
     private var percentage: Float
-    private var diameter = 0
+    private var diameter = 1
     private var thickness: Float
     private var rect: RectF? = null
     private var pRing: TextPaint? = null
@@ -169,7 +170,7 @@ class RingView : View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
-        diameter = min(height, width)
+        diameter = max(1, min(height, width))
         pRing!!.textSize = textSize
         em = pRing!!.measureText("M")
         setMeasuredDimension(diameter, diameter)

@@ -41,7 +41,7 @@ class BundleSavedState : AbsSavedState {
     }
 
     companion object {
-        val CREATOR: Parcelable.Creator<BundleSavedState> =
+        @JvmField val CREATOR: Parcelable.Creator<BundleSavedState> =
             object : ClassLoaderCreator<BundleSavedState> {
                 override fun createFromParcel(
                     source: Parcel,

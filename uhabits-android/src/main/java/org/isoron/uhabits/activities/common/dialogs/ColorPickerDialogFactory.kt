@@ -19,20 +19,21 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.inject.ActivityScope
 import org.isoron.uhabits.utils.StyledResources
-import org.isoron.uhabits.utils.toThemedAndroidColor
 import javax.inject.Inject
 
 @ActivityScope
 class ColorPickerDialogFactory @Inject constructor(@param:ActivityContext private val context: Context) {
-    fun create(color: PaletteColor): ColorPickerDialog {
+    fun create(color: PaletteColor, theme: Theme): ColorPickerDialog {
         val dialog = ColorPickerDialog()
         val res = StyledResources(context)
-        val androidColor = color.toThemedAndroidColor(context)
+        val androidColor = theme.color(color).toInt()
         dialog.initialize(
             R.string.color_picker_default_title,
             res.getPalette(),

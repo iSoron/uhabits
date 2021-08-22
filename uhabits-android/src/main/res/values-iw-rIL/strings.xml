@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,80 +17,108 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
-    <string name="app_name">Loop Habit Tracker</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">‏Loop למעקב אחר ההרגלים</string>
     <string name="main_activity_title">הרגלים</string>
     <string name="action_settings">הגדרות</string>
     <string name="edit">עריכה</string>
     <string name="delete">מחיקה</string>
     <string name="archive">העברה לארכיון</string>
-    <string name="unarchive">הוצא מארכיון</string>
+    <string name="unarchive">הוצאה מהארכיון</string>
     <string name="add_habit">הרגל חדש</string>
     <string name="color_picker_default_title">שינוי צבע</string>
-    <string name="toast_habit_created">הרגל נוצר</string>
-    <string name="toast_habit_deleted">הרגלים נמחקו</string>
-    <string name="toast_habit_changed">הרגל השתנה</string>
-    <string name="toast_habit_archived">הרגלים הועברו לארכיון</string>
-    <string name="toast_habit_unarchived">הרגלים הוצאו מארכיון</string>
+    <string name="toast_habit_created">ההרגל נוצר</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">ההרגל השתנה</item>
+        <item quantity="two">ההרגלים השתנו</item>
+        <item quantity="many">ההרגלים השתנו</item>
+        <item quantity="other">ההרגלים השתנו</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">ההרגל נמחק</item>
+        <item quantity="two">ההרגלים נמחקו</item>
+        <item quantity="many">ההרגלים נמחקו</item>
+        <item quantity="other">ההרגלים נמחקו</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">ההרגל הועבר לארכיון</item>
+        <item quantity="two">ההרגלים הועברו לארכיון</item>
+        <item quantity="many">ההרגלים הועברו לארכיון</item>
+        <item quantity="other">ההרגלים הועברו לארכיון</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">ההרגל הוצא מהארכיון</item>
+        <item quantity="two">ההרגלים הוצאו מארכיון</item>
+        <item quantity="many">ההרגלים הוצאו מארכיון</item>
+        <item quantity="other">ההרגלים הוצאו מארכיון</item>
+    </plurals>
     <string name="overview">סקירה כללית</string>
     <string name="habit_strength">חוזק ההרגל</string>
     <string name="history">היסטוריה</string>
     <string name="clear">ניקוי</string>
-    <string name="days">ימים</string>
     <string name="reminder">תזכורת</string>
     <string name="save">שמירה</string>
-    <string name="streaks">רצף</string>
+    <string name="streaks">רצפים</string>
     <string name="no_habits_found">אין לך הרגלים פעילים</string>
+    <string name="no_habits_left_to_do">סיימת הכול להיום!</string>
     <string name="long_press_to_toggle">לחיצה והחזקה יסמנו או יבטלו את הסימון</string>
     <string name="reminder_off">כבוי</string>
     <string name="create_habit">יצירת הרגל</string>
     <string name="edit_habit">עריכת הרגל</string>
-    <string name="check">בוצע</string>
+    <string name="check">סימון</string>
     <string name="snooze">מאוחר יותר</string>
     <string name="intro_title_1">ברוך בואך</string>
-    <string name="intro_description_1">Loop Habit Tracker מסייע ליצור ולשמר הרגלים טובים.</string>
-    <string name="intro_title_2">ליצור הרגלים חדשים</string>
-    <string name="intro_description_2">בכל יום, אחרי ביצוע ההרגל יש לסמן זאת ביישום.</string>
-    <string name="intro_title_4">מעקב התקדמות</string>
-    <string name="intro_description_4">גרפים מפורטים מציגים כיצד ההרגלים שלך משתפרים לאורך זמן.</string>
+    <string name="intro_description_1">‏„Loop למעקב אחר ההרגלים” מסייע לך ביצירה ובשימור הרגלים טובים.</string>
+    <string name="intro_title_2">יצירת הרגלים חדשים</string>
+    <string name="intro_description_2">בכל יום, לאחר שביצעת את ההרגל, יש לסמן זאת ביישום.</string>
+    <string name="intro_title_4">מעקב אחר ההתקדמות</string>
+    <string name="intro_description_4">גרפים מפורטים מציגים כיצד ההרגלים שלך השתפרו לאורך זמן.</string>
     <string name="interval_15_minutes">15 דקות</string>
     <string name="interval_30_minutes">30 דקות</string>
-    <string name="interval_1_hour">שעה 1</string>
-    <string name="interval_2_hour">2 שעות</string>
+    <string name="interval_1_hour">שעה</string>
+    <string name="interval_2_hour">שעתיים</string>
     <string name="interval_4_hour">4 שעות</string>
     <string name="interval_8_hour">8 שעות</string>
     <string name="interval_24_hour">24 שעות</string>
     <string name="interval_always_ask">תמיד לשאול</string>
     <string name="interval_custom">התאמה אישית...</string>
     <string name="pref_toggle_title">סימון הרגלים בלחיצה קצרה</string>
-    <string name="pref_toggle_description">סמנו יעדים בהקשה קצרה במקום לחיצה ממושכת. נוח יותר, אך יכול להוביל ללחיצות לא מכוונות.</string>
-    <string name="pref_snooze_interval_title">מרווח נדנוד לתזכורות</string>
+    <string name="pref_toggle_description">סימון יעדים בהקשה קצרה במקום בלחיצה ממושכת. זה נוח יותר, אך יכול להוביל לסימוני הרגלים בטעות.</string>
     <string name="pref_rate_this_app">דירוג היישום ב־Google Play</string>
     <string name="pref_send_feedback">שליחת משוב למפתחים</string>
     <string name="pref_view_source_code">צפייה בקוד המקור ב־GitHub</string>
     <string name="links">קישורים</string>
     <string name="name">שם</string>
     <string name="settings">הגדרות</string>
-    <string name="snooze_interval">זמן בין נדנודים</string>
-    <string name="select_snooze_delay">הגדר זמן לדחיית תזכורת</string>
+    <string name="select_snooze_delay">נא לבחור זמן לדחיית התזכורת</string>
     <string name="hint_title">הידעת?</string>
     <string name="hint_drag">לשינוי סדר ההרגלים, יש ללחוץ לחיצה ארוכה על ההרגל ולגרור אותו למקום הרצוי.</string>
-    <string name="hint_landscape">ניתן לראות ימים נוספים ע\"י סיבוב המסך לתצוגה רוחבית.</string>
-    <string name="delete_habits">מחיקת הרגלים</string>
-    <string name="delete_habits_message">ההרגלים יימחקו לצמיתות. פעולה זו אינה ניתנת לביטול.</string>
-    <string name="habit_not_found">הרגל נמחק / לא נמצא</string>
+    <string name="hint_landscape">אפשר לראות ימים נוספים בעזרת סיבוב המסך לתצוגה אופקית.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">למחוק את ההרגל?</item>
+        <item quantity="two">למחוק את ההרגלים?</item>
+        <item quantity="many">למחוק את ההרגלים?</item>
+        <item quantity="other">למחוק את ההרגלים?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">ההרגל יימחק לצמיתות. לא ניתן לבטל פעולה זו.</item>
+        <item quantity="two">ההרגלים יימחקו לצמיתות. לא ניתן לבטל פעולה זו.</item>
+        <item quantity="many">ההרגלים יימחקו לצמיתות. לא ניתן לבטל פעולה זו.</item>
+        <item quantity="other">ההרגלים יימחקו לצמיתות. לא ניתן לבטל פעולה זו.</item>
+    </plurals>
+    <string name="habit_not_found">ההרגל נמחק / לא נמצא</string>
     <string name="weekends">סופי שבוע</string>
     <string name="any_weekday">ימי חול</string>
-    <string name="any_day">כל יום בשבוע</string>
+    <string name="any_day">כל ימות השבוע</string>
     <string name="select_weekdays">בחירת ימים</string>
     <string name="export_to_csv">ייצוא כקובץ CSV</string>
-    <string name="done_label">בוצע</string>
+    <string name="done_label">סיום</string>
     <string name="clear_label">ניקוי</string>
-    <string name="select_hours">בחר שעות</string>
-    <string name="select_minutes">בחר דקות</string>
+    <string name="select_hours">בחירת שעות</string>
+    <string name="select_minutes">בחירת דקות</string>
     <string name="about">על אודות</string>
-    <string name="translators">מתרגמים</string>
-    <string name="developers">מפתחים</string>
+    <string name="translators">תרגום</string>
+    <string name="developers">פיתוח</string>
     <string name="version_n">גרסה %s</string>
     <string name="frequency">תדירות</string>
     <string name="checkmark">סימון הרגל</string>
@@ -98,31 +126,31 @@
     <string name="every_day">כל יום</string>
     <string name="every_week">כל שבוע</string>
     <string name="help">עזרה ושאלות נפוצות</string>
-    <string name="could_not_export">ייצוא נתונים נכשל.</string>
-    <string name="could_not_import">ייבוא נתונים נכשל.</string>
-    <string name="file_not_recognized">קובץ לא מזוהה.</string>
-    <string name="habits_imported">הרגלים יובאו בהצלחה.</string>
+    <string name="could_not_export">ייצוא הנתונים נכשל.</string>
+    <string name="could_not_import">ייבוא הנתונים נכשל.</string>
+    <string name="file_not_recognized">הקובץ אינו מזוהה.</string>
+    <string name="habits_imported">ההרגלים יובאו בהצלחה.</string>
     <string name="import_data">ייבוא נתונים</string>
     <string name="export_full_backup">ייצוא גיבוי מלא</string>
-    <string name="import_data_summary">תומך בכל הגיבויים שיוצאו ע\"י האפליקציה. כמו גם קבצים שנוצרו ע\"י Tickmate, HabitBull או Rewire. לפרטים נוספים ראו שאלות נפוצות.</string>
-    <string name="export_as_csv_summary">יוצר קבצים שניתן לפתוח על-ידי תוכנות גיליון אלקטרוני כגון Microsoft Excel או OpenOffice. אין אפשרות לייבא את הקובץ בחזרה.</string>
-    <string name="export_full_backup_summary">יוצר קובץ המכיל את כל הנתונים שלך. קובץ זה ניתן לייבא בחזרה.</string>
-    <string name="bug_report_failed">הפקת דוח שגיאות נכשלה.</string>
-    <string name="generate_bug_report">הפקת דוח שגיאות</string>
+    <string name="import_data_summary">תומך בכל הגיבויים שיוצאו על ידי היישום, כמו־גם קבצים שנוצרו על ידי Tickmate, ‏HabitBull או Rewire. למידע נוסף נא לעיין בשאלות הנפוצות.</string>
+    <string name="export_as_csv_summary">ליצירת קבצים שניתן לפתוח באמצעות תוכנת גיליון אלקטרוני כגון Microsoft Exel או OpenOffice Calc. לא ניתן לייבא את נתוני הקובץ בחזרה.</string>
+    <string name="export_full_backup_summary">ליצירת קובץ שמכיל את כל הנתונים שלך. לא ניתן לייבא את נתוני הקובץ בחזרה.</string>
+    <string name="bug_report_failed">יצירת דו״ח התקלה נכשלה.</string>
+    <string name="generate_bug_report">יצירת דו״ח תקלה</string>
     <string name="troubleshooting">פתרון תקלות</string>
-    <string name="help_translate">עזרו לנו לתרגם את האפליקציה</string>
-    <string name="night_mode">מצב לילה</string>
-    <string name="use_pure_black">רקע שחור למצב לילה</string>
-    <string name="pure_black_description">החלפת הרקע האפור במצב לילה לשחור מוחלט. מפחית בזבוז סוללה במכשירים עם תצוגת AMOLED.</string>
+    <string name="help_translate">עזרה בתרגום היישום</string>
+    <string name="night_mode" comment="dark_theme">ערכת נושא כהה</string>
+    <string name="use_pure_black">רקע שחור מוחלט בערכת הנושא הכהה</string>
+    <string name="pure_black_description">להחלפת הרקע האפור בערכת הנושא הכהה לשחור מוחלט. זה מפחית את צריכת הסוללה במכשירים עם תצוגת AMOLED.</string>
     <string name="interface_preferences">ממשק</string>
-    <string name="reverse_days">הפיכת סדר הימים</string>
-    <string name="reverse_days_description">מציג ימים בסדר הפוך במסך הראשי</string>
+    <string name="reverse_days">סדר ימים הפוך</string>
+    <string name="reverse_days_description">הצגת ימים בסדר הפוך במסך הראשי.</string>
     <string name="day">יום</string>
     <string name="week">שבוע</string>
     <string name="month">חודש</string>
     <string name="quarter">רבעון</string>
     <string name="year">שנה</string>
-    <string name="total">סה\"כ</string>
+    <string name="total">בסך הכול</string>
     <string name="yes_or_no">כן או לא</string>
     <string name="every_x_days">כל %d ימים</string>
     <string name="every_x_weeks">כל %d שבועות</string>
@@ -130,16 +158,16 @@
     <string name="reminder_sound">צליל תזכורת</string>
     <string name="none">ללא</string>
     <string name="filter">סינון</string>
-    <string name="hide_completed">הסתר יעדים שהושלמו</string>
-    <string name="hide_archived">הסתר ארכיון</string>
-    <string name="sticky_notifications">צור תזכורות \"דביקות\"</string>
-    <string name="sticky_notifications_description">מונע החלקת וביטול תזכורות.</string>
+    <string name="hide_completed">הסתרת יעדים שהושגו</string>
+    <string name="hide_archived">הסתרת הארכיון</string>
+    <string name="sticky_notifications">יצירת תזכורות נעוצות</string>
+    <string name="sticky_notifications_description">למניעת התעלמות מתזכורות.</string>
     <string name="led_notifications">תאורת התראה</string>
-    <string name="led_notifications_description">הראה אור מהבהב לתזכורות. זמין רק בטלפונים עם נורות LED להתראות.</string>
-    <string name="repair_database">תיקון מסד נתונים</string>
-    <string name="database_repaired">מאגר נתונים תוקן.</string>
+    <string name="led_notifications_description">להצגת אור מהבהב לתזכורות. זמין רק בטלפונים עם נורות LED להתראות.</string>
+    <string name="repair_database">תיקון מסד הנתונים</string>
+    <string name="database_repaired">מסד הנתונים תוקן.</string>
     <string name="uncheck">ביטול סימון</string>
-    <string name="toggle">הפעלה \ כיבוי</string>
+    <string name="toggle">סימון או ביטול הסימון</string>
     <string name="action">פעולה</string>
     <string name="habit">הרגל</string>
     <string name="sort">מיון</string>
@@ -147,9 +175,10 @@
     <string name="by_name">לפי שם</string>
     <string name="by_color">לפי צבע</string>
     <string name="by_score">לפי ציון</string>
+    <string name="by_status">לפי מצב</string>
     <string name="export">ייצוא</string>
     <string name="long_press_to_edit">לחיצה והחזקה ישנו את הערך</string>
-    <string name="change_value">שנה ערך</string>
+    <string name="change_value">שינוי ערך</string>
     <string name="calendar">לוח שנה</string>
     <string name="unit">יחידה</string>
     <string name="example_question_boolean">למשל: האם התעמלת היום?</string>
@@ -157,29 +186,43 @@
     <string name="target">יעד</string>
     <string name="yes">כן</string>
     <string name="no">לא</string>
-    <string name="customize_notification_summary">שנה צליל, רטט, תאורה ושאר הגדרות הקשורות להתראות</string>
-    <string name="customize_notification">התאם התראות</string>
-    <string name="pref_view_privacy">הצג מדיניות פרטיות</string>
-    <string name="view_all_contributors">הצג את התורמים</string>
+    <string name="customize_notification_summary">שינוי הצליל, הרטט, התאורה ושאר הגדרות הקשורות להתראות</string>
+    <string name="customize_notification">התאמת ההתראות</string>
+    <string name="pref_view_privacy">הצגת מדיניות הפרטיות</string>
+    <string name="view_all_contributors">הצגת כל המתנדבים&#8230;</string>
     <string name="database">מסד נתונים</string>
-    <string name="widget_opacity_title">אטימות יישומון</string>
-    <string name="widget_opacity_description">להפיכת היישומונים שקופים יותר או אטומים יותר במסך הבית שלך.</string>
+    <string name="widget_opacity_title">אטימות היישומונים</string>
+    <string name="widget_opacity_description">להפיכת היישומונים שקופים או אטומים יותר במסך הבית שלך.</string>
     <string name="first_day_of_the_week">היום הראשון בשבוע</string>
     <string name="default_reminder_question">האם השלמת את ההרגל הזה היום?</string>
     <string name="notes">הערות</string>
     <string name="example_notes">(רשות)</string>
-    <string name="yes_or_no_example">למשל: האם התעוררת מוקדם היום? האם עשית פעילות גופנית? האם שיחקת שחמט?</string>
-    <string name="measurable">ניתנים למדידה</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">למשל: כמה קילומטרים רצת היום? כמה עמודים קראת? כמה קלוריות צברת?</string>
+    <string name="yes_or_no_example">למשל: האם התעוררת מוקדם היום? האם התעמלת? האם שיחקת שחמט?</string>
+    <string name="measurable">הרגלים נמדדים</string>
+    <string name="measurable_example">למשל: כמה קילומטרים רצת היום? כמה עמודים קראת?</string>
     <string name="x_times_per_week">%d פעמים בשבוע</string>
     <string name="x_times_per_month">%d פעמים בחודש</string>
-    <string name="yes_or_no_short_example">למשל פעילות גופנית</string>
+    <string name="yes_or_no_short_example">למשל: התעמלות</string>
     <string name="color">צבע</string>
-    <string name="example_target">למשל 15</string>
-    <string name="measurable_short_example">למשל ריצה</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">למשל: כמה קילומטרים רצת היום?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">למשל קילומטרים</string>
+    <string name="example_target">למשל: 15</string>
+    <string name="measurable_short_example">למשל: ריצה</string>
+    <string name="measurable_question_example">למשל: כמה קילומטרים רצת היום?</string>
+    <string name="measurable_units_example">למשל: קילומטרים</string>
     <string name="every_month">כל חודש</string>
-    <string name="validation_cannot_be_blank">לא יכול להיות ריק</string>
+    <string name="validation_cannot_be_blank">חובה לתת שם</string>
     <string name="today">היום</string>
+    <string name="enter">מילוי</string>
+    <string name="no_habits">לא נמצאו הרגלים</string>
+    <string name="no_numerical_habits">לא נמצאו הרגלים נמדדים</string>
+    <string name="no_boolean_habits">לא נמצאו הרגלי „כן או לא”</string>
+    <string name="increment">עלייה</string>
+    <string name="decrement">ירידה</string>
+    <string name="pref_skip_title">לאפשר דילוג על ימים</string>
+    <string name="pref_skip_description">סימון כפול כדי לדלג במקום לסמן. הדילוג שומר על הציון שלך ללא שינוי ואינו שובר את הרצף שלך.</string>
+    <string name="pref_unknown_title">הצגת סימני שאלה לנתונים חסרים</string>
+    <string name="pref_unknown_description">הפרדת הימים ללא הנתונים מהלולאות בפועל. כדי להיכנס ללולאה, יש לסמן פעמיים.</string>
+    <string name="you_are_now_a_developer">מצב הפיתוח הופעל כעת</string>
+    <string name="activity_not_found">לא נמצא יישום שתומך בפעולה זו</string>
+    <string name="pref_midnight_delay_title">הארכת היום בכמה שעות לאחר החצות</string>
+    <string name="pref_midnight_delay_description">לחכות עד 3:00 כדי להציג יום חדש. שימושי אם לרוב הולכים לישון לאחר החצות. דורש הפעלה מחדש של היישום.</string>
 </resources>

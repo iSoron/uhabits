@@ -22,18 +22,21 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Streak
+import org.isoron.uhabits.core.ui.views.Theme
 
 data class StreakCardState(
     val color: PaletteColor,
-    val bestStreaks: List<Streak>
+    val bestStreaks: List<Streak>,
+    val theme: Theme,
 )
 
 class StreakCartPresenter {
     companion object {
-        fun buildState(habit: Habit): StreakCardState {
+        fun buildState(habit: Habit, theme: Theme): StreakCardState {
             return StreakCardState(
                 color = habit.color,
                 bestStreaks = habit.streaks.getBest(10),
+                theme = theme,
             )
         }
     }

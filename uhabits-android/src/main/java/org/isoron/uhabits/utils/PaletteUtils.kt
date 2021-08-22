@@ -21,22 +21,11 @@ package org.isoron.uhabits.utils
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import org.isoron.uhabits.core.models.PaletteColor
 
 object PaletteUtils {
     @JvmStatic
     fun getAndroidTestColor(index: Int) = PaletteColor(index).toFixedAndroidColor()
-}
-
-fun PaletteColor.toThemedAndroidColor(context: Context): Int {
-    val palette = StyledResources(context).getPalette()
-    return if (paletteIndex in palette.indices) {
-        palette[paletteIndex]
-    } else {
-        Log.w("ColorHelper", "Invalid color: $paletteIndex. Returning default.")
-        palette[0]
-    }
 }
 
 fun PaletteColor.toFixedAndroidColor(): Int {

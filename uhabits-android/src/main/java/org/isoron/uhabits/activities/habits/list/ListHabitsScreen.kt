@@ -231,7 +231,7 @@ class ListHabitsScreen
     }
 
     override fun showColorPicker(defaultColor: PaletteColor, callback: OnColorPickedCallback) {
-        val picker = colorPickerFactory.create(defaultColor)
+        val picker = colorPickerFactory.create(defaultColor, themeSwitcher.currentTheme!!)
         picker.setListener(callback)
         picker.show(activity.supportFragmentManager, "picker")
     }

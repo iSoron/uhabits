@@ -39,6 +39,7 @@ import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.isoron.uhabits.utils.StyledResources
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 class CheckmarkWidgetView : HabitWidgetView {
     var activeColor: Int = 0
@@ -102,7 +103,7 @@ class CheckmarkWidgetView : HabitWidgetView {
             SKIP -> resources.getString(R.string.fa_skipped)
             UNKNOWN -> {
                 run {
-                    if (preferences!!.areQuestionMarksEnabled()) {
+                    if (preferences!!.areQuestionMarksEnabled) {
                         return resources.getString(R.string.fa_question)
                     } else {
                         resources.getString(R.string.fa_times)
@@ -118,26 +119,25 @@ class CheckmarkWidgetView : HabitWidgetView {
         get() = R.layout.widget_checkmark
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val width = MeasureSpec.getSize(widthMeasureSpec)
-        val height = MeasureSpec.getSize(heightMeasureSpec)
-        var w = width.toFloat()
-        var h = width * 1.25f
-        val scale = min(width / w, height / h)
-        w *= scale
-        h *= scale
-        val newWidthMeasureSpec = MeasureSpec.makeMeasureSpec(w.toInt(), MeasureSpec.EXACTLY)
-        val newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(h.toInt(), MeasureSpec.EXACTLY)
-        var textSize = 0.15f * h
-        val maxTextSize = getDimension(context, R.dimen.smallerTextSize)
-        textSize = min(textSize, maxTextSize)
+        var width = MeasureSpec.getSize(widthMeasureSpec)
+        var height = MeasureSpec.getSize(heightMeasureSpec)
+        if (height >= width) {
+            height = min(height, (width * 1.5).roundToInt())
+        } else {
+            width = min(width, height)
+        }
+        val textSize = min(0.2f * width, getDimension(context, R.dimen.smallerTextSize))
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         if (isNumerical) {
-            ring.setTextSize(textSize * 0.75f)
+            ring.setTextSize(textSize * 0.9f)
         } else {
             ring.setTextSize(textSize)
         }
-        ring.setThickness(0.15f * textSize)
-        super.onMeasure(newWidthMeasureSpec, newHeightMeasureSpec)
+        ring.setThickness(0.03f * width)
+        super.onMeasure(
+            MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
+        )
     }
 
     private fun init() {

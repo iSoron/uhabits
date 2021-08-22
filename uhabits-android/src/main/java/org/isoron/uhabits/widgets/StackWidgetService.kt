@@ -53,7 +53,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         AppWidgetManager.INVALID_APPWIDGET_ID
     )
     private val habitIds: LongArray
-    private val widgetType: StackWidgetType?
+    private val widgetType: StackWidgetType
     private var remoteViews = ArrayList<RemoteViews>()
     override fun onCreate() {}
     override fun onDestroy() {}
@@ -86,27 +86,27 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
 
     override fun getViewAt(position: Int): RemoteViews? {
         Log.i("StackRemoteViewsFactory", "getViewAt $position")
-        return if (position < 0 || position > remoteViews.size) null else remoteViews[position]
+        return if (0 <= position && position < remoteViews.size) remoteViews[position] else null
     }
 
     private fun constructWidget(
         habit: Habit,
         prefs: Preferences
     ): BaseWidget {
-        when (widgetType) {
-            StackWidgetType.CHECKMARK -> return CheckmarkWidget(context, widgetId, habit, true)
-            StackWidgetType.FREQUENCY -> return FrequencyWidget(
+        return when (widgetType) {
+            StackWidgetType.CHECKMARK -> CheckmarkWidget(context, widgetId, habit, true)
+            StackWidgetType.FREQUENCY -> FrequencyWidget(
                 context,
                 widgetId,
                 habit,
                 prefs.firstWeekdayInt,
                 true
             )
-            StackWidgetType.SCORE -> return ScoreWidget(context, widgetId, habit, true)
-            StackWidgetType.HISTORY -> return HistoryWidget(context, widgetId, habit, true)
-            StackWidgetType.STREAKS -> return StreakWidget(context, widgetId, habit, true)
+            StackWidgetType.SCORE -> ScoreWidget(context, widgetId, habit, true)
+            StackWidgetType.HISTORY -> HistoryWidget(context, widgetId, habit, true)
+            StackWidgetType.STREAKS -> StreakWidget(context, widgetId, habit, true)
+            StackWidgetType.TARGET -> TargetWidget(context, widgetId, habit, true)
         }
-        throw IllegalStateException()
     }
 
     override fun getLoadingView(): RemoteViews {
@@ -157,6 +157,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         if (widgetTypeValue < 0) throw RuntimeException("invalid widget type")
         if (habitIdsStr == null) throw RuntimeException("habitIdsStr is null")
         widgetType = StackWidgetType.getWidgetTypeFromValue(widgetTypeValue)
+            ?: throw RuntimeException("unknown widget type value: $widgetTypeValue")
         habitIds = splitLongs(habitIdsStr)
     }
 }

@@ -26,6 +26,7 @@ import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardState
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,6 +51,7 @@ class OverviewCardViewTest : BaseViewTest() {
                 scoreYearDiff = 0.74f,
                 totalCount = 44,
                 color = PaletteColor(7),
+                theme = LightTheme(),
             )
         )
         measureView(view, 800f, 300f)

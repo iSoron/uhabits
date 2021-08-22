@@ -1,11 +1,11 @@
 plugins {
-    val kotlinVersion = "1.4.21"
-    id("com.android.application") version ("4.1.0") apply (false)
+    val kotlinVersion = "1.5.0"
+    id("com.android.application") version ("4.2.0") apply (false)
     id("org.jetbrains.kotlin.android") version kotlinVersion apply (false)
     id("org.jetbrains.kotlin.kapt") version kotlinVersion apply (false)
     id("org.jetbrains.kotlin.android.extensions") version kotlinVersion apply (false)
     id("org.jetbrains.kotlin.multiplatform") version kotlinVersion apply (false)
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
 }
 
 apply {

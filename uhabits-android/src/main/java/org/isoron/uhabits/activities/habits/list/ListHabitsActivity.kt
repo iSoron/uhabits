@@ -40,7 +40,7 @@ import org.isoron.uhabits.inject.ActivityContextModule
 import org.isoron.uhabits.inject.DaggerHabitsActivityComponent
 import org.isoron.uhabits.utils.restartWithFade
 
-class ListHabitsActivity : AppCompatActivity() {
+class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
 
     var pureBlack: Boolean = false
     lateinit var taskRunner: TaskRunner
@@ -54,6 +54,10 @@ class ListHabitsActivity : AppCompatActivity() {
 
     private lateinit var menu: ListHabitsMenu
 
+    override fun onQuestionMarksChanged() {
+        invalidateOptionsMenu()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,6 +70,7 @@ class ListHabitsActivity : AppCompatActivity() {
         component.themeSwitcher.apply()
 
         prefs = appComponent.preferences
+        prefs.addListener(this)
         syncManager = appComponent.syncManager
         pureBlack = prefs.isPureBlackEnabled
         midnightTimer = appComponent.midnightTimer

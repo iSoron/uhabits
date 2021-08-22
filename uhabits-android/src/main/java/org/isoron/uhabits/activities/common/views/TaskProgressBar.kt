@@ -29,10 +29,10 @@ class TaskProgressBar(
     context: Context,
     private val runner: TaskRunner
 ) : ProgressBar(
-        context,
-        null,
-        android.R.attr.progressBarStyleHorizontal
-    ),
+    context,
+    null,
+    android.R.attr.progressBarStyleHorizontal
+),
     TaskRunner.Listener {
 
     init {

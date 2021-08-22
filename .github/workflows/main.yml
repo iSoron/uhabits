@@ -30,7 +30,7 @@ jobs:
   AndroidTest:
     needs: Build
     runs-on: macOS-10.15
-    timeout-minutes: 45
+    timeout-minutes: 60
     strategy:
       matrix:
         api: [
@@ -56,7 +56,9 @@ jobs:
         path: uhabits-android/build/outputs/
 
     - name: Install flock
-      run: brew install util-linux
+      run: |
+        brew install util-linux
+        echo "/usr/local/opt/util-linux/bin" >> $GITHUB_PATH
 
     - name: Run Android Tests
       run: ./build.sh android-tests ${{ matrix.api }}

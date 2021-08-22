@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop - Καταγραφή Συνηθειών</string>
     <string name="main_activity_title">Συνήθειες</string>
     <string name="action_settings">Ρυθμίσεις</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">Νέα συνήθεια</string>
     <string name="color_picker_default_title">Αλλαγή χρώματος</string>
     <string name="toast_habit_created">Η συνήθεια δημιουργήθηκε</string>
-    <string name="toast_habit_deleted">Οι συνήθειες διαγράφηκαν</string>
-    <string name="toast_habit_changed">Η συνήθεια άλλαξε</string>
-    <string name="toast_habit_archived">Η συνήθεια αρχειοθετήθηκε.</string>
-    <string name="toast_habit_unarchived">Έγινε αφαίρεση αρχειοθέτησης.</string>
     <string name="overview">Επισκόπηση</string>
     <string name="habit_strength">Δύναμη συνήθειας</string>
     <string name="history">Ιστορικό</string>
     <string name="clear">Εκκαθάριση</string>
-    <string name="days">ημέρες</string>
     <string name="reminder">Υπενθύμιση</string>
     <string name="save">Αποθήκευση</string>
     <string name="streaks">Σερί</string>
@@ -64,20 +59,16 @@
     <string name="interval_custom">Προσαρμογή</string>
     <string name="pref_toggle_title">Κάντε εναλλαγή των επαναλήψεων με σύντομο πάτημα</string>
     <string name="pref_toggle_description">Βολικότερο, αλλά ίσως προκαλέσει ακούσιες εναλλαγές.</string>
-    <string name="pref_snooze_interval_title">Διάστημα αναβολής υπενθυμίσεων</string>
     <string name="pref_rate_this_app">Βαθμολογήστε αυτή την εφαρμογή στο Google Play</string>
     <string name="pref_send_feedback">Στείλετε σχόλια</string>
     <string name="pref_view_source_code">Δείτε τον πηγαίο κώδικα στο GitHub</string>
     <string name="links">Σύνδεσμοι</string>
     <string name="name">Όνομα</string>
     <string name="settings">Ρυθμίσεις</string>
-    <string name="snooze_interval">Διάστημα αναβολής</string>
     <string name="select_snooze_delay">Επιλογή καθυστέρησης αναβολής</string>
     <string name="hint_title">Γνωρίζατε;</string>
     <string name="hint_drag">Αναδιατάξετε τις συνήθειες πατώντας παρατεταμένα στο όνομα και σύροντας στην σωστή θέση.</string>
     <string name="hint_landscape">Μπορείτε να δείτε περισσότερες ημέρες στην οριζόντια προβολή.</string>
-    <string name="delete_habits">Διαγραφή συνηθειών</string>
-    <string name="delete_habits_message">Οι συνήθειες θα διαγραφτούν οριστικά. Αυτό δεν μπορεί να αναιρεθεί.</string>
     <string name="habit_not_found">Η συνήθεια διαγράφηκε / δεν βρέθηκε</string>
     <string name="weekends">Σαββατοκύριακα</string>
     <string name="any_weekday">Δευτέρα μέχρι Παρασκευή</string>
@@ -111,7 +102,7 @@
     <string name="generate_bug_report">Παραγωγή αναφοράς bug.</string>
     <string name="troubleshooting">Αντιμετ.Προβλημάτων</string>
     <string name="help_translate">Βοηθήστε στην μετάφραση</string>
-    <string name="night_mode">Νυχτ.Λειτ.</string>
+    <string name="night_mode" comment="dark_theme">Νυχτ.Λειτ.</string>
     <string name="use_pure_black">Χρήση απόλυτου μαύρου στη νυχτ.λειτουργία</string>
     <string name="pure_black_description">Αντικαθιστά τα γκρί υπόβαθρα με απόλυτα μαύρα σε νυχτ.λειτουργία. Μειώνει την κατανάλωση μπαταρίας σε συσκευές με οθόνη AMOLED.</string>
     <string name="interface_preferences">Διεπιφάνεια</string>
@@ -170,15 +161,14 @@
     <string name="example_notes">(Προαιρετικό)</string>
     <string name="yes_or_no_example">π.χ. Ξύπνησες νωρίς σήμερα; Ασκήθηκες; Έπαιξες σκάκι;</string>
     <string name="measurable">Μετρήσιμο</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">π.χ. Πόσα χιλιόμετρα έτρεξες Πόσες σελίδες διάβασες; Πόσες θερμίδες έφαγες;</string>
     <string name="x_times_per_week">%d φορές την εβδομάδα</string>
     <string name="x_times_per_month">%d φορές το μήνα</string>
     <string name="yes_or_no_short_example">π.χ. Σωματική άσκηση</string>
     <string name="color">Χρώμα</string>
     <string name="example_target">π.χ. 15</string>
     <string name="measurable_short_example">π.χ. Τρέξιμο</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">π.χ. Πόσα χιλιόμετρα έτρεξες σήμερα?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">π.χ. χιλιόμετρα</string>
+    <string name="measurable_question_example">π.χ. Πόσα χιλιόμετρα έτρεξες σήμερα?</string>
+    <string name="measurable_units_example">π.χ. χιλιόμετρα</string>
     <string name="every_month">Κάθε μήνα</string>
     <string name="validation_cannot_be_blank">Δεν μπορεί να είναι κενό</string>
     <string name="today">Σήμερα</string>

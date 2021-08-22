@@ -127,7 +127,7 @@
     <string name="generate_bug_report">Gerar relatório de erros.</string>
     <string name="troubleshooting">Solução de problemas</string>
     <string name="help_translate">Ajude a traduzir este app</string>
-    <string name="night_mode">Modo noturno</string>
+    <string name="night_mode" comment="dark_theme">Modo noturno</string>
     <string name="use_pure_black">Usar preto em modo noturno</string>
     <string name="pure_black_description">Substitui os tons de cinza por preto puro em modo noturno. Economiza bateria em telefones com tela AMOLED.</string>
     <string name="interface_preferences">Interface</string>

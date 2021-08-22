@@ -16,14 +16,19 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.core.tasks
 
-fun interface Task {
-    fun cancel() {}
-    fun isCanceled() = false
-    fun doInBackground()
-    fun onAttached(runner: TaskRunner) {}
-    fun onPostExecute() {}
-    fun onPreExecute() {}
-    fun onProgressUpdate(value: Int) {}
+package org.isoron.platform.gui
+
+import org.isoron.platform.time.LocalDate
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
+class DatesTest {
+    @Test
+    fun testDatesBefore2000() {
+        val date = LocalDate(-1)
+        assertEquals(date.day, 31)
+        assertEquals(date.month, 12)
+        assertEquals(date.year, 1999)
+    }
 }

@@ -57,7 +57,8 @@ class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
         val component = (application as HabitsApplication).component
         val preferences = component.preferences
         val server = RemoteSyncServer(preferences = preferences)
-        AndroidThemeSwitcher(this, component.preferences).apply()
+        val themeSwitcher = AndroidThemeSwitcher(this, component.preferences)
+        themeSwitcher.apply()
 
         behavior = SyncBehavior(this, preferences, server, component.logging)
         binding = ActivitySyncBinding.inflate(layoutInflater)
@@ -66,6 +67,7 @@ class SyncActivity : AppCompatActivity(), SyncBehavior.Screen {
             toolbar = binding.toolbar,
             color = PaletteColor(11),
             title = resources.getString(R.string.device_sync),
+            theme = themeSwitcher.currentTheme,
         )
         binding.syncLink.setOnClickListener { copyToClipboard() }
         binding.instructions.text = Html.fromHtml(resources.getString(R.string.sync_instructions))

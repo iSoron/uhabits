@@ -24,9 +24,10 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.activities.common.views.StreakChart
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.utils.toThemedAndroidColor
+import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class StreakWidget(
@@ -46,7 +47,7 @@ class StreakWidget(
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
         (widgetView.dataView as StreakChart).apply {
-            setColor(habit.color.toThemedAndroidColor(context))
+            setColor(WidgetTheme().color(habit.color).toInt())
             setStreaks(habit.streaks.getBest(maxStreakCount))
         }
     }

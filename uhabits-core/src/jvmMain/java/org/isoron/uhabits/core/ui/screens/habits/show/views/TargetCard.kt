@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.groupedSum
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 import java.util.ArrayList
 import java.util.Calendar
@@ -31,6 +32,7 @@ data class TargetCardState(
     val values: List<Double> = listOf(),
     val targets: List<Double> = listOf(),
     val intervals: List<Int> = listOf(),
+    val theme: Theme,
 )
 
 class TargetCardPresenter {
@@ -38,6 +40,7 @@ class TargetCardPresenter {
         fun buildState(
             habit: Habit,
             firstWeekday: Int,
+            theme: Theme,
         ): TargetCardState {
             val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
@@ -106,6 +109,7 @@ class TargetCardPresenter {
                 values = values,
                 targets = targets,
                 intervals = intervals,
+                theme = theme,
             )
         }
     }

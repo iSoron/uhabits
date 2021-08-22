@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.0.3] - 2021-08-21
+### Fixed
+- Improve automatic checkmarks for monthly habits (@iSoron, #947)
+- Fix small theme issues (@iSoron)
+- Fix ANR on some Samsung phones (@iSoron, #962)
+- Fix dates before the year 2000 (@iSoron, #967)
+- Fix notification adding checkmarks to the wrong day (@hiqua, #969)
+- Fix crashes in widgets (@hiqua, @iSoron, #907, #966, #965)
+- Fix crash when moving habits (@hiqua, #968)
+
+## [2.0.2] - 2021-05-23
+
+### Changed
+- Make checkmark widget resizable
+
+### Fixed
+- Fix crash caused by numerical habits with zero target (@iSoron, #903)
+- Fix small issues with font size (@iSoron)
+- Allow fractional target values (@sumanabhi, #911)
+- Fix IllegalStateException in androidx.customview.view (@iSoron, #906)
+- Fix crash when selecting habit frequency in some languages (@iSoron, #926)
+- Fix IllegalArgumentException in RingView (@iSoron, #904)
+
 ## [2.0.1] - 2021-05-09
 
 ### Added

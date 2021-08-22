@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop - Hàbit Rastrejador</string>
     <string name="main_activity_title">Hàbits</string>
     <string name="action_settings">Configuració</string>
@@ -28,19 +28,23 @@
     <string name="add_habit">Afegir hàbit</string>
     <string name="color_picker_default_title">Canviar color</string>
     <string name="toast_habit_created">Hàbit creat.</string>
-    <string name="toast_habit_deleted">Hàbits esborrats.</string>
-    <string name="toast_habit_changed">Hàbit modificat.</string>
-    <string name="toast_habit_archived">Hàbits arxivats.</string>
-    <string name="toast_habit_unarchived">Hàbits trets de l\'arxiu.</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Hàbit modificat.</item>
+        <item quantity="other">Hàbit modificat.</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Hàbit no arxivat</item>
+        <item quantity="other">Hàbit no arxivat</item>
+    </plurals>
     <string name="overview">Visió general</string>
     <string name="habit_strength">Fortalesa de l\'hàbit</string>
     <string name="history">Història</string>
     <string name="clear">Netejar</string>
-    <string name="days">dies</string>
     <string name="reminder">Recordatori</string>
     <string name="save">Desar</string>
     <string name="streaks">Ratxa</string>
     <string name="no_habits_found">No tens hàbits actius</string>
+    <string name="no_habits_left_to_do">Ja heu acabat per avui!</string>
     <string name="long_press_to_toggle">Prem i manté per a marcar o desmarcar</string>
     <string name="reminder_off">Desactivat</string>
     <string name="create_habit">Crear hàbit</string>
@@ -64,20 +68,20 @@
     <string name="interval_custom">Personalitza...</string>
     <string name="pref_toggle_title">Activar/desactivar repeticions prement curt</string>
     <string name="pref_toggle_description">Posar les marques de verificació amb un sol toc enlloc de prémer i mantenir. Més adequat, però pot causar activacions accidentals.</string>
-    <string name="pref_snooze_interval_title">Interval d\'endarreriment en recordatoris</string>
     <string name="pref_rate_this_app">Valora aquesta app a Google Play</string>
     <string name="pref_send_feedback">Enviar resposta al desenvolupador</string>
     <string name="pref_view_source_code">Veure codi font a Github</string>
     <string name="links">Enllaços</string>
     <string name="name">Nom</string>
     <string name="settings">Ajustaments</string>
-    <string name="snooze_interval">Interval d\'endarreriment</string>
     <string name="select_snooze_delay">Selecciona el retard de l\'endarreriment</string>
     <string name="hint_title">Ho sabies?</string>
     <string name="hint_drag">Per a ordenar les entrades, prem i mantè sobre el nom de l\'hàbit, després arrossega\'l al lloc correcte.</string>
     <string name="hint_landscape">Pots veure més dies posant el teu telèfon en orientació apaisada.</string>
-    <string name="delete_habits">Esborrar hàbits</string>
-    <string name="delete_habits_message">Els hàbits seran esborrats permanentment. Aquesta acció no es pot desfer.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Esborrar hàbit</item>
+        <item quantity="other">Esborrar hàbit</item>
+    </plurals>
     <string name="habit_not_found">Hàbit suprimit / no trobat</string>
     <string name="weekends">Caps de setmana</string>
     <string name="any_weekday">Dilluns a divendres</string>
@@ -111,7 +115,7 @@
     <string name="generate_bug_report">Generar informe d\'error</string>
     <string name="troubleshooting">Resolució de problemes</string>
     <string name="help_translate">Ajuda a traduïr aquesta app</string>
-    <string name="night_mode">Mode nocturn</string>
+    <string name="night_mode" comment="dark_theme">Mode nocturn</string>
     <string name="use_pure_black">Utilitzar negre pur en el mode nocturn</string>
     <string name="pure_black_description">Reemplaça fons grisos per negre pur en el mode nocturn. Redueix consum de bateria en telèfons amb pantalla AMOLED.</string>
     <string name="interface_preferences">Interfície</string>
@@ -147,6 +151,7 @@
     <string name="by_name">Per nom</string>
     <string name="by_color">Pel color</string>
     <string name="by_score">Per marcador</string>
+    <string name="by_status">Per estat</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Prémer i mantenir per a canviar el valor</string>
     <string name="change_value">Canviar el valor</string>
@@ -170,15 +175,14 @@
     <string name="example_notes">Opcional</string>
     <string name="yes_or_no_example">Per exemple, us heu despertat aviat? Heu fet exercici? Heu jugat a escacs?</string>
     <string name="measurable">Mesurable</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">Per exemple, quants quilòmetres heu recorregut avui? Quantes pàgines heu llegit? Quantes calories heu menjat?</string>
     <string name="x_times_per_week">%d vegades per setmana</string>
     <string name="x_times_per_month">%d vegades al mes</string>
     <string name="yes_or_no_short_example">Ex. Exercici</string>
     <string name="color">Color</string>
     <string name="example_target">ex. 15</string>
     <string name="measurable_short_example">Per exemple: córrer</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">Per exemple, quants quilòmetres heu recorregut avui?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">per exemple, quilòmetres</string>
+    <string name="measurable_question_example">Per exemple, quants quilòmetres heu recorregut avui?</string>
+    <string name="measurable_units_example">per exemple, quilòmetres</string>
     <string name="every_month">Cada mes</string>
     <string name="validation_cannot_be_blank">No es pot deixar en blanc</string>
     <string name="today">Avui</string>

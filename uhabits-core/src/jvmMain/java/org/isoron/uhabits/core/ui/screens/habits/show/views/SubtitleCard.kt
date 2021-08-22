@@ -23,6 +23,7 @@ import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
+import org.isoron.uhabits.core.ui.views.Theme
 
 data class SubtitleCardState(
     val color: PaletteColor,
@@ -32,12 +33,14 @@ data class SubtitleCardState(
     val reminder: Reminder?,
     val targetValue: Double,
     val unit: String,
+    val theme: Theme,
 )
 
 class SubtitleCardPresenter {
     companion object {
         fun buildState(
             habit: Habit,
+            theme: Theme,
         ): SubtitleCardState = SubtitleCardState(
             color = habit.color,
             frequency = habit.frequency,
@@ -46,6 +49,7 @@ class SubtitleCardPresenter {
             reminder = habit.reminder,
             targetValue = habit.targetValue,
             unit = habit.unit,
+            theme = theme,
         )
     }
 }

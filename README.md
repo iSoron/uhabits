@@ -18,7 +18,7 @@ source.
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
-  <a href="http://f-droid.org/app/org.isoron.uhabits"><img alt="Get it on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
+  <a href="https://f-droid.org/app/org.isoron.uhabits"><img alt="Get it on F-Droid" src="https://i.imgur.com/baSPE7X.png" height="75px"/></a>
 </p>
 
 ## Screenshots
@@ -109,7 +109,7 @@ contribute, even if you are not a software developer.
   more details.
 
   You should have received a copy of the GNU General Public License along
-  with this program. If not, see <http://www.gnu.org/licenses/>.
+  with this program. If not, see <https://www.gnu.org/licenses/>.
 
 [screen1]: screenshots/1.png
 [screen2]: screenshots/2.png
@@ -123,9 +123,9 @@ contribute, even if you are not a software developer.
 [screen4th]: screenshots/4.thumb.png
 [screen5th]: screenshots/5.thumb.png
 [screen6th]: screenshots/6.thumb.png
-[poedit]: http://translate.loophabits.org
+[poedit]: https://translate.loophabits.org
 [playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
-[fdroid]: http://f-droid.org/app/org.isoron.uhabits
+[fdroid]: https://f-droid.org/app/org.isoron.uhabits
 [build]: https://github.com/iSoron/uhabits/blob/dev/docs/BUILD.md
 [beta]: https://play.google.com/apps/testing/org.isoron.uhabits

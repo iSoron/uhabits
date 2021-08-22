@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop - Tracciatore di Abitudine</string>
     <string name="main_activity_title">Abitudini</string>
     <string name="action_settings">Impostazioni</string>
@@ -28,19 +28,31 @@
     <string name="add_habit">Aggiungi abitudine</string>
     <string name="color_picker_default_title">Cambia colore</string>
     <string name="toast_habit_created">Abitudine creata</string>
-    <string name="toast_habit_deleted">Abitudine rimossa</string>
-    <string name="toast_habit_changed">Abitudine modificata</string>
-    <string name="toast_habit_archived">Abitudine archiviata</string>
-    <string name="toast_habit_unarchived">Abitudine ripristinata</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Abitudine modificata</item>
+        <item quantity="other">Abitudini modificate</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Abitudine eliminata</item>
+        <item quantity="other">Abitudini eliminate</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Abitudine archiviata</item>
+        <item quantity="other">Abitudini archiviate</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Abitudine non archiviata</item>
+        <item quantity="other">Abitudini non archiviate</item>
+    </plurals>
     <string name="overview">Panoramica</string>
     <string name="habit_strength">Forza dell\'abitudine</string>
     <string name="history">Cronologia</string>
     <string name="clear">Annulla</string>
-    <string name="days">giorni</string>
     <string name="reminder">Promemoria</string>
     <string name="save">Salva</string>
     <string name="streaks">Serie</string>
     <string name="no_habits_found">Non hai abitudini attive</string>
+    <string name="no_habits_left_to_do">Hai finito tutto per oggi! </string>
     <string name="long_press_to_toggle">Tieni premuto per completare o annullare</string>
     <string name="reminder_off">Disabilitato</string>
     <string name="create_habit">Crea abitudine</string>
@@ -64,20 +76,24 @@
     <string name="interval_custom">Personalizza...</string>
     <string name="pref_toggle_title">Spunta le ripetizioni velocemente</string>
     <string name="pref_toggle_description">Metti le spunte con un tocco singolo invece che tenendo premuto. Più comodo, ma potrebbe causare delle spunte accidentali.</string>
-    <string name="pref_snooze_interval_title">Intervallo di ritardo dei promemoria</string>
     <string name="pref_rate_this_app">Valuta quest\'app su Google Play</string>
     <string name="pref_send_feedback">Manda un feedback allo sviluppatore</string>
     <string name="pref_view_source_code">Vedi il codice sorgente su GitHub</string>
     <string name="links">Links</string>
     <string name="name">Nome</string>
     <string name="settings">Impostazioni</string>
-    <string name="snooze_interval">Snooze</string>
     <string name="select_snooze_delay">Seleziona ritardo posticipo</string>
     <string name="hint_title">Lo sapevi?</string>
     <string name="hint_drag">Per riordinare le voci, tieni premuto sul nome dell\'abitudine, poi spostala nella posizione corretta.</string>
     <string name="hint_landscape">Puoi vedere più giorni mettendo il tuo telefono orizzontale.</string>
-    <string name="delete_habits">Elimina abitudine</string>
-    <string name="delete_habits_message">L\'abitudine verrà cancellata definitivamente. Non sarà possibile annullare.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Eliminare l\'abitudine?</item>
+        <item quantity="other">Eliminare le abitudini?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">L\'abitudine verrà eliminata definitivamente. Questa azione non può essere annullata.</item>
+        <item quantity="other">Le abitudini verranno eliminate definitivamente. Questa azione non può essere annullata.</item>
+    </plurals>
     <string name="habit_not_found">Abitudine cancellata / non trovata</string>
     <string name="weekends">Weekend</string>
     <string name="any_weekday">Giorni feriali</string>
@@ -111,7 +127,7 @@
     <string name="generate_bug_report">Genera bug report</string>
     <string name="troubleshooting">Risoluzione dei problemi</string>
     <string name="help_translate">Aiuta a tradurre questa app</string>
-    <string name="night_mode">Modalità notte</string>
+    <string name="night_mode" comment="dark_theme">Modalità notte</string>
     <string name="use_pure_black">Usa nero puro nella modalità notte</string>
     <string name="pure_black_description">Sostituisce gli sfondi grigi con sfondi neri nella modalità notte. Riduce il consumo di batteria nei dispositivi con schermo AMOLED.</string>
     <string name="interface_preferences">Interfaccia</string>
@@ -147,6 +163,7 @@
     <string name="by_name">Per nome</string>
     <string name="by_color">Per colore</string>
     <string name="by_score">Per punteggio</string>
+    <string name="by_status">Per stato</string>
     <string name="export">Esporta</string>
     <string name="long_press_to_edit">Tieni premuto per cambiare il valore</string>
     <string name="change_value">Cambia valore</string>
@@ -170,16 +187,29 @@
     <string name="example_notes">(Opzionale)</string>
     <string name="yes_or_no_example">ad es. Ti sei svegliato presto oggi? Hai fatto esercizio? Hai giocato a scacchi?</string>
     <string name="measurable">Misurabile</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">ad es. Quanti chilometri hai corso oggi? Quante pagine hai letto? Quante calorie hai mangiato?</string>
-    <string name="x_times_per_week">%s volte a settimana</string>
+    <string name="measurable_example">es. Quanti chilometri hai percorso oggi? Quante pagine hai letto?</string>
+    <string name="x_times_per_week">%d volte a settimana</string>
     <string name="x_times_per_month">%d volte al mese</string>
     <string name="yes_or_no_short_example">ad es. Esercizio</string>
     <string name="color">Colore</string>
     <string name="example_target">ad es. 15</string>
     <string name="measurable_short_example">ad es. Correre</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">ad es. Quanti chilometri hai corso oggi?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">ad es: Chilometri</string>
+    <string name="measurable_question_example">ad es. Quanti chilometri hai corso oggi?</string>
+    <string name="measurable_units_example">ad es: Chilometri</string>
     <string name="every_month">Ogni mese</string>
     <string name="validation_cannot_be_blank">Non può essere lasciato vuoto</string>
     <string name="today">Oggi</string>
+    <string name="enter">Inserisci</string>
+    <string name="no_habits">Nessuna abitudine trovata</string>
+    <string name="no_numerical_habits">Nessuna abitudine misurabile trovata</string>
+    <string name="no_boolean_habits">Nessuna abitudine sì/no trovata</string>
+    <string name="increment">Incremento</string>
+    <string name="decrement">Decremento</string>
+    <string name="pref_skip_title">Abilita salta giorni</string>
+    <string name="pref_skip_description">Attiva/disattiva due volte per aggiungere un salto invece di una spunta. Un salto mantiene il tuo punteggio invariato e non interrompe il tuo punteggio.</string>
+    <string name="pref_unknown_title">Mostra punti interrogativi per i dati mancanti</string>
+    <string name="you_are_now_a_developer">Ora sei uno sviluppatore</string>
+    <string name="activity_not_found">Nessuna app disponibile per gestire questa azione</string>
+    <string name="pref_midnight_delay_title">Prolunga il giorno di alcune ore dopo la mezzanotte</string>
+    <string name="pref_midnight_delay_description">Attendere fino alle 3:00 per mostrare il nuovo giorno. Utile se solitamente vai a dormire dopo mezzanotte. È necessario riavviare l\'app.</string>
 </resources>

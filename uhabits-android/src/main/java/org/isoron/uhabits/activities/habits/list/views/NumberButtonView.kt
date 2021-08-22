@@ -169,7 +169,7 @@ class NumberButtonView(
                     typeface = BOLD_TYPEFACE
                     textSize = dim(R.dimen.smallTextSize)
                 }
-                preferences.areQuestionMarksEnabled() -> {
+                preferences.areQuestionMarksEnabled -> {
                     label = resources.getString(R.string.fa_question)
                     typeface = getFontAwesome()
                     textSize = dim(R.dimen.smallerTextSize)

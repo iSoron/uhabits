@@ -25,6 +25,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,6 +48,7 @@ class StreakCardViewTest : BaseViewTest() {
             StreakCardState(
                 bestStreaks = habit.streaks.getBest(10),
                 color = habit.color,
+                theme = LightTheme(),
             )
         )
         measureView(view, 800f, 600f)

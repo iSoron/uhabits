@@ -25,6 +25,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.show.views.FrequencyCardPresenter
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,7 +44,13 @@ class FrequencyCardViewTest : BaseViewTest() {
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.frequencyCard) as FrequencyCardView
-        view.setState(FrequencyCardPresenter.buildState(habit = habit, firstWeekday = 0))
+        view.setState(
+            FrequencyCardPresenter.buildState(
+                habit = habit,
+                firstWeekday = 0,
+                theme = LightTheme(),
+            )
+        )
         measureView(view, 800f, 600f)
     }
 

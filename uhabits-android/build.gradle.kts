@@ -20,7 +20,7 @@
  */
 
 plugins {
-    id("com.github.triplet.play") version "3.2.0"
+    id("com.github.triplet.play") version "3.5.0"
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
@@ -37,8 +37,8 @@ android {
     compileSdkVersion(30)
 
     defaultConfig {
-        versionCode(20001)
-        versionName("2.0.1")
+        versionCode(20003)
+        versionName("2.0.3")
         minSdkVersion(23)
         targetSdkVersion(30)
         applicationId("org.isoron.uhabits")
@@ -88,11 +88,11 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.35.1"
-    val kotlinVersion = "1.5.0"
-    val kxCoroutinesVersion = "1.4.2"
-    val ktorVersion = "1.5.4"
-    val espressoVersion = "3.3.0"
+    val daggerVersion = "2.38.1"
+    val kotlinVersion = "1.5.21"
+    val kxCoroutinesVersion = "1.5.1"
+    val ktorVersion = "1.6.2"
+    val espressoVersion = "3.4.0"
 
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
@@ -101,9 +101,9 @@ dependencies {
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
     androidTestImplementation("androidx.annotation:annotation:1.2.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
-    androidTestImplementation("androidx.test:rules:1.3.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     compileOnly("javax.annotation:jsr250-api:1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
@@ -118,12 +118,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kxCoroutinesVersion")
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.android.material:material:1.3.0")
+    implementation("com.google.android.material:material:1.4.0")
     implementation("com.google.zxing:core:3.4.1")
-    implementation("com.opencsv:opencsv:5.4")
+    implementation("com.opencsv:opencsv:5.5.1")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")

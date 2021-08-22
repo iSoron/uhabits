@@ -1,4 +1,4 @@
-Loop Habit Tracker hilft dir dabei, positive Gewohnheiten in dein Leben zu integrieren und sie dauerhaft zu verfolgen. Detaillierte Diagramme und Statistiken geben Aufschluss darüber, wie sich die Gewohnheiten über die Zeit verändern und verbessern. Die App ist werbefrei, open source und respektiert die Privatsphäre.
+Loop Habit Tracker hilft dir dabei gute Gewohnheiten zu erlangen und sie ein Leben lang zu pflegen. Detaillierte Diagramme und Statistiken geben Aufschluss darüber, wie sich die Gewohnheiten über die Zeit verändern und verbessern. Die App ist werbefrei, open source und respektiert die Privatsphäre.
 
 <b>Schöne, minimalistisch und übersichtliche Benutzeroberfläche</b>
 Loop hat eine elegante und minimalistische Benutzeroberfläche, die selbst für Erstnutzer eine einfache Verwendung möglich macht. Dank vieler Geschwindigkeitsoptimierungen funktioniert die App auch auf älteren Geräten einwandfrei.

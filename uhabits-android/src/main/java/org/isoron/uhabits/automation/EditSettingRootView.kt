@@ -33,6 +33,7 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.databinding.AutomationBinding
+import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.setupToolbar
 import java.util.LinkedList
 
@@ -53,6 +54,7 @@ class EditSettingRootView(
             title = resources.getString(R.string.app_name),
             color = PaletteColor(11),
             displayHomeAsUpEnabled = false,
+            theme = currentTheme(),
         )
         populateHabitSpinner()
         binding.habitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

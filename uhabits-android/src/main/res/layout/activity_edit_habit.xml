@@ -185,7 +185,7 @@
                             style="@style/FormInput"
                             android:id="@+id/targetInput"
                             android:maxLines="1"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:hint="@string/example_target"/>
                     </LinearLayout>
                 </FrameLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop Szokásrögzítő</string>
     <string name="main_activity_title">Szokások</string>
     <string name="action_settings">Beállítások</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">Új szokás</string>
     <string name="color_picker_default_title">Szín módosítása</string>
     <string name="toast_habit_created">Szokás létrehozva</string>
-    <string name="toast_habit_deleted">Szokás törölve</string>
-    <string name="toast_habit_changed">Szokás módosítva</string>
-    <string name="toast_habit_archived">Szokás archiválva</string>
-    <string name="toast_habit_unarchived">Szokás újraaktiválva</string>
     <string name="overview">Áttekintés</string>
     <string name="habit_strength">Szokás erőssége</string>
     <string name="history">Napló</string>
     <string name="clear">Törlés</string>
-    <string name="days">nap</string>
     <string name="reminder">Emlékeztető</string>
     <string name="save">Mentés</string>
     <string name="streaks">Szériák</string>
@@ -64,20 +59,16 @@
     <string name="interval_custom">Egyedi...</string>
     <string name="pref_toggle_title">Bejelölés rövid koppintással</string>
     <string name="pref_toggle_description">Bejelölés koppintással nyomva tartás helyett. Kényelmesebb, de véletlen bejelöléseket okozhat.</string>
-    <string name="pref_snooze_interval_title">Szundi időtartama emlékeztetőnél</string>
     <string name="pref_rate_this_app">Értékeld az alkalmazást a Google Play-en</string>
     <string name="pref_send_feedback">Visszajelzés küldése a fejlesztőnek</string>
     <string name="pref_view_source_code">Forráskód megtekintése a GitHub-on</string>
     <string name="links">Linkek</string>
     <string name="name">Megnevezés</string>
     <string name="settings">Beállítások</string>
-    <string name="snooze_interval">Szundi időtartama</string>
     <string name="select_snooze_delay">Szundi beállítása</string>
     <string name="hint_title">Tudtad?</string>
     <string name="hint_drag">Az elemek újrarendezéséhez a koppints a szokás nevére, majd húzd a megfelelő helyre.</string>
     <string name="hint_landscape">Több nap válik láthatóvá, ha fekvő módba állítod a telefonod kijelzőjét.</string>
-    <string name="delete_habits">Szokások törlése</string>
-    <string name="delete_habits_message">A szokások véglegesen törölve lesznek. A műveletet nem lehet visszavonni.</string>
     <string name="habit_not_found">Szokás törölve / nem található</string>
     <string name="weekends">Hétvégente</string>
     <string name="any_weekday">Hétfőtől péntekig</string>
@@ -116,7 +107,7 @@
     <string name="generate_bug_report">Hibabejelentés generálása</string>
     <string name="troubleshooting">Hibaelhárítás</string>
     <string name="help_translate">Segíts lefordítani ezt az alkalmazást</string>
-    <string name="night_mode">Éjszakai mód</string>
+    <string name="night_mode" comment="dark_theme">Éjszakai mód</string>
     <string name="use_pure_black">Fekete használata éjszakai módban</string>
     <string name="pure_black_description">A szürke hátteret tiszta feketére cseréli éjszakai módban. Csökkenti az energiafelhasználást AMOLED kijelzős telefonokon.</string>
     <string name="interface_preferences">Kezelőfelület</string>
@@ -175,15 +166,14 @@
     <string name="example_notes">(opcionális)</string>
     <string name="yes_or_no_example">pl. Korán keltél ma fel? Edzettél? Sakkoztál?</string>
     <string name="measurable">Mérhető</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">pl. Hány kilométert futottál ma? Hány oldalt olvastál? Hány kalória volt amit ma ettél?</string>
     <string name="x_times_per_week">Heti %d alkalommal</string>
     <string name="x_times_per_month">Havi %d alkalommal</string>
     <string name="yes_or_no_short_example">pl. Edzés</string>
     <string name="color">Szín</string>
     <string name="example_target">pl. 15</string>
     <string name="measurable_short_example">pl. Futás</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">pl. Hány kilométert futottál ma?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">pl. kilométer</string>
+    <string name="measurable_question_example">pl. Hány kilométert futottál ma?</string>
+    <string name="measurable_units_example">pl. kilométer</string>
     <string name="every_month">Minden hónapban</string>
     <string name="validation_cannot_be_blank">Nem lehet üres</string>
     <string name="today">Ma</string>

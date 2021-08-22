@@ -22,10 +22,12 @@ import org.isoron.uhabits.core.database.Column
 import org.isoron.uhabits.core.database.Table
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
-import java.util.Objects
+import java.util.Objects.requireNonNull
 
 /**
  * The SQLite database record corresponding to a [Habit].
@@ -93,8 +95,8 @@ class HabitRecord {
         highlight = 0
         color = model.color.paletteIndex
         archived = if (model.isArchived) 1 else 0
-        type = model.type
-        targetType = model.targetType
+        type = model.type.value
+        targetType = model.targetType.value
         targetValue = model.targetValue
         unit = model.unit
         position = model.position
@@ -108,7 +110,7 @@ class HabitRecord {
         reminderHour = null
         if (model.hasReminder()) {
             val reminder = model.reminder
-            reminderHour = Objects.requireNonNull(reminder)!!.hour
+            reminderHour = requireNonNull(reminder)!!.hour
             reminderMin = reminder!!.minute
             reminderDays = reminder.days.toInteger()
         }
@@ -122,8 +124,8 @@ class HabitRecord {
         habit.frequency = Frequency(freqNum!!, freqDen!!)
         habit.color = PaletteColor(color!!)
         habit.isArchived = archived != 0
-        habit.type = type!!
-        habit.targetType = targetType!!
+        habit.type = HabitType.fromInt(type!!)
+        habit.targetType = NumericalHabitType.fromInt(targetType!!)
         habit.targetValue = targetValue!!
         habit.unit = unit!!
         habit.position = position!!

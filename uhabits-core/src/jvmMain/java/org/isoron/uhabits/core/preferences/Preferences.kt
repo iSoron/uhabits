@@ -226,9 +226,12 @@ open class Preferences(private val storage: Storage) {
         storage.putString("pref_encryption_key", "")
     }
 
-    fun areQuestionMarksEnabled(): Boolean {
-        return storage.getBoolean("pref_unknown_enabled", false)
-    }
+    var areQuestionMarksEnabled: Boolean
+        get() = storage.getBoolean("pref_unknown_enabled", false)
+        set(value) {
+            storage.putBoolean("pref_unknown_enabled", value)
+            for (l in listeners) l.onQuestionMarksChanged()
+        }
 
     /**
      * @return An integer representing the first day of the week. Sunday
@@ -261,6 +264,7 @@ open class Preferences(private val storage: Storage) {
     interface Listener {
         fun onCheckmarkSequenceChanged() {}
         fun onNotificationsChanged() {}
+        fun onQuestionMarksChanged() {}
         fun onSyncEnabled() {}
     }
 
@@ -280,7 +284,7 @@ open class Preferences(private val storage: Storage) {
             putString(key, joinLongs(values))
         }
 
-        fun getLongArray(key: String, defValue: LongArray): LongArray? {
+        fun getLongArray(key: String, defValue: LongArray): LongArray {
             val string = getString(key, "")
             return if (string.isEmpty()) defValue else splitLongs(
                 string
