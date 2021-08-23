@@ -69,7 +69,7 @@ fun formatFrequency(freqNum: Int, freqDen: Int, resources: Resources) = when {
     freqNum == 1 && freqDen == 7 -> resources.getString(R.string.every_week)
     freqNum == 1 && freqDen > 1 -> resources.getString(R.string.every_x_days, freqDen)
     freqDen == 7 -> resources.getString(R.string.x_times_per_week, freqNum)
-    else -> "$freqNum/$freqDen"
+    else -> resources.getString(R.string.x_times_per_y_days, freqNum, freqDen)
 }
 
 class EditHabitActivity : AppCompatActivity() {
