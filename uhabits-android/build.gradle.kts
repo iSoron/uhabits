@@ -1,5 +1,3 @@
-
-
 /*
  * Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
  *
@@ -34,15 +32,15 @@ tasks.compileLint {
 
 android {
 
-    compileSdkVersion(30)
+    compileSdk = 30
 
     defaultConfig {
-        versionCode(20003)
-        versionName("2.0.3")
-        minSdkVersion(23)
-        targetSdkVersion(30)
-        applicationId("org.isoron.uhabits")
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        versionCode = 20003
+        versionName = "2.0.3"
+        minSdk = 23
+        targetSdk = 30
+        applicationId = "org.isoron.uhabits"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -58,7 +56,7 @@ android {
 
     buildTypes {
         getByName("release") {
-            minifyEnabled(true)
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
             if (signingConfigs.findByName("release") != null) {
                 signingConfig = signingConfigs.getByName("release")
@@ -70,7 +68,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         isCheckReleaseBuilds = false
         isAbortOnError = false
         disable("GoogleAppIndexingWarning")

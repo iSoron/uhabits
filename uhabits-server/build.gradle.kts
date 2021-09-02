@@ -29,7 +29,7 @@ plugins {
 application {
     group = "org.isoron.uhabits"
     version = "0.0.1"
-    mainClassName = "io.ktor.server.netty.EngineMain"
+    mainClass.set("io.ktor.server.netty.EngineMain")
 }
 
 dependencies {
