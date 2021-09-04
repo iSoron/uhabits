@@ -19,9 +19,11 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.text.InputFilter
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.view.inputmethod.EditorInfo
@@ -41,17 +43,23 @@ class NumberPickerFactory
 @Inject constructor(
     @ActivityContext private val context: Context
 ) {
+
     fun create(
         value: Double,
         unit: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
-
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
         val picker = view.findViewById<NumberPicker>(R.id.picker)
         val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
+
+        val watcherFilter: InputFilter = SeparatorWatcherInputFilter(picker2)
+        val numberPickerInputText = getNumberPickerInputText(picker)
+
+        // watch the unfiltered input before the filters remove a possible separator from it
+        numberPickerInputText.filters = arrayOf(watcherFilter).plus(numberPickerInputText.filters)
 
         view.findViewById<TextView>(R.id.tvUnit).text = unit
         view.findViewById<TextView>(R.id.tvSeparator).text =
@@ -68,7 +76,6 @@ class NumberPickerFactory
         picker2.maxValue = 99
         picker2.setFormatter { v -> String.format("%02d", v) }
         picker2.value = intValue % 100
-        refreshInitialValue(picker2)
 
         val dialog = AlertDialog.Builder(context)
             .setView(view)
@@ -91,20 +98,50 @@ class NumberPickerFactory
         InterfaceUtils.setupEditorAction(
             picker
         ) { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE)
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
+            }
+            false
+        }
+
+        InterfaceUtils.setupEditorAction(
+            picker2
+        ) { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
+            }
             false
         }
 
         return dialog
     }
 
-    private fun refreshInitialValue(picker: NumberPicker) {
-        // Workaround for Android bug:
-        // https://code.google.com/p/android/issues/detail?id=35482
+    @SuppressLint("DiscouragedPrivateApi")
+    private fun getNumberPickerInputText(picker: NumberPicker): EditText {
         val f = NumberPicker::class.java.getDeclaredField("mInputText")
         f.isAccessible = true
-        val inputText = f.get(picker) as EditText
-        inputText.filters = arrayOfNulls<InputFilter>(0)
+        return f.get(picker) as EditText
+    }
+}
+
+class SeparatorWatcherInputFilter(private val nextPicker: NumberPicker) : InputFilter {
+    override fun filter(
+        source: CharSequence?,
+        start: Int,
+        end: Int,
+        dest: Spanned?,
+        dstart: Int,
+        dend: Int
+    ): CharSequence {
+        if (source == null || source.isEmpty()) {
+            return ""
+        }
+        for (c in source) {
+            if (c == DecimalFormatSymbols.getInstance().decimalSeparator || c == '.' || c == ',') {
+                nextPicker.performLongClick()
+                break
+            }
+        }
+        return source
     }
 }
