@@ -22,7 +22,6 @@ package org.isoron.uhabits.activities.common.dialogs
 import android.content.Context
 import android.content.DialogInterface
 import android.text.InputFilter
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.view.inputmethod.EditorInfo
@@ -85,7 +84,6 @@ class NumberPickerFactory
         dialog.setOnShowListener {
             picker.getChildAt(0)?.requestFocus()
             dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20.0f)
         }
 
         InterfaceUtils.setupEditorAction(

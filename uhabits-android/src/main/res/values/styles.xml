@@ -169,6 +169,7 @@
     </style>
 
     <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name ="android:textSize">@dimen/regularTextSize</item>
         <item name="android:textColor">@color/grey_100</item>
     </style>
 
