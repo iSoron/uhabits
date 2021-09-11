@@ -128,6 +128,10 @@ class ScoreListTest : BaseUnitTest() {
         habit.targetValue = 0.0
         habit.recompute()
         assertTrue(habit.scores[today].value.isFinite())
+
+        habit.targetType = NumericalHabitType.AT_MOST
+        habit.recompute()
+        assertTrue(habit.scores[today].value.isFinite())
     }
 
     @Test

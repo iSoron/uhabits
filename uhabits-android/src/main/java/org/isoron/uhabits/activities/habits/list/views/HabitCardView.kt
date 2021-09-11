@@ -109,10 +109,16 @@ class HabitCardView(
             numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
         }
 
-    var threshold: Double
-        get() = numberPanel.threshold
+    var lowerThreshold: Double
+        get() = numberPanel.lowerThreshold
         set(value) {
-            numberPanel.threshold = value
+            numberPanel.lowerThreshold = value
+        }
+
+    var higherThreshold: Double
+        get() = numberPanel.higherThreshold
+        set(value) {
+            numberPanel.higherThreshold = value
         }
 
     var checkmarkPanel: CheckmarkPanelView
@@ -236,7 +242,9 @@ class HabitCardView(
         numberPanel.apply {
             color = c
             units = h.unit
-            threshold = h.targetValue
+            targetType = h.targetType
+            lowerThreshold = 0.0
+            higherThreshold = h.targetValue
             visibility = when (h.isNumerical) {
                 true -> View.VISIBLE
                 false -> View.GONE

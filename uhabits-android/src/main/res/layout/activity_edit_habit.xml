@@ -167,6 +167,29 @@
                         android:hint="@string/measurable_units_example"/>
                 </LinearLayout>
             </FrameLayout>
+            <FrameLayout
+                android:id="@+id/targetTypeOuterBox"
+                style="@style/FormOuterBox">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/target_type" />
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RadioButton android:id="@+id/targetTypeAtLeast"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/target_type_at_least"
+                            android:checked="true"/>
+                        <RadioButton android:id="@+id/targetTypeAtMost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/target_type_at_most"/>
+                    </RadioGroup>
+                </LinearLayout>
+            </FrameLayout>
             <LinearLayout
                 android:id="@+id/targetOuterBox"
                 android:layout_width="match_parent"

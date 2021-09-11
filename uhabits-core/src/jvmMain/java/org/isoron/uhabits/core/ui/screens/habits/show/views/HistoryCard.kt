@@ -29,6 +29,7 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
@@ -105,12 +106,21 @@ class HistoryCardPresenter(
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today)
             val series = if (habit.isNumerical) {
-                entries.map {
-                    Entry(it.timestamp, max(0, it.value))
-                }.map {
-                    when (it.value) {
-                        0 -> HistoryChart.Square.OFF
-                        else -> HistoryChart.Square.ON
+                if (habit.targetType == NumericalHabitType.AT_LEAST) {
+                    entries.map {
+                        when (max(0, it.value)) {
+                            0 -> HistoryChart.Square.OFF
+                            else -> HistoryChart.Square.ON
+                        }
+                    }
+                } else {
+                    entries.map {
+                        if (it.value < 0) habit.targetValue * 2.0 * 1000.0 else it.value / 1000.0
+                    }.map {
+                        when {
+                            it <= habit.targetValue -> HistoryChart.Square.ON
+                            else -> HistoryChart.Square.OFF
+                        }
                     }
                 }
             } else {

@@ -117,6 +117,10 @@ class EditHabitActivity : AppCompatActivity() {
             binding.notesInput.setText(habit.description)
             binding.unitInput.setText(habit.unit)
             binding.targetInput.setText(habit.targetValue.toString())
+            if (habit.targetType == NumericalHabitType.AT_MOST) {
+                binding.targetTypeAtMost.isChecked = true
+                binding.targetTypeAtLeast.isChecked = false
+            }
         } else {
             habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
         }
@@ -138,6 +142,7 @@ class EditHabitActivity : AppCompatActivity() {
             HabitType.YES_NO -> {
                 binding.unitOuterBox.visibility = View.GONE
                 binding.targetOuterBox.visibility = View.GONE
+                binding.targetTypeOuterBox.visibility = View.GONE
             }
             HabitType.NUMERICAL -> {
                 binding.nameInput.hint = getString(R.string.measurable_short_example)
@@ -262,7 +267,10 @@ class EditHabitActivity : AppCompatActivity() {
         habit.frequency = Frequency(freqNum, freqDen)
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = targetInput.text.toString().toDouble()
-            habit.targetType = NumericalHabitType.AT_LEAST
+            if (binding.targetTypeAtLeast.isChecked)
+                habit.targetType = NumericalHabitType.AT_LEAST
+            else
+                habit.targetType = NumericalHabitType.AT_MOST
             habit.unit = unitInput.text.trim().toString()
         }
         habit.type = habitType

@@ -68,6 +68,7 @@ class ScoreList {
     fun recompute(
         frequency: Frequency,
         isNumerical: Boolean,
+        numericalHabitType: NumericalHabitType,
         targetValue: Double,
         computedEntries: EntryList,
         from: Timestamp,
@@ -91,18 +92,37 @@ class ScoreList {
         }
 
         var previousValue = 0.0
+        val numericalUnknownDayValue = (targetValue * 2 * 1000) / denominator
         for (i in values.indices) {
             val offset = values.size - i - 1
             if (isNumerical) {
-                rollingSum += max(0, values[offset])
+                if (values[offset] >= 0)
+                    rollingSum += values[offset]
+                else if (numericalHabitType == NumericalHabitType.AT_MOST)
+                    rollingSum += numericalUnknownDayValue
                 if (offset + denominator < values.size) {
-                    rollingSum -= values[offset + denominator]
+                    if (values[offset + denominator] >= 0) {
+                        rollingSum -= values[offset + denominator]
+                    } else if (numericalHabitType == NumericalHabitType.AT_MOST) {
+                        rollingSum -= numericalUnknownDayValue
+                    }
                 }
-                val percentageCompleted = if (targetValue > 0) {
-                    min(1.0, rollingSum / 1000 / targetValue)
-                } else {
-                    1.0
+
+                var percentageCompleted = 0.0
+                val normalizedRollingSum = rollingSum / 1000
+                if (numericalHabitType == NumericalHabitType.AT_LEAST) {
+                    percentageCompleted = if (targetValue > 0)
+                        min(1.0, normalizedRollingSum / targetValue)
+                    else
+                        1.0
+                } else if (numericalHabitType == NumericalHabitType.AT_MOST) {
+                    percentageCompleted = if (targetValue > 0 && normalizedRollingSum > targetValue)
+                        max(
+                            0.0, 1 - ((normalizedRollingSum - targetValue) / targetValue)
+                        )
+                    else if (normalizedRollingSum <= targetValue) 1.0 else 0.0
                 }
+
                 previousValue = compute(freq, previousValue, percentageCompleted)
             } else {
                 if (values[offset] == Entry.YES_MANUAL) {
