@@ -34,14 +34,13 @@
         android:id="@+id/tvSeparator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="."/>
+        />
 
     <NumberPicker
         android:id="@+id/picker2"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:descendantFocusability="blocksDescendants"
         />
 
     <TextView
