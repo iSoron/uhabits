@@ -21,12 +21,9 @@
     <group
         android:translateX="4"
         android:translateY="4">
-        <path android:name="square"
-            android:fillColor="#FFFFFF"
-            android:pathData="M5,5 L19,5 L19,19 L5,19 z" />
-
         <path
-            android:fillColor="#333637"
+            android:fillColor="#000000"
+            android:fillAlpha="0.50"
             android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM10,17l-5,-5 1.41,-1.41L10,14.17l7.59,-7.59L19,8l-9,9z" />
     </group>
 </vector>
