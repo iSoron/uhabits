@@ -44,7 +44,7 @@ class NumberButtonViewTest : BaseViewTest() {
         view = component.getNumberButtonViewFactory().create().apply {
             units = "steps"
             targetType = NumericalHabitType.AT_LEAST
-            lowerThreshold = 0.0
+            lowerThreshold = 50.0
             higherThreshold = 100.0
             color = PaletteUtils.getAndroidTestColor(8)
             onEdit = { edited = true }
@@ -71,9 +71,42 @@ class NumberButtonViewTest : BaseViewTest() {
     }
 
     @Test
-    fun testRender_aboveThreshold() {
+    fun testRender_aboveHigherThreshold() {
         view.value = 500.0
         assertRenders(view, "$PATH/render_above.png")
+    }
+
+    @Test
+    fun testRender_atMostAboveHigherThreshold() {
+        view.value = 500.0
+        view.targetType = NumericalHabitType.AT_MOST
+        assertRenders(view, "$PATH/render_at_most_above.png")
+    }
+
+    @Test
+    fun testRender_betweenThresholds() {
+        view.value = 99.0
+        assertRenders(view, "$PATH/render_between.png")
+    }
+
+    @Test
+    fun testRender_atMostBetweenThresholds() {
+        view.value = 99.0
+        view.targetType = NumericalHabitType.AT_MOST
+        assertRenders(view, "$PATH/render_at_most_between.png")
+    }
+
+    @Test
+    fun testRender_belowLowerThreshold() {
+        view.value = 0.0
+        assertRenders(view, "$PATH/render_below.png")
+    }
+
+    @Test
+    fun testRender_atMostBelowLowerThreshold() {
+        view.value = 0.0
+        view.targetType = NumericalHabitType.AT_MOST
+        assertRenders(view, "$PATH/render_at_most_below.png")
     }
 
     @Test
@@ -81,18 +114,6 @@ class NumberButtonViewTest : BaseViewTest() {
         view.value = 500.0
         view.units = ""
         assertRenders(view, "$PATH/render_unitless.png")
-    }
-
-    @Test
-    fun testRender_belowThreshold() {
-        view.value = 99.0
-        assertRenders(view, "$PATH/render_below.png")
-    }
-
-    @Test
-    fun testRender_zero() {
-        view.value = 0.0
-        assertRenders(view, "$PATH/render_zero.png")
     }
 
     @Test
