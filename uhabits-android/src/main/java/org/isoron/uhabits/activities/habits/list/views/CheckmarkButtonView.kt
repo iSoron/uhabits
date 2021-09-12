@@ -29,6 +29,8 @@ import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.habits.list.ListHabitsMenu.Companion.delay
+import org.isoron.uhabits.activities.habits.list.ListHabitsMenu.Companion.TOGGLE_DELAY_MILLIS
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
@@ -80,15 +82,24 @@ class CheckmarkButtonView(
         setOnLongClickListener(this)
     }
 
-    fun performToggle() {
+    private fun performToggle() {
         value = Entry.nextToggleValue(
             value = value,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        onToggle(value)
-        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        invalidate()
+
+        if (preferences.isSkipEnabled) {
+            {
+                onToggle(value)
+                performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                invalidate()
+            }.delay(TOGGLE_DELAY_MILLIS)
+        } else {
+            onToggle(value)
+            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            invalidate()
+        }
     }
 
     override fun onClick(v: View) {

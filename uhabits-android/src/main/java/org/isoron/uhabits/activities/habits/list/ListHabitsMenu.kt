@@ -20,6 +20,8 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -122,31 +124,40 @@ class ListHabitsMenu @Inject constructor(
             }
 
             R.id.actionSortColor -> {
-                behavior.onSortByColor()
+                { behavior.onSortByColor() }.delay(SORT_DELAY_MILLIS)
                 return true
             }
 
             R.id.actionSortManual -> {
-                behavior.onSortByManually()
+                { behavior.onSortByManually() }.delay(SORT_DELAY_MILLIS)
                 return true
             }
 
             R.id.actionSortName -> {
-                behavior.onSortByName()
+                { behavior.onSortByName() }.delay(SORT_DELAY_MILLIS)
                 return true
             }
 
             R.id.actionSortScore -> {
-                behavior.onSortByScore()
+                { behavior.onSortByScore() }.delay(SORT_DELAY_MILLIS)
                 return true
             }
 
             R.id.actionSortStatus -> {
-                behavior.onSortByStatus()
+                { behavior.onSortByStatus() }.delay(SORT_DELAY_MILLIS)
                 return true
             }
 
             else -> return false
+        }
+    }
+
+    companion object {
+        const val SORT_DELAY_MILLIS = 1000L
+        const val TOGGLE_DELAY_MILLIS = 2000L
+
+        fun (() -> Unit).delay(delayInMillis: Long) {
+            Handler(Looper.getMainLooper()).postDelayed(this, delayInMillis)
         }
     }
 }
