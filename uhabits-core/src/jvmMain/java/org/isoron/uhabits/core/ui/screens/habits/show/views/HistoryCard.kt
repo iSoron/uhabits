@@ -115,10 +115,8 @@ class HistoryCardPresenter(
                     }
                 } else {
                     entries.map {
-                        if (it.value < 0) habit.targetValue * 2.0 * 1000.0 else it.value / 1000.0
-                    }.map {
                         when {
-                            it <= habit.targetValue -> HistoryChart.Square.ON
+                            max(0, it.value) < 2 * habit.targetValue -> HistoryChart.Square.ON
                             else -> HistoryChart.Square.OFF
                         }
                     }

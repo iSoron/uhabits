@@ -37,6 +37,7 @@ import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.sres
+import java.lang.Double.max
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -83,13 +84,7 @@ class NumberButtonView(
             invalidate()
         }
 
-    var lowerThreshold = 0.0
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var higherThreshold = 0.0
+    var threshold = 0.0
         set(value) {
             field = value
             invalidate()
@@ -167,15 +162,15 @@ class NumberButtonView(
         fun draw(canvas: Canvas) {
             var activeColor = if (targetType == NumericalHabitType.AT_LEAST) {
                 when {
-                    value <= lowerThreshold -> lowContrast
-                    value < higherThreshold -> mediumContrast
-                    else -> color
+                    max(0.0, value) >= threshold -> color
+                    value <= 0 -> lowContrast
+                    else -> mediumContrast
                 }
             } else {
                 when {
-                    value >= higherThreshold || value < 0 -> lowContrast
-                    value > lowerThreshold -> mediumContrast
-                    else -> color
+                    value <= threshold -> color
+                    value >= 2 * threshold -> lowContrast
+                    else -> mediumContrast
                 }
             }
 
@@ -195,7 +190,7 @@ class NumberButtonView(
                     textSize = dim(R.dimen.smallerTextSize)
                 }
                 else -> {
-                    label = if (targetType == NumericalHabitType.AT_LEAST) "0" else "inf"
+                    label = "0"
                     typeface = BOLD_TYPEFACE
                     textSize = dim(R.dimen.smallTextSize)
                 }

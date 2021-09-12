@@ -54,13 +54,7 @@ class NumberPanelView(
             setupButtons()
         }
 
-    var lowerThreshold = 0.0
-        set(value) {
-            field = value
-            setupButtons()
-        }
-
-    var higherThreshold = 0.0
+    var threshold = 0.0
         set(value) {
             field = value
             setupButtons()
@@ -98,8 +92,7 @@ class NumberPanelView(
             }
             button.color = color
             button.targetType = targetType
-            button.lowerThreshold = lowerThreshold
-            button.higherThreshold = higherThreshold
+            button.threshold = threshold
             button.units = units
             button.onEdit = { onEdit(timestamp) }
         }

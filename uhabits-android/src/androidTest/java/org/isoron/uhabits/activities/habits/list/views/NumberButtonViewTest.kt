@@ -44,8 +44,7 @@ class NumberButtonViewTest : BaseViewTest() {
         view = component.getNumberButtonViewFactory().create().apply {
             units = "steps"
             targetType = NumericalHabitType.AT_LEAST
-            lowerThreshold = 50.0
-            higherThreshold = 100.0
+            threshold = 100.0
             color = PaletteUtils.getAndroidTestColor(8)
             onEdit = { edited = true }
         }
@@ -71,39 +70,39 @@ class NumberButtonViewTest : BaseViewTest() {
     }
 
     @Test
-    fun testRender_aboveHigherThreshold() {
+    fun testRender_aboveThreshold() {
         view.value = 500.0
         assertRenders(view, "$PATH/render_above.png")
     }
 
     @Test
-    fun testRender_atMostAboveHigherThreshold() {
+    fun testRender_atMostAboveThreshold() {
         view.value = 500.0
         view.targetType = NumericalHabitType.AT_MOST
         assertRenders(view, "$PATH/render_at_most_above.png")
     }
 
     @Test
-    fun testRender_betweenThresholds() {
+    fun testRender_belowThreshold() {
         view.value = 99.0
-        assertRenders(view, "$PATH/render_between.png")
+        assertRenders(view, "$PATH/render_below.png")
     }
 
     @Test
     fun testRender_atMostBetweenThresholds() {
-        view.value = 99.0
+        view.value = 110.0
         view.targetType = NumericalHabitType.AT_MOST
         assertRenders(view, "$PATH/render_at_most_between.png")
     }
 
     @Test
-    fun testRender_belowLowerThreshold() {
+    fun testRender_zero() {
         view.value = 0.0
-        assertRenders(view, "$PATH/render_below.png")
+        assertRenders(view, "$PATH/render_zero.png")
     }
 
     @Test
-    fun testRender_atMostBelowLowerThreshold() {
+    fun testRender_atMostBelowThreshold() {
         view.value = 0.0
         view.targetType = NumericalHabitType.AT_MOST
         assertRenders(view, "$PATH/render_at_most_below.png")

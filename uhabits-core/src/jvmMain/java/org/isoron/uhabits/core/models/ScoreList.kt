@@ -92,20 +92,12 @@ class ScoreList {
         }
 
         var previousValue = 0.0
-        val numericalUnknownDayValue = (targetValue * 2 * 1000) / denominator
         for (i in values.indices) {
             val offset = values.size - i - 1
             if (isNumerical) {
-                if (values[offset] >= 0)
-                    rollingSum += values[offset]
-                else if (numericalHabitType == NumericalHabitType.AT_MOST)
-                    rollingSum += numericalUnknownDayValue
+                rollingSum += max(0, values[offset])
                 if (offset + denominator < values.size) {
-                    if (values[offset + denominator] >= 0) {
-                        rollingSum -= values[offset + denominator]
-                    } else if (numericalHabitType == NumericalHabitType.AT_MOST) {
-                        rollingSum -= numericalUnknownDayValue
-                    }
+                    rollingSum -= max(0, values[offset + denominator])
                 }
 
                 var percentageCompleted = 0.0

@@ -57,8 +57,7 @@ class NumberPanelViewTest : BaseViewTest() {
             color = PaletteUtils.getAndroidTestColor(7)
             units = "steps"
             targetType = NumericalHabitType.AT_LEAST
-            lowerThreshold = 0.0
-            higherThreshold = 5000.0
+            threshold = 5000.0
         }
         view.onAttachedToWindow()
         measureView(view, dpToPixels(200), dpToPixels(200))

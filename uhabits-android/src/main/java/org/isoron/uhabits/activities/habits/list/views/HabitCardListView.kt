@@ -36,7 +36,6 @@ import dagger.Lazy
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.BundleSavedState
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.inject.ActivityContext
 import javax.inject.Inject
 
@@ -98,13 +97,7 @@ class HabitCardListView(
         cardView.dataOffset = dataOffset
         cardView.score = score
         cardView.unit = habit.unit
-        if (habit.targetType == NumericalHabitType.AT_LEAST) {
-            cardView.higherThreshold = habit.targetValue / habit.frequency.denominator
-            cardView.lowerThreshold = 0.0
-        } else {
-            cardView.higherThreshold = (habit.targetValue * 2) / habit.frequency.denominator
-            cardView.lowerThreshold = habit.targetValue / habit.frequency.denominator
-        }
+        cardView.threshold = habit.targetValue / habit.frequency.denominator
 
         val detector = GestureDetector(context, CardViewGestureDetector(holder))
         cardView.setOnTouchListener { _, ev ->
