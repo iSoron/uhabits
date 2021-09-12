@@ -100,19 +100,18 @@ class ScoreList {
                     rollingSum -= max(0, values[offset + denominator])
                 }
 
-                var percentageCompleted = 0.0
                 val normalizedRollingSum = rollingSum / 1000
-                if (numericalHabitType == NumericalHabitType.AT_LEAST) {
-                    percentageCompleted = if (targetValue > 0)
+                val percentageCompleted = if (numericalHabitType == NumericalHabitType.AT_LEAST) {
+                    if (targetValue > 0)
                         min(1.0, normalizedRollingSum / targetValue)
                     else
                         1.0
-                } else if (numericalHabitType == NumericalHabitType.AT_MOST) {
-                    percentageCompleted = if (targetValue > 0 && normalizedRollingSum > targetValue)
-                        max(
-                            0.0, 1 - ((normalizedRollingSum - targetValue) / targetValue)
-                        )
-                    else if (normalizedRollingSum <= targetValue) 1.0 else 0.0
+                } else {
+                    if (targetValue > 0) {
+                        (1 - ((normalizedRollingSum - targetValue) / targetValue)).coerceIn(0.0, 1.0)
+                    } else {
+                        if (normalizedRollingSum > 0) 0.0 else 1.0
+                    }
                 }
 
                 previousValue = compute(freq, previousValue, percentageCompleted)
