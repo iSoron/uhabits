@@ -24,6 +24,7 @@ import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.utils.PaletteUtils
 import org.junit.Before
 import org.junit.Test
@@ -42,7 +43,9 @@ class NumberButtonViewTest : BaseViewTest() {
         super.setUp()
         view = component.getNumberButtonViewFactory().create().apply {
             units = "steps"
-            threshold = 100.0
+            targetType = NumericalHabitType.AT_LEAST
+            lowerThreshold = 0.0
+            higherThreshold = 100.0
             color = PaletteUtils.getAndroidTestColor(8)
             onEdit = { edited = true }
         }

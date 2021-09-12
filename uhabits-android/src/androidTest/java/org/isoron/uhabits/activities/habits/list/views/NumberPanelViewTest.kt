@@ -24,6 +24,7 @@ import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.utils.PaletteUtils
 import org.junit.After
@@ -55,7 +56,9 @@ class NumberPanelViewTest : BaseViewTest() {
             buttonCount = 4
             color = PaletteUtils.getAndroidTestColor(7)
             units = "steps"
-            threshold = 5000.0
+            targetType = NumericalHabitType.AT_LEAST
+            lowerThreshold = 0.0
+            higherThreshold = 5000.0
         }
         view.onAttachedToWindow()
         measureView(view, dpToPixels(200), dpToPixels(200))
