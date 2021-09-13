@@ -64,7 +64,8 @@ class HistoryCardPresenter(
         if (habit.isNumerical) {
             val entries = habit.computedEntries
             val oldValue = entries.get(timestamp).value
-            screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
+            val notes = entries.get(timestamp).notes
+            screen.showNumberPicker(oldValue / 1000.0, habit.unit, notes) { newValue: Double, newNotes: String ->
                 val thousands = (newValue * 1000).roundToInt()
                 commandRunner.run(
                     CreateRepetitionCommand(
@@ -72,11 +73,14 @@ class HistoryCardPresenter(
                         habit,
                         timestamp,
                         thousands,
+                        newNotes,
                     ),
                 )
             }
         } else {
-            val currentValue = habit.computedEntries.get(timestamp).value
+            val entry = habit.computedEntries.get(timestamp)
+            val currentValue = entry.value
+            val notes = entry.notes
             val nextValue = Entry.nextToggleValue(
                 value = currentValue,
                 isSkipEnabled = preferences.isSkipEnabled,
@@ -88,6 +92,7 @@ class HistoryCardPresenter(
                     habit,
                     timestamp,
                     nextValue,
+                    notes,
                 ),
             )
         }
@@ -154,6 +159,7 @@ class HistoryCardPresenter(
         fun showNumberPicker(
             value: Double,
             unit: String,
+            notes: String,
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
     }

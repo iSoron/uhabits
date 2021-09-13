@@ -115,6 +115,13 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
+    var notes
+        get() = numberPanel.notes
+        set(values) {
+            checkmarkPanel.notes = values
+            numberPanel.notes = values
+        }
+
     var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
@@ -143,7 +150,7 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp, value) }
+                habit?.let { behavior.onToggle(it, timestamp, value, "") }
             }
         }
 

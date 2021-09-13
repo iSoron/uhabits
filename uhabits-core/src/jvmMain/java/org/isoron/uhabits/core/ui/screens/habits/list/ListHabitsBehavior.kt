@@ -47,14 +47,16 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
-        val entries = habit.computedEntries
-        val oldValue = entries.get(timestamp!!).value.toDouble()
+        val entries = habit.computedEntries.get(timestamp!!)
+        val oldValue = entries.value.toDouble()
+        val notes = entries.notes
         screen.showNumberPicker(
             oldValue / 1000,
-            habit.unit
-        ) { newValue: Double ->
+            habit.unit,
+            notes
+            ) {  newValue: Double, newNotes:String, ->
             val value = (newValue * 1000).roundToInt()
-            commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value))
+            commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
         }
     }
 
@@ -104,9 +106,9 @@ open class ListHabitsBehavior @Inject constructor(
         if (prefs.isFirstRun) onFirstRun()
     }
 
-    fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int) {
+    fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int, notes: String) {
         commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp!!, value)
+            CreateRepetitionCommand(habitList, habit, timestamp!!, value, notes)
         )
     }
 
@@ -131,7 +133,7 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun interface NumberPickerCallback {
-        fun onNumberPicked(newValue: Double)
+        fun onNumberPicked(newValue: Double, notes: String)
         fun onNumberPickerDismissed() {}
     }
 
@@ -142,6 +144,7 @@ open class ListHabitsBehavior @Inject constructor(
         fun showNumberPicker(
             value: Double,
             unit: String,
+            notes: String,
             callback: NumberPickerCallback
         )
 

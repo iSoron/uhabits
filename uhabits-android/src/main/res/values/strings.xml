@@ -55,6 +55,7 @@
     <string name="clear">Clear</string>
     <string name="reminder">Reminder</string>
     <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
     <string name="streaks">Streaks</string>
     <string name="no_habits_found">You have no active habits</string>
     <string name="no_habits_left_to_do">You\'re all done for today!</string>

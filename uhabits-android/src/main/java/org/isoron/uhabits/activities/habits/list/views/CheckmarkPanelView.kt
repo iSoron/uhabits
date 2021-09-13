@@ -54,6 +54,12 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
+    var notes = BooleanArray(0)
+        set(values) {
+            field = values
+            setupButtons()
+        }
+
     var onToggle: (Timestamp, Int) -> Unit = { _, _ -> }
         set(value) {
             field = value
@@ -71,6 +77,10 @@ class CheckmarkPanelView(
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> UNKNOWN
+            }
+            button.hasNotes = when {
+                index + dataOffset < notes.size -> notes[index + dataOffset]
+                else -> false
             }
             button.color = color
             button.onToggle = { value -> onToggle(timestamp, value) }

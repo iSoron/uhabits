@@ -101,6 +101,11 @@ class NumberButtonView(
             field = value
             invalidate()
         }
+    var hasNotes = false
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     var onEdit: () -> Unit = {}
     private var drawer: Drawer = Drawer(context)
@@ -111,8 +116,7 @@ class NumberButtonView(
     }
 
     override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) onEdit()
-        else showMessage(resources.getString(R.string.long_press_to_edit))
+        onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
@@ -152,6 +156,8 @@ class NumberButtonView(
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
         }
+
+        private val pNotesIndicator: Paint = Paint()
 
         init {
             em = pNumber.measureText("m")
@@ -200,6 +206,7 @@ class NumberButtonView(
             pNumber.color = activeColor
             pNumber.typeface = typeface
             pUnit.color = activeColor
+            pNotesIndicator.color = activeColor
 
             if (units.isBlank()) {
                 rect.set(0f, 0f, width.toFloat(), height.toFloat())
@@ -210,6 +217,11 @@ class NumberButtonView(
                 canvas.drawText(label, rect.centerX(), rect.centerY(), pNumber)
                 rect.offset(0f, 1.3f * em)
                 canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
+            }
+
+            if  (hasNotes) {
+                val cy = 0.8f * em
+                canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
             }
         }
     }

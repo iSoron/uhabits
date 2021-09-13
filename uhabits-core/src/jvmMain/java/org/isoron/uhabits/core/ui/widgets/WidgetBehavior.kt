@@ -46,31 +46,37 @@ class WidgetBehavior @Inject constructor(
     }
 
     fun onToggleRepetition(habit: Habit, timestamp: Timestamp) {
-        val currentValue = habit.originalEntries.get(timestamp).value
+        val entry = habit.computedEntries.get(timestamp)
+        val currentValue = entry.value
+        val notes = entry.notes
         val newValue = nextToggleValue(
             value = currentValue,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        setValue(habit, timestamp, newValue)
+        setValue(habit, timestamp, newValue, notes)
         notificationTray.cancel(habit)
     }
 
     fun onIncrement(habit: Habit, timestamp: Timestamp, amount: Int) {
-        val currentValue = habit.computedEntries.get(timestamp).value
-        setValue(habit, timestamp, currentValue + amount)
+        val entry = habit.computedEntries.get(timestamp)
+        val currentValue = entry.value
+        val notes = entry.notes
+        setValue(habit, timestamp, currentValue + amount, notes)
         notificationTray.cancel(habit)
     }
 
     fun onDecrement(habit: Habit, timestamp: Timestamp, amount: Int) {
-        val currentValue = habit.computedEntries.get(timestamp).value
-        setValue(habit, timestamp, currentValue - amount)
+        val entry = habit.computedEntries.get(timestamp)
+        val currentValue = entry.value
+        val notes = entry.notes
+        setValue(habit, timestamp, currentValue - amount, notes)
         notificationTray.cancel(habit)
     }
 
-    fun setValue(habit: Habit, timestamp: Timestamp?, newValue: Int) {
+    fun setValue(habit: Habit, timestamp: Timestamp?, newValue: Int, notes: String = "") {
         commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp!!, newValue)
+            CreateRepetitionCommand(habitList, habit, timestamp!!, newValue, notes)
         )
     }
 }

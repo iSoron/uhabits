@@ -41,12 +41,16 @@ class EntryRecord {
 
     @field:Column
     var id: Long? = null
+
+    @field:Column
+    var notes: String? = null
     fun copyFrom(entry: Entry) {
         timestamp = entry.timestamp.unixTime
         value = entry.value
+        notes = entry.notes
     }
 
     fun toEntry(): Entry {
-        return Entry(Timestamp(timestamp!!), value!!)
+        return Entry(Timestamp(timestamp!!), value!!, notes!!)
     }
 }

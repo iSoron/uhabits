@@ -225,9 +225,10 @@ class ListHabitsScreen
     override fun showNumberPicker(
         value: Double,
         unit: String,
+        notes: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
-        numberPickerFactory.create(value, unit, callback).show()
+        numberPickerFactory.create(value, unit, notes, callback).show()
     }
 
     private fun getExecuteString(command: Command): String? {

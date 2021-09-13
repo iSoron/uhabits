@@ -60,8 +60,8 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         SystemUtils.unlockScreen(this)
     }
 
-    override fun onNumberPicked(newValue: Double) {
-        behavior.setValue(data.habit, data.timestamp, (newValue * 1000).toInt())
+    override fun onNumberPicked(newValue: Double, notes: String) {
+        behavior.setValue(data.habit, data.timestamp, (newValue * 1000).toInt(), notes)
         widgetUpdater.updateWidgets()
         finish()
     }
@@ -79,6 +79,7 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
         numberPickerFactory.create(
             entry.value / 1000.0,
             data.habit.unit,
+            entry.notes,
             this
         ).show()
     }

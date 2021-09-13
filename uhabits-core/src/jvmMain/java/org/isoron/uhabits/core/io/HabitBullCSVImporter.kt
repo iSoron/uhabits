@@ -77,7 +77,8 @@ class HabitBullCSVImporter
                 logger.info("Creating habit: $name")
             }
             if (parseInt(cols[4]) == 1) {
-                h.originalEntries.add(Entry(timestamp, Entry.YES_MANUAL))
+                val notes = cols[5] ?: ""
+                h.originalEntries.add(Entry(timestamp, Entry.YES_MANUAL, notes))
             }
         }
     }

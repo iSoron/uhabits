@@ -164,9 +164,10 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         override fun showNumberPicker(
             value: Double,
             unit: String,
+            notes: String,
             callback: ListHabitsBehavior.NumberPickerCallback,
         ) {
-            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, callback).show()
+            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, callback).show()
         }
 
         override fun showEditHabitScreen(habit: Habit) {

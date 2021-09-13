@@ -71,6 +71,12 @@ class CheckmarkButtonView(
             invalidate()
         }
 
+    var hasNotes = false
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var onToggle: (Int) -> Unit = {}
     private var drawer = Drawer()
 
