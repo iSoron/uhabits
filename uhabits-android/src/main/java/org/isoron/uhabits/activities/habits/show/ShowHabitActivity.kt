@@ -32,6 +32,7 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
+import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
@@ -168,6 +169,13 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             callback: ListHabitsBehavior.NumberPickerCallback,
         ) {
             NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, callback).show()
+        }
+
+        override fun showCheckmarkDialog(
+            notes: String,
+            callback: ListHabitsBehavior.CheckMarkDialogCallback
+        ) {
+            CheckmarkDialog(this@ShowHabitActivity).create(notes, callback).show()
         }
 
         override fun showEditHabitScreen(habit: Habit) {

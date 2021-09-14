@@ -162,5 +162,9 @@ class HistoryCardPresenter(
             notes: String,
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
+        fun showCheckmarkDialog(
+            notes: String,
+            callback: ListHabitsBehavior.CheckMarkDialogCallback,
+        )
     }
 }

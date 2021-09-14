@@ -39,7 +39,6 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.getFontAwesome
-import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 import javax.inject.Inject
@@ -78,6 +77,8 @@ class CheckmarkButtonView(
         }
 
     var onToggle: (Int) -> Unit = {}
+
+    var onEdit: () -> Unit = {}
     private var drawer = Drawer()
 
     init {
@@ -99,7 +100,7 @@ class CheckmarkButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle()
-        else showMessage(resources.getString(R.string.long_press_to_toggle))
+        else onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
@@ -133,6 +134,8 @@ class CheckmarkButtonView(
             textAlign = Paint.Align.CENTER
         }
 
+        private val pNotesIndicator: Paint = Paint()
+
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
                 YES_MANUAL, YES_AUTO, SKIP -> color
@@ -142,6 +145,7 @@ class CheckmarkButtonView(
                 }
                 else -> lowContrastColor
             }
+            pNotesIndicator.color = color
             val id = when (value) {
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
@@ -175,6 +179,11 @@ class CheckmarkButtonView(
                 paint.color = bgColor
                 paint.style = Paint.Style.FILL
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
+            }
+
+            if (hasNotes) {
+                val cy = 0.8f * em
+                canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
             }
         }
     }

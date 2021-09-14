@@ -25,6 +25,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
@@ -89,6 +90,7 @@ class ListHabitsScreen
     private val importTaskFactory: ImportDataTaskFactory,
     private val colorPickerFactory: ColorPickerDialogFactory,
     private val numberPickerFactory: NumberPickerFactory,
+    private val checkMarkDialog: CheckmarkDialog,
     private val behavior: Lazy<ListHabitsBehavior>
 ) : CommandRunner.Listener,
     ListHabitsBehavior.Screen,
@@ -229,6 +231,13 @@ class ListHabitsScreen
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
         numberPickerFactory.create(value, unit, notes, callback).show()
+    }
+
+    override fun showCheckmarkDialog(
+        notes: String,
+        callback: ListHabitsBehavior.CheckMarkDialogCallback
+    ) {
+        checkMarkDialog.create(notes, callback).show()
     }
 
     private fun getExecuteString(command: Command): String? {

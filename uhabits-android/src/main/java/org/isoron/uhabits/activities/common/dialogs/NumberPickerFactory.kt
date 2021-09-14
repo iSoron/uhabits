@@ -89,7 +89,7 @@ class NumberPickerFactory
                 val note = etNotes.text.toString()
                 callback.onNumberPicked(v, note)
             }
-            .setNegativeButton(R.string.cancel) { _, _ ->
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
                 callback.onNumberPickerDismissed()
             }
             .setOnDismissListener {

@@ -116,7 +116,7 @@ class HabitCardView(
         }
 
     var notes
-        get() = numberPanel.notes
+        get() = checkmarkPanel.notes
         set(values) {
             checkmarkPanel.notes = values
             numberPanel.notes = values
@@ -150,7 +150,11 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp, value, "") }
+                habit?.let { behavior.onToggle(it, timestamp, value) }
+            }
+            onEdit = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp) }
             }
         }
 

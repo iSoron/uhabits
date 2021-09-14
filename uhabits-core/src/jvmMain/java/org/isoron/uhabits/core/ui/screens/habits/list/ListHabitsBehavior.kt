@@ -22,6 +22,7 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.ExportCSVTask
@@ -48,15 +49,24 @@ open class ListHabitsBehavior @Inject constructor(
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
         val entries = habit.computedEntries.get(timestamp!!)
-        val oldValue = entries.value.toDouble()
         val notes = entries.notes
-        screen.showNumberPicker(
-            oldValue / 1000,
-            habit.unit,
-            notes
-            ) {  newValue: Double, newNotes:String, ->
-            val value = (newValue * 1000).roundToInt()
-            commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
+        if (habit.type == HabitType.NUMERICAL) {
+            val oldValue = entries.value.toDouble()
+            screen.showNumberPicker(
+                oldValue / 1000,
+                habit.unit,
+                notes
+                ) {  newValue: Double, newNotes:String, ->
+                val value = (newValue * 1000).roundToInt()
+                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
+            }
+        } else {
+            val value = entries.value
+            screen.showCheckmarkDialog(
+                notes
+            ) { newNotes ->
+                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
+            }
         }
     }
 
@@ -106,9 +116,10 @@ open class ListHabitsBehavior @Inject constructor(
         if (prefs.isFirstRun) onFirstRun()
     }
 
-    fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int, notes: String) {
+    fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int) {
+        val notes = habit.computedEntries.get(timestamp!!).notes
         commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp!!, value, notes)
+            CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
         )
     }
 
@@ -137,6 +148,11 @@ open class ListHabitsBehavior @Inject constructor(
         fun onNumberPickerDismissed() {}
     }
 
+    fun interface CheckMarkDialogCallback {
+        fun onNotesSaved(notes: String)
+        fun onNotesDismissed() {}
+    }
+
     interface Screen {
         fun showHabitScreen(h: Habit)
         fun showIntroScreen()
@@ -146,6 +162,10 @@ open class ListHabitsBehavior @Inject constructor(
             unit: String,
             notes: String,
             callback: NumberPickerCallback
+        )
+        fun showCheckmarkDialog(
+            notes: String,
+            callback: CheckMarkDialogCallback
         )
 
         fun showSendBugReportToDeveloperScreen(log: String)

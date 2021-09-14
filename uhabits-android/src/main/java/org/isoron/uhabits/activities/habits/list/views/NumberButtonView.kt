@@ -206,7 +206,7 @@ class NumberButtonView(
             pNumber.color = activeColor
             pNumber.typeface = typeface
             pUnit.color = activeColor
-            pNotesIndicator.color = activeColor
+            pNotesIndicator.color = color
 
             if (units.isBlank()) {
                 rect.set(0f, 0f, width.toFloat(), height.toFloat())
