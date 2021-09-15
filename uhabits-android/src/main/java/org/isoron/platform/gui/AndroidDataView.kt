@@ -49,23 +49,12 @@ class AndroidDataView(
     override fun onShowPress(e: MotionEvent?) = Unit
 
     override fun onSingleTapUp(e: MotionEvent?): Boolean {
-        val x: Float
-        val y: Float
-        try {
-            val pointerId = e!!.getPointerId(0)
-            x = e.getX(pointerId)
-            y = e.getY(pointerId)
-        } catch (ex: RuntimeException) {
-            // Android often throws IllegalArgumentException here. Apparently,
-            // the pointer id may become invalid shortly after calling
-            // e.getPointerId.
-            return false
-        }
-        view?.onClick(x / canvas.innerDensity, y / canvas.innerDensity)
-        return true
+        return handleClick(e, true)
     }
 
-    override fun onLongPress(e: MotionEvent?) = Unit
+    override fun onLongPress(e: MotionEvent?) {
+        handleClick(e)
+    }
 
     override fun onScroll(
         e1: MotionEvent?,
@@ -136,5 +125,23 @@ class AndroidDataView(
                 postInvalidate()
             }
         }
+    }
+
+    private fun handleClick(e: MotionEvent?, isSingleTap: Boolean = false): Boolean {
+        val x: Float
+        val y: Float
+        try {
+            val pointerId = e!!.getPointerId(0)
+            x = e.getX(pointerId)
+            y = e.getY(pointerId)
+        } catch (ex: RuntimeException) {
+            // Android often throws IllegalArgumentException here. Apparently,
+            // the pointer id may become invalid shortly after calling
+            // e.getPointerId.
+            return false
+        }
+        if (isSingleTap) view?.onClick(x / canvas.innerDensity, y / canvas.innerDensity)
+        else view?.onLongClick(x / canvas.innerDensity, y / canvas.innerDensity)
+        return true
     }
 }

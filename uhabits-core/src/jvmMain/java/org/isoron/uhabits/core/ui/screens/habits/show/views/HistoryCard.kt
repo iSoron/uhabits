@@ -46,6 +46,7 @@ data class HistoryCardState(
     val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
     val defaultSquare: HistoryChart.Square,
+    val hasNotes: List<Boolean>,
     val theme: Theme,
     val today: LocalDate,
 )
@@ -58,7 +59,7 @@ class HistoryCardPresenter(
     val screen: Screen,
 ) : OnDateClickedListener {
 
-    override fun onDateClicked(date: LocalDate) {
+    override fun onDateClicked(date: LocalDate, isLongClick: Boolean) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
@@ -81,20 +82,34 @@ class HistoryCardPresenter(
             val entry = habit.computedEntries.get(timestamp)
             val currentValue = entry.value
             val notes = entry.notes
-            val nextValue = Entry.nextToggleValue(
-                value = currentValue,
-                isSkipEnabled = preferences.isSkipEnabled,
-                areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
-            )
-            commandRunner.run(
-                CreateRepetitionCommand(
-                    habitList,
-                    habit,
-                    timestamp,
-                    nextValue,
-                    notes,
-                ),
-            )
+            if (!isLongClick) {
+                val nextValue = Entry.nextToggleValue(
+                    value = currentValue,
+                    isSkipEnabled = preferences.isSkipEnabled,
+                    areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
+                )
+                commandRunner.run(
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        nextValue,
+                        notes,
+                    ),
+                )
+                return
+            }
+            screen.showCheckmarkDialog(notes) { newNotes ->
+                commandRunner.run(
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        currentValue,
+                        newNotes,
+                    ),
+                )
+            }
         }
     }
 
@@ -142,6 +157,13 @@ class HistoryCardPresenter(
             else
                 HistoryChart.Square.OFF
 
+            val hasNotes = entries.map {
+                when (it.notes) {
+                    "" -> false
+                    else -> true
+                }
+            }
+
             return HistoryCardState(
                 color = habit.color,
                 firstWeekday = firstWeekday,
@@ -149,6 +171,7 @@ class HistoryCardPresenter(
                 theme = theme,
                 series = series,
                 defaultSquare = defaultSquare
+                hasNotes = hasNotes,
             )
         }
     }
