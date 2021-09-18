@@ -196,6 +196,24 @@
                         android:hint="@string/measurable_units_example"/>
                 </LinearLayout>
             </FrameLayout>
+            
+            <FrameLayout
+                android:id='@+id/numericalFrequencyOuterBox'
+                style="@style/FormOuterBox">
+
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/frequency" />
+                    <TextView
+                        style="@style/FormDropdown"
+                        android:id="@+id/numericalFrequencyPicker"
+                        android:text="@string/every_week"
+                        android:textColor="?attr/contrast100"
+                        />
+                </LinearLayout>
+            </FrameLayout>
+
             <LinearLayout
                 android:id="@+id/targetOuterBox"
                 android:layout_width="match_parent"
@@ -235,23 +253,6 @@
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
-
-            <FrameLayout
-                android:id='@+id/numericalFrequencyOuterBox'
-                style="@style/FormOuterBox">
-
-                <LinearLayout style="@style/FormInnerBox">
-                    <TextView
-                        style="@style/FormLabel"
-                        android:text="@string/frequency" />
-                    <TextView
-                        style="@style/FormDropdown"
-                        android:id="@+id/numericalFrequencyPicker"
-                        android:text="@string/every_week"
-                        android:textColor="?attr/contrast100"
-                        />
-                </LinearLayout>
-            </FrameLayout>
 
             <!-- Reminder -->
             <FrameLayout style="@style/FormOuterBox">
