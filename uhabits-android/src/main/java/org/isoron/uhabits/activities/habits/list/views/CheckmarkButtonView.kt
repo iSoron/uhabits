@@ -65,6 +65,12 @@ class CheckmarkButtonView(
             invalidate()
         }
 
+    var defaultValue: Int = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var value: Int = 0
         set(value) {
             field = value
@@ -128,7 +134,8 @@ class CheckmarkButtonView(
         }
 
         fun draw(canvas: Canvas) {
-            paint.color = when (value) {
+            val realValue = if (value != UNKNOWN) value else defaultValue
+            paint.color = when (realValue) {
                 YES_MANUAL, YES_AUTO, SKIP -> color
                 NO -> {
                     if (preferences.areQuestionMarksEnabled) mediumContrastColor
@@ -136,15 +143,14 @@ class CheckmarkButtonView(
                 }
                 else -> lowContrastColor
             }
-            val id = when (value) {
+            var id = when (realValue) {
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
-                UNKNOWN -> {
-                    if (preferences.areQuestionMarksEnabled) R.string.fa_question
-                    else R.string.fa_times
-                }
                 else -> R.string.fa_check
             }
+            if (value == UNKNOWN && preferences.areQuestionMarksEnabled)
+                id = R.string.fa_question
+
             if (value == YES_AUTO) {
                 paint.strokeWidth = 5f
                 paint.style = Paint.Style.STROKE

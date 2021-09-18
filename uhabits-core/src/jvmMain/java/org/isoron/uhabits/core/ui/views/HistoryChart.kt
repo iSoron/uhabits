@@ -41,6 +41,7 @@ class HistoryChart(
     var firstWeekday: DayOfWeek,
     var paletteColor: PaletteColor,
     var series: List<Square>,
+    var defaultSquare: Square,
     var theme: Theme,
     var today: LocalDate,
     var onDateClickedListener: OnDateClickedListener = OnDateClickedListener { },
@@ -189,7 +190,7 @@ class HistoryChart(
         offset: Int,
     ) {
 
-        val value = if (offset >= series.size) Square.OFF else series[offset]
+        val value = if (offset >= series.size) defaultSquare else series[offset]
         val squareColor: Color
         val color = theme.color(paletteColor.paletteIndex)
         squareColor = when (value) {

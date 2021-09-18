@@ -56,7 +56,9 @@ class HistoryWidget(
             theme = WidgetTheme(),
         )
         (widgetView.dataView as AndroidDataView).apply {
-            (this.view as HistoryChart).series = model.series
+            val historyChart = (this.view as HistoryChart)
+            historyChart.series = model.series
+            historyChart.defaultSquare = model.defaultSquare
         }
     }
 
@@ -71,6 +73,7 @@ class HistoryWidget(
                     dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
                     firstWeekday = prefs.firstWeekday,
                     series = listOf(),
+                    defaultSquare = HistoryChart.Square.OFF
                 )
             }
         ).apply {

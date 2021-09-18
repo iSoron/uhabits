@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
+import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
@@ -37,13 +38,13 @@ import org.isoron.uhabits.core.ui.views.HistoryChart
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
-import kotlin.math.max
 import kotlin.math.roundToInt
 
 data class HistoryCardState(
     val color: PaletteColor,
     val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
+    val defaultSquare: HistoryChart.Square,
     val theme: Theme,
     val today: LocalDate,
 )
@@ -61,7 +62,8 @@ class HistoryCardPresenter(
         screen.showFeedback()
         if (habit.isNumerical) {
             val entries = habit.computedEntries
-            val oldValue = entries.get(timestamp).value
+            var oldValue = entries.get(timestamp).value
+            oldValue = if (oldValue != UNKNOWN) oldValue else habit.defaultValue
             screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
                 val thousands = (newValue * 1000).roundToInt()
                 commandRunner.run(
@@ -74,7 +76,8 @@ class HistoryCardPresenter(
                 )
             }
         } else {
-            val currentValue = habit.computedEntries.get(timestamp).value
+            var currentValue = habit.computedEntries.get(timestamp).value
+            currentValue = if (currentValue != UNKNOWN) currentValue else habit.defaultValue
             val nextValue = Entry.nextToggleValue(
                 value = currentValue,
                 isSkipEnabled = preferences.isSkipEnabled,
@@ -103,25 +106,32 @@ class HistoryCardPresenter(
         ): HistoryCardState {
             val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-            val entries = habit.computedEntries.getByInterval(oldest, today)
+            val entryValues = habit.computedEntries.getByInterval(oldest, today).map {
+                if (it.value != UNKNOWN) it.value else habit.defaultValue
+            }
+            val numericalToSquares = { value: Int ->
+                when (value) {
+                    0 -> HistoryChart.Square.OFF
+                    else -> HistoryChart.Square.ON
+                }
+            }
+            val yesNoToSquares = { value: Int ->
+                when (value) {
+                    YES_MANUAL -> HistoryChart.Square.ON
+                    YES_AUTO -> HistoryChart.Square.DIMMED
+                    SKIP -> HistoryChart.Square.HATCHED
+                    else -> HistoryChart.Square.OFF
+                }
+            }
             val series = if (habit.isNumerical) {
-                entries.map {
-                    Entry(it.timestamp, max(0, it.value))
-                }.map {
-                    when (it.value) {
-                        0 -> HistoryChart.Square.OFF
-                        else -> HistoryChart.Square.ON
-                    }
-                }
+                entryValues.map(numericalToSquares)
             } else {
-                entries.map {
-                    when (it.value) {
-                        YES_MANUAL -> HistoryChart.Square.ON
-                        YES_AUTO -> HistoryChart.Square.DIMMED
-                        SKIP -> HistoryChart.Square.HATCHED
-                        else -> HistoryChart.Square.OFF
-                    }
-                }
+                entryValues.map(yesNoToSquares)
+            }
+            val defaultSquare = if (habit.isNumerical) {
+                numericalToSquares(habit.defaultValue)
+            } else {
+                yesNoToSquares(habit.defaultValue)
             }
 
             return HistoryCardState(
@@ -130,6 +140,7 @@ class HistoryCardPresenter(
                 today = today.toLocalDate(),
                 theme = theme,
                 series = series,
+                defaultSquare = defaultSquare
             )
         }
     }

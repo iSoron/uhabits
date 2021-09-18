@@ -118,6 +118,7 @@
     <string name="developers">Developers</string>
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
+    <string name="defaultValue">Default value</string>
     <string name="checkmark">Checkmark</string>
     <string name="checkmark_stack_widget" formatted="false">Checkmark Stack Widget</string>
     <string name="frequency_stack_widget" formatted="false">Frequency Stack Widget</string>
@@ -186,9 +187,11 @@
     <string name="unit">Unit</string>
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
+    <string name="startAt">Starts at</string>
     <string name="target">Target</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="skip">Skip</string>
     <string name="customize_notification_summary">Change sound, vibration, light and other notification settings</string>
     <string name="customize_notification">Customize notifications</string>
     <string name="pref_view_privacy">View privacy policy</string>

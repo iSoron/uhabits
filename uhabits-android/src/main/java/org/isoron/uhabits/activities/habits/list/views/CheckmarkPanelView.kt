@@ -48,6 +48,12 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
+    var defaultValue = 0
+        set(value) {
+            field = value
+            setupButtons()
+        }
+
     var color = 0
         set(value) {
             field = value
@@ -72,6 +78,7 @@ class CheckmarkPanelView(
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> UNKNOWN
             }
+            button.defaultValue = defaultValue
             button.color = color
             button.onToggle = { value -> onToggle(timestamp, value) }
         }

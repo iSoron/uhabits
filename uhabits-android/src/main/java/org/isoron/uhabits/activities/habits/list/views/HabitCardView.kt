@@ -228,6 +228,7 @@ class HabitCardView(
         }
         checkmarkPanel.apply {
             color = c
+            defaultValue = h.defaultValue
             visibility = when (h.isNumerical) {
                 true -> View.GONE
                 false -> View.VISIBLE
@@ -235,6 +236,7 @@ class HabitCardView(
         }
         numberPanel.apply {
             color = c
+            defaultValue = h.defaultValue / 1000.0
             units = h.unit
             threshold = h.targetValue
             visibility = when (h.isNumerical) {

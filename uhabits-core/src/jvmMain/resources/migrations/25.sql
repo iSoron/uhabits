@@ -1,0 +1,1 @@
+alter table Habits add column defaultValue integer not null default 0;

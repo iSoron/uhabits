@@ -76,6 +76,12 @@ class NumberButtonView(
             invalidate()
         }
 
+    var defaultValue = 0.0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var value = 0.0
         set(value) {
             field = value
@@ -153,9 +159,10 @@ class NumberButtonView(
         }
 
         fun draw(canvas: Canvas) {
+            val realValue = if (value >= 0) value else defaultValue
             val activeColor = when {
-                value <= 0.0 -> lowContrast
-                value < threshold -> mediumContrast
+                realValue == 0.0 -> lowContrast
+                realValue < threshold -> mediumContrast
                 else -> color
             }
 
@@ -175,7 +182,7 @@ class NumberButtonView(
                     textSize = dim(R.dimen.smallerTextSize)
                 }
                 else -> {
-                    label = "0"
+                    label = defaultValue.toShortString()
                     typeface = BOLD_TYPEFACE
                     textSize = dim(R.dimen.smallTextSize)
                 }

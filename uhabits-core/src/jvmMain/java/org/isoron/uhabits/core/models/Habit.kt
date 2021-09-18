@@ -35,6 +35,7 @@ data class Habit(
     var targetValue: Double = 0.0,
     var type: HabitType = HabitType.YES_NO,
     var unit: String = "",
+    var defaultValue: Int = 0,
     var uuid: String? = null,
     val computedEntries: EntryList,
     val originalEntries: EntryList,
@@ -69,7 +70,7 @@ data class Habit(
     }
 
     fun isFailedToday(): Boolean {
-        val today = DateUtils.getTodayWithOffset()
+        var today = DateUtils.getTodayWithOffset()
         val value = computedEntries.get(today).value
         return if (isNumerical) {
             when (targetType) {
@@ -88,15 +89,17 @@ data class Habit(
             isNumerical = isNumerical,
         )
 
-        val to = DateUtils.getTodayWithOffset().plus(30)
+        val today = DateUtils.getTodayWithOffset()
+        val to = today.plus(30)
         val entries = computedEntries.getKnown()
-        var from = entries.lastOrNull()?.timestamp ?: to
+        var from = entries.lastOrNull()?.timestamp ?: today
         if (from.isNewerThan(to)) from = to
 
         scores.recompute(
             frequency = frequency,
             isNumerical = isNumerical,
             targetValue = targetValue,
+            defaultValue = defaultValue,
             computedEntries = computedEntries,
             from = from,
             to = to,
@@ -123,6 +126,7 @@ data class Habit(
         this.targetValue = other.targetValue
         this.type = other.type
         this.unit = other.unit
+        this.defaultValue = other.defaultValue
         this.uuid = other.uuid
     }
 
@@ -143,6 +147,7 @@ data class Habit(
         if (targetValue != other.targetValue) return false
         if (type != other.type) return false
         if (unit != other.unit) return false
+        if (defaultValue != other.defaultValue) return false
         if (uuid != other.uuid) return false
 
         return true
@@ -162,6 +167,7 @@ data class Habit(
         result = 31 * result + targetValue.hashCode()
         result = 31 * result + type.value
         result = 31 * result + unit.hashCode()
+        result = 31 * result + defaultValue.hashCode()
         result = 31 * result + (uuid?.hashCode() ?: 0)
         return result
     }

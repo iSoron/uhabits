@@ -47,6 +47,12 @@ class NumberPanelView(
             setupButtons()
         }
 
+    var defaultValue = 0.0
+        set(value) {
+            field = value
+            setupButtons()
+        }
+
     var threshold = 0.0
         set(value) {
             field = value
@@ -83,6 +89,7 @@ class NumberPanelView(
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> 0.0
             }
+            button.defaultValue = defaultValue
             button.color = color
             button.threshold = threshold
             button.units = units

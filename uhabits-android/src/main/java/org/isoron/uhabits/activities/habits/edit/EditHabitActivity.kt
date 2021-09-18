@@ -35,11 +35,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.android.datetimepicker.time.RadialPickerLayout
 import com.android.datetimepicker.time.TimePickerDialog
-import kotlinx.android.synthetic.main.activity_edit_habit.nameInput
-import kotlinx.android.synthetic.main.activity_edit_habit.notesInput
-import kotlinx.android.synthetic.main.activity_edit_habit.questionInput
-import kotlinx.android.synthetic.main.activity_edit_habit.targetInput
-import kotlinx.android.synthetic.main.activity_edit_habit.unitInput
+import kotlinx.android.synthetic.main.activity_edit_habit.*
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -50,6 +46,7 @@ import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitType
@@ -116,6 +113,10 @@ class EditHabitActivity : AppCompatActivity() {
             binding.questionInput.setText(habit.question)
             binding.notesInput.setText(habit.description)
             binding.unitInput.setText(habit.unit)
+            binding.defaultValueInput.setText((habit.defaultValue / 1000.0).toString())
+            binding.defaultNo.isChecked = habit.defaultValue == Entry.NO
+            binding.defaultYes.isChecked = habit.defaultValue == Entry.YES_MANUAL
+            binding.defaultSkip.isChecked = habit.defaultValue == Entry.SKIP
             binding.targetInput.setText(habit.targetValue.toString())
         } else {
             habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
@@ -138,11 +139,15 @@ class EditHabitActivity : AppCompatActivity() {
             HabitType.YES_NO -> {
                 binding.unitOuterBox.visibility = View.GONE
                 binding.targetOuterBox.visibility = View.GONE
+                binding.numericalFrequencyOuterBox.visibility = View.GONE
+                if (!component.preferences.isSkipEnabled)
+                    binding.defaultSkip.visibility = View.GONE
             }
             HabitType.NUMERICAL -> {
                 binding.nameInput.hint = getString(R.string.measurable_short_example)
                 binding.questionInput.hint = getString(R.string.measurable_question_example)
                 binding.frequencyOuterBox.visibility = View.GONE
+                binding.yesNoDefaultOuterBox.visibility = View.GONE
             }
         }
 
@@ -264,6 +269,15 @@ class EditHabitActivity : AppCompatActivity() {
             habit.targetValue = targetInput.text.toString().toDouble()
             habit.targetType = NumericalHabitType.AT_LEAST
             habit.unit = unitInput.text.trim().toString()
+            habit.defaultValue = kotlin.math.floor(
+                defaultValueInput.text.toString().toDouble() * 1000.0
+            ).toInt()
+        } else {
+            habit.defaultValue = when {
+                defaultYes.isChecked -> Entry.YES_MANUAL
+                defaultSkip.isChecked -> Entry.SKIP
+                else -> Entry.NO
+            }
         }
         habit.type = habitType
 

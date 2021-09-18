@@ -22,7 +22,6 @@ import org.isoron.uhabits.core.models.Score.Companion.compute
 import java.util.ArrayList
 import java.util.HashMap
 import javax.annotation.concurrent.ThreadSafe
-import kotlin.math.max
 import kotlin.math.min
 
 @ThreadSafe
@@ -69,18 +68,18 @@ class ScoreList {
         frequency: Frequency,
         isNumerical: Boolean,
         targetValue: Double,
+        defaultValue: Int,
         computedEntries: EntryList,
         from: Timestamp,
         to: Timestamp,
     ) {
         map.clear()
-        if (computedEntries.getKnown().isEmpty()) return
-        if (from.isNewerThan(to)) return
-        var rollingSum = 0.0
         var numerator = frequency.numerator
         var denominator = frequency.denominator
         val freq = frequency.toDouble()
-        val values = computedEntries.getByInterval(from, to).map { it.value }.toIntArray()
+        val values = computedEntries.getByInterval(from, to).map {
+            if (it.value >= 0) it.value else defaultValue
+        }.toIntArray()
 
         // For non-daily boolean habits, we double the numerator and the denominator to smooth
         // out irregular repetition schedules (for example, weekly habits performed on different
@@ -90,19 +89,32 @@ class ScoreList {
             denominator *= 2
         }
 
+        var rollingSum = 0.0
         var previousValue = 0.0
+        val numericalPercentageComplete = { valueAccumulated: Double ->
+            if (targetValue > 0) {
+                min(1.0, valueAccumulated / 1000.0 / targetValue)
+            } else {
+                1.0
+            }
+        }
+        if (isNumerical) {
+            rollingSum = defaultValue.toDouble() * denominator
+            previousValue = numericalPercentageComplete(rollingSum)
+            rollingSum -= defaultValue
+        } else if (defaultValue == Entry.YES_MANUAL) {
+            previousValue = 1.0
+            rollingSum = denominator.toDouble() - 1
+        }
+
         for (i in values.indices) {
             val offset = values.size - i - 1
             if (isNumerical) {
-                rollingSum += max(0, values[offset])
+                rollingSum += values[offset]
                 if (offset + denominator < values.size) {
                     rollingSum -= values[offset + denominator]
                 }
-                val percentageCompleted = if (targetValue > 0) {
-                    min(1.0, rollingSum / 1000 / targetValue)
-                } else {
-                    1.0
-                }
+                val percentageCompleted = numericalPercentageComplete(rollingSum)
                 previousValue = compute(freq, previousValue, percentageCompleted)
             } else {
                 if (values[offset] == Entry.YES_MANUAL) {

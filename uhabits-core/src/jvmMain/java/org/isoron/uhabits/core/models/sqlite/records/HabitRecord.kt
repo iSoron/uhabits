@@ -83,6 +83,9 @@ class HabitRecord {
     var unit: String? = null
 
     @field:Column
+    var defaultValue: Int? = null
+
+    @field:Column
     var id: Long? = null
 
     @field:Column
@@ -99,6 +102,7 @@ class HabitRecord {
         targetType = model.targetType.value
         targetValue = model.targetValue
         unit = model.unit
+        defaultValue = model.defaultValue
         position = model.position
         question = model.question
         uuid = model.uuid
@@ -128,6 +132,7 @@ class HabitRecord {
         habit.targetType = NumericalHabitType.fromInt(targetType!!)
         habit.targetValue = targetValue!!
         habit.unit = unit!!
+        habit.defaultValue = defaultValue!!
         habit.position = position!!
         habit.uuid = uuid
         if (reminderHour != null && reminderMin != null) {

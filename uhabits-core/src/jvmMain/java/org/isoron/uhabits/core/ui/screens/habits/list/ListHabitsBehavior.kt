@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.Timestamp
@@ -48,9 +49,10 @@ open class ListHabitsBehavior @Inject constructor(
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
         val entries = habit.computedEntries
-        val oldValue = entries.get(timestamp!!).value.toDouble()
+        var oldValue = entries.get(timestamp!!).value
+        oldValue = if (oldValue != Entry.UNKNOWN) oldValue else habit.defaultValue
         screen.showNumberPicker(
-            oldValue / 1000,
+            oldValue.toDouble() / 1000,
             habit.unit
         ) { newValue: Double ->
             val value = (newValue * 1000).roundToInt()
