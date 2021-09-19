@@ -26,8 +26,8 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
+import org.isoron.platform.utils.StringUtils
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.utils.StringUtils
 
 class StackWidget(
     context: Context,
