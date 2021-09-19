@@ -39,11 +39,11 @@ open class MidnightTimer @Inject constructor() {
 
     @Synchronized fun onPause(): MutableList<Runnable>? = executor.shutdownNow()
 
-    @Synchronized fun onResume() {
-        executor = Executors.newSingleThreadScheduledExecutor()
+    @Synchronized fun onResume(delayOffsetInMillis: Long = DateUtils.MINUTE_LENGTH, testExecutor: ScheduledExecutorService? = null) {
+        executor = testExecutor ?: Executors.newSingleThreadScheduledExecutor()
         executor.scheduleAtFixedRate(
             { notifyListeners() },
-            DateUtils.millisecondsUntilTomorrowWithOffset() + 1000,
+            DateUtils.millisecondsUntilTomorrowWithOffset() + delayOffsetInMillis,
             DateUtils.DAY_LENGTH,
             TimeUnit.MILLISECONDS
         )

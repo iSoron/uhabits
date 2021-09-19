@@ -95,15 +95,13 @@ open class BaseUnitTest {
     }
 
     fun unixTime(year: Int, month: Int, day: Int): Long {
-        val cal = getStartOfTodayCalendar()
-        cal.set(year, month, day, 0, 0, 0)
-        return cal.timeInMillis
+        return unixTime(year, month, day, 0, 0)
     }
 
-    open fun unixTime(year: Int, month: Int, day: Int, hour: Int, minute: Int): Long {
+    open fun unixTime(year: Int, month: Int, day: Int, hour: Int, minute: Int, milliseconds: Long = 0): Long {
         val cal = getStartOfTodayCalendar()
         cal.set(year, month, day, hour, minute)
-        return cal.timeInMillis
+        return cal.timeInMillis + milliseconds
     }
 
     fun timestamp(year: Int, month: Int, day: Int): Timestamp {
