@@ -77,11 +77,11 @@ abstract class DateUtils {
         }
 
         @JvmStatic
-        fun getLocalTime(): Long {
+        fun getLocalTime(testTimeInMillis: Long? = null): Long {
             if (fixedLocalTime != null) return fixedLocalTime as Long
 
             val tz = getTimeZone()
-            val now = Date().time
+            val now = testTimeInMillis ?: Date().time
             return now + tz.getOffset(now)
         }
 
@@ -100,7 +100,7 @@ abstract class DateUtils {
             format: Int,
             firstWeekDay: Int
         ): Array<String> {
-            val calendar = GregorianCalendar()
+            val calendar = GregorianCalendar(getLocale())
             calendar.set(DAY_OF_WEEK, firstWeekDay)
 
             val daysNullable = ArrayList<String>()
@@ -149,7 +149,7 @@ abstract class DateUtils {
          */
         @JvmStatic
         fun getFirstWeekdayNumberAccordingToLocale(): Int {
-            return GregorianCalendar().firstDayOfWeek
+            return GregorianCalendar(getLocale()).firstDayOfWeek
         }
 
         /**

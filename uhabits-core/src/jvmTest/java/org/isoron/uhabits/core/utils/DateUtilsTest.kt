@@ -59,6 +59,65 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
+    fun testGetLocalTime() {
+        setFixedLocalTime(null)
+        setFixedTimeZone(TimeZone.getTimeZone("Australia/Sydney"))
+        val utcTestTimeInMillis = unixTime(2015, Calendar.JANUARY, 11)
+        val localTimeInMillis = DateUtils.getLocalTime(utcTestTimeInMillis)
+        val expectedUnixTimeOffsetForSydney = 11 * 60 * 60 * 1000
+        val expectedUnixTimeForSydney = utcTestTimeInMillis + expectedUnixTimeOffsetForSydney
+        assertThat(expectedUnixTimeForSydney, equalTo(localTimeInMillis))
+    }
+
+    @Test
+    fun testGetWeekdaySequence() {
+        val weekdaySequence = DateUtils.getWeekdaySequence(3)
+        assertThat(arrayOf(3, 4, 5, 6, 7, 1, 2), equalTo(weekdaySequence))
+    }
+
+    @Test
+    fun testGetFirstWeekdayNumberAccordingToLocale_germany() {
+        setFixedLocale(Locale.GERMANY)
+        val firstWeekdayNumber = DateUtils.getFirstWeekdayNumberAccordingToLocale()
+        assertThat(2, equalTo(firstWeekdayNumber))
+    }
+
+    @Test
+    fun testGetFirstWeekdayNumberAccordingToLocale_us() {
+        setFixedLocale(Locale.US)
+        val firstWeekdayNumber = DateUtils.getFirstWeekdayNumberAccordingToLocale()
+        assertThat(1, equalTo(firstWeekdayNumber))
+    }
+
+    @Test
+    fun testGetLongWeekdayNames_germany() {
+        setFixedLocale(Locale.GERMANY)
+        val longWeekdayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Samstag", "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"), equalTo(longWeekdayNames))
+    }
+
+    @Test
+    fun testGetLongWeekdayNames_us() {
+        setFixedLocale(Locale.US)
+        val longWeekdayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), equalTo(longWeekdayNames))
+    }
+
+    @Test
+    fun testGetShortWeekdayNames_germany() {
+        setFixedLocale(Locale.GERMANY)
+        val longWeekdayNames = DateUtils.getShortWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Sa.", "So.", "Mo.", "Di.", "Mi.", "Do.", "Fr."), equalTo(longWeekdayNames))
+    }
+
+    @Test
+    fun testGetShortWeekdayNames_us() {
+        setFixedLocale(Locale.US)
+        val longWeekdayNames = DateUtils.getShortWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"), equalTo(longWeekdayNames))
+    }
+
+    @Test
     fun testTruncate_dayOfWeek() {
         val field = DateUtils.TruncateField.WEEK_NUMBER
         var expected = unixTime(2015, Calendar.JANUARY, 11)
