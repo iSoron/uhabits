@@ -51,6 +51,7 @@ class EntryRecord {
     }
 
     fun toEntry(): Entry {
-        return Entry(Timestamp(timestamp!!), value!!, notes!!)
+        val notes = notes ?: ""
+        return Entry(Timestamp(timestamp!!), value!!, notes)
     }
 }

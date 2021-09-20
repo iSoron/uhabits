@@ -1,10 +1,10 @@
 package org.isoron.uhabits.activities.common.dialogs
 
-import androidx.appcompat.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.inject.ActivityContext

@@ -56,7 +56,7 @@ open class ListHabitsBehavior @Inject constructor(
                 oldValue / 1000,
                 habit.unit,
                 notes
-                ) {  newValue: Double, newNotes:String, ->
+            ) { newValue: Double, newNotes: String, ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }

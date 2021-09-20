@@ -58,7 +58,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
     fun testOnAddRepetition() {
         behavior.onAddRepetition(habit, today)
         verify(commandRunner).run(
-            CreateRepetitionCommand(habitList, habit, today, Entry.YES_MANUAL)
+            CreateRepetitionCommand(habitList, habit, today, Entry.YES_MANUAL, "")
         )
         verify(notificationTray).cancel(habit)
         verifyZeroInteractions(preferences)
@@ -68,7 +68,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
     fun testOnRemoveRepetition() {
         behavior.onRemoveRepetition(habit, today)
         verify(commandRunner).run(
-            CreateRepetitionCommand(habitList, habit, today, Entry.NO)
+            CreateRepetitionCommand(habitList, habit, today, Entry.NO, "")
         )
         verify(notificationTray).cancel(habit)
         verifyZeroInteractions(preferences)
@@ -94,7 +94,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
             behavior.onToggleRepetition(habit, today)
             verify(preferences).isSkipEnabled
             verify(commandRunner).run(
-                CreateRepetitionCommand(habitList, habit, today, nextValue)
+                CreateRepetitionCommand(habitList, habit, today, nextValue, "")
             )
             verify(notificationTray).cancel(
                 habit
@@ -110,7 +110,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
         habit.recompute()
         behavior.onIncrement(habit, today, 100)
         verify(commandRunner).run(
-            CreateRepetitionCommand(habitList, habit, today, 600)
+            CreateRepetitionCommand(habitList, habit, today, 600, "")
         )
         verify(notificationTray).cancel(habit)
         verifyZeroInteractions(preferences)
@@ -123,7 +123,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
         habit.recompute()
         behavior.onDecrement(habit, today, 100)
         verify(commandRunner).run(
-            CreateRepetitionCommand(habitList, habit, today, 400)
+            CreateRepetitionCommand(habitList, habit, today, 400, "")
         )
         verify(notificationTray).cancel(habit)
         verifyZeroInteractions(preferences)

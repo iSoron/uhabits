@@ -79,7 +79,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Test
     fun testOnEdit() {
         behavior.onEdit(habit2, getToday())
-        verify(screen).showNumberPicker(eq(0.1), eq("miles"), "", picker.capture())
+        verify(screen).showNumberPicker(eq(0.1), eq("miles"), eq(""), picker.capture())
         picker.lastValue.onNumberPicked(100.0, "")
         val today = getTodayWithOffset()
         assertThat(habit2.computedEntries.get(today).value, equalTo(100000))
@@ -160,7 +160,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Test
     fun testOnToggle() {
         assertTrue(habit1.isCompletedToday())
-        behavior.onToggle(habit1, getToday(), Entry.NO, "")
+        behavior.onToggle(habit1, getToday(), Entry.NO)
         assertFalse(habit1.isCompletedToday())
     }
 }

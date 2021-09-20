@@ -37,16 +37,20 @@ class WidgetBehavior @Inject constructor(
 ) {
     fun onAddRepetition(habit: Habit, timestamp: Timestamp?) {
         notificationTray.cancel(habit)
-        setValue(habit, timestamp, Entry.YES_MANUAL)
+        val entry = habit.originalEntries.get(timestamp!!)
+        val notes = entry.notes
+        setValue(habit, timestamp, Entry.YES_MANUAL, notes)
     }
 
     fun onRemoveRepetition(habit: Habit, timestamp: Timestamp?) {
         notificationTray.cancel(habit)
-        setValue(habit, timestamp, Entry.NO)
+        val entry = habit.originalEntries.get(timestamp!!)
+        val notes = entry.notes
+        setValue(habit, timestamp, Entry.NO, notes)
     }
 
     fun onToggleRepetition(habit: Habit, timestamp: Timestamp) {
-        val entry = habit.computedEntries.get(timestamp)
+        val entry = habit.originalEntries.get(timestamp)
         val currentValue = entry.value
         val notes = entry.notes
         val newValue = nextToggleValue(
@@ -74,7 +78,7 @@ class WidgetBehavior @Inject constructor(
         notificationTray.cancel(habit)
     }
 
-    fun setValue(habit: Habit, timestamp: Timestamp?, newValue: Int, notes: String = "") {
+    fun setValue(habit: Habit, timestamp: Timestamp?, newValue: Int, notes: String) {
         commandRunner.run(
             CreateRepetitionCommand(habitList, habit, timestamp!!, newValue, notes)
         )

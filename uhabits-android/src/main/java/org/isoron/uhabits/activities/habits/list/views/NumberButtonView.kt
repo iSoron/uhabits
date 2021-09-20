@@ -35,7 +35,6 @@ import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.getFontAwesome
-import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.sres
 import java.lang.Double.max
 import java.text.DecimalFormat
@@ -219,7 +218,7 @@ class NumberButtonView(
                 canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
             }
 
-            if  (hasNotes) {
+            if (hasNotes) {
                 val cy = 0.8f * em
                 canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
             }

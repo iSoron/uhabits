@@ -72,6 +72,10 @@ class HistoryChartTest {
                 1 -> DIMMED
                 else -> OFF
             }
+        },
+        hasNotes = MutableList(85) {
+            index: Int ->
+            index % 3 == 0
         }
     )
 
@@ -86,20 +90,20 @@ class HistoryChartTest {
 
         // Click top left date
         view.onClick(20.0, 46.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26), false)
         reset(dateClickedListener)
         view.onClick(2.0, 28.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26), false)
         reset(dateClickedListener)
 
         // Click date in the middle
         view.onClick(163.0, 113.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2014, 12, 10))
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, 12, 10), false)
         reset(dateClickedListener)
 
         // Click today
         view.onClick(336.0, 37.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2015, 1, 25))
+        verify(dateClickedListener).onDateClicked(LocalDate(2015, 1, 25), false)
         reset(dateClickedListener)
 
         // Click header

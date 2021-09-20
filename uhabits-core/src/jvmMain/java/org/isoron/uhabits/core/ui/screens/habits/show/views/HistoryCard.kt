@@ -62,10 +62,10 @@ class HistoryCardPresenter(
     override fun onDateClicked(date: LocalDate, isLongClick: Boolean) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
+        val entries = habit.computedEntries
+        val oldValue = entries.get(timestamp).value
+        val notes = entries.get(timestamp).notes
         if (habit.isNumerical) {
-            val entries = habit.computedEntries
-            val oldValue = entries.get(timestamp).value
-            val notes = entries.get(timestamp).notes
             screen.showNumberPicker(oldValue / 1000.0, habit.unit, notes) { newValue: Double, newNotes: String ->
                 val thousands = (newValue * 1000).roundToInt()
                 commandRunner.run(
@@ -79,12 +79,9 @@ class HistoryCardPresenter(
                 )
             }
         } else {
-            val entry = habit.computedEntries.get(timestamp)
-            val currentValue = entry.value
-            val notes = entry.notes
             if (!isLongClick) {
                 val nextValue = Entry.nextToggleValue(
-                    value = currentValue,
+                    value = oldValue,
                     isSkipEnabled = preferences.isSkipEnabled,
                     areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
                 )
@@ -105,7 +102,7 @@ class HistoryCardPresenter(
                         habitList,
                         habit,
                         timestamp,
-                        currentValue,
+                        oldValue,
                         newNotes,
                     ),
                 )
