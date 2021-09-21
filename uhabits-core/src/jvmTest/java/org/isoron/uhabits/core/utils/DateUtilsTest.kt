@@ -118,6 +118,54 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
+    fun testGetToday() {
+        setFixedLocalTime(FIXED_LOCAL_TIME)
+        val today = DateUtils.getToday()
+        assertThat(Timestamp(FIXED_LOCAL_TIME), equalTo(today))
+    }
+
+    @Test
+    fun testGetStartOfDay() {
+        val expectedStartOfDayUtc = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
+        val laterInTheDayUtc = unixTime(2017, Calendar.JANUARY, 1, 20, 0)
+        val startOfDay = DateUtils.getStartOfDay(laterInTheDayUtc)
+        assertThat(expectedStartOfDayUtc, equalTo(startOfDay))
+    }
+
+    @Test
+    fun testGetStartOfToday() {
+        val expectedStartOfDayUtc = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
+        val laterInTheDayUtc = unixTime(2017, Calendar.JANUARY, 1, 20, 0)
+        setFixedLocalTime(laterInTheDayUtc)
+        val startOfToday = DateUtils.getStartOfToday()
+        assertThat(expectedStartOfDayUtc, equalTo(startOfToday))
+    }
+
+    @Test
+    fun testGetStartOfTomorrowWithOffset_priorToOffset() {
+        val hourOffset = 3
+        setStartDayOffset(hourOffset, 0)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val startOfTomorrowWithOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset, 0)
+        val priorToOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset - 1, 0)
+        setFixedLocalTime(priorToOffset)
+        val startOfTomorrow = DateUtils.getStartOfTomorrowWithOffset()
+        assertThat(startOfTomorrowWithOffset, equalTo(startOfTomorrow))
+    }
+
+    @Test
+    fun testGetStartOfTomorrowWithOffset_afterOffset() {
+        val hourOffset = 3
+        setStartDayOffset(hourOffset, 0)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val startOfTomorrowWithOffset = unixTime(2017, Calendar.JANUARY, 2, hourOffset, 0)
+        val afterOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset + 1, 0)
+        setFixedLocalTime(afterOffset)
+        val startOfTomorrow = DateUtils.getStartOfTomorrowWithOffset()
+        assertThat(startOfTomorrowWithOffset, equalTo(startOfTomorrow))
+    }
+
+    @Test
     fun testTruncate_dayOfWeek() {
         val field = DateUtils.TruncateField.WEEK_NUMBER
         var expected = unixTime(2015, Calendar.JANUARY, 11)
