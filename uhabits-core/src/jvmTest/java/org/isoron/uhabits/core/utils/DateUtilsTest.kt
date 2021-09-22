@@ -37,6 +37,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.truncate
 import org.junit.Before
 import org.junit.Test
 import java.util.Calendar
+import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
 
@@ -295,6 +296,45 @@ class DateUtilsTest : BaseUnitTest() {
             millisecondsUntilTomorrowWithOffset(),
             equalTo(2 * DateUtils.HOUR_LENGTH + 30 * DateUtils.MINUTE_LENGTH)
         )
+    }
+
+    @Test
+    fun testGetStartOfTodayCalendar() {
+        setFixedLocalTime(FIXED_LOCAL_TIME)
+        setFixedLocale(Locale.GERMANY)
+        val expectedStartOfDay = unixTime(2015, Calendar.JANUARY, 25, 0, 0)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        expectedCalendar.timeInMillis = expectedStartOfDay
+        val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
+        assertThat(expectedCalendar, equalTo(startOfTodayCalendar))
+    }
+
+    @Test
+    fun testGetStartOfTodayCalendarWithOffset_priorToOffset() {
+        val hourOffset = 3
+        setStartDayOffset(hourOffset, 0)
+        val priorToOffset = unixTime(2017, Calendar.JANUARY, 2, hourOffset - 1, 0)
+        setFixedLocalTime(priorToOffset)
+        setFixedLocale(Locale.GERMANY)
+        val startOfYesterday = unixTime(2017, Calendar.JANUARY, 2, 0, 0)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        expectedCalendar.timeInMillis = startOfYesterday
+        val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
+        assertThat(expectedCalendar, equalTo(startOfTodayCalendar))
+    }
+
+    @Test
+    fun testGetStartOfTodayCalendarWithOffset_afterOffset() {
+        val hourOffset = 3
+        setStartDayOffset(hourOffset, 0)
+        val afterOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset + 1, 0)
+        setFixedLocalTime(afterOffset)
+        setFixedLocale(Locale.GERMANY)
+        val startOfToday = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        expectedCalendar.timeInMillis = startOfToday
+        val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
+        assertThat(expectedCalendar, equalTo(startOfTodayCalendar))
     }
 
     @Test
