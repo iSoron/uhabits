@@ -49,6 +49,7 @@ class HistoryChartTest {
         dateFormatter = JavaLocalDateFormatter(Locale.US),
         firstWeekday = SUNDAY,
         onDateClickedListener = dateClickedListener,
+        defaultSquare = OFF,
         series = listOf(
             2, // today
             2, 1, 2, 1, 2, 1, 2,

@@ -45,6 +45,7 @@ data class HistoryCardState(
     val color: PaletteColor,
     val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
+    val defaultSquare: HistoryChart.Square,
     val theme: Theme,
     val today: LocalDate,
 )
@@ -131,6 +132,10 @@ class HistoryCardPresenter(
                     }
                 }
             }
+            val defaultSquare = if (habit.isNumerical && habit.targetType == NumericalHabitType.AT_MOST)
+                HistoryChart.Square.ON
+            else
+                HistoryChart.Square.OFF
 
             return HistoryCardState(
                 color = habit.color,
@@ -138,6 +143,7 @@ class HistoryCardPresenter(
                 today = today.toLocalDate(),
                 theme = theme,
                 series = series,
+                defaultSquare = defaultSquare
             )
         }
     }

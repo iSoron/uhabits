@@ -162,14 +162,14 @@ class NumberButtonView(
         fun draw(canvas: Canvas) {
             var activeColor = if (targetType == NumericalHabitType.AT_LEAST) {
                 when {
+                    value < 0.0 && preferences.areQuestionMarksEnabled -> lowContrast
                     max(0.0, value) >= threshold -> color
-                    value <= 0 -> lowContrast
                     else -> mediumContrast
                 }
             } else {
                 when {
+                    value < 0.0 && preferences.areQuestionMarksEnabled -> lowContrast
                     value <= threshold -> color
-                    value >= 2 * threshold -> lowContrast
                     else -> mediumContrast
                 }
             }
