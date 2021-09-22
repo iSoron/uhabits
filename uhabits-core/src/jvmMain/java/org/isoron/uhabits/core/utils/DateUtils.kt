@@ -37,9 +37,14 @@ abstract class DateUtils {
         private var startDayMinuteOffset: Int = 0
 
         /**
+         * Number of milliseconds in one second.
+         */
+        const val SECOND_LENGTH: Long = 1000
+
+        /**
          * Number of milliseconds in one minute.
          */
-        const val MINUTE_LENGTH: Long = 60 * 1000
+        const val MINUTE_LENGTH: Long = 60 * SECOND_LENGTH
 
         /**
          * Number of milliseconds in one hour.
