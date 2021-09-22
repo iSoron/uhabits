@@ -20,8 +20,6 @@ package org.isoron.uhabits.core.models
 
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
-import org.apache.commons.lang3.builder.ToStringBuilder
-import org.isoron.uhabits.core.utils.StringUtils.Companion.defaultToStringStyle
 import java.util.Arrays
 
 class WeekdayList {
@@ -71,11 +69,7 @@ class WeekdayList {
         return HashCodeBuilder(17, 37).append(weekdays).toHashCode()
     }
 
-    override fun toString(): String {
-        return ToStringBuilder(this, defaultToStringStyle())
-            .append("weekdays", weekdays)
-            .toString()
-    }
+    override fun toString() = "{weekdays: [${weekdays.joinToString(separator = ",")}]}"
 
     companion object {
         val EVERY_DAY = WeekdayList(127)

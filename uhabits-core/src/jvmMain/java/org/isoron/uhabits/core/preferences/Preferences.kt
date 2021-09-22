@@ -19,12 +19,12 @@
 package org.isoron.uhabits.core.preferences
 
 import org.isoron.platform.time.DayOfWeek
+import org.isoron.platform.utils.StringUtils.Companion.joinLongs
+import org.isoron.platform.utils.StringUtils.Companion.splitLongs
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getFirstWeekdayNumberAccordingToLocale
-import org.isoron.uhabits.core.utils.StringUtils.Companion.joinLongs
-import org.isoron.uhabits.core.utils.StringUtils.Companion.splitLongs
 import java.util.LinkedList
 import kotlin.math.max
 import kotlin.math.min
