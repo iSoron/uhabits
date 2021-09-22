@@ -166,6 +166,30 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
+    fun testGetStartOfTodayWithOffset_priorToOffset() {
+        val hourOffset = 3
+        setStartDayOffset(hourOffset, 0)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val startOfYesterday = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
+        val priorToOffset = unixTime(2017, Calendar.JANUARY, 2, hourOffset - 1, 0)
+        setFixedLocalTime(priorToOffset)
+        val startOfTodayWithOffset = DateUtils.getStartOfTodayWithOffset()
+        assertThat(startOfYesterday, equalTo(startOfTodayWithOffset))
+    }
+
+    @Test
+    fun testGetStartOfTodayWithOffset_afterOffset() {
+        val hourOffset = 3
+        setStartDayOffset(hourOffset, 0)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val startOfToday = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
+        val afterOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset + 1, 0)
+        setFixedLocalTime(afterOffset)
+        val startOfTodayWithOffset = DateUtils.getStartOfTodayWithOffset()
+        assertThat(startOfToday, equalTo(startOfTodayWithOffset))
+    }
+
+    @Test
     fun testTruncate_dayOfWeek() {
         val field = DateUtils.TruncateField.WEEK_NUMBER
         var expected = unixTime(2015, Calendar.JANUARY, 11)
