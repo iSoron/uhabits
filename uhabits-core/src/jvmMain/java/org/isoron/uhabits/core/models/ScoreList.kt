@@ -101,10 +101,9 @@ class ScoreList {
         if (isNumerical) {
             rollingSum = defaultValue.toDouble() * denominator
             previousValue = numericalPercentageComplete(rollingSum)
-            rollingSum -= defaultValue
         } else if (defaultValue == Entry.YES_MANUAL) {
             previousValue = 1.0
-            rollingSum = denominator.toDouble() - 1
+            rollingSum = denominator.toDouble()
         }
 
         for (i in values.indices) {
@@ -113,7 +112,10 @@ class ScoreList {
                 rollingSum += values[offset]
                 if (offset + denominator < values.size) {
                     rollingSum -= values[offset + denominator]
+                } else {
+                    rollingSum -= defaultValue
                 }
+
                 val percentageCompleted = numericalPercentageComplete(rollingSum)
                 previousValue = compute(freq, previousValue, percentageCompleted)
             } else {
@@ -123,6 +125,8 @@ class ScoreList {
                 if (offset + denominator < values.size) {
                     if (values[offset + denominator] == Entry.YES_MANUAL) {
                         rollingSum -= 1.0
+                    } else {
+                        rollingSum -= defaultValue
                     }
                 }
                 if (values[offset] != Entry.SKIP) {
