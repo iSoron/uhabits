@@ -25,14 +25,8 @@ class MidnightTimerTest : BaseUnitTest() {
             DateUtils.setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 23, 59, DateUtils.MINUTE_LENGTH - 1))
 
             val suspendedListener = suspendCoroutine<Boolean> { continuation ->
-                val listener = object : MidnightTimer.MidnightListener {
-                    override fun atMidnight() {
-                        continuation.resume(true)
-                    }
-                }
-
                 MidnightTimer().apply {
-                    addListener(listener)
+                    addListener { continuation.resume(true) }
                     // When
                     onResume(1, executor)
                 }

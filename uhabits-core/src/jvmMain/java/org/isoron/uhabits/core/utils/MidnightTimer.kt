@@ -57,7 +57,7 @@ open class MidnightTimer @Inject constructor() {
         }
     }
 
-    interface MidnightListener {
+    fun interface MidnightListener {
         fun atMidnight()
     }
 }
