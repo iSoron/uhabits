@@ -33,13 +33,19 @@ open class MidnightTimer @Inject constructor() {
     private val listeners: MutableList<MidnightListener> = LinkedList()
     private lateinit var executor: ScheduledExecutorService
 
-    @Synchronized fun addListener(listener: MidnightListener) {
+    @Synchronized
+    fun addListener(listener: MidnightListener) {
         this.listeners.add(listener)
     }
 
-    @Synchronized fun onPause(): MutableList<Runnable>? = executor.shutdownNow()
+    @Synchronized
+    fun onPause(): MutableList<Runnable>? = executor.shutdownNow()
 
-    @Synchronized fun onResume(delayOffsetInMillis: Long = DateUtils.SECOND_LENGTH, testExecutor: ScheduledExecutorService? = null) {
+    @Synchronized
+    fun onResume(
+        delayOffsetInMillis: Long = DateUtils.SECOND_LENGTH,
+        testExecutor: ScheduledExecutorService? = null
+    ) {
         executor = testExecutor ?: Executors.newSingleThreadScheduledExecutor()
         executor.scheduleAtFixedRate(
             { notifyListeners() },
@@ -49,9 +55,11 @@ open class MidnightTimer @Inject constructor() {
         )
     }
 
-    @Synchronized fun removeListener(listener: MidnightListener) = this.listeners.remove(listener)
+    @Synchronized
+    fun removeListener(listener: MidnightListener) = this.listeners.remove(listener)
 
-    @Synchronized private fun notifyListeners() {
+    @Synchronized
+    private fun notifyListeners() {
         for (l in listeners) {
             l.atMidnight()
         }

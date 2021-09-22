@@ -22,7 +22,16 @@ class MidnightTimerTest : BaseUnitTest() {
 
         withContext(dispatcher) {
             DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT"))
-            DateUtils.setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 23, 59, DateUtils.MINUTE_LENGTH - 1))
+            DateUtils.setFixedLocalTime(
+                unixTime(
+                    2017,
+                    Calendar.JANUARY,
+                    1,
+                    23,
+                    59,
+                    DateUtils.MINUTE_LENGTH - 1
+                )
+            )
 
             val suspendedListener = suspendCoroutine<Boolean> { continuation ->
                 MidnightTimer().apply {
