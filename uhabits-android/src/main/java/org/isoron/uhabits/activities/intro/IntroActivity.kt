@@ -67,5 +67,8 @@ class IntroActivity : AppIntro2() {
         finish()
     }
 
-    override fun onSlideChanged() {}
+    override fun onSkipPressed(currentFragment: Fragment?) {
+        super.onSkipPressed(currentFragment)
+        finish()
+    }
 }
