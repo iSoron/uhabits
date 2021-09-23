@@ -275,6 +275,23 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
+    fun testTruncate_timestamp() {
+        val field = DateUtils.TruncateField.YEAR
+        val nonTruncatedDate = unixTime(2016, Calendar.MAY, 30)
+        val expected = Timestamp(unixTime(2016, Calendar.JANUARY, 1))
+        assertThat(expected, equalTo(truncate(field, Timestamp(nonTruncatedDate), firstWeekday)))
+    }
+
+    @Test
+    fun testGetUpcomingTimeInMillis() {
+        setFixedLocalTime(FIXED_LOCAL_TIME)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val expected = unixTime(2015, Calendar.JANUARY, 25, 10, 1)
+        val upcomingTimeMillis = DateUtils.getUpcomingTimeInMillis(10, 1)
+        assertThat(expected, equalTo(upcomingTimeMillis))
+    }
+
+    @Test
     @Throws(Exception::class)
     fun testMillisecondsUntilTomorrow() {
         setFixedTimeZone(TimeZone.getTimeZone("GMT"))
