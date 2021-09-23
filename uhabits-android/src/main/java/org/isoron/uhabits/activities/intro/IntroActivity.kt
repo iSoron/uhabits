@@ -21,8 +21,9 @@ package org.isoron.uhabits.activities.intro
 
 import android.graphics.Color
 import android.os.Bundle
-import com.github.paolorotolo.appintro.AppIntro2
-import com.github.paolorotolo.appintro.AppIntroFragment
+import androidx.fragment.app.Fragment
+import com.github.appintro.AppIntro2
+import com.github.appintro.AppIntroFragment
 import org.isoron.uhabits.R
 
 /**
@@ -30,7 +31,9 @@ import org.isoron.uhabits.R
  * launched for the first time.
  */
 class IntroActivity : AppIntro2() {
-    override fun init(savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         showStatusBar(false)
 
         addSlide(
@@ -61,9 +64,8 @@ class IntroActivity : AppIntro2() {
         )
     }
 
-    override fun onNextPressed() {}
-
-    override fun onDonePressed() {
+    override fun onDonePressed(currentFragment: Fragment?) {
+        super.onDonePressed(currentFragment)
         finish()
     }
 
