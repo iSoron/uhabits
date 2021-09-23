@@ -214,13 +214,7 @@ abstract class DateUtils {
         @JvmStatic
         fun getStartOfTodayCalendarWithOffset(): GregorianCalendar = getCalendar(getStartOfTodayWithOffset())
 
-        @JvmStatic
-        fun getTimeZone(): TimeZone {
-            return fixedTimeZone ?: TimeZone.getDefault()
-        }
-
-        @JvmStatic
-        fun getTimezone(): TimeZone {
+        private fun getTimeZone(): TimeZone {
             return fixedTimeZone ?: TimeZone.getDefault()
         }
 
@@ -236,8 +230,7 @@ abstract class DateUtils {
             startDayMinuteOffset = minuteOffset
         }
 
-        @JvmStatic
-        fun getLocale(): Locale {
+        private fun getLocale(): Locale {
             return fixedLocale ?: Locale.getDefault()
         }
 
