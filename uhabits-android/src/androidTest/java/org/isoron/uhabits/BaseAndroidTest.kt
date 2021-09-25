@@ -29,13 +29,13 @@ import androidx.test.uiautomator.UiDevice
 import junit.framework.TestCase
 import org.hamcrest.CoreMatchers.hasItems
 import org.hamcrest.MatcherAssert.assertThat
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedLocalTime
 import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.isoron.uhabits.inject.ActivityContextModule
 import org.isoron.uhabits.inject.AppContextModule
@@ -75,7 +75,7 @@ abstract class BaseAndroidTest : TestCase() {
     public override fun setUp() {
         if (Looper.myLooper() == null) Looper.prepare()
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        setFixedLocalTime(FIXED_LOCAL_TIME)
+        LocalDate.Companion.fixedLocalTime = FIXED_LOCAL_TIME
         setStartDayOffset(0, 0)
         setResolution(2.0f)
         setTheme(R.style.AppBaseTheme)

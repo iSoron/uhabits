@@ -22,6 +22,7 @@ import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Reminder
@@ -30,8 +31,6 @@ import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.core.utils.DateUtils.Companion.applyTimezone
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import org.isoron.uhabits.core.utils.DateUtils.Companion.removeTimezone
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedLocalTime
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedTimeZone
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -57,13 +56,13 @@ class ReminderSchedulerTest : BaseUnitTest() {
         habit.id = habitId
         reminderScheduler =
             ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
-        setFixedTimeZone(TimeZone.getTimeZone("GMT-4"))
+        LocalDate.Companion.fixedTimeZone = kotlinx.datetime.TimeZone.of("GMT-4")
     }
 
     @Test
     fun testScheduleAll() {
         val now = unixTime(2015, 1, 26, 13, 0)
-        setFixedLocalTime(now)
+        LocalDate.Companion.fixedLocalTime = now
         val h1 = fixtures.createEmptyHabit()
         val h2 = fixtures.createEmptyHabit()
         val h3 = fixtures.createEmptyHabit()
@@ -97,7 +96,7 @@ class ReminderSchedulerTest : BaseUnitTest() {
     @Test
     fun testSchedule_withSnooze() {
         val now = removeTimezone(unixTime(2015, 1, 1, 15, 0))
-        setFixedLocalTime(now)
+        LocalDate.fixedLocalTime = now
         val snoozeTimeInFuture = unixTime(2015, 1, 1, 21, 0)
         val snoozeTimeInPast = unixTime(2015, 1, 1, 7, 0)
         val regularReminderTime = applyTimezone(unixTime(2015, 1, 2, 8, 30))
@@ -116,7 +115,7 @@ class ReminderSchedulerTest : BaseUnitTest() {
     @Test
     fun testSchedule_laterToday() {
         val now = unixTime(2015, 1, 26, 6, 30)
-        setFixedLocalTime(now)
+        LocalDate.fixedLocalTime = now
         val expectedCheckmarkTime = unixTime(2015, 1, 26, 0, 0)
         val expectedReminderTime = unixTime(2015, 1, 26, 12, 30)
         habit.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)
@@ -126,7 +125,7 @@ class ReminderSchedulerTest : BaseUnitTest() {
     @Test
     fun testSchedule_tomorrow() {
         val now = unixTime(2015, 1, 26, 13, 0)
-        setFixedLocalTime(now)
+        LocalDate.fixedLocalTime = now
         val expectedCheckmarkTime = unixTime(2015, 1, 27, 0, 0)
         val expectedReminderTime = unixTime(2015, 1, 27, 12, 30)
         habit.reminder = Reminder(8, 30, WeekdayList.EVERY_DAY)

@@ -3,6 +3,7 @@ package org.isoron.uhabits.core.utils
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Test
 import java.util.Calendar
@@ -21,8 +22,8 @@ class MidnightTimerTest : BaseUnitTest() {
         val dispatcher = executor.asCoroutineDispatcher()
 
         withContext(dispatcher) {
-            DateUtils.setFixedTimeZone(TimeZone.getTimeZone("GMT"))
-            DateUtils.setFixedLocalTime(
+            LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
+            LocalDate.fixedLocalTime =
                 unixTime(
                     2017,
                     Calendar.JANUARY,
@@ -31,7 +32,6 @@ class MidnightTimerTest : BaseUnitTest() {
                     59,
                     DateUtils.MINUTE_LENGTH - 1
                 )
-            )
 
             val suspendedListener = suspendCoroutine<Boolean> { continuation ->
                 MidnightTimer().apply {

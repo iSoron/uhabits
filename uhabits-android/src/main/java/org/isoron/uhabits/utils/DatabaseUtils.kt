@@ -21,12 +21,12 @@ package org.isoron.uhabits.utils
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
+import org.isoron.platform.time.LocalDate.Companion.getLocalTime
 import org.isoron.uhabits.HabitsApplication.Companion.isTestMode
 import org.isoron.uhabits.HabitsDatabaseOpener
 import org.isoron.uhabits.core.DATABASE_FILENAME
 import org.isoron.uhabits.core.DATABASE_VERSION
 import org.isoron.uhabits.core.utils.DateFormats.Companion.getBackupDateFormat
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getLocalTime
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat

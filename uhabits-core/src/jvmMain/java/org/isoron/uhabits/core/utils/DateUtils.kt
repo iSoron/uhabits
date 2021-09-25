@@ -18,20 +18,22 @@
  */
 package org.isoron.uhabits.core.utils
 
+import kotlinx.datetime.Instant
+import kotlinx.datetime.offsetAt
+import org.isoron.platform.time.LocalDate.Companion.getLocalTime
+import org.isoron.platform.time.LocalDate.Companion.getTimeZone
 import org.isoron.uhabits.core.models.Timestamp
 import java.util.Calendar
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.DAY_OF_WEEK
 import java.util.Calendar.SHORT
-import java.util.Date
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.collections.ArrayList
 
 abstract class DateUtils {
     companion object {
-        private var fixedLocalTime: Long? = null
-        private var fixedTimeZone: TimeZone? = null
         private var fixedLocale: Locale? = null
         private var startDayHourOffset: Int = 0
         private var startDayMinuteOffset: Int = 0
@@ -58,8 +60,15 @@ abstract class DateUtils {
 
         @JvmStatic
         fun applyTimezone(localTimestamp: Long): Long {
-            val tz: TimeZone = getTimeZone()
-            return localTimestamp - tz.getOffset(localTimestamp - tz.getOffset(localTimestamp))
+            val tz = getTimeZone()
+            val offset = tz.offsetAt(
+                Instant.fromEpochMilliseconds(localTimestamp)
+            ).totalSeconds * 1000
+            val difference = localTimestamp - offset
+            val offsetDifference = tz.offsetAt(
+                Instant.fromEpochMilliseconds(difference)
+            ).totalSeconds * 1000
+            return localTimestamp - offsetDifference
         }
 
         @JvmStatic
@@ -74,15 +83,6 @@ abstract class DateUtils {
             val day = GregorianCalendar(TimeZone.getTimeZone("GMT"), getLocale())
             day.timeInMillis = timestamp
             return day
-        }
-
-        @JvmStatic
-        fun getLocalTime(testTimeInMillis: Long? = null): Long {
-            if (fixedLocalTime != null) return fixedLocalTime as Long
-
-            val tz = getTimeZone()
-            val now = testTimeInMillis ?: Date().time
-            return now + tz.getOffset(now)
         }
 
         /**
@@ -206,22 +206,20 @@ abstract class DateUtils {
         fun getStartOfTodayWithOffset(): Long = getStartOfDayWithOffset(getLocalTime())
 
         @JvmStatic
-        fun millisecondsUntilTomorrowWithOffset(): Long = getStartOfTomorrowWithOffset() - getLocalTime()
+        fun millisecondsUntilTomorrowWithOffset(): Long =
+            getStartOfTomorrowWithOffset() - getLocalTime()
 
         @JvmStatic
         fun getStartOfTodayCalendar(): GregorianCalendar = getCalendar(getStartOfToday())
 
         @JvmStatic
-        fun getStartOfTodayCalendarWithOffset(): GregorianCalendar = getCalendar(getStartOfTodayWithOffset())
-
-        private fun getTimeZone(): TimeZone {
-            return fixedTimeZone ?: TimeZone.getDefault()
-        }
+        fun getStartOfTodayCalendarWithOffset(): GregorianCalendar =
+            getCalendar(getStartOfTodayWithOffset())
 
         @JvmStatic
         fun removeTimezone(timestamp: Long): Long {
             val tz = getTimeZone()
-            return timestamp + tz.getOffset(timestamp)
+            return timestamp + (tz.offsetAt(Instant.fromEpochMilliseconds(timestamp)).totalSeconds * 1000)
         }
 
         @JvmStatic
@@ -259,7 +257,9 @@ abstract class DateUtils {
 
             return when (field) {
 
-                TruncateField.DAY -> { cal.timeInMillis }
+                TruncateField.DAY -> {
+                    cal.timeInMillis
+                }
 
                 TruncateField.MONTH -> {
                     cal.set(DAY_OF_MONTH, 1)
@@ -269,7 +269,9 @@ abstract class DateUtils {
                 TruncateField.WEEK_NUMBER -> {
                     val weekDay = cal.get(DAY_OF_WEEK)
                     var delta = weekDay - firstWeekday
-                    if (delta < 0) { delta += 7 }
+                    if (delta < 0) {
+                        delta += 7
+                    }
                     cal.add(Calendar.DAY_OF_YEAR, -delta)
                     cal.timeInMillis
                 }
@@ -305,16 +307,6 @@ abstract class DateUtils {
             }
 
             return applyTimezone(time)
-        }
-
-        @JvmStatic
-        fun setFixedLocalTime(newFixedLocalTime: Long?) {
-            this.fixedLocalTime = newFixedLocalTime
-        }
-
-        @JvmStatic
-        fun setFixedTimeZone(newTimeZone: TimeZone?) {
-            this.fixedTimeZone = newTimeZone
         }
 
         @JvmStatic

@@ -22,13 +22,13 @@ import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedLocalTime
 import org.junit.Before
 import org.junit.Test
 import java.io.File
@@ -39,7 +39,7 @@ class ImportTest : BaseUnitTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        setFixedLocalTime(null)
+        LocalDate.fixedLocalTime = null
     }
 
     @Test

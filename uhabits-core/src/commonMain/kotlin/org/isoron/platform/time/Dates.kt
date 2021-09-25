@@ -19,6 +19,10 @@
 
 package org.isoron.platform.time
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.offsetAt
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -132,6 +136,23 @@ data class LocalDate(val daysSince2000: Int) {
 
     override fun toString(): String {
         return "LocalDate($year-$month-$day)"
+    }
+
+    companion object {
+        var fixedLocalTime: Long? = null
+        var fixedTimeZone: TimeZone? = null
+
+        fun getLocalTime(testTimeInMillis: Long? = null): Long {
+            if (fixedLocalTime != null) return fixedLocalTime as Long
+
+            val tz = getTimeZone()
+            val now = testTimeInMillis ?: Clock.System.now().toEpochMilliseconds()
+            return now + (tz.offsetAt(Instant.fromEpochMilliseconds(now)).totalSeconds * 1000)
+        }
+
+        fun getTimeZone(): TimeZone {
+            return fixedTimeZone ?: TimeZone.currentSystemDefault()
+        }
     }
 }
 

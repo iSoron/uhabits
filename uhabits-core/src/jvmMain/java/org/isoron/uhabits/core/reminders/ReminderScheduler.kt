@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.reminders
 
+import org.isoron.platform.time.LocalDate.Companion.getLocalTime
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.commands.ChangeHabitColorCommand
 import org.isoron.uhabits.core.commands.Command
@@ -28,7 +29,6 @@ import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.core.utils.DateUtils.Companion.applyTimezone
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getLocalTime
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfDayWithOffset
 import org.isoron.uhabits.core.utils.DateUtils.Companion.removeTimezone
 import java.util.Locale
