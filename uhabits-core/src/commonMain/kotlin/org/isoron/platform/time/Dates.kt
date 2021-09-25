@@ -19,10 +19,12 @@
 
 package org.isoron.platform.time
 
+import io.fluidsonic.locale.Locale
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
+import org.isoron.platform.i18n.getDefault
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -141,6 +143,7 @@ data class LocalDate(val daysSince2000: Int) {
     companion object {
         var fixedLocalTime: Long? = null
         var fixedTimeZone: TimeZone? = null
+        var fixedLocale: Locale? = null
 
         fun getLocalTime(testTimeInMillis: Long? = null): Long {
             if (fixedLocalTime != null) return fixedLocalTime as Long
@@ -152,6 +155,10 @@ data class LocalDate(val daysSince2000: Int) {
 
         fun getTimeZone(): TimeZone {
             return fixedTimeZone ?: TimeZone.currentSystemDefault()
+        }
+
+        fun getLocale(): Locale {
+            return fixedLocale ?: Locale.getDefault()
         }
     }
 }

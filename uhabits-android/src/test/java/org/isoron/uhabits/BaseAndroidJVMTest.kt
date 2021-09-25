@@ -19,12 +19,12 @@
 package org.isoron.uhabits
 
 import com.nhaarman.mockitokotlin2.spy
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.memory.MemoryModelFactory
 import org.isoron.uhabits.core.tasks.SingleThreadTaskRunner
 import org.isoron.uhabits.core.test.HabitFixtures
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedLocalTime
 import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.junit.After
 import org.junit.Before
@@ -43,7 +43,7 @@ open class BaseAndroidJVMTest {
     @Before
     open fun setUp() {
         val fixedLocalTime = 1422172800000L
-        setFixedLocalTime(fixedLocalTime)
+        LocalDate.fixedLocalTime = fixedLocalTime
         setStartDayOffset(0, 0)
         modelFactory = MemoryModelFactory()
         habitList = spy(modelFactory.buildHabitList())
@@ -54,7 +54,7 @@ open class BaseAndroidJVMTest {
 
     @After
     fun tearDown() {
-        setFixedLocalTime(null)
+        LocalDate.fixedLocalTime = null
         setStartDayOffset(0, 0)
     }
 

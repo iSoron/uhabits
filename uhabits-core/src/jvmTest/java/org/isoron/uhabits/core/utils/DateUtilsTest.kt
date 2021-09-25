@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.utils
 
+import io.fluidsonic.locale.Locale
 import junit.framework.Assert.assertEquals
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
@@ -30,14 +31,12 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfDayWithOffset
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.isoron.uhabits.core.utils.DateUtils.Companion.millisecondsUntilTomorrowWithOffset
 import org.isoron.uhabits.core.utils.DateUtils.Companion.removeTimezone
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedLocale
 import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.isoron.uhabits.core.utils.DateUtils.Companion.truncate
 import org.junit.Before
 import org.junit.Test
 import java.util.Calendar
 import java.util.GregorianCalendar
-import java.util.Locale
 import java.util.TimeZone
 
 class DateUtilsTest : BaseUnitTest() {
@@ -47,7 +46,7 @@ class DateUtilsTest : BaseUnitTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        setFixedLocale(Locale.US)
+        LocalDate.fixedLocale = Locale.forLanguageTag("en-us")
     }
 
     @Test
@@ -77,42 +76,42 @@ class DateUtilsTest : BaseUnitTest() {
 
     @Test
     fun testGetFirstWeekdayNumberAccordingToLocale_germany() {
-        setFixedLocale(Locale.GERMANY)
+        LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
         val firstWeekdayNumber = DateUtils.getFirstWeekdayNumberAccordingToLocale()
         assertThat(2, equalTo(firstWeekdayNumber))
     }
 
     @Test
     fun testGetFirstWeekdayNumberAccordingToLocale_us() {
-        setFixedLocale(Locale.US)
+        LocalDate.fixedLocale = Locale.forLanguageTag("en-us")
         val firstWeekdayNumber = DateUtils.getFirstWeekdayNumberAccordingToLocale()
         assertThat(1, equalTo(firstWeekdayNumber))
     }
 
     @Test
     fun testGetLongWeekdayNames_germany() {
-        setFixedLocale(Locale.GERMANY)
+        LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
         val longWeekdayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY)
         assertThat(arrayOf("Samstag", "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"), equalTo(longWeekdayNames))
     }
 
     @Test
     fun testGetLongWeekdayNames_us() {
-        setFixedLocale(Locale.US)
+        LocalDate.fixedLocale = Locale.forLanguageTag("en-us")
         val longWeekdayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY)
         assertThat(arrayOf("Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), equalTo(longWeekdayNames))
     }
 
     @Test
     fun testGetShortWeekdayNames_germany() {
-        setFixedLocale(Locale.GERMANY)
+        LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
         val longWeekdayNames = DateUtils.getShortWeekdayNames(Calendar.SATURDAY)
         assertThat(arrayOf("Sa.", "So.", "Mo.", "Di.", "Mi.", "Do.", "Fr."), equalTo(longWeekdayNames))
     }
 
     @Test
     fun testGetShortWeekdayNames_us() {
-        setFixedLocale(Locale.US)
+        LocalDate.fixedLocale = Locale.forLanguageTag("en-us")
         val longWeekdayNames = DateUtils.getShortWeekdayNames(Calendar.SATURDAY)
         assertThat(arrayOf("Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"), equalTo(longWeekdayNames))
     }
@@ -317,9 +316,9 @@ class DateUtilsTest : BaseUnitTest() {
     @Test
     fun testGetStartOfTodayCalendar() {
         LocalDate.fixedLocalTime = FIXED_LOCAL_TIME
-        setFixedLocale(Locale.GERMANY)
+        LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
         val expectedStartOfDay = unixTime(2015, Calendar.JANUARY, 25, 0, 0)
-        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), java.util.Locale.GERMANY)
         expectedCalendar.timeInMillis = expectedStartOfDay
         val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
         assertThat(expectedCalendar, equalTo(startOfTodayCalendar))
@@ -331,9 +330,9 @@ class DateUtilsTest : BaseUnitTest() {
         setStartDayOffset(hourOffset, 0)
         val priorToOffset = unixTime(2017, Calendar.JANUARY, 2, hourOffset - 1, 0)
         LocalDate.fixedLocalTime = priorToOffset
-        setFixedLocale(Locale.GERMANY)
+        LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
         val startOfYesterday = unixTime(2017, Calendar.JANUARY, 2, 0, 0)
-        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), java.util.Locale.GERMANY)
         expectedCalendar.timeInMillis = startOfYesterday
         val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
         assertThat(expectedCalendar, equalTo(startOfTodayCalendar))
@@ -345,9 +344,9 @@ class DateUtilsTest : BaseUnitTest() {
         setStartDayOffset(hourOffset, 0)
         val afterOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset + 1, 0)
         LocalDate.fixedLocalTime = afterOffset
-        setFixedLocale(Locale.GERMANY)
+        LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
         val startOfToday = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
-        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), java.util.Locale.GERMANY)
         expectedCalendar.timeInMillis = startOfToday
         val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
         assertThat(expectedCalendar, equalTo(startOfTodayCalendar))

@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.utils
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.offsetAt
+import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDate.Companion.getLocalTime
 import org.isoron.platform.time.LocalDate.Companion.getTimeZone
 import org.isoron.uhabits.core.models.Timestamp
@@ -34,7 +35,6 @@ import kotlin.collections.ArrayList
 
 abstract class DateUtils {
     companion object {
-        private var fixedLocale: Locale? = null
         private var startDayHourOffset: Int = 0
         private var startDayMinuteOffset: Int = 0
 
@@ -229,7 +229,7 @@ abstract class DateUtils {
         }
 
         private fun getLocale(): Locale {
-            return fixedLocale ?: Locale.getDefault()
+            return Locale.forLanguageTag(LocalDate.getLocale().toLanguageTag().toString())
         }
 
         @JvmStatic
@@ -307,11 +307,6 @@ abstract class DateUtils {
             }
 
             return applyTimezone(time)
-        }
-
-        @JvmStatic
-        fun setFixedLocale(newLocale: Locale?) {
-            this.fixedLocale = newLocale
         }
     }
 
