@@ -203,6 +203,8 @@ data class LocalDate(val daysSince2000: Int) {
         }
 
         fun getStartOfDay(timestamp: Long): Long = (timestamp / DAY_LENGTH) * DAY_LENGTH
+
+        fun getStartOfToday(): Long = getStartOfDay(getLocalTime())
     }
 }
 

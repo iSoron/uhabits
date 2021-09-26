@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.io
 
+import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Habit
@@ -221,7 +222,7 @@ class HabitsCSVExporter(
 
     private fun writeZipFile(): String {
         val dateFormat = DateFormats.getCSVDateFormat()
-        val date = dateFormat.format(DateUtils.getStartOfToday())
+        val date = dateFormat.format(getStartOfToday())
         val zipFilename = String.format("%s/Loop Habits CSV %s.zip", exportDirName, date)
         val fos = FileOutputStream(zipFilename)
         val zos = ZipOutputStream(fos)

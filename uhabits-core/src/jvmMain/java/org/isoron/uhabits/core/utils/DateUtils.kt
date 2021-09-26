@@ -26,6 +26,7 @@ import org.isoron.platform.time.LocalDate.Companion.HOUR_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.MINUTE_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.getLocalTime
 import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
+import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
 import org.isoron.platform.time.LocalDate.Companion.getTimeZone
 import org.isoron.uhabits.core.models.Timestamp
 import java.util.Calendar
@@ -151,9 +152,6 @@ abstract class DateUtils {
             val offset = startDayHourOffset * HOUR_LENGTH + startDayMinuteOffset * MINUTE_LENGTH
             return getStartOfDay(timestamp - offset)
         }
-
-        @JvmStatic
-        fun getStartOfToday(): Long = getStartOfDay(getLocalTime())
 
         @JvmStatic
         fun getStartOfTomorrowWithOffset(): Long = getUpcomingTimeInMillis(

@@ -23,6 +23,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
+import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
 import org.isoron.platform.time.LocalDate.Companion.getWeekdaySequence
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -66,5 +67,17 @@ class DatesTest {
         ).toInstant(TimeZone.UTC).toEpochMilliseconds()
         val startOfDay = getStartOfDay(laterInTheDayUtc)
         assertEquals(expectedStartOfDayUtc, startOfDay)
+    }
+    @Test
+    fun testGetStartOfToday() {
+        val expectedStartOfDayUtc = LocalDateTime(
+            2017, 1, 1, 0, 0, 0, 0
+        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+        val laterInTheDayUtc = LocalDateTime(
+            2017, 1, 1, 20, 0, 0, 0
+        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+        LocalDate.fixedLocalTime = laterInTheDayUtc
+        val startOfToday = getStartOfToday()
+        assertEquals(expectedStartOfDayUtc, startOfToday)
     }
 }
