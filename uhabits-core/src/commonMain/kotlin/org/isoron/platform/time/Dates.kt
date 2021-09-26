@@ -25,6 +25,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import org.isoron.platform.i18n.getDefault
+import kotlin.jvm.JvmStatic
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -159,6 +160,28 @@ data class LocalDate(val daysSince2000: Int) {
 
         fun getLocale(): Locale {
             return fixedLocale ?: Locale.getDefault()
+        }
+
+        /**
+         * Returns a vector of exactly seven integers, where the first integer is
+         * the provided firstWeekday number, and each subsequent number is the
+         * previous number plus 1, wrapping back to 1 after 7. For example,
+         * providing 3 as firstWeekday returns {3,4,5,6,7,1,2}
+         *
+         * This function is supposed to be used to construct a sequence of weekday
+         * number following java.util.Calendar conventions.
+         */
+        @JvmStatic
+        fun getWeekdaySequence(firstWeekday: Int): Array<Int> {
+            return arrayOf(
+                (firstWeekday - 1) % 7 + 1,
+                (firstWeekday) % 7 + 1,
+                (firstWeekday + 1) % 7 + 1,
+                (firstWeekday + 2) % 7 + 1,
+                (firstWeekday + 3) % 7 + 1,
+                (firstWeekday + 4) % 7 + 1,
+                (firstWeekday + 5) % 7 + 1,
+            )
         }
     }
 }

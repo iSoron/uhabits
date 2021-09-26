@@ -120,28 +120,6 @@ abstract class DateUtils {
         }
 
         /**
-         * Returns a vector of exactly seven integers, where the first integer is
-         * the provided firstWeekday number, and each subsequent number is the
-         * previous number plus 1, wrapping back to 1 after 7. For example,
-         * providing 3 as firstWeekday returns {3,4,5,6,7,1,2}
-         *
-         * This function is supposed to be used to construct a sequence of weekday
-         * number following java.util.Calendar conventions.
-         */
-        @JvmStatic
-        fun getWeekdaySequence(firstWeekday: Int): Array<Int> {
-            return arrayOf(
-                (firstWeekday - 1) % 7 + 1,
-                (firstWeekday) % 7 + 1,
-                (firstWeekday + 1) % 7 + 1,
-                (firstWeekday + 2) % 7 + 1,
-                (firstWeekday + 3) % 7 + 1,
-                (firstWeekday + 4) % 7 + 1,
-                (firstWeekday + 5) % 7 + 1,
-            )
-        }
-
-        /**
          * @return An integer representing the first day of the week, according to
          * the current locale. Sunday corresponds to 1, Monday to 2, and so on,
          * until Saturday, which is represented by 7. This is consistent

@@ -23,12 +23,12 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import org.isoron.platform.time.LocalDate.Companion.getWeekdaySequence
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getShortWeekdayNames
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendarWithOffset
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getWeekdaySequence
 import org.isoron.uhabits.utils.ColorUtils.mixColors
 import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.toSimpleDataFormat

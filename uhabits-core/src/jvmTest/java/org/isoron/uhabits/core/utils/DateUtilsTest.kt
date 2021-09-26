@@ -69,12 +69,6 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
-    fun testGetWeekdaySequence() {
-        val weekdaySequence = DateUtils.getWeekdaySequence(3)
-        assertThat(arrayOf(3, 4, 5, 6, 7, 1, 2), equalTo(weekdaySequence))
-    }
-
-    @Test
     fun testGetFirstWeekdayNumberAccordingToLocale_germany() {
         LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
         val firstWeekdayNumber = DateUtils.getFirstWeekdayNumberAccordingToLocale()

@@ -22,7 +22,9 @@ package org.isoron.platform.time
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import org.isoron.platform.time.LocalDate.Companion.getWeekdaySequence
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class DatesTest {
@@ -45,5 +47,11 @@ class DatesTest {
         val expectedUnixTimeOffsetForSydney = 11 * 60 * 60 * 1000
         val expectedUnixTimeForSydney = utcTestTimeInMillis + expectedUnixTimeOffsetForSydney
         assertEquals(expectedUnixTimeForSydney, localTimeInMillis)
+    }
+
+    @Test
+    fun testGetWeekdaySequence() {
+        val weekdaySequence = getWeekdaySequence(3)
+        assertContentEquals(arrayOf(3, 4, 5, 6, 7, 1, 2), weekdaySequence)
     }
 }
