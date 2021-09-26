@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core.utils
 
-import kotlinx.datetime.Instant
-import kotlinx.datetime.offsetAt
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.applyTimezone
@@ -147,12 +145,6 @@ abstract class DateUtils {
         @JvmStatic
         fun getStartOfTodayCalendarWithOffset(): GregorianCalendar =
             getCalendar(getStartOfTodayWithOffset())
-
-        @JvmStatic
-        fun removeTimezone(timestamp: Long): Long {
-            val tz = getTimeZone()
-            return timestamp + (tz.offsetAt(Instant.fromEpochMilliseconds(timestamp)).totalSeconds * 1000)
-        }
 
         private fun getLocale(): Locale {
             return Locale.forLanguageTag(LocalDate.getLocale().toLanguageTag().toString())

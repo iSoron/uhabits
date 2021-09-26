@@ -25,6 +25,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import org.isoron.platform.i18n.getDefault
+import kotlin.jvm.JvmStatic
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -234,11 +235,17 @@ data class LocalDate(val daysSince2000: Int) {
 
         fun removeTimezone(timestamp: Long): Long {
             val tz = getTimeZone()
+<<<<<<< Updated upstream
             return timestamp + (
                 tz.offsetAt(
                     Instant.fromEpochMilliseconds(timestamp)
                 ).totalSeconds * 1000
                 )
+=======
+            return timestamp + (tz.offsetAt(
+                Instant.fromEpochMilliseconds(timestamp)
+            ).totalSeconds * 1000)
+>>>>>>> Stashed changes
         }
     }
 }

@@ -19,7 +19,6 @@
 package org.isoron.uhabits.core.utils
 
 import io.fluidsonic.locale.Locale
-import junit.framework.Assert.assertEquals
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.platform.core.BaseUnitTest.Companion.FIXED_LOCAL_TIME
@@ -33,7 +32,6 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.formatHeaderDate
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.isoron.uhabits.core.utils.DateUtils.Companion.millisecondsUntilTomorrowWithOffset
-import org.isoron.uhabits.core.utils.DateUtils.Companion.removeTimezone
 import org.isoron.uhabits.core.utils.DateUtils.Companion.truncate
 import org.junit.Before
 import org.junit.Test
@@ -315,145 +313,6 @@ class DateUtilsTest : BaseUnitTest() {
         assertThat(
             getTodayWithOffset(),
             equalTo(Timestamp(FIXED_LOCAL_TIME - DAY_LENGTH))
-        )
-    }
-
-    @Test
-    fun test_removeTimezone() {
-        LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.of("Australia/Sydney")
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.JULY, 30, 8, 0)),
-            unixTime(2017, Calendar.JULY, 30, 18, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 29, 14, 0)),
-            unixTime(2017, Calendar.SEPTEMBER, 30, 0, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 0, 0)),
-            unixTime(2017, Calendar.SEPTEMBER, 30, 10, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 1, 0)),
-            unixTime(2017, Calendar.SEPTEMBER, 30, 11, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 2, 0)),
-            unixTime(2017, Calendar.SEPTEMBER, 30, 12, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 3, 0)),
-            unixTime(2017, Calendar.SEPTEMBER, 30, 13, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 12, 0)),
-            unixTime(2017, Calendar.SEPTEMBER, 30, 22, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 13, 0)),
-            unixTime(2017, Calendar.SEPTEMBER, 30, 23, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 14, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 0, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 15, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 1, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 15, 59)),
-            unixTime(2017, Calendar.OCTOBER, 1, 1, 59)
-        )
-        // DST begins
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 16, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 3, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 17, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 4, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.SEPTEMBER, 30, 18, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 5, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.OCTOBER, 1, 0, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 11, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.OCTOBER, 1, 1, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 12, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.OCTOBER, 1, 2, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 13, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.OCTOBER, 1, 3, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 14, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.OCTOBER, 1, 4, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 15, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.OCTOBER, 1, 8, 0)),
-            unixTime(2017, Calendar.OCTOBER, 1, 19, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.OCTOBER, 2, 8, 0)),
-            unixTime(2017, Calendar.OCTOBER, 2, 19, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2017, Calendar.NOVEMBER, 30, 8, 0)),
-            unixTime(2017, Calendar.NOVEMBER, 30, 19, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 30, 13, 0)),
-            unixTime(2018, Calendar.MARCH, 31, 0, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 1, 0)),
-            unixTime(2018, Calendar.MARCH, 31, 12, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 7, 0)),
-            unixTime(2018, Calendar.MARCH, 31, 18, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 13, 0)),
-            unixTime(2018, Calendar.APRIL, 1, 0, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 14, 0)),
-            unixTime(2018, Calendar.APRIL, 1, 1, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 14, 59)),
-            unixTime(2018, Calendar.APRIL, 1, 1, 59)
-        )
-        // DST ends
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 16, 0)),
-            unixTime(2018, Calendar.APRIL, 1, 2, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 17, 0)),
-            unixTime(2018, Calendar.APRIL, 1, 3, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.MARCH, 31, 18, 0)),
-            unixTime(2018, Calendar.APRIL, 1, 4, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.APRIL, 1, 0, 0)),
-            unixTime(2018, Calendar.APRIL, 1, 10, 0)
-        )
-        assertEquals(
-            removeTimezone(unixTime(2018, Calendar.APRIL, 1, 8, 0)),
-            unixTime(2018, Calendar.APRIL, 1, 18, 0)
         )
     }
 }
