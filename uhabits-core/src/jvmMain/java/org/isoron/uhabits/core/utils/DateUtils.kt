@@ -22,6 +22,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.offsetAt
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
+import org.isoron.platform.time.LocalDate.Companion.applyTimezone
 import org.isoron.platform.time.LocalDate.Companion.getLocalTime
 import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
 import org.isoron.platform.time.LocalDate.Companion.getStartOfTodayWithOffset
@@ -39,20 +40,6 @@ import java.util.TimeZone
 
 abstract class DateUtils {
     companion object {
-
-        @JvmStatic
-        fun applyTimezone(localTimestamp: Long): Long {
-            val tz = getTimeZone()
-            val offset = tz.offsetAt(
-                Instant.fromEpochMilliseconds(localTimestamp)
-            ).totalSeconds * 1000
-            val difference = localTimestamp - offset
-            val offsetDifference = tz.offsetAt(
-                Instant.fromEpochMilliseconds(difference)
-            ).totalSeconds * 1000
-            return localTimestamp - offsetDifference
-        }
-
         @JvmStatic
         fun formatHeaderDate(day: GregorianCalendar): String {
             val locale = getLocale()

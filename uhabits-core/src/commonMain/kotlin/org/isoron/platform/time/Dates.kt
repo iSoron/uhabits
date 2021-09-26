@@ -219,6 +219,18 @@ data class LocalDate(val daysSince2000: Int) {
         }
 
         fun getStartOfTodayWithOffset(): Long = getStartOfDayWithOffset(getLocalTime())
+
+        fun applyTimezone(localTimestamp: Long): Long {
+            val tz = getTimeZone()
+            val offset = tz.offsetAt(
+                Instant.fromEpochMilliseconds(localTimestamp)
+            ).totalSeconds * 1000
+            val difference = localTimestamp - offset
+            val offsetDifference = tz.offsetAt(
+                Instant.fromEpochMilliseconds(difference)
+            ).totalSeconds * 1000
+            return localTimestamp - offsetDifference
+        }
     }
 }
 

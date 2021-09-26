@@ -23,10 +23,10 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import org.isoron.platform.time.LocalDate.Companion.getStartOfTodayWithOffset
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayWithOffset
 
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.

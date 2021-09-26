@@ -30,13 +30,13 @@ import junit.framework.TestCase
 import org.hamcrest.CoreMatchers.hasItems
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.setStartDayOffset
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.isoron.uhabits.inject.ActivityContextModule
 import org.isoron.uhabits.inject.AppContextModule
 import org.isoron.uhabits.inject.HabitsModule

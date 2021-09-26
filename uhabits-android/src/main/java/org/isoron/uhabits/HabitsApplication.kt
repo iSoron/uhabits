@@ -21,10 +21,10 @@ package org.isoron.uhabits
 
 import android.app.Application
 import android.content.Context
+import org.isoron.platform.time.LocalDate.Companion.setStartDayOffset
 import org.isoron.uhabits.core.database.UnsupportedDatabaseVersionException
 import org.isoron.uhabits.core.reminders.ReminderScheduler
 import org.isoron.uhabits.core.ui.NotificationTray
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.isoron.uhabits.inject.AppContextModule
 import org.isoron.uhabits.inject.DaggerHabitsApplicationComponent
 import org.isoron.uhabits.inject.HabitsApplicationComponent

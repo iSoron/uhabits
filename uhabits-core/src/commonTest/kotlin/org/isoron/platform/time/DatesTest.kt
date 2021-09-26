@@ -20,8 +20,11 @@
 package org.isoron.platform.time
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import org.isoron.platform.core.BaseUnitTest
+import org.isoron.platform.time.LocalDate.Companion.applyTimezone
 import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
 import org.isoron.platform.time.LocalDate.Companion.getStartOfDayWithOffset
 import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
@@ -31,7 +34,7 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
-class DatesTest {
+class DatesTest : BaseUnitTest() {
     @Test
     fun testDatesBefore2000() {
         val date = LocalDate(-1)
@@ -44,7 +47,7 @@ class DatesTest {
     fun testGetLocalTime() {
         LocalDate.fixedLocalTime = null
         LocalDate.fixedTimeZone = TimeZone.of("Australia/Sydney")
-        val utcTestTimeInMillis = unixTime(2015, 1, 11)
+        val utcTestTimeInMillis = unixTime(2015, Month.JANUARY, 11)
         val localTimeInMillis = LocalDate.getLocalTime(utcTestTimeInMillis)
         val expectedUnixTimeOffsetForSydney = 11 * 60 * 60 * 1000
         val expectedUnixTimeForSydney = utcTestTimeInMillis + expectedUnixTimeOffsetForSydney
@@ -59,16 +62,16 @@ class DatesTest {
 
     @Test
     fun testGetStartOfDay() {
-        val expectedStartOfDayUtc = unixTime(2017, 1, 1)
-        val laterInTheDayUtc = unixTime(2017, 1, 1, 20, 0)
+        val expectedStartOfDayUtc = unixTime(2017, Month.JANUARY, 1)
+        val laterInTheDayUtc = unixTime(2017, Month.JANUARY, 1, 20, 0)
         val startOfDay = getStartOfDay(laterInTheDayUtc)
         assertEquals(expectedStartOfDayUtc, startOfDay)
     }
 
     @Test
     fun testGetStartOfToday() {
-        val expectedStartOfDayUtc = unixTime(2017, 1, 1)
-        val laterInTheDayUtc = unixTime(2017, 1, 1, 20, 0)
+        val expectedStartOfDayUtc = unixTime(2017, Month.JANUARY, 1)
+        val laterInTheDayUtc = unixTime(2017, Month.JANUARY, 1, 20, 0)
         LocalDate.fixedLocalTime = laterInTheDayUtc
         val startOfToday = getStartOfToday()
         assertEquals(expectedStartOfDayUtc, startOfToday)
@@ -77,7 +80,7 @@ class DatesTest {
     @Test
     @Throws(Exception::class)
     fun testGetStartOfDayWithOffset() {
-        val timestamp = unixTime(2020, 9, 3)
+        val timestamp = unixTime(2020, Month.SEPTEMBER, 3)
         assertEquals(
             timestamp,
             getStartOfDayWithOffset(timestamp + LocalDate.HOUR_LENGTH),
@@ -94,8 +97,8 @@ class DatesTest {
         val hourOffset = 3
         LocalDate.setStartDayOffset(hourOffset, 0)
         LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
-        val startOfYesterday = unixTime(2017, 1, 1, 0, 0)
-        val priorToOffset = unixTime(2017, 1, 2, hourOffset - 1, 0)
+        val startOfYesterday = unixTime(2017, Month.JANUARY, 1, 0, 0)
+        val priorToOffset = unixTime(2017, Month.JANUARY, 2, hourOffset - 1, 0)
         LocalDate.fixedLocalTime = priorToOffset
         val startOfTodayWithOffset = getStartOfTodayWithOffset()
         assertEquals(startOfYesterday, startOfTodayWithOffset)
@@ -106,20 +109,159 @@ class DatesTest {
         val hourOffset = 3
         LocalDate.setStartDayOffset(hourOffset, 0)
         LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
-        val startOfToday = unixTime(2017, 1, 1, 0, 0)
-        val afterOffset = unixTime(2017, 1, 1, hourOffset + 1, 0)
+        val startOfToday = unixTime(2017, Month.JANUARY, 1, 0, 0)
+        val afterOffset = unixTime(2017, Month.JANUARY, 1, hourOffset + 1, 0)
         LocalDate.fixedLocalTime = afterOffset
         val startOfTodayWithOffset = getStartOfTodayWithOffset()
         assertEquals(startOfToday, startOfTodayWithOffset)
     }
 
-    private fun unixTime(year: Int, month: Int, day: Int): Long {
+    @Test
+    fun test_applyTimezone() {
+        LocalDate.fixedTimeZone = TimeZone.of("Australia/Sydney")
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.JULY, 30, 18, 0)),
+            unixTime(2017, Month.JULY, 30, 8, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.SEPTEMBER, 30, 0, 0)),
+            unixTime(2017, Month.SEPTEMBER, 29, 14, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.SEPTEMBER, 30, 10, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 0, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.SEPTEMBER, 30, 11, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 1, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.SEPTEMBER, 30, 12, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 2, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.SEPTEMBER, 30, 13, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 3, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.SEPTEMBER, 30, 22, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 12, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.SEPTEMBER, 30, 23, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 13, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 0, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 14, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 1, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 15, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 1, 59)),
+            unixTime(2017, Month.SEPTEMBER, 30, 15, 59)
+        )
+        // DST begins
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 3, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 16, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 4, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 17, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 5, 0)),
+            unixTime(2017, Month.SEPTEMBER, 30, 18, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 11, 0)),
+            unixTime(2017, Month.OCTOBER, 1, 0, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 12, 0)),
+            unixTime(2017, Month.OCTOBER, 1, 1, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 13, 0)),
+            unixTime(2017, Month.OCTOBER, 1, 2, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 14, 0)),
+            unixTime(2017, Month.OCTOBER, 1, 3, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 15, 0)),
+            unixTime(2017, Month.OCTOBER, 1, 4, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 1, 19, 0)),
+            unixTime(2017, Month.OCTOBER, 1, 8, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.OCTOBER, 2, 19, 0)),
+            unixTime(2017, Month.OCTOBER, 2, 8, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2017, Month.NOVEMBER, 30, 19, 0)),
+            unixTime(2017, Month.NOVEMBER, 30, 8, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.MARCH, 31, 0, 0)),
+            unixTime(2018, Month.MARCH, 30, 13, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.MARCH, 31, 12, 0)),
+            unixTime(2018, Month.MARCH, 31, 1, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.MARCH, 31, 18, 0)),
+            unixTime(2018, Month.MARCH, 31, 7, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 0, 0)),
+            unixTime(2018, Month.MARCH, 31, 13, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 1, 0)),
+            unixTime(2018, Month.MARCH, 31, 14, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 1, 59)),
+            unixTime(2018, Month.MARCH, 31, 14, 59)
+        )
+        // DST ends
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 2, 0)),
+            unixTime(2018, Month.MARCH, 31, 16, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 3, 0)),
+            unixTime(2018, Month.MARCH, 31, 17, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 4, 0)),
+            unixTime(2018, Month.MARCH, 31, 18, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 10, 0)),
+            unixTime(2018, Month.APRIL, 1, 0, 0)
+        )
+        assertEquals(
+            applyTimezone(unixTime(2018, Month.APRIL, 1, 18, 0)),
+            unixTime(2018, Month.APRIL, 1, 8, 0)
+        )
+    }
+
+    private fun unixTime(year: Int, month: Month, day: Int): Long {
         return unixTime(year, month, day, 0, 0)
     }
 
     private fun unixTime(
         year: Int,
-        month: Int,
+        month: Month,
         day: Int,
         hour: Int,
         minute: Int,

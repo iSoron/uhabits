@@ -21,6 +21,7 @@ package org.isoron.uhabits.core
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.validateMockitoUsage
 import org.apache.commons.io.IOUtils
+import org.isoron.platform.core.BaseUnitTest.Companion.FIXED_LOCAL_TIME
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDate.Companion.setStartDayOffset
 import org.isoron.uhabits.core.commands.CommandRunner
@@ -139,8 +140,6 @@ open class BaseUnitTest {
     }
 
     companion object {
-        // 8:00am, January 25th, 2015 (UTC)
-        const val FIXED_LOCAL_TIME = 1422172800000L
         fun buildMemoryDatabase(): Database {
             return try {
                 val db: Database = JdbcDatabase(

@@ -23,12 +23,12 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.applyTimezone
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.preferences.WidgetPreferences
-import org.isoron.uhabits.core.utils.DateUtils.Companion.applyTimezone
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import org.isoron.uhabits.core.utils.DateUtils.Companion.removeTimezone
 import org.junit.Before
