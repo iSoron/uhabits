@@ -22,8 +22,8 @@ package org.isoron.uhabits.database
 import android.content.Context
 import android.util.Log
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.uhabits.AndroidDirFinder
-import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.utils.DatabaseUtils
 import java.io.File
 
@@ -40,7 +40,7 @@ class AutoBackup(private val context: Context) {
         }
         val now = LocalDate.getLocalTime()
         removeOldest(files, keep)
-        if (now - newestTimestamp > DateUtils.DAY_LENGTH) {
+        if (now - newestTimestamp > DAY_LENGTH) {
             DatabaseUtils.saveDatabaseCopy(context, basedir)
         } else {
             Log.i("AutoBackup", "Fresh backup found (timestamp=$newestTimestamp)")

@@ -18,6 +18,8 @@
  */
 package org.isoron.uhabits.core.utils
 
+import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
+import org.isoron.platform.time.LocalDate.Companion.SECOND_LENGTH
 import org.isoron.uhabits.core.AppScope
 import java.util.LinkedList
 import java.util.concurrent.Executors
@@ -43,14 +45,14 @@ open class MidnightTimer @Inject constructor() {
 
     @Synchronized
     fun onResume(
-        delayOffsetInMillis: Long = DateUtils.SECOND_LENGTH,
+        delayOffsetInMillis: Long = SECOND_LENGTH,
         testExecutor: ScheduledExecutorService? = null
     ) {
         executor = testExecutor ?: Executors.newSingleThreadScheduledExecutor()
         executor.scheduleAtFixedRate(
             { notifyListeners() },
             DateUtils.millisecondsUntilTomorrowWithOffset() + delayOffsetInMillis,
-            DateUtils.DAY_LENGTH,
+            DAY_LENGTH,
             TimeUnit.MILLISECONDS
         )
     }

@@ -23,6 +23,9 @@ import junit.framework.Assert.assertEquals
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
+import org.isoron.platform.time.LocalDate.Companion.HOUR_LENGTH
+import org.isoron.platform.time.LocalDate.Companion.MINUTE_LENGTH
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.applyTimezone
@@ -288,22 +291,22 @@ class DateUtilsTest : BaseUnitTest() {
     fun testMillisecondsUntilTomorrow() {
         LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
         LocalDate.fixedLocalTime = unixTime(2017, Calendar.JANUARY, 1, 23, 59)
-        assertThat(millisecondsUntilTomorrowWithOffset(), equalTo(DateUtils.MINUTE_LENGTH))
+        assertThat(millisecondsUntilTomorrowWithOffset(), equalTo(MINUTE_LENGTH))
         LocalDate.fixedLocalTime = unixTime(2017, Calendar.JANUARY, 1, 20, 0)
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
-            equalTo(4 * DateUtils.HOUR_LENGTH)
+            equalTo(4 * HOUR_LENGTH)
         )
         setStartDayOffset(3, 30)
         LocalDate.fixedLocalTime = unixTime(2017, Calendar.JANUARY, 1, 23, 59)
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
-            equalTo(3 * DateUtils.HOUR_LENGTH + 31 * DateUtils.MINUTE_LENGTH)
+            equalTo(3 * HOUR_LENGTH + 31 * MINUTE_LENGTH)
         )
         LocalDate.fixedLocalTime = unixTime(2017, Calendar.JANUARY, 2, 1, 0)
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
-            equalTo(2 * DateUtils.HOUR_LENGTH + 30 * DateUtils.MINUTE_LENGTH)
+            equalTo(2 * HOUR_LENGTH + 30 * MINUTE_LENGTH)
         )
     }
 
@@ -353,7 +356,7 @@ class DateUtilsTest : BaseUnitTest() {
         setStartDayOffset(9, 0)
         assertThat(
             getTodayWithOffset(),
-            equalTo(Timestamp(FIXED_LOCAL_TIME - DateUtils.DAY_LENGTH))
+            equalTo(Timestamp(FIXED_LOCAL_TIME - DAY_LENGTH))
         )
     }
 
@@ -362,13 +365,13 @@ class DateUtilsTest : BaseUnitTest() {
     fun testGetStartOfDayWithOffset() {
         val timestamp = unixTime(2020, Calendar.SEPTEMBER, 3)
         assertThat(
-            getStartOfDayWithOffset(timestamp + DateUtils.HOUR_LENGTH),
+            getStartOfDayWithOffset(timestamp + HOUR_LENGTH),
             equalTo(timestamp)
         )
         setStartDayOffset(3, 30)
         assertThat(
-            getStartOfDayWithOffset(timestamp + 3 * DateUtils.HOUR_LENGTH + 29 * DateUtils.MINUTE_LENGTH),
-            equalTo(timestamp - DateUtils.DAY_LENGTH)
+            getStartOfDayWithOffset(timestamp + 3 * HOUR_LENGTH + 29 * MINUTE_LENGTH),
+            equalTo(timestamp - DAY_LENGTH)
         )
     }
 

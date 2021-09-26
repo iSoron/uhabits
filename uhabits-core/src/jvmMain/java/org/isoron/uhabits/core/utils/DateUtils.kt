@@ -21,6 +21,9 @@ package org.isoron.uhabits.core.utils
 import kotlinx.datetime.Instant
 import kotlinx.datetime.offsetAt
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
+import org.isoron.platform.time.LocalDate.Companion.HOUR_LENGTH
+import org.isoron.platform.time.LocalDate.Companion.MINUTE_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.getLocalTime
 import org.isoron.platform.time.LocalDate.Companion.getTimeZone
 import org.isoron.uhabits.core.models.Timestamp
@@ -37,26 +40,6 @@ abstract class DateUtils {
     companion object {
         private var startDayHourOffset: Int = 0
         private var startDayMinuteOffset: Int = 0
-
-        /**
-         * Number of milliseconds in one second.
-         */
-        const val SECOND_LENGTH: Long = 1000
-
-        /**
-         * Number of milliseconds in one minute.
-         */
-        const val MINUTE_LENGTH: Long = 60 * SECOND_LENGTH
-
-        /**
-         * Number of milliseconds in one hour.
-         */
-        const val HOUR_LENGTH: Long = 60 * MINUTE_LENGTH
-
-        /**
-         * Number of milliseconds in one day.
-         */
-        const val DAY_LENGTH: Long = 24 * HOUR_LENGTH
 
         @JvmStatic
         fun applyTimezone(localTimestamp: Long): Long {

@@ -19,6 +19,7 @@
 package org.isoron.uhabits.core.models
 
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.uhabits.core.utils.DateFormats.Companion.getCSVDateFormat
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
@@ -103,7 +104,6 @@ data class Timestamp(var unixTime: Long) : Comparable<Timestamp> {
     }
 
     companion object {
-        const val DAY_LENGTH: Long = 86400000
         val ZERO = Timestamp(0)
         fun fromLocalDate(date: LocalDate): Timestamp {
             return Timestamp(946684800000L + date.daysSince2000 * 86400000L)

@@ -20,9 +20,9 @@
 package org.isoron.uhabits.database
 
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.BaseAndroidTest
-import org.isoron.uhabits.core.utils.DateUtils
 import org.junit.Test
 import java.io.File
 import java.io.FileOutputStream
@@ -30,7 +30,7 @@ import java.io.FileOutputStream
 class AutoBackupTest : BaseAndroidTest() {
     @Test
     fun testRun() {
-        LocalDate.fixedLocalTime = 40 * DateUtils.DAY_LENGTH
+        LocalDate.fixedLocalTime = 40 * DAY_LENGTH
         val basedir = AndroidDirFinder(targetContext).getFilesDir("Backups")!!
         createTestFiles(basedir, 30)
 
@@ -64,7 +64,7 @@ class AutoBackupTest : BaseAndroidTest() {
     private fun createTestFiles(basedir: File, nfiles: Int) {
         removeAllFiles(basedir)
         for (k in 1..nfiles) {
-            touch("${basedir.path}/test-$k.txt", DateUtils.DAY_LENGTH * k)
+            touch("${basedir.path}/test-$k.txt", DAY_LENGTH * k)
         }
     }
 

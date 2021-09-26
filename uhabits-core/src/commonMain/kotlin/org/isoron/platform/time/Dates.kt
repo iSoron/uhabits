@@ -146,6 +146,26 @@ data class LocalDate(val daysSince2000: Int) {
         var fixedTimeZone: TimeZone? = null
         var fixedLocale: Locale? = null
 
+        /**
+         * Number of milliseconds in one second.
+         */
+        const val SECOND_LENGTH: Long = 1000
+
+        /**
+         * Number of milliseconds in one minute.
+         */
+        const val MINUTE_LENGTH: Long = 60 * SECOND_LENGTH
+
+        /**
+         * Number of milliseconds in one hour.
+         */
+        const val HOUR_LENGTH: Long = 60 * MINUTE_LENGTH
+
+        /**
+         * Number of milliseconds in one day.
+         */
+        const val DAY_LENGTH: Long = 24 * HOUR_LENGTH
+
         fun getLocalTime(testTimeInMillis: Long? = null): Long {
             if (fixedLocalTime != null) return fixedLocalTime as Long
 

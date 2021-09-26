@@ -20,12 +20,12 @@ package org.isoron.uhabits.performance
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.uhabits.BaseAndroidTest
 import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
-import org.isoron.uhabits.core.models.Timestamp.Companion.DAY_LENGTH
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
 import org.junit.Ignore
 import org.junit.Test

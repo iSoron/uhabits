@@ -4,10 +4,10 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.MINUTE_LENGTH
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Test
 import java.util.Calendar
-import java.util.TimeZone
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -30,7 +30,7 @@ class MidnightTimerTest : BaseUnitTest() {
                     1,
                     23,
                     59,
-                    DateUtils.MINUTE_LENGTH - 1
+                    MINUTE_LENGTH - 1
                 )
 
             val suspendedListener = suspendCoroutine<Boolean> { continuation ->
