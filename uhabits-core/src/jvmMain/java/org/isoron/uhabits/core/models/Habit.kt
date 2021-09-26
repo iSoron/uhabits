@@ -59,10 +59,9 @@ data class Habit(
         val today = DateUtils.getTodayWithOffset()
         val value = computedEntries.get(today).value
         return if (isNumerical) {
-            val targetValuePerDay = (targetValue / frequency.denominator)
             when (targetType) {
-                NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValuePerDay
-                NumericalHabitType.AT_MOST -> value / 1000.0 <= targetValuePerDay
+                NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
+                NumericalHabitType.AT_MOST -> value / 1000.0 <= targetValue
             }
         } else {
             value != Entry.NO && value != Entry.UNKNOWN
@@ -73,10 +72,9 @@ data class Habit(
         val today = DateUtils.getTodayWithOffset()
         val value = computedEntries.get(today).value
         return if (isNumerical) {
-            val targetValuePerDay = (targetValue / frequency.denominator)
             when (targetType) {
-                NumericalHabitType.AT_LEAST -> value / 1000.0 < targetValuePerDay
-                NumericalHabitType.AT_MOST -> value / 1000.0 > targetValuePerDay
+                NumericalHabitType.AT_LEAST -> value / 1000.0 < targetValue
+                NumericalHabitType.AT_MOST -> value / 1000.0 > targetValue
             }
         } else {
             value == Entry.NO
