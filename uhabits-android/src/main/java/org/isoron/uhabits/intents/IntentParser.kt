@@ -22,6 +22,7 @@ package org.isoron.uhabits.intents
 import android.content.ContentUris.parseId
 import android.content.Intent
 import android.net.Uri
+import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
@@ -51,7 +52,7 @@ class IntentParser
     private fun parseTimestamp(intent: Intent): Timestamp {
         val today = DateUtils.getTodayWithOffset().unixTime
         var timestamp = intent.getLongExtra("timestamp", today)
-        timestamp = DateUtils.getStartOfDay(timestamp)
+        timestamp = getStartOfDay(timestamp)
 
         if (timestamp < 0 || timestamp > today)
             throw IllegalArgumentException("timestamp is not valid")

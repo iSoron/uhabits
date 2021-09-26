@@ -25,6 +25,7 @@ import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.HOUR_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.MINUTE_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.getLocalTime
+import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
 import org.isoron.platform.time.LocalDate.Companion.getTimeZone
 import org.isoron.uhabits.core.models.Timestamp
 import java.util.Calendar
@@ -144,9 +145,6 @@ abstract class DateUtils {
 
         @JvmStatic
         fun getTodayWithOffset(): Timestamp = Timestamp(getStartOfTodayWithOffset())
-
-        @JvmStatic
-        fun getStartOfDay(timestamp: Long): Long = (timestamp / DAY_LENGTH) * DAY_LENGTH
 
         @JvmStatic
         fun getStartOfDayWithOffset(timestamp: Long): Long {

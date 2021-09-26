@@ -121,14 +121,6 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
-    fun testGetStartOfDay() {
-        val expectedStartOfDayUtc = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
-        val laterInTheDayUtc = unixTime(2017, Calendar.JANUARY, 1, 20, 0)
-        val startOfDay = DateUtils.getStartOfDay(laterInTheDayUtc)
-        assertThat(expectedStartOfDayUtc, equalTo(startOfDay))
-    }
-
-    @Test
     fun testGetStartOfToday() {
         val expectedStartOfDayUtc = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
         val laterInTheDayUtc = unixTime(2017, Calendar.JANUARY, 1, 20, 0)

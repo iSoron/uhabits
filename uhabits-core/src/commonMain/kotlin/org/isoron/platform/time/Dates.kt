@@ -25,7 +25,6 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import org.isoron.platform.i18n.getDefault
-import kotlin.jvm.JvmStatic
 import kotlin.math.abs
 import kotlin.math.ceil
 
@@ -191,7 +190,6 @@ data class LocalDate(val daysSince2000: Int) {
          * This function is supposed to be used to construct a sequence of weekday
          * number following java.util.Calendar conventions.
          */
-        @JvmStatic
         fun getWeekdaySequence(firstWeekday: Int): Array<Int> {
             return arrayOf(
                 (firstWeekday - 1) % 7 + 1,
@@ -203,6 +201,8 @@ data class LocalDate(val daysSince2000: Int) {
                 (firstWeekday + 5) % 7 + 1,
             )
         }
+
+        fun getStartOfDay(timestamp: Long): Long = (timestamp / DAY_LENGTH) * DAY_LENGTH
     }
 }
 
