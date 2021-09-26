@@ -141,10 +141,6 @@ data class LocalDate(val daysSince2000: Int) {
     }
 
     companion object {
-        var fixedLocalTime: Long? = null
-        var fixedTimeZone: TimeZone? = null
-        var fixedLocale: Locale? = null
-
         /**
          * Number of milliseconds in one second.
          */
@@ -164,6 +160,17 @@ data class LocalDate(val daysSince2000: Int) {
          * Number of milliseconds in one day.
          */
         const val DAY_LENGTH: Long = 24 * HOUR_LENGTH
+
+        var fixedLocalTime: Long? = null
+        var fixedTimeZone: TimeZone? = null
+        var fixedLocale: Locale? = null
+        var startDayHourOffset: Int = 0
+        var startDayMinuteOffset: Int = 0
+
+        fun setStartDayOffset(hourOffset: Int, minuteOffset: Int) {
+            startDayHourOffset = hourOffset
+            startDayMinuteOffset = minuteOffset
+        }
 
         fun getLocalTime(testTimeInMillis: Long? = null): Long {
             if (fixedLocalTime != null) return fixedLocalTime as Long
@@ -205,6 +212,13 @@ data class LocalDate(val daysSince2000: Int) {
         fun getStartOfDay(timestamp: Long): Long = (timestamp / DAY_LENGTH) * DAY_LENGTH
 
         fun getStartOfToday(): Long = getStartOfDay(getLocalTime())
+
+        fun getStartOfDayWithOffset(timestamp: Long): Long {
+            val offset = startDayHourOffset * HOUR_LENGTH + startDayMinuteOffset * MINUTE_LENGTH
+            return getStartOfDay(timestamp - offset)
+        }
+
+        fun getStartOfTodayWithOffset(): Long = getStartOfDayWithOffset(getLocalTime())
     }
 }
 

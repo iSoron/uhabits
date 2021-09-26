@@ -23,7 +23,9 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
+import org.isoron.platform.time.LocalDate.Companion.getStartOfDayWithOffset
 import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
+import org.isoron.platform.time.LocalDate.Companion.getStartOfTodayWithOffset
 import org.isoron.platform.time.LocalDate.Companion.getWeekdaySequence
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -42,9 +44,7 @@ class DatesTest {
     fun testGetLocalTime() {
         LocalDate.fixedLocalTime = null
         LocalDate.fixedTimeZone = TimeZone.of("Australia/Sydney")
-        val utcTestTimeInMillis = LocalDateTime(
-            2015, 1, 11, 0, 0, 0, 0
-        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+        val utcTestTimeInMillis = unixTime(2015, 1, 11)
         val localTimeInMillis = LocalDate.getLocalTime(utcTestTimeInMillis)
         val expectedUnixTimeOffsetForSydney = 11 * 60 * 60 * 1000
         val expectedUnixTimeForSydney = utcTestTimeInMillis + expectedUnixTimeOffsetForSydney
@@ -59,25 +59,74 @@ class DatesTest {
 
     @Test
     fun testGetStartOfDay() {
-        val expectedStartOfDayUtc = LocalDateTime(
-            2017, 1, 1, 0, 0, 0, 0
-        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
-        val laterInTheDayUtc = LocalDateTime(
-            2017, 1, 1, 20, 0, 0, 0
-        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+        val expectedStartOfDayUtc = unixTime(2017, 1, 1)
+        val laterInTheDayUtc = unixTime(2017, 1, 1, 20, 0)
         val startOfDay = getStartOfDay(laterInTheDayUtc)
         assertEquals(expectedStartOfDayUtc, startOfDay)
     }
+
     @Test
     fun testGetStartOfToday() {
-        val expectedStartOfDayUtc = LocalDateTime(
-            2017, 1, 1, 0, 0, 0, 0
-        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
-        val laterInTheDayUtc = LocalDateTime(
-            2017, 1, 1, 20, 0, 0, 0
-        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+        val expectedStartOfDayUtc = unixTime(2017, 1, 1)
+        val laterInTheDayUtc = unixTime(2017, 1, 1, 20, 0)
         LocalDate.fixedLocalTime = laterInTheDayUtc
         val startOfToday = getStartOfToday()
         assertEquals(expectedStartOfDayUtc, startOfToday)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testGetStartOfDayWithOffset() {
+        val timestamp = unixTime(2020, 9, 3)
+        assertEquals(
+            timestamp,
+            getStartOfDayWithOffset(timestamp + LocalDate.HOUR_LENGTH),
+        )
+        LocalDate.setStartDayOffset(3, 30)
+        assertEquals(
+            (timestamp - LocalDate.DAY_LENGTH),
+            getStartOfDayWithOffset(timestamp + 3 * LocalDate.HOUR_LENGTH + 29 * LocalDate.MINUTE_LENGTH),
+        )
+    }
+
+    @Test
+    fun testGetStartOfTodayWithOffset_priorToOffset() {
+        val hourOffset = 3
+        LocalDate.setStartDayOffset(hourOffset, 0)
+        LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
+        val startOfYesterday = unixTime(2017, 1, 1, 0, 0)
+        val priorToOffset = unixTime(2017, 1, 2, hourOffset - 1, 0)
+        LocalDate.fixedLocalTime = priorToOffset
+        val startOfTodayWithOffset = getStartOfTodayWithOffset()
+        assertEquals(startOfYesterday, startOfTodayWithOffset)
+    }
+
+    @Test
+    fun testGetStartOfTodayWithOffset_afterOffset() {
+        val hourOffset = 3
+        LocalDate.setStartDayOffset(hourOffset, 0)
+        LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
+        val startOfToday = unixTime(2017, 1, 1, 0, 0)
+        val afterOffset = unixTime(2017, 1, 1, hourOffset + 1, 0)
+        LocalDate.fixedLocalTime = afterOffset
+        val startOfTodayWithOffset = getStartOfTodayWithOffset()
+        assertEquals(startOfToday, startOfTodayWithOffset)
+    }
+
+    private fun unixTime(year: Int, month: Int, day: Int): Long {
+        return unixTime(year, month, day, 0, 0)
+    }
+
+    private fun unixTime(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+        milliseconds: Long = 0
+    ): Long {
+        return LocalDateTime(
+            year, month, day, hour, minute, (milliseconds / 1000).toInt(), 0
+        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
     }
 }

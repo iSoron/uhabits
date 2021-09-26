@@ -22,6 +22,7 @@ import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.validateMockitoUsage
 import org.apache.commons.io.IOUtils
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.LocalDate.Companion.setStartDayOffset
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.DatabaseOpener
@@ -34,7 +35,6 @@ import org.isoron.uhabits.core.models.memory.MemoryModelFactory
 import org.isoron.uhabits.core.tasks.SingleThreadTaskRunner
 import org.isoron.uhabits.core.test.HabitFixtures
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
-import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

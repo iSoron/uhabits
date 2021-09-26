@@ -22,12 +22,12 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.offsetAt
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
-import org.isoron.platform.time.LocalDate.Companion.HOUR_LENGTH
-import org.isoron.platform.time.LocalDate.Companion.MINUTE_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.getLocalTime
-import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
 import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
+import org.isoron.platform.time.LocalDate.Companion.getStartOfTodayWithOffset
 import org.isoron.platform.time.LocalDate.Companion.getTimeZone
+import org.isoron.platform.time.LocalDate.Companion.startDayHourOffset
+import org.isoron.platform.time.LocalDate.Companion.startDayMinuteOffset
 import org.isoron.uhabits.core.models.Timestamp
 import java.util.Calendar
 import java.util.Calendar.DAY_OF_MONTH
@@ -36,12 +36,9 @@ import java.util.Calendar.SHORT
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
-import kotlin.collections.ArrayList
 
 abstract class DateUtils {
     companion object {
-        private var startDayHourOffset: Int = 0
-        private var startDayMinuteOffset: Int = 0
 
         @JvmStatic
         fun applyTimezone(localTimestamp: Long): Long {
@@ -148,19 +145,10 @@ abstract class DateUtils {
         fun getTodayWithOffset(): Timestamp = Timestamp(getStartOfTodayWithOffset())
 
         @JvmStatic
-        fun getStartOfDayWithOffset(timestamp: Long): Long {
-            val offset = startDayHourOffset * HOUR_LENGTH + startDayMinuteOffset * MINUTE_LENGTH
-            return getStartOfDay(timestamp - offset)
-        }
-
-        @JvmStatic
         fun getStartOfTomorrowWithOffset(): Long = getUpcomingTimeInMillis(
             startDayHourOffset,
             startDayMinuteOffset
         )
-
-        @JvmStatic
-        fun getStartOfTodayWithOffset(): Long = getStartOfDayWithOffset(getLocalTime())
 
         @JvmStatic
         fun millisecondsUntilTomorrowWithOffset(): Long =
@@ -177,12 +165,6 @@ abstract class DateUtils {
         fun removeTimezone(timestamp: Long): Long {
             val tz = getTimeZone()
             return timestamp + (tz.offsetAt(Instant.fromEpochMilliseconds(timestamp)).totalSeconds * 1000)
-        }
-
-        @JvmStatic
-        fun setStartDayOffset(hourOffset: Int, minuteOffset: Int) {
-            startDayHourOffset = hourOffset
-            startDayMinuteOffset = minuteOffset
         }
 
         private fun getLocale(): Locale {
