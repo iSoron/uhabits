@@ -234,15 +234,6 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
-    fun testGetUpcomingTimeInMillis() {
-        LocalDate.fixedLocalTime = FIXED_LOCAL_TIME
-        LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
-        val expected = unixTime(2015, Calendar.JANUARY, 25, 10, 1)
-        val upcomingTimeMillis = DateUtils.getUpcomingTimeInMillis(10, 1)
-        assertThat(expected, equalTo(upcomingTimeMillis))
-    }
-
-    @Test
     @Throws(Exception::class)
     fun testMillisecondsUntilTomorrow() {
         LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
@@ -264,17 +255,6 @@ class DateUtilsTest : BaseUnitTest() {
             millisecondsUntilTomorrowWithOffset(),
             equalTo(2 * HOUR_LENGTH + 30 * MINUTE_LENGTH)
         )
-    }
-
-    @Test
-    fun testGetStartOfTodayCalendar() {
-        LocalDate.fixedLocalTime = FIXED_LOCAL_TIME
-        LocalDate.fixedLocale = Locale.forLanguageTag("de-de")
-        val expectedStartOfDay = unixTime(2015, Calendar.JANUARY, 25, 0, 0)
-        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), java.util.Locale.GERMANY)
-        expectedCalendar.timeInMillis = expectedStartOfDay
-        val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
-        assertThat(expectedCalendar, equalTo(startOfTodayCalendar))
     }
 
     @Test

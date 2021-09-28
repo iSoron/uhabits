@@ -19,16 +19,20 @@
 
 package org.isoron.platform.time
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.isoron.platform.core.BaseUnitTest
 import org.isoron.platform.time.LocalDate.Companion.applyTimezone
 import org.isoron.platform.time.LocalDate.Companion.getStartOfDay
 import org.isoron.platform.time.LocalDate.Companion.getStartOfDayWithOffset
 import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
+import org.isoron.platform.time.LocalDate.Companion.getStartOfTodayLocalDateTime
 import org.isoron.platform.time.LocalDate.Companion.getStartOfTodayWithOffset
+import org.isoron.platform.time.LocalDate.Companion.getUpcomingTimeInMillis
 import org.isoron.platform.time.LocalDate.Companion.getWeekdaySequence
 import org.isoron.platform.time.LocalDate.Companion.removeTimezone
 import kotlin.test.Test
@@ -115,6 +119,16 @@ class DatesTest : BaseUnitTest() {
         LocalDate.fixedLocalTime = afterOffset
         val startOfTodayWithOffset = getStartOfTodayWithOffset()
         assertEquals(startOfToday, startOfTodayWithOffset)
+    }
+
+    @Test
+    fun testGetStartOfTodayLocalDateTime() {
+        LocalDate.fixedLocalTime = FIXED_LOCAL_TIME
+        val startOfDay = unixTime(2015, Month.JANUARY, 25, 0, 0)
+        val expectedLocalDateTime = Instant.fromEpochMilliseconds(startOfDay).toLocalDateTime(
+            TimeZone.UTC
+        )
+        assertEquals(expectedLocalDateTime, getStartOfTodayLocalDateTime())
     }
 
     @Test
@@ -258,7 +272,7 @@ class DatesTest : BaseUnitTest() {
 
     @Test
     fun test_removeTimezone() {
-        LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.of("Australia/Sydney")
+        LocalDate.fixedTimeZone = TimeZone.of("Australia/Sydney")
         assertEquals(
             removeTimezone(unixTime(2017, Month.JULY, 30, 8, 0)),
             unixTime(2017, Month.JULY, 30, 18, 0)
@@ -393,6 +407,15 @@ class DatesTest : BaseUnitTest() {
             removeTimezone(unixTime(2018, Month.APRIL, 1, 8, 0)),
             unixTime(2018, Month.APRIL, 1, 18, 0)
         )
+    }
+
+    @Test
+    fun testGetUpcomingTimeInMillis() {
+        LocalDate.fixedLocalTime = FIXED_LOCAL_TIME
+        LocalDate.fixedTimeZone = TimeZone.UTC
+        val expected = unixTime(2015, Month.JANUARY, 25, 10, 1)
+        val upcomingTimeMillis = getUpcomingTimeInMillis(10, 1)
+        assertEquals(expected, upcomingTimeMillis)
     }
 
     private fun unixTime(year: Int, month: Month, day: Int): Long {

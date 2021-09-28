@@ -21,13 +21,13 @@ package org.isoron.uhabits.receivers
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import org.isoron.platform.time.LocalDate.Companion.getUpcomingTimeInMillis
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.reminders.ReminderScheduler
 import org.isoron.uhabits.core.ui.NotificationTray
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getUpcomingTimeInMillis
 import org.isoron.uhabits.notifications.SnoozeDelayPickerActivity
 import javax.inject.Inject
 

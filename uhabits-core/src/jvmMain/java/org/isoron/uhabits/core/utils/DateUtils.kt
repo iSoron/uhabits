@@ -19,12 +19,10 @@
 package org.isoron.uhabits.core.utils
 
 import org.isoron.platform.time.LocalDate
-import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
-import org.isoron.platform.time.LocalDate.Companion.applyTimezone
 import org.isoron.platform.time.LocalDate.Companion.getLocalTime
 import org.isoron.platform.time.LocalDate.Companion.getStartOfToday
 import org.isoron.platform.time.LocalDate.Companion.getStartOfTodayWithOffset
-import org.isoron.platform.time.LocalDate.Companion.getTimeZone
+import org.isoron.platform.time.LocalDate.Companion.getUpcomingTimeInMillis
 import org.isoron.platform.time.LocalDate.Companion.startDayHourOffset
 import org.isoron.platform.time.LocalDate.Companion.startDayMinuteOffset
 import org.isoron.uhabits.core.models.Timestamp
@@ -207,24 +205,6 @@ abstract class DateUtils {
                     cal.timeInMillis
                 }
             }
-        }
-
-        @JvmStatic
-        fun getUpcomingTimeInMillis(
-            hour: Int,
-            minute: Int
-        ): Long {
-            val calendar = getStartOfTodayCalendar()
-            calendar.set(Calendar.HOUR_OF_DAY, hour)
-            calendar.set(Calendar.MINUTE, minute)
-            calendar.set(Calendar.SECOND, 0)
-            var time = calendar.timeInMillis
-
-            if (getLocalTime() > time) {
-                time += DAY_LENGTH
-            }
-
-            return applyTimezone(time)
         }
     }
 

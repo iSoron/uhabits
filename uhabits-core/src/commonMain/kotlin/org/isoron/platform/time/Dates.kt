@@ -22,8 +22,11 @@ package org.isoron.platform.time
 import io.fluidsonic.locale.Locale
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.isoron.platform.i18n.getDefault
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -232,13 +235,43 @@ data class LocalDate(val daysSince2000: Int) {
             return localTimestamp - offsetDifference
         }
 
-        fun removeTimezone(timestamp: Long): Long {
+        fun removeTimezone(timestampInMillis: Long): Long {
             val tz = getTimeZone()
-            return timestamp + (
+            return timestampInMillis + (
                 tz.offsetAt(
-                    Instant.fromEpochMilliseconds(timestamp)
+                    Instant.fromEpochMilliseconds(timestampInMillis)
                 ).totalSeconds * 1000
                 )
+        }
+
+        fun getStartOfTodayLocalDateTime(): LocalDateTime = getLocalDateTime(getStartOfToday())
+
+        private fun getLocalDateTime(timestamp: Long): LocalDateTime {
+            return Instant.fromEpochMilliseconds(timestamp).toLocalDateTime(TimeZone.UTC)
+        }
+
+        fun getUpcomingTimeInMillis(
+            hour: Int,
+            minute: Int
+        ): Long {
+            val startOfToday = getStartOfTodayLocalDateTime()
+            var time =
+                LocalDateTime(
+                    year = startOfToday.year,
+                    month = startOfToday.month,
+                    dayOfMonth = startOfToday.dayOfMonth,
+                    hour = hour,
+                    minute = minute,
+                    second = 0
+                ).toInstant(
+                    getTimeZone()
+                ).toEpochMilliseconds()
+
+            if (getLocalTime() > time) {
+                time += DAY_LENGTH
+            }
+
+            return applyTimezone(time)
         }
     }
 }
