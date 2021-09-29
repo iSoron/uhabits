@@ -28,6 +28,7 @@ import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.edit.formatFrequency
 import org.isoron.uhabits.activities.habits.list.views.toShortString
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
 import org.isoron.uhabits.utils.InterfaceUtils
@@ -65,7 +66,12 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         binding.questionLabel.visibility = View.VISIBLE
         binding.targetIcon.visibility = View.VISIBLE
         binding.targetText.visibility = View.VISIBLE
-        if (!state.isNumerical) {
+        if (state.isNumerical) {
+            binding.targetIcon.text = when (state.targetType) {
+                NumericalHabitType.AT_LEAST -> resources.getString(R.string.fa_arrow_circle_up)
+                else -> resources.getString(R.string.fa_arrow_circle_down)
+            }
+        } else {
             binding.targetIcon.visibility = View.GONE
             binding.targetText.visibility = View.GONE
         }

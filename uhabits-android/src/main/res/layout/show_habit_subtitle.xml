@@ -47,7 +47,6 @@
             android:id="@+id/targetIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fa_arrow_circle_up"
             android:textColor="?attr/contrast60"
             android:textSize="16sp" />
 
