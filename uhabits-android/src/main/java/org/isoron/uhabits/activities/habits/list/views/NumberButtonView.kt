@@ -34,6 +34,7 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sres
 import java.lang.Double.max
@@ -156,8 +157,6 @@ class NumberButtonView(
             textAlign = Paint.Align.CENTER
         }
 
-        private val pNotesIndicator: Paint = Paint()
-
         init {
             em = pNumber.measureText("m")
             lowContrast = sres.getColor(R.attr.contrast40)
@@ -205,7 +204,6 @@ class NumberButtonView(
             pNumber.color = activeColor
             pNumber.typeface = typeface
             pUnit.color = activeColor
-            pNotesIndicator.color = color
 
             if (units.isBlank()) {
                 rect.set(0f, 0f, width.toFloat(), height.toFloat())
@@ -218,10 +216,7 @@ class NumberButtonView(
                 canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
             }
 
-            if (hasNotes) {
-                val cy = 0.8f * em
-                canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
-            }
+            drawNotesIndicator(canvas, color, em, hasNotes)
         }
     }
 }

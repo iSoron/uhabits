@@ -32,8 +32,9 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
 
-fun interface OnDateClickedListener {
-    fun onDateClicked(date: LocalDate, isLongClick: Boolean)
+interface OnDateClickedListener {
+    fun onDateShortPress(date: LocalDate) {}
+    fun onDateLongPress(date: LocalDate) {}
 }
 
 class HistoryChart(
@@ -45,7 +46,7 @@ class HistoryChart(
     var hasNotes: List<Boolean>,
     var theme: Theme,
     var today: LocalDate,
-    var onDateClickedListener: OnDateClickedListener = OnDateClickedListener { _, _ -> },
+    var onDateClickedListener: OnDateClickedListener = object : OnDateClickedListener {},
     var padding: Double = 0.0,
 ) : DataView {
 
@@ -88,7 +89,11 @@ class HistoryChart(
         if (row == 0 || col == nColumns) return
         val clickedDate = topLeftDate.plus(offset)
         if (clickedDate.isNewerThan(today)) return
-        onDateClickedListener.onDateClicked(clickedDate, isLongClick)
+        if (isLongClick) {
+            onDateClickedListener.onDateLongPress(clickedDate)
+        } else {
+            onDateClickedListener.onDateShortPress(clickedDate)
+        }
     }
 
     override fun draw(canvas: Canvas) {

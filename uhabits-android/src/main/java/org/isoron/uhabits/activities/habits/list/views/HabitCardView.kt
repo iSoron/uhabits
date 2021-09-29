@@ -115,11 +115,11 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
-    var notes
-        get() = checkmarkPanel.notes
+    var notesIndicators
+        get() = checkmarkPanel.notesIndicators
         set(values) {
-            checkmarkPanel.notes = values
-            numberPanel.notes = values
+            checkmarkPanel.notesIndicators = values
+            numberPanel.notesIndicators = values
         }
 
     var checkmarkPanel: CheckmarkPanelView

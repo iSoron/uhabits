@@ -59,54 +59,69 @@ class HistoryCardPresenter(
     val screen: Screen,
 ) : OnDateClickedListener {
 
-    override fun onDateClicked(date: LocalDate, isLongClick: Boolean) {
+    override fun onDateShortPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
-        val entries = habit.computedEntries
-        val oldValue = entries.get(timestamp).value
-        val notes = entries.get(timestamp).notes
         if (habit.isNumerical) {
-            screen.showNumberPicker(oldValue / 1000.0, habit.unit, notes) { newValue: Double, newNotes: String ->
-                val thousands = (newValue * 1000).roundToInt()
-                commandRunner.run(
-                    CreateRepetitionCommand(
-                        habitList,
-                        habit,
-                        timestamp,
-                        thousands,
-                        newNotes,
-                    ),
-                )
-            }
+            showNumberPicker(timestamp)
         } else {
-            if (!isLongClick) {
-                val nextValue = Entry.nextToggleValue(
-                    value = oldValue,
-                    isSkipEnabled = preferences.isSkipEnabled,
-                    areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
-                )
+            val entry = habit.computedEntries.get(timestamp)
+            val nextValue = Entry.nextToggleValue(
+                value = entry.value,
+                isSkipEnabled = preferences.isSkipEnabled,
+                areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
+            )
+            commandRunner.run(
+                CreateRepetitionCommand(
+                    habitList,
+                    habit,
+                    timestamp,
+                    nextValue,
+                    entry.notes,
+                ),
+            )
+        }
+    }
+
+    override fun onDateLongPress(date: LocalDate) {
+        val timestamp = Timestamp.fromLocalDate(date)
+        screen.showFeedback()
+        if (habit.isNumerical) {
+            showNumberPicker(timestamp)
+        } else {
+            val entry = habit.computedEntries.get(timestamp)
+            screen.showCheckmarkDialog(entry.notes) { newNotes ->
                 commandRunner.run(
                     CreateRepetitionCommand(
                         habitList,
                         habit,
                         timestamp,
-                        nextValue,
-                        notes,
-                    ),
-                )
-                return
-            }
-            screen.showCheckmarkDialog(notes) { newNotes ->
-                commandRunner.run(
-                    CreateRepetitionCommand(
-                        habitList,
-                        habit,
-                        timestamp,
-                        oldValue,
+                        entry.value,
                         newNotes,
                     ),
                 )
             }
+        }
+    }
+
+    private fun showNumberPicker(timestamp: Timestamp) {
+        val entry = habit.computedEntries.get(timestamp)
+        val oldValue = entry.value
+        screen.showNumberPicker(
+            oldValue / 1000.0,
+            habit.unit,
+            entry.notes
+        ) { newValue: Double, newNotes: String ->
+            val thousands = (newValue * 1000).roundToInt()
+            commandRunner.run(
+                CreateRepetitionCommand(
+                    habitList,
+                    habit,
+                    timestamp,
+                    thousands,
+                    newNotes,
+                ),
+            )
         }
     }
 
@@ -167,7 +182,7 @@ class HistoryCardPresenter(
                 today = today.toLocalDate(),
                 theme = theme,
                 series = series,
-                defaultSquare = defaultSquare
+                defaultSquare = defaultSquare,
                 hasNotes = hasNotes,
             )
         }

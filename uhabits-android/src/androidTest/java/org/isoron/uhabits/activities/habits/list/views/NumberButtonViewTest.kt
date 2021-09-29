@@ -116,15 +116,7 @@ class NumberButtonViewTest : BaseViewTest() {
     }
 
     @Test
-    fun testClick_shortToggleDisabled() {
-        prefs.isShortToggleEnabled = false
-        view.performClick()
-        assertTrue(edited)
-    }
-
-    @Test
-    fun testClick_shortToggleEnabled() {
-        prefs.isShortToggleEnabled = true
+    fun testClick() {
         view.performClick()
         assertTrue(edited)
     }

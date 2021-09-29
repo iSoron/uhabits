@@ -48,24 +48,22 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
-        val entries = habit.computedEntries.get(timestamp!!)
-        val notes = entries.notes
+        val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
-            val oldValue = entries.value.toDouble()
+            val oldValue = entry.value.toDouble()
             screen.showNumberPicker(
                 oldValue / 1000,
                 habit.unit,
-                notes
+                entry.notes
             ) { newValue: Double, newNotes: String, ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
         } else {
-            val value = entries.value
             screen.showCheckmarkDialog(
-                notes
+                entry.notes
             ) { newNotes ->
-                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
+                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, entry.value, newNotes))
             }
         }
     }

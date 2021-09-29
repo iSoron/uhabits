@@ -298,14 +298,14 @@ class HabitCardListCache @Inject constructor(
                 if (targetId != null && targetId != habit.id) continue
                 newData.scores[habit.id] = habit.scores[today].value
                 val list: MutableList<Int> = ArrayList()
-                val notesList: MutableList<Boolean> = ArrayList()
+                val notesIndicators: MutableList<Boolean> = ArrayList()
                 for ((_, value, note) in habit.computedEntries.getByInterval(dateFrom, today)) {
                     list.add(value)
-                    if (note.isNotEmpty()) notesList.add(true) else notesList.add(false)
+                    notesIndicators.add(note.isNotEmpty())
                 }
                 val entries = list.toTypedArray()
                 newData.checkmarks[habit.id] = ArrayUtils.toPrimitive(entries)
-                newData.notesIndicators[habit.id] = notesList.toBooleanArray()
+                newData.notesIndicators[habit.id] = notesIndicators.toBooleanArray()
                 runner!!.publishProgress(this, position)
             }
         }

@@ -72,7 +72,7 @@ class NumberPanelView(
             setupButtons()
         }
 
-    var notes = BooleanArray(0)
+    var notesIndicators = BooleanArray(0)
         set(values) {
             field = values
             setupButtons()
@@ -97,7 +97,7 @@ class NumberPanelView(
                 else -> 0.0
             }
             button.hasNotes = when {
-                index + dataOffset < notes.size -> notes[index + dataOffset]
+                index + dataOffset < notesIndicators.size -> notesIndicators[index + dataOffset]
                 else -> false
             }
             button.color = color

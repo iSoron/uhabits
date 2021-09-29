@@ -66,7 +66,7 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
             hasNotes = emptyList(),
             theme = themeSwitcher.currentTheme,
             today = DateUtils.getTodayWithOffset().toLocalDate(),
-            onDateClickedListener = onDateClickedListener ?: OnDateClickedListener { _, _ -> },
+            onDateClickedListener = onDateClickedListener ?: object : OnDateClickedListener {},
             padding = 10.0,
         )
         dataView = AndroidDataView(context!!, null)

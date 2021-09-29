@@ -38,43 +38,38 @@ class WidgetBehavior @Inject constructor(
     fun onAddRepetition(habit: Habit, timestamp: Timestamp?) {
         notificationTray.cancel(habit)
         val entry = habit.originalEntries.get(timestamp!!)
-        val notes = entry.notes
-        setValue(habit, timestamp, Entry.YES_MANUAL, notes)
+        setValue(habit, timestamp, Entry.YES_MANUAL, entry.notes)
     }
 
     fun onRemoveRepetition(habit: Habit, timestamp: Timestamp?) {
         notificationTray.cancel(habit)
         val entry = habit.originalEntries.get(timestamp!!)
-        val notes = entry.notes
-        setValue(habit, timestamp, Entry.NO, notes)
+        setValue(habit, timestamp, Entry.NO, entry.notes)
     }
 
     fun onToggleRepetition(habit: Habit, timestamp: Timestamp) {
         val entry = habit.originalEntries.get(timestamp)
         val currentValue = entry.value
-        val notes = entry.notes
         val newValue = nextToggleValue(
             value = currentValue,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        setValue(habit, timestamp, newValue, notes)
+        setValue(habit, timestamp, newValue, entry.notes)
         notificationTray.cancel(habit)
     }
 
     fun onIncrement(habit: Habit, timestamp: Timestamp, amount: Int) {
         val entry = habit.computedEntries.get(timestamp)
         val currentValue = entry.value
-        val notes = entry.notes
-        setValue(habit, timestamp, currentValue + amount, notes)
+        setValue(habit, timestamp, currentValue + amount, entry.notes)
         notificationTray.cancel(habit)
     }
 
     fun onDecrement(habit: Habit, timestamp: Timestamp, amount: Int) {
         val entry = habit.computedEntries.get(timestamp)
         val currentValue = entry.value
-        val notes = entry.notes
-        setValue(habit, timestamp, currentValue - amount, notes)
+        setValue(habit, timestamp, currentValue - amount, entry.notes)
         notificationTray.cancel(habit)
     }
 

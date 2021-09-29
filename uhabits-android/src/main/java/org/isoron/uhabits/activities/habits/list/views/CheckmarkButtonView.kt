@@ -38,6 +38,7 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
@@ -104,7 +105,8 @@ class CheckmarkButtonView(
     }
 
     override fun onLongClick(v: View): Boolean {
-        performToggle()
+        if (preferences.isShortToggleEnabled) onEdit()
+        else performToggle()
         return true
     }
 
@@ -134,8 +136,6 @@ class CheckmarkButtonView(
             textAlign = Paint.Align.CENTER
         }
 
-        private val pNotesIndicator: Paint = Paint()
-
         fun draw(canvas: Canvas) {
             paint.color = when (value) {
                 YES_MANUAL, YES_AUTO, SKIP -> color
@@ -145,7 +145,6 @@ class CheckmarkButtonView(
                 }
                 else -> lowContrastColor
             }
-            pNotesIndicator.color = color
             val id = when (value) {
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
@@ -181,10 +180,7 @@ class CheckmarkButtonView(
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
             }
 
-            if (hasNotes) {
-                val cy = 0.8f * em
-                canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
-            }
+            drawNotesIndicator(canvas, color, em, hasNotes)
         }
     }
 }
