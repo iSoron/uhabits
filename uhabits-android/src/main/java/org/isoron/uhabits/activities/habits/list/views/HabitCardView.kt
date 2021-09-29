@@ -236,6 +236,7 @@ class HabitCardView(
         numberPanel.apply {
             color = c
             units = h.unit
+            targetType = h.targetType
             threshold = h.targetValue
             visibility = when (h.isNumerical) {
                 true -> View.VISIBLE

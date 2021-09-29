@@ -62,6 +62,7 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
             firstWeekday = preferences.firstWeekday,
             paletteColor = habit.color,
             series = emptyList(),
+            defaultSquare = HistoryChart.Square.OFF,
             theme = themeSwitcher.currentTheme,
             today = DateUtils.getTodayWithOffset().toLocalDate(),
             onDateClickedListener = onDateClickedListener ?: OnDateClickedListener { },
@@ -101,6 +102,7 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
             theme = LightTheme()
         )
         chart?.series = model.series
+        chart?.defaultSquare = model.defaultSquare
         dataView.postInvalidate()
     }
 

@@ -50,6 +50,19 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
         return habit
     }
 
+    fun createEmptyNumericalHabit(targetType: NumericalHabitType): Habit {
+        val habit = modelFactory.buildHabit()
+        habit.type = HabitType.NUMERICAL
+        habit.name = "Run"
+        habit.question = "How many miles did you run today?"
+        habit.unit = "miles"
+        habit.targetType = targetType
+        habit.targetValue = 2.0
+        habit.color = PaletteColor(1)
+        saveIfSQLite(habit)
+        return habit
+    }
+
     fun createLongHabit(): Habit {
         val habit = createEmptyHabit()
         habit.frequency = Frequency(3, 7)
