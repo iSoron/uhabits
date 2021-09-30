@@ -43,7 +43,7 @@ class HistoryChart(
     var paletteColor: PaletteColor,
     var series: List<Square>,
     var defaultSquare: Square,
-    var hasNotes: List<Boolean>,
+    var notesIndicators: List<Boolean>,
     var theme: Theme,
     var today: LocalDate,
     var onDateClickedListener: OnDateClickedListener = object : OnDateClickedListener {},
@@ -205,7 +205,7 @@ class HistoryChart(
     ) {
 
         val value = if (offset >= series.size) defaultSquare else series[offset]
-        val notes = if (offset >= hasNotes.size) false else hasNotes[offset]
+        val hasNotes = if (offset >= notesIndicators.size) false else notesIndicators[offset]
         val squareColor: Color
         val circleColor: Color
         val color = theme.color(paletteColor.paletteIndex)
@@ -252,7 +252,7 @@ class HistoryChart(
         canvas.setTextAlign(TextAlign.CENTER)
         canvas.drawText(date.day.toString(), x + width / 2, y + width / 2)
 
-        if (notes) {
+        if (hasNotes) {
             circleColor = when (value) {
                 Square.ON -> theme.lowContrastTextColor
                 else -> color

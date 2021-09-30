@@ -44,7 +44,7 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
             series = state.series,
             defaultSquare = state.defaultSquare,
-            hasNotes = state.hasNotes,
+            notesIndicators = state.notesIndicators,
             firstWeekday = state.firstWeekday,
         )
         binding.chart.postInvalidate()

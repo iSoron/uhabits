@@ -59,7 +59,7 @@ class HistoryWidget(
             val historyChart = (this.view as HistoryChart)
             historyChart.series = model.series
             historyChart.defaultSquare = model.defaultSquare
-            historyChart.hasNotes = model.hasNotes
+            historyChart.notesIndicators = model.notesIndicators
         }
     }
 
@@ -75,7 +75,7 @@ class HistoryWidget(
                     firstWeekday = prefs.firstWeekday,
                     series = listOf(),
                     defaultSquare = HistoryChart.Square.OFF,
-                    hasNotes = listOf(),
+                    notesIndicators = listOf(),
                 )
             }
         ).apply {

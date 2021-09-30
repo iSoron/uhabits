@@ -46,7 +46,7 @@ data class HistoryCardState(
     val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
     val defaultSquare: HistoryChart.Square,
-    val hasNotes: List<Boolean>,
+    val notesIndicators: List<Boolean>,
     val theme: Theme,
     val today: LocalDate,
 )
@@ -169,7 +169,7 @@ class HistoryCardPresenter(
             else
                 HistoryChart.Square.OFF
 
-            val hasNotes = entries.map {
+            val notesIndicators = entries.map {
                 when (it.notes) {
                     "" -> false
                     else -> true
@@ -183,7 +183,7 @@ class HistoryCardPresenter(
                 theme = theme,
                 series = series,
                 defaultSquare = defaultSquare,
-                hasNotes = hasNotes,
+                notesIndicators = notesIndicators,
             )
         }
     }
