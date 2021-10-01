@@ -108,7 +108,7 @@ dependencies {
     implementation("com.github.AppIntro:AppIntro:6.1.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
-    implementation("com.google.guava:guava:30.1.1-android")
+    implementation("com.google.guava:guava:31.0.1-android")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-jackson:$ktorVersion")

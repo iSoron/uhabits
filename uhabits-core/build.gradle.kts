@@ -44,7 +44,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
                 compileOnly("com.google.dagger:dagger:2.39")
-                implementation("com.google.guava:guava:30.1.1-android")
+                implementation("com.google.guava:guava:31.0.1-android")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2")
                 implementation("androidx.annotation:annotation:1.2.0")
