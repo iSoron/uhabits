@@ -110,7 +110,8 @@ class HistoryCardPresenter(
         screen.showNumberPicker(
             oldValue / 1000.0,
             habit.unit,
-            entry.notes
+            entry.notes,
+            timestamp.toDialogDateString(),
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -195,6 +196,7 @@ class HistoryCardPresenter(
             value: Double,
             unit: String,
             notes: String,
+            dateString: String,
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
         fun showCheckmarkDialog(

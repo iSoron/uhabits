@@ -80,6 +80,7 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
             entry.value / 1000.0,
             data.habit.unit,
             entry.notes,
+            today.toDialogDateString(),
             this
         ).show()
     }

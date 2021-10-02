@@ -79,7 +79,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Test
     fun testOnEdit() {
         behavior.onEdit(habit2, getToday())
-        verify(screen).showNumberPicker(eq(0.1), eq("miles"), eq(""), picker.capture())
+        verify(screen).showNumberPicker(eq(0.1), eq("miles"), eq(""), eq("Jan 25, 2015"), picker.capture())
         picker.lastValue.onNumberPicked(100.0, "")
         val today = getTodayWithOffset()
         assertThat(habit2.computedEntries.get(today).value, equalTo(100000))

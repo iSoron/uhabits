@@ -228,9 +228,10 @@ class ListHabitsScreen
         value: Double,
         unit: String,
         notes: String,
+        dateString: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
-        numberPickerFactory.create(value, unit, notes, callback).show()
+        numberPickerFactory.create(value, unit, notes, dateString, callback).show()
     }
 
     override fun showCheckmarkDialog(

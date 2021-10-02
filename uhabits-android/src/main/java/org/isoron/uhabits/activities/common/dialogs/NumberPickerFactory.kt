@@ -48,6 +48,7 @@ class NumberPickerFactory
         value: Double,
         unit: String,
         notes: String,
+        dateString: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
         val inflater = LayoutInflater.from(context)
@@ -82,7 +83,7 @@ class NumberPickerFactory
         etNotes.setText(notes)
         val dialog = AlertDialog.Builder(context)
             .setView(view)
-            .setTitle(R.string.change_value)
+            .setTitle(dateString)
             .setPositiveButton(R.string.save) { _, _ ->
                 picker.clearFocus()
                 val v = picker.value + 0.01 * picker2.value

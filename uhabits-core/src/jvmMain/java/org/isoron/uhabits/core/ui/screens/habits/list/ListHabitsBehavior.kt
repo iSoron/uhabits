@@ -54,7 +54,8 @@ open class ListHabitsBehavior @Inject constructor(
             screen.showNumberPicker(
                 oldValue / 1000,
                 habit.unit,
-                entry.notes
+                entry.notes,
+                timestamp.toDialogDateString(),
             ) { newValue: Double, newNotes: String, ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
@@ -159,6 +160,7 @@ open class ListHabitsBehavior @Inject constructor(
             value: Double,
             unit: String,
             notes: String,
+            dateString: String,
             callback: NumberPickerCallback
         )
         fun showCheckmarkDialog(

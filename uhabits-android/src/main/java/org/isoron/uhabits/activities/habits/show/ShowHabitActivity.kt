@@ -166,9 +166,10 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             value: Double,
             unit: String,
             notes: String,
+            dateString: String,
             callback: ListHabitsBehavior.NumberPickerCallback,
         ) {
-            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, callback).show()
+            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, dateString, callback).show()
         }
 
         override fun showCheckmarkDialog(
