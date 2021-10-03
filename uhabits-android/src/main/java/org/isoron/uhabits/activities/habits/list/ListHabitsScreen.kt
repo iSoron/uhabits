@@ -235,10 +235,13 @@ class ListHabitsScreen
     }
 
     override fun showCheckmarkDialog(
+        value: Int,
         notes: String,
+        dateString: String,
+        color: PaletteColor,
         callback: ListHabitsBehavior.CheckMarkDialogCallback
     ) {
-        checkMarkDialog.create(notes, callback).show()
+        checkMarkDialog.create(value, notes, dateString, color, callback).show()
     }
 
     private fun getExecuteString(command: Command): String? {

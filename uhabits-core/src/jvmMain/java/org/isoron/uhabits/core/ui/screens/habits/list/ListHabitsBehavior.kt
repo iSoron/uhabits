@@ -23,6 +23,7 @@ import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.ExportCSVTask
@@ -62,9 +63,12 @@ open class ListHabitsBehavior @Inject constructor(
             }
         } else {
             screen.showCheckmarkDialog(
-                entry.notes
-            ) { newNotes ->
-                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, entry.value, newNotes))
+                entry.value,
+                entry.notes,
+                timestamp.toDialogDateString(),
+                habit.color,
+            ) { newValue, newNotes ->
+                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
         }
     }
@@ -148,7 +152,7 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun interface CheckMarkDialogCallback {
-        fun onNotesSaved(notes: String)
+        fun onNotesSaved(value: Int, notes: String)
         fun onNotesDismissed() {}
     }
 
@@ -164,7 +168,10 @@ open class ListHabitsBehavior @Inject constructor(
             callback: NumberPickerCallback
         )
         fun showCheckmarkDialog(
+            value: Int,
             notes: String,
+            dateString: String,
+            color: PaletteColor,
             callback: CheckMarkDialogCallback
         )
 

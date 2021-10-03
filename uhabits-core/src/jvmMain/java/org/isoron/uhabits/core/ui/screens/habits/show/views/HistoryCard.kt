@@ -90,13 +90,19 @@ class HistoryCardPresenter(
             showNumberPicker(timestamp)
         } else {
             val entry = habit.computedEntries.get(timestamp)
-            screen.showCheckmarkDialog(entry.notes) { newNotes ->
+            screen.showCheckmarkDialog(
+                entry.value,
+                entry.notes,
+                timestamp.toDialogDateString(),
+                preferences,
+                habit.color,
+            ) { newValue, newNotes ->
                 commandRunner.run(
                     CreateRepetitionCommand(
                         habitList,
                         habit,
                         timestamp,
-                        entry.value,
+                        newValue,
                         newNotes,
                     ),
                 )
@@ -200,7 +206,11 @@ class HistoryCardPresenter(
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
         fun showCheckmarkDialog(
+            value: Int,
             notes: String,
+            dateString: String,
+            preferences: Preferences,
+            color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback,
         )
     }

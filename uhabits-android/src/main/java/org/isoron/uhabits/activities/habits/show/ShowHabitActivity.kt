@@ -39,6 +39,7 @@ import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
@@ -173,10 +174,14 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         }
 
         override fun showCheckmarkDialog(
+            value: Int,
             notes: String,
+            dateString: String,
+            preferences: Preferences,
+            color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback
         ) {
-            CheckmarkDialog(this@ShowHabitActivity).create(notes, callback).show()
+            CheckmarkDialog(this@ShowHabitActivity, preferences).create(value, notes, dateString, color, callback).show()
         }
 
         override fun showEditHabitScreen(habit: Habit) {

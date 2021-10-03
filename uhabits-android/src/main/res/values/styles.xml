@@ -387,4 +387,16 @@
         <item name="android:textSize">@dimen/smallTextSize</item>
     </style>
 
+    <style name="CheckmarkDialogBtn">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/bg_select_button</item>
+        <item name="selectable">true</item>
+    </style>
+
 </resources>
