@@ -77,11 +77,11 @@ abstract class DateUtils {
         }
 
         @JvmStatic
-        fun getLocalTime(testTimeInMillis: Long? = null): Long {
+        fun getLocalTime(utcTimeInMillis: Long? = null): Long {
             if (fixedLocalTime != null) return fixedLocalTime as Long
 
             val tz = getTimeZone()
-            val now = testTimeInMillis ?: Date().time
+            val now = utcTimeInMillis ?: Date().time
             return now + tz.getOffset(now)
         }
 
