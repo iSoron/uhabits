@@ -144,9 +144,7 @@ class DateUtilsTest : BaseUnitTest() {
 
     @Test
     fun testGetStartOfTomorrowWithOffset_priorToOffset() {
-        val hourOffset = 3
-        setStartDayOffset(hourOffset, 0)
-        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val hourOffset = configureAndGetHourOffset()
         val startOfTomorrowWithOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset, 0)
         val priorToOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset - 1, 0)
         setFixedLocalTime(priorToOffset)
@@ -156,9 +154,7 @@ class DateUtilsTest : BaseUnitTest() {
 
     @Test
     fun testGetStartOfTomorrowWithOffset_afterOffset() {
-        val hourOffset = 3
-        setStartDayOffset(hourOffset, 0)
-        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val hourOffset = configureAndGetHourOffset()
         val startOfTomorrowWithOffset = unixTime(2017, Calendar.JANUARY, 2, hourOffset, 0)
         val afterOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset + 1, 0)
         setFixedLocalTime(afterOffset)
@@ -168,9 +164,7 @@ class DateUtilsTest : BaseUnitTest() {
 
     @Test
     fun testGetStartOfTodayWithOffset_priorToOffset() {
-        val hourOffset = 3
-        setStartDayOffset(hourOffset, 0)
-        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val hourOffset = configureAndGetHourOffset()
         val startOfYesterday = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
         val priorToOffset = unixTime(2017, Calendar.JANUARY, 2, hourOffset - 1, 0)
         setFixedLocalTime(priorToOffset)
@@ -180,14 +174,19 @@ class DateUtilsTest : BaseUnitTest() {
 
     @Test
     fun testGetStartOfTodayWithOffset_afterOffset() {
-        val hourOffset = 3
-        setStartDayOffset(hourOffset, 0)
-        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val hourOffset = configureAndGetHourOffset()
         val startOfToday = unixTime(2017, Calendar.JANUARY, 1, 0, 0)
         val afterOffset = unixTime(2017, Calendar.JANUARY, 1, hourOffset + 1, 0)
         setFixedLocalTime(afterOffset)
         val startOfTodayWithOffset = DateUtils.getStartOfTodayWithOffset()
         assertThat(startOfToday, equalTo(startOfTodayWithOffset))
+    }
+
+    private fun configureAndGetHourOffset(): Int {
+        val hourOffset = 3
+        setStartDayOffset(hourOffset, 0)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        return hourOffset
     }
 
     @Test
