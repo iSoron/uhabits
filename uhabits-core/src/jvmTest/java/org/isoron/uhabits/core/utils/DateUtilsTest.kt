@@ -22,6 +22,8 @@ import io.fluidsonic.locale.Locale
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.platform.core.BaseUnitTest.Companion.FIXED_LOCAL_TIME
+import org.isoron.platform.time.DatesTest.Companion.HOURS_IN_ONE_DAY
+import org.isoron.platform.time.DatesTest.Companion.HOUR_OFFSET
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.platform.time.LocalDate.Companion.HOUR_LENGTH
@@ -360,10 +362,5 @@ class DateUtilsTest : BaseUnitTest() {
             getTodayWithOffset(),
             equalTo(Timestamp(FIXED_LOCAL_TIME - DAY_LENGTH))
         )
-    }
-
-    companion object {
-        const val HOUR_OFFSET = 3
-        const val HOURS_IN_ONE_DAY = 24
     }
 }

@@ -99,11 +99,10 @@ class DatesTest : BaseUnitTest() {
 
     @Test
     fun testGetStartOfTodayWithOffset_priorToOffset() {
-        val hourOffset = 3
-        LocalDate.setStartDayOffset(hourOffset, 0)
-        LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
+        LocalDate.setStartDayOffset(HOUR_OFFSET, 0)
+        LocalDate.fixedTimeZone = TimeZone.UTC
         val startOfYesterday = unixTime(2017, Month.JANUARY, 1, 0, 0)
-        val priorToOffset = unixTime(2017, Month.JANUARY, 2, hourOffset - 1, 0)
+        val priorToOffset = unixTime(2017, Month.JANUARY, 2, HOUR_OFFSET - 1, 0)
         LocalDate.fixedLocalTime = priorToOffset
         val startOfTodayWithOffset = getStartOfTodayWithOffset()
         assertEquals(startOfYesterday, startOfTodayWithOffset)
@@ -111,11 +110,10 @@ class DatesTest : BaseUnitTest() {
 
     @Test
     fun testGetStartOfTodayWithOffset_afterOffset() {
-        val hourOffset = 3
-        LocalDate.setStartDayOffset(hourOffset, 0)
-        LocalDate.fixedTimeZone = kotlinx.datetime.TimeZone.UTC
+        LocalDate.setStartDayOffset(HOUR_OFFSET, 0)
+        LocalDate.fixedTimeZone = TimeZone.UTC
         val startOfToday = unixTime(2017, Month.JANUARY, 1, 0, 0)
-        val afterOffset = unixTime(2017, Month.JANUARY, 1, hourOffset + 1, 0)
+        val afterOffset = unixTime(2017, Month.JANUARY, 1, HOUR_OFFSET + 1, 0)
         LocalDate.fixedLocalTime = afterOffset
         val startOfTodayWithOffset = getStartOfTodayWithOffset()
         assertEquals(startOfToday, startOfTodayWithOffset)
@@ -419,6 +417,15 @@ class DatesTest : BaseUnitTest() {
     }
 
     @Test
+    fun testGetUpcomingTimeInMillis_withTimeZone() {
+        LocalDate.fixedLocalTime = FIXED_LOCAL_TIME
+        LocalDate.fixedTimeZone = TimeZone.of("GMT-$HOUR_OFFSET")
+        val expected = unixTime(2015, Month.JANUARY, 25, 10, 1)
+        val upcomingTimeMillis = getUpcomingTimeInMillis(10, 1)
+        assertEquals(expected, upcomingTimeMillis)
+    }
+
+    @Test
     fun testDaysSince2000() {
         val zeroDays = daysSince2000(2000, Month.JANUARY, 1)
         assertEquals(0, zeroDays)
@@ -451,6 +458,8 @@ class DatesTest : BaseUnitTest() {
     }
 
     companion object {
+        const val HOUR_OFFSET = 3
+        const val HOURS_IN_ONE_DAY = 24
         const val JAN_1_2000_IN_UNIX_TIME = 946684800000L
     }
 }
