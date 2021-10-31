@@ -36,7 +36,7 @@ class TimestampTest : BaseUnitTest() {
     @Test
     fun testToLocalDate() {
         val timestamp = Timestamp(JAN_1_2000_IN_UNIX_TIME)
-        val expectedLocalDate = LocalDate(2000, Month.JANUARY ,1)
+        val expectedLocalDate = LocalDate(2000, Month.JANUARY, 1)
         assertEquals(expectedLocalDate, timestamp.toLocalDate())
     }
 

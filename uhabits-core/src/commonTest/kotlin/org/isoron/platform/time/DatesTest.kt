@@ -420,16 +420,16 @@ class DatesTest : BaseUnitTest() {
 
     @Test
     fun testDaysSince2000() {
-        val zeroDays =  daysSince2000(2000, Month.JANUARY, 1)
+        val zeroDays = daysSince2000(2000, Month.JANUARY, 1)
         assertEquals(0, zeroDays)
 
-        val oneYearWithLeapYear =  daysSince2000(2001, Month.JANUARY, 1)
+        val oneYearWithLeapYear = daysSince2000(2001, Month.JANUARY, 1)
         assertEquals(366, oneYearWithLeapYear)
 
-        val fourYearsWithLeapYear =  daysSince2000(2004, Month.JANUARY, 1)
+        val fourYearsWithLeapYear = daysSince2000(2004, Month.JANUARY, 1)
         assertEquals(1461, fourYearsWithLeapYear)
 
-        val oneYearPrior =  daysSince2000(1999, Month.JANUARY, 1)
+        val oneYearPrior = daysSince2000(1999, Month.JANUARY, 1)
         assertEquals(-365, oneYearPrior)
     }
 
