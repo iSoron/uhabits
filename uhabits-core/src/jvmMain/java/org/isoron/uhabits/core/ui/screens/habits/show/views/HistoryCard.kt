@@ -29,6 +29,7 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
@@ -44,6 +45,7 @@ data class HistoryCardState(
     val color: PaletteColor,
     val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
+    val defaultSquare: HistoryChart.Square,
     val theme: Theme,
     val today: LocalDate,
 )
@@ -105,12 +107,19 @@ class HistoryCardPresenter(
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today)
             val series = if (habit.isNumerical) {
-                entries.map {
-                    Entry(it.timestamp, max(0, it.value))
-                }.map {
-                    when (it.value) {
-                        0 -> HistoryChart.Square.OFF
-                        else -> HistoryChart.Square.ON
+                if (habit.targetType == NumericalHabitType.AT_LEAST) {
+                    entries.map {
+                        when (max(0, it.value)) {
+                            0 -> HistoryChart.Square.OFF
+                            else -> HistoryChart.Square.ON
+                        }
+                    }
+                } else {
+                    entries.map {
+                        when {
+                            max(0.0, it.value / 1000.0) <= habit.targetValue -> HistoryChart.Square.ON
+                            else -> HistoryChart.Square.OFF
+                        }
                     }
                 }
             } else {
@@ -123,6 +132,10 @@ class HistoryCardPresenter(
                     }
                 }
             }
+            val defaultSquare = if (habit.isNumerical && habit.targetType == NumericalHabitType.AT_MOST)
+                HistoryChart.Square.ON
+            else
+                HistoryChart.Square.OFF
 
             return HistoryCardState(
                 color = habit.color,
@@ -130,6 +143,7 @@ class HistoryCardPresenter(
                 today = today.toLocalDate(),
                 theme = theme,
                 series = series,
+                defaultSquare = defaultSquare
             )
         }
     }

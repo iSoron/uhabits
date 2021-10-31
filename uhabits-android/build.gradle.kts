@@ -86,10 +86,10 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.38.1"
-    val kotlinVersion = "1.5.30"
-    val kxCoroutinesVersion = "1.5.1"
-    val ktorVersion = "1.6.3"
+    val daggerVersion = "2.39"
+    val kotlinVersion = "1.5.31"
+    val kxCoroutinesVersion = "1.5.2"
+    val ktorVersion = "1.6.4"
     val espressoVersion = "3.4.0"
 
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
@@ -108,7 +108,7 @@ dependencies {
     implementation("com.github.AppIntro:AppIntro:6.1.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
-    implementation("com.google.guava:guava:30.1.1-android")
+    implementation("com.google.guava:guava:31.0.1-android")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-jackson:$ktorVersion")
@@ -120,7 +120,7 @@ dependencies {
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.4.0")
-    implementation("com.opencsv:opencsv:5.5.1")
+    implementation("com.opencsv:opencsv:5.5.2")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")

@@ -29,13 +29,15 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
-import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.sres
+import java.lang.Double.max
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -88,6 +90,12 @@ class NumberButtonView(
             invalidate()
         }
 
+    var targetType = NumericalHabitType.AT_LEAST
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var units = ""
         set(value) {
             field = value
@@ -127,7 +135,6 @@ class NumberButtonView(
 
         private val em: Float
         private val rect: RectF = RectF()
-        private val sr = StyledResources(context)
 
         private val lowContrast: Int
         private val mediumContrast: Int
@@ -148,15 +155,23 @@ class NumberButtonView(
 
         init {
             em = pNumber.measureText("m")
-            lowContrast = sr.getColor(R.attr.contrast40)
-            mediumContrast = sr.getColor(R.attr.contrast60)
+            lowContrast = sres.getColor(R.attr.contrast40)
+            mediumContrast = sres.getColor(R.attr.contrast60)
         }
 
         fun draw(canvas: Canvas) {
-            val activeColor = when {
-                value <= 0.0 -> lowContrast
-                value < threshold -> mediumContrast
-                else -> color
+            var activeColor = if (targetType == NumericalHabitType.AT_LEAST) {
+                when {
+                    value < 0.0 && preferences.areQuestionMarksEnabled -> lowContrast
+                    max(0.0, value) >= threshold -> color
+                    else -> mediumContrast
+                }
+            } else {
+                when {
+                    value < 0.0 && preferences.areQuestionMarksEnabled -> lowContrast
+                    value <= threshold -> color
+                    else -> mediumContrast
+                }
             }
 
             val label: String

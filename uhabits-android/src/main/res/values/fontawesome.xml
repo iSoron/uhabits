@@ -21,6 +21,7 @@
 <resources>
     <string translatable="false" name="fa_star_half_o">&#xf5c0;</string>
 	<string translatable="false" name="fa_arrow_circle_up">&#xf0aa;</string>
+	<string translatable="false" name="fa_arrow_circle_down">&#xf0ab;</string>
 	<string translatable="false" name="fa_check">&#xf00c;</string>
 	<string translatable="false" name="fa_times">&#xf00d;</string>
 	<string translatable="false" name="fa_skipped">&#xf068;</string>
@@ -181,7 +182,6 @@
 	<!--<string translatable="false" name="fa_hand_o_down">&#xf0a7;</string>-->
 	<!--<string translatable="false" name="fa_arrow_circle_left">&#xf0a8;</string>-->
 	<!--<string translatable="false" name="fa_arrow_circle_right">&#xf0a9;</string>-->
-	<!--<string translatable="false" name="fa_arrow_circle_down">&#xf0ab;</string>-->
 	<!--<string translatable="false" name="fa_globe">&#xf0ac;</string>-->
 	<!--<string translatable="false" name="fa_wrench">&#xf0ad;</string>-->
 	<!--<string translatable="false" name="fa_tasks">&#xf0ae;</string>-->

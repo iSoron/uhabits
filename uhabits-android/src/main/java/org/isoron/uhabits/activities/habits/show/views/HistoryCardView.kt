@@ -43,6 +43,7 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             theme = state.theme,
             dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
             series = state.series,
+            defaultSquare = state.defaultSquare,
             firstWeekday = state.firstWeekday,
         )
         binding.chart.postInvalidate()

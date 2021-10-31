@@ -36,6 +36,7 @@ import android.widget.TextView
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
+import org.isoron.uhabits.activities.habits.list.views.HabitCardView.Companion.delay
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Timestamp
@@ -143,7 +144,11 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp, value) }
+                habit?.let {
+                    {
+                        behavior.onToggle(it, timestamp, value)
+                    }.delay(TOGGLE_DELAY_MILLIS)
+                }
             }
         }
 
@@ -236,6 +241,7 @@ class HabitCardView(
         numberPanel.apply {
             color = c
             units = h.unit
+            targetType = h.targetType
             threshold = h.targetValue
             visibility = when (h.isNumerical) {
                 true -> View.VISIBLE
@@ -261,5 +267,13 @@ class HabitCardView(
             false -> R.drawable.ripple
         }
         innerFrame.setBackgroundResource(background)
+    }
+
+    companion object {
+        const val TOGGLE_DELAY_MILLIS = 2000L
+
+        fun (() -> Unit).delay(delayInMillis: Long) {
+            Handler(Looper.getMainLooper()).postDelayed(this, delayInMillis)
+        }
     }
 }

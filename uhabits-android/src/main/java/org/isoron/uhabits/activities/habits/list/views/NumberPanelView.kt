@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils
@@ -44,6 +45,12 @@ class NumberPanelView(
     var values = DoubleArray(0)
         set(values) {
             field = values
+            setupButtons()
+        }
+
+    var targetType = NumericalHabitType.AT_LEAST
+        set(value) {
+            field = value
             setupButtons()
         }
 
@@ -84,6 +91,7 @@ class NumberPanelView(
                 else -> 0.0
             }
             button.color = color
+            button.targetType = targetType
             button.threshold = threshold
             button.units = units
             button.onEdit = { onEdit(timestamp) }
