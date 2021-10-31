@@ -24,11 +24,22 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.hamcrest.Matchers.lessThan
+import org.isoron.platform.time.DatesTest.Companion.JAN_1_2000_IN_UNIX_TIME
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Test
+import java.time.Month
+import kotlin.test.assertEquals
 
 class TimestampTest : BaseUnitTest() {
+    @Test
+    fun testToLocalDate() {
+        val timestamp = Timestamp(JAN_1_2000_IN_UNIX_TIME)
+        val expectedLocalDate = LocalDate(2000, Month.JANUARY ,1)
+        assertEquals(expectedLocalDate, timestamp.toLocalDate())
+    }
+
     @Test
     @Throws(Exception::class)
     fun testCompare() {

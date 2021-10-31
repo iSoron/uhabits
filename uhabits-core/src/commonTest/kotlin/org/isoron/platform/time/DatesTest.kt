@@ -418,6 +418,21 @@ class DatesTest : BaseUnitTest() {
         assertEquals(expected, upcomingTimeMillis)
     }
 
+    @Test
+    fun testDaysSince2000() {
+        val zeroDays =  daysSince2000(2000, Month.JANUARY, 1)
+        assertEquals(0, zeroDays)
+
+        val oneYearWithLeapYear =  daysSince2000(2001, Month.JANUARY, 1)
+        assertEquals(366, oneYearWithLeapYear)
+
+        val fourYearsWithLeapYear =  daysSince2000(2004, Month.JANUARY, 1)
+        assertEquals(1461, fourYearsWithLeapYear)
+
+        val oneYearPrior =  daysSince2000(1999, Month.JANUARY, 1)
+        assertEquals(-365, oneYearPrior)
+    }
+
     private fun unixTime(year: Int, month: Month, day: Int): Long {
         return unixTime(year, month, day, 0, 0)
     }
@@ -433,5 +448,9 @@ class DatesTest : BaseUnitTest() {
         return LocalDateTime(
             year, month, day, hour, minute, (milliseconds / 1000).toInt(), 0
         ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+    }
+
+    companion object {
+        const val JAN_1_2000_IN_UNIX_TIME = 946684800000L
     }
 }

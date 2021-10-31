@@ -23,6 +23,7 @@ import io.fluidsonic.locale.Locale
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toInstant
@@ -47,7 +48,7 @@ data class LocalDate(val daysSince2000: Int) {
     var monthCache = -1
     var dayCache = -1
 
-    constructor(year: Int, month: Int, day: Int) :
+    constructor(year: Int, month: Month, day: Int) :
         this(daysSince2000(year, month, day))
 
     val dayOfWeek: DayOfWeek
@@ -295,16 +296,16 @@ val nonLeapOffset = arrayOf(
     212, 243, 273, 304, 334, 365
 )
 
-private fun daysSince2000(year: Int, month: Int, day: Int): Int {
+internal fun daysSince2000(year: Int, month: Month, day: Int): Int {
 
     var result = 365 * (year - 2000)
     result += ceil((year - 2000) / 4.0).toInt()
     result -= ceil((year - 2000) / 100.0).toInt()
     result += ceil((year - 2000) / 400.0).toInt()
     result += if (isLeapYear(year)) {
-        leapOffset[month - 1]
+        leapOffset[month.ordinal]
     } else {
-        nonLeapOffset[month - 1]
+        nonLeapOffset[month.ordinal]
     }
     result += (day - 1)
     return result

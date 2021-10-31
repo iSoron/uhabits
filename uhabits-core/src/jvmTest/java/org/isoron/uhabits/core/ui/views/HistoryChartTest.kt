@@ -24,6 +24,7 @@ import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.Month
 import org.isoron.platform.gui.assertRenders
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.DayOfWeek.SUNDAY
@@ -43,7 +44,7 @@ class HistoryChartTest {
     private val dateClickedListener: OnDateClickedListener = mock()
 
     val view = HistoryChart(
-        today = LocalDate(2015, 1, 25),
+        today = LocalDate(2015, Month.JANUARY, 25),
         paletteColor = PaletteColor(7),
         theme = LightTheme(),
         dateFormatter = JavaLocalDateFormatter(Locale.US),
@@ -86,20 +87,20 @@ class HistoryChartTest {
 
         // Click top left date
         view.onClick(20.0, 46.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, Month.OCTOBER, 26))
         reset(dateClickedListener)
         view.onClick(2.0, 28.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, Month.OCTOBER, 26))
         reset(dateClickedListener)
 
         // Click date in the middle
         view.onClick(163.0, 113.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2014, 12, 10))
+        verify(dateClickedListener).onDateClicked(LocalDate(2014, Month.DECEMBER, 10))
         reset(dateClickedListener)
 
         // Click today
         view.onClick(336.0, 37.0)
-        verify(dateClickedListener).onDateClicked(LocalDate(2015, 1, 25))
+        verify(dateClickedListener).onDateClicked(LocalDate(2015, Month.JANUARY, 25))
         reset(dateClickedListener)
 
         // Click header

@@ -19,6 +19,7 @@
 
 package org.isoron.platform.time
 
+import kotlinx.datetime.Month
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.DAY_OF_WEEK
 import java.util.Calendar.HOUR_OF_DAY
@@ -59,7 +60,7 @@ class JavaLocalDateFormatter(private val locale: Locale) : LocalDateFormatter {
     override fun shortWeekdayName(weekday: DayOfWeek): String {
         val cal = GregorianCalendar()
         cal.set(DAY_OF_WEEK, weekday.daysSinceSunday - 1)
-        return shortWeekdayName(LocalDate(cal.get(YEAR), cal.get(MONTH) + 1, cal.get(DAY_OF_MONTH)))
+        return shortWeekdayName(LocalDate(cal.get(YEAR), Month(cal.get(MONTH) + 1), cal.get(DAY_OF_MONTH)))
     }
 
     override fun shortWeekdayName(date: LocalDate): String {

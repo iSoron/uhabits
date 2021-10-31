@@ -114,13 +114,6 @@ data class Timestamp(var unixTime: Long) : Comparable<Timestamp> {
             cal[year, javaMonth, day, 0, 0] = 0
             return Timestamp(cal.timeInMillis)
         }
-
-        /**
-         * Given two timestamps, returns whichever timestamp is the oldest one.
-         */
-        fun oldest(first: Timestamp, second: Timestamp): Timestamp {
-            return if (first.unixTime < second.unixTime) first else second
-        }
     }
 
     init {

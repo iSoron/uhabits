@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.core.ui.views
 
+import kotlinx.datetime.Month
 import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
 import org.isoron.platform.gui.DataView
@@ -63,7 +64,7 @@ class HistoryChart(
     private var height = 0.0
     private var nColumns = 0
     private var topLeftOffset = 0
-    private var topLeftDate = LocalDate(2020, 1, 1)
+    private var topLeftDate = LocalDate(2020, Month.JANUARY, 1)
     private var lastPrintedMonth = ""
     private var lastPrintedYear = ""
     private var headerOverflow = 0.0
