@@ -25,6 +25,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.TimeZone.Companion.UTC
 import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
@@ -265,7 +266,7 @@ data class LocalDate(val daysSince2000: Int) {
                     minute = minute,
                     second = 0
                 ).toInstant(
-                    getTimeZone()
+                    UTC
                 ).toEpochMilliseconds()
 
             if (getLocalTime() > time) {

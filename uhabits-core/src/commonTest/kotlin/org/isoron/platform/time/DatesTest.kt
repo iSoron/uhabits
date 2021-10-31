@@ -420,7 +420,7 @@ class DatesTest : BaseUnitTest() {
     fun testGetUpcomingTimeInMillis_withTimeZone() {
         LocalDate.fixedLocalTime = FIXED_LOCAL_TIME
         LocalDate.fixedTimeZone = TimeZone.of("GMT-$HOUR_OFFSET")
-        val expected = unixTime(2015, Month.JANUARY, 25, 10, 1)
+        val expected = unixTime(2015, Month.JANUARY, 25, 13, 1)
         val upcomingTimeMillis = getUpcomingTimeInMillis(10, 1)
         assertEquals(expected, upcomingTimeMillis)
     }
