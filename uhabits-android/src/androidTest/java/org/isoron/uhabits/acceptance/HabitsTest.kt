@@ -55,6 +55,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class HabitsTest : BaseUserInterfaceTest() {
+
     @Test
     @Throws(Exception::class)
     fun shouldCreateHabit() {
@@ -180,6 +181,8 @@ class HabitsTest : BaseUserInterfaceTest() {
         longPressCheckmarks("Wake up early", count = 2)
         clickText("Wake up early")
         verifyShowsScreen(SHOW_HABIT)
+        // TODO: find a better way than sleeping in tests
+        Thread.sleep(2001L)
         verifyDisplaysText("10%")
     }
 
@@ -194,6 +197,8 @@ class HabitsTest : BaseUserInterfaceTest() {
         verifyDoesNotDisplayText("Track time")
         verifyDisplaysText("Wake up early")
         longPressCheckmarks("Wake up early", count = 1)
+        // TODO: find a better way than sleeping in tests
+        Thread.sleep(2001L)
         verifyDoesNotDisplayText("Wake up early")
         clickMenu(TOGGLE_COMPLETED)
         verifyDisplaysText("Track time")
