@@ -1,0 +1,3 @@
+Position,Name,Question,Description,NumRepetitions,Interval,Color
+001,Meditate,Did you meditate this morning?,,1,1,#FF8F00
+002,Wake up early,Did you wake up before 6am?,,2,3,#00897B
