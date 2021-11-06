@@ -32,9 +32,9 @@ data class HabitMatcher(
 
     companion object {
         @JvmField
-        val WITH_ALARM = HabitMatcherBuilder()
-            .setArchivedAllowed(true)
-            .setReminderRequired(true)
-            .build()
+        val WITH_ALARM = HabitMatcher(
+            isArchivedAllowed = true,
+            isReminderRequired = true,
+        )
     }
 }

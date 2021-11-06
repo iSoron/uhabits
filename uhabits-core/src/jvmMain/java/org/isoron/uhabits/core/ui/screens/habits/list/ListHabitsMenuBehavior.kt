@@ -20,7 +20,6 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
-import org.isoron.uhabits.core.models.HabitMatcherBuilder
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import javax.inject.Inject
@@ -99,10 +98,10 @@ class ListHabitsMenuBehavior @Inject constructor(
 
     private fun updateAdapterFilter() {
         adapter.setFilter(
-            HabitMatcherBuilder()
-                .setArchivedAllowed(showArchived)
-                .setCompletedAllowed(showCompleted)
-                .build()
+            HabitMatcher(
+                isArchivedAllowed = showArchived,
+                isCompletedAllowed = showCompleted,
+            )
         )
         adapter.refresh()
     }
