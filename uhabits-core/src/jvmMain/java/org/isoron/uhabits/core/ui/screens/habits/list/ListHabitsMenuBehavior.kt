@@ -32,6 +32,7 @@ class ListHabitsMenuBehavior @Inject constructor(
 ) {
     private var showCompleted: Boolean
     private var showArchived: Boolean
+
     fun onCreateHabit() {
         screen.showSelectHabitTypeDialog()
     }
@@ -96,13 +97,26 @@ class ListHabitsMenuBehavior @Inject constructor(
         screen.applyTheme()
     }
 
+    fun onPreferencesChanged() {
+        updateAdapterFilter()
+    }
+
     private fun updateAdapterFilter() {
-        adapter.setFilter(
-            HabitMatcher(
-                isArchivedAllowed = showArchived,
-                isCompletedAllowed = showCompleted,
+        if (preferences.areQuestionMarksEnabled) {
+            adapter.setFilter(
+                HabitMatcher(
+                    isArchivedAllowed = showArchived,
+                    isEnteredAllowed = showCompleted,
+                )
             )
-        )
+        } else {
+            adapter.setFilter(
+                HabitMatcher(
+                    isArchivedAllowed = showArchived,
+                    isCompletedAllowed = showCompleted,
+                )
+            )
+        }
         adapter.refresh()
     }
 

@@ -22,11 +22,13 @@ data class HabitMatcher(
     val isArchivedAllowed: Boolean = false,
     val isReminderRequired: Boolean = false,
     val isCompletedAllowed: Boolean = true,
+    val isEnteredAllowed: Boolean = true,
 ) {
     fun matches(habit: Habit): Boolean {
         if (!isArchivedAllowed && habit.isArchived) return false
         if (isReminderRequired && !habit.hasReminder()) return false
-        if (!isCompletedAllowed && (habit.isCompletedToday() || habit.isFailedToday())) return false
+        if (!isCompletedAllowed && habit.isCompletedToday()) return false
+        if (!isEnteredAllowed && habit.isEnteredToday()) return false
         return true
     }
 
