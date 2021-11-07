@@ -68,7 +68,6 @@ class FrequencyPickerDialog(
 
         contentView.everyDayRadioButton.setOnClickListener {
             check(contentView.everyDayRadioButton)
-            unfocusAll()
         }
 
         contentView.everyXDaysRadioButton.setOnClickListener {
@@ -220,11 +219,5 @@ class FrequencyPickerDialog(
         contentView.xTimesPerWeekRadioButton.isChecked = false
         contentView.xTimesPerMonthRadioButton.isChecked = false
         contentView.xTimesPerYDaysRadioButton.isChecked = false
-    }
-
-    private fun unfocusAll() {
-        contentView.everyXDaysTextView.clearFocus()
-        contentView.xTimesPerWeekTextView.clearFocus()
-        contentView.xTimesPerMonthTextView.clearFocus()
     }
 }
