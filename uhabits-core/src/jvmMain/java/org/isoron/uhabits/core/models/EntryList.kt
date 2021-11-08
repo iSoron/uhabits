@@ -95,7 +95,27 @@ open class EntryList {
         clear()
         val original = originalEntries.getKnown()
         if (isNumerical) {
-            original.forEach { add(it) }
+            assert(frequency.numerator == 1)
+
+            val intervals = buildIntervals(frequency, original)
+            snapIntervalsTogether(intervals)
+            val computed = buildEntriesFromInterval(original, intervals).sortedBy { it.timestamp }
+            var currentValue = 0
+            val currentWindow = ArrayDeque<Entry>()
+            for (entry in computed) {
+                if (entry.value == UNKNOWN) {
+                    continue
+                }
+                currentValue += entry.value
+                currentWindow.addLast(entry)
+                while (entry.timestamp.minus(frequency.denominator - 1).isNewerThan(currentWindow.first().timestamp)) {
+                    currentValue -= currentWindow.first().value
+                    currentWindow.removeFirst()
+                    assert(currentValue >= 0)
+                }
+                // TODO: we need to keep track of both today's value and the current cumulative value
+                add(Entry(entry.timestamp, currentValue))
+            }
         } else {
             val intervals = buildIntervals(frequency, original)
             snapIntervalsTogether(intervals)

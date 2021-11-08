@@ -96,7 +96,7 @@ class EntryListTest {
     }
 
     @Test
-    fun testComputeNumerical() {
+    fun testComputeNumericalDaily() {
         val today = DateUtils.getToday()
 
         val original = EntryList()
@@ -110,6 +110,26 @@ class EntryListTest {
         val expected = listOf(
             Entry(today.minus(4), 100),
             Entry(today.minus(9), 200),
+            Entry(today.minus(10), 300),
+        )
+        assertEquals(expected, computed.getKnown())
+    }
+
+    @Test
+    fun testComputeNumericalWeekly() {
+        val today = DateUtils.getToday()
+
+        val original = EntryList()
+        original.add(Entry(today.minus(4), 100))
+        original.add(Entry(today.minus(9), 200))
+        original.add(Entry(today.minus(10), 300))
+
+        val computed = EntryList()
+        computed.recomputeFrom(original, Frequency.WEEKLY, isNumerical = true)
+
+        val expected = listOf(
+            Entry(today.minus(4), 600),
+            Entry(today.minus(9), 500),
             Entry(today.minus(10), 300),
         )
         assertEquals(expected, computed.getKnown())
