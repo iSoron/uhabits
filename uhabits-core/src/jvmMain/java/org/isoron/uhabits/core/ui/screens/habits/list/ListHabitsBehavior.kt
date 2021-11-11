@@ -22,6 +22,8 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.ExportCSVTask
@@ -47,14 +49,27 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
-        val entries = habit.computedEntries
-        val oldValue = entries.get(timestamp!!).value.toDouble()
-        screen.showNumberPicker(
-            oldValue / 1000,
-            habit.unit
-        ) { newValue: Double ->
-            val value = (newValue * 1000).roundToInt()
-            commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value))
+        val entry = habit.computedEntries.get(timestamp!!)
+        if (habit.type == HabitType.NUMERICAL) {
+            val oldValue = entry.value.toDouble()
+            screen.showNumberPicker(
+                oldValue / 1000,
+                habit.unit,
+                entry.notes,
+                timestamp.toDialogDateString(),
+            ) { newValue: Double, newNotes: String, ->
+                val value = (newValue * 1000).roundToInt()
+                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
+            }
+        } else {
+            screen.showCheckmarkDialog(
+                entry.value,
+                entry.notes,
+                timestamp.toDialogDateString(),
+                habit.color,
+            ) { newValue, newNotes ->
+                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
+            }
         }
     }
 
@@ -105,8 +120,9 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int) {
+        val notes = habit.computedEntries.get(timestamp!!).notes
         commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp!!, value)
+            CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
         )
     }
 
@@ -131,8 +147,13 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun interface NumberPickerCallback {
-        fun onNumberPicked(newValue: Double)
+        fun onNumberPicked(newValue: Double, notes: String)
         fun onNumberPickerDismissed() {}
+    }
+
+    fun interface CheckMarkDialogCallback {
+        fun onNotesSaved(value: Int, notes: String)
+        fun onNotesDismissed() {}
     }
 
     interface Screen {
@@ -142,7 +163,16 @@ open class ListHabitsBehavior @Inject constructor(
         fun showNumberPicker(
             value: Double,
             unit: String,
+            notes: String,
+            dateString: String,
             callback: NumberPickerCallback
+        )
+        fun showCheckmarkDialog(
+            value: Int,
+            notes: String,
+            dateString: String,
+            color: PaletteColor,
+            callback: CheckMarkDialogCallback
         )
 
         fun showSendBugReportToDeveloperScreen(log: String)

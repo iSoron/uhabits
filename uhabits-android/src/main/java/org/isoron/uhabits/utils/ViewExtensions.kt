@@ -22,7 +22,9 @@ package org.isoron.uhabits.utils
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.view.LayoutInflater
@@ -199,5 +201,15 @@ fun View.dim(id: Int) = InterfaceUtils.getDimension(context, id)
 fun View.sp(value: Float) = InterfaceUtils.spToPixels(context, value)
 fun View.dp(value: Float) = InterfaceUtils.dpToPixels(context, value)
 fun View.str(id: Int) = resources.getString(id)
+
+fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, hasNotes: Boolean) {
+    val pNotesIndicator = Paint()
+    pNotesIndicator.color = color
+    if (hasNotes) {
+        val cy = 0.8f * size
+        canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
+    }
+}
+
 val View.sres: StyledResources
     get() = StyledResources(context)

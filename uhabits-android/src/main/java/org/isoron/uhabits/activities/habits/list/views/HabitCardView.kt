@@ -116,6 +116,13 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
+    var notesIndicators
+        get() = checkmarkPanel.notesIndicators
+        set(values) {
+            checkmarkPanel.notesIndicators = values
+            numberPanel.notesIndicators = values
+        }
+
     var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
@@ -149,6 +156,10 @@ class HabitCardView(
                         behavior.onToggle(it, timestamp, value)
                     }.delay(TOGGLE_DELAY_MILLIS)
                 }
+            }
+            onEdit = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp) }
             }
         }
 

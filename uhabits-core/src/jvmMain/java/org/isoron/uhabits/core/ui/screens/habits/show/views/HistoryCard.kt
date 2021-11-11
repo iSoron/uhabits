@@ -46,6 +46,7 @@ data class HistoryCardState(
     val firstWeekday: DayOfWeek,
     val series: List<HistoryChart.Square>,
     val defaultSquare: HistoryChart.Square,
+    val notesIndicators: List<Boolean>,
     val theme: Theme,
     val today: LocalDate,
 )
@@ -58,27 +59,15 @@ class HistoryCardPresenter(
     val screen: Screen,
 ) : OnDateClickedListener {
 
-    override fun onDateClicked(date: LocalDate) {
+    override fun onDateLongPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-            val entries = habit.computedEntries
-            val oldValue = entries.get(timestamp).value
-            screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
-                val thousands = (newValue * 1000).roundToInt()
-                commandRunner.run(
-                    CreateRepetitionCommand(
-                        habitList,
-                        habit,
-                        timestamp,
-                        thousands,
-                    ),
-                )
-            }
+            showNumberPicker(timestamp)
         } else {
-            val currentValue = habit.computedEntries.get(timestamp).value
+            val entry = habit.computedEntries.get(timestamp)
             val nextValue = Entry.nextToggleValue(
-                value = currentValue,
+                value = entry.value,
                 isSkipEnabled = preferences.isSkipEnabled,
                 areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
             )
@@ -88,6 +77,56 @@ class HistoryCardPresenter(
                     habit,
                     timestamp,
                     nextValue,
+                    entry.notes,
+                ),
+            )
+        }
+    }
+
+    override fun onDateShortPress(date: LocalDate) {
+        val timestamp = Timestamp.fromLocalDate(date)
+        screen.showFeedback()
+        if (habit.isNumerical) {
+            showNumberPicker(timestamp)
+        } else {
+            val entry = habit.computedEntries.get(timestamp)
+            screen.showCheckmarkDialog(
+                entry.value,
+                entry.notes,
+                timestamp.toDialogDateString(),
+                preferences,
+                habit.color,
+            ) { newValue, newNotes ->
+                commandRunner.run(
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        newValue,
+                        newNotes,
+                    ),
+                )
+            }
+        }
+    }
+
+    private fun showNumberPicker(timestamp: Timestamp) {
+        val entry = habit.computedEntries.get(timestamp)
+        val oldValue = entry.value
+        screen.showNumberPicker(
+            oldValue / 1000.0,
+            habit.unit,
+            entry.notes,
+            timestamp.toDialogDateString(),
+        ) { newValue: Double, newNotes: String ->
+            val thousands = (newValue * 1000).roundToInt()
+            commandRunner.run(
+                CreateRepetitionCommand(
+                    habitList,
+                    habit,
+                    timestamp,
+                    thousands,
+                    newNotes,
                 ),
             )
         }
@@ -137,13 +176,21 @@ class HistoryCardPresenter(
             else
                 HistoryChart.Square.OFF
 
+            val notesIndicators = entries.map {
+                when (it.notes) {
+                    "" -> false
+                    else -> true
+                }
+            }
+
             return HistoryCardState(
                 color = habit.color,
                 firstWeekday = firstWeekday,
                 today = today.toLocalDate(),
                 theme = theme,
                 series = series,
-                defaultSquare = defaultSquare
+                defaultSquare = defaultSquare,
+                notesIndicators = notesIndicators,
             )
         }
     }
@@ -154,7 +201,17 @@ class HistoryCardPresenter(
         fun showNumberPicker(
             value: Double,
             unit: String,
+            notes: String,
+            dateString: String,
             callback: ListHabitsBehavior.NumberPickerCallback,
+        )
+        fun showCheckmarkDialog(
+            value: Int,
+            notes: String,
+            dateString: String,
+            preferences: Preferences,
+            color: PaletteColor,
+            callback: ListHabitsBehavior.CheckMarkDialogCallback,
         )
     }
 }

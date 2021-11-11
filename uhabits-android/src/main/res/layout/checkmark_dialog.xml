@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
-  ~
-  ~ This file is part of Loop Habit Tracker.
-  ~
-  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by the
-  ~ Free Software Foundation, either version 3 of the License, or (at your
-  ~ option) any later version.
-  ~
-  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
-  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-  ~ more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License along
-  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
-  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:gravity="center"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingTop="12dp"
     android:paddingStart="10dp"
     android:paddingEnd="10dp">
@@ -30,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="8dp"
         android:baselineAligned="false">
 
         <FrameLayout
@@ -47,32 +30,29 @@
                     android:orientation="horizontal"
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <NumberPicker
-                        android:id="@+id/picker"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp">
 
-                    <TextView
-                        android:id="@+id/tvSeparator"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
+                    <Button
+                        android:id="@+id/yesBtn"
+                        android:text="@string/fa_check"
+                        style="@style/CheckmarkDialogBtn"/>
+                    <Button
+                        android:id="@+id/skippedBtn"
+                        android:text="@string/fa_skipped"
+                        android:visibility="gone"
+                        style="@style/CheckmarkDialogBtn"/>
 
-                    <NumberPicker
-                        android:id="@+id/picker2"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
+                    <Button
+                        android:id="@+id/noBtn"
+                        android:text="@string/fa_times"
+                        style="@style/CheckmarkDialogBtn"/>
 
-                    <TextView
-                        android:id="@+id/tvUnit"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    <Button
+                        android:id="@+id/questionBtn"
+                        android:text="@string/fa_question"
+                        android:visibility="gone"
+                        style="@style/CheckmarkDialogBtn"/>
 
                 </LinearLayout>
 
@@ -80,7 +60,6 @@
         </FrameLayout>
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"

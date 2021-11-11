@@ -37,40 +37,45 @@ class WidgetBehavior @Inject constructor(
 ) {
     fun onAddRepetition(habit: Habit, timestamp: Timestamp?) {
         notificationTray.cancel(habit)
-        setValue(habit, timestamp, Entry.YES_MANUAL)
+        val entry = habit.originalEntries.get(timestamp!!)
+        setValue(habit, timestamp, Entry.YES_MANUAL, entry.notes)
     }
 
     fun onRemoveRepetition(habit: Habit, timestamp: Timestamp?) {
         notificationTray.cancel(habit)
-        setValue(habit, timestamp, Entry.NO)
+        val entry = habit.originalEntries.get(timestamp!!)
+        setValue(habit, timestamp, Entry.NO, entry.notes)
     }
 
     fun onToggleRepetition(habit: Habit, timestamp: Timestamp) {
-        val currentValue = habit.originalEntries.get(timestamp).value
+        val entry = habit.originalEntries.get(timestamp)
+        val currentValue = entry.value
         val newValue = nextToggleValue(
             value = currentValue,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        setValue(habit, timestamp, newValue)
+        setValue(habit, timestamp, newValue, entry.notes)
         notificationTray.cancel(habit)
     }
 
     fun onIncrement(habit: Habit, timestamp: Timestamp, amount: Int) {
-        val currentValue = habit.computedEntries.get(timestamp).value
-        setValue(habit, timestamp, currentValue + amount)
+        val entry = habit.computedEntries.get(timestamp)
+        val currentValue = entry.value
+        setValue(habit, timestamp, currentValue + amount, entry.notes)
         notificationTray.cancel(habit)
     }
 
     fun onDecrement(habit: Habit, timestamp: Timestamp, amount: Int) {
-        val currentValue = habit.computedEntries.get(timestamp).value
-        setValue(habit, timestamp, currentValue - amount)
+        val entry = habit.computedEntries.get(timestamp)
+        val currentValue = entry.value
+        setValue(habit, timestamp, currentValue - amount, entry.notes)
         notificationTray.cancel(habit)
     }
 
-    fun setValue(habit: Habit, timestamp: Timestamp?, newValue: Int) {
+    fun setValue(habit: Habit, timestamp: Timestamp?, newValue: Int, notes: String) {
         commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp!!, newValue)
+            CreateRepetitionCommand(habitList, habit, timestamp!!, newValue, notes)
         )
     }
 }

@@ -1,7 +1,7 @@
 HabitName,HabitDescription,HabitCategory,CalendarDate,Value,CommentText
 H1,,C1,11/5/2020,1,
 H2,,C2,11/5/2020,-2150000000,
-H3,Habit 3,C3,4/11/2019,1,
+H3,Habit 3,C3,4/11/2019,1,text
 H3,Habit 3,C3,4/12/2019,1,
 H3,Habit 3,C3,4/13/2019,0,
 H3,Habit 3,C3,4/14/2019,1,
@@ -65,7 +65,7 @@ H3,Habit 3,C3,6/10/2019,1,
 H3,Habit 3,C3,6/11/2019,1,
 H3,Habit 3,C3,6/12/2019,1,
 H3,Habit 3,C3,6/13/2019,1,
-H3,Habit 3,C3,6/14/2019,0,
+H3,Habit 3,C3,6/14/2019,0,Habit 3 notes
 H3,Habit 3,C3,6/15/2019,1,
 H4,Habit 4,C4,11/6/2020,1,
 H4,Habit 4,C4,11/9/2020,1,

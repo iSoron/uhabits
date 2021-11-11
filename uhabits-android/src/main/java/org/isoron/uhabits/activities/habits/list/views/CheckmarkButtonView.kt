@@ -37,8 +37,8 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
-import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
@@ -71,7 +71,15 @@ class CheckmarkButtonView(
             invalidate()
         }
 
+    var hasNotes = false
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var onToggle: (Int) -> Unit = {}
+
+    var onEdit: () -> Unit = {}
     private var drawer = Drawer()
 
     init {
@@ -93,11 +101,12 @@ class CheckmarkButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle()
-        else showMessage(resources.getString(R.string.long_press_to_toggle))
+        else onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
-        performToggle()
+        if (preferences.isShortToggleEnabled) onEdit()
+        else performToggle()
         return true
     }
 
@@ -170,6 +179,8 @@ class CheckmarkButtonView(
                 paint.style = Paint.Style.FILL
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
             }
+
+            drawNotesIndicator(canvas, color, em, hasNotes)
         }
     }
 }

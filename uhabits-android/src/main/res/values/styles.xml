@@ -63,6 +63,7 @@
         <item name="windowBackgroundColor">@color/grey_200</item>
         <item name="android:textColorAlertDialogListItem">@color/grey_800</item>
         <item name="singleLineTitle">false</item>
+        <item name="dialogFormLabelColor">@color/white</item>
     </style>
 
     <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
@@ -110,6 +111,7 @@
         <item name="buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
         <item name="android:textColorAlertDialogListItem">@color/grey_100</item>
         <item name="singleLineTitle">false</item>
+        <item name="dialogFormLabelColor">@color/grey_800</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
@@ -130,6 +132,7 @@
         <item name="textColorAlertDialogListItem">@color/grey_100</item>
         <item name="windowBackgroundColor">@color/black</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.PureBlack</item>
+        <item name="dialogFormLabelColor">@color/grey_800</item>
     </style>
 
     <style name="BaseDialog" parent="Theme.AppCompat.Light.Dialog">
@@ -140,6 +143,7 @@
         <item name="contrast80">@color/grey_700</item>
         <item name="contrast100">@color/grey_800</item>
         <item name="palette">@array/lightPalette</item>
+        <item name="dialogFormLabelColor">@color/white</item>
     </style>
 
     <style name="BaseDialogDark" parent="Theme.AppCompat.Dialog">
@@ -150,6 +154,7 @@
         <item name="contrast80">@color/grey_300</item>
         <item name="contrast100">@color/grey_100</item>
         <item name="palette">@array/darkPalette</item>
+        <item name="dialogFormLabelColor">@color/grey_800</item>
     </style>
 
     <style name="PreferenceThemeOverlay.v14.Material.PureBlack">
@@ -360,4 +365,38 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?attr/contrast20</item>
     </style>
+
+    <style name="DialogFormInnerBox">
+        <item name="android:background">@drawable/dialog_bg_input_box</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="DialogFormLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">-15dp</item>
+        <item name="android:layout_marginBottom">-4dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:background">?attr/dialogFormLabelColor</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+    </style>
+
+    <style name="CheckmarkDialogBtn">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:textSize">@dimen/regularTextSize</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/bg_select_button</item>
+        <item name="selectable">true</item>
+    </style>
+
 </resources>
