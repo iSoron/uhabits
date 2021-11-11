@@ -37,6 +37,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.truncate
 import org.junit.Before
 import org.junit.Test
 import java.util.Calendar
+import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
 
@@ -56,6 +57,129 @@ class DateUtilsTest : BaseUnitTest() {
         val date = Timestamp(timestamp).toCalendar()
         val formatted = formatHeaderDate(date)
         assertThat(formatted, equalTo("Thu\n31"))
+    }
+
+    @Test
+    fun testGetLocalTime() {
+        setFixedLocalTime(null)
+        setFixedTimeZone(TimeZone.getTimeZone("Australia/Sydney"))
+        val utcTestTimeInMillis = unixTime(2015, Calendar.JANUARY, 11)
+        val localTimeInMillis = DateUtils.getLocalTime(utcTestTimeInMillis)
+        val expectedUnixTimeOffsetForSydney = 11 * 60 * 60 * 1000
+        val expectedUnixTimeForSydney = utcTestTimeInMillis + expectedUnixTimeOffsetForSydney
+        assertThat(expectedUnixTimeForSydney, equalTo(localTimeInMillis))
+    }
+
+    @Test
+    fun testGetWeekdaySequence() {
+        val weekdaySequence = DateUtils.getWeekdaySequence(3)
+        assertThat(arrayOf(3, 4, 5, 6, 7, 1, 2), equalTo(weekdaySequence))
+    }
+
+    @Test
+    fun testGetFirstWeekdayNumberAccordingToLocale_germany() {
+        setFixedLocale(Locale.GERMANY)
+        val firstWeekdayNumber = DateUtils.getFirstWeekdayNumberAccordingToLocale()
+        assertThat(2, equalTo(firstWeekdayNumber))
+    }
+
+    @Test
+    fun testGetFirstWeekdayNumberAccordingToLocale_us() {
+        setFixedLocale(Locale.US)
+        val firstWeekdayNumber = DateUtils.getFirstWeekdayNumberAccordingToLocale()
+        assertThat(1, equalTo(firstWeekdayNumber))
+    }
+
+    @Test
+    fun testGetLongWeekdayNames_germany() {
+        setFixedLocale(Locale.GERMANY)
+        val longWeekdayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Samstag", "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"), equalTo(longWeekdayNames))
+    }
+
+    @Test
+    fun testGetLongWeekdayNames_us() {
+        setFixedLocale(Locale.US)
+        val longWeekdayNames = DateUtils.getLongWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"), equalTo(longWeekdayNames))
+    }
+
+    @Test
+    fun testGetShortWeekdayNames_germany() {
+        setFixedLocale(Locale.GERMANY)
+        val longWeekdayNames = DateUtils.getShortWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Sa.", "So.", "Mo.", "Di.", "Mi.", "Do.", "Fr."), equalTo(longWeekdayNames))
+    }
+
+    @Test
+    fun testGetShortWeekdayNames_us() {
+        setFixedLocale(Locale.US)
+        val longWeekdayNames = DateUtils.getShortWeekdayNames(Calendar.SATURDAY)
+        assertThat(arrayOf("Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"), equalTo(longWeekdayNames))
+    }
+
+    @Test
+    fun testGetToday() {
+        setFixedLocalTime(FIXED_LOCAL_TIME)
+        val today = DateUtils.getToday()
+        assertThat(Timestamp(FIXED_LOCAL_TIME), equalTo(today))
+    }
+
+    @Test
+    fun testGetStartOfDay() {
+        val expectedStartOfDayUtc = fixedStartOfToday()
+        val laterInTheDayUtc = fixedStartOfTodayWithOffset(20)
+        val startOfDay = DateUtils.getStartOfDay(laterInTheDayUtc)
+        assertThat(expectedStartOfDayUtc, equalTo(startOfDay))
+    }
+
+    @Test
+    fun testGetStartOfToday() {
+        val expectedStartOfDayUtc = fixedStartOfToday()
+        val laterInTheDayUtc = fixedStartOfTodayWithOffset(20)
+        setFixedLocalTime(laterInTheDayUtc)
+        val startOfToday = DateUtils.getStartOfToday()
+        assertThat(expectedStartOfDayUtc, equalTo(startOfToday))
+    }
+
+    @Test
+    fun testGetStartOfTomorrowWithOffset_priorToOffset() {
+        val priorToOffset = HOUR_OFFSET - 1
+        testGetStartOfTomorrowWithOffset(priorToOffset)
+    }
+
+    @Test
+    fun testGetStartOfTomorrowWithOffset_afterOffset() {
+        val afterOffset = HOUR_OFFSET + 1 - HOURS_IN_ONE_DAY
+        testGetStartOfTomorrowWithOffset(afterOffset)
+    }
+
+    private fun testGetStartOfTomorrowWithOffset(startOfTodayOffset: Int) {
+        configureOffsetTest(startOfTodayOffset)
+        assertThat(
+            fixedStartOfTodayWithOffset(HOUR_OFFSET),
+            equalTo(DateUtils.getStartOfTomorrowWithOffset())
+        )
+    }
+
+    @Test
+    fun testGetStartOfTodayWithOffset_priorToOffset() {
+        val priorToOffset = HOURS_IN_ONE_DAY + HOUR_OFFSET - 1
+        testGetStartOfTodayWithOffset(priorToOffset)
+    }
+
+    @Test
+    fun testGetStartOfTodayWithOffset_afterOffset() {
+        val afterOffset = HOUR_OFFSET + 1
+        testGetStartOfTodayWithOffset(afterOffset)
+    }
+
+    private fun testGetStartOfTodayWithOffset(startOfTodayOffset: Int) {
+        configureOffsetTest(startOfTodayOffset)
+        assertThat(
+            fixedStartOfToday(),
+            equalTo(DateUtils.getStartOfTodayWithOffset())
+        )
     }
 
     @Test
@@ -143,27 +267,90 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
+    fun testTruncate_timestamp() {
+        val field = DateUtils.TruncateField.YEAR
+        val nonTruncatedDate = unixTime(2016, Calendar.MAY, 30)
+        val expected = Timestamp(unixTime(2016, Calendar.JANUARY, 1))
+        assertThat(expected, equalTo(truncate(field, Timestamp(nonTruncatedDate), firstWeekday)))
+    }
+
+    @Test
+    fun testGetUpcomingTimeInMillis() {
+        setFixedLocalTime(FIXED_LOCAL_TIME)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        val expected = unixTime(2015, Calendar.JANUARY, 25, 10, 1)
+        val upcomingTimeMillis = DateUtils.getUpcomingTimeInMillis(10, 1)
+        assertThat(expected, equalTo(upcomingTimeMillis))
+    }
+
+    @Test
     @Throws(Exception::class)
     fun testMillisecondsUntilTomorrow() {
         setFixedTimeZone(TimeZone.getTimeZone("GMT"))
         setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 23, 59))
         assertThat(millisecondsUntilTomorrowWithOffset(), equalTo(DateUtils.MINUTE_LENGTH))
-        setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 20, 0))
+        setFixedLocalTime(fixedStartOfTodayWithOffset(20))
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
             equalTo(4 * DateUtils.HOUR_LENGTH)
         )
-        setStartDayOffset(3, 30)
+        setStartDayOffset(HOUR_OFFSET, 30)
         setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 1, 23, 59))
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
-            equalTo(3 * DateUtils.HOUR_LENGTH + 31 * DateUtils.MINUTE_LENGTH)
+            equalTo(HOUR_OFFSET * DateUtils.HOUR_LENGTH + 31 * DateUtils.MINUTE_LENGTH)
         )
         setFixedLocalTime(unixTime(2017, Calendar.JANUARY, 2, 1, 0))
         assertThat(
             millisecondsUntilTomorrowWithOffset(),
             equalTo(2 * DateUtils.HOUR_LENGTH + 30 * DateUtils.MINUTE_LENGTH)
         )
+    }
+
+    @Test
+    fun testGetStartOfTodayCalendar() {
+        setFixedLocalTime(FIXED_LOCAL_TIME)
+        setFixedLocale(Locale.GERMANY)
+        val expectedStartOfDay = unixTime(2015, Calendar.JANUARY, 25, 0, 0)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        expectedCalendar.timeInMillis = expectedStartOfDay
+        val startOfTodayCalendar = DateUtils.getStartOfTodayCalendar()
+        assertThat(expectedCalendar, equalTo(startOfTodayCalendar))
+    }
+
+    @Test
+    fun testGetStartOfTodayCalendarWithOffset_priorToOffset() {
+        val priorToOffset = HOUR_OFFSET - 1
+        testGetStartOfTodayCalendarWithOffset(priorToOffset)
+    }
+
+    @Test
+    fun testGetStartOfTodayCalendarWithOffset_afterOffset() {
+        val afterOffset = HOUR_OFFSET + 1
+        testGetStartOfTodayCalendarWithOffset(afterOffset)
+    }
+
+    private fun testGetStartOfTodayCalendarWithOffset(startOfTodayOffset: Int) {
+        configureOffsetTest(startOfTodayOffset)
+        setFixedLocale(Locale.GERMANY)
+        val expectedCalendar = GregorianCalendar(TimeZone.getTimeZone("GMT"), Locale.GERMANY)
+        expectedCalendar.timeInMillis = fixedStartOfToday()
+        assertThat(
+            expectedCalendar,
+            equalTo(DateUtils.getStartOfTodayCalendar())
+        )
+    }
+
+    private fun configureOffsetTest(startOfTodayOffset: Int) {
+        setStartDayOffset(HOUR_OFFSET, 0)
+        setFixedTimeZone(TimeZone.getTimeZone("GMT"))
+        setFixedLocalTime(fixedStartOfTodayWithOffset(startOfTodayOffset))
+    }
+
+    private fun fixedStartOfToday() = fixedStartOfTodayWithOffset(0)
+
+    private fun fixedStartOfTodayWithOffset(hourOffset: Int): Long {
+        return unixTime(2017, Calendar.JANUARY, 1, hourOffset, 0)
     }
 
     @Test
@@ -468,5 +655,10 @@ class DateUtilsTest : BaseUnitTest() {
             removeTimezone(unixTime(2018, Calendar.APRIL, 1, 8, 0)),
             unixTime(2018, Calendar.APRIL, 1, 18, 0)
         )
+    }
+
+    companion object {
+        const val HOUR_OFFSET = 3
+        const val HOURS_IN_ONE_DAY = 24
     }
 }

@@ -53,12 +53,12 @@ class HabitListTest : BaseUnitTest() {
         habitsArray[1].isArchived = true
         habitsArray[4].isArchived = true
         habitsArray[7].isArchived = true
-        activeHabits = habitList.getFiltered(HabitMatcherBuilder().build())
+        activeHabits = habitList.getFiltered(HabitMatcher())
         reminderHabits = habitList.getFiltered(
-            HabitMatcherBuilder()
-                .setArchivedAllowed(true)
-                .setReminderRequired(true)
-                .build()
+            HabitMatcher(
+                isArchivedAllowed = true,
+                isReminderRequired = true,
+            )
         )
     }
 
@@ -181,10 +181,10 @@ class HabitListTest : BaseUnitTest() {
     fun testOrder_inherit() {
         habitList.primaryOrder = HabitList.Order.BY_COLOR_ASC
         val filteredList = habitList.getFiltered(
-            HabitMatcherBuilder()
-                .setArchivedAllowed(false)
-                .setCompletedAllowed(false)
-                .build()
+            HabitMatcher(
+                isArchivedAllowed = false,
+                isCompletedAllowed = false,
+            )
         )
         assertEquals(filteredList.primaryOrder, HabitList.Order.BY_COLOR_ASC)
     }
