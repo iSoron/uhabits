@@ -79,29 +79,25 @@ class CheckmarkDialog
     private fun setUpButtons(value: Int, color: Int) {
         val sres = StyledResources(context)
         val mediumContrastColor = sres.getColor(R.attr.contrast60)
-
         setButtonAttrs(binding.yesBtn, color)
         setButtonAttrs(binding.noBtn, mediumContrastColor)
-
-        if (preferences.isSkipEnabled) {
-            setButtonAttrs(binding.skippedBtn, color)
-            if (value == SKIP) binding.skippedBtn.performClick()
-        }
-
-        if (preferences.areQuestionMarksEnabled) {
-            setButtonAttrs(binding.questionBtn, mediumContrastColor)
-            if (value == UNKNOWN) binding.questionBtn.performClick()
-        }
-
+        setButtonAttrs(binding.skippedBtn, color, visible = preferences.isSkipEnabled)
+        setButtonAttrs(binding.questionBtn, mediumContrastColor, visible = preferences.areQuestionMarksEnabled)
         when (value) {
-            YES_MANUAL, YES_AUTO -> binding.yesBtn.performClick()
-            NO -> binding.noBtn.performClick()
+            UNKNOWN -> if (preferences.areQuestionMarksEnabled) {
+                binding.questionBtn.performClick()
+            } else {
+                binding.noBtn.performClick()
+            }
+            SKIP -> binding.skippedBtn.performClick()
+            YES_MANUAL -> binding.yesBtn.performClick()
+            YES_AUTO, NO -> binding.noBtn.performClick()
         }
     }
 
-    private fun setButtonAttrs(button: Button, color: Int) {
+    private fun setButtonAttrs(button: Button, color: Int, visible: Boolean = true) {
         button.apply {
-            visibility = View.VISIBLE
+            visibility = if (visible) View.VISIBLE else View.GONE
             typeface = fontAwesome
             setTextColor(color)
             setOnClickListener(this@CheckmarkDialog)
