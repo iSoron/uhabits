@@ -59,7 +59,7 @@ class HistoryCardPresenter(
     val screen: Screen,
 ) : OnDateClickedListener {
 
-    override fun onDateShortPress(date: LocalDate) {
+    override fun onDateLongPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
@@ -83,7 +83,7 @@ class HistoryCardPresenter(
         }
     }
 
-    override fun onDateLongPress(date: LocalDate) {
+    override fun onDateShortPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
