@@ -45,7 +45,7 @@ class CheckmarkDialog
     ): AlertDialog {
         binding = CheckmarkDialogBinding.inflate(LayoutInflater.from(context))
         fontAwesome = InterfaceUtils.getFontAwesome(context)!!
-        binding.etNotes.setText(notes)
+        binding.etNotes.append(notes)
         setUpButtons(value, theme.color(paletteColor).toInt())
 
         val dialog = AlertDialog.Builder(context)
