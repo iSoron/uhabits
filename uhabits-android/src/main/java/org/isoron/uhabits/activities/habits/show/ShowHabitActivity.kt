@@ -181,7 +181,14 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback
         ) {
-            CheckmarkDialog(this@ShowHabitActivity, preferences).create(value, notes, dateString, color, callback).show()
+            CheckmarkDialog(this@ShowHabitActivity, preferences).create(
+                value,
+                notes,
+                dateString,
+                color,
+                callback,
+                themeSwitcher.currentTheme!!,
+            ).show()
         }
 
         override fun showEditHabitScreen(habit: Habit) {

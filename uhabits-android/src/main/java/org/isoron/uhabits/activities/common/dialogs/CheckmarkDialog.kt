@@ -1,13 +1,13 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
@@ -17,6 +17,7 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.databinding.CheckmarkDialogBinding
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils
@@ -39,13 +40,13 @@ class CheckmarkDialog
         notes: String,
         dateString: String,
         paletteColor: PaletteColor,
-        callback: ListHabitsBehavior.CheckMarkDialogCallback
+        callback: ListHabitsBehavior.CheckMarkDialogCallback,
+        theme: Theme,
     ): AlertDialog {
         binding = CheckmarkDialogBinding.inflate(LayoutInflater.from(context))
         fontAwesome = InterfaceUtils.getFontAwesome(context)!!
-
         binding.etNotes.setText(notes)
-        setUpButtons(value, Color.parseColor(paletteColor.toCsvColor()))
+        setUpButtons(value, theme.color(paletteColor).toInt())
 
         val dialog = AlertDialog.Builder(context)
             .setView(binding.root)

@@ -241,7 +241,14 @@ class ListHabitsScreen
         color: PaletteColor,
         callback: ListHabitsBehavior.CheckMarkDialogCallback
     ) {
-        checkMarkDialog.create(value, notes, dateString, color, callback).show()
+        checkMarkDialog.create(
+            value,
+            notes,
+            dateString,
+            color,
+            callback,
+            themeSwitcher.currentTheme!!,
+        ).show()
     }
 
     private fun getExecuteString(command: Command): String? {
