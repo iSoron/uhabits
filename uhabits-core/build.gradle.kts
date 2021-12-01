@@ -47,7 +47,7 @@ kotlin {
                 implementation("com.google.guava:guava:31.0.1-android")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2")
-                implementation("androidx.annotation:annotation:1.2.0")
+                implementation("androidx.annotation:annotation:1.3.0")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
                 implementation("com.opencsv:opencsv:5.5.2")
                 implementation("commons-codec:commons-codec:1.15")
