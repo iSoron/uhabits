@@ -18,8 +18,6 @@ allprojects {
         mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
-        maven(url = "https://kotlin.bintray.com/ktor")
-        maven(url = "https://kotlin.bintray.com/kotlin-js-wrappers")
         maven(url = "https://jitpack.io")
     }
 }
