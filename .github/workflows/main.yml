@@ -41,8 +41,8 @@ jobs:
           27,
           28,
           # 29,  # Crashes constantly, see: https://issuetracker.google.com/issues/159732638 
-          # 30,  # Not available yet
-          # 31,  # Not available yet
+          # 30,
+          31,
         ]
 
     steps:
