@@ -22,6 +22,8 @@ import android.content.BroadcastReceiver
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.util.Log
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.core.models.Habit
@@ -76,8 +78,21 @@ class ReminderReceiver : BroadcastReceiver() {
                 }
                 ACTION_SNOOZE_REMINDER -> {
                     if (habit == null) return
-                    Log.d("ReminderReceiver", String.format("onSnoozePressed habit=%d", habit.id))
-                    reminderController.onSnoozePressed(habit, context)
+                    if (SDK_INT < Build.VERSION_CODES.S) {
+                        Log.d(
+                            "ReminderReceiver",
+                            String.format("onSnoozePressed habit=%d", habit.id)
+                        )
+                        reminderController.onSnoozePressed(habit, context)
+                    } else {
+                        Log.w(
+                            "ReminderReceiver",
+                            String.format(
+                                "onSnoozePressed habit=%d, should be deactivated in recent versions.",
+                                habit.id
+                            )
+                        )
+                    }
                 }
                 Intent.ACTION_BOOT_COMPLETED -> {
                     Log.d("ReminderReceiver", "onBootCompleted")
