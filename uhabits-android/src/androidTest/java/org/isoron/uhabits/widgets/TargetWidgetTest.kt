@@ -32,6 +32,10 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class TargetWidgetTest : BaseViewTest() {
+    init {
+        // TODO: fix rendering differences across APIs
+        similarityCutoff = 0.00025
+    }
     private lateinit var habit: Habit
     private lateinit var view: FrameLayout
     override fun setUp() {
