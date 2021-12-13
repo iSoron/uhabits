@@ -191,6 +191,10 @@ abstract class BaseAndroidTest : TestCase() {
         device.executeShellCommand("date $date")
         device.executeShellCommand("date $date")
 
+        // Apparently needed on API31
+        device.executeShellCommand("su root date $date")
+        device.executeShellCommand("su root date $date")
+
         // Set time (method 2)
         // Run in addition to the method above because one of these mail fail, depending
         // on the Android API version.
