@@ -20,6 +20,7 @@
 package org.isoron.uhabits.acceptance.steps
 
 import android.os.Build.VERSION.SDK_INT
+import android.os.SystemClock.sleep
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiSelector
 import org.isoron.uhabits.BaseUserInterfaceTest.Companion.device
@@ -35,11 +36,12 @@ fun exportFullBackup() {
     clickMenu(SETTINGS)
     clickText("Export full backup")
     if (SDK_INT < 28) return
+    sleep(8000)
     pressBack()
 }
 
 fun clearDownloadFolder() {
-    device.executeShellCommand("rm -rf /sdcard/Download/")
+    device.executeShellCommand("rm -rf /sdcard/Download")
 }
 
 fun clearBackupFolder() {
@@ -48,7 +50,7 @@ fun clearBackupFolder() {
 
 fun copyBackupToDownloadFolder() {
     device.executeShellCommand("mv $BACKUP_FOLDER $DOWNLOAD_FOLDER")
-    device.executeShellCommand("chown root $DOWNLOAD_FOLDER")
+    device.executeShellCommand("chmod -R a+rX $DOWNLOAD_FOLDER")
 }
 
 fun importBackupFromDownloadFolder() {
@@ -83,6 +85,10 @@ fun importBackupFromDownloadFolder() {
         device.click(50, 90) // Click menu button
         device.findObject(UiSelector().textContains("Android")).click()
         device.findObject(UiSelector().textContains("Download")).click()
+        device.findObject(UiSelector().textContains("Loop")).click()
+    } else if (SDK_INT >= 31) {
+        device.click(50, 90) // Click menu button
+        device.findObject(UiSelector().textContains("Downloads")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
     } else {
         device.click(50, 90) // Click menu button
