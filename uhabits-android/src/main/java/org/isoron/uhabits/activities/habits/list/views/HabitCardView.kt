@@ -36,7 +36,6 @@ import android.widget.TextView
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
-import org.isoron.uhabits.activities.habits.list.views.HabitCardView.Companion.delay
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Timestamp
@@ -57,6 +56,12 @@ class HabitCardViewFactory
 ) {
     fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
 }
+
+data class DelayedToggle(
+    var habit: Habit,
+    var timestamp: Timestamp,
+    var value: Int
+)
 
 class HabitCardView(
     @ActivityContext context: Context,
@@ -116,11 +121,21 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
+    var notesIndicators
+        get() = checkmarkPanel.notesIndicators
+        set(values) {
+            checkmarkPanel.notesIndicators = values
+            numberPanel.notesIndicators = values
+        }
+
     var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
+
+    private var currentToggleTaskId = 0
+    private var queuedToggles = mutableListOf<DelayedToggle>()
 
     init {
         scoreRing = RingView(context).apply {
@@ -145,10 +160,13 @@ class HabitCardView(
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
                 habit?.let {
-                    {
-                        behavior.onToggle(it, timestamp, value)
-                    }.delay(TOGGLE_DELAY_MILLIS)
+                    val taskId = queueToggle(it, timestamp, value);
+                    { runPendingToggles(taskId) }.delay(TOGGLE_DELAY_MILLIS)
                 }
+            }
+            onEdit = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp) }
             }
         }
 
@@ -182,6 +200,24 @@ class HabitCardView(
         val margin = dp(3f).toInt()
         setPadding(margin, 0, margin, margin)
         addView(innerFrame)
+    }
+
+    @Synchronized
+    private fun runPendingToggles(id: Int) {
+        if (currentToggleTaskId != id) return
+        for ((h, t, v) in queuedToggles) behavior.onToggle(h, t, v)
+        queuedToggles.clear()
+    }
+
+    @Synchronized
+    private fun queueToggle(
+        it: Habit,
+        timestamp: Timestamp,
+        value: Int
+    ): Int {
+        currentToggleTaskId += 1
+        queuedToggles.add(DelayedToggle(it, timestamp, value))
+        return currentToggleTaskId
     }
 
     override fun onModelChange() {

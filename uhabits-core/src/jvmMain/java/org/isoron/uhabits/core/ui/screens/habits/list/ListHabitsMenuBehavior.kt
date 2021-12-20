@@ -20,7 +20,6 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
-import org.isoron.uhabits.core.models.HabitMatcherBuilder
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import javax.inject.Inject
@@ -33,6 +32,7 @@ class ListHabitsMenuBehavior @Inject constructor(
 ) {
     private var showCompleted: Boolean
     private var showArchived: Boolean
+
     fun onCreateHabit() {
         screen.showSelectHabitTypeDialog()
     }
@@ -97,13 +97,26 @@ class ListHabitsMenuBehavior @Inject constructor(
         screen.applyTheme()
     }
 
+    fun onPreferencesChanged() {
+        updateAdapterFilter()
+    }
+
     private fun updateAdapterFilter() {
-        adapter.setFilter(
-            HabitMatcherBuilder()
-                .setArchivedAllowed(showArchived)
-                .setCompletedAllowed(showCompleted)
-                .build()
-        )
+        if (preferences.areQuestionMarksEnabled) {
+            adapter.setFilter(
+                HabitMatcher(
+                    isArchivedAllowed = showArchived,
+                    isEnteredAllowed = showCompleted,
+                )
+            )
+        } else {
+            adapter.setFilter(
+                HabitMatcher(
+                    isArchivedAllowed = showArchived,
+                    isCompletedAllowed = showCompleted,
+                )
+            )
+        }
         adapter.refresh()
     }
 

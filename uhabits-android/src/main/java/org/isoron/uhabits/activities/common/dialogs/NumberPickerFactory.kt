@@ -47,6 +47,8 @@ class NumberPickerFactory
     fun create(
         value: Double,
         unit: String,
+        notes: String,
+        dateString: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
         val inflater = LayoutInflater.from(context)
@@ -54,6 +56,7 @@ class NumberPickerFactory
 
         val picker = view.findViewById<NumberPicker>(R.id.picker)
         val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
+        val etNotes = view.findViewById<EditText>(R.id.etNotes)
 
         val watcherFilter: InputFilter = SeparatorWatcherInputFilter(picker2)
         val numberPickerInputText = getNumberPickerInputText(picker)
@@ -77,13 +80,18 @@ class NumberPickerFactory
         picker2.setFormatter { v -> String.format("%02d", v) }
         picker2.value = intValue % 100
 
+        etNotes.setText(notes)
         val dialog = AlertDialog.Builder(context)
             .setView(view)
-            .setTitle(R.string.change_value)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
+            .setTitle(dateString)
+            .setPositiveButton(R.string.save) { _, _ ->
                 picker.clearFocus()
                 val v = picker.value + 0.01 * picker2.value
-                callback.onNumberPicked(v)
+                val note = etNotes.text.toString()
+                callback.onNumberPicked(v, note)
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                callback.onNumberPickerDismissed()
             }
             .setOnDismissListener {
                 callback.onNumberPickerDismissed()

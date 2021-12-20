@@ -43,7 +43,7 @@ abstract class HabitList : Iterable<Habit> {
      */
     constructor() {
         observable = ModelObservable()
-        filter = HabitMatcherBuilder().setArchivedAllowed(true).build()
+        filter = HabitMatcher(isArchivedAllowed = true)
     }
 
     protected constructor(filter: HabitMatcher) {

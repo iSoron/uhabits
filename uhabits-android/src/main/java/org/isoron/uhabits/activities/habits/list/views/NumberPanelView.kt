@@ -72,6 +72,12 @@ class NumberPanelView(
             setupButtons()
         }
 
+    var notesIndicators = BooleanArray(0)
+        set(values) {
+            field = values
+            setupButtons()
+        }
+
     var onEdit: (Timestamp) -> Unit = {}
         set(value) {
             field = value
@@ -89,6 +95,10 @@ class NumberPanelView(
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> 0.0
+            }
+            button.hasNotes = when {
+                index + dataOffset < notesIndicators.size -> notesIndicators[index + dataOffset]
+                else -> false
             }
             button.color = color
             button.targetType = targetType

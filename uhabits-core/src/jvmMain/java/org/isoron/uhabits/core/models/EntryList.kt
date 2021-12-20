@@ -100,7 +100,7 @@ open class EntryList {
             val intervals = buildIntervals(frequency, original)
             snapIntervalsTogether(intervals)
             val computed = buildEntriesFromInterval(original, intervals)
-            computed.filter { it.value != UNKNOWN }.forEach { add(it) }
+            computed.filter { it.value != UNKNOWN || it.notes.isNotEmpty() }.forEach { add(it) }
         }
     }
 

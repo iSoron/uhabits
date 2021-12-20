@@ -38,7 +38,7 @@ class CreateRepetitionCommandTest : BaseUnitTest() {
         habit = fixtures.createShortHabit()
         habitList.add(habit)
         today = getToday()
-        command = CreateRepetitionCommand(habitList, habit, today, 100)
+        command = CreateRepetitionCommand(habitList, habit, today, 100, "")
     }
 
     @Test

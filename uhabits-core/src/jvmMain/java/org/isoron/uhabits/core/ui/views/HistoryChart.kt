@@ -33,8 +33,9 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
 
-fun interface OnDateClickedListener {
-    fun onDateClicked(date: LocalDate)
+interface OnDateClickedListener {
+    fun onDateShortPress(date: LocalDate) {}
+    fun onDateLongPress(date: LocalDate) {}
 }
 
 class HistoryChart(
@@ -43,9 +44,10 @@ class HistoryChart(
     var paletteColor: PaletteColor,
     var series: List<Square>,
     var defaultSquare: Square,
+    var notesIndicators: List<Boolean>,
     var theme: Theme,
     var today: LocalDate,
-    var onDateClickedListener: OnDateClickedListener = OnDateClickedListener { },
+    var onDateClickedListener: OnDateClickedListener = object : OnDateClickedListener {},
     var padding: Double = 0.0,
 ) : DataView {
 
@@ -73,6 +75,14 @@ class HistoryChart(
         get() = squareSpacing + squareSize
 
     override fun onClick(x: Double, y: Double) {
+        onDateClicked(x, y, false)
+    }
+
+    override fun onLongClick(x: Double, y: Double) {
+        onDateClicked(x, y, true)
+    }
+
+    private fun onDateClicked(x: Double, y: Double, isLongClick: Boolean) {
         if (width <= 0.0) throw IllegalStateException("onClick must be called after draw(canvas)")
         val col = ((x - padding) / squareSize).toInt()
         val row = ((y - padding) / squareSize).toInt()
@@ -80,7 +90,11 @@ class HistoryChart(
         if (row == 0 || col == nColumns) return
         val clickedDate = topLeftDate.plus(offset)
         if (clickedDate.isNewerThan(today)) return
-        onDateClickedListener.onDateClicked(clickedDate)
+        if (isLongClick) {
+            onDateClickedListener.onDateLongPress(clickedDate)
+        } else {
+            onDateClickedListener.onDateShortPress(clickedDate)
+        }
     }
 
     override fun draw(canvas: Canvas) {
@@ -192,7 +206,9 @@ class HistoryChart(
     ) {
 
         val value = if (offset >= series.size) defaultSquare else series[offset]
+        val hasNotes = if (offset >= notesIndicators.size) false else notesIndicators[offset]
         val squareColor: Color
+        val circleColor: Color
         val color = theme.color(paletteColor.paletteIndex)
         squareColor = when (value) {
             Square.ON -> {
@@ -236,5 +252,14 @@ class HistoryChart(
         canvas.setColor(textColor)
         canvas.setTextAlign(TextAlign.CENTER)
         canvas.drawText(date.day.toString(), x + width / 2, y + width / 2)
+
+        if (hasNotes) {
+            circleColor = when (value) {
+                Square.ON -> theme.lowContrastTextColor
+                else -> color
+            }
+            canvas.setColor(circleColor)
+            canvas.fillCircle(x + width - width / 5, y + width / 5, width / 12)
+        }
     }
 }

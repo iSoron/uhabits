@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.models
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDate.Companion.DAY_LENGTH
 import org.isoron.uhabits.core.utils.DateFormats.Companion.getCSVDateFormat
+import org.isoron.uhabits.core.utils.DateFormats.Companion.getDialogDateFormat
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import org.isoron.uhabits.core.utils.DateUtils.Companion.truncate
@@ -80,6 +81,10 @@ data class Timestamp(var unixTime: Long) : Comparable<Timestamp> {
         val day = GregorianCalendar(TimeZone.getTimeZone("GMT"))
         day.timeInMillis = unixTime
         return day
+    }
+
+    fun toDialogDateString(): String {
+        return getDialogDateFormat().format(Date(unixTime))
     }
 
     override fun toString(): String {

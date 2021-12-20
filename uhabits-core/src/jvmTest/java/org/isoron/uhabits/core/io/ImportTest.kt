@@ -54,6 +54,7 @@ class ImportTest : BaseUnitTest() {
         assertTrue(isChecked(habit, 2016, 3, 18))
         assertTrue(isChecked(habit, 2016, 3, 19))
         assertFalse(isChecked(habit, 2016, 3, 20))
+        assertTrue(isNotesEqual(habit, 2016, 3, 18, "text"))
     }
 
     @Test
@@ -68,6 +69,8 @@ class ImportTest : BaseUnitTest() {
         assertTrue(isChecked(habit, 2019, 4, 11))
         assertTrue(isChecked(habit, 2019, 5, 7))
         assertFalse(isChecked(habit, 2019, 6, 14))
+        assertTrue(isNotesEqual(habit, 2019, 4, 11, "text"))
+        assertTrue(isNotesEqual(habit, 2019, 6, 14, "Habit 3 notes"))
     }
 
     @Test
@@ -125,6 +128,13 @@ class ImportTest : BaseUnitTest() {
         date.set(year, month - 1, day)
         val timestamp = Timestamp(date)
         return h.originalEntries.get(timestamp).value == Entry.YES_MANUAL
+    }
+
+    private fun isNotesEqual(h: Habit, year: Int, month: Int, day: Int, notes: String): Boolean {
+        val date = getStartOfTodayCalendar()
+        date.set(year, month - 1, day)
+        val timestamp = Timestamp(date)
+        return h.originalEntries.get(timestamp).notes == notes
     }
 
     @Throws(IOException::class)

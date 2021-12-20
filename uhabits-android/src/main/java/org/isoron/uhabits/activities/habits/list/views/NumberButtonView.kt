@@ -34,8 +34,8 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
-import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.sres
 import java.lang.Double.max
 import java.text.DecimalFormat
@@ -101,6 +101,11 @@ class NumberButtonView(
             field = value
             invalidate()
         }
+    var hasNotes = false
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     var onEdit: () -> Unit = {}
     private var drawer: Drawer = Drawer(context)
@@ -111,8 +116,7 @@ class NumberButtonView(
     }
 
     override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) onEdit()
-        else showMessage(resources.getString(R.string.long_press_to_edit))
+        onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
@@ -211,6 +215,8 @@ class NumberButtonView(
                 rect.offset(0f, 1.3f * em)
                 canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
             }
+
+            drawNotesIndicator(canvas, color, em, hasNotes)
         }
     }
 }

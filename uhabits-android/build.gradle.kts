@@ -18,7 +18,7 @@
  */
 
 plugins {
-    id("com.github.triplet.play") version "3.6.0"
+    id("com.github.triplet.play") version "3.7.0"
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
@@ -86,10 +86,10 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.39"
-    val kotlinVersion = "1.5.31"
+    val daggerVersion = "2.40.3"
+    val kotlinVersion = "1.6.0"
     val kxCoroutinesVersion = "1.5.2"
-    val ktorVersion = "1.6.4"
+    val ktorVersion = "1.6.6"
     val espressoVersion = "3.4.0"
 
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
@@ -98,7 +98,7 @@ dependencies {
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.1")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
-    androidTestImplementation("androidx.annotation:annotation:1.2.0")
+    androidTestImplementation("androidx.annotation:annotation:1.3.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
