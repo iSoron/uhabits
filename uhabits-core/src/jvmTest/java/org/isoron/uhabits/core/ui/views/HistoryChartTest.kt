@@ -122,20 +122,20 @@ class HistoryChartTest {
 
         // Click top left date
         view.onLongClick(20.0, 46.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateLongPress(LocalDate(2014, Month.OCTOBER, 26))
         reset(dateClickedListener)
         view.onLongClick(2.0, 28.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateLongPress(LocalDate(2014, Month.OCTOBER, 26))
         reset(dateClickedListener)
 
         // Click date in the middle
         view.onLongClick(163.0, 113.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2014, 12, 10))
+        verify(dateClickedListener).onDateLongPress(LocalDate(2014, Month.DECEMBER, 10))
         reset(dateClickedListener)
 
         // Click today
         view.onLongClick(336.0, 37.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2015, 1, 25))
+        verify(dateClickedListener).onDateLongPress(LocalDate(2015, Month.JANUARY, 25))
         reset(dateClickedListener)
 
         // Click header
