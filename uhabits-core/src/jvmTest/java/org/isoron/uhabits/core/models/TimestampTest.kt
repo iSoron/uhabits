@@ -75,4 +75,20 @@ class TimestampTest : BaseUnitTest() {
         val t = Timestamp(1578054764000L)
         assertThat(t.unixTime, equalTo(1578009600000L))
     }
+
+    // toJavaDate (write JVM test, then convert)
+
+    // toCalendar (write JVM test, then convert)
+
+    //toDialogDateString (add test to DateFormats)
+
+    // toString (add test to DateFormats)
+
+    // weekday (write JVM test, then convert)
+
+    //truncate (write JVM test, then convert)
+
+    // Companion.fromLocalDate (simple test)
+
+    // Companion.from (simple test)
 }
