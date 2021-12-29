@@ -70,7 +70,7 @@
     <string name="intro_title_1">ברוך בואך</string>
     <string name="intro_description_1">‏„Loop למעקב אחר ההרגלים” מסייע לך ביצירה ובשימור הרגלים טובים.</string>
     <string name="intro_title_2">יצירת הרגלים חדשים</string>
-    <string name="intro_description_2">בכל יום, לאחר שביצעת את ההרגל, יש לסמן זאת ביישום.</string>
+    <string name="intro_description_2">בכל יום, לאחר ביצוע ההרגל, יש לסמן זאת ביישום.</string>
     <string name="intro_title_4">מעקב אחר ההתקדמות</string>
     <string name="intro_description_4">גרפים מפורטים מציגים כיצד ההרגלים שלך השתפרו לאורך זמן.</string>
     <string name="interval_15_minutes">15 דקות</string>
@@ -108,7 +108,7 @@
     </plurals>
     <string name="habit_not_found">ההרגל נמחק / לא נמצא</string>
     <string name="weekends">סופי שבוע</string>
-    <string name="any_weekday">ימי חול</string>
+    <string name="any_weekday">שני עד שישי</string>
     <string name="any_day">כל ימות השבוע</string>
     <string name="select_weekdays">בחירת ימים</string>
     <string name="export_to_csv">ייצוא כקובץ CSV</string>

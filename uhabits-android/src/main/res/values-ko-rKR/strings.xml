@@ -28,6 +28,18 @@
     <string name="add_habit">습관 추가하기</string>
     <string name="color_picker_default_title">색상 변경</string>
     <string name="toast_habit_created">습관이 생성되었습니다.</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="other">습관이 변경되었습니다</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="other">습관이 삭제되었습니다</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="other">습관이 보관 되었습니다 </item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="other">습관 보관이 취소되었습니다 </item>
+    </plurals>
     <string name="overview">한눈에 보기</string>
     <string name="habit_strength">습관 강도</string>
     <string name="history">이력</string>
@@ -36,6 +48,7 @@
     <string name="save">저장</string>
     <string name="streaks">연속</string>
     <string name="no_habits_found">활성화된 습관이 없습니다.</string>
+    <string name="no_habits_left_to_do">오늘 할 일을 모두 마쳤습니다 </string>
     <string name="long_press_to_toggle">체크하거나 해제하려면 길게 누르세요.</string>
     <string name="reminder_off">끔</string>
     <string name="create_habit">습관 만들기</string>
@@ -69,6 +82,12 @@
     <string name="hint_title">아시나요?</string>
     <string name="hint_drag">목록의 순서를 재배치하려면, 습관의 제목을 길게 누르고 다른 위치로 드래그하면 됩니다.</string>
     <string name="hint_landscape">가로 모드에서는 더 많은 날짜를 볼 수 있습니다.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="other">습관을 삭제하시겠습니까?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="other">습관을 영구적으로 삭제합니다. 삭제 후 취소할 수 없습니다.</item>
+    </plurals>
     <string name="habit_not_found">습관 삭제 / 찾을 수 없음</string>
     <string name="weekends">주말</string>
     <string name="any_weekday">주중</string>
@@ -138,6 +157,7 @@
     <string name="by_name">이름 순으로</string>
     <string name="by_color">색상 순으로</string>
     <string name="by_score">점수 순으로</string>
+    <string name="by_status">상태별로</string>
     <string name="export">내보내기</string>
     <string name="long_press_to_edit">길게 누르면 값이 변경됩니다.</string>
     <string name="change_value">값 변경</string>
@@ -153,11 +173,20 @@
     <string name="pref_view_privacy">개인 정보 취급 방침 보기</string>
     <string name="view_all_contributors">모든 기여자보기&#8230;</string>
     <string name="database">데이터베이스</string>
+    <string name="widget_opacity_title">위젯 투명도</string>
+    <string name="widget_opacity_description">위젯을 홈 화면에서 더 투명하게 또는 더 불투명하게 합니다.</string>
     <string name="first_day_of_the_week">첫번째 요일</string>
     <string name="default_reminder_question">오늘 습관을 지키셨나요?</string>
     <string name="notes">메모</string>
     <string name="example_notes">(선택사항)</string>
+    <string name="yes_or_no_example">예) 오늘 일찍 일어났나요? 운동 하셨나요? 체스를 하셨나요?</string>
+    <string name="measurable">측정 가능한</string>
+    <string name="measurable_example">예) 오늘 몇 마일을 달렸습니까? 몇 페이지를 읽었습니까?</string>
+    <string name="x_times_per_week">일주일에 몇 번</string>
+    <string name="x_times_per_month">한 달에 몇 번</string>
+    <string name="yes_or_no_short_example">예) 운동</string>
     <string name="color">색</string>
+    <string name="example_target">예) 15</string>
     <string name="every_month">매월</string>
     <string name="today">오늘</string>
     <string name="x_times_per_y_days">%d 번 %d 일 동안</string>

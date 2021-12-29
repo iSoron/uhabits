@@ -37,6 +37,9 @@
     <plurals name="toast_habits_archived">
         <item quantity="other">習慣をアーカイブしました</item>
     </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="other">習慣のアーカイブを解除しました</item>
+    </plurals>
     <string name="overview">概要</string>
     <string name="habit_strength">習慣の強さ</string>
     <string name="history">履歴</string>
@@ -192,6 +195,8 @@
     <string name="today">今日</string>
     <string name="enter">入力</string>
     <string name="no_habits">習慣が見つかりませんでした</string>
+    <string name="pref_skip_title">スキップ日を有効にする</string>
     <string name="you_are_now_a_developer">これで開発者になりました!</string>
+    <string name="activity_not_found">この操作を行うアプリが見つかりませんでした。</string>
     <string name="x_times_per_y_days">%d 回 %d 日</string>
 </resources>

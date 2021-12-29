@@ -23,7 +23,7 @@
     <string name="action_settings">إعدادات</string>
     <string name="edit">تعديل</string>
     <string name="delete">حذف</string>
-    <string name="archive">أرشفة</string>
+    <string name="archive">أرشيف</string>
     <string name="unarchive">إزالة من الأرشيف</string>
     <string name="add_habit">إضافة عادة</string>
     <string name="color_picker_default_title">تغيير اللون</string>
@@ -48,14 +48,14 @@
     <string name="intro_title_2">إنشاء بعض عادات جديدة</string>
     <string name="intro_description_2">كل يوم، بعد أداء عادتك، ضع علامة عليها في التطبيق.</string>
     <string name="intro_title_4">تتبع تقدمك</string>
-    <string name="intro_description_4">رسوم بيانية مفصلة تُريك كيف تحسنت عاداتك مع مرور الوقت.</string>
+    <string name="intro_description_4">رسوم بيانية مفصلة تُريك كيف تحسنت عاداتك مع مرور الوقت.  </string>
     <string name="interval_15_minutes">15 دقيقة</string>
     <string name="interval_30_minutes">30 دقيقة</string>
     <string name="interval_1_hour">ساعة واحدة</string>
     <string name="interval_2_hour">ساعتان</string>
     <string name="interval_4_hour">أربع ساعات</string>
     <string name="interval_8_hour">8 ساعات</string>
-    <string name="interval_24_hour">٢٤ ساعة</string>
+    <string name="interval_24_hour">24 ساعة</string>
     <string name="interval_always_ask">اسأل دائماً   </string>
     <string name="interval_custom">مخصص...   </string>
     <string name="pref_toggle_title">تبديل وضعية العادة بضغطة قصيرة   </string>
@@ -184,6 +184,7 @@
     <string name="pref_skip_title">تمكين أيام التخطي</string>
     <string name="pref_skip_description">بدّل مرتين لإضافة تخطي بدلاً من علامة اختيار. التخطيات تحافظ على درجاتك دون تغيير أو خسارة سلسلة الانتصارات.</string>
     <string name="pref_unknown_title">إظهار علامات الاستفهام للبيانات المفقودة</string>
+    <string name="pref_unknown_description">التفريق بين الأيام التي لا تحتوي على بيانات من الهفوات الفعلية. للدخول في اللقطات المتتابعة ، قم بالتبديل مرتين.</string>
     <string name="you_are_now_a_developer">أنت الآن مطوَِر برمجيات!</string>
     <string name="activity_not_found">لم يتم العثور على تطبيق لإتمام هذا الإجراء</string>
     <string name="pref_midnight_delay_title">تمديد اليوم بضع ساعات بعد منتصف الليل</string>

@@ -28,6 +28,12 @@
     <string name="add_habit">Pridaj návyk</string>
     <string name="color_picker_default_title">Zmeniť farbu</string>
     <string name="toast_habit_created">Návyk vytvorený</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Návyk zmenený</item>
+        <item quantity="few">Návyky zmenené</item>
+        <item quantity="many">Návykov zmenených</item>
+        <item quantity="other">Návykov zmenených</item>
+    </plurals>
     <string name="overview">Prehľad</string>
     <string name="habit_strength">Sila návyku</string>
     <string name="history">História</string>
@@ -36,6 +42,7 @@
     <string name="save">Uložiť</string>
     <string name="streaks">Série</string>
     <string name="no_habits_found">Nemáte žiadne aktívne návyky</string>
+    <string name="no_habits_left_to_do">Na dnes máte všetko hotové!</string>
     <string name="long_press_to_toggle">Stlačením a podržaním začiarknite alebo zrušte začiarknutie políčka</string>
     <string name="reminder_off">Vypnuté</string>
     <string name="create_habit">Vytvoriť návyk</string>
@@ -138,6 +145,7 @@
     <string name="by_name">Podľa názvu</string>
     <string name="by_color">Podľa farby</string>
     <string name="by_score">Podľa skóre</string>
+    <string name="by_status">Podľa stavu</string>
     <string name="export">Exportovať</string>
     <string name="long_press_to_edit">Stlačením a podržaním zmeníte hodnotu</string>
     <string name="change_value">Zmeniť hodnotu</string>
@@ -161,15 +169,28 @@
     <string name="example_notes">(voliteľné)</string>
     <string name="yes_or_no_example">napr. Zobudili ste sa dnes skoro? Cvičili ste? Hrali ste šach?</string>
     <string name="measurable">Merateľné</string>
+    <string name="measurable_example">napr. Koľko kilometrov ste dnes nabehali? Koľko strán ste prečítali?</string>
     <string name="x_times_per_week">%d krát týždenne</string>
     <string name="x_times_per_month">%d krát za mesiac</string>
     <string name="yes_or_no_short_example">napr. Cvičenie</string>
     <string name="color">Farba</string>
     <string name="example_target">napr. 15</string>
     <string name="measurable_short_example">napr. Beh</string>
-    <string name="measurable_question_example">napr. Koľko míľ ste dnes prešli?</string>
-    <string name="measurable_units_example">napr. míle</string>
+    <string name="measurable_question_example">napr. Koľko kilometrov ste dnes prešli?</string>
+    <string name="measurable_units_example">napr. kilometre</string>
     <string name="every_month">Každý mesiac</string>
     <string name="validation_cannot_be_blank">Nemôže byť prázdne</string>
     <string name="today">Dnes</string>
+    <string name="enter">Zadať</string>
+    <string name="no_habits">Nenašli sa žiadne návyky</string>
+    <string name="no_numerical_habits">Nenašli sa žiadne merateľné návyky</string>
+    <string name="no_boolean_habits">Nenašli sa žiadne áno-alebo-nie návyky</string>
+    <string name="pref_skip_title">Povoliť preskočenie dní</string>
+    <string name="pref_skip_description">Dvojitým prepnutím pridáte namiesto začiarknutia preskočenie. Preskočenia udržia vaše skóre nezmenené a neprerušia vašu sériu.</string>
+    <string name="pref_unknown_title">Zobraziť otázniky pre chýbajúce údaje</string>
+    <string name="pref_unknown_description">Odlíšte dni bez údajov od skutočných prerušení. Ak chcete zadať prerušenie, dvakrát prepnite.</string>
+    <string name="you_are_now_a_developer">Teraz ste vývojár</string>
+    <string name="activity_not_found">Nenašla sa žiadna aplikácia podporujúca túto akciu</string>
+    <string name="pref_midnight_delay_title">Predĺžte deň o niekoľko hodín po polnoci</string>
+    <string name="pref_midnight_delay_description">Na zobrazenie nového dňa počkajte do 3:00. Užitočné, ak zvyčajne chodíte spať po polnoci. Vyžaduje reštart aplikácie.</string>
 </resources>
