@@ -20,6 +20,7 @@
 package org.isoron.uhabits.intents
 
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.PendingIntent.getBroadcast
 import android.content.Context
@@ -49,7 +50,7 @@ class PendingIntentFactory
                 action = WidgetReceiver.ACTION_ADD_REPETITION
                 if (timestamp != null) putExtra("timestamp", timestamp.unixTime)
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
     fun dismissNotification(habit: Habit): PendingIntent =
@@ -60,7 +61,7 @@ class PendingIntentFactory
                 action = WidgetReceiver.ACTION_DISMISS_REMINDER
                 data = Uri.parse(habit.uriString)
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
     fun removeRepetition(habit: Habit, timestamp: Timestamp?): PendingIntent =
@@ -72,7 +73,7 @@ class PendingIntentFactory
                 data = Uri.parse(habit.uriString)
                 if (timestamp != null) putExtra("timestamp", timestamp.unixTime)
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
     fun showHabit(habit: Habit): PendingIntent =
@@ -84,7 +85,7 @@ class PendingIntentFactory
                     habit
                 )
             )
-            .getPendingIntent(0, FLAG_UPDATE_CURRENT)!!
+            .getPendingIntent(0, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)!!
 
     fun showReminder(
         habit: Habit,
@@ -100,7 +101,7 @@ class PendingIntentFactory
                 putExtra("timestamp", timestamp)
                 putExtra("reminderTime", reminderTime)
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
     fun snoozeNotification(habit: Habit): PendingIntent =
@@ -111,7 +112,7 @@ class PendingIntentFactory
                 data = Uri.parse(habit.uriString)
                 action = ReminderReceiver.ACTION_SNOOZE_REMINDER
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
     fun toggleCheckmark(habit: Habit, timestamp: Long?): PendingIntent =
@@ -123,7 +124,7 @@ class PendingIntentFactory
                 action = WidgetReceiver.ACTION_TOGGLE_REPETITION
                 if (timestamp != null) putExtra("timestamp", timestamp)
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
     fun setNumericalValue(
@@ -142,7 +143,7 @@ class PendingIntentFactory
                 putExtra("numericalValue", numericalValue)
                 if (timestamp != null) putExtra("timestamp", timestamp)
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
     fun updateWidgets(): PendingIntent =
@@ -152,6 +153,6 @@ class PendingIntentFactory
             Intent(context, WidgetReceiver::class.java).apply {
                 action = WidgetReceiver.ACTION_UPDATE_WIDGETS_VALUE
             },
-            FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 }

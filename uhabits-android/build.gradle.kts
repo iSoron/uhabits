@@ -32,13 +32,13 @@ tasks.compileLint {
 
 android {
 
-    compileSdk = 30
+    compileSdk = 31
 
     defaultConfig {
         versionCode = 20003
         versionName = "2.0.3"
         minSdk = 23
-        targetSdk = 30
+        targetSdk = 31
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
