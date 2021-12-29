@@ -207,4 +207,5 @@
     <string name="activity_not_found">Không tìm thấy ứng dụng nào để hỗ trợ hành động này</string>
     <string name="pref_midnight_delay_title">Kéo dài ngày thêm một vài giờ sau nửa đêm</string>
     <string name="pref_midnight_delay_description">Chờ đến 3:00 sáng để hiện một ngày mới. Rất hữu ích nếu bạn thường đi ngủ sau nửa đêm. Yêu cầu khởi động lại ứng dụng.</string>
+    <string name="x_times_per_y_days">%d lần trong %d ngày</string>
 </resources>

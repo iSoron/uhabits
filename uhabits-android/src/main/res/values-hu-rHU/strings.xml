@@ -177,4 +177,5 @@
     <string name="every_month">Minden hónapban</string>
     <string name="validation_cannot_be_blank">Nem lehet üres</string>
     <string name="today">Ma</string>
+    <string name="x_times_per_y_days">%d alk. / %d nap</string>
 </resources>

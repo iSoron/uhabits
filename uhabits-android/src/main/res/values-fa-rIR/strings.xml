@@ -213,4 +213,5 @@
     <string name="activity_not_found">هیچ برنامه‌ای برای انجام این کار یافت نشد.</string>
     <string name="pref_midnight_delay_title">تمدید کردن روز تا چند ساعت بعد از نیمه‌شب</string>
     <string name="pref_midnight_delay_description">تا ساعت ۳ نیمه‌شب برای نمایش یک روز جدید صبر می‌کند. اگر معمولاً بعد از نیمه‌شب می‌خوابید، برای شما می‌تواند مفید باشد. نیازمند راه‌اندازی مجدد برنامه است.</string>
+    <string name="x_times_per_y_days">%d بار در هر %d روز</string>
 </resources>

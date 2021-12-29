@@ -172,4 +172,5 @@
     <string name="every_month">Todos os meses</string>
     <string name="validation_cannot_be_blank">Não pode ficar em branco</string>
     <string name="today">Hoje</string>
+    <string name="x_times_per_y_days">%d vezes em %d dias</string>
 </resources>

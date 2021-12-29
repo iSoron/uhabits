@@ -186,4 +186,5 @@
     <string name="every_month">Cada mes</string>
     <string name="validation_cannot_be_blank">No es pot deixar en blanc</string>
     <string name="today">Avui</string>
+    <string name="x_times_per_y_days">%d vegades en %d dies</string>
 </resources>

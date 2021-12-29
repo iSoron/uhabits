@@ -225,4 +225,5 @@
     <string name="activity_not_found">Не найдено приложения для обработки данного действия</string>
     <string name="pref_midnight_delay_title">Продлить день на несколько часов после полуночи</string>
     <string name="pref_midnight_delay_description">Подождать до 3:00 перед показом нового дня. Полезно, если вы обычно ложитесь спать после полуночи. Требуется перезапуск приложения.</string>
+    <string name="x_times_per_y_days">%d раз в %d дней</string>
 </resources>

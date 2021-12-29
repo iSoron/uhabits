@@ -172,4 +172,5 @@
     <string name="every_month">Hilabetero</string>
     <string name="validation_cannot_be_blank">Ezin da hutsik egon</string>
     <string name="today">Gaur</string>
+    <string name="x_times_per_y_days">%d aldiz %d egunetan</string>
 </resources>

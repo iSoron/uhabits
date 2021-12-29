@@ -225,4 +225,5 @@
     <string name="activity_not_found">Nie znaleziono aplikacji obsługującej to działanie</string>
     <string name="pref_midnight_delay_title">Przedłuż dzień o kilka godzin po północy</string>
     <string name="pref_midnight_delay_description">Poczekaj do 3:00, aby pokazać nowy dzień. Przydatne, jeśli zwykle kładziesz się spać po północy. Wymaga ponownego uruchomienia aplikacji.</string>
+    <string name="x_times_per_y_days">%d razy w %d dni</string>
 </resources>

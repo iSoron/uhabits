@@ -153,4 +153,5 @@
     <string name="pref_view_privacy">Consultați politica de confidențialitate</string>
     <string name="view_all_contributors">Vizualizați toți colaboratorii&#8230;</string>
     <string name="database">Bază de date</string>
+    <string name="x_times_per_y_days">%d ori în %d zile</string>
 </resources>

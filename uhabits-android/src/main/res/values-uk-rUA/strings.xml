@@ -234,4 +234,5 @@
     <string name="activity_not_found">Не знайдено програми для підтримки цієї дії</string>
     <string name="pref_midnight_delay_title">Продовжити день на кілька годин після опівночі</string>
     <string name="pref_midnight_delay_description">Почекати до 3:00 перед показом нового дня. Корисно, якщо ви зазвичай лягаєте спати після опівночі. Потрібно перезапустити програму.</string>
+    <string name="x_times_per_y_days">%d разів за %d днів</string>
 </resources>

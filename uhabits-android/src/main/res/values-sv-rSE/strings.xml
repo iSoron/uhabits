@@ -222,4 +222,5 @@
     <string name="activity_not_found">Ingen app som stödjer åtgärden hittades.</string>
     <string name="pref_midnight_delay_title">Förläng dagen några timmar efter midnatt</string>
     <string name="pref_midnight_delay_description">Vänta till 3:00 innan en ny dag visas. Användbart om du vanligtvis går och lägger dig efter midnatt. Kräver omstart av appen.</string>
+    <string name="x_times_per_y_days">%d gånger i %d dagar</string>
 </resources>

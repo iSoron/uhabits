@@ -201,4 +201,5 @@
     <string name="activity_not_found">Er is geen app gevonden om deze actie uit te voeren.</string>
     <string name="pref_midnight_delay_title">Verleng de dag tot een paar uur na middernacht</string>
     <string name="pref_midnight_delay_description">Wacht tot 3:00 uur om een nieuwe dag te beginnen. Handig als je normaal gesproken na middernacht gaat slapen. Dit vereist het opnieuw opstarten van de app.</string>
+    <string name="x_times_per_y_days">%d keer in  %d dagen</string>
 </resources>

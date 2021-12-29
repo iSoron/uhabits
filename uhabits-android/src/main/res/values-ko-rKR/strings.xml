@@ -160,4 +160,5 @@
     <string name="color">색</string>
     <string name="every_month">매월</string>
     <string name="today">오늘</string>
+    <string name="x_times_per_y_days">%d 번 %d 일 동안</string>
 </resources>

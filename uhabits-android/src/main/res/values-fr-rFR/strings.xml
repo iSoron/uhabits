@@ -214,4 +214,5 @@ Combien de pages avez-vous lu ?</string>
     <string name="activity_not_found">Aucune application trouvée pour faire cette action</string>
     <string name="pref_midnight_delay_title">Prolonger les jours de quelques heures après minuit </string>
     <string name="pref_midnight_delay_description">Attendre jusqu\'à trois heures du matin pour changer de jour. Très utile si vous avez l\'habitude d\'aller dormir après minuit. (Redémarrage nécessaire)</string>
+    <string name="x_times_per_y_days">%d fois en %d jours</string>
 </resources>

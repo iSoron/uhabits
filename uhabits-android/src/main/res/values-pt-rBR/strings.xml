@@ -213,4 +213,5 @@
     <string name="activity_not_found">Nenhum app encontrado para executar esta ação</string>
     <string name="pref_midnight_delay_title">Prolongar dia algumas horas depois da meia-noite</string>
     <string name="pref_midnight_delay_description">Espere até às 3:00 para mostrar um novo dia. Útil se você costuma dormir depois da meia-noite. Requer reinicialização do aplicativo.</string>
+    <string name="x_times_per_y_days">%d vezes em %d dias</string>
 </resources>

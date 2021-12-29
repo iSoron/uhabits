@@ -192,4 +192,5 @@
     <string name="every_month">Her ay</string>
     <string name="validation_cannot_be_blank">Boş bırakılamaz</string>
     <string name="today">Bugün</string>
+    <string name="x_times_per_y_days">%d defa / %d gün</string>
 </resources>

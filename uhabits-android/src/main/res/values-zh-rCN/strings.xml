@@ -208,4 +208,5 @@
     <string name="activity_not_found">找不到支持此操作的应用</string>
     <string name="pref_midnight_delay_title">将一天延长到午夜后的几个小时</string>
     <string name="pref_midnight_delay_description">凌晨 3 点后再显示新的一天。如果你通常在午夜后入睡，这会很有用。重启应用后生效。</string>
+    <string name="x_times_per_y_days">%d 次每 %d 天</string>
 </resources>

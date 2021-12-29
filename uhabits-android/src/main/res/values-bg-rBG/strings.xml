@@ -133,4 +133,5 @@
     <string name="by_color">По цвят</string>
     <string name="by_score">По сила</string>
     <string name="export">Експортиране</string>
+    <string name="x_times_per_y_days">%d пъти в период от %d дни</string>
 </resources>
