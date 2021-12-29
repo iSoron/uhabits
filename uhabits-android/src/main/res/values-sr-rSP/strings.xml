@@ -219,4 +219,5 @@
     <string name="activity_not_found">Нема апликације која подржава ову радњу</string>
     <string name="pref_midnight_delay_title">Продужите дан неколико сати иза поноћи</string>
     <string name="pref_midnight_delay_description">Чека до 03:00 да покаже нови дан. Корисно ако обично идете на спавање после поноћи. Захтева поновно покретање.</string>
+    <string name="x_times_per_y_days">%d пута у %d дана</string>
 </resources>

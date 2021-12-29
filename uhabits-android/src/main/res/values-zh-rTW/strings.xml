@@ -211,4 +211,5 @@
     <string name="activity_not_found">找不到可以處理這個動作的應用程式。</string>
     <string name="pref_midnight_delay_title">將一天延長到午夜過後幾個小時</string>
     <string name="pref_midnight_delay_description">凌晨3點後再顯示新的一天。如果你通常在午夜以後才睡，這能幫上忙。重新啟動後才生效。</string>
+    <string name="x_times_per_y_days">%d 次每 %d 日</string>
 </resources>

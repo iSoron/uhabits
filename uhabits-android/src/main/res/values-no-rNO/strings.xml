@@ -137,4 +137,5 @@
     <string name="export">Eksportér</string>
     <string name="change_value">Endre verdi</string>
     <string name="question">Spørsmål</string>
+    <string name="x_times_per_y_days">%d ganger på %d dager</string>
 </resources>

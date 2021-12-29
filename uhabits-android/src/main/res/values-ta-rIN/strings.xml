@@ -135,4 +135,5 @@
     <string name="by_color">நிறத்தின் மூலம்</string>
     <string name="by_score">மதிப்பெண்களின் மூலம்</string>
     <string name="export">ஏற்றுமதி</string>
+    <string name="x_times_per_y_days">%d காலங்களில் %d நாட்கள்</string>
 </resources>

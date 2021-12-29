@@ -173,4 +173,5 @@
     <string name="validation_cannot_be_blank">Musíte vyplnit</string>
     <string name="today">Dnes</string>
     <string name="you_are_now_a_developer">Nyní jste vývojář</string>
+    <string name="x_times_per_y_days">%d krát za %d dní</string>
 </resources>

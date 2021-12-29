@@ -222,4 +222,5 @@
     <string name="activity_not_found">Ingen app fundet til at understøtte denne handling</string>
     <string name="pref_midnight_delay_title">Forlæng dagen et par timer efter midnat</string>
     <string name="pref_midnight_delay_description">Vent til 3:00 for at vise en ny dag. Nyttigt, hvis du typisk går i seng efter midnat. Kræver genstart af app.</string>
+    <string name="x_times_per_y_days">%d gange på %d dage</string>
 </resources>

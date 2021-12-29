@@ -242,4 +242,5 @@
     <string name="activity_not_found">इस कार्रवाई को संभालने के लिए कोई ऐप नहीं मिला</string>
     <string name="pref_midnight_delay_title">मध्यरात्रि से कुछ घंटे बाद तक दिन बढ़ाएँ</string>
     <string name="pref_midnight_delay_description">नया दिन दिखाने के लिए सुबह 3:00 बजे तक प्रतीक्षा करें। उपयोगी अगर आप आमतौर पर आधी रात के बाद सोने जाते हैं। ऐप पुनरारंभ की आवश्यकता होगी।</string>
+    <string name="x_times_per_y_days">%d बार %d दिन</string>
 </resources>

@@ -172,4 +172,5 @@
     <string name="every_month">Κάθε μήνα</string>
     <string name="validation_cannot_be_blank">Δεν μπορεί να είναι κενό</string>
     <string name="today">Σήμερα</string>
+    <string name="x_times_per_y_days">%d φορές την %d ημέρες</string>
 </resources>
