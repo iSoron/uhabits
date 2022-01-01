@@ -25,6 +25,7 @@ import android.content.DialogInterface
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -44,6 +45,7 @@ class NumberPickerFactory
     @ActivityContext private val context: Context
 ) {
 
+    @SuppressLint("SetTextI18n")
     fun create(
         value: Double,
         unit: String,
@@ -58,11 +60,19 @@ class NumberPickerFactory
         val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
         val etNotes = view.findViewById<EditText>(R.id.etNotes)
 
+        // Install filter to intercept decimal separator before it is parsed
         val watcherFilter: InputFilter = SeparatorWatcherInputFilter(picker2)
-        val numberPickerInputText = getNumberPickerInputText(picker)
+        val pickerInputText = getNumberPickerInputText(picker)
+        pickerInputText.filters = arrayOf(watcherFilter).plus(pickerInputText.filters)
 
-        // watch the unfiltered input before the filters remove a possible separator from it
-        numberPickerInputText.filters = arrayOf(watcherFilter).plus(numberPickerInputText.filters)
+        // Install custom focus listener to replace "5" by "50" instead of "05"
+        val picker2InputText = getNumberPickerInputText(picker2)
+        val prevFocusChangeListener = picker2InputText.onFocusChangeListener
+        picker2InputText.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            val str = picker2InputText.text.toString()
+            if(str.length == 1) picker2InputText.setText("${str}0")
+            prevFocusChangeListener.onFocusChange(v, hasFocus)
+        }
 
         view.findViewById<TextView>(R.id.tvUnit).text = unit
         view.findViewById<TextView>(R.id.tvSeparator).text =
