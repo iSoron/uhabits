@@ -70,7 +70,7 @@ class NumberPickerFactory
         val prevFocusChangeListener = picker2InputText.onFocusChangeListener
         picker2InputText.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             val str = picker2InputText.text.toString()
-            if(str.length == 1) picker2InputText.setText("${str}0")
+            if (str.length == 1) picker2InputText.setText("${str}0")
             prevFocusChangeListener.onFocusChange(v, hasFocus)
         }
 
