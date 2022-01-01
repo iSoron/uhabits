@@ -28,6 +28,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -110,8 +111,7 @@ class NumberPickerFactory
             .create()
 
         dialog.setOnShowListener {
-            picker.getChildAt(0)?.requestFocus()
-            dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            showSoftInput(dialog, pickerInputText)
         }
 
         InterfaceUtils.setupEditorAction(
@@ -140,6 +140,13 @@ class NumberPickerFactory
         val f = NumberPicker::class.java.getDeclaredField("mInputText")
         f.isAccessible = true
         return f.get(picker) as EditText
+    }
+
+    private fun showSoftInput(dialog: AlertDialog, v: View) {
+        dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        v.requestFocus()
+        val inputMethodManager = context.getSystemService(InputMethodManager::class.java)
+        inputMethodManager?.showSoftInput(v, 0)
     }
 }
 
