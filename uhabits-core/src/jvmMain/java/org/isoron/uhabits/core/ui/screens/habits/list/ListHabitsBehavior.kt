@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Habit
@@ -65,6 +66,7 @@ open class ListHabitsBehavior @Inject constructor(
             screen.showCheckmarkDialog(
                 entry.value,
                 entry.notes,
+                timestamp.toLocalDate(),
                 timestamp.toDialogDateString(),
                 habit.color,
             ) { newValue, newNotes ->
@@ -168,8 +170,9 @@ open class ListHabitsBehavior @Inject constructor(
             callback: NumberPickerCallback
         )
         fun showCheckmarkDialog(
-            value: Int,
+            selectedValue: Int,
             notes: String,
+            date: LocalDate,
             dateString: String,
             color: PaletteColor,
             callback: CheckMarkDialogCallback

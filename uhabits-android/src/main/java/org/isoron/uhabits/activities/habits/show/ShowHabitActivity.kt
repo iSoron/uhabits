@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -174,17 +175,17 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         }
 
         override fun showCheckmarkDialog(
-            value: Int,
+            selectedValue: Int,
             notes: String,
-            dateString: String,
+            date: LocalDate,
             preferences: Preferences,
             color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback
         ) {
             CheckmarkDialog(this@ShowHabitActivity, preferences).create(
-                value,
+                selectedValue,
                 notes,
-                dateString,
+                date,
                 color,
                 callback,
                 themeSwitcher.currentTheme!!,

@@ -93,7 +93,7 @@ class HistoryCardPresenter(
             screen.showCheckmarkDialog(
                 entry.value,
                 entry.notes,
-                timestamp.toDialogDateString(),
+                timestamp.toLocalDate(),
                 preferences,
                 habit.color,
             ) { newValue, newNotes ->
@@ -206,9 +206,9 @@ class HistoryCardPresenter(
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
         fun showCheckmarkDialog(
-            value: Int,
+            selectedValue: Int,
             notes: String,
-            dateString: String,
+            date: LocalDate,
             preferences: Preferences,
             color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback,

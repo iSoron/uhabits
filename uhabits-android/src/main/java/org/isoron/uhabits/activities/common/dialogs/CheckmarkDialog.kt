@@ -8,6 +8,8 @@ import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import org.isoron.platform.gui.toInt
+import org.isoron.platform.time.JavaLocalDateFormatter
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
@@ -22,6 +24,7 @@ import org.isoron.uhabits.databinding.CheckmarkDialogBinding
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.StyledResources
+import java.util.Locale
 import javax.inject.Inject
 
 class CheckmarkDialog
@@ -36,9 +39,9 @@ class CheckmarkDialog
     private var selectedButton: Button? = null
 
     fun create(
-        value: Int,
+        selectedValue: Int,
         notes: String,
-        dateString: String,
+        date: LocalDate,
         paletteColor: PaletteColor,
         callback: ListHabitsBehavior.CheckMarkDialogCallback,
         theme: Theme,
@@ -46,11 +49,11 @@ class CheckmarkDialog
         binding = CheckmarkDialogBinding.inflate(LayoutInflater.from(context))
         fontAwesome = InterfaceUtils.getFontAwesome(context)!!
         binding.etNotes.append(notes)
-        setUpButtons(value, theme.color(paletteColor).toInt())
+        setUpButtons(selectedValue, theme.color(paletteColor).toInt())
 
         val dialog = AlertDialog.Builder(context)
             .setView(binding.root)
-            .setTitle(dateString)
+            .setTitle(JavaLocalDateFormatter(Locale.getDefault()).longFormat(date))
             .setPositiveButton(R.string.save) { _, _ ->
                 val newValue = when (selectedButton?.id) {
                     R.id.yesBtn -> YES_MANUAL
