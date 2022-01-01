@@ -35,7 +35,7 @@ application {
 dependencies {
     val ktorVersion = "1.6.6"
     val kotlinVersion = "1.6.0"
-    val logbackVersion = "1.2.7"
+    val logbackVersion = "1.2.10"
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
