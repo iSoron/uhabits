@@ -96,6 +96,7 @@ class NumberPickerFactory
             .setTitle(dateString)
             .setPositiveButton(R.string.save) { _, _ ->
                 picker.clearFocus()
+                picker2.clearFocus()
                 val v = picker.value + 0.01 * picker2.value
                 val note = etNotes.text.toString()
                 callback.onNumberPicked(v, note)
