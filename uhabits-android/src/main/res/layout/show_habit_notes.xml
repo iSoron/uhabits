@@ -28,7 +28,6 @@
         android:id="@+id/habitNotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:textColor="?attr/contrast100"
         tools:text="This is some example text for the notes" />
 </merge>
