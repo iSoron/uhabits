@@ -56,7 +56,6 @@
     <string name="interval_8_hour">8 sati</string>
     <string name="interval_24_hour">24 sata</string>
     <string name="pref_toggle_title">Označi ponavljanja sa kratkim pritisk.</string>
-    <string name="pref_toggle_description">Zgodnije je, no može uzrokovati slučajna označavanja.</string>
     <string name="pref_rate_this_app">Ocijeni ovu aplikaciju na Google Playu</string>
     <string name="pref_send_feedback">Pošalji povratne informacije raz. programeru</string>
     <string name="pref_view_source_code">Pogledaj izvorni kod na GitHubu</string>
@@ -99,7 +98,7 @@
     <string name="generate_bug_report">Generiraj izvješće o pogreški</string>
     <string name="troubleshooting">Rješavanje problema</string>
     <string name="help_translate">Pomozi prevesti ovu aplikaciju</string>
-    <string name="night_mode" comment="dark_theme">Noćni način</string>
+    <string name="night_mode">Noćni način</string>
     <string name="use_pure_black">Koristi crnu boju za noćni način</string>
     <string name="pure_black_description">Zamjenjuje sivu pozadinu sa crnom u noćnom načinu. To smanjuje potrošnju bateriju na uređajima s AMOLED zaslonima.</string>
     <string name="interface_preferences">Sučelje</string>

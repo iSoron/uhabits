@@ -58,7 +58,6 @@
     <string name="interval_always_ask">Να ερωτούμαι πάντα</string>
     <string name="interval_custom">Προσαρμογή</string>
     <string name="pref_toggle_title">Κάντε εναλλαγή των επαναλήψεων με σύντομο πάτημα</string>
-    <string name="pref_toggle_description">Βολικότερο, αλλά ίσως προκαλέσει ακούσιες εναλλαγές.</string>
     <string name="pref_rate_this_app">Βαθμολογήστε αυτή την εφαρμογή στο Google Play</string>
     <string name="pref_send_feedback">Στείλετε σχόλια</string>
     <string name="pref_view_source_code">Δείτε τον πηγαίο κώδικα στο GitHub</string>
@@ -102,7 +101,7 @@
     <string name="generate_bug_report">Παραγωγή αναφοράς bug.</string>
     <string name="troubleshooting">Αντιμετ.Προβλημάτων</string>
     <string name="help_translate">Βοηθήστε στην μετάφραση</string>
-    <string name="night_mode" comment="dark_theme">Νυχτ.Λειτ.</string>
+    <string name="night_mode">Νυχτ.Λειτ.</string>
     <string name="use_pure_black">Χρήση απόλυτου μαύρου στη νυχτ.λειτουργία</string>
     <string name="pure_black_description">Αντικαθιστά τα γκρί υπόβαθρα με απόλυτα μαύρα σε νυχτ.λειτουργία. Μειώνει την κατανάλωση μπαταρίας σε συσκευές με οθόνη AMOLED.</string>
     <string name="interface_preferences">Διεπιφάνεια</string>
@@ -140,7 +139,6 @@
     <string name="by_score">Με σκορ</string>
     <string name="export">Εξαγωγή</string>
     <string name="long_press_to_edit">Πατήστε και κρατήστε πατημένο για να αλλάξετε την τιμή</string>
-    <string name="change_value">Αλλαγή τιμής</string>
     <string name="calendar">Ημερολόγιο</string>
     <string name="unit">Μονάδα</string>
     <string name="example_question_boolean">π.χ. Ασκήθηκες σήμερα;</string>
@@ -163,6 +161,7 @@
     <string name="measurable">Μετρήσιμο</string>
     <string name="x_times_per_week">%d φορές την εβδομάδα</string>
     <string name="x_times_per_month">%d φορές το μήνα</string>
+    <string name="x_times_per_y_days">%d φορές την %d ημέρες</string>
     <string name="yes_or_no_short_example">π.χ. Σωματική άσκηση</string>
     <string name="color">Χρώμα</string>
     <string name="example_target">π.χ. 15</string>
@@ -172,5 +171,4 @@
     <string name="every_month">Κάθε μήνα</string>
     <string name="validation_cannot_be_blank">Δεν μπορεί να είναι κενό</string>
     <string name="today">Σήμερα</string>
-    <string name="x_times_per_y_days">%d φορές την %d ημέρες</string>
 </resources>

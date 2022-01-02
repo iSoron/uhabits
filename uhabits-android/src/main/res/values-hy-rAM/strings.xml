@@ -59,7 +59,7 @@
     <string name="frequency">Հաճախություն</string>
     <string name="every_day">Ամեն օր</string>
     <string name="every_week">Ամեն շաբաթ</string>
-    <string name="night_mode" comment="dark_theme">Մուգ տեսք</string>
+    <string name="night_mode">Մուգ տեսք</string>
     <string name="day">Օր</string>
     <string name="week">Շաբաթ</string>
     <string name="month">Ամիս</string>

@@ -79,7 +79,6 @@
     <string name="interval_always_ask">Увек питај</string>
     <string name="interval_custom">Прилагођено...</string>
     <string name="pref_toggle_title">Мењај стање додиром</string>
-    <string name="pref_toggle_description">Ставља квачице додиром уместо дугог притиска. Згодније, али може случајно доћи до пребацивања.</string>
     <string name="pref_rate_this_app">Оцени апликацију</string>
     <string name="pref_send_feedback">Повратне информације</string>
     <string name="pref_view_source_code">Изворни кôд на Гитхабу</string>
@@ -133,7 +132,7 @@
     <string name="generate_bug_report">Направи извештај о грешци</string>
     <string name="troubleshooting">Решавање проблема</string>
     <string name="help_translate">Помозите превођење</string>
-    <string name="night_mode" comment="dark_theme">Тамна тема</string>
+    <string name="night_mode">Тамна тема</string>
     <string name="use_pure_black">Чиста црна у тамној теми</string>
     <string name="pure_black_description">Мења сиву позадину са чистом црном у тамној теми. Смањује потрошњу батерије код телефона са АМОЛЕД екраном.</string>
     <string name="interface_preferences">Сучеље</string>
@@ -172,7 +171,6 @@
     <string name="by_status">по стању</string>
     <string name="export">Извоз</string>
     <string name="long_press_to_edit">Дуг притисак за промену вредности</string>
-    <string name="change_value">Измени вредност</string>
     <string name="calendar">Календар</string>
     <string name="unit">Јединица</string>
     <string name="example_question_boolean">нпр. Да ли сте вежбали данас?</string>
@@ -196,6 +194,7 @@
     <string name="measurable_example">нпр. Колико сте километара претрчали данас? Колико сте страница прочитали?</string>
     <string name="x_times_per_week">%d пута недељно</string>
     <string name="x_times_per_month">%d пута месечно</string>
+    <string name="x_times_per_y_days">%d пута у %d дана</string>
     <string name="yes_or_no_short_example">нпр. вежбање</string>
     <string name="color">Боја</string>
     <string name="example_target">нпр. 15</string>
@@ -219,5 +218,4 @@
     <string name="activity_not_found">Нема апликације која подржава ову радњу</string>
     <string name="pref_midnight_delay_title">Продужите дан неколико сати иза поноћи</string>
     <string name="pref_midnight_delay_description">Чека до 03:00 да покаже нови дан. Корисно ако обично идете на спавање после поноћи. Захтева поновно покретање.</string>
-    <string name="x_times_per_y_days">%d пута у %d дана</string>
 </resources>

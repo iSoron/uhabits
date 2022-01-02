@@ -59,7 +59,6 @@
     <string name="interval_always_ask">Vždy se ptát</string>
     <string name="interval_custom">Vlastní...</string>
     <string name="pref_toggle_title">Označte opakování krátkým stisknutím</string>
-    <string name="pref_toggle_description">Praktičtější, ale může způsobit nechtěné označení.</string>
     <string name="pref_rate_this_app">Ohodnoťte nás v Google Play</string>
     <string name="pref_send_feedback">Zpětná vazba vývojáři</string>
     <string name="pref_view_source_code">Zobrazit zdroj. kód na GitHub</string>
@@ -103,7 +102,7 @@
     <string name="generate_bug_report">Generovat výpis chyb</string>
     <string name="troubleshooting">Řešení problémů</string>
     <string name="help_translate">Pomozte s překladem aplikace</string>
-    <string name="night_mode" comment="dark_theme">Temný motiv</string>
+    <string name="night_mode">Temný motiv</string>
     <string name="use_pure_black">Zobrazit čistě černou v temném motivu</string>
     <string name="pure_black_description">Nahrazuje v temném motivu šedé pozadí čistou černou. Snižuje spotřebu baterie v telefonech s AMOLED displejem.</string>
     <string name="interface_preferences">Rozhraní</string>
@@ -142,7 +141,6 @@
     <string name="by_status">Podle statusu</string>
     <string name="export">Export</string>
     <string name="long_press_to_edit">Stiskněte a držte pro změnu hodnoty</string>
-    <string name="change_value">Změnit hodnotu</string>
     <string name="calendar">Kalendář</string>
     <string name="unit">Jednotka</string>
     <string name="example_question_boolean">Např. Cvičil jsi dnes?</string>
@@ -166,6 +164,7 @@
     <string name="measurable_example">Např. Kolik kilometrů jsi dnes uběhl? Kolik stránek jsi dnes přečetl?</string>
     <string name="x_times_per_week">%d krát týdně</string>
     <string name="x_times_per_month">%d krát za měsíc</string>
+    <string name="x_times_per_y_days">%d krát za %d dní</string>
     <string name="yes_or_no_short_example">Např. Cvičení</string>
     <string name="color">Barva</string>
     <string name="example_target">Např. 15</string>
@@ -189,5 +188,4 @@
     <string name="activity_not_found">Pro daný krok nebyla nalezena aplikace</string>
     <string name="pref_midnight_delay_title">Po půlnoci prodloužit den o několik hodin</string>
     <string name="pref_midnight_delay_description">Počkat do 3:00 ráno pro zobrazení nového dne. Užitečné, pokud chodíte spát po půlnoci. Vyžaduje restartování aplikace. </string>
-    <string name="x_times_per_y_days">%d krát za %d dní</string>
 </resources>

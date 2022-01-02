@@ -57,7 +57,6 @@
     <string name="interval_24_hour">1 døgn</string>
     <string name="interval_custom">Egendefinert...</string>
     <string name="pref_toggle_title">Veksl med enkelttrykk</string>
-    <string name="pref_toggle_description">Sett på haker med et enkelttrykk i stedet for å tykke og holde. Mer praktisk, men kan forårsake utilsiktede vekslinger.</string>
     <string name="pref_rate_this_app">Vurdér denne appen på Google Play</string>
     <string name="pref_send_feedback">Send tilbakemelding til utviklerne</string>
     <string name="pref_view_source_code">Vis kildekode på GitHub</string>
@@ -100,7 +99,7 @@
     <string name="generate_bug_report">Generér feilrapport</string>
     <string name="troubleshooting">Feilsøkning</string>
     <string name="help_translate">Hjelp med å oversette denne appen</string>
-    <string name="night_mode" comment="dark_theme">Nattmodus</string>
+    <string name="night_mode">Nattmodus</string>
     <string name="use_pure_black">Bruk batterisparing i nattmodus</string>
     <string name="pure_black_description">Bytter ut grå bakgunner med helt svarte i nattmodus. Reduserer betteribruk hos telefoner med AMOLED-skjerm.</string>
     <string name="interface_preferences">Grensesnitt</string>
@@ -135,7 +134,6 @@
     <string name="by_color">Etter farge</string>
     <string name="by_score">Etter poengsum</string>
     <string name="export">Eksportér</string>
-    <string name="change_value">Endre verdi</string>
     <string name="question">Spørsmål</string>
     <string name="x_times_per_y_days">%d ganger på %d dager</string>
 </resources>

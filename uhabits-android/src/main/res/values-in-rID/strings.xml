@@ -71,7 +71,7 @@
     <string name="interval_always_ask">Selalu bertanya</string>
     <string name="interval_custom">Kustom...</string>
     <string name="pref_toggle_title">Tandai dengan cepat</string>
-    <string name="pref_toggle_description">Beri tanda centang dengan sekali ketuk bukan tekan-dan-tahan. Lebih nyaman, tapi dapat menyebabkan kesalahan penandaan.</string>
+    <string name="pref_toggle_description_2">Beri tanda centang dengan satu ketukan alih-alih tekan dan tahan.</string>
     <string name="pref_rate_this_app">Berikan rating aplikasi ini di Google Play</string>
     <string name="pref_send_feedback">Kirimkan umpan balik kepada Developer</string>
     <string name="pref_view_source_code">Lihat kode program di GitHub</string>
@@ -130,7 +130,7 @@
     <string name="generate_bug_report">Membuat laporan masalah</string>
     <string name="troubleshooting">Troubleshoot</string>
     <string name="help_translate">Bantu menerjemahkan aplikasi ini</string>
-    <string name="night_mode" comment="dark_theme">Mode malam</string>
+    <string name="night_mode">Mode malam</string>
     <string name="use_pure_black">Gunakan warna hitam pekat pada mode malam</string>
     <string name="pure_black_description">Ganti warna latar abu-abu dengan warna hitam pada mode malam. Mengurangi penggunaan baterai pada layar AMOLED.</string>
     <string name="interface_preferences">Antarmuka</string>
@@ -169,7 +169,6 @@
     <string name="by_status">Berdasarkan status</string>
     <string name="export">Ekspor</string>
     <string name="long_press_to_edit">Tekan-dan-tahan untuk mengubah nilai</string>
-    <string name="change_value">Ubah nilai (value)</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Unit</string>
     <string name="example_question_boolean">mis. Apakah kamu sudah berolahraga hari ini?</string>
@@ -193,6 +192,7 @@
     <string name="measurable_example">mis. Berapa km kamu berlari hari ini? Berapa lembar yang sudah kamu baca?</string>
     <string name="x_times_per_week">%d kali per minggu</string>
     <string name="x_times_per_month">%d kali per bulan</string>
+    <string name="x_times_per_y_days">%d kali dalam %d hari</string>
     <string name="yes_or_no_short_example">mis. Olahraga</string>
     <string name="color">Warna</string>
     <string name="example_target">mis. 15</string>
@@ -216,5 +216,4 @@
     <string name="activity_not_found">Aplikasi untuk mendukung tindakan ini tidak ditemukan</string>
     <string name="pref_midnight_delay_title">Perpanjang hari beberapa jam setelah tengah malam</string>
     <string name="pref_midnight_delay_description">Tunggu sampai jam 3 pagi untuk menampilkan hari yang baru. Berguna jika kamu biasanya tidur setelah tengah malam. Aplikasi perlu dimulai ulang.</string>
-    <string name="x_times_per_y_days">%d kali dalam %d hari</string>
 </resources>

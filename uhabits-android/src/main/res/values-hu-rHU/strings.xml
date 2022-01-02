@@ -75,7 +75,6 @@
     <string name="interval_always_ask">Mindig rákérdez</string>
     <string name="interval_custom">Egyedi...</string>
     <string name="pref_toggle_title">Bejelölés rövid koppintással</string>
-    <string name="pref_toggle_description">Bejelölés koppintással nyomva tartás helyett. Kényelmesebb, de véletlen bejelöléseket okozhat.</string>
     <string name="pref_rate_this_app">Értékeld az alkalmazást a Google Play-en</string>
     <string name="pref_send_feedback">Visszajelzés küldése a fejlesztőnek</string>
     <string name="pref_view_source_code">Forráskód megtekintése a GitHub-on</string>
@@ -132,7 +131,7 @@
     <string name="generate_bug_report">Hibabejelentés generálása</string>
     <string name="troubleshooting">Hibaelhárítás</string>
     <string name="help_translate">Segíts lefordítani ezt az alkalmazást</string>
-    <string name="night_mode" comment="dark_theme">Éjszakai mód</string>
+    <string name="night_mode">Éjszakai mód</string>
     <string name="use_pure_black">Fekete használata éjszakai módban</string>
     <string name="pure_black_description">A szürke hátteret tiszta feketére cseréli éjszakai módban. Csökkenti az energiafelhasználást AMOLED kijelzős telefonokon.</string>
     <string name="interface_preferences">Kezelőfelület</string>
@@ -171,7 +170,6 @@
     <string name="by_status">Állapot szerint</string>
     <string name="export">Exportálás</string>
     <string name="long_press_to_edit">Az érték módosításához tartsd lenyomva</string>
-    <string name="change_value">Érték módosítása</string>
     <string name="calendar">Naptár</string>
     <string name="unit">Egység</string>
     <string name="example_question_boolean">pl. Edzettél ma?</string>
@@ -195,6 +193,7 @@
     <string name="measurable_example">pl. Hány kilométert futottál ma? Hány oldalt olvastál el?</string>
     <string name="x_times_per_week">Heti %d alkalommal</string>
     <string name="x_times_per_month">Havi %d alkalommal</string>
+    <string name="x_times_per_y_days">%d alk. / %d nap</string>
     <string name="yes_or_no_short_example">pl. Edzés</string>
     <string name="color">Szín</string>
     <string name="example_target">pl. 15</string>
@@ -218,5 +217,4 @@
     <string name="activity_not_found">Ezen művelet elvégzéséhez nem található alkalmazás.</string>
     <string name="pref_midnight_delay_title">A nap meghosszabbítása éjfél után néhány órával</string>
     <string name="pref_midnight_delay_description">Várjon hajnali 3 -ig, hogy új napot mutasson. Hasznos, ha általában éjfél után fekszik le. Az alkalmazás újraindítását igényli.</string>
-    <string name="x_times_per_y_days">%d alk. / %d nap</string>
 </resources>

@@ -83,7 +83,6 @@
     <string name="interval_always_ask">Завжди запитувати</string>
     <string name="interval_custom">Налаштувати...</string>
     <string name="pref_toggle_title">Відзначати коротким натисканням</string>
-    <string name="pref_toggle_description">Ставити пташки коротким натисканням, замість утримування. Дещо зручніше, але може стати причиною випадкових натискань.</string>
     <string name="pref_rate_this_app">Оцінити цю програму в Google Play</string>
     <string name="pref_send_feedback">Надіслати відгук розробникові</string>
     <string name="pref_view_source_code">Подивитися вихідний код на GitHub</string>
@@ -148,7 +147,7 @@
     <string name="generate_bug_report">Створити звіт про помилку</string>
     <string name="troubleshooting">Усунення несправностей</string>
     <string name="help_translate">Допоможіть перекласти цю програму</string>
-    <string name="night_mode" comment="dark_theme">Нічний режим</string>
+    <string name="night_mode">Нічний режим</string>
     <string name="use_pure_black">Користати цілком чорне тло у нічному режимі</string>
     <string name="pure_black_description">Замінює сіре тло на цілком чорне у нічному режимі. Зменшує використання батареї в телефонах із дисплеєм AMOLED.</string>
     <string name="interface_preferences">Оболонка</string>
@@ -187,7 +186,7 @@
     <string name="by_status">За станом</string>
     <string name="export">Експортувати</string>
     <string name="long_press_to_edit">Натисніть і утримуйте, аби змінити значення</string>
-    <string name="change_value">Змінити значення</string>
+    <string name="value">Значення</string>
     <string name="calendar">Календар</string>
     <string name="unit">Одиниця</string>
     <string name="example_question_boolean">напр.: Ви робили сьогодні вправи?</string>
@@ -211,6 +210,7 @@
     <string name="measurable_example">напр.: Скільки кілометрів ви сьогодні пробігли? Скільки сторінок прочитали?</string>
     <string name="x_times_per_week">%d разів на тиждень</string>
     <string name="x_times_per_month">%d разів на місяць</string>
+    <string name="x_times_per_y_days">%d разів за %d днів</string>
     <string name="yes_or_no_short_example">напр., вправа</string>
     <string name="color">Колір</string>
     <string name="example_target">напр., 15</string>
@@ -234,5 +234,4 @@
     <string name="activity_not_found">Не знайдено програми для підтримки цієї дії</string>
     <string name="pref_midnight_delay_title">Продовжити день на кілька годин після опівночі</string>
     <string name="pref_midnight_delay_description">Почекати до 3:00 перед показом нового дня. Корисно, якщо ви зазвичай лягаєте спати після опівночі. Потрібно перезапустити програму.</string>
-    <string name="x_times_per_y_days">%d разів за %d днів</string>
 </resources>

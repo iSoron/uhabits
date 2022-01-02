@@ -56,7 +56,6 @@
     <string name="interval_8_hour">8 часа</string>
     <string name="interval_24_hour">24 часа</string>
     <string name="pref_toggle_title">Маркиране с кратко натискане</string>
-    <string name="pref_toggle_description">Поставяне на отметки с кратко натискане вместо с натискане и задържане. По-удобно, но може да доведе до неволно маркиране.</string>
     <string name="pref_rate_this_app">Оценяване на това приложение в Google Play</string>
     <string name="pref_send_feedback">Изпращане на отзиви към разработчика</string>
     <string name="pref_view_source_code">Преглед на програмния код в GitHub</string>
@@ -99,7 +98,7 @@
     <string name="generate_bug_report">Генериране на доклад за грешки</string>
     <string name="troubleshooting">Отстраняване на проблеми</string>
     <string name="help_translate">Помагане за превода на това приложение</string>
-    <string name="night_mode" comment="dark_theme">Нощен режим</string>
+    <string name="night_mode">Нощен режим</string>
     <string name="use_pure_black">Използване на чисто черно при нощен режим</string>
     <string name="pure_black_description">Заменя сивите фонове с чисто черни при нощен режим. Намаля разхода на батерията при телефони с AMOLED дисплеи.</string>
     <string name="interface_preferences">Интерфейс</string>

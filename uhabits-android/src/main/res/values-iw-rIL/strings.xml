@@ -83,7 +83,6 @@
     <string name="interval_always_ask">תמיד לשאול</string>
     <string name="interval_custom">התאמה אישית...</string>
     <string name="pref_toggle_title">סימון הרגלים בלחיצה קצרה</string>
-    <string name="pref_toggle_description">סימון יעדים בהקשה קצרה במקום בלחיצה ממושכת. זה נוח יותר, אך יכול להוביל לסימוני הרגלים בטעות.</string>
     <string name="pref_rate_this_app">דירוג היישום ב־Google Play</string>
     <string name="pref_send_feedback">שליחת משוב למפתחים</string>
     <string name="pref_view_source_code">צפייה בקוד המקור ב־GitHub</string>
@@ -139,7 +138,7 @@
     <string name="generate_bug_report">יצירת דו״ח תקלה</string>
     <string name="troubleshooting">פתרון תקלות</string>
     <string name="help_translate">עזרה בתרגום היישום</string>
-    <string name="night_mode" comment="dark_theme">ערכת נושא כהה</string>
+    <string name="night_mode">ערכת נושא כהה</string>
     <string name="use_pure_black">רקע שחור מוחלט בערכת הנושא הכהה</string>
     <string name="pure_black_description">להחלפת הרקע האפור בערכת הנושא הכהה לשחור מוחלט. זה מפחית את צריכת הסוללה במכשירים עם תצוגת AMOLED.</string>
     <string name="interface_preferences">ממשק</string>
@@ -178,7 +177,6 @@
     <string name="by_status">לפי מצב</string>
     <string name="export">ייצוא</string>
     <string name="long_press_to_edit">לחיצה והחזקה ישנו את הערך</string>
-    <string name="change_value">שינוי ערך</string>
     <string name="calendar">לוח שנה</string>
     <string name="unit">יחידה</string>
     <string name="example_question_boolean">למשל: האם התעמלת היום?</string>
@@ -202,6 +200,7 @@
     <string name="measurable_example">למשל: כמה קילומטרים רצת היום? כמה עמודים קראת?</string>
     <string name="x_times_per_week">%d פעמים בשבוע</string>
     <string name="x_times_per_month">%d פעמים בחודש</string>
+    <string name="x_times_per_y_days">%d פעמים ב- %d ימים</string>
     <string name="yes_or_no_short_example">למשל: התעמלות</string>
     <string name="color">צבע</string>
     <string name="example_target">למשל: 15</string>
@@ -225,5 +224,4 @@
     <string name="activity_not_found">לא נמצא יישום שתומך בפעולה זו</string>
     <string name="pref_midnight_delay_title">הארכת היום בכמה שעות לאחר החצות</string>
     <string name="pref_midnight_delay_description">לחכות עד 3:00 כדי להציג יום חדש. שימושי אם לרוב הולכים לישון לאחר החצות. דורש הפעלה מחדש של היישום.</string>
-    <string name="x_times_per_y_days">%d פעמים ב- %d ימים</string>
 </resources>

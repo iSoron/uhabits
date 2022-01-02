@@ -71,7 +71,6 @@
     <string name="interval_always_ask">항상 묻기</string>
     <string name="interval_custom">사용자 지정.</string>
     <string name="pref_toggle_title">짧게 눌러서 전환하기</string>
-    <string name="pref_toggle_description">길게 누르고 있는 대신에 짧은 탭 한 번으로 체크합니다. 더 편리하지만, 실수로 전환될 수도 있습니다.</string>
     <string name="pref_rate_this_app">Google Play에서 평가</string>
     <string name="pref_send_feedback">개발자에게 피드백 보내기</string>
     <string name="pref_view_source_code">Github에서 소스보기</string>
@@ -121,7 +120,7 @@
     <string name="generate_bug_report">오류보고서 작성하기</string>
     <string name="troubleshooting">문제 해결</string>
     <string name="help_translate">이 앱의 번역을 도와주세요</string>
-    <string name="night_mode" comment="dark_theme">야간 모드</string>
+    <string name="night_mode">야간 모드</string>
     <string name="use_pure_black">야간 모드에서 검정색 사용하기</string>
     <string name="pure_black_description">야간 모드의 회색 배경을 검정색으로 대체합니다. AMOLED 디스플레이를 사용하는 기기에서 배터리 사용량을 감소시킵니다.</string>
     <string name="interface_preferences">인터페이스</string>
@@ -160,7 +159,6 @@
     <string name="by_status">상태별로</string>
     <string name="export">내보내기</string>
     <string name="long_press_to_edit">길게 누르면 값이 변경됩니다.</string>
-    <string name="change_value">값 변경</string>
     <string name="calendar">캘린더</string>
     <string name="unit">단위</string>
     <string name="example_question_boolean">예 : 오늘 운동을 했습니까?</string>
@@ -184,10 +182,10 @@
     <string name="measurable_example">예) 오늘 몇 마일을 달렸습니까? 몇 페이지를 읽었습니까?</string>
     <string name="x_times_per_week">일주일에 몇 번</string>
     <string name="x_times_per_month">한 달에 몇 번</string>
+    <string name="x_times_per_y_days">%d 번 %d 일 동안</string>
     <string name="yes_or_no_short_example">예) 운동</string>
     <string name="color">색</string>
     <string name="example_target">예) 15</string>
     <string name="every_month">매월</string>
     <string name="today">오늘</string>
-    <string name="x_times_per_y_days">%d 번 %d 일 동안</string>
 </resources>

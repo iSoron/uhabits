@@ -75,7 +75,6 @@
     <string name="interval_always_ask">Perguntar sempre</string>
     <string name="interval_custom">Personalizar...</string>
     <string name="pref_toggle_title">Marcar repetições com um toque curto</string>
-    <string name="pref_toggle_description">Mais conveniente, mas pode causar marcações acidentais</string>
     <string name="pref_rate_this_app">Avaliar esse app no Google Play</string>
     <string name="pref_send_feedback">Mandar sugestões para o desenvolvedor</string>
     <string name="pref_view_source_code">Ver código-fonte no GitHub</string>
@@ -127,7 +126,7 @@
     <string name="generate_bug_report">Gerar relatório de erros.</string>
     <string name="troubleshooting">Solução de problemas</string>
     <string name="help_translate">Ajude a traduzir este app</string>
-    <string name="night_mode" comment="dark_theme">Modo noturno</string>
+    <string name="night_mode">Modo noturno</string>
     <string name="use_pure_black">Usar preto em modo noturno</string>
     <string name="pure_black_description">Substitui os tons de cinza por preto puro em modo noturno. Economiza bateria em telefones com tela AMOLED.</string>
     <string name="interface_preferences">Interface</string>
@@ -166,7 +165,6 @@
     <string name="by_status">Por status</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Pressione e segure para alterar o valor</string>
-    <string name="change_value">Alterar valor</string>
     <string name="calendar">Calendário</string>
     <string name="unit">Unidade</string>
     <string name="example_question_boolean">ex.: Você se exercitou hoje?</string>
@@ -190,6 +188,7 @@
     <string name="measurable_example">ex.: Quantos km você correu hoje? Quantas páginas você leu?</string>
     <string name="x_times_per_week">%d vezes por semana</string>
     <string name="x_times_per_month">%d vezes por mês</string>
+    <string name="x_times_per_y_days">%d vezes em %d dias</string>
     <string name="yes_or_no_short_example">ex: Exercício</string>
     <string name="color">Cor</string>
     <string name="example_target">Ex: 15</string>
@@ -213,5 +212,4 @@
     <string name="activity_not_found">Nenhum app encontrado para executar esta ação</string>
     <string name="pref_midnight_delay_title">Prolongar dia algumas horas depois da meia-noite</string>
     <string name="pref_midnight_delay_description">Espere até às 3:00 para mostrar um novo dia. Útil se você costuma dormir depois da meia-noite. Requer reinicialização do aplicativo.</string>
-    <string name="x_times_per_y_days">%d vezes em %d dias</string>
 </resources>

@@ -65,7 +65,6 @@
     <string name="interval_always_ask">Vždy sa spýtať</string>
     <string name="interval_custom">Vlastné ...</string>
     <string name="pref_toggle_title">Prepnúť krátkym stlačením</string>
-    <string name="pref_toggle_description">Pridajte začiarknutie jediným klepnutím namiesto stlačenia a podržania. Je to pohodlnejšie, ale môže dôjsť k náhodným prepnutiam.</string>
     <string name="pref_rate_this_app">Ohodnoťte túto aplikáciu na Google Play</string>
     <string name="pref_send_feedback">Odošlite spätnú väzbu vývojárovi</string>
     <string name="pref_view_source_code">Zobraziť zdrojový kód na stránke GitHub</string>
@@ -109,7 +108,7 @@
     <string name="generate_bug_report">Vygenerujte hlásenie o chybe</string>
     <string name="troubleshooting">Riešenie problémov</string>
     <string name="help_translate">Pomôžte preložiť túto aplikáciu</string>
-    <string name="night_mode" comment="dark_theme">Tmavá téma</string>
+    <string name="night_mode">Tmavá téma</string>
     <string name="use_pure_black">Použite čisto čiernu farbu v tmavej téme</string>
     <string name="pure_black_description">Nahrádza sivé pozadie čisto čiernym v tmavej téme. Znižuje spotrebu batérie v telefónoch s displejom AMOLED.</string>
     <string name="interface_preferences">Rozhranie</string>
@@ -148,7 +147,6 @@
     <string name="by_status">Podľa stavu</string>
     <string name="export">Exportovať</string>
     <string name="long_press_to_edit">Stlačením a podržaním zmeníte hodnotu</string>
-    <string name="change_value">Zmeniť hodnotu</string>
     <string name="calendar">Kalendár</string>
     <string name="unit">Jednotka</string>
     <string name="example_question_boolean">napr. Cvičili ste dnes?</string>

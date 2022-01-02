@@ -71,7 +71,7 @@
     <string name="interval_always_ask">总是询问</string>
     <string name="interval_custom">自定义</string>
     <string name="pref_toggle_title">短按切换</string>
-    <string name="pref_toggle_description">更加方便，但有可能造成意外记录</string>
+    <string name="pref_toggle_description_2">只需轻按一下即可放置复选标记，而不是按住。</string>
     <string name="pref_rate_this_app">去 Play 商店评价此应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
     <string name="pref_view_source_code">在 GitHub 上查看源代码</string>
@@ -121,7 +121,7 @@
     <string name="generate_bug_report">生成错误报告</string>
     <string name="troubleshooting">故障排除</string>
     <string name="help_translate">帮助翻译本应用</string>
-    <string name="night_mode" comment="dark_theme">深色主题</string>
+    <string name="night_mode">深色主题</string>
     <string name="use_pure_black">在深色主题中使用纯黑色</string>
     <string name="pure_black_description">以纯黑色背景代替深色主题中的灰色背景。
 这可以降低 AMOLED 屏幕手机的耗电量。</string>
@@ -142,6 +142,7 @@
     <string name="none">无</string>
     <string name="filter">筛选</string>
     <string name="hide_completed">隐藏已完成</string>
+    <string name="hide_entered">隐藏已输入</string>
     <string name="hide_archived">隐藏已存档</string>
     <string name="sticky_notifications">使通知持久</string>
     <string name="sticky_notifications_description">防止通知被滑掉。</string>
@@ -160,10 +161,13 @@
     <string name="by_score">按分数</string>
     <string name="by_status">按状态</string>
     <string name="export">导出</string>
-    <string name="long_press_to_edit">长按可更改值</string>
-    <string name="change_value">更改值</string>
+    <string name="long_press_to_edit">长按即可更改值</string>
+    <string name="value">值</string>
     <string name="calendar">日历</string>
     <string name="unit">单位</string>
+    <string name="target_type">目标类型</string>
+    <string name="target_type_at_least">至少</string>
+    <string name="target_type_at_most">至多</string>
     <string name="example_question_boolean">例如：你今天锻炼了吗？</string>
     <string name="question">问题</string>
     <string name="target">目标</string>
@@ -185,6 +189,7 @@
     <string name="measurable_example">例如：今天你跑了几公里？你读了几页书？</string>
     <string name="x_times_per_week">每周 %d 次</string>
     <string name="x_times_per_month">每月 %d 次</string>
+    <string name="x_times_per_y_days">每 %d 天 %d 次</string>
     <string name="yes_or_no_short_example">例如：锻炼</string>
     <string name="color">颜色</string>
     <string name="example_target">例如：15</string>
@@ -208,5 +213,4 @@
     <string name="activity_not_found">找不到支持此操作的应用</string>
     <string name="pref_midnight_delay_title">将一天延长到午夜后的几个小时</string>
     <string name="pref_midnight_delay_description">凌晨 3 点后再显示新的一天。如果你通常在午夜后入睡，这会很有用。重启应用后生效。</string>
-    <string name="x_times_per_y_days">%d 次每 %d 天</string>
 </resources>

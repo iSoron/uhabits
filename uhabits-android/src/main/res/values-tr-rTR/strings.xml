@@ -75,7 +75,6 @@
     <string name="interval_always_ask">Her zaman sor</string>
     <string name="interval_custom">Özel...</string>
     <string name="pref_toggle_title">Tek dokunuşla işaretle</string>
-    <string name="pref_toggle_description">Alışkanlıkları tek bir dokunuşla işaretle. Basılı tutarak işaretlmekten daha kolaydır ancak alışkanlıkların yanlışlıkla işaretlenmesine yol açabilir.</string>
     <string name="pref_rate_this_app">Google Play\'de uygulamayı oyla</string>
     <string name="pref_send_feedback">Geliştiriciye geri bildirim gönder</string>
     <string name="pref_view_source_code">Github\'da kaynak kodunu görüntüle</string>
@@ -127,7 +126,7 @@
     <string name="generate_bug_report">Hata raporu oluştur</string>
     <string name="troubleshooting">Sorun Giderme</string>
     <string name="help_translate">Bu uygulamanın çevirisinde yardım et</string>
-    <string name="night_mode" comment="dark_theme">Gece modu</string>
+    <string name="night_mode">Gece modu</string>
     <string name="use_pure_black">Gece modunda saf siyah kullan</string>
     <string name="pure_black_description">Gece modunda gri arkaplanı saf siyah ile değiştirir. AMOLED ekranlı cihazlarda pil kullanımını azaltır.</string>
     <string name="interface_preferences">Arayüz</string>
@@ -166,7 +165,6 @@
     <string name="by_status">Duruma göre</string>
     <string name="export">Dışarı aktar</string>
     <string name="long_press_to_edit">Değeri değiştirmek için basılı tut</string>
-    <string name="change_value">Değeri değiştir</string>
     <string name="calendar">Takvim</string>
     <string name="unit">Birim</string>
     <string name="example_question_boolean">örn: Bugün egzersiz yaptın mı?</string>
@@ -190,6 +188,7 @@
     <string name="measurable_example">örn: Bugün kaç km koştun? Bugün kaç sayfa kitap okudun?</string>
     <string name="x_times_per_week">Haftada %d kez</string>
     <string name="x_times_per_month">Ayda %d kez</string>
+    <string name="x_times_per_y_days">%d defa / %d gün</string>
     <string name="yes_or_no_short_example">örn: Egzersiz</string>
     <string name="color">Renk</string>
     <string name="example_target">örn: 15</string>
@@ -213,5 +212,4 @@
     <string name="activity_not_found">Bu işlemi gerçekleştirebilecek bir uygulama bulunamadı.</string>
     <string name="pref_midnight_delay_title">Yeni günü gece yarısından birkaç saat sonra başlat</string>
     <string name="pref_midnight_delay_description">Yeni gün saat 03:00\'ten sonra başlar. Geç saatlerde uyuyanlar için kullanışlıdır. Uygulamanın yeniden başlatılmasını gerektirir.</string>
-    <string name="x_times_per_y_days">%d defa / %d gün</string>
 </resources>

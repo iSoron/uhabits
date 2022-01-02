@@ -75,7 +75,7 @@
     <string name="interval_always_ask">Preguntar siempre</string>
     <string name="interval_custom">Personalizar...</string>
     <string name="pref_toggle_title">Marca las repeticiones con una pulsación corta</string>
-    <string name="pref_toggle_description">Más cómodo, pero puede causar marcas accidentales.</string>
+    <string name="pref_toggle_description_2">Ponga marcas de verificación con un solo toque en lugar de mantener presionado.</string>
     <string name="pref_rate_this_app">Valora esta aplicación en Google Play</string>
     <string name="pref_send_feedback">Enviar sugerencias al desarrollador</string>
     <string name="pref_view_source_code">Ver código fuente en GitHub</string>
@@ -127,7 +127,7 @@
     <string name="generate_bug_report">Generar reporte de errores</string>
     <string name="troubleshooting">Solución de problemas</string>
     <string name="help_translate">Ayuda a traducir esta app</string>
-    <string name="night_mode" comment="dark_theme">Modo nocturno</string>
+    <string name="night_mode">Modo nocturno</string>
     <string name="use_pure_black">Utilizar color negro en modo nocturno</string>
     <string name="pure_black_description">Reemplaza fondos grises por color negro en modo nocturno. Reduce el consumo de batería en teléfonos con pantalla AMOLED.</string>
     <string name="interface_preferences">Interfície</string>
@@ -147,6 +147,7 @@
     <string name="none">Ninguno</string>
     <string name="filter">Filtrar</string>
     <string name="hide_completed">Ocultar completos</string>
+    <string name="hide_entered">Ocultar ingresado</string>
     <string name="hide_archived">Ocultar archivados</string>
     <string name="sticky_notifications">Hacer notificaciones fijas</string>
     <string name="sticky_notifications_description">Evita que las notificaciones sean descartadas.</string>
@@ -166,9 +167,12 @@
     <string name="by_status">Por estado</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Mantenga presionado para cambiar el valor</string>
-    <string name="change_value">Cambiar valor</string>
+    <string name="value">Valor</string>
     <string name="calendar">Calendario</string>
     <string name="unit">Unidad</string>
+    <string name="target_type">Tipo de objetivo</string>
+    <string name="target_type_at_least">Al menos</string>
+    <string name="target_type_at_most">Como máximo</string>
     <string name="example_question_boolean">ej. ¿Has ejercitado hoy?</string>
     <string name="question">Pregunta</string>
     <string name="target">Objetivo</string>
@@ -190,6 +194,7 @@
     <string name="measurable_example">ej. ¿Cuántas millas ha corrido hoy? ¿Cuántas páginas ha leído?</string>
     <string name="x_times_per_week">%d veces por semana</string>
     <string name="x_times_per_month">%d veces al mes</string>
+    <string name="x_times_per_y_days">%d veces en %d días</string>
     <string name="yes_or_no_short_example">ej. Ejercicio</string>
     <string name="color">Color</string>
     <string name="example_target">ej. 15</string>
@@ -213,5 +218,4 @@
     <string name="activity_not_found">No se encontró ninguna aplicación que admita esta acción</string>
     <string name="pref_midnight_delay_title">Ampliar día unas horas después de medianoche</string>
     <string name="pref_midnight_delay_description">Esperar hasta las 3:00 AM para mostrar un nuevo día. Útil si normalmente vas a dormir después de medianoche. Requiere reiniciar la aplicación.</string>
-    <string name="x_times_per_y_days">%d veces cada %d días</string>
 </resources>

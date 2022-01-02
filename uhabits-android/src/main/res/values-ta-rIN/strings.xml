@@ -57,7 +57,6 @@
     <string name="interval_24_hour">24 மணி நேரம்</string>
     <string name="interval_always_ask">எப்போதும் கேள்</string>
     <string name="pref_toggle_title">சிறிய அழுத்தலின் மூலம் தாவு</string>
-    <string name="pref_toggle_description">சரிப் பார்ப்பு குறி யை இட அழுத்தி பிடிப்பதற்கு பதில் ஒரு முறை தட்டலாம். இது முன்னதை விட எளிமையானது. ஆனால் இது தற்செயலான தாவல்களுக்கு வழி வகுக்கும்.</string>
     <string name="pref_rate_this_app">Google Play-ல் இந்த செயலியை மதிப்பிட</string>
     <string name="pref_send_feedback">இந்த செயலியை மேம்படுத்த உங்கள் கருத்துகளை பகிர</string>
     <string name="pref_view_source_code">இந்த செயலியின் மூல நிரலை GitHub வலைதளத்தில் பார்க்கவும்</string>
@@ -100,7 +99,7 @@
     <string name="generate_bug_report">பிழை அறிக்கை உருவாக்கு</string>
     <string name="troubleshooting">பழுது இடமறிதல்</string>
     <string name="help_translate">இந்த செயலியை மற்ற மொழிகளில் மொழிபெயர்க்க உதவி செய்யவும்</string>
-    <string name="night_mode" comment="dark_theme">இருள் வண்ண பாங்கு</string>
+    <string name="night_mode">இருள் வண்ண பாங்கு</string>
     <string name="use_pure_black">இருள் பாங்கில் முழு கருப்பு நிறத்தை பயண்படுத்து</string>
     <string name="pure_black_description">இதன் மூலம் செயலியில் உள்ள பழுப்பு பின்புலங்கள் நீக்கப்பட்டு முழுவதும் கருப்பு நிற பின்புலங்களாக மாற்றப்படும். இது AMOLED திரை கொண்ட கைப்பேசிகளில் மின்கல பயன்பாட்டை குறைக்கும்.</string>
     <string name="interface_preferences">இடைமுகம்</string>

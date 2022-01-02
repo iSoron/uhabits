@@ -75,7 +75,6 @@
     <string name="interval_always_ask">Immer fragen</string>
     <string name="interval_custom">Benutzerdefiniert...</string>
     <string name="pref_toggle_title">Markierung durch kurzes Tippen ändern</string>
-    <string name="pref_toggle_description">Abhaken durch einfaches Tippen, anstatt durch Tippen und Halten. Bequemer, kann aber eine falsche Auswahl verursachen.</string>
     <string name="pref_rate_this_app">Bewerte diese App auf Google Play</string>
     <string name="pref_send_feedback">Sende dem Entwickler Feedback</string>
     <string name="pref_view_source_code">Zeige den Quellcode auf GitHub</string>
@@ -127,7 +126,7 @@
     <string name="generate_bug_report">Erstelle einen Fehlerbericht</string>
     <string name="troubleshooting">Fehlerbehebung</string>
     <string name="help_translate">Hilf mit, diese App zu übersetzen</string>
-    <string name="night_mode" comment="dark_theme">Nachtmodus</string>
+    <string name="night_mode">Nachtmodus</string>
     <string name="use_pure_black">Verwende reines Schwarz im Nachtmodus</string>
     <string name="pure_black_description">Ersetzt im Nachtmodus das Grau des Hintergrunds durch Schwarz. Reduziert den Stromverbrauch von Smartphones mit AMOLED Displays.</string>
     <string name="interface_preferences">Oberfläche</string>
@@ -166,7 +165,6 @@
     <string name="by_status">Nach Zustand</string>
     <string name="export">Exportieren</string>
     <string name="long_press_to_edit">Gedrückt halten, um den Wert zu ändern</string>
-    <string name="change_value">Wert ändern</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Einheit</string>
     <string name="example_question_boolean">z.B. Hast du heute trainiert?</string>
@@ -190,6 +188,7 @@
     <string name="measurable_example">z.B. Wie viele Kilometer bist du heute gelaufen? Wie viele Seiten hast du gelesen?</string>
     <string name="x_times_per_week">%d mal pro Woche</string>
     <string name="x_times_per_month">%d mal pro Monat</string>
+    <string name="x_times_per_y_days">%d Mal in %d Tagen</string>
     <string name="yes_or_no_short_example">z.B. Übung</string>
     <string name="color">Farbe</string>
     <string name="example_target">z.B. 15</string>
@@ -213,5 +212,4 @@
     <string name="activity_not_found">Für diese Aktion wurde keine App gefunden.</string>
     <string name="pref_midnight_delay_title">Verlängere den Tag um ein paar Stunden nach Mitternacht</string>
     <string name="pref_midnight_delay_description">Bis 3:00 Uhr warten, bevor ein neuer Tag angezeigt wird. Nützlich, wenn du normalerweise nach Mitternacht schlafen gehst. Benötigt einen Neustart der App.</string>
-    <string name="x_times_per_y_days">%d Mal in %d Tagen</string>
 </resources>

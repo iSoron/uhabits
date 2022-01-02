@@ -59,11 +59,11 @@
     <string name="interval_always_ask">اسأل دائماً   </string>
     <string name="interval_custom">مخصص...   </string>
     <string name="pref_toggle_title">تبديل وضعية العادة بضغطة قصيرة   </string>
-    <string name="pref_toggle_description">وضع علامات الاختيار الموجودة بنقرة واحدة بدلاً من الصحافة وعقد. أكثر ملاءمة، ولكن قد يتسبب في تبديل عرضي.   </string>
+    <string name="pref_toggle_description_2">ضع علامات اختيار بنقرة واحدة بدلاً من الضغط مع الاستمرار.</string>
     <string name="pref_rate_this_app">تقييم هذا التطبيق على جوجل بلاي   </string>
     <string name="pref_send_feedback">أرسل الملاحظات إلى المطور   </string>
     <string name="pref_view_source_code">إفحص التعليمات البرمجية على GitHub   </string>
-    <string name="links">روابط   </string>
+    <string name="links">روابط </string>
     <string name="name">اسم  </string>
     <string name="settings">إعدادات</string>
     <string name="select_snooze_delay">حدد تأخير الغفوة   </string>
@@ -103,7 +103,7 @@
     <string name="generate_bug_report">توليد تقرير الاعطال. </string>
     <string name="troubleshooting">استكشاف الأخطاء وإصلاحها. </string>
     <string name="help_translate">المساعدة في ترجمة هذا البرنامج. </string>
-    <string name="night_mode" comment="dark_theme">الوضع الليلي. </string>
+    <string name="night_mode">الوضع الليلي. </string>
     <string name="use_pure_black">استخدام أسود نقي في الوضع الليلي. </string>
     <string name="pure_black_description">يستبدل خلفيات رمادية مع أسود نقي في الوضع الليلي. يقلل من استهلاك البطارية في الهواتف مع شاشة AMOLED. .</string>
     <string name="interface_preferences">السطح البيني. </string>
@@ -113,7 +113,7 @@
     <string name="week">أسبوع. </string>
     <string name="month">شهر. </string>
     <string name="quarter">ربع سنه. </string>
-    <string name="year">عام. </string>
+    <string name="year">عام</string>
     <string name="total">المجموع. </string>
     <string name="yes_or_no">نعم أو لا </string>
     <string name="every_x_days">كل %d أيام </string>
@@ -123,6 +123,7 @@
     <string name="none">صامت </string>
     <string name="filter">تصنيف </string>
     <string name="hide_completed">إخفاء المكتملة </string>
+    <string name="hide_entered">إخفاء المُدخل</string>
     <string name="hide_archived">إخفاء المؤرشفة </string>
     <string name="sticky_notifications">جعل الإشعارات ثابتة </string>
     <string name="sticky_notifications_description">منع الإشعارات من تمريرها بعيداً. </string>
@@ -142,9 +143,12 @@
     <string name="by_status">حسب الحالة</string>
     <string name="export">استخراج </string>
     <string name="long_press_to_edit">اضغط مع الاستمرار لتغيرالقيمه</string>
-    <string name="change_value">تغيير القيمة </string>
+    <string name="value">القيمة</string>
     <string name="calendar">التقويم </string>
     <string name="unit">الوحدة </string>
+    <string name="target_type">نوع الهدف</string>
+    <string name="target_type_at_least">على الأقل</string>
+    <string name="target_type_at_most">على الأكثر</string>
     <string name="example_question_boolean">على سبيل المثال هل تمرنت اليوم؟ </string>
     <string name="question">السؤال </string>
     <string name="target">الهدف </string>
@@ -166,6 +170,7 @@
     <string name="measurable_example">مثال، كم ميلاً قطعته اليوم؟ كم عدد الصفحات التي قرأتها؟</string>
     <string name="x_times_per_week">%d مرة في الأسبوع</string>
     <string name="x_times_per_month">%d مرة في الشهر</string>
+    <string name="x_times_per_y_days">%d مرات في %d أيام</string>
     <string name="yes_or_no_short_example">مثال: التمرين</string>
     <string name="color">اللون</string>
     <string name="example_target">مثال: 15</string>
@@ -189,5 +194,4 @@
     <string name="activity_not_found">لم يتم العثور على تطبيق لإتمام هذا الإجراء</string>
     <string name="pref_midnight_delay_title">تمديد اليوم بضع ساعات بعد منتصف الليل</string>
     <string name="pref_midnight_delay_description">انتظر حتى 3:00 صباحاً لعرض يوم جديد. مفيد إذا كنت عادة تذهب إلى السكون بعد منتصف الليل. يتطلب إعادة تشغيل التطبيق.</string>
-    <string name="x_times_per_y_days">%d مرات في %d أيام</string>
 </resources>

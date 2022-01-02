@@ -71,7 +71,6 @@
     <string name="interval_always_ask">毎回選択する</string>
     <string name="interval_custom">カスタム...</string>
     <string name="pref_toggle_title">タップでチェックをON/OFF</string>
-    <string name="pref_toggle_description">長押しではなくシングルタップでチェックを付けます。より便利ですが、誤って切り替えが起こる可能性があります。</string>
     <string name="pref_rate_this_app">Google Play でこのアプリを評価</string>
     <string name="pref_send_feedback">開発者にフィードバックを送信</string>
     <string name="pref_view_source_code">GitHub でソースコードを参照</string>
@@ -121,7 +120,7 @@
     <string name="generate_bug_report">バグレポートの作成</string>
     <string name="troubleshooting">トラブルシューティング</string>
     <string name="help_translate">このアプリの翻訳を支援する</string>
-    <string name="night_mode" comment="dark_theme">ダークテーマ</string>
+    <string name="night_mode">ダークテーマ</string>
     <string name="use_pure_black">ダークテーマで完全な黒を使用する</string>
     <string name="pure_black_description">夜間モードで灰色の背景を完全な黒で置き換えます。AMOLED ディスプレイの電話でバッテリー使用量を抑えます。</string>
     <string name="interface_preferences">インターフェース</string>
@@ -160,7 +159,6 @@
     <string name="by_status">ステータス順</string>
     <string name="export">エクスポート</string>
     <string name="long_press_to_edit">長押しすると値を変更できます</string>
-    <string name="change_value">値を変更する</string>
     <string name="calendar">カレンダー</string>
     <string name="unit">単位</string>
     <string name="example_question_boolean">例：今日は運動しましたか？</string>
@@ -184,6 +182,7 @@
     <string name="measurable_example">例：今日は何キロ走ったの？何ページ読んだの？</string>
     <string name="x_times_per_week">1 週間に %d 回</string>
     <string name="x_times_per_month">1 か月に %d 回</string>
+    <string name="x_times_per_y_days">%d 回 %d 日</string>
     <string name="yes_or_no_short_example">例：運動</string>
     <string name="color">色</string>
     <string name="example_target">例：15</string>
@@ -198,5 +197,4 @@
     <string name="pref_skip_title">スキップ日を有効にする</string>
     <string name="you_are_now_a_developer">これで開発者になりました!</string>
     <string name="activity_not_found">この操作を行うアプリが見つかりませんでした。</string>
-    <string name="x_times_per_y_days">%d 回 %d 日</string>
 </resources>

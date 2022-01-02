@@ -83,7 +83,7 @@
     <string name="interval_always_ask">Всегда спрашивать</string>
     <string name="interval_custom">Настроить...</string>
     <string name="pref_toggle_title">Отмечать коротким нажатием</string>
-    <string name="pref_toggle_description">Ставить галочки коротким нажатием вместо удержания. Удобнее, но может стать причиной случайных отметок.</string>
+    <string name="pref_toggle_description_2">Ставить галочки одним касанием вместо нажатия и удерживания.</string>
     <string name="pref_rate_this_app">Оценить приложение в Google Play</string>
     <string name="pref_send_feedback">Отправить сообщение разработчику</string>
     <string name="pref_view_source_code">Посмотреть исходный код на GitHub</string>
@@ -139,7 +139,7 @@
     <string name="generate_bug_report">Сгенерировать отчёт об ошибке</string>
     <string name="troubleshooting">Устранение неполадок</string>
     <string name="help_translate">Помогите перевести это приложение</string>
-    <string name="night_mode" comment="dark_theme">Ночной режим</string>
+    <string name="night_mode">Ночной режим</string>
     <string name="use_pure_black">Использовать подлинный чёрный в ночном режиме</string>
     <string name="pure_black_description">Заменяет серый фон на подлинный чёрный в ночном режиме. Сокращает расход батареи в телефонах с дисплеем AMOLED.</string>
     <string name="interface_preferences">Интерфейс</string>
@@ -159,6 +159,7 @@
     <string name="none">Без звука</string>
     <string name="filter">Фильтр</string>
     <string name="hide_completed">Скрыть завершённые</string>
+    <string name="hide_entered">Скрыть введённые</string>
     <string name="hide_archived">Скрыть архивированные</string>
     <string name="sticky_notifications">Сделать уведомления \"липкими\"</string>
     <string name="sticky_notifications_description">Предотвращает смахивание уведомлений.</string>
@@ -178,9 +179,12 @@
     <string name="by_status">По статусу</string>
     <string name="export">Экспортировать</string>
     <string name="long_press_to_edit">Нажмите и удерживайте, чтобы изменить значение</string>
-    <string name="change_value">Изменить значение</string>
+    <string name="value">Значение</string>
     <string name="calendar">Календарь</string>
     <string name="unit">Ед. изм.</string>
+    <string name="target_type">Тип цели</string>
+    <string name="target_type_at_least">Не меньше</string>
+    <string name="target_type_at_most">Не больше</string>
     <string name="example_question_boolean">напр.: Вы упражнялись сегодня?</string>
     <string name="question">Вопрос</string>
     <string name="target">Цель</string>
@@ -202,6 +206,7 @@
     <string name="measurable_example">напр.: Сколько км вы пробежали сегодня? Сколько страниц прочитали?</string>
     <string name="x_times_per_week">%d раз в неделю</string>
     <string name="x_times_per_month">%d раз в месяц</string>
+    <string name="x_times_per_y_days">%d раз в %d дней</string>
     <string name="yes_or_no_short_example">напр.: Поупражняться</string>
     <string name="color">Цвет</string>
     <string name="example_target">напр.: 15</string>
@@ -225,5 +230,4 @@
     <string name="activity_not_found">Не найдено приложения для обработки данного действия</string>
     <string name="pref_midnight_delay_title">Продлить день на несколько часов после полуночи</string>
     <string name="pref_midnight_delay_description">Подождать до 3:00 перед показом нового дня. Полезно, если вы обычно ложитесь спать после полуночи. Требуется перезапуск приложения.</string>
-    <string name="x_times_per_y_days">%d раз в %d дней</string>
 </resources>

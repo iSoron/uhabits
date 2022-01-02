@@ -75,7 +75,6 @@
     <string name="interval_always_ask">Spørg altid</string>
     <string name="interval_custom">Brugerdefineret...</string>
     <string name="pref_toggle_title">Tjek vaner med kort tryk</string>
-    <string name="pref_toggle_description">Sæt tjekmærker med et enkelt tryk i stedet for tryk-og-hold. Mere bekvemmeligt, men kan forårsage uhensigtede tryk.</string>
     <string name="pref_rate_this_app">Bedøm denne app på Google Play</string>
     <string name="pref_send_feedback">Send feedback til udvikleren</string>
     <string name="pref_view_source_code">Se kildekoden på GitHub</string>
@@ -136,7 +135,7 @@
     <string name="generate_bug_report">Generer fejlrapport</string>
     <string name="troubleshooting">Fejlfinding</string>
     <string name="help_translate">Hjælpe med at oversætte denne app</string>
-    <string name="night_mode" comment="dark_theme">Nat-tilstand</string>
+    <string name="night_mode">Nat-tilstand</string>
     <string name="use_pure_black">Brug ren sort i nat-tilstand</string>
     <string name="pure_black_description">Erstatter grå baggrunde med ren sort i nat-tilstand. Reducerer batteriforbruget i telefoner med AMOLED skærm.</string>
     <string name="interface_preferences">Grænseflade</string>
@@ -175,7 +174,6 @@
     <string name="by_status">Efter status</string>
     <string name="export">Eksporter</string>
     <string name="long_press_to_edit">Tryk-og-hold for at ændre værdien</string>
-    <string name="change_value">Skift værdi</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Enhed</string>
     <string name="example_question_boolean">f.eks. Har du trænet i dag?</string>
@@ -199,6 +197,7 @@
     <string name="measurable_example">f.eks Hvor mange kilometer kørte du i dag? Hvor mange sider læste du?</string>
     <string name="x_times_per_week">%d gange om ugen</string>
     <string name="x_times_per_month">%d gange om måneden</string>
+    <string name="x_times_per_y_days">%d gange på %d dage</string>
     <string name="yes_or_no_short_example">f.eks. Motion</string>
     <string name="color">Farve</string>
     <string name="example_target">f.eks. 15</string>
@@ -222,5 +221,4 @@
     <string name="activity_not_found">Ingen app fundet til at understøtte denne handling</string>
     <string name="pref_midnight_delay_title">Forlæng dagen et par timer efter midnat</string>
     <string name="pref_midnight_delay_description">Vent til 3:00 for at vise en ny dag. Nyttigt, hvis du typisk går i seng efter midnat. Kræver genstart af app.</string>
-    <string name="x_times_per_y_days">%d gange på %d dage</string>
 </resources>
