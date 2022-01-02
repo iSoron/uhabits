@@ -306,7 +306,7 @@ class HabitCardView(
     }
 
     companion object {
-        const val TOGGLE_DELAY_MILLIS = 2000L
+        const val TOGGLE_DELAY_MILLIS = 1000L
 
         fun (() -> Unit).delay(delayInMillis: Long) {
             Handler(Looper.getMainLooper()).postDelayed(this, delayInMillis)
