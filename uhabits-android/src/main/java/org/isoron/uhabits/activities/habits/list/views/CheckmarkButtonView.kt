@@ -83,7 +83,6 @@ class CheckmarkButtonView(
     private var drawer = Drawer()
 
     init {
-        isFocusable = false
         setOnClickListener(this)
         setOnLongClickListener(this)
     }
