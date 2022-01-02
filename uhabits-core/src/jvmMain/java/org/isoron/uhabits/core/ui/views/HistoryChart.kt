@@ -53,6 +53,7 @@ class HistoryChart(
     enum class Square {
         ON,
         OFF,
+        GREY,
         DIMMED,
         HATCHED,
     }
@@ -216,6 +217,9 @@ class HistoryChart(
             Square.OFF -> {
                 theme.lowContrastTextColor
             }
+            Square.GREY -> {
+                theme.mediumContrastTextColor
+            }
             Square.DIMMED, Square.HATCHED -> {
                 color.blendWith(theme.cardBackgroundColor, 0.5)
             }
@@ -254,7 +258,7 @@ class HistoryChart(
 
         if (hasNotes) {
             circleColor = when (value) {
-                Square.ON -> theme.lowContrastTextColor
+                Square.ON, Square.GREY -> theme.lowContrastTextColor
                 else -> color
             }
             canvas.setColor(circleColor)

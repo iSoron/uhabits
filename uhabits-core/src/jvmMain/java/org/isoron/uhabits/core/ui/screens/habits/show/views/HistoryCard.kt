@@ -29,16 +29,21 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
-import org.isoron.uhabits.core.models.NumericalHabitType
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.views.HistoryChart
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.DIMMED
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.GREY
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.ON
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
-import kotlin.math.max
 import kotlin.math.roundToInt
 
 data class HistoryCardState(
@@ -146,36 +151,24 @@ class HistoryCardPresenter(
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today)
             val series = if (habit.isNumerical) {
-                if (habit.targetType == NumericalHabitType.AT_LEAST) {
-                    entries.map {
-                        when (max(0, it.value)) {
-                            0 -> HistoryChart.Square.OFF
-                            else -> HistoryChart.Square.ON
-                        }
-                    }
-                } else {
-                    entries.map {
-                        when {
-                            max(0.0, it.value / 1000.0) <= habit.targetValue -> HistoryChart.Square.ON
-                            else -> HistoryChart.Square.OFF
-                        }
+                entries.map {
+                    when {
+                        it.value == Entry.UNKNOWN -> OFF
+                        (habit.targetType == AT_MOST) && (it.value / 1000.0 <= habit.targetValue) -> ON
+                        (habit.targetType == AT_LEAST) && (it.value / 1000.0 >= habit.targetValue) -> ON
+                        else -> GREY
                     }
                 }
             } else {
                 entries.map {
                     when (it.value) {
-                        YES_MANUAL -> HistoryChart.Square.ON
-                        YES_AUTO -> HistoryChart.Square.DIMMED
-                        SKIP -> HistoryChart.Square.HATCHED
-                        else -> HistoryChart.Square.OFF
+                        YES_MANUAL -> ON
+                        YES_AUTO -> DIMMED
+                        SKIP -> HATCHED
+                        else -> OFF
                     }
                 }
             }
-            val defaultSquare = if (habit.isNumerical && habit.targetType == NumericalHabitType.AT_MOST)
-                HistoryChart.Square.ON
-            else
-                HistoryChart.Square.OFF
-
             val notesIndicators = entries.map {
                 when (it.notes) {
                     "" -> false
@@ -189,7 +182,7 @@ class HistoryCardPresenter(
                 today = today.toLocalDate(),
                 theme = theme,
                 series = series,
-                defaultSquare = defaultSquare,
+                defaultSquare = OFF,
                 notesIndicators = notesIndicators,
             )
         }
