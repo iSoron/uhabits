@@ -99,7 +99,7 @@ class NumberPickerFactory
                 picker.clearFocus()
                 picker2.clearFocus()
                 val v = picker.value + 0.01 * picker2.value
-                val note = etNotes.text.toString()
+                val note = etNotes.text.toString().trim()
                 callback.onNumberPicked(v, note)
             }
             .setNegativeButton(android.R.string.cancel) { _, _ ->
