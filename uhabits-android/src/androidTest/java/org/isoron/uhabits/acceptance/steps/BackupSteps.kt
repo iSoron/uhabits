@@ -87,8 +87,6 @@ fun importBackupFromDownloadFolder() {
         device.findObject(UiSelector().textContains("Download")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
     } else if (SDK_INT >= 31) {
-        device.click(50, 90) // Click menu button
-        device.findObject(UiSelector().textContains("Downloads")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
     } else {
         device.click(50, 90) // Click menu button
