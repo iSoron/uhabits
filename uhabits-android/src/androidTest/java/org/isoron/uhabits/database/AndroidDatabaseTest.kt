@@ -40,7 +40,8 @@ class AndroidDatabaseTest : BaseAndroidTest() {
         db.insert("test", map)
         val c: Cursor = db.query("select * from test")
         c.moveToNext()
-        c.getInt(0)!!
+
+        assertNull(c.getInt(0))
         assertThat(c.getString(1), equalTo("asd"))
     }
 }
