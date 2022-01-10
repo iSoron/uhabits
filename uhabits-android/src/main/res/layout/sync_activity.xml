@@ -1,0 +1,162 @@
+<!--
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/contrast0"
+    android:gravity="top|center">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:popupTheme="?toolbarPopupTheme"
+        style="@style/Toolbar" />
+
+    <ScrollView
+        android:id="@+id/introGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="top|center">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="?attr/iconSync"
+                android:layout_margin="32dp"
+                android:alpha="0.25" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/device_sync_description_1"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/device_sync_description_2"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/generate_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/generate_new_code"
+                app:backgroundTint="?attr/aboutScreenColor"
+                android:textColor="?attr/contrast0"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/enter_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_existing_code"
+                android:textColor="?attr/aboutScreenColor"
+                app:rippleColor="?attr/aboutScreenColor"
+                app:strokeColor="?attr/aboutScreenColor"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/codeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sync_is_enabled"
+                android:layout_margin="16dp" />
+
+            <FrameLayout
+                style="@style/FormOuterBox"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp">
+
+                <LinearLayout style="@style/FormInnerBox">
+
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/sync_code" />
+
+                    <TextView
+                        style="@style/FormInput"
+                        android:id="@+id/sync_code_tv"
+                        android:fontFamily="monospace"
+                        android:text="gravity trophy suspect shrimp sheriff avocado label trust tragic dove pitch title network myself task spell protect smooth diary sword brain blossom bulb under" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                style="@style/FormOuterBox"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp">
+
+                <LinearLayout style="@style/FormInnerBox">
+
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/last_sync" />
+
+                    <TextView
+                        style="@style/FormInput"
+                        android:id="@+id/last_sync_tv"
+                        android:text="Jan 10, 2022 4:45:00 PM" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/disable_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/disable_sync"
+                android:textColor="?attr/aboutScreenColor"
+                app:rippleColor="?attr/aboutScreenColor"
+                app:strokeColor="?attr/aboutScreenColor"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>

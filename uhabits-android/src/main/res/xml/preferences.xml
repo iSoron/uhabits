@@ -115,6 +115,24 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="syncCategory"
+        android:title="@string/device_sync">
+
+        <Preference
+            android:key="configSync"
+            android:summary="@string/config_sync_summary"
+            android:title="@string/config_sync"
+            app:iconSpaceReserved="false">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="org.isoron.uhabits.activities.sync.SyncActivity"
+                android:targetPackage="org.isoron.uhabits" />
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
             android:key="databaseCategory"
             android:title="@string/database">
 

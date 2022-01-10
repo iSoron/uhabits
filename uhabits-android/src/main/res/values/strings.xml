@@ -232,4 +232,18 @@
     <string name="activity_not_found">No app was found to support this action</string>
     <string name="pref_midnight_delay_title">Extend day a few hours past midnight</string>
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
+    <string name="device_sync">Device sync</string>
+    <string name="config_sync">Configure device sync</string>
+    <string name="config_sync_summary">Synchronize data across multiple devices. When enabled, an end-to-end encrypted copy of your data will be uploaded to Loop Habit Tracker servers.</string>
+    <string name="device_sync_description_1">Device sync allows you to keep your data synchronized across multiple devices. To get started, generate a new sync code below, install Loop Habit Tracker in another device, then type the generated code there.</string>
+    <string name="device_sync_description_2">When sync is enabled, an end-to-end encrypted copy of your data will be uploaded to Loop Habit Tracker servers. See privacy policy for more details.</string>
+    <string name="generate_new_code">Generate new code</string>
+    <string name="enter_existing_code">Enter existing code</string>
+    <string name="sync_is_enabled">Device sync is enabled. To get started, install Loop in another device, then type the following code there.</string>
+    <string name="sync_code">Sync code</string>
+    <string name="disable_sync">Disable sync</string>
+    <string name="disable_sync_description">Are you sure you want to disable sync on this device? This will not delete any data from any of your devices, but the current device will no longer be kept in sync with the others. If you disable sync from all devices, your data will be deleted from our servers in 30 days.</string>
+    <string name="disable">Disable</string>
+    <string name="keep_enabled">Keep enabled</string>
+    <string name="last_sync">Last sync</string>
 </resources>

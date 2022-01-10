@@ -45,6 +45,7 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconArrowUp">@drawable/ic_arrow_up_light</item>
         <item name="iconArrowDown">@drawable/ic_arrow_down_light</item>
+        <item name="iconSync">@drawable/ic_sync_light</item>
         <item name="contrast0">@color/white</item>
         <item name="contrast20">@color/grey_300</item>
         <item name="contrast40">@color/grey_350</item>
@@ -89,6 +90,7 @@
         <item name="iconUnarchive">@drawable/ic_action_unarchive_dark</item>
         <item name="iconArrowUp">@drawable/ic_arrow_up_dark</item>
         <item name="iconArrowDown">@drawable/ic_arrow_down_dark</item>
+        <item name="iconSync">@drawable/ic_sync_dark</item>
         <item name="contrast0">@color/grey_900</item>
         <item name="contrast20">@color/grey_800</item>
         <item name="contrast40">@color/grey_750</item>

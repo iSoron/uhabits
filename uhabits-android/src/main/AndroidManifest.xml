@@ -80,6 +80,14 @@
         </activity>
 
         <activity
+            android:name=".activities.sync.SyncActivity"
+            android:label="@string/device_sync">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.sync.SyncActivity" />
+        </activity>
+
+        <activity
             android:name=".activities.intro.IntroActivity"
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
