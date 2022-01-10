@@ -121,7 +121,7 @@ android_test() {
     log_info "Installing test APK..."
     $ADB install -r ${ANDROID_OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || return 1
 
-    for size in medium large; do
+    for size in large; do
         log_info "Running $size instrumented tests..."
         OUT_INSTRUMENT=${ANDROID_OUTPUTS_DIR}/instrument-${API}.txt
         OUT_LOGCAT=${ANDROID_OUTPUTS_DIR}/logcat-${API}.txt
