@@ -23,7 +23,6 @@ import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.jackson.*
 import io.ktor.routing.*
-import org.isoron.uhabits.sync.*
 import org.isoron.uhabits.sync.repository.*
 import org.isoron.uhabits.sync.server.*
 import java.nio.file.*
@@ -46,7 +45,6 @@ class SyncApplication(
         routing {
             registration(this@SyncApplication)
             storage(this@SyncApplication)
-            links(this@SyncApplication)
             metrics(this@SyncApplication)
         }
     }
