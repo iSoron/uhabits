@@ -19,10 +19,10 @@
 
 package org.isoron.uhabits.sync
 
-open class SyncException: RuntimeException()
+open class SyncException : RuntimeException()
 
-class KeyNotFoundException: SyncException()
+class KeyNotFoundException : SyncException()
 
-class ServiceUnavailable: SyncException()
+class ServiceUnavailable : SyncException()
 
-class EditConflictException: SyncException()
+class EditConflictException : SyncException()

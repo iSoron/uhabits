@@ -19,8 +19,11 @@
 
 package org.isoron.uhabits.sync.server
 
-import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.links.*
+import org.isoron.uhabits.sync.EditConflictException
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.ServiceUnavailable
+import org.isoron.uhabits.sync.SyncData
+import org.isoron.uhabits.sync.links.Link
 
 interface AbstractSyncServer {
     /**

@@ -17,17 +17,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 @file:Suppress("BlockingMethodInNonBlockingContext")
 
 package org.isoron.uhabits.sync.repository
 
-import kotlinx.coroutines.*
-import org.hamcrest.CoreMatchers.*
-import org.isoron.uhabits.sync.*
-import org.junit.*
-import org.junit.Assert.*
-import java.nio.file.*
+import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.equalTo
+import org.isoron.uhabits.sync.SyncData
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThat
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import java.nio.file.Files
 
 class FileRepositoryTest {
 

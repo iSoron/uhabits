@@ -19,12 +19,15 @@
 
 package org.isoron.uhabits.sync.server
 
-import kotlinx.coroutines.*
-import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.repository.*
+import kotlinx.coroutines.runBlocking
+import org.isoron.uhabits.sync.EditConflictException
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.SyncData
+import org.isoron.uhabits.sync.repository.FileRepository
 import org.junit.Test
-import java.nio.file.*
-import kotlin.test.*
+import java.nio.file.Files
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class RepositorySyncServerTest {
 

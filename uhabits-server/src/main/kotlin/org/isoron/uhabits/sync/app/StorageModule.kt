@@ -19,12 +19,18 @@
 
 package org.isoron.uhabits.sync.app
 
-import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import org.isoron.uhabits.sync.*
+import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.receive
+import io.ktor.response.respond
+import io.ktor.routing.Routing
+import io.ktor.routing.get
+import io.ktor.routing.put
+import io.ktor.routing.route
+import org.isoron.uhabits.sync.EditConflictException
+import org.isoron.uhabits.sync.GetDataVersionResponse
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.SyncData
 
 fun Routing.storage(app: SyncApplication) {
     route("/db/{key}") {
@@ -33,7 +39,7 @@ fun Routing.storage(app: SyncApplication) {
             try {
                 val data = app.server.getData(key)
                 call.respond(HttpStatusCode.OK, data)
-            } catch(e: KeyNotFoundException) {
+            } catch (e: KeyNotFoundException) {
                 call.respond(HttpStatusCode.NotFound)
             }
         }
@@ -54,7 +60,7 @@ fun Routing.storage(app: SyncApplication) {
             try {
                 val version = app.server.getDataVersion(key)
                 call.respond(HttpStatusCode.OK, GetDataVersionResponse(version))
-            } catch(e: KeyNotFoundException) {
+            } catch (e: KeyNotFoundException) {
                 call.respond(HttpStatusCode.NotFound)
             }
         }

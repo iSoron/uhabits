@@ -21,12 +21,23 @@ package org.isoron.uhabits.sync.app
 
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import io.ktor.http.*
-import io.ktor.server.testing.*
-import kotlinx.coroutines.*
-import org.isoron.uhabits.sync.*
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.TestApplicationCall
+import io.ktor.server.testing.TestApplicationEngine
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
+import io.ktor.server.testing.withTestApplication
+import kotlinx.coroutines.runBlocking
+import org.isoron.uhabits.sync.EditConflictException
+import org.isoron.uhabits.sync.GetDataVersionResponse
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.SyncData
+import org.isoron.uhabits.sync.toJson
 import org.junit.Test
-import kotlin.test.*
+import kotlin.test.assertEquals
 
 class StorageModuleTest : BaseApplicationTest() {
     private val data1 = SyncData(1, "Hello world")
@@ -63,7 +74,6 @@ class StorageModuleTest : BaseApplicationTest() {
             }
         }
     }
-
 
     @Test
     fun `when put succeeds should return OK`(): Unit = runBlocking {

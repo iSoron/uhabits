@@ -23,8 +23,8 @@ plugins {
     application
     id("kotlin")
     id("com.github.johnrengelman.shadow") version "7.1.0"
+    id("org.jlleitschuh.gradle.ktlint")
 }
-
 
 application {
     group = "org.isoron.uhabits"

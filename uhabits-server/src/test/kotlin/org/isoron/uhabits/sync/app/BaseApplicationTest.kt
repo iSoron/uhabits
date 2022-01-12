@@ -20,8 +20,8 @@
 package org.isoron.uhabits.sync.app
 
 import com.nhaarman.mockitokotlin2.mock
-import io.ktor.application.*
-import org.isoron.uhabits.sync.server.*
+import io.ktor.application.Application
+import org.isoron.uhabits.sync.server.AbstractSyncServer
 
 open class BaseApplicationTest {
 

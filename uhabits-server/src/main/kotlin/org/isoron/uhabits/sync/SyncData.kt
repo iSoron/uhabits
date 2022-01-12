@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.sync
 
-import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.ObjectMapper
 
 data class SyncData(
     val version: Long,

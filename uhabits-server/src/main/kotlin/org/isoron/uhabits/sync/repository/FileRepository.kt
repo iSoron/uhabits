@@ -19,9 +19,10 @@
 
 package org.isoron.uhabits.sync.repository
 
-import org.isoron.uhabits.sync.*
-import java.io.*
-import java.nio.file.*
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.SyncData
+import java.io.PrintWriter
+import java.nio.file.Path
 
 class FileRepository(
     private val basepath: Path,

@@ -19,13 +19,18 @@
 
 package org.isoron.uhabits.sync.app
 
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.jackson.*
-import io.ktor.routing.*
-import org.isoron.uhabits.sync.repository.*
-import org.isoron.uhabits.sync.server.*
-import java.nio.file.*
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.jackson.jackson
+import io.ktor.routing.routing
+import org.isoron.uhabits.sync.repository.FileRepository
+import org.isoron.uhabits.sync.server.AbstractSyncServer
+import org.isoron.uhabits.sync.server.RepositorySyncServer
+import java.nio.file.Path
+import java.nio.file.Paths
 
 fun Application.main() = SyncApplication().apply { main() }
 

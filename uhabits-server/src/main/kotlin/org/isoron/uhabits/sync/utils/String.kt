@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.sync.utils
 
-import java.util.*
-import kotlin.streams.*
+import java.util.Random
+import kotlin.streams.asSequence
 
 fun randomString(length: Long): String {
     val chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"

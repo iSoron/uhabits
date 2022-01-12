@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.sync.links
 
-import org.isoron.uhabits.sync.*
-import org.isoron.uhabits.sync.utils.*
+import org.isoron.uhabits.sync.KeyNotFoundException
+import org.isoron.uhabits.sync.utils.randomString
 
 class LinkManager(
     private val timeoutInMillis: Long = 900_000,

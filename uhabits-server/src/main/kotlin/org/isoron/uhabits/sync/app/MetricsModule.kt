@@ -19,15 +19,15 @@
 
 package org.isoron.uhabits.sync.app
 
-import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.prometheus.client.*
-import io.prometheus.client.exporter.common.*
-import io.prometheus.client.hotspot.*
-import java.io.*
-
+import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.response.respond
+import io.ktor.routing.Routing
+import io.ktor.routing.get
+import io.prometheus.client.CollectorRegistry
+import io.prometheus.client.exporter.common.TextFormat
+import io.prometheus.client.hotspot.DefaultExports
+import java.io.StringWriter
 
 fun Routing.metrics(app: SyncApplication) {
     // Register JVM metrics
