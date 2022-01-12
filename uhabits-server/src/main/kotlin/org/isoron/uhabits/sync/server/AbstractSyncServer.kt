@@ -23,7 +23,6 @@ import org.isoron.uhabits.sync.EditConflictException
 import org.isoron.uhabits.sync.KeyNotFoundException
 import org.isoron.uhabits.sync.ServiceUnavailable
 import org.isoron.uhabits.sync.SyncData
-import org.isoron.uhabits.sync.links.Link
 
 interface AbstractSyncServer {
     /**
@@ -63,22 +62,4 @@ interface AbstractSyncServer {
      *      to insufficient server resources or network problems.
      */
     suspend fun getDataVersion(key: String): Long
-
-    /**
-     * Registers a new temporary link (mapping to the given sync key) and returns it.
-     *
-     * @throws ServiceUnavailable If the link cannot be generated at this time due to
-     *      insufficient server resources.
-     */
-    suspend fun registerLink(syncKey: String): Link
-
-    /**
-     * Retrieves the syncKey associated with the given link id.
-     *
-     * @throws ServiceUnavailable If the link cannot be resolved at this time due to
-     *      insufficient server resources.
-     * @throws KeyNotFoundException If the link id cannot be found, or if it has
-     *      expired.
-     */
-    suspend fun getLink(id: String): Link
 }

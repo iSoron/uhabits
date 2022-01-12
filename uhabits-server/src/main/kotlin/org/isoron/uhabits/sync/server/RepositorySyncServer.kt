@@ -23,8 +23,6 @@ import io.prometheus.client.Counter
 import org.isoron.uhabits.sync.EditConflictException
 import org.isoron.uhabits.sync.KeyNotFoundException
 import org.isoron.uhabits.sync.SyncData
-import org.isoron.uhabits.sync.links.Link
-import org.isoron.uhabits.sync.links.LinkManager
 import org.isoron.uhabits.sync.repository.Repository
 import org.isoron.uhabits.sync.utils.randomString
 
@@ -33,7 +31,6 @@ import org.isoron.uhabits.sync.utils.randomString
  */
 class RepositorySyncServer(
     private val repo: Repository,
-    private val linkManager: LinkManager = LinkManager(),
 ) : AbstractSyncServer {
 
     private val requestsCounter: Counter = Counter.build()
@@ -75,16 +72,6 @@ class RepositorySyncServer(
             throw KeyNotFoundException()
         }
         return repo.get(key).version
-    }
-
-    override suspend fun registerLink(syncKey: String): Link {
-        requestsCounter.labels("registerLink").inc()
-        return linkManager.register(syncKey)
-    }
-
-    override suspend fun getLink(id: String): Link {
-        requestsCounter.labels("getLink").inc()
-        return linkManager.get(id)
     }
 
     private suspend fun generateKey(): String {
