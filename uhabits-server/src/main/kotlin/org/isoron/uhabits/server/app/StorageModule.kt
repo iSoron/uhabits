@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.server.app
 
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
@@ -27,10 +27,10 @@ import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.routing.put
 import io.ktor.routing.route
-import org.isoron.uhabits.sync.EditConflictException
-import org.isoron.uhabits.sync.GetDataVersionResponse
-import org.isoron.uhabits.sync.KeyNotFoundException
-import org.isoron.uhabits.sync.SyncData
+import org.isoron.uhabits.core.sync.EditConflictException
+import org.isoron.uhabits.core.sync.GetDataVersionResponse
+import org.isoron.uhabits.core.sync.KeyNotFoundException
+import org.isoron.uhabits.core.sync.SyncData
 
 fun Routing.storage(app: SyncApplication) {
     route("/db/{key}") {

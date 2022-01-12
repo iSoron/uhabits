@@ -17,14 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.server
+package org.isoron.uhabits.server.sync
 
 import io.prometheus.client.Counter
-import org.isoron.uhabits.sync.EditConflictException
-import org.isoron.uhabits.sync.KeyNotFoundException
-import org.isoron.uhabits.sync.SyncData
-import org.isoron.uhabits.sync.repository.Repository
-import org.isoron.uhabits.sync.utils.randomString
+import org.isoron.uhabits.core.sync.AbstractSyncServer
+import org.isoron.uhabits.core.sync.EditConflictException
+import org.isoron.uhabits.core.sync.KeyNotFoundException
+import org.isoron.uhabits.core.sync.SyncData
+import java.util.Random
+import kotlin.streams.asSequence
 
 /**
  * An AbstractSyncServer that stores all data in a [Repository].
@@ -74,11 +75,19 @@ class RepositorySyncServer(
         return repo.get(key).version
     }
 
-    private suspend fun generateKey(): String {
+    private fun generateKey(): String {
         while (true) {
             val key = randomString(64)
             if (!repo.contains(key))
                 return key
         }
+    }
+
+    private fun randomString(length: Long): String {
+        val chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return Random().ints(length, 0, chars.length)
+            .asSequence()
+            .map(chars::get)
+            .joinToString("")
     }
 }

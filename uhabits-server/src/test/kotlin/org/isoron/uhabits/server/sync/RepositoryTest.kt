@@ -19,23 +19,23 @@
 
 @file:Suppress("BlockingMethodInNonBlockingContext")
 
-package org.isoron.uhabits.sync.repository
+package org.isoron.uhabits.server.sync
 
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
-import org.isoron.uhabits.sync.SyncData
+import org.isoron.uhabits.core.sync.SyncData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.nio.file.Files
 
-class FileRepositoryTest {
+class RepositoryTest {
 
     @Test
     fun testUsage() = runBlocking {
         val tempdir = Files.createTempDirectory("db")!!
-        val repo = FileRepository(tempdir)
+        val repo = Repository(tempdir)
 
         val original = SyncData(10, "Hello world")
         repo.put("abcdefg", original)

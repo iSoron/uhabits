@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.server.app
 
 import com.nhaarman.mockitokotlin2.whenever
 import io.ktor.http.HttpMethod
@@ -25,7 +25,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.withTestApplication
 import kotlinx.coroutines.runBlocking
-import org.isoron.uhabits.sync.ServiceUnavailable
+import org.isoron.uhabits.core.sync.ServiceUnavailable
 import org.junit.Test
 import kotlin.test.assertEquals
 

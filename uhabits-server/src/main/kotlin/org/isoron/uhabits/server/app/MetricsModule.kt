@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.server.app
 
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode

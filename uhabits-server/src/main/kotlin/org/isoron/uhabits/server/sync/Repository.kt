@@ -17,18 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.repository
+package org.isoron.uhabits.server.sync
 
-import org.isoron.uhabits.sync.KeyNotFoundException
-import org.isoron.uhabits.sync.SyncData
+import org.isoron.uhabits.core.sync.KeyNotFoundException
+import org.isoron.uhabits.core.sync.SyncData
 import java.io.PrintWriter
 import java.nio.file.Path
 
-class FileRepository(
+class Repository(
     private val basepath: Path,
-) : Repository {
-
-    override suspend fun put(key: String, data: SyncData) {
+) {
+    fun put(key: String, data: SyncData) {
         // Create directory
         val dataPath = key.toDataPath()
         val dataDir = dataPath.toFile()
@@ -51,7 +50,7 @@ class FileRepository(
         }
     }
 
-    override suspend fun get(key: String): SyncData {
+    fun get(key: String): SyncData {
         val dataPath = key.toDataPath()
         val contentFile = dataPath.resolve("content").toFile()
         val versionFile = dataPath.resolve("version").toFile()
@@ -62,7 +61,7 @@ class FileRepository(
         return SyncData(version, contentFile.readText())
     }
 
-    override suspend fun contains(key: String): Boolean {
+    fun contains(key: String): Boolean {
         val dataPath = key.toDataPath()
         val versionFile = dataPath.resolve("version").toFile()
         return versionFile.exists()

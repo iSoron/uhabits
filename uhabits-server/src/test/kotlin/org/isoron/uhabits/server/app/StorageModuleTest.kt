@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.server.app
 
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -31,11 +31,11 @@ import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.setBody
 import io.ktor.server.testing.withTestApplication
 import kotlinx.coroutines.runBlocking
-import org.isoron.uhabits.sync.EditConflictException
-import org.isoron.uhabits.sync.GetDataVersionResponse
-import org.isoron.uhabits.sync.KeyNotFoundException
-import org.isoron.uhabits.sync.SyncData
-import org.isoron.uhabits.sync.toJson
+import org.isoron.uhabits.core.sync.EditConflictException
+import org.isoron.uhabits.core.sync.GetDataVersionResponse
+import org.isoron.uhabits.core.sync.KeyNotFoundException
+import org.isoron.uhabits.core.sync.SyncData
+import org.isoron.uhabits.server.sync.toJson
 import org.junit.Test
 import kotlin.test.assertEquals
 

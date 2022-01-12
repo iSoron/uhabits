@@ -17,18 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync
+package org.isoron.uhabits.server.sync
 
 import com.fasterxml.jackson.databind.ObjectMapper
-
-data class SyncData(
-    val version: Long,
-    val content: String
-)
-
-data class RegisterReponse(val key: String)
-
-data class GetDataVersionResponse(val version: Long)
+import org.isoron.uhabits.core.sync.GetDataVersionResponse
+import org.isoron.uhabits.core.sync.SyncData
 
 val defaultMapper = ObjectMapper()
 fun SyncData.toJson(): String = defaultMapper.writeValueAsString(this)

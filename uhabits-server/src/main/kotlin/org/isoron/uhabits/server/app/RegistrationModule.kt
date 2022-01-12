@@ -17,15 +17,23 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.utils
+package org.isoron.uhabits.server.app
 
-import java.util.Random
-import kotlin.streams.asSequence
+import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.response.respond
+import io.ktor.routing.Routing
+import io.ktor.routing.post
+import org.isoron.uhabits.core.sync.RegisterReponse
+import org.isoron.uhabits.core.sync.ServiceUnavailable
 
-fun randomString(length: Long): String {
-    val chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    return Random().ints(length, 0, chars.length)
-        .asSequence()
-        .map(chars::get)
-        .joinToString("")
+fun Routing.registration(app: SyncApplication) {
+    post("/register") {
+        try {
+            val key = app.server.register()
+            call.respond(HttpStatusCode.OK, RegisterReponse(key))
+        } catch (e: ServiceUnavailable) {
+            call.respond(HttpStatusCode.ServiceUnavailable)
+        }
+    }
 }

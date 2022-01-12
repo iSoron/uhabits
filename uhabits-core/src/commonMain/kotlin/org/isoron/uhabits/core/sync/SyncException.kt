@@ -17,23 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.core.sync
 
-import io.ktor.application.call
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
-import io.ktor.routing.Routing
-import io.ktor.routing.post
-import org.isoron.uhabits.sync.RegisterReponse
-import org.isoron.uhabits.sync.ServiceUnavailable
+open class SyncException : RuntimeException()
 
-fun Routing.registration(app: SyncApplication) {
-    post("/register") {
-        try {
-            val key = app.server.register()
-            call.respond(HttpStatusCode.OK, RegisterReponse(key))
-        } catch (e: ServiceUnavailable) {
-            call.respond(HttpStatusCode.ServiceUnavailable)
-        }
-    }
-}
+class KeyNotFoundException : SyncException()
+
+class ServiceUnavailable : SyncException()
+
+class EditConflictException : SyncException()

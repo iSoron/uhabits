@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.server.app
 
 import io.ktor.application.Application
 import io.ktor.application.install
@@ -26,9 +26,9 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.jackson.jackson
 import io.ktor.routing.routing
-import org.isoron.uhabits.sync.repository.FileRepository
-import org.isoron.uhabits.sync.server.AbstractSyncServer
-import org.isoron.uhabits.sync.server.RepositorySyncServer
+import org.isoron.uhabits.server.sync.Repository
+import org.isoron.uhabits.core.sync.AbstractSyncServer
+import org.isoron.uhabits.server.sync.RepositorySyncServer
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -38,7 +38,7 @@ val REPOSITORY_PATH: Path = Paths.get(System.getenv("LOOP_REPO_PATH")!!)
 
 class SyncApplication(
     val server: AbstractSyncServer = RepositorySyncServer(
-        FileRepository(REPOSITORY_PATH),
+        Repository(REPOSITORY_PATH),
     ),
 ) {
     fun Application.main() {

@@ -17,12 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.server
-
-import org.isoron.uhabits.sync.EditConflictException
-import org.isoron.uhabits.sync.KeyNotFoundException
-import org.isoron.uhabits.sync.ServiceUnavailable
-import org.isoron.uhabits.sync.SyncData
+package org.isoron.uhabits.core.sync
 
 interface AbstractSyncServer {
     /**

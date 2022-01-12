@@ -17,29 +17,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.repository
+package org.isoron.uhabits.core.sync
 
-import org.isoron.uhabits.sync.KeyNotFoundException
-import org.isoron.uhabits.sync.SyncData
+data class SyncData(
+    val version: Long,
+    val content: String
+)
 
-/**
- * A class that knows how to store and retrieve a large number of [SyncData] items.
- */
-interface Repository {
-    /**
-     * Stores a data item, under the provided key. The item can be later retrieved with [get].
-     * Replaces existing items silently.
-     */
-    suspend fun put(key: String, data: SyncData)
+data class RegisterReponse(val key: String)
 
-    /**
-     * Retrieves a data item that was previously stored using [put].
-     * @throws KeyNotFoundException If no such key exists.
-     */
-    suspend fun get(key: String): SyncData
-
-    /**
-     * Returns true if the repository contains a given key.
-     */
-    suspend fun contains(key: String): Boolean
-}
+data class GetDataVersionResponse(val version: Long)

@@ -17,11 +17,11 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.app
+package org.isoron.uhabits.server.app
 
 import com.nhaarman.mockitokotlin2.mock
 import io.ktor.application.Application
-import org.isoron.uhabits.sync.server.AbstractSyncServer
+import org.isoron.uhabits.core.sync.AbstractSyncServer
 
 open class BaseApplicationTest {
 

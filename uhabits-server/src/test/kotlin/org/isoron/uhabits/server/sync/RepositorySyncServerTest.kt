@@ -17,13 +17,12 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.sync.server
+package org.isoron.uhabits.server.sync
 
 import kotlinx.coroutines.runBlocking
-import org.isoron.uhabits.sync.EditConflictException
-import org.isoron.uhabits.sync.KeyNotFoundException
-import org.isoron.uhabits.sync.SyncData
-import org.isoron.uhabits.sync.repository.FileRepository
+import org.isoron.uhabits.core.sync.EditConflictException
+import org.isoron.uhabits.core.sync.KeyNotFoundException
+import org.isoron.uhabits.core.sync.SyncData
 import org.junit.Test
 import java.nio.file.Files
 import kotlin.test.assertEquals
@@ -32,7 +31,7 @@ import kotlin.test.assertFailsWith
 class RepositorySyncServerTest {
 
     private val tempdir = Files.createTempDirectory("db")
-    private val server = RepositorySyncServer(FileRepository(tempdir))
+    private val server = RepositorySyncServer(Repository(tempdir))
     private val key = runBlocking { server.register() }
 
     @Test
