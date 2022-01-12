@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 RUN mkdir /app
-COPY uhabits-server.jar /app/uhabits-server.jar
+COPY build/libs/uhabits-server.jar /app/uhabits-server.jar
 ENV LOOP_REPO_PATH /data/
 WORKDIR /app
 CMD ["java", \
