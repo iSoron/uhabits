@@ -24,8 +24,6 @@ import org.isoron.uhabits.core.sync.AbstractSyncServer
 import org.isoron.uhabits.core.sync.EditConflictException
 import org.isoron.uhabits.core.sync.KeyNotFoundException
 import org.isoron.uhabits.core.sync.SyncData
-import java.util.Random
-import kotlin.streams.asSequence
 
 /**
  * An AbstractSyncServer that stores all data in a [Repository].
@@ -40,21 +38,13 @@ class RepositorySyncServer(
         .labelNames("method")
         .register()
 
-    override suspend fun register(): String {
-        requestsCounter.labels("register").inc()
-        val key = generateKey()
-        repo.put(key, SyncData(0, ""))
-        return key
-    }
-
     override suspend fun put(key: String, newData: SyncData) {
         requestsCounter.labels("put").inc()
-        if (!repo.contains(key)) {
-            throw KeyNotFoundException()
-        }
-        val prevData = repo.get(key)
-        if (newData.version != prevData.version + 1) {
-            throw EditConflictException()
+        if (repo.contains(key)) {
+            val prevData = repo.get(key)
+            if (newData.version != prevData.version + 1) {
+                throw EditConflictException()
+            }
         }
         repo.put(key, newData)
     }
@@ -73,21 +63,5 @@ class RepositorySyncServer(
             throw KeyNotFoundException()
         }
         return repo.get(key).version
-    }
-
-    private fun generateKey(): String {
-        while (true) {
-            val key = randomString(64)
-            if (!repo.contains(key))
-                return key
-        }
-    }
-
-    private fun randomString(length: Long): String {
-        val chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        return Random().ints(length, 0, chars.length)
-            .asSequence()
-            .map(chars::get)
-            .joinToString("")
     }
 }

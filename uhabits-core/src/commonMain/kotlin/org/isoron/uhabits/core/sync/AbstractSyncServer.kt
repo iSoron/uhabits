@@ -21,15 +21,6 @@ package org.isoron.uhabits.core.sync
 
 interface AbstractSyncServer {
     /**
-     * Generates and returns a new sync key, which can be used to store and retrive
-     * data.
-     *
-     * @throws ServiceUnavailable If key cannot be generated at this time, for example,
-     *      due to insufficient server resources, temporary server maintenance or network problems.
-     */
-    suspend fun register(): String
-
-    /**
      * Replaces data for a given sync key.
      *
      * @throws KeyNotFoundException If key is not found

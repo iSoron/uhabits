@@ -88,16 +88,6 @@ class StorageModuleTest : BaseApplicationTest() {
     }
 
     @Test
-    fun `when put with invalid key should return 404`(): Unit = runBlocking {
-        whenever(server.put("k1", data1)).thenThrow(KeyNotFoundException())
-        withTestApplication(app()) {
-            handlePut("/db/k1", data1).apply {
-                assertEquals(HttpStatusCode.NotFound, response.status())
-            }
-        }
-    }
-
-    @Test
     fun `when put with invalid version should return 409 and current data`(): Unit = runBlocking {
         whenever(server.put("k1", data1)).thenThrow(EditConflictException())
         whenever(server.getData("k1")).thenReturn(data2)

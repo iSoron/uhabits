@@ -32,13 +32,10 @@ class RepositorySyncServerTest {
 
     private val tempdir = Files.createTempDirectory("db")
     private val server = RepositorySyncServer(Repository(tempdir))
-    private val key = runBlocking { server.register() }
+    private val key = "abcdefgh"
 
     @Test
     fun testUsage(): Unit = runBlocking {
-        val data0 = SyncData(0, "")
-        assertEquals(server.getData(key), data0)
-
         val data1 = SyncData(1, "Hello world")
         server.put(key, data1)
         assertEquals(server.getData(key), data1)
@@ -53,10 +50,6 @@ class RepositorySyncServerTest {
 
         assertFailsWith<KeyNotFoundException> {
             server.getData("INVALID")
-        }
-
-        assertFailsWith<KeyNotFoundException> {
-            server.put("INVALID", data0)
         }
     }
 }

@@ -49,8 +49,6 @@ fun Routing.storage(app: SyncApplication) {
             try {
                 app.server.put(key, data)
                 call.respond(HttpStatusCode.OK)
-            } catch (e: KeyNotFoundException) {
-                call.respond(HttpStatusCode.NotFound)
             } catch (e: EditConflictException) {
                 call.respond(HttpStatusCode.Conflict)
             }
