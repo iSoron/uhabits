@@ -23,6 +23,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
 import java.io.BufferedReader
@@ -50,7 +51,7 @@ class HabitBullCSVImporter
     logging: Logging,
 ) : AbstractImporter() {
 
-    val logger = logging.getLogger("HabitBullCSVImporter")
+    private val logger = logging.getLogger("HabitBullCSVImporter")
 
     override fun canHandle(file: File): Boolean {
         val reader = BufferedReader(FileReader(file))
@@ -77,10 +78,16 @@ class HabitBullCSVImporter
                 logger.info("Creating habit: $name")
             }
             val notes = cols[5] ?: ""
-            if (parseInt(cols[4]) == 1) {
-                h.originalEntries.add(Entry(timestamp, Entry.YES_MANUAL, notes))
-            } else {
-                h.originalEntries.add(Entry(timestamp, Entry.NO, notes))
+            when (val value = parseInt(cols[4])) {
+                0 -> h.originalEntries.add(Entry(timestamp, Entry.NO, notes))
+                1 -> h.originalEntries.add(Entry(timestamp, Entry.YES_MANUAL, notes))
+                else -> {
+                    if (value > 1 && h.type != HabitType.NUMERICAL) {
+                        logger.info("Found a value of $value, considering this habit as numerical.")
+                        h.type = HabitType.NUMERICAL
+                    }
+                    h.originalEntries.add(Entry(timestamp, value, notes))
+                }
             }
         }
     }
