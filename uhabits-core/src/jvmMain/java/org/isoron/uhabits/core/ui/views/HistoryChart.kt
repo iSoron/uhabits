@@ -75,7 +75,7 @@ class HistoryChart(
         val col = ((x - padding) / squareSize).toInt()
         val row = ((y - padding) / squareSize).toInt()
         val offset = col * 7 + (row - 1)
-        if (row == 0 || col == nColumns) return
+        if (x - padding < 0 || row == 0 || row > 7 || col == nColumns) return
         val clickedDate = topLeftDate.plus(offset)
         if (clickedDate.isNewerThan(today)) return
         onDateClickedListener.onDateClicked(clickedDate)
