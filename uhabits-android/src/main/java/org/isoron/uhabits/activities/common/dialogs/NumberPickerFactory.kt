@@ -120,8 +120,9 @@ class NumberPickerFactory
             .create()
 
         dialog.setOnShowListener {
-            val preferences = (context.applicationContext as HabitsApplication).component.preferences
-            if(!preferences.isSkipEnabled){
+            val preferences =
+                (context.applicationContext as HabitsApplication).component.preferences
+            if (!preferences.isSkipEnabled) {
                 dialog.getButton(BUTTON_NEGATIVE).visibility = View.GONE
             }
             showSoftInput(dialog, pickerInputText)
