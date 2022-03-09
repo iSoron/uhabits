@@ -28,10 +28,11 @@ data class CreateRepetitionCommand(
     val habit: Habit,
     val timestamp: Timestamp,
     val value: Int,
+    val notes: String,
 ) : Command {
     override fun run() {
         val entries = habit.originalEntries
-        entries.add(Entry(timestamp, value))
+        entries.add(Entry(timestamp, value, notes))
         habit.recompute()
         habitList.resort()
     }

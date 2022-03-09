@@ -58,7 +58,6 @@
     <string name="interval_always_ask">Ĉiam demandu</string>
     <string name="interval_custom">Kutimo</string>
     <string name="pref_toggle_title">Ŝalti per mallonga gazetaro</string>
-    <string name="pref_toggle_description">Metu markilojn per sola frapeto anstataŭ premi kaj teni. Pli oportune, sed eble kaŭzas hazardajn ŝanĝojn.</string>
     <string name="pref_rate_this_app">Taksu ĉi tiun aplikaĵon en Google Play</string>
     <string name="pref_send_feedback">Sendu reagojn al programisto</string>
     <string name="pref_view_source_code">Vidu fontkodon ĉe GitHub</string>
@@ -102,7 +101,7 @@
     <string name="generate_bug_report">Generu raporton pri eraroj</string>
     <string name="troubleshooting">Problemserĉado</string>
     <string name="help_translate">Helpu traduki ĉi tiun aplikon</string>
-    <string name="night_mode" comment="dark_theme">Nokta reĝimo</string>
+    <string name="night_mode">Nokta reĝimo</string>
     <string name="use_pure_black">Uzu puran nigron en malhela temo</string>
     <string name="pure_black_description">Anstataŭigas grizajn fonojn per pura nigra en malhela temo. Reduktas baterian uzon en telefonoj kun AMOLED-ekrano.</string>
     <string name="interface_preferences">Intervizago</string>
@@ -140,7 +139,6 @@
     <string name="by_score">Laŭ poentaro</string>
     <string name="export">Eksporti</string>
     <string name="long_press_to_edit">Premu kaj tenu por ŝanĝi la valoron</string>
-    <string name="change_value">Ŝanĝi valoron</string>
     <string name="calendar">Kalendaro:</string>
     <string name="unit">Unueco</string>
     <string name="example_question_boolean">ekz. Ĉu vi ekzercis hodiaŭ?</string>

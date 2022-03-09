@@ -58,7 +58,6 @@
     <string name="interval_always_ask">Intreaba mereu</string>
     <string name="interval_custom">Diferit...</string>
     <string name="pref_toggle_title">Comută repetițiile printr-o apăsare scurtă</string>
-    <string name="pref_toggle_description">Mai convenabil, dar poate cauza comutări accidentale.</string>
     <string name="pref_rate_this_app">Evaluează aplicația pe Magazin Play</string>
     <string name="pref_send_feedback">Trimite păreri dezvoltatorului</string>
     <string name="pref_view_source_code">Vezi codul sursă pe GitHub</string>
@@ -102,7 +101,7 @@
     <string name="generate_bug_report">Generează raport de erori</string>
     <string name="troubleshooting">Depanare</string>
     <string name="help_translate">Ajută la traducerea aplicației</string>
-    <string name="night_mode" comment="dark_theme">Mod întunecat</string>
+    <string name="night_mode">Mod întunecat</string>
     <string name="use_pure_black">Utilizează modul întunecat</string>
     <string name="pure_black_description">Înlocuiește fundalurile gri cu negru pur în modul întunecat. Reduce utilizarea bateriei la telefoanele cu ecran AMOLED.</string>
     <string name="interface_preferences">Interfață</string>
@@ -140,7 +139,6 @@
     <string name="by_score">După scor</string>
     <string name="export">Exportă</string>
     <string name="long_press_to_edit">Ține apăsat pentru a modifica valoarea</string>
-    <string name="change_value">Modifică valoarea</string>
     <string name="calendar">Calendar</string>
     <string name="unit">Unități</string>
     <string name="example_question_boolean">ex.: Ai îndeplinit exerciții fizice azi?</string>
@@ -153,4 +151,5 @@
     <string name="pref_view_privacy">Consultați politica de confidențialitate</string>
     <string name="view_all_contributors">Vizualizați toți colaboratorii&#8230;</string>
     <string name="database">Bază de date</string>
+    <string name="x_times_per_y_days">%d ori în %d zile</string>
 </resources>

@@ -23,6 +23,8 @@ interface View {
     fun draw(canvas: Canvas)
     fun onClick(x: Double, y: Double) {
     }
+    fun onLongClick(x: Double, y: Double) {
+    }
 }
 
 interface DataView : View {

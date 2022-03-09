@@ -28,7 +28,7 @@ import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
-import org.isoron.uhabits.core.models.HabitMatcherBuilder
+import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
@@ -69,12 +69,12 @@ class SQLiteHabitListTest : BaseUnitTest() {
         habitsArray[4].isArchived = true
         habitsArray[7].isArchived = true
         habitList.update(habitsArray)
-        activeHabits = habitList.getFiltered(HabitMatcherBuilder().build())
+        activeHabits = habitList.getFiltered(HabitMatcher())
         reminderHabits = habitList.getFiltered(
-            HabitMatcherBuilder()
-                .setArchivedAllowed(true)
-                .setReminderRequired(true)
-                .build()
+            HabitMatcher(
+                isArchivedAllowed = true,
+                isReminderRequired = true,
+            )
         )
         habitList.observable.addListener(listener)
     }

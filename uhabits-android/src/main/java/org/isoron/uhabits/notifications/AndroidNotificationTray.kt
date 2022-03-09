@@ -153,13 +153,15 @@ class AndroidNotificationTray
         if (preferences.shouldMakeNotificationsLed())
             builder.setLights(Color.RED, 1000, 1000)
 
-        val snoozeAction = Action(
-            R.drawable.ic_action_snooze,
-            context.getString(R.string.snooze),
-            pendingIntents.snoozeNotification(habit)
-        )
-        wearableExtender.addAction(snoozeAction)
-        builder.addAction(snoozeAction)
+        if (SDK_INT < Build.VERSION_CODES.S) {
+            val snoozeAction = Action(
+                R.drawable.ic_action_snooze,
+                context.getString(R.string.snooze),
+                pendingIntents.snoozeNotification(habit)
+            )
+            wearableExtender.addAction(snoozeAction)
+            builder.addAction(snoozeAction)
+        }
 
         builder.extend(wearableExtender)
         return builder.build()

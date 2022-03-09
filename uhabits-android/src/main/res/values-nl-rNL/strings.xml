@@ -71,7 +71,6 @@
     <string name="interval_always_ask">Altijd vragen</string>
     <string name="interval_custom">Aangepast...</string>
     <string name="pref_toggle_title">Wijzig herhalingen door kort indrukken</string>
-    <string name="pref_toggle_description">Zet vinkjes met een enkel tikje in plaats van ingedrukt houden. Handiger, maar kan onbedoelde wijzigingen veroorzaken.</string>
     <string name="pref_rate_this_app">Beoordeel deze app in Google Play</string>
     <string name="pref_send_feedback">Stuur feedback aan de ontwikkelaar</string>
     <string name="pref_view_source_code">Bekijk de broncode op GitHub</string>
@@ -115,7 +114,7 @@
     <string name="generate_bug_report">Genereer foutenrapport</string>
     <string name="troubleshooting">Probleemoplossing</string>
     <string name="help_translate">Help deze app te vertalen</string>
-    <string name="night_mode" comment="dark_theme">Nachtmodus</string>
+    <string name="night_mode">Nachtmodus</string>
     <string name="use_pure_black">Gebruik puur zwart bij het donkere thema</string>
     <string name="pure_black_description">Vervangt grijze achtergronden door puur zwart in het donkere thema. Vermindert batterijgebruik bij telefoons met AMOLED scherm.</string>
     <string name="interface_preferences">Interface</string>
@@ -154,9 +153,11 @@
     <string name="by_status">Per status</string>
     <string name="export">Exporteren</string>
     <string name="long_press_to_edit">Ingedrukt houden om de waarde te wijzigen</string>
-    <string name="change_value">Waarde wijzigen</string>
+    <string name="value">Waarde</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Eenheid</string>
+    <string name="target_type_at_least">Minimaal</string>
+    <string name="target_type_at_most">Maximaal</string>
     <string name="example_question_boolean">bijv. Heb je vandaag gesport?</string>
     <string name="question">Vraag</string>
     <string name="target">Doel</string>
@@ -178,6 +179,7 @@
     <string name="measurable_example">bijv. Hoeveel kilometer heb je vandaag gelopen? Hoeveel pagina\'s heb je gelezen?</string>
     <string name="x_times_per_week">%d keer per week</string>
     <string name="x_times_per_month">%d keer per maand</string>
+    <string name="x_times_per_y_days">%d keer in  %d dagen</string>
     <string name="yes_or_no_short_example">bijv. Sporten</string>
     <string name="color">Kleur</string>
     <string name="example_target">bijv. 15</string>

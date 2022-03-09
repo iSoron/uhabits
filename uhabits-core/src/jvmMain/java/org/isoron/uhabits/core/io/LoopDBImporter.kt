@@ -101,8 +101,9 @@ class LoopDBImporter
 
             for (r in entryRecords) {
                 val t = Timestamp(r.timestamp!!)
-                val (_, value) = habit!!.originalEntries.get(t)
-                if (value != r.value) CreateRepetitionCommand(habitList, habit, t, r.value!!).run()
+                val (_, value, notes) = habit!!.originalEntries.get(t)
+                val oldNotes = r.notes ?: ""
+                if (value != r.value || notes != oldNotes) CreateRepetitionCommand(habitList, habit, t, r.value!!, oldNotes).run()
             }
 
             runner.notifyListeners(command)

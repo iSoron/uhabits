@@ -30,13 +30,15 @@ import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
-import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
-import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.sres
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -89,7 +91,18 @@ class NumberButtonView(
             invalidate()
         }
 
+    var targetType = AT_LEAST
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var units = ""
+        set(value) {
+            field = value
+            invalidate()
+        }
+    var hasNotes = false
         set(value) {
             field = value
             invalidate()
@@ -104,8 +117,7 @@ class NumberButtonView(
     }
 
     override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) onEdit()
-        else showMessage(resources.getString(R.string.long_press_to_edit))
+        onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
@@ -128,7 +140,6 @@ class NumberButtonView(
 
         private val em: Float
         private val rect: RectF = RectF()
-        private val sr = StyledResources(context)
 
         private val lowContrast: Int
         private val mediumContrast: Int
@@ -155,15 +166,16 @@ class NumberButtonView(
 
         init {
             em = pNumber.measureText("m")
-            lowContrast = sr.getColor(R.attr.contrast40)
-            mediumContrast = sr.getColor(R.attr.contrast60)
+            lowContrast = sres.getColor(R.attr.contrast40)
+            mediumContrast = sres.getColor(R.attr.contrast60)
         }
 
         fun draw(canvas: Canvas) {
             val activeColor = when {
-                value <= 0.0 -> lowContrast
-                value < threshold -> mediumContrast
-                else -> color
+                value < 0.0 -> lowContrast
+                (targetType == AT_LEAST) && (value >= threshold) -> color
+                (targetType == AT_MOST) && (value <= threshold) -> color
+                else -> mediumContrast
             }
 
             val label: String
@@ -208,6 +220,8 @@ class NumberButtonView(
                 rect.offset(0f, 1.3f * em)
                 canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
             }
+
+            drawNotesIndicator(canvas, color, em, hasNotes)
         }
     }
 }

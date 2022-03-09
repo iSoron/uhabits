@@ -83,7 +83,7 @@
     <string name="interval_always_ask">Zawsze pytaj</string>
     <string name="interval_custom">Własne ustawienia...</string>
     <string name="pref_toggle_title">Przełącz powtarzanie krótkim naciśnięciem</string>
-    <string name="pref_toggle_description">Wygodniejsze, ale może spowodować przypadkowe przełączenia.</string>
+    <string name="pref_toggle_description_2">Umieść znaczniki wyboru jednym dotknięciem zamiast naciśnięcia i przytrzymania.</string>
     <string name="pref_rate_this_app">Oceń tę aplikację w Google Play</string>
     <string name="pref_send_feedback">Prześlij uwagi do programisty</string>
     <string name="pref_view_source_code">Zobacz kod źródłowy na GitHub\'ie</string>
@@ -139,7 +139,7 @@
     <string name="generate_bug_report">Wygeneruj raport o błędach</string>
     <string name="troubleshooting">Rozwiązywanie problemów</string>
     <string name="help_translate">Pomóż w tłumaczeniu tej aplikacji</string>
-    <string name="night_mode" comment="dark_theme">Tryb nocny</string>
+    <string name="night_mode">Tryb nocny</string>
     <string name="use_pure_black">Używaj pełnej czerni w trybie nocnym</string>
     <string name="pure_black_description">Zamienia szare tła na pełną czerń w trybie nocnym. Zmniejsza zużycie baterii w telefonach z ekranem AMOLED.</string>
     <string name="interface_preferences">Interfejs</string>
@@ -159,6 +159,7 @@
     <string name="none">Brak</string>
     <string name="filter">Filtruj</string>
     <string name="hide_completed">Ukryj zakończone</string>
+    <string name="hide_entered">Ukryj wprowadzone</string>
     <string name="hide_archived">Ukryj archiwizowane</string>
     <string name="sticky_notifications">Przypinaj powiadomienia</string>
     <string name="sticky_notifications_description">Zapobiega usunięciu powiadomień.</string>
@@ -178,9 +179,12 @@
     <string name="by_status">Według statusu</string>
     <string name="export">Eksportuj</string>
     <string name="long_press_to_edit">Naciśnij i przytrzymaj, aby zmienić wartość</string>
-    <string name="change_value">Zmień wartość</string>
+    <string name="value">Wartość</string>
     <string name="calendar">Kalendarz</string>
     <string name="unit">Jednostka</string>
+    <string name="target_type">Rodzaj celu:</string>
+    <string name="target_type_at_least">Co najmniej</string>
+    <string name="target_type_at_most">Maksymalnie</string>
     <string name="example_question_boolean">np. Czy ćwiczyłeś dzisiaj?</string>
     <string name="question">Pytanie</string>
     <string name="target">Cel</string>
@@ -202,6 +206,7 @@
     <string name="measurable_example">np. Ile mil przejechałeś dzisiaj? Ile stron przeczytałeś?</string>
     <string name="x_times_per_week">%d razy w tygodniu</string>
     <string name="x_times_per_month">%d razy w miesiącu</string>
+    <string name="x_times_per_y_days">%d razy w ciągu %d dni</string>
     <string name="yes_or_no_short_example">np. ćwiczenia</string>
     <string name="color">Kolor</string>
     <string name="example_target">np. 15</string>

@@ -56,7 +56,6 @@
     <string name="interval_8_hour">8 ur</string>
     <string name="interval_24_hour">24 ur</string>
     <string name="pref_toggle_title">Preklopi ponovitve s kratkim pritiskom</string>
-    <string name="pref_toggle_description">Bolj priročno ampak lahko povzroči nenamerne preklapljanje.</string>
     <string name="pref_rate_this_app">Oceni to aplikacijo na Google Play</string>
     <string name="pref_send_feedback">Pošlji povratne informacije razvijalcem</string>
     <string name="pref_view_source_code">Poglej izvorno kodo na GitHub</string>
@@ -99,7 +98,7 @@
     <string name="generate_bug_report">Ustvari poročilo o napakah</string>
     <string name="troubleshooting">Odpravljanje napak</string>
     <string name="help_translate">Pomagajte prevesti to aplikacijo</string>
-    <string name="night_mode" comment="dark_theme">Nočni način</string>
+    <string name="night_mode">Nočni način</string>
     <string name="use_pure_black">Uporabite popolno črnino v nočnem načinu</string>
     <string name="pure_black_description">Zamenja siva ozadja s popolno črnino v nočnem načinu. Zmanjša porabo baterije na telefonih z AMOLED zasloni.</string>
     <string name="interface_preferences">Vmesnik</string>
@@ -133,4 +132,5 @@
     <string name="by_color">Po barvi</string>
     <string name="by_score">Po rezultatu</string>
     <string name="export">Izvozi</string>
+    <string name="x_times_per_y_days">%d krat v %d dni</string>
 </resources>

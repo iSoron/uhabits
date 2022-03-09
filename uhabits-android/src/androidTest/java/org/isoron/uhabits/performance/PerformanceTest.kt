@@ -61,7 +61,7 @@ class PerformanceTest : BaseAndroidTest() {
         val habit = fixtures.createEmptyHabit()
         for (i in 0..4999) {
             val timestamp: Timestamp = Timestamp(i * DAY_LENGTH)
-            CreateRepetitionCommand(habitList, habit, timestamp, 1).run()
+            CreateRepetitionCommand(habitList, habit, timestamp, 1, "").run()
         }
         db.setTransactionSuccessful()
         db.endTransaction()

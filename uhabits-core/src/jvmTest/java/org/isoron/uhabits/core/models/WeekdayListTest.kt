@@ -44,4 +44,18 @@ class WeekdayListTest : BaseUnitTest() {
         assertTrue(list.isEmpty)
         assertFalse(WeekdayList.EVERY_DAY.isEmpty)
     }
+
+    @Test
+    fun testWeekdayList_IntConstructor_toString() {
+        val string = WeekdayList(0).toString()
+        assertThat(string, equalTo("{weekdays: [false,false,false,false,false,false,false]}"))
+    }
+
+    @Test
+    fun testWeekdayList_BooleanArrayConstructor_toString() {
+        val string = WeekdayList(
+            booleanArrayOf(false, false, true, true, true, true, true)
+        ).toString()
+        assertThat(string, equalTo("{weekdays: [false,false,true,true,true,true,true]}"))
+    }
 }

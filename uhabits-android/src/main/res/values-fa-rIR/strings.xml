@@ -75,7 +75,7 @@
     <string name="interval_always_ask">همیشه پرسیده شود </string>
     <string name="interval_custom">سفارشی‌سازی </string>
     <string name="pref_toggle_title">با اشاره‌ی کوتاه‌مدت وضعیت عادت را تغییر بده</string>
-    <string name="pref_toggle_description">تیک زدن با تک‌ضربه در مقابل ضربه‌زدن و نگه‌داشتن راحت‌تر است ولی ممکن است باعث شود اشتباهی عادتی را تیک بزنید. </string>
+    <string name="pref_toggle_description_2">به جای فشار دادن و نگه‌داشتن، با یک ضربه تیک بزنید.</string>
     <string name="pref_rate_this_app">به این برنامه در گوگل‌پلی امتیاز بدهید </string>
     <string name="pref_send_feedback">ارسال بازخورد به توسعه‌دهنده</string>
     <string name="pref_view_source_code">دیدن منبع برنامه در گیت‌هاب </string>
@@ -127,7 +127,7 @@
     <string name="generate_bug_report">ایجاد گزارش مشکلات</string>
     <string name="troubleshooting">ایرادیابی</string>
     <string name="help_translate">کمک برای ترجمه این برنامه</string>
-    <string name="night_mode" comment="dark_theme">حالت تیره</string>
+    <string name="night_mode">حالت تیره</string>
     <string name="use_pure_black">استفاده از رنگ سیاه خالص در حالت تیره</string>
     <string name="pure_black_description">جایگزینی پس‌زمینه خاکستری با سیاه خالص در حالت تیره. استفاده از باتری را در گوشی‌های با صفحه نمایش AMOLED کاهش می‌دهد.</string>
     <string name="interface_preferences">رابط کاربری</string>
@@ -147,6 +147,7 @@
     <string name="none">هیچ‌کدام</string>
     <string name="filter">فیلتر</string>
     <string name="hide_completed">مخفی کردن کامل‌شده‌ها</string>
+    <string name="hide_entered">پنهان کردن مقادیر</string>
     <string name="hide_archived">مخفی کردن بایگانی‌شده‌ها</string>
     <string name="sticky_notifications">چسبناک کردن اعلان‌ها</string>
     <string name="sticky_notifications_description">از رد کردن اعلان با کشیدن جلوگیری می‌کند.</string>
@@ -166,9 +167,12 @@
     <string name="by_status">براساس وضعیت</string>
     <string name="export">خروجی گرفتن</string>
     <string name="long_press_to_edit">فشار دهید و نگه دارید تا مقدار را تغییر دهید</string>
-    <string name="change_value">تغییر مقدار</string>
+    <string name="value">مقدار</string>
     <string name="calendar">تقویم</string>
     <string name="unit">واحد</string>
+    <string name="target_type">نوع داده هدف</string>
+    <string name="target_type_at_least">حداقل</string>
+    <string name="target_type_at_most">حداکثر</string>
     <string name="example_question_boolean">مثلا آیا امروز ورزش کردید؟</string>
     <string name="question">سوال</string>
     <string name="target">هدف</string>
@@ -190,6 +194,7 @@
     <string name="measurable_example">مثلاً امروز چند کیلومتر دویدید؟ چند صفحه مطالعه کردید؟</string>
     <string name="x_times_per_week">%d بار در هفته</string>
     <string name="x_times_per_month">%d بار در ماه</string>
+    <string name="x_times_per_y_days">%d بار در هر %d روز</string>
     <string name="yes_or_no_short_example">مثلاً ورزش کنید</string>
     <string name="color">رنگ</string>
     <string name="example_target">مثلاً 15</string>

@@ -41,5 +41,8 @@ class DateFormats {
 
         @JvmStatic fun getCSVDateFormat(): SimpleDateFormat =
             fromSkeleton("yyyy-MM-dd", Locale.US)
+
+        @JvmStatic fun getDialogDateFormat(): SimpleDateFormat =
+            fromSkeleton("MMM dd, yyyy", Locale.US)
     }
 }

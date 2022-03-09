@@ -25,8 +25,6 @@ import android.app.AlarmManager.RTC_WAKEUP
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.M
 import android.util.Log
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
@@ -58,10 +56,7 @@ class IntentScheduler
             )
             return SchedulerResult.IGNORED
         }
-        if (SDK_INT >= M)
-            manager.setExactAndAllowWhileIdle(alarmType, timestamp, intent)
-        else
-            manager.setExact(alarmType, timestamp, intent)
+        manager.setExactAndAllowWhileIdle(alarmType, timestamp, intent)
         return SchedulerResult.OK
     }
 

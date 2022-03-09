@@ -138,7 +138,7 @@ class ReminderSchedulerTest : BaseUnitTest() {
         reminderScheduler.schedule(habit)
     }
 
-    override fun unixTime(year: Int, month: Int, day: Int, hour: Int, minute: Int): Long {
+    override fun unixTime(year: Int, month: Int, day: Int, hour: Int, minute: Int, milliseconds: Long): Long {
         val cal: Calendar = getStartOfTodayCalendar()
         cal[year, month, day, hour] = minute
         return cal.timeInMillis

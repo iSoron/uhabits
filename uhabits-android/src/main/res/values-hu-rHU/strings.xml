@@ -28,6 +28,22 @@
     <string name="add_habit">Új szokás</string>
     <string name="color_picker_default_title">Szín módosítása</string>
     <string name="toast_habit_created">Szokás létrehozva</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Szokás módosítva</item>
+        <item quantity="other">Szokások módosítva</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Szokás törölve</item>
+        <item quantity="other">Szokások törölve</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Szokás archiválva</item>
+        <item quantity="other">Szokások archiválva</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Szokás újraaktiválva</item>
+        <item quantity="other">Szokások újraaktiválva</item>
+    </plurals>
     <string name="overview">Áttekintés</string>
     <string name="habit_strength">Szokás erőssége</string>
     <string name="history">Napló</string>
@@ -36,6 +52,7 @@
     <string name="save">Mentés</string>
     <string name="streaks">Szériák</string>
     <string name="no_habits_found">Nincs aktív szokásod</string>
+    <string name="no_habits_left_to_do">Mára minden kész!</string>
     <string name="long_press_to_toggle">Tartsd lenyomva a bejelöléshez, vagy a jelölés törléséhez</string>
     <string name="reminder_off">Kikapcsolva</string>
     <string name="create_habit">Szokás rögzítése</string>
@@ -58,7 +75,6 @@
     <string name="interval_always_ask">Mindig rákérdez</string>
     <string name="interval_custom">Egyedi...</string>
     <string name="pref_toggle_title">Bejelölés rövid koppintással</string>
-    <string name="pref_toggle_description">Bejelölés koppintással nyomva tartás helyett. Kényelmesebb, de véletlen bejelöléseket okozhat.</string>
     <string name="pref_rate_this_app">Értékeld az alkalmazást a Google Play-en</string>
     <string name="pref_send_feedback">Visszajelzés küldése a fejlesztőnek</string>
     <string name="pref_view_source_code">Forráskód megtekintése a GitHub-on</string>
@@ -69,6 +85,14 @@
     <string name="hint_title">Tudtad?</string>
     <string name="hint_drag">Az elemek újrarendezéséhez a koppints a szokás nevére, majd húzd a megfelelő helyre.</string>
     <string name="hint_landscape">Több nap válik láthatóvá, ha fekvő módba állítod a telefonod kijelzőjét.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Törli a szokást?</item>
+        <item quantity="other">Törli a szokásokat?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">A szokás véglegesen törölve lesz. A műveletet nem lehet visszavonni.</item>
+        <item quantity="other">A szokások véglegesen törölve lesznek. A műveletet nem lehet visszavonni.</item>
+    </plurals>
     <string name="habit_not_found">Szokás törölve / nem található</string>
     <string name="weekends">Hétvégente</string>
     <string name="any_weekday">Hétfőtől péntekig</string>
@@ -107,7 +131,7 @@
     <string name="generate_bug_report">Hibabejelentés generálása</string>
     <string name="troubleshooting">Hibaelhárítás</string>
     <string name="help_translate">Segíts lefordítani ezt az alkalmazást</string>
-    <string name="night_mode" comment="dark_theme">Éjszakai mód</string>
+    <string name="night_mode">Éjszakai mód</string>
     <string name="use_pure_black">Fekete használata éjszakai módban</string>
     <string name="pure_black_description">A szürke hátteret tiszta feketére cseréli éjszakai módban. Csökkenti az energiafelhasználást AMOLED kijelzős telefonokon.</string>
     <string name="interface_preferences">Kezelőfelület</string>
@@ -143,9 +167,9 @@
     <string name="by_name">Megnevezés szerint</string>
     <string name="by_color">Színek szerint</string>
     <string name="by_score">Pont szerint</string>
+    <string name="by_status">Állapot szerint</string>
     <string name="export">Exportálás</string>
     <string name="long_press_to_edit">Az érték módosításához tartsd lenyomva</string>
-    <string name="change_value">Érték módosítása</string>
     <string name="calendar">Naptár</string>
     <string name="unit">Egység</string>
     <string name="example_question_boolean">pl. Edzettél ma?</string>
@@ -166,8 +190,10 @@
     <string name="example_notes">(opcionális)</string>
     <string name="yes_or_no_example">pl. Korán keltél ma fel? Edzettél? Sakkoztál?</string>
     <string name="measurable">Mérhető</string>
+    <string name="measurable_example">pl. Hány kilométert futottál ma? Hány oldalt olvastál el?</string>
     <string name="x_times_per_week">Heti %d alkalommal</string>
     <string name="x_times_per_month">Havi %d alkalommal</string>
+    <string name="x_times_per_y_days">%d alk. / %d nap</string>
     <string name="yes_or_no_short_example">pl. Edzés</string>
     <string name="color">Szín</string>
     <string name="example_target">pl. 15</string>
@@ -177,4 +203,18 @@
     <string name="every_month">Minden hónapban</string>
     <string name="validation_cannot_be_blank">Nem lehet üres</string>
     <string name="today">Ma</string>
+    <string name="enter">Bevitel</string>
+    <string name="no_habits">Nem találhatók szokások</string>
+    <string name="no_numerical_habits">Nem található mérhető szokás</string>
+    <string name="no_boolean_habits">Nem található igen-vagy-nem szokás</string>
+    <string name="increment">Növelés</string>
+    <string name="decrement">Csökkentés</string>
+    <string name="pref_skip_title">Napok kihagyásának engedélyezése</string>
+    <string name="pref_skip_description">Váltás kétszer, ha kihagyást szeretne hozzáadni a pipa helyett. A kihagyások változatlanul tartják a pontszámot, és nem szakítják meg a sorozatot.</string>
+    <string name="pref_unknown_title">Kérdőjelek megjelenítése a hiányzó adatoknál</string>
+    <string name="pref_unknown_description">Az adatok nélküli napok megkülönböztetése a tényleges kihagyásoktól. Kihagyás megadásához váltson kétszer.</string>
+    <string name="you_are_now_a_developer">Ön mostantól már fejlesztő!</string>
+    <string name="activity_not_found">Ezen művelet elvégzéséhez nem található alkalmazás.</string>
+    <string name="pref_midnight_delay_title">A nap meghosszabbítása éjfél után néhány órával</string>
+    <string name="pref_midnight_delay_description">Várjon hajnali 3 -ig, hogy új napot mutasson. Hasznos, ha általában éjfél után fekszik le. Az alkalmazás újraindítását igényli.</string>
 </resources>

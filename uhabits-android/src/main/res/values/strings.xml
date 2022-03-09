@@ -80,7 +80,7 @@
     <string name="interval_always_ask">Always ask</string>
     <string name="interval_custom">Custom...</string>
     <string name="pref_toggle_title">Toggle with short press</string>
-    <string name="pref_toggle_description">Put checkmarks with a single tap instead of press-and-hold. More convenient, but might cause accidental toggles.</string>
+    <string name="pref_toggle_description_2">Put checkmarks with a single tap instead of press-and-hold.</string>
     <string name="pref_rate_this_app">Rate this app on Google Play</string>
     <string name="pref_send_feedback">Send feedback to developer</string>
     <string name="pref_view_source_code">View source code at GitHub</string>
@@ -181,9 +181,12 @@
     <string name="by_status">By status</string>
     <string name="export">Export</string>
     <string name="long_press_to_edit">Press-and-hold to change the value</string>
-    <string name="change_value">Change value</string>
+    <string name="value">Value</string>
     <string name="calendar">Calendar</string>
     <string name="unit">Unit</string>
+    <string name="target_type">Target Type</string>
+    <string name="target_type_at_least">At least</string>
+    <string name="target_type_at_most">At most</string>
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
     <string name="target">Target</string>

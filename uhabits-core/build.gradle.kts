@@ -43,13 +43,13 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                compileOnly("com.google.dagger:dagger:2.38.1")
-                implementation("com.google.guava:guava:30.1.1-android")
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.30")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.1")
-                implementation("androidx.annotation:annotation:1.2.0")
+                compileOnly("com.google.dagger:dagger:2.41")
+                implementation("com.google.guava:guava:31.1-android")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.0")
+                implementation("androidx.annotation:annotation:1.3.0")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
-                implementation("com.opencsv:opencsv:5.5.1")
+                implementation("com.opencsv:opencsv:5.6")
                 implementation("commons-codec:commons-codec:1.15")
                 implementation("org.apache.commons:commons-lang3:3.12.0")
             }
