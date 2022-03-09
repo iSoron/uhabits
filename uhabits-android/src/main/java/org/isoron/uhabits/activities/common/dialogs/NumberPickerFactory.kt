@@ -21,14 +21,17 @@ package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.DialogInterface.BUTTON_NEGATIVE
 import android.text.InputFilter
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
@@ -88,6 +91,11 @@ class NumberPickerFactory
             .create()
 
         dialog.setOnShowListener {
+            val preferences = (context.applicationContext as HabitsApplication).component.preferences
+            if(!preferences.isSkipEnabled){
+                dialog.getButton(BUTTON_NEGATIVE).visibility = View.GONE
+            }
+
             picker.getChildAt(0)?.requestFocus()
             dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
