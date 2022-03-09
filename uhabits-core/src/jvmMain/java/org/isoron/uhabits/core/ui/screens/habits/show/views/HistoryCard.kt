@@ -203,6 +203,7 @@ class HistoryCardPresenter(
             dateString: String,
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
+
         fun showCheckmarkDialog(
             selectedValue: Int,
             notes: String,

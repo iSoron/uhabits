@@ -188,7 +188,7 @@ class NumberButtonView(
                     typeface = BOLD_TYPEFACE
                     textSize = dim(R.dimen.smallTextSize)
                 }
-                value == Entry.SKIP.toDouble() / 1000 ->{
+                value == Entry.SKIP.toDouble() / 1000 -> {
                     label = resources.getString(R.string.fa_skipped)
                     textSize = dim(R.dimen.smallTextSize)
                     typeface = getFontAwesome()
