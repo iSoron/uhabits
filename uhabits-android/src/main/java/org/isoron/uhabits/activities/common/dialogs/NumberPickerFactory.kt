@@ -108,10 +108,11 @@ class NumberPickerFactory
             .setNegativeButton(android.R.string.cancel) { _, _ ->
                 callback.onNumberPickerDismissed()
             }
-            .setNegativeButton(R.string.skip_button) { _, _ ->
+            .setNegativeButton(R.string.skip_day) { _, _ ->
                 picker.clearFocus()
                 val v = Entry.SKIP.toDouble() / 1000
-                callback.onNumberPicked(v)
+                val note = etNotes.text.toString()
+                callback.onNumberPicked(v, note)
             }
             .setOnDismissListener {
                 callback.onNumberPickerDismissed()
