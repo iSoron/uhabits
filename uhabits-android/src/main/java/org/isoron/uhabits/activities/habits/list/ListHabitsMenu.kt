@@ -39,7 +39,7 @@ class ListHabitsMenu @Inject constructor(
     @ActivityContext context: Context,
     private val preferences: Preferences,
     private val themeSwitcher: ThemeSwitcher,
-    private val behavior: ListHabitsMenuBehavior
+    val behavior: ListHabitsMenuBehavior
 ) {
     val activity = (context as AppCompatActivity)
 

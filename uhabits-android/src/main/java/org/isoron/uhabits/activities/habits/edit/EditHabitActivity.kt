@@ -88,6 +88,7 @@ class EditHabitActivity : AppCompatActivity() {
     var reminderHour = -1
     var reminderMin = -1
     var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
+    var targetType = NumericalHabitType.AT_LEAST
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -107,6 +108,7 @@ class EditHabitActivity : AppCompatActivity() {
             color = habit.color
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
+            targetType = habit.targetType
             habit.reminder?.let {
                 reminderHour = it.hour
                 reminderMin = it.minute
@@ -138,6 +140,7 @@ class EditHabitActivity : AppCompatActivity() {
             HabitType.YES_NO -> {
                 binding.unitOuterBox.visibility = View.GONE
                 binding.targetOuterBox.visibility = View.GONE
+                binding.targetTypeOuterBox.visibility = View.GONE
             }
             HabitType.NUMERICAL -> {
                 binding.nameInput.hint = getString(R.string.measurable_short_example)
@@ -170,6 +173,23 @@ class EditHabitActivity : AppCompatActivity() {
                 populateFrequency()
             }
             dialog.show(supportFragmentManager, "frequencyPicker")
+        }
+
+        populateTargetType()
+        binding.targetTypePicker.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.select_dialog_item)
+            arrayAdapter.add(getString(R.string.target_type_at_least))
+            arrayAdapter.add(getString(R.string.target_type_at_most))
+            builder.setAdapter(arrayAdapter) { dialog, which ->
+                targetType = when (which) {
+                    0 -> NumericalHabitType.AT_LEAST
+                    else -> NumericalHabitType.AT_MOST
+                }
+                populateTargetType()
+                dialog.dismiss()
+            }
+            builder.show()
         }
 
         binding.numericalFrequencyPicker.setOnClickListener {
@@ -262,7 +282,7 @@ class EditHabitActivity : AppCompatActivity() {
         habit.frequency = Frequency(freqNum, freqDen)
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = targetInput.text.toString().toDouble()
-            habit.targetType = NumericalHabitType.AT_LEAST
+            habit.targetType = targetType
             habit.unit = unitInput.text.trim().toString()
         }
         habit.type = habitType
@@ -321,6 +341,13 @@ class EditHabitActivity : AppCompatActivity() {
             7 -> getString(R.string.every_week)
             30 -> getString(R.string.every_month)
             else -> "$freqNum/$freqDen"
+        }
+    }
+
+    private fun populateTargetType() {
+        binding.targetTypePicker.text = when (targetType) {
+            NumericalHabitType.AT_MOST -> getString(R.string.target_type_at_most)
+            else -> getString(R.string.target_type_at_least)
         }
     }
 

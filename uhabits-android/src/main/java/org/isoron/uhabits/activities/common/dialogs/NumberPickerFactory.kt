@@ -19,12 +19,16 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.text.InputFilter
+import android.text.Spanned
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -33,6 +37,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils
+import java.text.DecimalFormatSymbols
 import javax.inject.Inject
 import kotlin.math.roundToLong
 
@@ -40,18 +45,39 @@ class NumberPickerFactory
 @Inject constructor(
     @ActivityContext private val context: Context
 ) {
+
+    @SuppressLint("SetTextI18n")
     fun create(
         value: Double,
         unit: String,
+        notes: String,
+        dateString: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
-
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
         val picker = view.findViewById<NumberPicker>(R.id.picker)
         val picker2 = view.findViewById<NumberPicker>(R.id.picker2)
-        val tvUnit = view.findViewById<TextView>(R.id.tvUnit)
+        val etNotes = view.findViewById<EditText>(R.id.etNotes)
+
+        // Install filter to intercept decimal separator before it is parsed
+        val watcherFilter: InputFilter = SeparatorWatcherInputFilter(picker2)
+        val pickerInputText = getNumberPickerInputText(picker)
+        pickerInputText.filters = arrayOf(watcherFilter).plus(pickerInputText.filters)
+
+        // Install custom focus listener to replace "5" by "50" instead of "05"
+        val picker2InputText = getNumberPickerInputText(picker2)
+        val prevFocusChangeListener = picker2InputText.onFocusChangeListener
+        picker2InputText.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            val str = picker2InputText.text.toString()
+            if (str.length == 1) picker2InputText.setText("${str}0")
+            prevFocusChangeListener.onFocusChange(v, hasFocus)
+        }
+
+        view.findViewById<TextView>(R.id.tvUnit).text = unit
+        view.findViewById<TextView>(R.id.tvSeparator).text =
+            DecimalFormatSymbols.getInstance().decimalSeparator.toString()
 
         val intValue = (value * 100).roundToLong().toInt()
 
@@ -61,20 +87,23 @@ class NumberPickerFactory
         picker.wrapSelectorWheel = false
 
         picker2.minValue = 0
-        picker2.maxValue = 19
-        picker2.setFormatter { v -> String.format("%02d", 5 * v) }
-        picker2.value = intValue % 100 / 5
-        refreshInitialValue(picker2)
+        picker2.maxValue = 99
+        picker2.setFormatter { v -> String.format("%02d", v) }
+        picker2.value = intValue % 100
 
-        tvUnit.text = unit
-
+        etNotes.setText(notes)
         val dialog = AlertDialog.Builder(context)
             .setView(view)
-            .setTitle(R.string.change_value)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
+            .setTitle(dateString)
+            .setPositiveButton(R.string.save) { _, _ ->
                 picker.clearFocus()
-                val v = picker.value + 0.05 * picker2.value
-                callback.onNumberPicked(v)
+                picker2.clearFocus()
+                val v = picker.value + 0.01 * picker2.value
+                val note = etNotes.text.toString()
+                callback.onNumberPicked(v, note)
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                callback.onNumberPickerDismissed()
             }
             .setOnDismissListener {
                 callback.onNumberPickerDismissed()
@@ -82,27 +111,63 @@ class NumberPickerFactory
             .create()
 
         dialog.setOnShowListener {
-            picker.getChildAt(0)?.requestFocus()
-            dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            showSoftInput(dialog, pickerInputText)
         }
 
         InterfaceUtils.setupEditorAction(
             picker
         ) { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE)
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
+            }
+            false
+        }
+
+        InterfaceUtils.setupEditorAction(
+            picker2
+        ) { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick()
+            }
             false
         }
 
         return dialog
     }
 
-    private fun refreshInitialValue(picker: NumberPicker) {
-        // Workaround for Android bug:
-        // https://code.google.com/p/android/issues/detail?id=35482
+    @SuppressLint("DiscouragedPrivateApi")
+    private fun getNumberPickerInputText(picker: NumberPicker): EditText {
         val f = NumberPicker::class.java.getDeclaredField("mInputText")
         f.isAccessible = true
-        val inputText = f.get(picker) as EditText
-        inputText.filters = arrayOfNulls<InputFilter>(0)
+        return f.get(picker) as EditText
+    }
+
+    private fun showSoftInput(dialog: AlertDialog, v: View) {
+        dialog.window?.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        v.requestFocus()
+        val inputMethodManager = context.getSystemService(InputMethodManager::class.java)
+        inputMethodManager?.showSoftInput(v, 0)
+    }
+}
+
+class SeparatorWatcherInputFilter(private val nextPicker: NumberPicker) : InputFilter {
+    override fun filter(
+        source: CharSequence?,
+        start: Int,
+        end: Int,
+        dest: Spanned?,
+        dstart: Int,
+        dend: Int
+    ): CharSequence {
+        if (source == null || source.isEmpty()) {
+            return ""
+        }
+        for (c in source) {
+            if (c == DecimalFormatSymbols.getInstance().decimalSeparator || c == '.' || c == ',') {
+                nextPicker.performLongClick()
+                break
+            }
+        }
+        return source
     }
 }

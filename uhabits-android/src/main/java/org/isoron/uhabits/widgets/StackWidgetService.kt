@@ -27,11 +27,11 @@ import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import android.widget.RemoteViewsService.RemoteViewsFactory
+import org.isoron.platform.utils.StringUtils.Companion.splitLongs
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitNotFoundException
 import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.utils.StringUtils.Companion.splitLongs
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
 import java.util.ArrayList
 

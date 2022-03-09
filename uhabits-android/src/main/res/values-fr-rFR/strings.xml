@@ -75,7 +75,7 @@
     <string name="interval_always_ask">Toujours demander</string>
     <string name="interval_custom">Personnaliser...</string>
     <string name="pref_toggle_title">Valider l\'habitude avec un appui court</string>
-    <string name="pref_toggle_description">Valide l\'habitude avec un appui court plutôt qu\'un appuie long. Plus pratique, mais peut causer des activations accidentelles.</string>
+    <string name="pref_toggle_description_2">Cochez les cases d\'un simple appuie au lieu de les maintenir</string>
     <string name="pref_rate_this_app">Notez cette app sur le Google Play Store</string>
     <string name="pref_send_feedback">Envoyez un avis au développeur</string>
     <string name="pref_view_source_code">Voir le code source sur GitHub</string>
@@ -127,7 +127,7 @@
     <string name="generate_bug_report">Générer un rapport de bug.</string>
     <string name="troubleshooting">Résolution de problèmes</string>
     <string name="help_translate">Aider à traduire cette application</string>
-    <string name="night_mode" comment="dark_theme">Mode Nuit</string>
+    <string name="night_mode">Mode Nuit</string>
     <string name="use_pure_black">Utiliser un noir pur dans le mode nuit</string>
     <string name="pure_black_description">Remplace le fond gris par un noir pur dans le mode nuit ; cela réduit l’usage de la batterie des appareils ayant un écran AMOLED.</string>
     <string name="interface_preferences">Interface</string>
@@ -147,6 +147,7 @@
     <string name="none">Aucun</string>
     <string name="filter">Filtre</string>
     <string name="hide_completed">Cacher les habitudes complétées</string>
+    <string name="hide_entered">Cacher les entrées</string>
     <string name="hide_archived">Cacher les habitudes archivées</string>
     <string name="sticky_notifications">Rendre les notifications persistantes</string>
     <string name="sticky_notifications_description">Évite que les notifications ne soient enlevées.</string>
@@ -166,9 +167,12 @@
     <string name="by_status">Par statut</string>
     <string name="export">Exporter</string>
     <string name="long_press_to_edit">Appuyez et maintenez pour changer la valeur</string>
-    <string name="change_value">Modifier la valeur</string>
+    <string name="value">Valeur</string>
     <string name="calendar">Calendrier</string>
     <string name="unit">Unité</string>
+    <string name="target_type">Type d\'objectif</string>
+    <string name="target_type_at_least">Au moins</string>
+    <string name="target_type_at_most">Au plus</string>
     <string name="example_question_boolean">Par ex., avez-vous fait de l\'exercice aujourd\'hui?</string>
     <string name="question">Question</string>
     <string name="target">Cible</string>
@@ -191,6 +195,7 @@
 Combien de pages avez-vous lu ?</string>
     <string name="x_times_per_week">%d fois par semaine</string>
     <string name="x_times_per_month">%d fois par mois</string>
+    <string name="x_times_per_y_days">%d fois en %d jours</string>
     <string name="yes_or_no_short_example">Par ex, Entrainement</string>
     <string name="color">Couleur</string>
     <string name="example_target">Par ex, 15</string>

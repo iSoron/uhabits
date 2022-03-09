@@ -68,17 +68,10 @@ data class Habit(
         }
     }
 
-    fun isFailedToday(): Boolean {
+    fun isEnteredToday(): Boolean {
         val today = DateUtils.getTodayWithOffset()
         val value = computedEntries.get(today).value
-        return if (isNumerical) {
-            when (targetType) {
-                NumericalHabitType.AT_LEAST -> value / 1000.0 < targetValue
-                NumericalHabitType.AT_MOST -> value / 1000.0 > targetValue
-            }
-        } else {
-            value == Entry.NO
-        }
+        return value != Entry.UNKNOWN
     }
 
     fun recompute() {
@@ -88,14 +81,16 @@ data class Habit(
             isNumerical = isNumerical,
         )
 
-        val to = DateUtils.getTodayWithOffset().plus(30)
+        val today = DateUtils.getTodayWithOffset()
+        val to = today.plus(30)
         val entries = computedEntries.getKnown()
-        var from = entries.lastOrNull()?.timestamp ?: to
+        var from = entries.lastOrNull()?.timestamp ?: today
         if (from.isNewerThan(to)) from = to
 
         scores.recompute(
             frequency = frequency,
             isNumerical = isNumerical,
+            numericalHabitType = targetType,
             targetValue = targetValue,
             computedEntries = computedEntries,
             from = from,

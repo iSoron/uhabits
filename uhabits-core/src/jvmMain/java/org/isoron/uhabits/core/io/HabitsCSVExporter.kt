@@ -167,7 +167,7 @@ class HabitsCSVExporter(
             checksWriter.write(sb.toString())
             scoresWriter.write(sb.toString())
             for (j in selectedHabits.indices) {
-                checksWriter.write(checkmarks[j][i].toString())
+                checksWriter.write(checkmarks[j][i].value.toString())
                 checksWriter.write(delimiter)
                 val score = String.format(Locale.US, "%.4f", scores[j][i].value)
                 scoresWriter.write(score)

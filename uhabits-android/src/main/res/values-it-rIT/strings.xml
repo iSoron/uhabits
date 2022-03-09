@@ -75,7 +75,7 @@
     <string name="interval_always_ask">Chiedi sempre</string>
     <string name="interval_custom">Personalizza...</string>
     <string name="pref_toggle_title">Spunta le ripetizioni velocemente</string>
-    <string name="pref_toggle_description">Metti le spunte con un tocco singolo invece che tenendo premuto. Più comodo, ma potrebbe causare delle spunte accidentali.</string>
+    <string name="pref_toggle_description_2">Metti i segni di spunta con un tocco rapido invece di tenere premuto.</string>
     <string name="pref_rate_this_app">Valuta quest\'app su Google Play</string>
     <string name="pref_send_feedback">Manda un feedback allo sviluppatore</string>
     <string name="pref_view_source_code">Vedi il codice sorgente su GitHub</string>
@@ -127,7 +127,7 @@
     <string name="generate_bug_report">Genera bug report</string>
     <string name="troubleshooting">Risoluzione dei problemi</string>
     <string name="help_translate">Aiuta a tradurre questa app</string>
-    <string name="night_mode" comment="dark_theme">Modalità notte</string>
+    <string name="night_mode">Modalità notte</string>
     <string name="use_pure_black">Usa nero puro nella modalità notte</string>
     <string name="pure_black_description">Sostituisce gli sfondi grigi con sfondi neri nella modalità notte. Riduce il consumo di batteria nei dispositivi con schermo AMOLED.</string>
     <string name="interface_preferences">Interfaccia</string>
@@ -147,6 +147,7 @@
     <string name="none">Nessuno</string>
     <string name="filter">Filtra</string>
     <string name="hide_completed">Nascondi completati</string>
+    <string name="hide_entered">Nascondi inserito</string>
     <string name="hide_archived">Nascondi archiviati</string>
     <string name="sticky_notifications">Notifiche non rimuovibili</string>
     <string name="sticky_notifications_description">Impedisce di poter rimuovere le notifiche.</string>
@@ -166,9 +167,12 @@
     <string name="by_status">Per stato</string>
     <string name="export">Esporta</string>
     <string name="long_press_to_edit">Tieni premuto per cambiare il valore</string>
-    <string name="change_value">Cambia valore</string>
+    <string name="value">Valore</string>
     <string name="calendar">Calendario</string>
     <string name="unit">Unità</string>
+    <string name="target_type">Tipo di destinazione</string>
+    <string name="target_type_at_least">Almeno</string>
+    <string name="target_type_at_most">Al massimo</string>
     <string name="example_question_boolean">ad es. Ti sei allenato oggi?</string>
     <string name="question">Domanda</string>
     <string name="target">Obiettivo</string>
@@ -190,6 +194,7 @@
     <string name="measurable_example">es. Quanti chilometri hai percorso oggi? Quante pagine hai letto?</string>
     <string name="x_times_per_week">%d volte a settimana</string>
     <string name="x_times_per_month">%d volte al mese</string>
+    <string name="x_times_per_y_days">%d volte in %d giorni</string>
     <string name="yes_or_no_short_example">ad es. Esercizio</string>
     <string name="color">Colore</string>
     <string name="example_target">ad es. 15</string>

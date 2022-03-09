@@ -70,7 +70,7 @@ class HabitCardListCacheTest : BaseUnitTest() {
     @Test
     fun testCommandListener_single() {
         val h2 = habitList.getByPosition(2)
-        commandRunner.run(CreateRepetitionCommand(habitList, h2, today, Entry.NO))
+        commandRunner.run(CreateRepetitionCommand(habitList, h2, today, Entry.NO, ""))
         verify(listener).onItemChanged(2)
         verify(listener).onRefreshFinished()
         verifyNoMoreInteractions(listener)

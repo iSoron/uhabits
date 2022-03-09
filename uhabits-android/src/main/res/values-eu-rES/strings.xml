@@ -36,6 +36,7 @@
     <string name="save">Gorde</string>
     <string name="streaks">Boladak</string>
     <string name="no_habits_found">Ez duzu ohitura aktiborik</string>
+    <string name="no_habits_left_to_do">Gaurkoz amaitu duzu!</string>
     <string name="long_press_to_toggle">Sakatu eta mantendu markatu edo desmarkatzeko</string>
     <string name="reminder_off">Itzalita</string>
     <string name="create_habit">Ohitura sortu</string>
@@ -58,7 +59,6 @@
     <string name="interval_always_ask">Galdetu beti</string>
     <string name="interval_custom">Pertsonalizatua...</string>
     <string name="pref_toggle_title">Ukitze laburrarekin markatu</string>
-    <string name="pref_toggle_description">Ukitze bakar batekin marka jartzen du ukitu eta mantendu egin beharrean. Erosoagoa, baina nahi gabeko markak ekar litzake.</string>
     <string name="pref_rate_this_app">Aplikazio hau Google Playen puntuatu</string>
     <string name="pref_send_feedback">Zure iritzia garatzaileari bidali</string>
     <string name="pref_view_source_code">Iturburu kodea GitHuben ikusi</string>
@@ -69,6 +69,10 @@
     <string name="hint_title">Ba al zenekien?</string>
     <string name="hint_drag">Sarrerak berrantolatzeko, sakatu eta mantendu ohituraren izena, ondoren mugi ezazu leku aproposera.</string>
     <string name="hint_landscape">Egun gehiago ikus ditzakezu zure gailua paisai moduan jarriz.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Ohiturak ezabatu</item>
+        <item quantity="other">Ohiturak ezabatu</item>
+    </plurals>
     <string name="habit_not_found">Ohitura ezabatua / ez aurkitua</string>
     <string name="weekends">Asteburuak</string>
     <string name="any_weekday">Astelehenetik ostiralera</string>
@@ -102,7 +106,7 @@
     <string name="generate_bug_report">Akats txostena sortu</string>
     <string name="troubleshooting">Arazoen konponketa</string>
     <string name="help_translate">Lagundu aplikazio hau itzultzen</string>
-    <string name="night_mode" comment="dark_theme">Azal iluna</string>
+    <string name="night_mode">Azal iluna</string>
     <string name="use_pure_black">erabili beltz hutsa azal ilunean</string>
     <string name="pure_black_description">Atzeko plano grisak beltz hutsez aldatzen ditu azal ilunean. Bateriaren erabilera gutxitzen du AMOLED duten gailuetan.</string>
     <string name="interface_preferences">Interfazea</string>
@@ -138,11 +142,13 @@
     <string name="by_name">Izenaren arabera</string>
     <string name="by_color">Kolorearen arabera</string>
     <string name="by_score">Puntuen arabera</string>
+    <string name="by_status">Egoeraren arabera</string>
     <string name="export">Esportatu</string>
     <string name="long_press_to_edit">Sakatu luze balioa aldatzeko</string>
-    <string name="change_value">Aldatu balioa</string>
+    <string name="value">Balioa</string>
     <string name="calendar">Egutegia</string>
     <string name="unit">Unitatea</string>
+    <string name="target_type_at_most">Gehienez</string>
     <string name="example_question_boolean">adib. ariketa egin al duzu gaur?</string>
     <string name="question">Galdera</string>
     <string name="target">Helburua</string>
@@ -163,6 +169,7 @@
     <string name="measurable">Neurgarria</string>
     <string name="x_times_per_week">Astean %d aldiz</string>
     <string name="x_times_per_month">Hilean %d aldiz</string>
+    <string name="x_times_per_y_days">%d aldiz %d egunetan</string>
     <string name="yes_or_no_short_example">adib. Ariketa</string>
     <string name="color">Kolorea</string>
     <string name="example_target">adib. 15</string>
@@ -172,4 +179,8 @@
     <string name="every_month">Hilabetero</string>
     <string name="validation_cannot_be_blank">Ezin da hutsik egon</string>
     <string name="today">Gaur</string>
+    <string name="no_habits">Ez da ohiturarik aurkitu</string>
+    <string name="pref_unknown_title">Adierazi galdera ikurra falta diren datuetan</string>
+    <string name="you_are_now_a_developer">Garatzailea zara!</string>
+    <string name="activity_not_found">Ez da aurkitu akzio hau gauzatu dezakeen aplikaziorik</string>
 </resources>

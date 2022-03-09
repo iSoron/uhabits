@@ -120,17 +120,20 @@
                 linked at the bottom of the list. If you qualify, please feel free to
                 submit a pull request adding yourself here.
                 -->
-                <TextView style="@style/About.Item" android:text="Álinson Santos Xavier"/>
-                <TextView style="@style/About.Item" android:text="Quentin Hibon"/>
-                <TextView style="@style/About.Item" android:text="Oleg Ivashchenko"/>
-                <TextView style="@style/About.Item" android:text="Rechee Jozil"/>
-                <TextView style="@style/About.Item" android:text="Luboš Luňák"/>
-                <TextView style="@style/About.Item" android:text="Kristian Tashkov"/>
-                <TextView style="@style/About.Item" android:text="Victor Yu"/>
-                <TextView style="@style/About.Item" android:text="Денис (sciamano)"/>
-                <TextView style="@style/About.Item" android:text="Christoph Hennemann"/>
-                <TextView style="@style/About.Item" android:text="Joseph Tran"/>
-                <TextView style="@style/About.Item" android:text="Nikhil (regularcoder)"/>
+                <TextView style="@style/About.Item" android:text="Álinson S. Xavier (@iSoron)"/>
+                <TextView style="@style/About.Item" android:text="Quentin Hibon (@hiqua)"/>
+                <TextView style="@style/About.Item" android:text="Oleg Ivashchenko (@olegivo)"/>
+                <TextView style="@style/About.Item" android:text="Rechee Jozil (@recheej)"/>
+                <TextView style="@style/About.Item" android:text="Jakub Kalinowski (@kalina559)"/>
+                <TextView style="@style/About.Item" android:text="Luboš Luňák (@llunak)"/>
+                <TextView style="@style/About.Item" android:text="Sebastian Gallese (@sgallese)"/>
+                <TextView style="@style/About.Item" android:text="Kristian Tashkov (@KristianTashkov)"/>
+                <TextView style="@style/About.Item" android:text="Bindu (@vbh)"/>
+                <TextView style="@style/About.Item" android:text="Victor Yu (@vyu1)"/>
+                <TextView style="@style/About.Item" android:text="Christoph Hennemann (@chennemann)"/>
+                <TextView style="@style/About.Item" android:text="Денис (@sciamano)"/>
+                <TextView style="@style/About.Item" android:text="Joseph Tran (@JotraN)"/>
+                <TextView style="@style/About.Item" android:text="Nikhil (@regularcoder)"/>
                 <TextView style="@style/About.Item" android:text="JanetQC"/>
                 <TextView
                         android:id="@+id/tvContributors"

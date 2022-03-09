@@ -24,6 +24,7 @@ import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseViewTest
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.utils.PaletteUtils
 import org.junit.Before
 import org.junit.Test
@@ -42,6 +43,7 @@ class NumberButtonViewTest : BaseViewTest() {
         super.setUp()
         view = component.getNumberButtonViewFactory().create().apply {
             units = "steps"
+            targetType = NumericalHabitType.AT_LEAST
             threshold = 100.0
             color = PaletteUtils.getAndroidTestColor(8)
             onEdit = { edited = true }
@@ -74,10 +76,10 @@ class NumberButtonViewTest : BaseViewTest() {
     }
 
     @Test
-    fun testRender_emptyUnits() {
+    fun testRender_atMostAboveThreshold() {
         view.value = 500.0
-        view.units = ""
-        assertRenders(view, "$PATH/render_unitless.png")
+        view.targetType = NumericalHabitType.AT_MOST
+        assertRenders(view, "$PATH/render_at_most_above.png")
     }
 
     @Test
@@ -87,21 +89,34 @@ class NumberButtonViewTest : BaseViewTest() {
     }
 
     @Test
+    fun testRender_atMostBetweenThresholds() {
+        view.value = 110.0
+        view.targetType = NumericalHabitType.AT_MOST
+        assertRenders(view, "$PATH/render_at_most_between.png")
+    }
+
+    @Test
     fun testRender_zero() {
         view.value = 0.0
         assertRenders(view, "$PATH/render_zero.png")
     }
 
     @Test
-    fun testClick_shortToggleDisabled() {
-        prefs.isShortToggleEnabled = false
-        view.performClick()
-        assertFalse(edited)
+    fun testRender_atMostBelowThreshold() {
+        view.value = 0.0
+        view.targetType = NumericalHabitType.AT_MOST
+        assertRenders(view, "$PATH/render_at_most_below.png")
     }
 
     @Test
-    fun testClick_shortToggleEnabled() {
-        prefs.isShortToggleEnabled = true
+    fun testRender_emptyUnits() {
+        view.value = 500.0
+        view.units = ""
+        assertRenders(view, "$PATH/render_unitless.png")
+    }
+
+    @Test
+    fun testClick() {
         view.performClick()
         assertTrue(edited)
     }

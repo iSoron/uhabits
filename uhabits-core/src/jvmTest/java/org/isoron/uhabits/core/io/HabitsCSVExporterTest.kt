@@ -34,6 +34,7 @@ import java.util.zip.ZipFile
 
 class HabitsCSVExporterTest : BaseUnitTest() {
     private lateinit var baseDir: File
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {
@@ -41,12 +42,7 @@ class HabitsCSVExporterTest : BaseUnitTest() {
         habitList.add(fixtures.createShortHabit())
         habitList.add(fixtures.createEmptyHabit())
         baseDir = Files.createTempDirectory("csv").toFile()
-    }
-
-    @Throws(Exception::class)
-    override fun tearDown() {
-        FileUtils.deleteDirectory(baseDir)
-        super.tearDown()
+        baseDir.deleteOnExit()
     }
 
     @Test
@@ -63,14 +59,20 @@ class HabitsCSVExporterTest : BaseUnitTest() {
         assertAbsolutePathExists(filename)
         val archive = File(filename)
         unzip(archive)
-        assertPathExists("Habits.csv")
-        assertPathExists("001 Meditate/Checkmarks.csv")
-        assertPathExists("001 Meditate/Scores.csv")
-        assertPathExists("002 Wake up early")
-        assertPathExists("002 Wake up early/Checkmarks.csv")
-        assertPathExists("002 Wake up early/Scores.csv")
-        assertPathExists("Checkmarks.csv")
-        assertPathExists("Scores.csv")
+        val filesToCheck = arrayOf(
+            "001 Meditate/Checkmarks.csv",
+            "001 Meditate/Scores.csv",
+            "002 Wake up early/Checkmarks.csv",
+            "002 Wake up early/Scores.csv",
+            "Checkmarks.csv",
+            "Habits.csv",
+            "Scores.csv"
+        )
+
+        for (file in filesToCheck) {
+            assertPathExists(file)
+            assertFileAndReferenceAreEqual(file)
+        }
     }
 
     @Throws(IOException::class)
@@ -102,6 +104,20 @@ class HabitsCSVExporterTest : BaseUnitTest() {
         assertTrue(
             String.format("File %s should exist", file.absolutePath),
             file.exists()
+        )
+    }
+
+    private fun assertFileAndReferenceAreEqual(s: String) {
+        val assetFilename = String.format("csv_export/%s", s)
+        val file = File.createTempFile("asset", "")
+        file.deleteOnExit()
+        copyAssetToFile(assetFilename, file)
+
+        assertTrue(
+            FileUtils.contentEquals(
+                file,
+                File(String.format("%s/%s", baseDir.absolutePath, s))
+            )
         )
     }
 }

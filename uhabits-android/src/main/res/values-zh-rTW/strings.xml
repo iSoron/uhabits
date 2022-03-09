@@ -71,7 +71,6 @@
     <string name="interval_always_ask">每次都詢問</string>
     <string name="interval_custom">自訂</string>
     <string name="pref_toggle_title">換成輕碰來記錄習慣</string>
-    <string name="pref_toggle_description">雖然更方便，但有可能變成不小心就點到</string>
     <string name="pref_rate_this_app">在 Google Play 上評價這個 App</string>
     <string name="pref_send_feedback">傳送改進意見給開發者</string>
     <string name="pref_view_source_code">在 GitHub 上查看原始碼</string>
@@ -125,7 +124,7 @@
     <string name="generate_bug_report">製作錯誤報告</string>
     <string name="troubleshooting">問題排除</string>
     <string name="help_translate">協助翻譯本程式</string>
-    <string name="night_mode" comment="dark_theme">夜間模式</string>
+    <string name="night_mode">夜間模式</string>
     <string name="use_pure_black">在夜間模式中使用深色設定</string>
     <string name="pure_black_description">在夜間模式中，使用黑色背景取代灰色背景。這樣可以減少 AMOLED 螢幕手機的電量消耗。</string>
     <string name="interface_preferences">介面</string>
@@ -164,7 +163,6 @@
     <string name="by_status">依據狀態</string>
     <string name="export">匯出</string>
     <string name="long_press_to_edit">持續按住來改換數值</string>
-    <string name="change_value">更改數值</string>
     <string name="calendar">日曆</string>
     <string name="unit">單位</string>
     <string name="example_question_boolean">例如：你今天運動了嗎？</string>
@@ -188,6 +186,7 @@
     <string name="measurable_example">例如：今天你跑了幾英哩？你讀了幾頁書？</string>
     <string name="x_times_per_week">每周 %d 次</string>
     <string name="x_times_per_month">每月 %d 次</string>
+    <string name="x_times_per_y_days">%d 次每 %d 日</string>
     <string name="yes_or_no_short_example">例如：運動</string>
     <string name="color">顏色</string>
     <string name="example_target">例如：15</string>

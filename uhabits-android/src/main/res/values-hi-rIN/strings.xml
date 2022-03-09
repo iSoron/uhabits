@@ -75,8 +75,6 @@
     <string name="interval_always_ask">हमेशा पूछें</string>
     <string name="interval_custom">अपने तरीके से बनाएं</string>
     <string name="pref_toggle_title">टॉगल पुनरावृत्ति  हल्का दबाने से</string>
-    <string name="pref_toggle_description">\"
-अधिक सुविधाजनक है, लेकिन आकस्मिक टॉगल  हो सकता है ।\"</string>
     <string name="pref_rate_this_app">\"
 गूगले प्ले पर इस ऐप्लिकेशन को रेट करें\"</string>
     <string name="pref_send_feedback">डेवेलपर को प्रतिक्रिया भेजें </string>
@@ -149,7 +147,7 @@
 समस्या निवारण\"</string>
     <string name="help_translate">\"
 इस एप्लिकेशन का अनुवाद करने में मदद करें\"</string>
-    <string name="night_mode" comment="dark_theme">नाइट मोड</string>
+    <string name="night_mode">नाइट मोड</string>
     <string name="use_pure_black">नाइट मोड मे पूरा काला यूज़ करें</string>
     <string name="pure_black_description">\"
 रात मोड में शुद्ध काले रंग के साथ ग्रे पृष्ठभूमि में बदलें.  अमोलेड प्रदर्शन के साथ फोन में बैटरी उपयोग कम कर देता है ।\"</string>
@@ -193,7 +191,6 @@
     <string name="by_status">स्थिति से</string>
     <string name="export">एक्सपोर्ट करे</string>
     <string name="long_press_to_edit">बदलने के लिए दबाकर रखें</string>
-    <string name="change_value">वैल्यू बदलें</string>
     <string name="calendar">कैलेंडर</string>
     <string name="unit">इकाई</string>
     <string name="example_question_boolean">जैसे आपने आज व्यायाम किया?</string>
@@ -219,6 +216,7 @@
 प्रति सप्ताह %d बार\"</string>
     <string name="x_times_per_month">\"
 प्रति माह %d बार\"</string>
+    <string name="x_times_per_y_days">%d बार %d दिन</string>
     <string name="yes_or_no_short_example">जैसे व्यायाम</string>
     <string name="color">रंग</string>
     <string name="example_target">जैसे १५</string>

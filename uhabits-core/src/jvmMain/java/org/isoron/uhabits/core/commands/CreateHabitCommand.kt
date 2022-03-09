@@ -31,5 +31,6 @@ data class CreateHabitCommand(
         val habit = modelFactory.buildHabit()
         habit.copyFrom(model)
         habitList.add(habit)
+        habit.recompute()
     }
 }

@@ -23,17 +23,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
-import org.isoron.uhabits.core.models.HabitMatcherBuilder
+import org.isoron.uhabits.core.models.HabitMatcher
 
 class EditSettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val app = applicationContext as HabitsApplication
         val habits = app.component.habitList.getFiltered(
-            HabitMatcherBuilder()
-                .setArchivedAllowed(false)
-                .setCompletedAllowed(true)
-                .build()
+            HabitMatcher(
+                isArchivedAllowed = false,
+                isCompletedAllowed = true,
+            )
         )
         AndroidThemeSwitcher(this, app.component.preferences).apply()
 

@@ -26,6 +26,7 @@ import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedLocalTime
@@ -54,6 +55,7 @@ class ImportTest : BaseUnitTest() {
         assertTrue(isChecked(habit, 2016, 3, 18))
         assertTrue(isChecked(habit, 2016, 3, 19))
         assertFalse(isChecked(habit, 2016, 3, 20))
+        assertTrue(isNotesEqual(habit, 2016, 3, 18, "text"))
     }
 
     @Test
@@ -68,6 +70,32 @@ class ImportTest : BaseUnitTest() {
         assertTrue(isChecked(habit, 2019, 4, 11))
         assertTrue(isChecked(habit, 2019, 5, 7))
         assertFalse(isChecked(habit, 2019, 6, 14))
+        assertTrue(isNotesEqual(habit, 2019, 4, 11, "text"))
+        assertTrue(isNotesEqual(habit, 2019, 6, 14, "Habit 3 notes"))
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testHabitBullCSV3() {
+        importFromFile("habitbull3.csv")
+        assertThat(habitList.size(), equalTo(2))
+
+        val habit = habitList.getByPosition(0)
+        assertThat(habit.name, equalTo("Pushups"))
+        assertThat(habit.type, equalTo(HabitType.NUMERICAL))
+        assertThat(habit.description, equalTo(""))
+        assertThat(habit.frequency, equalTo(Frequency.DAILY))
+        assertThat(getValue(habit, 2021, 9, 1), equalTo(30))
+        assertThat(getValue(habit, 2022, 1, 8), equalTo(100))
+
+        val habit2 = habitList.getByPosition(1)
+        assertThat(habit2.name, equalTo("run"))
+        assertThat(habit2.type, equalTo(HabitType.YES_NO))
+        assertThat(habit2.description, equalTo(""))
+        assertThat(habit2.frequency, equalTo(Frequency.DAILY))
+        assertTrue(isChecked(habit2, 2022, 1, 3))
+        assertTrue(isChecked(habit2, 2022, 1, 18))
+        assertTrue(isChecked(habit2, 2022, 1, 19))
     }
 
     @Test
@@ -121,10 +149,21 @@ class ImportTest : BaseUnitTest() {
     }
 
     private fun isChecked(h: Habit, year: Int, month: Int, day: Int): Boolean {
+        return getValue(h, year, month, day) == Entry.YES_MANUAL
+    }
+
+    private fun getValue(h: Habit, year: Int, month: Int, day: Int): Int {
         val date = getStartOfTodayCalendar()
         date.set(year, month - 1, day)
         val timestamp = Timestamp(date)
-        return h.originalEntries.get(timestamp).value == Entry.YES_MANUAL
+        return h.originalEntries.get(timestamp).value
+    }
+
+    private fun isNotesEqual(h: Habit, year: Int, month: Int, day: Int, notes: String): Boolean {
+        val date = getStartOfTodayCalendar()
+        date.set(year, month - 1, day)
+        val timestamp = Timestamp(date)
+        return h.originalEntries.get(timestamp).notes == notes
     }
 
     @Throws(IOException::class)

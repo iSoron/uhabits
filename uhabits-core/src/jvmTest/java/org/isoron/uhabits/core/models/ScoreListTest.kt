@@ -28,14 +28,36 @@ import org.junit.Before
 import org.junit.Test
 import java.util.ArrayList
 
-class ScoreListTest : BaseUnitTest() {
-    private lateinit var habit: Habit
-    private lateinit var today: Timestamp
+open class BaseScoreListTest : BaseUnitTest() {
+    protected lateinit var habit: Habit
+    protected lateinit var today: Timestamp
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         today = getToday()
+    }
+
+    protected fun checkScoreValues(expectedValues: DoubleArray) {
+        var current = today
+        val scores = habit.scores
+        for (expectedValue in expectedValues) {
+            assertThat(scores[current].value, IsCloseTo.closeTo(expectedValue, E))
+            current = current.minus(1)
+        }
+    }
+
+    companion object {
+        const val E = 1e-6
+    }
+}
+
+class YesNoScoreListTest : BaseScoreListTest() {
+    @Before
+    @Throws(Exception::class)
+    override fun setUp() {
+        super.setUp()
         habit = fixtures.createEmptyHabit()
     }
 
@@ -120,14 +142,6 @@ class ScoreListTest : BaseUnitTest() {
             0.0
         )
         checkScoreValues(expectedValues)
-    }
-
-    @Test
-    fun test_withZeroTarget() {
-        habit = fixtures.createNumericalHabit()
-        habit.targetValue = 0.0
-        habit.recompute()
-        assertTrue(habit.scores[today].value.isFinite())
     }
 
     @Test
@@ -255,17 +269,204 @@ class ScoreListTest : BaseUnitTest() {
         val entries = habit.originalEntries
         entries.add(Entry(today.minus(day), Entry.SKIP))
     }
+}
 
-    private fun checkScoreValues(expectedValues: DoubleArray) {
-        var current = today
-        val scores = habit.scores
-        for (expectedValue in expectedValues) {
-            assertThat(scores[current].value, IsCloseTo.closeTo(expectedValue, E))
-            current = current.minus(1)
-        }
+open class NumericalScoreListTest : BaseScoreListTest() {
+    protected fun addEntry(day: Int, value: Int) {
+        val entries = habit.originalEntries
+        entries.add(Entry(today.minus(day), value))
     }
 
-    companion object {
-        private const val E = 1e-6
+    protected fun addEntries(from: Int, to: Int, value: Int) {
+        val entries = habit.originalEntries
+        for (i in from until to) entries.add(Entry(today.minus(i), value))
+        habit.recompute()
+    }
+}
+
+class NumericalAtLeastScoreListTest : NumericalScoreListTest() {
+    @Before
+    @Throws(Exception::class)
+    override fun setUp() {
+        super.setUp()
+        habit = fixtures.createEmptyNumericalHabit(NumericalHabitType.AT_LEAST)
+    }
+
+    @Test
+    fun test_withZeroTarget() {
+        habit = fixtures.createNumericalHabit()
+        habit.targetValue = 0.0
+        habit.recompute()
+        assertTrue(habit.scores[today].value.isFinite())
+    }
+
+    @Test
+    fun test_getValue() {
+        addEntries(0, 20, 2000)
+        val expectedValues = doubleArrayOf(
+            0.655747,
+            0.636894,
+            0.617008,
+            0.596033,
+            0.573910,
+            0.550574,
+            0.525961,
+            0.500000,
+            0.472617,
+            0.443734,
+            0.413270,
+            0.381137,
+            0.347244,
+            0.311495,
+            0.273788,
+            0.234017,
+            0.192067,
+            0.147820,
+            0.101149,
+            0.051922,
+            0.000000,
+            0.000000,
+            0.000000
+        )
+        checkScoreValues(expectedValues)
+    }
+
+    @Test
+    fun test_recompute() {
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.0, E))
+        addEntries(0, 2, 2000)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.101149, E))
+        habit.frequency = Frequency(1, 2)
+        habit.recompute()
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.072631, E))
+    }
+
+    @Test
+    fun shouldAchieveHighScoreInReasonableTime() {
+        // Daily habits should achieve at least 99% in 3 months
+        habit = fixtures.createEmptyNumericalHabit(NumericalHabitType.AT_LEAST)
+        habit.frequency = Frequency.DAILY
+        for (i in 0..89) addEntry(i, 2000)
+        habit.recompute()
+        assertThat(habit.scores[today].value, OrderingComparison.greaterThan(0.99))
+
+        // Weekly habits should achieve at least 99% in 9 months
+        habit = fixtures.createEmptyNumericalHabit(NumericalHabitType.AT_LEAST)
+        habit.frequency = Frequency.WEEKLY
+        for (i in 0..38) addEntry(7 * i, 2000)
+        habit.recompute()
+        assertThat(habit.scores[today].value, OrderingComparison.greaterThan(0.99))
+
+        // Monthly habits should achieve at least 99% in 18 months
+        habit.frequency = Frequency(1, 30)
+        for (i in 0..17) addEntry(30 * i, 2000)
+        habit.recompute()
+        assertThat(habit.scores[today].value, OrderingComparison.greaterThan(0.99))
+    }
+
+    @Test
+    fun shouldAchieveComparableScoreToProgress() {
+        addEntries(0, 500, 1000)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.5, E))
+
+        addEntries(0, 500, 500)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.25, E))
+    }
+
+    @Test
+    fun overeachievingIsntRelevant() {
+        addEntry(0, 10000000)
+        habit.recompute()
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.051922, E))
+    }
+}
+
+class NumericalAtMostScoreListTest : NumericalScoreListTest() {
+    @Before
+    @Throws(Exception::class)
+    override fun setUp() {
+        super.setUp()
+        habit = fixtures.createEmptyNumericalHabit(NumericalHabitType.AT_MOST)
+    }
+
+    @Test
+    fun test_withZeroTarget() {
+        habit = fixtures.createNumericalHabit()
+        habit.targetType = NumericalHabitType.AT_MOST
+        habit.targetValue = 0.0
+        habit.recompute()
+        assertTrue(habit.scores[today].value.isFinite())
+    }
+
+    @Test
+    fun test_getValue() {
+        addEntry(20, 1000)
+        addEntries(0, 20, 5000)
+        val expectedValues = doubleArrayOf(
+            0.344253,
+            0.363106,
+            0.382992,
+            0.403967,
+            0.426090,
+            0.449426,
+            0.474039,
+            0.500000,
+            0.527383,
+            0.556266,
+            0.586730,
+            0.618863,
+            0.652756,
+            0.688505,
+            0.726212,
+            0.765983,
+            0.807933,
+            0.852180,
+            0.898851,
+            0.948078,
+            1.0,
+            0.0,
+            0.0
+        )
+        checkScoreValues(expectedValues)
+    }
+
+    @Test
+    fun test_recompute() {
+        habit.recompute()
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(1.0, E))
+        addEntries(0, 2, 5000)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.898850, E))
+        habit.frequency = Frequency(1, 2)
+        habit.recompute()
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.927369, E))
+    }
+
+    @Test
+    fun shouldAchieveComparableScoreToProgress() {
+        addEntries(0, 500, 3000)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.5, E))
+
+        addEntries(0, 500, 3500)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.25, E))
+    }
+
+    @Test
+    fun undereachievingIsntRelevant() {
+        addEntry(1, 10000000)
+        habit.recompute()
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.950773, E))
+    }
+
+    @Test
+    fun overeachievingIsntRelevant() {
+        addEntry(0, 5000)
+
+        addEntry(1, 0)
+        habit.recompute()
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.948077, E))
+
+        addEntry(1, 1000)
+        habit.recompute()
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.948077, E))
     }
 }

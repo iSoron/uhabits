@@ -82,12 +82,12 @@ class HabitTest : BaseUnitTest() {
 
     @Test
     @Throws(Exception::class)
-    fun test_isFailed() {
+    fun test_isEntered() {
         val h = modelFactory.buildHabit()
-        assertFalse(h.isFailedToday())
+        assertFalse(h.isEnteredToday())
         h.originalEntries.add(Entry(getToday(), Entry.NO))
         h.recompute()
-        assertTrue(h.isFailedToday())
+        assertTrue(h.isEnteredToday())
     }
 
     @Test
@@ -117,35 +117,6 @@ class HabitTest : BaseUnitTest() {
         h.originalEntries.add(Entry(getToday(), 50000))
         h.recompute()
         assertTrue(h.isCompletedToday())
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun test_isFailedNumerical() {
-        val h = modelFactory.buildHabit()
-        h.type = HabitType.NUMERICAL
-        h.targetType = NumericalHabitType.AT_LEAST
-        h.targetValue = 100.0
-        assertTrue(h.isFailedToday())
-        h.originalEntries.add(Entry(getToday(), 200000))
-        h.recompute()
-        assertFalse(h.isFailedToday())
-        h.originalEntries.add(Entry(getToday(), 100000))
-        h.recompute()
-        assertFalse(h.isFailedToday())
-        h.originalEntries.add(Entry(getToday(), 50000))
-        h.recompute()
-        assertTrue(h.isFailedToday())
-        h.targetType = NumericalHabitType.AT_MOST
-        h.originalEntries.add(Entry(getToday(), 200000))
-        h.recompute()
-        assertTrue(h.isFailedToday())
-        h.originalEntries.add(Entry(getToday(), 100000))
-        h.recompute()
-        assertFalse(h.isFailedToday())
-        h.originalEntries.add(Entry(getToday(), 50000))
-        h.recompute()
-        assertFalse(h.isFailedToday())
     }
 
     @Test

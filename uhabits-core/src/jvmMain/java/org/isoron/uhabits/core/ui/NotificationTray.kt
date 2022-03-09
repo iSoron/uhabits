@@ -23,13 +23,11 @@ import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
-import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.Task
 import org.isoron.uhabits.core.tasks.TaskRunner
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import java.util.HashMap
 import java.util.Locale
 import java.util.Objects
@@ -106,17 +104,17 @@ class NotificationTray @Inject constructor(
     internal class NotificationData(val timestamp: Timestamp, val reminderTime: Long)
     private inner class ShowNotificationTask(private val habit: Habit, data: NotificationData) :
         Task {
-        var todayValue = 0
+        var isCompleted = false
         private val timestamp: Timestamp = data.timestamp
         private val reminderTime: Long = data.reminderTime
+
         override fun doInBackground() {
-            val today = getTodayWithOffset()
-            todayValue = habit.computedEntries.get(today).value
+            isCompleted = habit.isCompletedToday()
         }
 
         override fun onPostExecute() {
             systemTray.log("Showing notification for habit=" + habit.id)
-            if (todayValue != Entry.UNKNOWN) {
+            if (isCompleted) {
                 systemTray.log(
                     String.format(
                         Locale.US,
