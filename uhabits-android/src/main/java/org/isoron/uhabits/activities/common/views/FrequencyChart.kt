@@ -223,7 +223,9 @@ class FrequencyChart : ScrollableChart {
     }
 
     private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?) {
+        // value can be negative when the entry is skipped
         val valueCopy = value?.let { max(0, it) }
+
         val padding = rect!!.height() * 0.2f
         // maximal allowed mark radius
         val maxRadius = (rect.height() - 2 * padding) / 2.0f
