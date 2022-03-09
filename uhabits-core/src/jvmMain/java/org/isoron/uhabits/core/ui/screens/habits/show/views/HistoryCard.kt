@@ -60,34 +60,19 @@ class HistoryCardPresenter(
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-//            val entries = habit.computedEntries
-//            val oldValue = entries.get(timestamp).value
-//            screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
-//                val thousands = (newValue * 1000).roundToInt()
-//                commandRunner.run(
-//                    CreateRepetitionCommand(
-//                        habitList,
-//                        habit,
-//                        timestamp,
-//                        thousands,
-//                    ),
-//                )
-//            }
-
-            val currentValue = habit.computedEntries.get(timestamp).value
-            val nextValue = Entry.nextToggleValue(
-                value = currentValue,
-                isSkipEnabled = preferences.isSkipEnabled,
-                areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
-            )
-            commandRunner.run(
-                CreateRepetitionCommand(
-                    habitList,
-                    habit,
-                    timestamp,
-                    nextValue,
-                ),
-            )
+            val entries = habit.computedEntries
+            val oldValue = entries.get(timestamp).value
+            screen.showNumberPicker(oldValue / 1000.0, habit.unit) { newValue: Double ->
+                val thousands = (newValue * 1000).roundToInt()
+                commandRunner.run(
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        thousands,
+                    ),
+                )
+            }
         } else {
             val currentValue = habit.computedEntries.get(timestamp).value
             val nextValue = Entry.nextToggleValue(
@@ -120,14 +105,6 @@ class HistoryCardPresenter(
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today)
             val series = if (habit.isNumerical) {
-//                entries.map {
-//                    Entry(it.timestamp, max(0, it.value))
-//                }.map {
-//                    when (it.value) {
-//                        0 -> HistoryChart.Square.OFF
-//                        else -> HistoryChart.Square.ON
-//                    }
-//                }
                 entries.map {
                     when {
                         it.value == SKIP -> {

@@ -30,6 +30,7 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils
@@ -74,6 +75,11 @@ class NumberPickerFactory
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 picker.clearFocus()
                 val v = picker.value + 0.05 * picker2.value
+                callback.onNumberPicked(v)
+            }
+            .setNegativeButton(R.string.skip_button) { _, _ ->
+                picker.clearFocus()
+                val v = Entry.SKIP.toDouble() / 1000
                 callback.onNumberPicked(v)
             }
             .setOnDismissListener {

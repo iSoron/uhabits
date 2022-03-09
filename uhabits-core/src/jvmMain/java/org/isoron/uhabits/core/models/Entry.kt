@@ -26,7 +26,7 @@ data class Entry(
         /**
          * Value indicating that the habit is not applicable for this timestamp.
          */
-        const val SKIP = -3
+        const val SKIP = -2
 
         /**
          * Value indicating that the user has performed the habit at this timestamp.
