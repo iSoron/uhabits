@@ -61,7 +61,7 @@
 		00C0C6BA22465F65003D8AF0 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		00C0C6BB22465F65003D8AF0 /* databases */ = {isa = PBXFileReference; lastKnownFileType = folder; path = databases; sourceTree = "<group>"; };
 		00C0C6BC22465F65003D8AF0 /* migrations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = migrations; sourceTree = "<group>"; };
-		00C0C6C92246E543003D8AF0 /* LoopHabitTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopHabitTracker.framework; path = ../core/build/bin/ios/debugFramework/LoopHabitTracker.framework; sourceTree = "<group>"; };
+		00C0C6C92246E543003D8AF0 /* LoopHabitTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopHabitTracker.framework; path = "../uhabits-core-legacy/build/bin/ios/debugFramework/LoopHabitTracker.framework"; sourceTree = "<group>"; };
 		00C0C6D022470705003D8AF0 /* ComponentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentView.swift; sourceTree = "<group>"; };
 		00C0C6DE224A35FC003D8AF0 /* DetailScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenController.swift; sourceTree = "<group>"; };
 		00D48BD02200A31300CC4527 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 				00C0C6BC22465F65003D8AF0 /* migrations */,
 			);
 			name = Assets;
-			path = ../core/assets/main;
+			path = "../uhabits-core-legacy/assets/main";
 			sourceTree = "<group>";
 		};
 		00C0C6D622471BA3003D8AF0 /* Platform */ = {
@@ -285,7 +285,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ../core\n./gradlew linkDebugFrameworkIos\n";
+			shellScript = "cd ../uhabits-core-legacy\n../gradlew linkDebugFrameworkIos\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -451,10 +451,10 @@
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/",
+					"$(PROJECT_DIR)/../uhabits-core-legacy/build/bin/ios/debugFramework/",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/LoopHabitTracker.framework/Headers/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../uhabits-core-legacy/build/bin/ios/debugFramework/LoopHabitTracker.framework/Headers/";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -479,10 +479,10 @@
 				DEVELOPMENT_TEAM = R5YTHGE3PS;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/",
+					"$(PROJECT_DIR)/../uhabits-core-legacy/build/bin/ios/debugFramework/",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../core/build/bin/ios/debugFramework/LoopHabitTracker.framework/Headers/";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../uhabits-core-legacy/build/bin/ios/debugFramework/LoopHabitTracker.framework/Headers/";
 				INFOPLIST_FILE = Application/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
