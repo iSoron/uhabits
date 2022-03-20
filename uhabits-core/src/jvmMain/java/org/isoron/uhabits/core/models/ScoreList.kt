@@ -100,7 +100,7 @@ class ScoreList {
                 }
 
                 val normalizedRollingSum = rollingSum / 1000
-                if(values[offset] != Entry.SKIP) {
+                if (values[offset] != Entry.SKIP) {
                     val percentageCompleted = if (!isAtMost) {
                         if (targetValue > 0)
                             min(1.0, normalizedRollingSum / targetValue)

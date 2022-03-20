@@ -291,7 +291,7 @@ fun List<Entry>.groupedSum(
 ): List<Entry> {
     return this.map { (timestamp, value) ->
         if (isNumerical) {
-            if(value == SKIP)
+            if (value == SKIP)
                 Entry(timestamp, 0)
             else
                 Entry(timestamp, max(0, value))
@@ -306,7 +306,7 @@ fun List<Entry>.groupedSum(
     }.entries.map { (timestamp, entries) ->
         Entry(timestamp, entries.sumOf { it.value })
     }.sortedBy { (timestamp, _) ->
-        - timestamp.unixTime
+        -timestamp.unixTime
     }
 }
 
@@ -332,6 +332,6 @@ fun List<Entry>.countSkippedDays(
     }.entries.map { (timestamp, entries) ->
         Entry(timestamp, entries.sumOf { it.value })
     }.sortedBy { (timestamp, _) ->
-        - timestamp.unixTime
+        -timestamp.unixTime
     }
 }

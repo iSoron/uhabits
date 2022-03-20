@@ -115,7 +115,7 @@ class NumberPickerFactory
                 callback.onNumberPickerDismissed()
             }
 
-        if(frequency == DAILY){
+        if (frequency == DAILY) {
             dialogBuilder.setNegativeButton(R.string.skip_day) { _, _ ->
                 picker.clearFocus()
                 val v = Entry.SKIP.toDouble() / 1000
