@@ -23,16 +23,12 @@ import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
-import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.*
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
-import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.views.HistoryChart
@@ -123,6 +119,7 @@ class HistoryCardPresenter(
             habit.unit,
             entry.notes,
             timestamp.toDialogDateString(),
+            frequency = habit.frequency
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -197,7 +194,8 @@ class HistoryCardPresenter(
             unit: String,
             notes: String,
             dateString: String,
-            callback: ListHabitsBehavior.NumberPickerCallback,
+            frequency: Frequency,
+            callback: ListHabitsBehavior.NumberPickerCallback
         )
 
         fun showCheckmarkDialog(

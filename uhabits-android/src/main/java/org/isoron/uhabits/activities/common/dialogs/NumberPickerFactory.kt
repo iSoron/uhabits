@@ -37,6 +37,8 @@ import androidx.appcompat.app.AlertDialog
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Frequency
+import org.isoron.uhabits.core.models.Frequency.Companion.DAILY
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils
@@ -55,6 +57,7 @@ class NumberPickerFactory
         unit: String,
         notes: String,
         dateString: String,
+        frequency: Frequency,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
         val inflater = LayoutInflater.from(context)
@@ -95,7 +98,7 @@ class NumberPickerFactory
         picker2.value = intValue % 100
 
         etNotes.setText(notes)
-        val dialog = AlertDialog.Builder(context)
+        val dialogBuilder = AlertDialog.Builder(context)
             .setView(view)
             .setTitle(dateString)
             .setPositiveButton(R.string.save) { _, _ ->
@@ -108,16 +111,21 @@ class NumberPickerFactory
             .setNegativeButton(android.R.string.cancel) { _, _ ->
                 callback.onNumberPickerDismissed()
             }
-            .setNegativeButton(R.string.skip_day) { _, _ ->
+            .setOnDismissListener {
+                callback.onNumberPickerDismissed()
+            }
+
+
+        if(frequency == DAILY){
+            dialogBuilder.setNegativeButton(R.string.skip_day) { _, _ ->
                 picker.clearFocus()
                 val v = Entry.SKIP.toDouble() / 1000
                 val note = etNotes.text.toString()
                 callback.onNumberPicked(v, note)
             }
-            .setOnDismissListener {
-                callback.onNumberPickerDismissed()
-            }
-            .create()
+        }
+
+        val dialog = dialogBuilder.create()
 
         dialog.setOnShowListener {
             val preferences =
