@@ -116,9 +116,6 @@ class PreferencesTest : BaseUnitTest() {
         assertFalse(prefs.shouldMakeNotificationsSticky())
         prefs.setNotificationsSticky(true)
         assertTrue(prefs.shouldMakeNotificationsSticky())
-        assertFalse(prefs.shouldMakeNotificationsLed())
-        prefs.setNotificationsLed(true)
-        assertTrue(prefs.shouldMakeNotificationsLed())
     }
 
     @Test

@@ -25,7 +25,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.BitmapFactory.decodeResource
-import android.graphics.Color
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.util.Log
@@ -149,9 +148,6 @@ class AndroidNotificationTray
 
         if (!disableSound)
             builder.setSound(ringtoneManager.getURI())
-
-        if (preferences.shouldMakeNotificationsLed())
-            builder.setLights(Color.RED, 1000, 1000)
 
         if (SDK_INT < Build.VERSION_CODES.S) {
             val snoozeAction = Action(

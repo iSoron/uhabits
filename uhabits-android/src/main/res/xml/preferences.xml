@@ -99,13 +99,6 @@
                 android:title="@string/sticky_notifications"
                 app:iconSpaceReserved="false" />
 
-        <SwitchPreferenceCompat
-                android:defaultValue="false"
-                android:key="pref_led_notifications"
-                android:summary="@string/led_notifications_description"
-                android:title="@string/led_notifications"
-                app:iconSpaceReserved="false" />
-
         <Preference
                 android:key="reminderCustomize"
                 android:summary="@string/customize_notification_summary"
