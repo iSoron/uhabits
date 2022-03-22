@@ -23,6 +23,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.number.IsCloseTo
 import org.hamcrest.number.OrderingComparison
 import org.isoron.uhabits.core.BaseUnitTest
+import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Before
 import org.junit.Test
@@ -378,6 +379,66 @@ class NumericalAtLeastScoreListTest : NumericalScoreListTest() {
         addEntry(0, 10000000)
         habit.recompute()
         assertThat(habit.scores[today].value, IsCloseTo.closeTo(0.051922, E))
+    }
+}
+
+class NumericalAtLeastScoreListWithSkipTest : NumericalScoreListTest() {
+    @Before
+    @Throws(Exception::class)
+    override fun setUp() {
+        super.setUp()
+        habit = fixtures.createEmptyNumericalHabit(NumericalHabitType.AT_LEAST)
+    }
+
+    @Test
+    fun test_getValue() {
+        addEntries(0, 10, 2000)
+        addEntries(10, 11, SKIP)
+        addEntries(11, 15, 2000)
+        addEntries(15, 16, SKIP)
+        addEntries(16, 20, 2000)
+        val expectedValues = doubleArrayOf(
+            0.617008,
+            0.596033,
+            0.573910,
+            0.550574,
+            0.525961,
+            0.500000,
+            0.472617,
+            0.443734,
+            0.413270,
+            0.381137,
+            0.347244, // skipped day should have the same score as the previous day
+            0.347244,
+            0.311495,
+            0.273788,
+            0.234017,
+            0.192067, // skipped day should have the same score as the previous day
+            0.192067,
+            0.147820,
+            0.101149,
+            0.051922,
+            0.000000,
+            0.000000,
+            0.000000
+        )
+        checkScoreValues(expectedValues)
+    }
+
+    @Test
+    fun skipsShouldNotAffectScore() {
+        addEntries(0, 500, 1000)
+        val initialScore = habit.scores[today].value
+
+        addEntries(500, 1000, SKIP)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(initialScore, E))
+
+        addEntries(0, 300, 1000)
+        addEntries(300, 500, SKIP)
+        addEntries(500, 700, 1000)
+
+        // skipped days should be treated as if they never existed
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(initialScore, E))
     }
 }
 
