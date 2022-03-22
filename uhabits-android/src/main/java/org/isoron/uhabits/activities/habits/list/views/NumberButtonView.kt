@@ -183,15 +183,15 @@ class NumberButtonView(
             val textSize: Float
 
             when {
-                value >= 0 -> {
-                    label = value.toShortString()
-                    typeface = BOLD_TYPEFACE
-                    textSize = dim(R.dimen.smallTextSize)
-                }
                 value == Entry.SKIP.toDouble() / 1000 -> {
                     label = resources.getString(R.string.fa_skipped)
                     textSize = dim(R.dimen.smallTextSize)
                     typeface = getFontAwesome()
+                }
+                value >= 0 -> {
+                    label = value.toShortString()
+                    typeface = BOLD_TYPEFACE
+                    textSize = dim(R.dimen.smallTextSize)
                 }
                 preferences.areQuestionMarksEnabled -> {
                     label = resources.getString(R.string.fa_question)

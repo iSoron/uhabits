@@ -276,7 +276,7 @@ open class EntryList {
  * For numerical habits, non-positive entry values are converted to zero. For boolean habits, each
  * YES_MANUAL value is converted to 1000 and all other values are converted to zero.
  *
- * SKIP values are treated converted to zero (if they weren't, each SKIP day would count as 0.003).
+ * SKIP values are converted to zero (if they weren't, each SKIP day would count as 0.003).
  *
  * The returned list is sorted by timestamp, with the newest entry coming first and the oldest entry
  * coming last. If the original list has gaps in it (for example, weeks or months without any
@@ -311,12 +311,11 @@ fun List<Entry>.groupedSum(
 }
 
 /**
- * Counts the number of days with vaLue SKIP in the given perio
+ * Counts the number of days with vaLue SKIP in the given period.
  */
 fun List<Entry>.countSkippedDays(
     truncateField: DateUtils.TruncateField,
-    firstWeekday: Int = Calendar.SATURDAY,
-    isNumerical: Boolean,
+    firstWeekday: Int = Calendar.SATURDAY
 ): List<Entry> {
     return this.map { (timestamp, value) ->
         if (value == SKIP) {
