@@ -27,6 +27,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
@@ -123,6 +124,7 @@ class HistoryCardPresenter(
             habit.unit,
             entry.notes,
             timestamp.toDialogDateString(),
+            frequency = habit.frequency
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -154,6 +156,7 @@ class HistoryCardPresenter(
                 entries.map {
                     when {
                         it.value == Entry.UNKNOWN -> OFF
+                        it.value == SKIP -> HATCHED
                         (habit.targetType == AT_MOST) && (it.value / 1000.0 <= habit.targetValue) -> ON
                         (habit.targetType == AT_LEAST) && (it.value / 1000.0 >= habit.targetValue) -> ON
                         else -> GREY
@@ -196,8 +199,10 @@ class HistoryCardPresenter(
             unit: String,
             notes: String,
             dateString: String,
-            callback: ListHabitsBehavior.NumberPickerCallback,
+            frequency: Frequency,
+            callback: ListHabitsBehavior.NumberPickerCallback
         )
+
         fun showCheckmarkDialog(
             selectedValue: Int,
             notes: String,
