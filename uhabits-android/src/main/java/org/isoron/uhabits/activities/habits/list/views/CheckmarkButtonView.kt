@@ -71,7 +71,7 @@ class CheckmarkButtonView(
             invalidate()
         }
 
-    var hasNotes = false
+    var notes = ""
         set(value) {
             field = value
             invalidate()
@@ -179,7 +179,7 @@ class CheckmarkButtonView(
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
             }
 
-            drawNotesIndicator(canvas, color, em, hasNotes)
+            drawNotesIndicator(canvas, color, em, notes)
         }
     }
 }

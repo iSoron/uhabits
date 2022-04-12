@@ -202,10 +202,10 @@ fun View.sp(value: Float) = InterfaceUtils.spToPixels(context, value)
 fun View.dp(value: Float) = InterfaceUtils.dpToPixels(context, value)
 fun View.str(id: Int) = resources.getString(id)
 
-fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, hasNotes: Boolean) {
+fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, notes: String) {
     val pNotesIndicator = Paint()
     pNotesIndicator.color = color
-    if (hasNotes) {
+    if (notes.isNotBlank()) {
         val cy = 0.8f * size
         canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
     }

@@ -102,7 +102,7 @@ class NumberButtonView(
             field = value
             invalidate()
         }
-    var hasNotes = false
+    var notes = ""
         set(value) {
             field = value
             invalidate()
@@ -221,7 +221,7 @@ class NumberButtonView(
                 canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
             }
 
-            drawNotesIndicator(canvas, color, em, hasNotes)
+            drawNotesIndicator(canvas, color, em, notes)
         }
     }
 }
