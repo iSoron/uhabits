@@ -190,18 +190,20 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     @objc func onMoreActionsClicked() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        if preferences.showArchived {
-            alert.addAction(UIAlertAction(title: strings.hide_archived, style: .default) {
-                (action: UIAlertAction) -> Void in
-                self.preferences.showArchived = false
-                self.dataSource.requestData()
-            })
-        } else {
-            alert.addAction(UIAlertAction(title: strings.show_archived, style: .default) {
-                (action: UIAlertAction) -> Void in
-                self.preferences.showArchived = true
-                self.dataSource.requestData()
-            })
+        if isThereAnyArchivedHabit() {
+            if preferences.showArchived {
+                alert.addAction(UIAlertAction(title: strings.hide_archived, style: .default) {
+                    (action: UIAlertAction) -> Void in
+                    self.preferences.showArchived = false
+                    self.dataSource.requestData()
+                })
+            } else {
+                alert.addAction(UIAlertAction(title: strings.show_archived, style: .default) {
+                    (action: UIAlertAction) -> Void in
+                    self.preferences.showArchived = true
+                    self.dataSource.requestData()
+                })
+            }
         }
 
         if preferences.showCompleted {
@@ -261,5 +263,9 @@ class MainScreenController: UITableViewController, MainScreenDataSourceListener 
     func reload() {
         let sections = NSIndexSet(indexesIn: NSMakeRange(0, self.tableView.numberOfSections))
         tableView.reloadSections(sections as IndexSet, with: .automatic)
+    }
+    
+    func isThereAnyArchivedHabit() -> Bool {
+        return data!.habits.filter({ $0.isArchived }).count > 0
     }
 }
