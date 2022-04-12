@@ -39,6 +39,7 @@ import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
@@ -169,9 +170,10 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             unit: String,
             notes: String,
             dateString: String,
-            callback: ListHabitsBehavior.NumberPickerCallback,
+            frequency: Frequency,
+            callback: ListHabitsBehavior.NumberPickerCallback
         ) {
-            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, dateString, callback).show()
+            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, dateString, frequency, callback).show()
         }
 
         override fun showCheckmarkDialog(

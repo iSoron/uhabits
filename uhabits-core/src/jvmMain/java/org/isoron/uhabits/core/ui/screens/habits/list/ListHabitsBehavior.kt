@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
@@ -58,6 +59,7 @@ open class ListHabitsBehavior @Inject constructor(
                 habit.unit,
                 entry.notes,
                 timestamp.toDialogDateString(),
+                habit.frequency
             ) { newValue: Double, newNotes: String, ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
@@ -167,6 +169,7 @@ open class ListHabitsBehavior @Inject constructor(
             unit: String,
             notes: String,
             dateString: String,
+            frequency: Frequency,
             callback: NumberPickerCallback
         )
         fun showCheckmarkDialog(

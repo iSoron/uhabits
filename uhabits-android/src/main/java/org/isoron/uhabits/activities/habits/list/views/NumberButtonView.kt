@@ -29,6 +29,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.preferences.Preferences
@@ -143,6 +144,12 @@ class NumberButtonView(
         private val lowContrast: Int
         private val mediumContrast: Int
 
+        private val paint = TextPaint().apply {
+            typeface = getFontAwesome()
+            isAntiAlias = true
+            textAlign = Paint.Align.CENTER
+        }
+
         private val pUnit: TextPaint = TextPaint().apply {
             textSize = getDimension(context, R.dimen.smallerTextSize)
             typeface = NORMAL_TYPEFACE
@@ -176,6 +183,11 @@ class NumberButtonView(
             val textSize: Float
 
             when {
+                value == Entry.SKIP.toDouble() / 1000 -> {
+                    label = resources.getString(R.string.fa_skipped)
+                    textSize = dim(R.dimen.smallTextSize)
+                    typeface = getFontAwesome()
+                }
                 value >= 0 -> {
                     label = value.toShortString()
                     typeface = BOLD_TYPEFACE

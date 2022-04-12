@@ -81,6 +81,7 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
             data.habit.unit,
             entry.notes,
             today.toDialogDateString(),
+            data.habit.frequency,
             this
         ).show()
     }

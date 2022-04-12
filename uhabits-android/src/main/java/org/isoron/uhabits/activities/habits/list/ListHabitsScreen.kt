@@ -40,6 +40,7 @@ import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.tasks.TaskRunner
@@ -230,9 +231,10 @@ class ListHabitsScreen
         unit: String,
         notes: String,
         dateString: String,
+        frequency: Frequency,
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
-        numberPickerFactory.create(value, unit, notes, dateString, callback).show()
+        numberPickerFactory.create(value, unit, notes, dateString, frequency, callback).show()
     }
 
     override fun showCheckmarkDialog(

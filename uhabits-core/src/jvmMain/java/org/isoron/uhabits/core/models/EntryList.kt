@@ -276,6 +276,8 @@ open class EntryList {
  * For numerical habits, non-positive entry values are converted to zero. For boolean habits, each
  * YES_MANUAL value is converted to 1000 and all other values are converted to zero.
  *
+ * SKIP values are converted to zero (if they weren't, each SKIP day would count as 0.003).
+ *
  * The returned list is sorted by timestamp, with the newest entry coming first and the oldest entry
  * coming last. If the original list has gaps in it (for example, weeks or months without any
  * entries), then the list produced by this method will also have gaps.
@@ -289,7 +291,10 @@ fun List<Entry>.groupedSum(
 ): List<Entry> {
     return this.map { (timestamp, value) ->
         if (isNumerical) {
-            Entry(timestamp, max(0, value))
+            if (value == SKIP)
+                Entry(timestamp, 0)
+            else
+                Entry(timestamp, max(0, value))
         } else {
             Entry(timestamp, if (value == YES_MANUAL) 1000 else 0)
         }
@@ -301,6 +306,31 @@ fun List<Entry>.groupedSum(
     }.entries.map { (timestamp, entries) ->
         Entry(timestamp, entries.sumOf { it.value })
     }.sortedBy { (timestamp, _) ->
-        - timestamp.unixTime
+        -timestamp.unixTime
+    }
+}
+
+/**
+ * Counts the number of days with vaLue SKIP in the given period.
+ */
+fun List<Entry>.countSkippedDays(
+    truncateField: DateUtils.TruncateField,
+    firstWeekday: Int = Calendar.SATURDAY
+): List<Entry> {
+    return this.map { (timestamp, value) ->
+        if (value == SKIP) {
+            Entry(timestamp, 1)
+        } else {
+            Entry(timestamp, 0)
+        }
+    }.groupBy { entry ->
+        entry.timestamp.truncate(
+            truncateField,
+            firstWeekday,
+        )
+    }.entries.map { (timestamp, entries) ->
+        Entry(timestamp, entries.sumOf { it.value })
+    }.sortedBy { (timestamp, _) ->
+        -timestamp.unixTime
     }
 }

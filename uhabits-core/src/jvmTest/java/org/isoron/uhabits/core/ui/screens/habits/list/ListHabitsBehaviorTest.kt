@@ -33,6 +33,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
@@ -79,7 +80,14 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Test
     fun testOnEdit() {
         behavior.onEdit(habit2, getToday())
-        verify(screen).showNumberPicker(eq(0.1), eq("miles"), eq(""), eq("Jan 25, 2015"), picker.capture())
+        verify(screen).showNumberPicker(
+            eq(0.1),
+            eq("miles"),
+            eq(""),
+            eq("Jan 25, 2015"),
+            eq(Frequency.DAILY),
+            picker.capture()
+        )
         picker.lastValue.onNumberPicked(100.0, "")
         val today = getTodayWithOffset()
         assertThat(habit2.computedEntries.get(today).value, equalTo(100000))
