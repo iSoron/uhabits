@@ -60,7 +60,8 @@ class HabitCardViewFactory
 data class DelayedToggle(
     var habit: Habit,
     var timestamp: Timestamp,
-    var value: Int
+    var value: Int,
+    var notes: String
 )
 
 class HabitCardView(
@@ -157,11 +158,11 @@ class HabitCardView(
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {
-            onToggle = { timestamp, value ->
-                triggerRipple(timestamp)
+            onToggle = { timestamp, value, notes, delay ->
+                if (delay > 0) triggerRipple(timestamp)
                 habit?.let {
-                    val taskId = queueToggle(it, timestamp, value);
-                    { runPendingToggles(taskId) }.delay(TOGGLE_DELAY_MILLIS)
+                    val taskId = queueToggle(it, timestamp, value, notes);
+                    { runPendingToggles(taskId) }.delay(delay)
                 }
             }
             onEdit = { timestamp ->
@@ -205,7 +206,7 @@ class HabitCardView(
     @Synchronized
     private fun runPendingToggles(id: Int) {
         if (currentToggleTaskId != id) return
-        for ((h, t, v) in queuedToggles) behavior.onToggle(h, t, v)
+        for ((h, t, v, n) in queuedToggles) behavior.onToggle(h, t, v, n)
         queuedToggles.clear()
     }
 
@@ -213,10 +214,11 @@ class HabitCardView(
     private fun queueToggle(
         it: Habit,
         timestamp: Timestamp,
-        value: Int
+        value: Int,
+        notes: String,
     ): Int {
         currentToggleTaskId += 1
-        queuedToggles.add(DelayedToggle(it, timestamp, value))
+        queuedToggles.add(DelayedToggle(it, timestamp, value, notes))
         return currentToggleTaskId
     }
 
@@ -306,8 +308,6 @@ class HabitCardView(
     }
 
     companion object {
-        const val TOGGLE_DELAY_MILLIS = 1000L
-
         fun (() -> Unit).delay(delayInMillis: Long) {
             Handler(Looper.getMainLooper()).postDelayed(this, delayInMillis)
         }

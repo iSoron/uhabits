@@ -168,7 +168,12 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Test
     fun testOnToggle() {
         assertTrue(habit1.isCompletedToday())
-        behavior.onToggle(habit1, getToday(), Entry.NO)
+        behavior.onToggle(
+            habit = habit1,
+            timestamp = getToday(),
+            value = Entry.NO,
+            notes = ""
+        )
         assertFalse(habit1.isCompletedToday())
     }
 }
