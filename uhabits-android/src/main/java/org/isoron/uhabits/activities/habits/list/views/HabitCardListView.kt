@@ -87,7 +87,7 @@ class HabitCardListView(
         habit: Habit,
         score: Double,
         checkmarks: IntArray,
-        notesIndicators: BooleanArray,
+        notes: Array<String>,
         selected: Boolean
     ): View {
         val cardView = holder.itemView as HabitCardView
@@ -99,7 +99,7 @@ class HabitCardListView(
         cardView.score = score
         cardView.unit = habit.unit
         cardView.threshold = habit.targetValue / habit.frequency.denominator
-        cardView.notesIndicators = notesIndicators
+        cardView.notes = notes
 
         val detector = GestureDetector(context, CardViewGestureDetector(holder))
         cardView.setOnTouchListener { _, ev ->
