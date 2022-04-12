@@ -123,8 +123,7 @@ open class ListHabitsBehavior @Inject constructor(
         if (prefs.isFirstRun) onFirstRun()
     }
 
-    fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int) {
-        val notes = habit.computedEntries.get(timestamp!!).notes
+    fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String) {
         commandRunner.run(
             CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
         )

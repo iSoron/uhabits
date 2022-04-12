@@ -43,7 +43,7 @@ class EntryButtonViewTest : BaseViewTest() {
         view = component.getEntryButtonViewFactory().create().apply {
             value = Entry.NO
             color = PaletteUtils.getAndroidTestColor(5)
-            onToggle = { toggled = true }
+            onToggle = { _, _, _ -> toggled = true }
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }
