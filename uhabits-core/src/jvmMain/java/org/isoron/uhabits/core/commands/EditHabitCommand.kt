@@ -33,5 +33,6 @@ data class EditHabitCommand(
         habitList.update(habit)
         habit.observable.notifyListeners()
         habit.recompute()
+        habitList.resort()
     }
 }
