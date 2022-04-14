@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.acceptance.steps
 
-import android.os.Build.VERSION
+import android.os.Build.VERSION.SDK_INT
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
 import junit.framework.Assert.assertFalse
@@ -50,29 +50,21 @@ object WidgetSteps {
     private fun openWidgetScreen() {
         val h = BaseUserInterfaceTest.device.displayHeight
         val w = BaseUserInterfaceTest.device.displayWidth
-        if (VERSION.SDK_INT <= 21) {
-            BaseUserInterfaceTest.device.pressHome()
-            BaseUserInterfaceTest.device.waitForIdle()
-            BaseUserInterfaceTest.device.findObject(UiSelector().description("Apps")).click()
-            BaseUserInterfaceTest.device.findObject(UiSelector().description("Apps")).click()
-            BaseUserInterfaceTest.device.findObject(UiSelector().description("Widgets")).click()
-        } else {
-            val listId = "com.android.launcher3:id/widgets_list_view"
-            BaseUserInterfaceTest.device.pressHome()
-            BaseUserInterfaceTest.device.waitForIdle()
-            BaseUserInterfaceTest.device.drag(w / 2, h / 2, w / 2, h / 2, 8)
-            var button = BaseUserInterfaceTest.device.findObject(UiSelector().text("WIDGETS"))
-            if (!button.waitForExists(1000)) {
-                button = BaseUserInterfaceTest.device.findObject(UiSelector().text("Widgets"))
-            }
-            button.click()
-            if (VERSION.SDK_INT >= 28) {
-                UiScrollable(UiSelector().resourceId(listId))
-                    .scrollForward()
-            }
-            UiScrollable(UiSelector().resourceId(listId))
-                .scrollIntoView(UiSelector().text("Checkmark"))
+        val listId = "com.android.launcher3:id/widgets_list_view"
+        BaseUserInterfaceTest.device.pressHome()
+        BaseUserInterfaceTest.device.waitForIdle()
+        BaseUserInterfaceTest.device.drag(w / 2, h / 2, w / 2, h / 2, 8)
+        var button = BaseUserInterfaceTest.device.findObject(UiSelector().text("WIDGETS"))
+        if (!button.waitForExists(1000)) {
+            button = BaseUserInterfaceTest.device.findObject(UiSelector().text("Widgets"))
         }
+        button.click()
+        if (SDK_INT >= 28) {
+            UiScrollable(UiSelector().resourceId(listId))
+                .scrollForward()
+        }
+        UiScrollable(UiSelector().resourceId(listId))
+            .scrollIntoView(UiSelector().text("Checkmark"))
     }
 
     @Throws(Exception::class)

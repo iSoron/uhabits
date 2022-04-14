@@ -22,14 +22,13 @@ import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.view.WindowManager
 
 object SystemUtils {
-    val isAndroidOOrLater: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
     fun unlockScreen(activity: Activity) {
-        if (isAndroidOOrLater) {
+        if (SDK_INT >= Build.VERSION_CODES.O) {
             val km = activity.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
             km.requestDismissKeyguard(activity, null)
         } else {
