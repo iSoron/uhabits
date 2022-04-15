@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
+import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
@@ -50,7 +51,7 @@ open class ListHabitsBehavior @Inject constructor(
         screen.showHabitScreen(h)
     }
 
-    fun onEdit(habit: Habit, timestamp: Timestamp?) {
+    fun onEdit(location: ScreenLocation, habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble()
@@ -65,12 +66,11 @@ open class ListHabitsBehavior @Inject constructor(
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
         } else {
-            screen.showCheckmarkDialog(
+            screen.showCheckmarkPopup(
                 entry.value,
                 entry.notes,
-                timestamp.toLocalDate(),
-                timestamp.toDialogDateString(),
                 habit.color,
+                location,
             ) { newValue, newNotes ->
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
@@ -170,6 +170,13 @@ open class ListHabitsBehavior @Inject constructor(
             dateString: String,
             frequency: Frequency,
             callback: NumberPickerCallback
+        )
+        fun showCheckmarkPopup(
+            selectedValue: Int,
+            notes: String,
+            color: PaletteColor,
+            location: ScreenLocation,
+            callback: CheckMarkDialogCallback
         )
         fun showCheckmarkDialog(
             selectedValue: Int,

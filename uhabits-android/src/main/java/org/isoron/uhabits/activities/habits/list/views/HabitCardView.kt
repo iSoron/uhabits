@@ -167,17 +167,17 @@ class HabitCardView(
                     { runPendingToggles(taskId) }.delay(delay)
                 }
             }
-            onEdit = { timestamp ->
+            onEdit = { location, timestamp ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onEdit(it, timestamp) }
+                habit?.let { behavior.onEdit(location, it, timestamp) }
             }
         }
 
         numberPanel = numberPanelFactory.create().apply {
             visibility = GONE
-            onEdit = { timestamp ->
+            onEdit = { location, timestamp ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onEdit(it, timestamp) }
+                habit?.let { behavior.onEdit(location, it, timestamp) }
             }
         }
 

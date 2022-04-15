@@ -43,7 +43,7 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
     private lateinit var commandRunner: CommandRunner
     private lateinit var habit: Habit
     private lateinit var preferences: Preferences
-    private lateinit var dataView: AndroidDataView
+    lateinit var dataView: AndroidDataView
 
     private var chart: HistoryChart? = null
     private var onDateClickedListener: OnDateClickedListener? = null

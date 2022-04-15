@@ -20,11 +20,13 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.getCenter
 import javax.inject.Inject
 
 class NumberPanelViewFactory
@@ -78,7 +80,7 @@ class NumberPanelView(
             setupButtons()
         }
 
-    var onEdit: (Timestamp) -> Unit = {}
+    var onEdit: (ScreenLocation, Timestamp) -> Unit = { _, _ -> }
         set(value) {
             field = value
             setupButtons()
@@ -104,7 +106,7 @@ class NumberPanelView(
             button.targetType = targetType
             button.threshold = threshold
             button.units = units
-            button.onEdit = { onEdit(timestamp) }
+            button.onEdit = { onEdit(getCenter(), timestamp) }
         }
     }
 }
