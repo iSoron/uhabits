@@ -21,8 +21,8 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
 import android.graphics.text.LineBreaker.BREAK_STRATEGY_BALANCED
+import android.os.Build
 import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.M
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
@@ -153,7 +153,9 @@ class HabitCardView(
             maxLines = 2
             ellipsize = TextUtils.TruncateAt.END
             layoutParams = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
-            if (SDK_INT >= M) breakStrategy = BREAK_STRATEGY_BALANCED
+            if (SDK_INT >= Build.VERSION_CODES.Q) {
+                breakStrategy = BREAK_STRATEGY_BALANCED
+            }
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {

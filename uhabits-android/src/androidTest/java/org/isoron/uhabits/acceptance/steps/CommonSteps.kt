@@ -18,7 +18,8 @@
  */
 package org.isoron.uhabits.acceptance.steps
 
-import android.os.Build.VERSION
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
@@ -133,7 +134,7 @@ object CommonSteps : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun verifyOpensWebsite(url: String?) {
         var browserPkg = "org.chromium.webview_shell"
-        if (VERSION.SDK_INT <= 23) {
+        if (SDK_INT <= Build.VERSION_CODES.M) {
             browserPkg = "com.android.browser"
         }
         assertTrue(device.wait(Until.hasObject(By.pkg(browserPkg)), 5000))
