@@ -24,6 +24,7 @@ import com.nhaarman.mockitokotlin2.reset
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import kotlinx.coroutines.runBlocking
+import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.assertRenders
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.DayOfWeek.SUNDAY
@@ -73,8 +74,7 @@ class HistoryChartTest {
                 else -> OFF
             }
         },
-        notesIndicators = MutableList(85) {
-            index: Int ->
+        notesIndicators = MutableList(85) { index: Int ->
             index % 3 == 0
         }
     )
@@ -90,20 +90,32 @@ class HistoryChartTest {
 
         // Click top left date
         view.onClick(20.0, 46.0)
-        verify(dateClickedListener).onDateShortPress(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateShortPress(
+            ScreenLocation(20.0, 46.0),
+            LocalDate(2014, 10, 26)
+        )
         reset(dateClickedListener)
         view.onClick(2.0, 28.0)
-        verify(dateClickedListener).onDateShortPress(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateShortPress(
+            ScreenLocation(2.0, 28.0),
+            LocalDate(2014, 10, 26)
+        )
         reset(dateClickedListener)
 
         // Click date in the middle
         view.onClick(163.0, 113.0)
-        verify(dateClickedListener).onDateShortPress(LocalDate(2014, 12, 10))
+        verify(dateClickedListener).onDateShortPress(
+            ScreenLocation(163.0, 113.0),
+            LocalDate(2014, 12, 10)
+        )
         reset(dateClickedListener)
 
         // Click today
         view.onClick(336.0, 37.0)
-        verify(dateClickedListener).onDateShortPress(LocalDate(2015, 1, 25))
+        verify(dateClickedListener).onDateShortPress(
+            ScreenLocation(336.0, 37.0),
+            LocalDate(2015, 1, 25)
+        )
         reset(dateClickedListener)
 
         // Click header
@@ -121,20 +133,32 @@ class HistoryChartTest {
 
         // Click top left date
         view.onLongClick(20.0, 46.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateLongPress(
+            ScreenLocation(20.0, 46.0),
+            LocalDate(2014, 10, 26)
+        )
         reset(dateClickedListener)
         view.onLongClick(2.0, 28.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2014, 10, 26))
+        verify(dateClickedListener).onDateLongPress(
+            ScreenLocation(2.0, 28.0),
+            LocalDate(2014, 10, 26)
+        )
         reset(dateClickedListener)
 
         // Click date in the middle
         view.onLongClick(163.0, 113.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2014, 12, 10))
+        verify(dateClickedListener).onDateLongPress(
+            ScreenLocation(163.0, 113.0),
+            LocalDate(2014, 12, 10)
+        )
         reset(dateClickedListener)
 
         // Click today
         view.onLongClick(336.0, 37.0)
-        verify(dateClickedListener).onDateLongPress(LocalDate(2015, 1, 25))
+        verify(dateClickedListener).onDateLongPress(
+            ScreenLocation(336.0, 37.0),
+            LocalDate(2015, 1, 25)
+        )
         reset(dateClickedListener)
 
         // Click header

@@ -27,6 +27,8 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.isoron.platform.gui.ScreenLocation
+import org.isoron.platform.gui.toInt
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.HabitsApplication
@@ -34,9 +36,11 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
+import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Frequency
@@ -49,6 +53,8 @@ import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.utils.currentTheme
+import org.isoron.uhabits.utils.getTopLeftCorner
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.showSendFileScreen
 import org.isoron.uhabits.widgets.WidgetUpdater
@@ -173,7 +179,14 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             frequency: Frequency,
             callback: ListHabitsBehavior.NumberPickerCallback
         ) {
-            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, dateString, frequency, callback).show()
+            NumberPickerFactory(this@ShowHabitActivity).create(
+                value,
+                unit,
+                notes,
+                dateString,
+                frequency,
+                callback
+            ).show()
         }
 
         override fun showCheckmarkDialog(
@@ -192,6 +205,37 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 callback,
                 themeSwitcher.currentTheme!!,
             ).show()
+        }
+
+        override fun showCheckmarkPopup(
+            selectedValue: Int,
+            notes: String,
+            preferences: Preferences,
+            color: PaletteColor,
+            location: ScreenLocation,
+            callback: ListHabitsBehavior.CheckMarkDialogCallback
+        ) {
+            val dialog =
+                supportFragmentManager.findFragmentByTag("historyEditor") as HistoryEditorDialog?
+                    ?: return
+            val view = dialog.dataView
+            val corner = view.getTopLeftCorner()
+            CheckmarkPopup(
+                context = this@ShowHabitActivity,
+                prefs = preferences,
+                notes = notes,
+                color = view.currentTheme().color(color).toInt(),
+                anchor = view,
+                value = selectedValue,
+            ).apply {
+                onToggle = { v, n -> callback.onNotesSaved(v, n) }
+                show(
+                    ScreenLocation(
+                        x = corner.x + location.x - POPUP_WIDTH / 2,
+                        y = corner.y + location.y,
+                    )
+                )
+            }
         }
 
         override fun showEditHabitScreen(habit: Habit) {

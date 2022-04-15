@@ -399,4 +399,15 @@
         <item name="selectable">true</item>
     </style>
 
+    <style name="CheckmarkPopupBtn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/ripple_transparent</item>
+        <item name="android:textSize">@dimen/smallerTextSize</item>
+    </style>
+
 </resources>
