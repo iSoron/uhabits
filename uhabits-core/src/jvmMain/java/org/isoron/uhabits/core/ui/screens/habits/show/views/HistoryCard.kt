@@ -214,15 +214,6 @@ class HistoryCardPresenter(
             callback: ListHabitsBehavior.NumberPickerCallback
         )
 
-        fun showCheckmarkDialog(
-            selectedValue: Int,
-            notes: String,
-            date: LocalDate,
-            preferences: Preferences,
-            color: PaletteColor,
-            callback: ListHabitsBehavior.CheckMarkDialogCallback,
-        )
-
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,

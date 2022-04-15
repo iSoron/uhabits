@@ -26,9 +26,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
 import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
-import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
@@ -98,7 +96,6 @@ class ListHabitsScreen
     private val importTaskFactory: ImportDataTaskFactory,
     private val colorPickerFactory: ColorPickerDialogFactory,
     private val numberPickerFactory: NumberPickerFactory,
-    private val checkMarkDialog: CheckmarkDialog,
     private val behavior: Lazy<ListHabitsBehavior>,
     private val preferences: Preferences,
     private val rootView: Lazy<ListHabitsRootView>,
@@ -269,24 +266,6 @@ class ListHabitsScreen
                 )
             )
         }
-    }
-
-    override fun showCheckmarkDialog(
-        selectedValue: Int,
-        notes: String,
-        date: LocalDate,
-        dateString: String,
-        color: PaletteColor,
-        callback: ListHabitsBehavior.CheckMarkDialogCallback
-    ) {
-        checkMarkDialog.create(
-            selectedValue,
-            notes,
-            date,
-            color,
-            callback,
-            themeSwitcher.currentTheme!!,
-        ).show()
     }
 
     private fun getExecuteString(command: Command): String? {

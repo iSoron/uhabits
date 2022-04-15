@@ -19,7 +19,6 @@
 package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.platform.gui.ScreenLocation
-import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Frequency
@@ -178,15 +177,6 @@ open class ListHabitsBehavior @Inject constructor(
             location: ScreenLocation,
             callback: CheckMarkDialogCallback
         )
-        fun showCheckmarkDialog(
-            selectedValue: Int,
-            notes: String,
-            date: LocalDate,
-            dateString: String,
-            color: PaletteColor,
-            callback: CheckMarkDialogCallback
-        )
-
         fun showSendBugReportToDeveloperScreen(log: String)
         fun showSendFileScreen(filename: String)
     }

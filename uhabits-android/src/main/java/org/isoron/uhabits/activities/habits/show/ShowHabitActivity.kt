@@ -29,13 +29,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
-import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
-import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
@@ -186,24 +184,6 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 dateString,
                 frequency,
                 callback
-            ).show()
-        }
-
-        override fun showCheckmarkDialog(
-            selectedValue: Int,
-            notes: String,
-            date: LocalDate,
-            preferences: Preferences,
-            color: PaletteColor,
-            callback: ListHabitsBehavior.CheckMarkDialogCallback
-        ) {
-            CheckmarkDialog(this@ShowHabitActivity, preferences).create(
-                selectedValue,
-                notes,
-                date,
-                color,
-                callback,
-                themeSwitcher.currentTheme!!,
             ).show()
         }
 
