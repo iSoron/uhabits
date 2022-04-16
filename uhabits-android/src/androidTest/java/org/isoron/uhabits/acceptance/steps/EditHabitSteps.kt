@@ -36,6 +36,24 @@ object EditHabitSteps {
         Espresso.onView(ViewMatchers.withText("SAVE")).perform(ViewActions.click())
     }
 
+    fun pickMonthFrequency() {
+        Espresso.onView(ViewMatchers.withId(R.id.boolean_frequency_picker))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.xTimesPerMonthRadioButton))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.xTimesPerMonthTextView))
+            .perform(ViewActions.replaceText("1"))
+        Espresso.onView(ViewMatchers.withText("SAVE")).perform(ViewActions.click())
+    }
+
+    fun pickDailyFrequency() {
+        Espresso.onView(ViewMatchers.withId(R.id.boolean_frequency_picker))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.everyDayRadioButton))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText("SAVE")).perform(ViewActions.click())
+    }
+
     fun pickColor(color: Int) {
         Espresso.onView(ViewMatchers.withId(R.id.colorButton)).perform(ViewActions.click())
         BaseUserInterfaceTest.device.findObject(By.descStartsWith(String.format("Color %d", color)))
