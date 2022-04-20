@@ -20,6 +20,7 @@ package org.isoron.uhabits.activities.habits.show
 
 import android.content.ContentUris
 import android.os.Bundle
+import android.util.Log
 import android.view.HapticFeedbackConstants
 import android.view.Menu
 import android.view.MenuItem
@@ -173,7 +174,16 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             frequency: Frequency,
             callback: ListHabitsBehavior.NumberPickerCallback
         ) {
-            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, dateString, frequency, callback).show()
+            if(!NumberPickerFactory.numberPickerAlreadyExists()) {
+                NumberPickerFactory(this@ShowHabitActivity).create(
+                    value,
+                    unit,
+                    notes,
+                    dateString,
+                    frequency,
+                    callback
+                ).show()
+            }
         }
 
         override fun showCheckmarkDialog(

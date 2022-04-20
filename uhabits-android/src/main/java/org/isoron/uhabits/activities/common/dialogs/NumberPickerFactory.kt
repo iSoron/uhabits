@@ -50,7 +50,6 @@ class NumberPickerFactory
 @Inject constructor(
     @ActivityContext private val context: Context
 ) {
-
     @SuppressLint("SetTextI18n")
     fun create(
         value: Double,
@@ -60,6 +59,7 @@ class NumberPickerFactory
         frequency: Frequency,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
+        numberPickerExists = true
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
@@ -113,6 +113,7 @@ class NumberPickerFactory
             }
             .setOnDismissListener {
                 callback.onNumberPickerDismissed()
+                numberPickerExists = false
             }
 
         if (frequency == DAILY) {
@@ -168,6 +169,16 @@ class NumberPickerFactory
         v.requestFocus()
         val inputMethodManager = context.getSystemService(InputMethodManager::class.java)
         inputMethodManager?.showSoftInput(v, 0)
+    }
+
+    companion object {
+        private var numberPickerExists = false
+
+        fun numberPickerAlreadyExists(): Boolean = numberPickerExists
+
+        fun setNumberPickerExists(value: Boolean) {
+            numberPickerExists = value
+        }
     }
 }
 

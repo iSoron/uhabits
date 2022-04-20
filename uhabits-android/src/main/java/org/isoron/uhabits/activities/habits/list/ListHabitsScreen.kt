@@ -234,7 +234,9 @@ class ListHabitsScreen
         frequency: Frequency,
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
-        numberPickerFactory.create(value, unit, notes, dateString, frequency, callback).show()
+        if (!NumberPickerFactory.numberPickerAlreadyExists()) {
+            numberPickerFactory.create(value, unit, notes, dateString, frequency, callback).show()
+        }
     }
 
     override fun showCheckmarkDialog(
