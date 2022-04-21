@@ -120,6 +120,12 @@ object ListHabitsSteps {
         BaseUserInterfaceTest.device.waitForIdle()
     }
 
+    fun changeSort(sortText: String) {
+        clickViewWithId(R.id.action_filter)
+        Espresso.onView(ViewMatchers.withText("Sort")).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(sortText)).perform(ViewActions.click())
+    }
+
     enum class MenuItem {
         ABOUT, HELP, SETTINGS, EDIT, DELETE, ARCHIVE, TOGGLE_ARCHIVED, UNARCHIVE, TOGGLE_COMPLETED, ADD
     }

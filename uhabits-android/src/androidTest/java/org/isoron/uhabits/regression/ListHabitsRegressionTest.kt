@@ -21,9 +21,12 @@ package org.isoron.uhabits.regression
 
 import androidx.test.filters.LargeTest
 import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.acceptance.steps.CommonSteps
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.EDIT_HABIT
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.LIST_HABITS
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.SELECT_HABIT_TYPE
+import org.isoron.uhabits.acceptance.steps.CommonSteps.changeFrequencyToDaily
+import org.isoron.uhabits.acceptance.steps.CommonSteps.changeFrequencyToMonthly
 import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.createHabit
 import org.isoron.uhabits.acceptance.steps.CommonSteps.launchApp
@@ -37,9 +40,12 @@ import org.isoron.uhabits.acceptance.steps.EditHabitSteps.clickSave
 import org.isoron.uhabits.acceptance.steps.EditHabitSteps.typeName
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.ADD
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.DELETE
+import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.changeSort
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.longPressCheckmarks
+import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
+import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.junit.Test
 
@@ -82,5 +88,38 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
         scrollToText("Last Habit")
         offsetHeaders()
         verifyDisplaysCheckmarks("Wake up early", listOf(UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN))
+    }
+
+    /**
+     * https://github.com/iSoron/uhabits/issues/1131
+     */
+    @Test
+    @Throws(Exception::class)
+    fun should_refresh_sort_after_habit_edit() {
+        launchApp()
+        verifyShowsScreen(LIST_HABITS)
+        changeSort("By score")
+        changeSort("By status")
+        longPressCheckmarks("Meditate", count = 1)
+        changeFrequencyToMonthly("Read books")
+        longPressCheckmarks("Read books", count = 2)
+        longPressCheckmarks("Read books", count = 1)
+        verifyDisplaysCheckmarks("Meditate", listOf(YES_AUTO, YES_MANUAL, YES_AUTO, YES_MANUAL))
+        CommonSteps.verifyDisplaysTextInSequence(
+            "Wake up early",
+            "Read books",
+            "Meditate",
+            "Track time"
+        )
+
+        changeFrequencyToDaily("Meditate")
+
+        verifyDisplaysCheckmarks("Meditate", listOf(NO, YES_MANUAL, UNKNOWN, YES_MANUAL))
+        CommonSteps.verifyDisplaysTextInSequence(
+            "Wake up early",
+            "Meditate",
+            "Read books",
+            "Track time",
+        )
     }
 }
