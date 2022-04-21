@@ -59,7 +59,6 @@ class NumberPickerFactory
         frequency: Frequency,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
-
         clearCurrentDialog()
 
         val inflater = LayoutInflater.from(context)
