@@ -59,7 +59,9 @@ class NumberPickerFactory
         frequency: Frequency,
         callback: ListHabitsBehavior.NumberPickerCallback
     ): AlertDialog {
-        numberPickerExists = true
+
+        clearCurrentDialog()
+
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.number_picker_dialog, null)
 
@@ -113,7 +115,7 @@ class NumberPickerFactory
             }
             .setOnDismissListener {
                 callback.onNumberPickerDismissed()
-                numberPickerExists = false
+                currentDialog = null
             }
 
         if (frequency == DAILY) {
@@ -154,6 +156,7 @@ class NumberPickerFactory
             false
         }
 
+        currentDialog = dialog
         return dialog
     }
 
@@ -172,12 +175,10 @@ class NumberPickerFactory
     }
 
     companion object {
-        private var numberPickerExists = false
-
-        fun numberPickerAlreadyExists(): Boolean = numberPickerExists
-
-        fun setNumberPickerExists(value: Boolean) {
-            numberPickerExists = value
+        private var currentDialog: AlertDialog? = null
+        fun clearCurrentDialog() {
+            currentDialog?.dismiss()
+            currentDialog = null
         }
     }
 }
