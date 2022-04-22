@@ -173,14 +173,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             frequency: Frequency,
             callback: ListHabitsBehavior.NumberPickerCallback
         ) {
-            NumberPickerFactory(this@ShowHabitActivity).create(
-                value,
-                unit,
-                notes,
-                dateString,
-                frequency,
-                callback
-            ).show()
+            NumberPickerFactory(this@ShowHabitActivity).create(value, unit, notes, dateString, frequency, callback).show()
         }
 
         override fun showCheckmarkDialog(
