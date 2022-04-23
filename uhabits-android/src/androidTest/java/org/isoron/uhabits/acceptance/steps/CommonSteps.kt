@@ -179,6 +179,22 @@ object CommonSteps : BaseUserInterfaceTest() {
         EditHabitSteps.clickSave()
     }
 
+    fun changeFrequencyToDaily(habitName: String) {
+        clickText(habitName)
+        Espresso.onView(ViewMatchers.withId(R.id.action_edit_habit)).perform(ViewActions.click())
+        EditHabitSteps.pickDailyFrequency()
+        EditHabitSteps.clickSave()
+        pressBack()
+    }
+
+    fun changeFrequencyToMonthly(habitName: String) {
+        clickText(habitName)
+        Espresso.onView(ViewMatchers.withId(R.id.action_edit_habit)).perform(ViewActions.click())
+        EditHabitSteps.pickMonthFrequency()
+        EditHabitSteps.clickSave()
+        pressBack()
+    }
+
     enum class Screen {
         LIST_HABITS, SHOW_HABIT, EDIT_HABIT, SELECT_HABIT_TYPE
     }
