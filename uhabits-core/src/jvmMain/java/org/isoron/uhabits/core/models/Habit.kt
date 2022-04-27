@@ -73,7 +73,7 @@ data class Habit(
     }
 
     private fun fetchFirstDayToConsider(): Timestamp {
-        return when(frequency) {
+        return when (frequency) {
             Frequency.DAILY -> DateUtils.getTodayWithOffset()
             Frequency.WEEKLY -> DateUtils.getFirstDayOfCurrentWeekWithOffset()
             Frequency.MONTHLY -> DateUtils.getFirstDayOfCurrentMonthWithOffset()
