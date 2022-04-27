@@ -22,7 +22,12 @@ import org.isoron.uhabits.core.models.Timestamp
 import java.util.Calendar
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.DAY_OF_WEEK
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.MILLISECOND
+import java.util.Calendar.MINUTE
+import java.util.Calendar.SECOND
 import java.util.Calendar.SHORT
+import java.util.Calendar.getInstance
 import java.util.Date
 import java.util.GregorianCalendar
 import java.util.Locale
@@ -185,6 +190,12 @@ abstract class DateUtils {
         fun getTodayWithOffset(): Timestamp = Timestamp(getStartOfTodayWithOffset())
 
         @JvmStatic
+        fun getFirstDayOfCurrentWeekWithOffset(): Timestamp = Timestamp(getStartOfFirstDayOfCurrentWeekWithOffset())
+
+        @JvmStatic
+        fun getFirstDayOfCurrentMonthWithOffset(): Timestamp = Timestamp(getStartOfFirstDayOfCurrentMonthWithOffset())
+
+        @JvmStatic
         fun getStartOfDay(timestamp: Long): Long = (timestamp / DAY_LENGTH) * DAY_LENGTH
 
         @JvmStatic
@@ -206,6 +217,12 @@ abstract class DateUtils {
         fun getStartOfTodayWithOffset(): Long = getStartOfDayWithOffset(getLocalTime())
 
         @JvmStatic
+        fun getStartOfFirstDayOfCurrentWeekWithOffset(): Long = getStartOfDayWithOffset(getFirstDayOfCurrentWeek())
+
+        @JvmStatic
+        fun getStartOfFirstDayOfCurrentMonthWithOffset(): Long = getStartOfDayWithOffset(getFirstDayOfCurrentMonth())
+
+        @JvmStatic
         fun millisecondsUntilTomorrowWithOffset(): Long = getStartOfTomorrowWithOffset() - getLocalTime()
 
         @JvmStatic
@@ -213,6 +230,26 @@ abstract class DateUtils {
 
         @JvmStatic
         fun getStartOfTodayCalendarWithOffset(): GregorianCalendar = getCalendar(getStartOfTodayWithOffset())
+
+        private fun getFirstDayOfCurrentWeek(): Long {
+            val cal = getInstance()
+            cal[HOUR_OF_DAY] = 0
+            cal.clear(MINUTE)
+            cal.clear(SECOND)
+            cal.clear(MILLISECOND)
+            cal[DAY_OF_WEEK] = getFirstWeekdayNumberAccordingToLocale()
+            return getLocalTime(cal.timeInMillis)
+        }
+
+        private fun getFirstDayOfCurrentMonth(): Long {
+            val cal = getInstance()
+            cal[HOUR_OF_DAY] = 0
+            cal.clear(MINUTE)
+            cal.clear(SECOND)
+            cal.clear(MILLISECOND)
+            cal[DAY_OF_MONTH] = 1
+            return getLocalTime(cal.timeInMillis)
+        }
 
         private fun getTimeZone(): TimeZone {
             return fixedTimeZone ?: TimeZone.getDefault()

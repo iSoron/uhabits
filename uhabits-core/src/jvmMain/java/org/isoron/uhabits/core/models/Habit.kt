@@ -57,14 +57,27 @@ data class Habit(
 
     fun isCompletedToday(): Boolean {
         val today = DateUtils.getTodayWithOffset()
-        val value = computedEntries.get(today).value
         return if (isNumerical) {
+            val firstDayToConsider = fetchFirstDayToConsider()
+            val value = computedEntries.getByInterval(firstDayToConsider, today)
+                .filter { it.value > -1 }
+                .sumOf { it.value }
             when (targetType) {
                 NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
                 NumericalHabitType.AT_MOST -> value / 1000.0 <= targetValue
             }
         } else {
-            value != Entry.NO && value != Entry.UNKNOWN
+            val todayValue = computedEntries.get(today).value
+            todayValue != Entry.NO && todayValue != Entry.UNKNOWN
+        }
+    }
+
+    private fun fetchFirstDayToConsider(): Timestamp {
+        return when(frequency) {
+            Frequency.DAILY -> DateUtils.getTodayWithOffset()
+            Frequency.WEEKLY -> DateUtils.getFirstDayOfCurrentWeekWithOffset()
+            Frequency.MONTHLY -> DateUtils.getFirstDayOfCurrentMonthWithOffset()
+            else -> throw NotImplementedError()
         }
     }
 

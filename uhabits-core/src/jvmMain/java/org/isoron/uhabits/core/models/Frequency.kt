@@ -45,5 +45,8 @@ data class Frequency(
 
         @JvmField
         val WEEKLY = Frequency(1, 7)
+
+        @JvmField
+        val MONTHLY = Frequency(1, 30)
     }
 }
