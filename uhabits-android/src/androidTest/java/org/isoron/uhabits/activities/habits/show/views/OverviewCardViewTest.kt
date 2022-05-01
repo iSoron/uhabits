@@ -22,9 +22,9 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.screens.habits.show.views.OverviewCardState
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before

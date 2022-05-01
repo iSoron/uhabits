@@ -21,11 +21,11 @@ package org.isoron.uhabits.widgets
 import android.widget.FrameLayout
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
 import org.junit.Test
 import org.junit.runner.RunWith
 

@@ -43,10 +43,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
 import org.isoron.platform.gui.toInt
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.views.Theme
 import java.io.File
 

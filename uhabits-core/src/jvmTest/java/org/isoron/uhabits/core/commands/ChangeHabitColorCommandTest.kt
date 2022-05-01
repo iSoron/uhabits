@@ -20,9 +20,9 @@ package org.isoron.uhabits.core.commands
 
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
 import org.junit.Before
 import org.junit.Test
 import java.util.LinkedList

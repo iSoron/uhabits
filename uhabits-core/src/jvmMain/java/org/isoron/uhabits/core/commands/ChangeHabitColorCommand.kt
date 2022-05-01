@@ -18,9 +18,9 @@
  */
 package org.isoron.uhabits.core.commands
 
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
-import org.isoron.uhabits.core.models.PaletteColor
 
 data class ChangeHabitColorCommand(
     val habitList: HabitList,

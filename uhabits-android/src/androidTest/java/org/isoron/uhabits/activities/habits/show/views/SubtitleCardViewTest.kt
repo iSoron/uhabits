@@ -21,10 +21,10 @@ package org.isoron.uhabits.activities.habits.show.views
 import android.view.LayoutInflater
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Frequency
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList.Companion.EVERY_DAY
 import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState

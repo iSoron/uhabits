@@ -21,7 +21,7 @@ package org.isoron.uhabits.utils
 
 import android.content.Context
 import android.graphics.Color
-import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.platform.models.PaletteColor
 
 object PaletteUtils {
     @JvmStatic

@@ -24,6 +24,7 @@ import junit.framework.Assert.assertNull
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Rule
 import org.junit.Test

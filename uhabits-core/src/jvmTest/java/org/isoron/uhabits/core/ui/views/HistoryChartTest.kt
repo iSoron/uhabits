@@ -25,11 +25,11 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import kotlinx.coroutines.runBlocking
 import org.isoron.platform.gui.assertRenders
+import org.isoron.platform.models.PaletteColor
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.DayOfWeek.SUNDAY
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.platform.time.LocalDate
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.DIMMED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF

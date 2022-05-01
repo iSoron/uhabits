@@ -22,9 +22,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.BuildConfig
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.databinding.AboutBinding
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.setupToolbar

@@ -20,8 +20,8 @@ package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
 import org.isoron.platform.gui.toInt
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.inject.ActivityScope

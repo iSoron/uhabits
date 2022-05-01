@@ -23,10 +23,10 @@ import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
 import org.isoron.platform.gui.DataView
 import org.isoron.platform.gui.TextAlign
+import org.isoron.platform.models.PaletteColor
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
-import org.isoron.uhabits.core.models.PaletteColor
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min

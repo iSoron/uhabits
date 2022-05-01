@@ -19,9 +19,9 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.views.Theme

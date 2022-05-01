@@ -22,6 +22,7 @@ import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.core.IsEqual.equalTo
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Assert.assertNotEquals

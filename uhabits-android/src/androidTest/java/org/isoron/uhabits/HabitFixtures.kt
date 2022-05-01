@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits
 
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Frequency
@@ -27,7 +28,6 @@ import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.NumericalHabitType
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 

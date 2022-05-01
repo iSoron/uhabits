@@ -21,10 +21,10 @@ package org.isoron.uhabits.activities.settings
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.databinding.SettingsActivityBinding
 import org.isoron.uhabits.utils.setupToolbar
 

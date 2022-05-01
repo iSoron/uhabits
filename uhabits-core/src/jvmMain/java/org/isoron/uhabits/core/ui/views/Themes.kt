@@ -20,7 +20,7 @@
 package org.isoron.uhabits.core.ui.views
 
 import org.isoron.platform.gui.Color
-import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.platform.models.PaletteColor
 
 abstract class Theme {
     open val appBackgroundColor = Color(0xf4f4f4)

@@ -18,7 +18,7 @@
  */
 package org.isoron.uhabits.core.ui.callbacks
 
-import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.platform.models.PaletteColor
 
 fun interface OnColorPickedCallback {
     fun onColorPicked(color: PaletteColor)

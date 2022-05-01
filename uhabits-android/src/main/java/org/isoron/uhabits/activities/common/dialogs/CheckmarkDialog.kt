@@ -8,6 +8,7 @@ import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import org.isoron.platform.gui.toInt
+import org.isoron.platform.models.PaletteColor
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.R
@@ -16,7 +17,6 @@ import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.views.Theme

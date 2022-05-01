@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.models
 
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.core.utils.DateUtils
 import java.util.UUID
 

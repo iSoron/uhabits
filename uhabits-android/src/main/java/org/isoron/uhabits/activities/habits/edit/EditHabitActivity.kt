@@ -41,6 +41,7 @@ import kotlinx.android.synthetic.main.activity_edit_habit.questionInput
 import kotlinx.android.synthetic.main.activity_edit_habit.targetInput
 import kotlinx.android.synthetic.main.activity_edit_habit.unitInput
 import org.isoron.platform.gui.toInt
+import org.isoron.platform.models.PaletteColor
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
@@ -54,7 +55,6 @@ import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.databinding.ActivityEditHabitBinding
