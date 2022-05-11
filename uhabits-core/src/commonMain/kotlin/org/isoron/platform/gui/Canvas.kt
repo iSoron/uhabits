@@ -29,6 +29,11 @@ enum class Font {
     FONT_AWESOME
 }
 
+data class ScreenLocation(
+    val x: Double,
+    val y: Double,
+)
+
 interface Canvas {
     fun setColor(color: Color)
     fun drawLine(x1: Double, y1: Double, x2: Double, y2: Double)

@@ -79,8 +79,8 @@ class HabitCardListCache @Inject constructor(
     }
 
     @Synchronized
-    fun getNoteIndicators(habitId: Long): BooleanArray {
-        return data.notesIndicators[habitId]!!
+    fun getNotes(habitId: Long): Array<String> {
+        return data.notes[habitId]!!
     }
 
     @Synchronized
@@ -168,7 +168,7 @@ class HabitCardListCache @Inject constructor(
         data.habits.removeAt(position)
         data.idToHabit.remove(id)
         data.checkmarks.remove(id)
-        data.notesIndicators.remove(id)
+        data.notes.remove(id)
         data.scores.remove(id)
         listener.onItemRemoved(position)
     }
@@ -213,7 +213,7 @@ class HabitCardListCache @Inject constructor(
         val habits: MutableList<Habit>
         val checkmarks: HashMap<Long?, IntArray>
         val scores: HashMap<Long?, Double>
-        val notesIndicators: HashMap<Long?, BooleanArray>
+        val notes: HashMap<Long?, Array<String>>
 
         @Synchronized
         fun copyCheckmarksFrom(oldData: CacheData) {
@@ -226,10 +226,10 @@ class HabitCardListCache @Inject constructor(
 
         @Synchronized
         fun copyNoteIndicatorsFrom(oldData: CacheData) {
-            val empty = BooleanArray(checkmarkCount)
+            val empty = (0..checkmarkCount).map { "" }.toTypedArray()
             for (id in idToHabit.keys) {
-                if (oldData.notesIndicators.containsKey(id)) notesIndicators[id] =
-                    oldData.notesIndicators[id]!! else notesIndicators[id] = empty
+                if (oldData.notes.containsKey(id)) notes[id] =
+                    oldData.notes[id]!! else notes[id] = empty
             }
         }
 
@@ -257,7 +257,7 @@ class HabitCardListCache @Inject constructor(
             habits = LinkedList()
             checkmarks = HashMap()
             scores = HashMap()
-            notesIndicators = HashMap()
+            notes = HashMap()
         }
     }
 
@@ -298,14 +298,14 @@ class HabitCardListCache @Inject constructor(
                 if (targetId != null && targetId != habit.id) continue
                 newData.scores[habit.id] = habit.scores[today].value
                 val list: MutableList<Int> = ArrayList()
-                val notesIndicators: MutableList<Boolean> = ArrayList()
+                val notes: MutableList<String> = ArrayList()
                 for ((_, value, note) in habit.computedEntries.getByInterval(dateFrom, today)) {
                     list.add(value)
-                    notesIndicators.add(note.isNotEmpty())
+                    notes.add(note)
                 }
                 val entries = list.toTypedArray()
                 newData.checkmarks[habit.id] = ArrayUtils.toPrimitive(entries)
-                newData.notesIndicators[habit.id] = notesIndicators.toBooleanArray()
+                newData.notes[habit.id] = notes.toTypedArray()
                 runner!!.publishProgress(this, position)
             }
         }
@@ -333,7 +333,7 @@ class HabitCardListCache @Inject constructor(
             data.idToHabit[id] = habit
             data.scores[id] = newData.scores[id]!!
             data.checkmarks[id] = newData.checkmarks[id]!!
-            data.notesIndicators[id] = newData.notesIndicators[id]!!
+            data.notes[id] = newData.notes[id]!!
             listener.onItemInserted(position)
         }
 
@@ -361,10 +361,10 @@ class HabitCardListCache @Inject constructor(
         private fun performUpdate(id: Long, position: Int) {
             val oldScore = data.scores[id]!!
             val oldCheckmarks = data.checkmarks[id]
-            val oldNoteIndicators = data.notesIndicators[id]
+            val oldNoteIndicators = data.notes[id]
             val newScore = newData.scores[id]!!
             val newCheckmarks = newData.checkmarks[id]!!
-            val newNoteIndicators = newData.notesIndicators[id]!!
+            val newNoteIndicators = newData.notes[id]!!
             var unchanged = true
             if (oldScore != newScore) unchanged = false
             if (!Arrays.equals(oldCheckmarks, newCheckmarks)) unchanged = false
@@ -372,7 +372,7 @@ class HabitCardListCache @Inject constructor(
             if (unchanged) return
             data.scores[id] = newScore
             data.checkmarks[id] = newCheckmarks
-            data.notesIndicators[id] = newNoteIndicators
+            data.notes[id] = newNoteIndicators
             listener.onItemChanged(position)
         }
 

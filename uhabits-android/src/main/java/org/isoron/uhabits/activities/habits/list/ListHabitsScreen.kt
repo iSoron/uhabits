@@ -24,12 +24,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
-import org.isoron.platform.time.LocalDate
+import org.isoron.platform.gui.ScreenLocation
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
+import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
@@ -43,6 +45,7 @@ import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
@@ -63,6 +66,7 @@ import org.isoron.uhabits.tasks.ExportDBTaskFactory
 import org.isoron.uhabits.tasks.ImportDataTask
 import org.isoron.uhabits.tasks.ImportDataTaskFactory
 import org.isoron.uhabits.utils.copyTo
+import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.restartWithFade
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.showSendEmailScreen
@@ -92,8 +96,9 @@ class ListHabitsScreen
     private val importTaskFactory: ImportDataTaskFactory,
     private val colorPickerFactory: ColorPickerDialogFactory,
     private val numberPickerFactory: NumberPickerFactory,
-    private val checkMarkDialog: CheckmarkDialog,
-    private val behavior: Lazy<ListHabitsBehavior>
+    private val behavior: Lazy<ListHabitsBehavior>,
+    private val preferences: Preferences,
+    private val rootView: Lazy<ListHabitsRootView>,
 ) : CommandRunner.Listener,
     ListHabitsBehavior.Screen,
     ListHabitsMenuBehavior.Screen,
@@ -237,22 +242,30 @@ class ListHabitsScreen
         numberPickerFactory.create(value, unit, notes, dateString, frequency, callback).show()
     }
 
-    override fun showCheckmarkDialog(
+    override fun showCheckmarkPopup(
         selectedValue: Int,
         notes: String,
-        date: LocalDate,
-        dateString: String,
         color: PaletteColor,
+        location: ScreenLocation,
         callback: ListHabitsBehavior.CheckMarkDialogCallback
     ) {
-        checkMarkDialog.create(
-            selectedValue,
-            notes,
-            date,
-            color,
-            callback,
-            themeSwitcher.currentTheme!!,
-        ).show()
+        val view = rootView.get()
+        CheckmarkPopup(
+            context = context,
+            prefs = preferences,
+            anchor = view,
+            color = view.currentTheme().color(color).toInt(),
+            notes = notes,
+            value = selectedValue,
+        ).apply {
+            onToggle = { value, notes -> callback.onNotesSaved(value, notes) }
+            show(
+                ScreenLocation(
+                    x = location.x - POPUP_WIDTH / 2,
+                    y = location.y
+                )
+            )
+        }
     }
 
     private fun getExecuteString(command: Command): String? {

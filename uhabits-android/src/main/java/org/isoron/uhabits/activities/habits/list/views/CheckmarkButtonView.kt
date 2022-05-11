@@ -28,6 +28,7 @@ import android.text.TextPaint
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
+import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.NO
@@ -38,11 +39,14 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.drawNotesIndicator
+import org.isoron.uhabits.utils.getCenter
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 import javax.inject.Inject
+
+const val TOGGLE_DELAY_MILLIS = 2000L
 
 class CheckmarkButtonViewFactory
 @Inject constructor(
@@ -71,15 +75,16 @@ class CheckmarkButtonView(
             invalidate()
         }
 
-    var hasNotes = false
+    var notes = ""
         set(value) {
             field = value
             invalidate()
         }
 
-    var onToggle: (Int) -> Unit = {}
+    var onToggle: (Int, String, Long) -> Unit = { _, _, _ -> }
 
-    var onEdit: () -> Unit = {}
+    var onEdit: (ScreenLocation) -> Unit = { _ -> }
+
     private var drawer = Drawer()
 
     init {
@@ -87,25 +92,25 @@ class CheckmarkButtonView(
         setOnLongClickListener(this)
     }
 
-    fun performToggle() {
+    fun performToggle(delay: Long) {
         value = Entry.nextToggleValue(
             value = value,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        onToggle(value)
+        onToggle(value, notes, delay)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
     }
 
     override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) performToggle()
-        else onEdit()
+        if (preferences.isShortToggleEnabled) performToggle(TOGGLE_DELAY_MILLIS)
+        else onEdit(getCenter())
     }
 
     override fun onLongClick(v: View): Boolean {
-        if (preferences.isShortToggleEnabled) onEdit()
-        else performToggle()
+        if (preferences.isShortToggleEnabled) onEdit(getCenter())
+        else performToggle(TOGGLE_DELAY_MILLIS)
         return true
     }
 
@@ -179,7 +184,7 @@ class CheckmarkButtonView(
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
             }
 
-            drawNotesIndicator(canvas, color, em, hasNotes)
+            drawNotesIndicator(canvas, color, em, notes)
         }
     }
 }

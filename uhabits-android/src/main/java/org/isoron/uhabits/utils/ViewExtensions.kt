@@ -21,6 +21,7 @@ package org.isoron.uhabits.utils
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
@@ -32,6 +33,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.WindowManager
+import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
 import android.widget.RelativeLayout.ALIGN_PARENT_TOP
@@ -42,6 +45,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
+import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -202,10 +206,10 @@ fun View.sp(value: Float) = InterfaceUtils.spToPixels(context, value)
 fun View.dp(value: Float) = InterfaceUtils.dpToPixels(context, value)
 fun View.str(id: Int) = resources.getString(id)
 
-fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, hasNotes: Boolean) {
+fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, notes: String) {
     val pNotesIndicator = Paint()
     pNotesIndicator.color = color
-    if (hasNotes) {
+    if (notes.isNotBlank()) {
         val cy = 0.8f * size
         canvas.drawCircle(width.toFloat() - cy, cy, 8f, pNotesIndicator)
     }
@@ -213,3 +217,42 @@ fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, hasNotes: B
 
 val View.sres: StyledResources
     get() = StyledResources(context)
+
+fun PopupWindow.dimBehind() {
+    // https://stackoverflow.com/questions/35874001/dim-the-background-using-popupwindow-in-android
+    val container = contentView.rootView
+    val context = contentView.context
+    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    val p = container.layoutParams as WindowManager.LayoutParams
+    p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
+    p.dimAmount = 0.5f
+    wm.updateViewLayout(container, p)
+}
+
+/**
+ * Returns the absolute screen coordinates for the center of this view (in density-independent
+ * pixels).
+ */
+fun View.getCenter(): ScreenLocation {
+    val density = resources.displayMetrics.density
+    val loc = IntArray(2)
+    this.getLocationInWindow(loc)
+    return ScreenLocation(
+        x = ((loc[0] + width / 2) / density).toDouble(),
+        y = ((loc[1] + height / 2) / density).toDouble(),
+    )
+}
+
+/**
+ * Returns the absolute screen coordinates for the top left corner of this view (in
+ * density-independent pixels).
+ */
+fun View.getTopLeftCorner(): ScreenLocation {
+    val density = resources.displayMetrics.density
+    val loc = IntArray(2)
+    this.getLocationInWindow(loc)
+    return ScreenLocation(
+        x = (loc[0] / density).toDouble(),
+        y = (loc[1] / density).toDouble(),
+    )
+}
