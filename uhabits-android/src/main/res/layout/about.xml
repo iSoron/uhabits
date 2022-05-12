@@ -123,11 +123,11 @@
                 <TextView style="@style/About.Item" android:text="Álinson S. Xavier (@iSoron)"/>
                 <TextView style="@style/About.Item" android:text="Quentin Hibon (@hiqua)"/>
                 <TextView style="@style/About.Item" android:text="Oleg Ivashchenko (@olegivo)"/>
-                <TextView style="@style/About.Item" android:text="Rechee Jozil (@recheej)"/>
-                <TextView style="@style/About.Item" android:text="Jakub Kalinowski (@kalina559)"/>
-                <TextView style="@style/About.Item" android:text="Luboš Luňák (@llunak)"/>
-                <TextView style="@style/About.Item" android:text="Sebastian Gallese (@sgallese)"/>
                 <TextView style="@style/About.Item" android:text="Kristian Tashkov (@KristianTashkov)"/>
+                <TextView style="@style/About.Item" android:text="Jakub Kalinowski (@kalina559)"/>
+                <TextView style="@style/About.Item" android:text="Rechee Jozil (@recheej)"/>
+                <TextView style="@style/About.Item" android:text="Sebastian Gallese (@sgallese)"/>
+                <TextView style="@style/About.Item" android:text="Luboš Luňák (@llunak)"/>
                 <TextView style="@style/About.Item" android:text="Bindu (@vbh)"/>
                 <TextView style="@style/About.Item" android:text="Victor Yu (@vyu1)"/>
                 <TextView style="@style/About.Item" android:text="Christoph Hennemann (@chennemann)"/>
