@@ -21,7 +21,6 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
-import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
