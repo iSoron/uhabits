@@ -205,7 +205,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 prefs = preferences,
                 notes = notes,
                 color = view.currentTheme().color(color).toInt(),
-                anchor = view,
+                anchor = anchor,
                 value = selectedValue,
             ).apply {
                 onToggle = { v, n -> callback.onNotesSaved(v, n) }

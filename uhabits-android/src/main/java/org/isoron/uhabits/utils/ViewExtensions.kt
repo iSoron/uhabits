@@ -28,12 +28,15 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
+import android.os.SystemClock
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
@@ -255,4 +258,17 @@ fun View.getTopLeftCorner(): ScreenLocation {
         x = (loc[0] / density).toDouble(),
         y = (loc[1] / density).toDouble(),
     )
+}
+
+fun View.requestFocusWithKeyboard() {
+    // For some reason, Android does not open the soft keyboard by default when view.requestFocus
+    // is called. Several online solutions suggest using InputMethodManager, but these solutions
+    // are not reliable; sometimes the keyboard does not show, and sometimes it does not go away
+    // after focus is lost. Here, we simulate a click on the view, which triggers the keyboard.
+    // Based on: https://stackoverflow.com/a/7699556
+    postDelayed({
+        val time = SystemClock.uptimeMillis()
+        dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, 0f, 0f, 0))
+        dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_UP, 0f, 0f, 0))
+    }, 250)
 }

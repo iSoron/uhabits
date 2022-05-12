@@ -42,6 +42,8 @@
         android:text="" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/booleanButtons"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
@@ -69,4 +71,34 @@
             android:text="@string/fa_question" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/numberButtons"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        app:divider="@drawable/checkmark_dialog_divider"
+        app:showDividers="middle">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/value"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:textAlignment="center"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
+            android:textSize="@dimen/smallTextSize" />
+
+        <TextView
+            android:id="@+id/skipBtnNumber"
+            style="@style/NumericalPopupBtn"
+            android:text="@string/skip_day" />
+
+        <TextView
+            android:id="@+id/saveBtn"
+            style="@style/NumericalPopupBtn"
+            android:text="@string/save" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

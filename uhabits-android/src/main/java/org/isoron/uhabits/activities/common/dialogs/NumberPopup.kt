@@ -20,39 +20,32 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.LayoutInflater
+import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.PopupWindow
 import org.isoron.platform.gui.ScreenLocation
-import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.Entry.Companion.NO
-import org.isoron.uhabits.core.models.Entry.Companion.SKIP
-import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
-import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
-import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
-import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.utils.dimBehind
 import org.isoron.uhabits.utils.dp
-import org.isoron.uhabits.utils.sres
+import org.isoron.uhabits.utils.requestFocusWithKeyboard
+import java.text.DecimalFormat
 
-const val POPUP_WIDTH = 4 * 48f + 16f
-const val POPUP_HEIGHT = 48f * 2.5f + 8f
-
-class CheckmarkPopup(
+class NumberPopup(
     private val context: Context,
-    private val color: Int,
     private var notes: String,
-    private var value: Int,
+    private var value: Double,
     private val prefs: Preferences,
     private val anchor: View,
 ) {
-    var onToggle: (Int, String) -> Unit = { _, _ -> }
+    var onToggle: (Double, String) -> Unit = { _, _ -> }
+    private val originalValue = value
 
     private val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context)).apply {
         // Required for round corners
@@ -60,44 +53,23 @@ class CheckmarkPopup(
     }
 
     init {
-        view.booleanButtons.visibility = VISIBLE
-        initColors()
-        initTypefaces()
+        view.numberButtons.visibility = VISIBLE
         hideDisabledButtons()
         populate()
     }
 
-    private fun initColors() {
-        arrayOf(view.yesBtn, view.skipBtn).forEach {
-            it.setTextColor(color)
-        }
-        arrayOf(view.noBtn, view.unknownBtn).forEach {
-            it.setTextColor(view.root.sres.getColor(R.attr.contrast60))
-        }
-    }
-
-    private fun initTypefaces() {
-        arrayOf(view.yesBtn, view.noBtn, view.skipBtn, view.unknownBtn).forEach {
-            it.typeface = getFontAwesome(context)
-        }
-    }
-
     private fun hideDisabledButtons() {
-        if (!prefs.isSkipEnabled) view.skipBtn.visibility = GONE
-        if (!prefs.areQuestionMarksEnabled) view.unknownBtn.visibility = GONE
+        if (!prefs.isSkipEnabled) view.skipBtnNumber.visibility = GONE
     }
 
     private fun populate() {
-        val selectedBtn = when (value) {
-            YES_MANUAL -> view.yesBtn
-            YES_AUTO -> view.noBtn
-            NO -> view.noBtn
-            UNKNOWN -> if (prefs.areQuestionMarksEnabled) view.unknownBtn else view.noBtn
-            SKIP -> if (prefs.isSkipEnabled) view.skipBtn else view.noBtn
-            else -> null
-        }
-        selectedBtn?.background = ColorDrawable(view.root.sres.getColor(R.attr.contrast40))
         view.notes.setText(notes)
+        view.value.setText(
+            when {
+                value < 0.01 -> "0"
+                else -> DecimalFormat("#.##").format(value)
+            }
+        )
     }
 
     fun show(location: ScreenLocation) {
@@ -107,16 +79,20 @@ class CheckmarkPopup(
         popup.height = view.root.dp(POPUP_HEIGHT).toInt()
         popup.isFocusable = true
         popup.elevation = view.root.dp(24f)
-        fun onClick(v: Int) {
-            this.value = v
-            popup.dismiss()
-        }
-        view.yesBtn.setOnClickListener { onClick(YES_MANUAL) }
-        view.noBtn.setOnClickListener { onClick(NO) }
-        view.skipBtn.setOnClickListener { onClick(SKIP) }
-        view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
         popup.setOnDismissListener {
-            onToggle(value, view.notes.text.toString())
+            save()
+        }
+        view.value.setOnKeyListener { _, keyCode, event ->
+            if (event.action == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
+                popup.dismiss()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+        view.saveBtn.setOnClickListener { popup.dismiss() }
+        view.skipBtnNumber.setOnClickListener {
+            view.value.setText((Entry.SKIP.toDouble() / 1000).toString())
+            popup.dismiss()
         }
         popup.showAtLocation(
             anchor,
@@ -124,6 +100,13 @@ class CheckmarkPopup(
             view.root.dp(location.x.toFloat()).toInt(),
             view.root.dp(location.y.toFloat()).toInt(),
         )
+        view.value.requestFocusWithKeyboard()
         popup.dimBehind()
+    }
+
+    fun save() {
+        val value = view.value.text.toString().toDoubleOrNull() ?: originalValue
+        val notes = view.notes.text.toString()
+        onToggle(value, notes)
     }
 }

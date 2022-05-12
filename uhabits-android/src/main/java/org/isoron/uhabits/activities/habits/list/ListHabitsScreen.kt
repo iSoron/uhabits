@@ -31,6 +31,7 @@ import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.activities.common.dialogs.NumberPopup
 import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
@@ -242,6 +243,25 @@ class ListHabitsScreen
         numberPickerFactory.create(value, unit, notes, dateString, frequency, callback).show()
     }
 
+    override fun showNumberPopup(
+        value: Double,
+        notes: String,
+        location: ScreenLocation,
+        callback: ListHabitsBehavior.NumberPickerCallback
+    ) {
+        val view = rootView.get()
+        NumberPopup(
+            context = context,
+            prefs = preferences,
+            anchor = view,
+            notes = notes,
+            value = value,
+        ).apply {
+            onToggle = { value, notes -> callback.onNumberPicked(value, notes) }
+            show(getPopupLocation(location))
+        }
+    }
+
     override fun showCheckmarkPopup(
         selectedValue: Int,
         notes: String,
@@ -259,14 +279,14 @@ class ListHabitsScreen
             value = selectedValue,
         ).apply {
             onToggle = { value, notes -> callback.onNotesSaved(value, notes) }
-            show(
-                ScreenLocation(
-                    x = location.x - POPUP_WIDTH / 2,
-                    y = location.y
-                )
-            )
+            show(getPopupLocation(location))
         }
     }
+
+    private fun getPopupLocation(clickLocation: ScreenLocation) = ScreenLocation(
+        x = clickLocation.x - POPUP_WIDTH / 2,
+        y = clickLocation.y
+    )
 
     private fun getExecuteString(command: Command): String? {
         when (command) {

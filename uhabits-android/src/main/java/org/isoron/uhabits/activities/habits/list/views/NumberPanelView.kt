@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
-import org.isoron.uhabits.utils.getCenter
 import javax.inject.Inject
 
 class NumberPanelViewFactory
@@ -106,7 +105,7 @@ class NumberPanelView(
             button.targetType = targetType
             button.threshold = threshold
             button.units = units
-            button.onEdit = { onEdit(getCenter(), timestamp) }
+            button.onEdit = { location -> onEdit(location, timestamp) }
         }
     }
 }

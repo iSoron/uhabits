@@ -53,14 +53,8 @@ open class ListHabitsBehavior @Inject constructor(
     fun onEdit(location: ScreenLocation, habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
-            val oldValue = entry.value.toDouble()
-            screen.showNumberPicker(
-                oldValue / 1000,
-                habit.unit,
-                entry.notes,
-                timestamp.toDialogDateString(),
-                habit.frequency
-            ) { newValue: Double, newNotes: String, ->
+            val oldValue = entry.value.toDouble() / 1000
+            screen.showNumberPopup(oldValue, entry.notes, location) { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
@@ -168,6 +162,12 @@ open class ListHabitsBehavior @Inject constructor(
             notes: String,
             dateString: String,
             frequency: Frequency,
+            callback: NumberPickerCallback
+        )
+        fun showNumberPopup(
+            value: Double,
+            notes: String,
+            location: ScreenLocation,
             callback: NumberPickerCallback
         )
         fun showCheckmarkPopup(
