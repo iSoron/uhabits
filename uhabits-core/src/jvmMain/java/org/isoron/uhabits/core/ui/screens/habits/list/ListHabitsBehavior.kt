@@ -156,14 +156,6 @@ open class ListHabitsBehavior @Inject constructor(
         fun showHabitScreen(h: Habit)
         fun showIntroScreen()
         fun showMessage(m: Message)
-        fun showNumberPicker(
-            value: Double,
-            unit: String,
-            notes: String,
-            dateString: String,
-            frequency: Frequency,
-            callback: NumberPickerCallback
-        )
         fun showNumberPopup(
             value: Double,
             notes: String,

@@ -204,14 +204,6 @@ class HistoryCardPresenter(
     interface Screen {
         fun showHistoryEditorDialog(listener: OnDateClickedListener)
         fun showFeedback()
-        fun showNumberPicker(
-            value: Double,
-            unit: String,
-            notes: String,
-            dateString: String,
-            frequency: Frequency,
-            callback: ListHabitsBehavior.NumberPickerCallback
-        )
         fun showNumberPopup(
             value: Double,
             notes: String,

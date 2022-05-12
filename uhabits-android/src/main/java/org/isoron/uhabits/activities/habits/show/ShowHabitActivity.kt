@@ -38,12 +38,10 @@ import org.isoron.uhabits.activities.HabitsDirFinder
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
-import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.activities.common.dialogs.NumberPopup
 import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
-import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
@@ -169,24 +167,6 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
         override fun showFeedback() {
             window.decorView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-        }
-
-        override fun showNumberPicker(
-            value: Double,
-            unit: String,
-            notes: String,
-            dateString: String,
-            frequency: Frequency,
-            callback: ListHabitsBehavior.NumberPickerCallback
-        ) {
-            NumberPickerFactory(this@ShowHabitActivity).create(
-                value,
-                unit,
-                notes,
-                dateString,
-                frequency,
-                callback
-            ).show()
         }
 
         override fun showNumberPopup(

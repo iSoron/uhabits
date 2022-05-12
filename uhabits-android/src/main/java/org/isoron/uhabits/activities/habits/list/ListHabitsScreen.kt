@@ -30,7 +30,6 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
-import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
 import org.isoron.uhabits.activities.common.dialogs.NumberPopup
 import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
@@ -43,7 +42,6 @@ import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
-import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
@@ -96,7 +94,6 @@ class ListHabitsScreen
     private val exportDBFactory: ExportDBTaskFactory,
     private val importTaskFactory: ImportDataTaskFactory,
     private val colorPickerFactory: ColorPickerDialogFactory,
-    private val numberPickerFactory: NumberPickerFactory,
     private val behavior: Lazy<ListHabitsBehavior>,
     private val preferences: Preferences,
     private val rootView: Lazy<ListHabitsRootView>,
@@ -230,17 +227,6 @@ class ListHabitsScreen
         val picker = colorPickerFactory.create(defaultColor, themeSwitcher.currentTheme!!)
         picker.setListener(callback)
         picker.show(activity.supportFragmentManager, "picker")
-    }
-
-    override fun showNumberPicker(
-        value: Double,
-        unit: String,
-        notes: String,
-        dateString: String,
-        frequency: Frequency,
-        callback: ListHabitsBehavior.NumberPickerCallback
-    ) {
-        numberPickerFactory.create(value, unit, notes, dateString, frequency, callback).show()
     }
 
     override fun showNumberPopup(
