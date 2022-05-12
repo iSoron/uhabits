@@ -70,7 +70,7 @@ class HistoryCardPresenter(
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-            showNumberPicker(timestamp)
+            showNumberPopup(location, timestamp)
         } else {
             if (preferences.isShortToggleEnabled) showCheckmarkPopup(location, timestamp)
             else toggle(timestamp)
@@ -81,7 +81,7 @@ class HistoryCardPresenter(
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-            showNumberPicker(timestamp)
+            showNumberPopup(location, timestamp)
         } else {
             if (preferences.isShortToggleEnabled) toggle(timestamp)
             else showCheckmarkPopup(location, timestamp)
@@ -127,15 +127,14 @@ class HistoryCardPresenter(
         )
     }
 
-    private fun showNumberPicker(timestamp: Timestamp) {
+    private fun showNumberPopup(location: ScreenLocation, timestamp: Timestamp) {
         val entry = habit.computedEntries.get(timestamp)
         val oldValue = entry.value
-        screen.showNumberPicker(
-            oldValue / 1000.0,
-            habit.unit,
-            entry.notes,
-            timestamp.toDialogDateString(),
-            frequency = habit.frequency
+        screen.showNumberPopup(
+            value = oldValue / 1000.0,
+            notes = entry.notes,
+            preferences = preferences,
+            location = location,
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -213,7 +212,13 @@ class HistoryCardPresenter(
             frequency: Frequency,
             callback: ListHabitsBehavior.NumberPickerCallback
         )
-
+        fun showNumberPopup(
+            value: Double,
+            notes: String,
+            preferences: Preferences,
+            location: ScreenLocation,
+            callback: ListHabitsBehavior.NumberPickerCallback,
+        )
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,

@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,7 @@ import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.activities.common.dialogs.NumberPopup
 import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
@@ -187,6 +189,26 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             ).show()
         }
 
+        override fun showNumberPopup(
+            value: Double,
+            notes: String,
+            preferences: Preferences,
+            location: ScreenLocation,
+            callback: ListHabitsBehavior.NumberPickerCallback
+        ) {
+            val anchor = getPopupAnchor() ?: return
+            NumberPopup(
+                context = this@ShowHabitActivity,
+                prefs = preferences,
+                notes = notes,
+                anchor = anchor,
+                value = value,
+            ).apply {
+                onToggle = { v, n -> callback.onNumberPicked(v, n) }
+                show(computePopupLocation(anchor, location))
+            }
+        }
+
         override fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
@@ -195,11 +217,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             location: ScreenLocation,
             callback: ListHabitsBehavior.CheckMarkDialogCallback
         ) {
-            val dialog =
-                supportFragmentManager.findFragmentByTag("historyEditor") as HistoryEditorDialog?
-                    ?: return
-            val view = dialog.dataView
-            val corner = view.getTopLeftCorner()
+            val anchor = getPopupAnchor() ?: return
             CheckmarkPopup(
                 context = this@ShowHabitActivity,
                 prefs = preferences,
@@ -209,13 +227,21 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 value = selectedValue,
             ).apply {
                 onToggle = { v, n -> callback.onNotesSaved(v, n) }
-                show(
-                    ScreenLocation(
-                        x = corner.x + location.x - POPUP_WIDTH / 2,
-                        y = corner.y + location.y,
-                    )
-                )
+                show(computePopupLocation(anchor, location))
             }
+        }
+
+        private fun getPopupAnchor(): View? {
+            val dialog = supportFragmentManager.findFragmentByTag("historyEditor") as HistoryEditorDialog?
+            return dialog?.dataView
+        }
+
+        private fun computePopupLocation(anchor: View, clickLocation: ScreenLocation): ScreenLocation {
+            val corner = anchor.getTopLeftCorner()
+            return ScreenLocation(
+                x = corner.x + clickLocation.x - POPUP_WIDTH / 2,
+                y = corner.y + clickLocation.y,
+            )
         }
 
         override fun showEditHabitScreen(habit: Habit) {
