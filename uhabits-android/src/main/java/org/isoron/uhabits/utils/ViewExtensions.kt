@@ -47,7 +47,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -229,34 +228,6 @@ fun PopupWindow.dimBehind() {
     p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
     p.dimAmount = 0.5f
     wm.updateViewLayout(container, p)
-}
-
-/**
- * Returns the absolute screen coordinates for the center of this view (in density-independent
- * pixels).
- */
-fun View.getCenter(): ScreenLocation {
-    val density = resources.displayMetrics.density
-    val loc = IntArray(2)
-    this.getLocationInWindow(loc)
-    return ScreenLocation(
-        x = ((loc[0] + width / 2) / density).toDouble(),
-        y = ((loc[1] + height / 2) / density).toDouble(),
-    )
-}
-
-/**
- * Returns the absolute screen coordinates for the top left corner of this view (in
- * density-independent pixels).
- */
-fun View.getTopLeftCorner(): ScreenLocation {
-    val density = resources.displayMetrics.density
-    val loc = IntArray(2)
-    this.getLocationInWindow(loc)
-    return ScreenLocation(
-        x = (loc[0] / density).toDouble(),
-        y = (loc[1] / density).toDouble(),
-    )
 }
 
 fun View.requestFocusWithKeyboard() {

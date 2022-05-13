@@ -76,7 +76,7 @@ class NumberPanelViewTest : BaseViewTest() {
     @Test
     fun testEdit() {
         val timestamps = mutableListOf<Timestamp>()
-        view.onEdit = { _, t -> timestamps.plusAssign(t) }
+        view.onEdit = { t -> timestamps.plusAssign(t) }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()
         view.buttons[3].performLongClick()
@@ -87,7 +87,7 @@ class NumberPanelViewTest : BaseViewTest() {
     fun testEdit_withOffset() {
         val timestamps = mutableListOf<Timestamp>()
         view.dataOffset = 3
-        view.onEdit = { _, t -> timestamps += t }
+        view.onEdit = { t -> timestamps += t }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()
         view.buttons[3].performLongClick()

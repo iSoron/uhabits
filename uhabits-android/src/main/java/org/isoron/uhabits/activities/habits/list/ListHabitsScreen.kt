@@ -24,14 +24,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPopup
-import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
@@ -232,7 +230,6 @@ class ListHabitsScreen
     override fun showNumberPopup(
         value: Double,
         notes: String,
-        location: ScreenLocation,
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
         val view = rootView.get()
@@ -244,7 +241,7 @@ class ListHabitsScreen
             value = value,
         ).apply {
             onToggle = { value, notes -> callback.onNumberPicked(value, notes) }
-            show(getPopupLocation(location))
+            show()
         }
     }
 
@@ -252,7 +249,6 @@ class ListHabitsScreen
         selectedValue: Int,
         notes: String,
         color: PaletteColor,
-        location: ScreenLocation,
         callback: ListHabitsBehavior.CheckMarkDialogCallback
     ) {
         val view = rootView.get()
@@ -265,14 +261,9 @@ class ListHabitsScreen
             value = selectedValue,
         ).apply {
             onToggle = { value, notes -> callback.onNotesSaved(value, notes) }
-            show(getPopupLocation(location))
+            show()
         }
     }
-
-    private fun getPopupLocation(clickLocation: ScreenLocation) = ScreenLocation(
-        x = clickLocation.x - POPUP_WIDTH / 2,
-        y = clickLocation.y
-    )
 
     private fun getExecuteString(command: Command): String? {
         when (command) {

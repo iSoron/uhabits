@@ -28,7 +28,6 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.HabitsApplication
@@ -39,7 +38,6 @@ import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPopup
-import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
@@ -52,7 +50,6 @@ import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.intents.IntentFactory
 import org.isoron.uhabits.utils.currentTheme
-import org.isoron.uhabits.utils.getTopLeftCorner
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.showSendFileScreen
 import org.isoron.uhabits.widgets.WidgetUpdater
@@ -173,7 +170,6 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             value: Double,
             notes: String,
             preferences: Preferences,
-            location: ScreenLocation,
             callback: ListHabitsBehavior.NumberPickerCallback
         ) {
             val anchor = getPopupAnchor() ?: return
@@ -185,7 +181,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 value = value,
             ).apply {
                 onToggle = { v, n -> callback.onNumberPicked(v, n) }
-                show(computePopupLocation(anchor, location))
+                show()
             }
         }
 
@@ -194,7 +190,6 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             notes: String,
             preferences: Preferences,
             color: PaletteColor,
-            location: ScreenLocation,
             callback: ListHabitsBehavior.CheckMarkDialogCallback
         ) {
             val anchor = getPopupAnchor() ?: return
@@ -207,21 +202,13 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 value = selectedValue,
             ).apply {
                 onToggle = { v, n -> callback.onNotesSaved(v, n) }
-                show(computePopupLocation(anchor, location))
+                show()
             }
         }
 
         private fun getPopupAnchor(): View? {
             val dialog = supportFragmentManager.findFragmentByTag("historyEditor") as HistoryEditorDialog?
             return dialog?.dataView
-        }
-
-        private fun computePopupLocation(anchor: View, clickLocation: ScreenLocation): ScreenLocation {
-            val corner = anchor.getTopLeftCorner()
-            return ScreenLocation(
-                x = corner.x + clickLocation.x - POPUP_WIDTH / 2,
-                y = corner.y + clickLocation.y,
-            )
         }
 
         override fun showEditHabitScreen(habit: Habit) {

@@ -28,7 +28,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.PopupWindow
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
@@ -72,7 +71,7 @@ class NumberPopup(
         )
     }
 
-    fun show(location: ScreenLocation) {
+    fun show() {
         val popup = PopupWindow()
         popup.contentView = view.root
         popup.width = view.root.dp(POPUP_WIDTH).toInt()
@@ -94,12 +93,7 @@ class NumberPopup(
             view.value.setText((Entry.SKIP.toDouble() / 1000).toString())
             popup.dismiss()
         }
-        popup.showAtLocation(
-            anchor,
-            Gravity.NO_GRAVITY,
-            view.root.dp(location.x.toFloat()).toInt(),
-            view.root.dp(location.y.toFloat()).toInt(),
-        )
+        popup.showAtLocation(anchor, Gravity.CENTER, 0, 0)
         view.value.requestFocusWithKeyboard()
         popup.dimBehind()
     }

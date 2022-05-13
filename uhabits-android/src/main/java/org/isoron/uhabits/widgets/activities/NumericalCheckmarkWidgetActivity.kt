@@ -25,18 +25,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.common.dialogs.NumberPopup
-import org.isoron.uhabits.activities.common.dialogs.POPUP_HEIGHT
-import org.isoron.uhabits.activities.common.dialogs.POPUP_WIDTH
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.widgets.WidgetBehavior
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.intents.IntentParser
 import org.isoron.uhabits.utils.SystemUtils
-import org.isoron.uhabits.utils.getCenter
 import org.isoron.uhabits.widgets.WidgetUpdater
 
 class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPickerCallback {
@@ -95,13 +91,7 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
                 finish()
                 overridePendingTransition(0, 0)
             }
-            val center = rootView.getCenter()
-            show(
-                ScreenLocation(
-                    x = center.x - POPUP_WIDTH / 2,
-                    y = center.y - POPUP_HEIGHT / 2
-                )
-            )
+            show()
         }
     }
 

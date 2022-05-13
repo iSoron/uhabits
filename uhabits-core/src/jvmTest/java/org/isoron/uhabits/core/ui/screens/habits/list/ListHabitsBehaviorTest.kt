@@ -31,7 +31,6 @@ import junit.framework.Assert.assertTrue
 import org.apache.commons.io.FileUtils
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
@@ -79,11 +78,10 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
 
     @Test
     fun testOnEdit() {
-        behavior.onEdit(ScreenLocation(0.0, 0.0), habit2, getToday())
+        behavior.onEdit(habit2, getToday())
         verify(screen).showNumberPopup(
             eq(0.1),
             eq(""),
-            any(),
             picker.capture()
         )
         picker.lastValue.onNumberPicked(100.0, "")

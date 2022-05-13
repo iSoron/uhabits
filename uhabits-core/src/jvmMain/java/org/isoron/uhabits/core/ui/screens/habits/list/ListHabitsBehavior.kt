@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Habit
@@ -49,11 +48,11 @@ open class ListHabitsBehavior @Inject constructor(
         screen.showHabitScreen(h)
     }
 
-    fun onEdit(location: ScreenLocation, habit: Habit, timestamp: Timestamp?) {
+    fun onEdit(habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
-            screen.showNumberPopup(oldValue, entry.notes, location) { newValue: Double, newNotes: String ->
+            screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
@@ -62,7 +61,6 @@ open class ListHabitsBehavior @Inject constructor(
                 entry.value,
                 entry.notes,
                 habit.color,
-                location,
             ) { newValue, newNotes ->
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
@@ -158,14 +156,12 @@ open class ListHabitsBehavior @Inject constructor(
         fun showNumberPopup(
             value: Double,
             notes: String,
-            location: ScreenLocation,
             callback: NumberPickerCallback
         )
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
             color: PaletteColor,
-            location: ScreenLocation,
             callback: CheckMarkDialogCallback
         )
         fun showSendBugReportToDeveloperScreen(log: String)

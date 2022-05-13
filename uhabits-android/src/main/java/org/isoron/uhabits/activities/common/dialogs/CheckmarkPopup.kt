@@ -27,7 +27,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.PopupWindow
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
@@ -100,7 +99,7 @@ class CheckmarkPopup(
         view.notes.setText(notes)
     }
 
-    fun show(location: ScreenLocation) {
+    fun show() {
         val popup = PopupWindow()
         popup.contentView = view.root
         popup.width = view.root.dp(POPUP_WIDTH).toInt()
@@ -118,12 +117,7 @@ class CheckmarkPopup(
         popup.setOnDismissListener {
             onToggle(value, view.notes.text.toString())
         }
-        popup.showAtLocation(
-            anchor,
-            Gravity.NO_GRAVITY,
-            view.root.dp(location.x.toFloat()).toInt(),
-            view.root.dp(location.y.toFloat()).toInt(),
-        )
+        popup.showAtLocation(anchor, Gravity.CENTER, 0, 0)
         popup.dimBehind()
     }
 }

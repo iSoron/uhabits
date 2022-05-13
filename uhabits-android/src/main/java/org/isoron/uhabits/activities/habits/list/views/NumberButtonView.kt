@@ -28,7 +28,6 @@ import android.text.TextPaint
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
@@ -38,7 +37,6 @@ import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.drawNotesIndicator
-import org.isoron.uhabits.utils.getCenter
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sres
 import java.text.DecimalFormat
@@ -110,7 +108,7 @@ class NumberButtonView(
             invalidate()
         }
 
-    var onEdit: (ScreenLocation) -> Unit = { _ -> }
+    var onEdit: () -> Unit = { }
 
     private var drawer: Drawer = Drawer(context)
 
@@ -120,11 +118,11 @@ class NumberButtonView(
     }
 
     override fun onClick(v: View) {
-        onEdit(getCenter())
+        onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
-        onEdit(getCenter())
+        onEdit()
         return true
     }
 
