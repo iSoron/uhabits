@@ -122,14 +122,25 @@ android_test() {
     $ADB install -r ${ANDROID_OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || return 1
 
     for size in medium large; do
-        log_info "Running $size instrumented tests..."
         OUT_INSTRUMENT=${ANDROID_OUTPUTS_DIR}/instrument-${API}.txt
         OUT_LOGCAT=${ANDROID_OUTPUTS_DIR}/logcat-${API}.txt
-        $ADB shell am instrument \
-            -r -e coverage true -e size $size \
-            -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
-            | tee $OUT_INSTRUMENT
-        if grep "\(INSTRUMENTATION_STATUS_CODE.*-1\|FAILURES\|ABORTED\|onError\|Error type\|crashed\)" $OUT_INSTRUMENT; then
+        FAILED_TESTS=""
+        for i in {1..5}; do
+            log_info "Running $size instrumented tests (attempt $i)..."
+            $ADB shell am instrument \
+                -r -e coverage true -e size "$size" $FAILED_TESTS \
+                -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
+                | ts "%.s" | tee "$OUT_INSTRUMENT"
+
+            FAILED_TESTS=$(tools/parseInstrument.py "$OUT_INSTRUMENT")
+            SUCCESS=$?
+            if [ $SUCCESS -eq 0 ]; then
+                log_info "$size tests passed."
+                break
+            fi
+        done
+
+        if [ $SUCCESS -ne 0 ]; then
             log_error "Some $size instrumented tests failed."
             log_error "Saving logcat: $OUT_LOGCAT..."
             $ADB logcat -d > $OUT_LOGCAT
@@ -138,7 +149,6 @@ android_test() {
             $ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/
             return 1
         fi
-        log_info "$size tests passed."
     done
 
     return 0
@@ -276,12 +286,7 @@ main() {
                 _print_usage
                 exit 1
             fi
-            for attempt in {1..5}; do
-                log_info "Running Android tests (attempt $attempt)..."
-                android_test $1 && return 0
-            done
-            log_error "Maximum number of attempts reached. Failing."
-            return 1
+            android_test $1
             ;;
         android-tests-parallel)
             shift; _parse_opts "$@"
