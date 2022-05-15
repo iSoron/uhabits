@@ -22,11 +22,12 @@ package org.isoron.uhabits.widgets.activities
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.Window
+import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
-import org.isoron.uhabits.activities.common.dialogs.NumberPickerFactory
+import org.isoron.uhabits.activities.common.dialogs.NumberPopup
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.widgets.WidgetBehavior
 import org.isoron.uhabits.core.utils.DateUtils
@@ -39,11 +40,13 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
     private lateinit var behavior: WidgetBehavior
     private lateinit var data: IntentParser.CheckmarkIntentData
     private lateinit var widgetUpdater: WidgetUpdater
+    private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(FrameLayout(this))
+        rootView = FrameLayout(this)
+        rootView.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        setContentView(rootView)
         val app = this.applicationContext as HabitsApplication
         val component = app.component
         val parser = app.component.intentParser
@@ -55,8 +58,9 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
             component.preferences
         )
         widgetUpdater = component.widgetUpdater
-        showNumberSelector(this)
-
+        rootView.post {
+            showNumberSelector(this)
+        }
         SystemUtils.unlockScreen(this)
     }
 
@@ -73,17 +77,22 @@ class NumericalCheckmarkWidgetActivity : Activity(), ListHabitsBehavior.NumberPi
     private fun showNumberSelector(context: Context) {
         val app = this.applicationContext as HabitsApplication
         AndroidThemeSwitcher(this, app.component.preferences).apply()
-        val numberPickerFactory = NumberPickerFactory(context)
         val today = DateUtils.getTodayWithOffset()
         val entry = data.habit.computedEntries.get(today)
-        numberPickerFactory.create(
-            entry.value / 1000.0,
-            data.habit.unit,
-            entry.notes,
-            today.toDialogDateString(),
-            data.habit.frequency,
-            this
-        ).show()
+        NumberPopup(
+            context = context,
+            prefs = app.component.preferences,
+            anchor = rootView,
+            notes = entry.notes,
+            value = entry.value / 1000.0,
+        ).apply {
+            onToggle = { value, notes ->
+                onNumberPicked(value, notes)
+                finish()
+                overridePendingTransition(0, 0)
+            }
+            show()
+        }
     }
 
     companion object {

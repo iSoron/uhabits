@@ -28,7 +28,9 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
+import android.os.SystemClock
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -45,7 +47,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -229,30 +230,15 @@ fun PopupWindow.dimBehind() {
     wm.updateViewLayout(container, p)
 }
 
-/**
- * Returns the absolute screen coordinates for the center of this view (in density-independent
- * pixels).
- */
-fun View.getCenter(): ScreenLocation {
-    val density = resources.displayMetrics.density
-    val loc = IntArray(2)
-    this.getLocationInWindow(loc)
-    return ScreenLocation(
-        x = ((loc[0] + width / 2) / density).toDouble(),
-        y = ((loc[1] + height / 2) / density).toDouble(),
-    )
-}
-
-/**
- * Returns the absolute screen coordinates for the top left corner of this view (in
- * density-independent pixels).
- */
-fun View.getTopLeftCorner(): ScreenLocation {
-    val density = resources.displayMetrics.density
-    val loc = IntArray(2)
-    this.getLocationInWindow(loc)
-    return ScreenLocation(
-        x = (loc[0] / density).toDouble(),
-        y = (loc[1] / density).toDouble(),
-    )
+fun View.requestFocusWithKeyboard() {
+    // For some reason, Android does not open the soft keyboard by default when view.requestFocus
+    // is called. Several online solutions suggest using InputMethodManager, but these solutions
+    // are not reliable; sometimes the keyboard does not show, and sometimes it does not go away
+    // after focus is lost. Here, we simulate a click on the view, which triggers the keyboard.
+    // Based on: https://stackoverflow.com/a/7699556
+    postDelayed({
+        val time = SystemClock.uptimeMillis()
+        dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, 0f, 0f, 0))
+        dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_UP, 0f, 0f, 0))
+    }, 250)
 }

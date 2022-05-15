@@ -18,10 +18,8 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
-import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
@@ -50,17 +48,11 @@ open class ListHabitsBehavior @Inject constructor(
         screen.showHabitScreen(h)
     }
 
-    fun onEdit(location: ScreenLocation, habit: Habit, timestamp: Timestamp?) {
+    fun onEdit(habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
-            val oldValue = entry.value.toDouble()
-            screen.showNumberPicker(
-                oldValue / 1000,
-                habit.unit,
-                entry.notes,
-                timestamp.toDialogDateString(),
-                habit.frequency
-            ) { newValue: Double, newNotes: String, ->
+            val oldValue = entry.value.toDouble() / 1000
+            screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
@@ -69,7 +61,6 @@ open class ListHabitsBehavior @Inject constructor(
                 entry.value,
                 entry.notes,
                 habit.color,
-                location,
             ) { newValue, newNotes ->
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
@@ -162,19 +153,15 @@ open class ListHabitsBehavior @Inject constructor(
         fun showHabitScreen(h: Habit)
         fun showIntroScreen()
         fun showMessage(m: Message)
-        fun showNumberPicker(
+        fun showNumberPopup(
             value: Double,
-            unit: String,
             notes: String,
-            dateString: String,
-            frequency: Frequency,
             callback: NumberPickerCallback
         )
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
             color: PaletteColor,
-            location: ScreenLocation,
             callback: CheckMarkDialogCallback
         )
         fun showSendBugReportToDeveloperScreen(log: String)
