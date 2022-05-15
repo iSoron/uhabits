@@ -71,6 +71,7 @@
     <string name="interval_always_ask">毎回選択する</string>
     <string name="interval_custom">カスタム...</string>
     <string name="pref_toggle_title">タップでチェックをON/OFF</string>
+    <string name="pref_toggle_description_2">長押しの代わりにワンタップでチェックマークをつけます。</string>
     <string name="pref_rate_this_app">Google Play でこのアプリを評価</string>
     <string name="pref_send_feedback">開発者にフィードバックを送信</string>
     <string name="pref_view_source_code">GitHub でソースコードを参照</string>
@@ -140,6 +141,7 @@
     <string name="none">なし</string>
     <string name="filter">フィルター</string>
     <string name="hide_completed">達成した習慣を非表示</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">入力されたものを非表示にする</string>
     <string name="hide_archived">アーカイブした習慣を非表示</string>
     <string name="sticky_notifications">通知を固定</string>
     <string name="sticky_notifications_description">通知をスワイプして消せないようにする</string>
@@ -159,8 +161,10 @@
     <string name="by_status">ステータス順</string>
     <string name="export">エクスポート</string>
     <string name="long_press_to_edit">長押しすると値を変更できます</string>
+    <string name="value">値</string>
     <string name="calendar">カレンダー</string>
     <string name="unit">単位</string>
+    <string name="target_type_at_least">少なくとも</string>
     <string name="example_question_boolean">例：今日は運動しましたか？</string>
     <string name="question">質問</string>
     <string name="target">目標</string>

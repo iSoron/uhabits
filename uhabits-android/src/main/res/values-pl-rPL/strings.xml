@@ -48,8 +48,8 @@
     </plurals>
     <plurals name="toast_habits_unarchived">
         <item quantity="one">Nawyk przywrócony z archiwum</item>
-        <item quantity="few">Nawyki przywrócone z archiwum</item>
-        <item quantity="many">Nawyk przywrócony z archiwum</item>
+        <item quantity="few">Nawyki zostały przywrócone z archiwum</item>
+        <item quantity="many">Nawyki zostały przywrócone z archiwum</item>
         <item quantity="other">Nawyki zostały przywrócone z archiwum</item>
     </plurals>
     <string name="overview">Przegląd</string>
@@ -104,7 +104,7 @@
         <item quantity="one">Nawyk zostanie trwale usunięty. Tej czynności nie można cofnąć.</item>
         <item quantity="few">Nawyki zostaną trwale usunięte. Tej czynności nie można cofnąć.</item>
         <item quantity="many">Nawyki zostaną trwale usunięte. Tej czynności nie można cofnąć.</item>
-        <item quantity="other">Nawyki zostaną trwale usunięte. Tej operacji nie można cofnąć.</item>
+        <item quantity="other">Nawyki zostaną trwale usunięte. Tej czynności nie można cofnąć.</item>
     </plurals>
     <string name="habit_not_found">Nawyk usunięty/nie znaleziony</string>
     <string name="weekends">Weekendy</string>
@@ -159,7 +159,7 @@
     <string name="none">Brak</string>
     <string name="filter">Filtruj</string>
     <string name="hide_completed">Ukryj zakończone</string>
-    <string name="hide_entered">Ukryj wprowadzone</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Ukryj wprowadzone</string>
     <string name="hide_archived">Ukryj archiwizowane</string>
     <string name="sticky_notifications">Przypinaj powiadomienia</string>
     <string name="sticky_notifications_description">Zapobiega usunięciu powiadomień.</string>
@@ -196,7 +196,7 @@
     <string name="view_all_contributors">Zobacz wszystkich współtwórców</string>
     <string name="database">Baza danych</string>
     <string name="widget_opacity_title">Przezroczystość widżetu</string>
-    <string name="widget_opacity_description">Sprawia, że widżety są bardziej przezroczyste lub bardziej nieprzezroczyste na ekranie głównym.</string>
+    <string name="widget_opacity_description">Sprawia, że widżety są bardziej lub mniej przezroczyste na ekranie głównym.</string>
     <string name="first_day_of_the_week">Pierwszy dzień tygodnia</string>
     <string name="default_reminder_question">Czy wytrwałeś dziś w nawyku?</string>
     <string name="notes">Notatki</string>

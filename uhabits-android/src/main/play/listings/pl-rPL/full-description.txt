@@ -1,4 +1,4 @@
-Aplikacja "Śledzenie nawyków Loop" pomaga tworzyć i utrzymywać długotrwałe pozytywne nawyki w twoim życiu. Szczegółowe wykresy i statystyki dają jasny obraz tego, jak Twoje nawyki uległy poprawie z upływem czasu. Aplikacja jest całkowicie wolna od reklam, otwartoźródłowa i szanuje Twoją prywatność.
+Loop Habit Tracker to aplikacja która pomaga tworzyć i podtrzymać długoterminowe pozytywne nawyki w Twoim życiu. Szczegółowe wykresy i statystyki dają jasny obraz tego, jak Twoje nawyki uległy poprawie z upływem czasu. Aplikacja jest całkowicie wolna od reklam, otwartoźródłowa i szanuje Twoją prywatność.
 
 <b>Piękny, minimalistyczny i lekki interfejs</b>
 Aplikacja "Śledzenie nawyków Loop" ma elegancki i minimalistyczny interfejs, który jest bardzo łatwy w obsłudze, nawet dla początkujących użytkowników. Jest ona wysoce zoptymalizowana pod kątem szybkości działania nawet na starszych telefonach.

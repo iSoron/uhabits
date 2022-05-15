@@ -1,4 +1,4 @@
-Loop Alışkanlık Takibi, yaşamınızda uzun vadeli olumlu alışkanlıklar yaratmanıza ve sürdürmenize yardımcı olur. Ayrıntılı grafik ve istatistikler, alışkanlıklarınızın zaman içinde nasıl geliştiğine dair size net bir resim sunar. Uygulama tamamen reklamsız ve açık kaynaklıdır. Gizliliğinize saygı duyar.
+Loop Alışkanlık Takibi, yaşamınızda uzun vadeli olumlu alışkanlıklar yaratmanıza ve sürdürmenize yardımcı olur. Ayrıntılı grafik ve istatistikler, alışkanlıklarınızın zaman içinde nasıl geliştiğine dair size net bir resim sunar. Uygulama tamamen reklamsız ve açık kaynaklıdır.
 
 <b>Güzel, minimalist ve basit arayüz</b>
 Loop, ilk kez kullananlar için bile kullanımı çok kolay olan zarif ve minimalist bir arayüze sahiptir. Hız için son derece optimize edilmiş olan bu uygulama, eski telefonlarda bile gayet iyi çalışır.

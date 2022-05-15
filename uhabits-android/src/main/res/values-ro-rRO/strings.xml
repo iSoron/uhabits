@@ -151,5 +151,20 @@
     <string name="pref_view_privacy">Consultați politica de confidențialitate</string>
     <string name="view_all_contributors">Vizualizați toți colaboratorii&#8230;</string>
     <string name="database">Bază de date</string>
+    <string name="notes">Notițe</string>
+    <string name="example_notes">(Opţional)</string>
+    <string name="yes_or_no_example">ex. Te-ai trezit mai devreme astăzi? Ai făcut exerciții? Ai jucat șah?</string>
+    <string name="measurable">Măsurabil</string>
     <string name="x_times_per_y_days">%d ori în %d zile</string>
+    <string name="color">Culoare</string>
+    <string name="measurable_units_example">de exemplu mile</string>
+    <string name="every_month">În fiecare lună</string>
+    <string name="validation_cannot_be_blank">nu poate fi gol</string>
+    <string name="today">Astăzi</string>
+    <string name="enter">Introducere</string>
+    <string name="no_habits">Nici un obicei găsit</string>
+    <string name="pref_skip_title">Activați omiterea de zile</string>
+    <string name="pref_unknown_title">Arată semnele de întrebare pentru datele lipsă</string>
+    <string name="you_are_now_a_developer">Acum ești un dezvoltator</string>
+    <string name="pref_midnight_delay_title">Extinde ziua câteva ore după miezul nopții</string>
 </resources>

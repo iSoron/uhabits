@@ -59,6 +59,7 @@
     <string name="interval_always_ask">Vždy se ptát</string>
     <string name="interval_custom">Vlastní...</string>
     <string name="pref_toggle_title">Označte opakování krátkým stisknutím</string>
+    <string name="pref_toggle_description_2">Zaškrtněte jediným klepnutím místo dlouhého podržení.</string>
     <string name="pref_rate_this_app">Ohodnoťte nás v Google Play</string>
     <string name="pref_send_feedback">Zpětná vazba vývojáři</string>
     <string name="pref_view_source_code">Zobrazit zdroj. kód na GitHub</string>
