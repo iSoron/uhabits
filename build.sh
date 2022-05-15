@@ -26,6 +26,7 @@ GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
 SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
 VERSION=$(grep versionName uhabits-android/build.gradle.kts | sed -e 's/.*"\([^"]*\)".*/\1/g')
+BOOT_TIMEOUT=360
 
 if [ -z $VERSION ]; then
     echo "Could not parse app version from: uhabits-android/build.gradle.kts"
@@ -69,8 +70,7 @@ core_build() {
 # Android
 # -----------------------------------------------------------------------------
 
-# shellcheck disable=SC2016
-android_test() {
+android_boot_attempt() {
     API=$1
     AVDNAME=${AVD_PREFIX}${API}
 
@@ -99,17 +99,38 @@ android_test() {
 
     log_info "Waiting for emulator to boot..."
     export ADB="$ADB -s emulator-6${API}0"
-    $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82' || return 1
-    $ADB root || return 1
-    sleep 5
+    timeout $BOOT_TIMEOUT $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82'
+    if [ $? -ne 0 ]; then
+        log_error "Emulator failed to boot after $BOOT_TIMEOUT seconds."
+        return 1
+    fi
 
     log_info "Disabling animations..."
+    $ADB root || return 1
+    sleep 5
     $ADB shell settings put global window_animation_scale 0 || return 1
     $ADB shell settings put global transition_animation_scale 0 || return 1
     $ADB shell settings put global animator_duration_scale 0 || return 1
 
     log_info "Acquiring wake lock..."
     $ADB shell 'echo android-test > /sys/power/wake_lock' || return 1
+}
+
+android_boot() {
+    for attempt in {1..5}; do
+        android_boot_attempt $1 && return 0
+        sleep 5
+    done
+    log_error "Too many failed attempts. Aborting."
+    return 1
+}
+
+# shellcheck disable=SC2016
+android_test() {
+    API=$1
+    AVDNAME=${AVD_PREFIX}${API}
+
+    android_boot $API || return 1
 
     if [ -n "$RELEASE" ]; then
         log_info "Installing release APK..."

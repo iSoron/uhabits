@@ -53,11 +53,11 @@ jobs:
 
     - name: Install Linux utils
       run: |
-        brew install util-linux
         brew unlink parallel
-        brew install moreutils
+        brew install util-linux moreutils coreutils
         echo "/usr/local/opt/util-linux/bin" >> $GITHUB_PATH
         echo "/usr/local/opt/moreutils/bin" >> $GITHUB_PATH
+        echo "/usr/local/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
 
     - name: Run Android Tests
       run: ./build.sh android-tests ${{ matrix.api }}
