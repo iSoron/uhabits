@@ -59,6 +59,19 @@ jobs:
         echo "/usr/local/opt/moreutils/bin" >> $GITHUB_PATH
         echo "/usr/local/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
 
+    - name: AVD cache
+      uses: actions/cache@v3
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-${{ matrix.api }}
+
+    - name: Setup AVD
+      if: steps.avd-cache.outputs.cache-hit != 'true'
+      run: ./build.sh android-setup ${{ matrix.api }}
+
     - name: Run Android Tests
       run: ./build.sh android-tests ${{ matrix.api }}
 

@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
+set -o xtrace
 cd "$(dirname "$0")" || exit
 
 ADB="${ANDROID_HOME}/platform-tools/adb"
@@ -70,7 +71,7 @@ core_build() {
 # Android
 # -----------------------------------------------------------------------------
 
-android_boot_attempt() {
+android_setup() {
     API=$1
     AVDNAME=${AVD_PREFIX}${API}
 
@@ -95,7 +96,15 @@ android_boot_attempt() {
     ) 10>/tmp/uhabitsTest.lock
 
     log_info "Launching emulator..."
-    $EMULATOR -avd $AVDNAME -port 6${API}0 1>/dev/null 2>&1 &
+    $EMULATOR \
+        -avd $AVDNAME \
+        -port 6${API}0 \
+        -no-window \
+        -gpu swiftshader_indirect \
+        -noaudio \
+        -no-boot-anim \
+        -camera-back none \
+        1>/dev/null 2>&1 &
 
     log_info "Waiting for emulator to boot..."
     export ADB="$ADB -s emulator-6${API}0"
@@ -114,6 +123,37 @@ android_boot_attempt() {
 
     log_info "Acquiring wake lock..."
     $ADB shell 'echo android-test > /sys/power/wake_lock' || return 1
+
+    log_info "Saving snapshot..."
+    $ADB emu avd snapshot save fresh-install
+}
+
+android_boot_attempt() {
+    API=$1
+    AVDNAME=${AVD_PREFIX}${API}
+
+    log_info "Stopping Android emulator..."
+    while [[ -n $(pgrep -f ${AVDNAME}) ]]; do
+        pkill -9 -f ${AVDNAME}
+    done
+
+    log_info "Launching emulator..."
+    $EMULATOR \
+        -avd $AVDNAME \
+        -port 6${API}0 \
+        -snapshot fresh-install \
+        -no-snapshot-save \
+        -wipe-data \
+        1>/dev/null 2>&1 &
+
+    log_info "Waiting for emulator to boot..."
+    export ADB="$ADB -s emulator-6${API}0"
+    sleep 5
+    timeout $BOOT_TIMEOUT $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82'
+    if [ $? -ne 0 ]; then
+        log_error "Emulator failed to boot after $BOOT_TIMEOUT seconds."
+        return 1
+    fi
 }
 
 android_boot() {
@@ -300,6 +340,10 @@ main() {
             clean
             core_build
             android_build
+            ;;
+        android-setup)
+            shift; _parse_opts "$@"
+            android_setup $1
             ;;
         android-tests)
             shift; _parse_opts "$@"
