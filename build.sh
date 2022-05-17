@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
-set -o xtrace
 cd "$(dirname "$0")" || exit
 
 ADB="${ANDROID_HOME}/platform-tools/adb"
@@ -99,11 +98,6 @@ android_setup() {
     $EMULATOR \
         -avd $AVDNAME \
         -port 6${API}0 \
-        -no-window \
-        -gpu swiftshader_indirect \
-        -noaudio \
-        -no-boot-anim \
-        -camera-back none \
         1>/dev/null 2>&1 &
 
     log_info "Waiting for emulator to boot..."
@@ -113,16 +107,6 @@ android_setup() {
         log_error "Emulator failed to boot after $BOOT_TIMEOUT seconds."
         return 1
     fi
-
-    log_info "Disabling animations..."
-    $ADB root || return 1
-    sleep 5
-    $ADB shell settings put global window_animation_scale 0 || return 1
-    $ADB shell settings put global transition_animation_scale 0 || return 1
-    $ADB shell settings put global animator_duration_scale 0 || return 1
-
-    log_info "Acquiring wake lock..."
-    $ADB shell 'echo android-test > /sys/power/wake_lock' || return 1
 
     log_info "Saving snapshot..."
     $ADB emu avd snapshot save fresh-install
@@ -154,6 +138,17 @@ android_boot_attempt() {
         log_error "Emulator failed to boot after $BOOT_TIMEOUT seconds."
         return 1
     fi
+
+    log_info "Disabling animations..."
+    $ADB root || return 1
+    sleep 5
+    $ADB shell settings put global window_animation_scale 0 || return 1
+    $ADB shell settings put global transition_animation_scale 0 || return 1
+    $ADB shell settings put global animator_duration_scale 0 || return 1
+
+    log_info "Acquiring wake lock..."
+    $ADB shell 'echo android-test > /sys/power/wake_lock' || return 1
+
 }
 
 android_boot() {
@@ -216,6 +211,8 @@ android_test() {
 }
 
 android_test_parallel() {
+    # Launch background processes
+    PIDS=""
     for API in $*; do
         (
             LOG=build/android-test-$API.log
@@ -223,12 +220,27 @@ android_test_parallel() {
             if android_test $API 1>$LOG 2>&1; then
                 log_info "API $API: Passed"
             else
-                log_error "API $API: Failed. See $LOG for more details."
+                log_error "API $API: Failed"
             fi
             pkill -9 -f ${AVD_PREFIX}${API}
         )&
+	PIDS+=" $!"
     done
-    wait
+
+    # Check exit codes
+    RET_CODE=0
+    for pid in $PIDS; do
+        wait $pid || RET_CODE=1
+    done
+
+    # Print all logs
+    for API in $*; do
+        echo "::group::Android Tests (API $API)"
+        cat build/android-test-$API.log
+        echo "::endgroup::"
+    done
+
+    return $RET_CODE
 }
 
 android_build() {
@@ -300,12 +312,14 @@ CI/CD script for Loop Habit Tracker.
 
 Usage:
     build.sh build [options]
+    build.sh android-setup <API>
     build.sh android-tests <API> [options]
     build.sh android-tests-parallel <API> <API>... [options]
     build.sh android-accept-images [options]
 
 Commands:
     build                   Build the app and run small tests
+    android-setup           Create Android virtual machine
     android-tests           Run medium and large Android tests on an emulator
     android-tests-parallel  Tests multiple API levels simultaneously
     android-accept-images   Copy fetched images to corresponding assets folder

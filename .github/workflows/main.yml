@@ -7,71 +7,24 @@ on:
     paths-ignore:
     - '**.md'
 jobs:
-  Build:
-    runs-on: ubuntu-latest
+  Test:
+    runs-on: self-hosted
     steps:
     - name: Check out source code
       uses: actions/checkout@v1
 
-    - name: Install Java Development Kit 11
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-
-    - name: Build Project
+    - name: Build project
       run: ./build.sh build
 
-    - name: Upload Build Artifacts
+    - name: Run Android tests
+      run: ./build.sh android-tests-parallel 23 24 25 26 27 28 30 31
+
+    - name: Upload artifacts
+      if: always()
       uses: actions/upload-artifact@v2
       with:
-        name: uhabits-android
-        path: uhabits-android/build/outputs/
-
-  AndroidTest:
-    needs: Build
-    runs-on: macOS-10.15
-    timeout-minutes: 60
-    strategy:
-      matrix:
-        api: [
-          25,
-          27,
-          28,
-          30,
-          31,
-        ]
-
-    steps:
-    - name: Check out source code
-      uses: actions/checkout@v1
-
-    - name: Download Previously Built APK
-      uses: actions/download-artifact@v2
-      with:
-        name: uhabits-android
-        path: uhabits-android/build/outputs/
-
-    - name: Install Linux utils
-      run: |
-        brew unlink parallel
-        brew install util-linux moreutils coreutils
-        echo "/usr/local/opt/util-linux/bin" >> $GITHUB_PATH
-        echo "/usr/local/opt/moreutils/bin" >> $GITHUB_PATH
-        echo "/usr/local/opt/coreutils/libexec/gnubin" >> $GITHUB_PATH
-
-    - name: AVD cache
-      uses: actions/cache@v3
-      id: avd-cache
-      with:
+        name: build
         path: |
-          ~/.android/avd/*
-          ~/.android/adb*
-        key: avd-${{ matrix.api }}
-
-    - name: Setup AVD
-      if: steps.avd-cache.outputs.cache-hit != 'true'
-      run: ./build.sh android-setup ${{ matrix.api }}
-
-    - name: Run Android Tests
-      run: ./build.sh android-tests ${{ matrix.api }}
+          build/*log
+          uhabits-android/build/outputs
 
