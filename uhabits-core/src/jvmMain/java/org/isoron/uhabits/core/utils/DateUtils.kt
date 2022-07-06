@@ -189,11 +189,11 @@ abstract class DateUtils {
             val month = startOfMonth.toCalendar()[Calendar.MONTH] + 1
             val year = startOfMonth.toCalendar()[Calendar.YEAR]
             val weekday = startOfMonth.weekday
-            val extraWeekdays = YearMonth.of(year, month).lengthOfMonth() - 28
+            val monthLength = YearMonth.of(year, month).lengthOfMonth()
 
-            val freq = Array(7) { 4 }
-            for (day in weekday until weekday + extraWeekdays) {
-                freq[day % 7] = 5
+            val freq = Array(7) { 0 }
+            for (day in weekday until weekday + monthLength) {
+                freq[day % 7] += 1
             }
 
             return freq
