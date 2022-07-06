@@ -19,6 +19,7 @@
 package org.isoron.uhabits.core.utils
 
 import org.isoron.uhabits.core.models.Timestamp
+import java.time.YearMonth
 import java.util.Calendar
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.DAY_OF_WEEK
@@ -176,6 +177,26 @@ abstract class DateUtils {
         @JvmStatic
         fun getShortWeekdayNames(firstWeekday: Int): Array<String> {
             return getWeekdayNames(GregorianCalendar.SHORT, firstWeekday)
+        }
+
+        /**
+         * Returns a vector of Int representing the frequency of each weekday in a given month.
+         *
+         * @param startOfMonth a Timestamp representing the beginning of the month.
+         */
+        @JvmStatic
+        fun getWeekdaysInMonth(startOfMonth: Timestamp): Array<Int> {
+            val month = startOfMonth.toCalendar()[Calendar.MONTH] + 1
+            val year = startOfMonth.toCalendar()[Calendar.YEAR]
+            val weekday = startOfMonth.weekday
+            val extraWeekdays = YearMonth.of(year, month).lengthOfMonth() - 28
+
+            val freq = Array(7) { 4 }
+            for (day in weekday until weekday + extraWeekdays) {
+                freq[day % 7] = 5
+            }
+
+            return freq
         }
 
         @JvmStatic
