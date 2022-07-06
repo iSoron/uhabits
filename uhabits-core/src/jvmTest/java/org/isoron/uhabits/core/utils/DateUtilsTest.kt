@@ -126,20 +126,20 @@ class DateUtilsTest : BaseUnitTest() {
         val longMonth = GregorianCalendar(2020, Calendar.AUGUST, 1)
 
         assertThat(
-            DateUtils.getWeekdaysInMonth(Timestamp(february)),
-            equalTo(arrayOf(4, 4, 4, 4, 4, 4, 4))
+            arrayOf(4, 4, 4, 4, 4, 4, 4),
+            equalTo(DateUtils.getWeekdaysInMonth(Timestamp(february)))
         )
         assertThat(
-            DateUtils.getWeekdaysInMonth(Timestamp(leapFebruary)),
-            equalTo(arrayOf(4, 4, 4, 4, 4, 4, 5))
+            arrayOf(5, 4, 4, 4, 4, 4, 4),
+            equalTo(DateUtils.getWeekdaysInMonth(Timestamp(leapFebruary)))
         )
         assertThat(
-            DateUtils.getWeekdaysInMonth(Timestamp(month)),
-            equalTo(arrayOf(4, 4, 4, 5, 5, 4, 4))
+            arrayOf(4, 4, 4, 4, 5, 5, 4),
+            equalTo(DateUtils.getWeekdaysInMonth(Timestamp(month)))
         )
         assertThat(
-            DateUtils.getWeekdaysInMonth(Timestamp(longMonth)),
-            equalTo(arrayOf(5, 5, 4, 4, 4, 4, 5))
+            arrayOf(5, 5, 5, 4, 4, 4, 4),
+            equalTo(DateUtils.getWeekdaysInMonth(Timestamp(longMonth)))
         )
     }
 
