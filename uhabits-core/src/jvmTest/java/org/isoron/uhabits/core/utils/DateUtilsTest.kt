@@ -119,6 +119,31 @@ class DateUtilsTest : BaseUnitTest() {
     }
 
     @Test
+    fun getWeekdaysInMonth() {
+        val february = GregorianCalendar(2018, Calendar.FEBRUARY, 1)
+        val leapFebruary = GregorianCalendar(2020, Calendar.FEBRUARY, 1)
+        val month = GregorianCalendar(2020, Calendar.APRIL, 1)
+        val longMonth = GregorianCalendar(2020, Calendar.AUGUST, 1)
+
+        assertThat(
+            DateUtils.getWeekdaysInMonth(Timestamp(february)),
+            equalTo(arrayOf(4, 4, 4, 4, 4, 4, 4))
+        )
+        assertThat(
+            DateUtils.getWeekdaysInMonth(Timestamp(leapFebruary)),
+            equalTo(arrayOf(4, 4, 4, 4, 4, 4, 5))
+        )
+        assertThat(
+            DateUtils.getWeekdaysInMonth(Timestamp(month)),
+            equalTo(arrayOf(4, 4, 4, 5, 5, 4, 4))
+        )
+        assertThat(
+            DateUtils.getWeekdaysInMonth(Timestamp(longMonth)),
+            equalTo(arrayOf(5, 5, 4, 4, 4, 4, 5))
+        )
+    }
+
+    @Test
     fun testGetToday() {
         setFixedLocalTime(FIXED_LOCAL_TIME)
         val today = DateUtils.getToday()
