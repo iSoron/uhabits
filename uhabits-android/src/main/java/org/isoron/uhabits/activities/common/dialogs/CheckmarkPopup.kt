@@ -54,6 +54,7 @@ class CheckmarkPopup(
     private val anchor: View,
 ) {
     var onToggle: (Int, String) -> Unit = { _, _ -> }
+    private lateinit var popup: PopupWindow
 
     private val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context)).apply {
         // Required for round corners
@@ -101,12 +102,11 @@ class CheckmarkPopup(
             SKIP -> if (prefs.isSkipEnabled) view.skipBtn else view.noBtn
             else -> null
         }
-        selectedBtn?.background = ColorDrawable(view.root.sres.getColor(R.attr.contrast40))
         view.notes.setText(notes)
     }
 
     fun show() {
-        val popup = PopupWindow()
+        popup = PopupWindow()
         popup.contentView = view.root
         popup.width = view.root.dp(POPUP_WIDTH).toInt()
         popup.height = view.root.dp(POPUP_HEIGHT).toInt()
@@ -114,16 +114,18 @@ class CheckmarkPopup(
         popup.elevation = view.root.dp(24f)
         fun onClick(v: Int) {
             this.value = v
-            popup.dismiss()
+            save()
         }
         view.yesBtn.setOnClickListener { onClick(YES_MANUAL) }
         view.noBtn.setOnClickListener { onClick(NO) }
         view.skipBtn.setOnClickListener { onClick(SKIP) }
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
-        popup.setOnDismissListener {
-            onToggle(value, view.notes.text.toString())
-        }
         popup.showAtLocation(anchor, Gravity.CENTER, 0, 0)
         popup.dimBehind()
+    }
+
+    fun save() {
+        onToggle(value, view.notes.text.toString().trim())
+        popup.dismiss()
     }
 }
