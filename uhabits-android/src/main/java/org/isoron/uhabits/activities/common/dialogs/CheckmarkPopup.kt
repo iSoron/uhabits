@@ -21,12 +21,14 @@ package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.text.InputType
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.PopupWindow
+import kotlinx.android.synthetic.main.checkmark_popup.view.*
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
@@ -56,6 +58,10 @@ class CheckmarkPopup(
     private val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context)).apply {
         // Required for round corners
         container.clipToOutline = true
+
+        // Android bugfix: Allowing suggestions in a popup causes a crash.
+        // stackoverflow.com/questions/4829718
+        container.notes.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
     }
 
     init {
