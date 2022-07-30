@@ -125,7 +125,7 @@
             android:exported="true"
             android:label="NumericalCheckmarkWidget"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY" />
             </intent-filter>

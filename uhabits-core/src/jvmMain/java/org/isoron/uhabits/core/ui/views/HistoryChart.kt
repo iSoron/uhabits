@@ -22,7 +22,6 @@ package org.isoron.uhabits.core.ui.views
 import org.isoron.platform.gui.Canvas
 import org.isoron.platform.gui.Color
 import org.isoron.platform.gui.DataView
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.TextAlign
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
@@ -34,8 +33,8 @@ import kotlin.math.min
 import kotlin.math.round
 
 interface OnDateClickedListener {
-    fun onDateShortPress(location: ScreenLocation, date: LocalDate) {}
-    fun onDateLongPress(location: ScreenLocation, date: LocalDate) {}
+    fun onDateShortPress(date: LocalDate) {}
+    fun onDateLongPress(date: LocalDate) {}
 }
 
 class HistoryChart(
@@ -91,11 +90,10 @@ class HistoryChart(
         if (x - padding < 0 || row == 0 || row > 7 || col == nColumns) return
         val clickedDate = topLeftDate.plus(offset)
         if (clickedDate.isNewerThan(today)) return
-        val location = ScreenLocation(x, y)
         if (isLongClick) {
-            onDateClickedListener.onDateLongPress(location, clickedDate)
+            onDateClickedListener.onDateLongPress(clickedDate)
         } else {
-            onDateClickedListener.onDateShortPress(location, clickedDate)
+            onDateClickedListener.onDateShortPress(clickedDate)
         }
     }
 

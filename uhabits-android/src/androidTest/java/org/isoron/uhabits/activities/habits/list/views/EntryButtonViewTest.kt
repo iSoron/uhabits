@@ -45,7 +45,7 @@ class EntryButtonViewTest : BaseViewTest() {
             value = Entry.NO
             color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { _, _, _ -> toggled = true }
-            onEdit = { _ -> edited = true }
+            onEdit = { edited = true }
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }

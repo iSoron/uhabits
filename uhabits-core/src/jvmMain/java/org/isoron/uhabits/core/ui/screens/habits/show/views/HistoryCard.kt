@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.commands.CommandRunner
@@ -28,7 +27,6 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
@@ -66,36 +64,35 @@ class HistoryCardPresenter(
     val screen: Screen,
 ) : OnDateClickedListener {
 
-    override fun onDateLongPress(location: ScreenLocation, date: LocalDate) {
+    override fun onDateLongPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-            showNumberPicker(timestamp)
+            showNumberPopup(timestamp)
         } else {
-            if (preferences.isShortToggleEnabled) showCheckmarkPopup(location, timestamp)
+            if (preferences.isShortToggleEnabled) showCheckmarkPopup(timestamp)
             else toggle(timestamp)
         }
     }
 
-    override fun onDateShortPress(location: ScreenLocation, date: LocalDate) {
+    override fun onDateShortPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-            showNumberPicker(timestamp)
+            showNumberPopup(timestamp)
         } else {
             if (preferences.isShortToggleEnabled) toggle(timestamp)
-            else showCheckmarkPopup(location, timestamp)
+            else showCheckmarkPopup(timestamp)
         }
     }
 
-    private fun showCheckmarkPopup(location: ScreenLocation, timestamp: Timestamp) {
+    private fun showCheckmarkPopup(timestamp: Timestamp) {
         val entry = habit.computedEntries.get(timestamp)
         screen.showCheckmarkPopup(
             entry.value,
             entry.notes,
             preferences,
             habit.color,
-            location,
         ) { newValue, newNotes ->
             commandRunner.run(
                 CreateRepetitionCommand(
@@ -127,15 +124,13 @@ class HistoryCardPresenter(
         )
     }
 
-    private fun showNumberPicker(timestamp: Timestamp) {
+    private fun showNumberPopup(timestamp: Timestamp) {
         val entry = habit.computedEntries.get(timestamp)
         val oldValue = entry.value
-        screen.showNumberPicker(
-            oldValue / 1000.0,
-            habit.unit,
-            entry.notes,
-            timestamp.toDialogDateString(),
-            frequency = habit.frequency
+        screen.showNumberPopup(
+            value = oldValue / 1000.0,
+            notes = entry.notes,
+            preferences = preferences,
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -205,21 +200,17 @@ class HistoryCardPresenter(
     interface Screen {
         fun showHistoryEditorDialog(listener: OnDateClickedListener)
         fun showFeedback()
-        fun showNumberPicker(
+        fun showNumberPopup(
             value: Double,
-            unit: String,
             notes: String,
-            dateString: String,
-            frequency: Frequency,
-            callback: ListHabitsBehavior.NumberPickerCallback
+            preferences: Preferences,
+            callback: ListHabitsBehavior.NumberPickerCallback,
         )
-
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
             preferences: Preferences,
             color: PaletteColor,
-            location: ScreenLocation,
             callback: ListHabitsBehavior.CheckMarkDialogCallback,
         )
     }

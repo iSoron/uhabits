@@ -20,21 +20,22 @@
 package org.isoron.uhabits.utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
+import android.os.SystemClock
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
-import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
 import android.widget.RelativeLayout.ALIGN_PARENT_TOP
@@ -45,7 +46,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -218,41 +218,20 @@ fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, notes: Stri
 val View.sres: StyledResources
     get() = StyledResources(context)
 
-fun PopupWindow.dimBehind() {
-    // https://stackoverflow.com/questions/35874001/dim-the-background-using-popupwindow-in-android
-    val container = contentView.rootView
-    val context = contentView.context
-    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    val p = container.layoutParams as WindowManager.LayoutParams
-    p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
-    p.dimAmount = 0.5f
-    wm.updateViewLayout(container, p)
+fun Dialog.dimBehind() {
+    window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+    window?.setDimAmount(0.5f)
 }
 
-/**
- * Returns the absolute screen coordinates for the center of this view (in density-independent
- * pixels).
- */
-fun View.getCenter(): ScreenLocation {
-    val density = resources.displayMetrics.density
-    val loc = IntArray(2)
-    this.getLocationInWindow(loc)
-    return ScreenLocation(
-        x = ((loc[0] + width / 2) / density).toDouble(),
-        y = ((loc[1] + height / 2) / density).toDouble(),
-    )
-}
-
-/**
- * Returns the absolute screen coordinates for the top left corner of this view (in
- * density-independent pixels).
- */
-fun View.getTopLeftCorner(): ScreenLocation {
-    val density = resources.displayMetrics.density
-    val loc = IntArray(2)
-    this.getLocationInWindow(loc)
-    return ScreenLocation(
-        x = (loc[0] / density).toDouble(),
-        y = (loc[1] / density).toDouble(),
-    )
+fun View.requestFocusWithKeyboard() {
+    // For some reason, Android does not open the soft keyboard by default when view.requestFocus
+    // is called. Several online solutions suggest using InputMethodManager, but these solutions
+    // are not reliable; sometimes the keyboard does not show, and sometimes it does not go away
+    // after focus is lost. Here, we simulate a click on the view, which triggers the keyboard.
+    // Based on: https://stackoverflow.com/a/7699556
+    postDelayed({
+        val time = SystemClock.uptimeMillis()
+        dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, 0f, 0f, 0))
+        dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_UP, 0f, 0f, 0))
+    }, 250)
 }

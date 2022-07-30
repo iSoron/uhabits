@@ -28,7 +28,6 @@ import android.text.TextPaint
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.NO
@@ -39,7 +38,6 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.drawNotesIndicator
-import org.isoron.uhabits.utils.getCenter
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
@@ -83,7 +81,7 @@ class CheckmarkButtonView(
 
     var onToggle: (Int, String, Long) -> Unit = { _, _, _ -> }
 
-    var onEdit: (ScreenLocation) -> Unit = { _ -> }
+    var onEdit: () -> Unit = { }
 
     private var drawer = Drawer()
 
@@ -105,11 +103,11 @@ class CheckmarkButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle(TOGGLE_DELAY_MILLIS)
-        else onEdit(getCenter())
+        else onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
-        if (preferences.isShortToggleEnabled) onEdit(getCenter())
+        if (preferences.isShortToggleEnabled) onEdit()
         else performToggle(TOGGLE_DELAY_MILLIS)
         return true
     }
