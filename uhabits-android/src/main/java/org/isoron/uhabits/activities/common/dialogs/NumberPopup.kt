@@ -19,15 +19,14 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
+import android.app.Dialog
 import android.content.Context
-import android.view.Gravity
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.LayoutInflater
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.PopupWindow
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
@@ -45,6 +44,7 @@ class NumberPopup(
 ) {
     var onToggle: (Double, String) -> Unit = { _, _ -> }
     private val originalValue = value
+    private lateinit var dialog: Dialog
 
     private val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context)).apply {
         // Required for round corners
@@ -72,35 +72,40 @@ class NumberPopup(
     }
 
     fun show() {
-        val popup = PopupWindow()
-        popup.contentView = view.root
-        popup.width = view.root.dp(POPUP_WIDTH).toInt()
-        popup.height = view.root.dp(POPUP_HEIGHT).toInt()
-        popup.isFocusable = true
-        popup.elevation = view.root.dp(24f)
-        popup.setOnDismissListener {
-            save()
+        dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
+        dialog.setContentView(view.root)
+        dialog.window?.apply {
+            setLayout(
+                view.root.dp(POPUP_WIDTH).toInt(),
+                view.root.dp(POPUP_HEIGHT).toInt()
+            )
+            setBackgroundDrawableResource(android.R.color.transparent)
         }
+
         view.value.setOnKeyListener { _, keyCode, event ->
             if (event.action == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
-                popup.dismiss()
+                save()
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
         }
-        view.saveBtn.setOnClickListener { popup.dismiss() }
+        view.saveBtn.setOnClickListener {
+            save()
+        }
         view.skipBtnNumber.setOnClickListener {
             view.value.setText((Entry.SKIP.toDouble() / 1000).toString())
-            popup.dismiss()
+            save()
         }
-        popup.showAtLocation(anchor, Gravity.CENTER, 0, 0)
         view.value.requestFocusWithKeyboard()
-        popup.dimBehind()
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.dimBehind()
+        dialog.show()
     }
 
     fun save() {
         val value = view.value.text.toString().toDoubleOrNull() ?: originalValue
         val notes = view.notes.text.toString()
         onToggle(value, notes)
+        dialog.dismiss()
     }
 }

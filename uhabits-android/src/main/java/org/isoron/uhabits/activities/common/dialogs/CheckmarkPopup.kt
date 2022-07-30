@@ -19,14 +19,12 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
+import android.app.Dialog
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.PopupWindow
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
@@ -52,6 +50,7 @@ class CheckmarkPopup(
     private val anchor: View,
 ) {
     var onToggle: (Int, String) -> Unit = { _, _ -> }
+    private lateinit var dialog: Dialog
 
     private val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context)).apply {
         // Required for round corners
@@ -95,29 +94,34 @@ class CheckmarkPopup(
             SKIP -> if (prefs.isSkipEnabled) view.skipBtn else view.noBtn
             else -> null
         }
-        selectedBtn?.background = ColorDrawable(view.root.sres.getColor(R.attr.contrast40))
         view.notes.setText(notes)
     }
 
     fun show() {
-        val popup = PopupWindow()
-        popup.contentView = view.root
-        popup.width = view.root.dp(POPUP_WIDTH).toInt()
-        popup.height = view.root.dp(POPUP_HEIGHT).toInt()
-        popup.isFocusable = true
-        popup.elevation = view.root.dp(24f)
+        dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
+        dialog.setContentView(view.root)
+        dialog.window?.apply {
+            setLayout(
+                view.root.dp(POPUP_WIDTH).toInt(),
+                view.root.dp(POPUP_HEIGHT).toInt()
+            )
+            setBackgroundDrawableResource(android.R.color.transparent)
+        }
         fun onClick(v: Int) {
             this.value = v
-            popup.dismiss()
+            save()
         }
         view.yesBtn.setOnClickListener { onClick(YES_MANUAL) }
         view.noBtn.setOnClickListener { onClick(NO) }
         view.skipBtn.setOnClickListener { onClick(SKIP) }
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
-        popup.setOnDismissListener {
-            onToggle(value, view.notes.text.toString())
-        }
-        popup.showAtLocation(anchor, Gravity.CENTER, 0, 0)
-        popup.dimBehind()
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.dimBehind()
+        dialog.show()
+    }
+
+    fun save() {
+        onToggle(value, view.notes.text.toString().trim())
+        dialog.dismiss()
     }
 }
