@@ -29,6 +29,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getShortWeekdayNames
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendarWithOffset
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getWeekdaySequence
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getWeekdaysInMonth
 import org.isoron.uhabits.utils.ColorUtils.mixColors
 import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.toSimpleDataFormat
@@ -62,7 +63,6 @@ class FrequencyChart : ScrollableChart {
     private var primaryColor = 0
     private var isBackgroundTransparent = false
     private lateinit var frequency: HashMap<Timestamp, Array<Int>>
-    private var maxFreq = 0
     private var firstWeekday = Calendar.SUNDAY
 
     constructor(context: Context?) : super(context) {
@@ -82,22 +82,12 @@ class FrequencyChart : ScrollableChart {
 
     fun setFrequency(frequency: java.util.HashMap<Timestamp, Array<Int>>) {
         this.frequency = frequency
-        maxFreq = getMaxFreq(frequency)
         postInvalidate()
     }
 
     fun setFirstWeekday(firstWeekday: Int) {
         this.firstWeekday = firstWeekday
         postInvalidate()
-    }
-
-    private fun getMaxFreq(frequency: HashMap<Timestamp, Array<Int>>): Int {
-        var maxValue = 1
-        for (values in frequency.values) for (value in values) maxValue = max(
-            value,
-            maxValue
-        )
-        return maxValue
     }
 
     fun setIsBackgroundTransparent(isBackgroundTransparent: Boolean) {
@@ -166,6 +156,7 @@ class FrequencyChart : ScrollableChart {
 
     private fun drawColumn(canvas: Canvas, rect: RectF?, date: GregorianCalendar) {
         val values = frequency[Timestamp(date)]
+        val weekDaysInMonth = getWeekdaysInMonth(Timestamp(date))
         val rowHeight = rect!!.height() / 8.0f
         prevRect!!.set(rect)
         val localeWeekdayList: Array<Int> = getWeekdaySequence(firstWeekday)
@@ -174,7 +165,7 @@ class FrequencyChart : ScrollableChart {
             rect.offset(prevRect!!.left, prevRect!!.top + baseSize * j)
             val i = localeWeekdayList[j] % 7
             if (values != null)
-                drawMarker(canvas, rect, values[i])
+                drawMarker(canvas, rect, values[i], weekDaysInMonth[i])
             rect.offset(0f, rowHeight)
         }
         drawFooter(canvas, rect, date)
@@ -222,7 +213,7 @@ class FrequencyChart : ScrollableChart {
         canvas.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top, pGrid!!)
     }
 
-    private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?) {
+    private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?, frequency: Int) {
         // value can be negative when the entry is skipped
         val valueCopy = value?.let { max(0, it) }
 
@@ -230,7 +221,8 @@ class FrequencyChart : ScrollableChart {
         // maximal allowed mark radius
         val maxRadius = (rect.height() - 2 * padding) / 2.0f
         // the real mark radius is scaled down by a factor depending on the maximal frequency
-        val scale = 1.0f / maxFreq * valueCopy!!
+
+        val scale = 1.0f / frequency * valueCopy!!
         val radius = maxRadius * scale
         val colorIndex = min((colors.size - 1), ((colors.size - 1) * scale).roundToInt())
         pGraph!!.color = colors[colorIndex]
@@ -293,6 +285,5 @@ class FrequencyChart : ScrollableChart {
             frequency[Timestamp(date)] = values
             date.add(Calendar.MONTH, -1)
         }
-        maxFreq = getMaxFreq(frequency)
     }
 }
