@@ -19,17 +19,14 @@
 
 package org.isoron.uhabits.activities.common.dialogs
 
+import android.app.Dialog
 import android.content.Context
-import android.text.InputType
-import android.view.Gravity
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.LayoutInflater
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.PopupWindow
-import kotlinx.android.synthetic.main.checkmark_popup.view.*
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
@@ -47,15 +44,11 @@ class NumberPopup(
 ) {
     var onToggle: (Double, String) -> Unit = { _, _ -> }
     private val originalValue = value
-    private lateinit var popup: PopupWindow
+    private lateinit var dialog: Dialog
 
     private val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context)).apply {
         // Required for round corners
         container.clipToOutline = true
-
-        // Android bugfix: Allowing suggestions in a popup causes a crash.
-        // stackoverflow.com/questions/4829718
-        container.notes.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
     }
 
     init {
@@ -79,12 +72,16 @@ class NumberPopup(
     }
 
     fun show() {
-        popup = PopupWindow()
-        popup.contentView = view.root
-        popup.width = view.root.dp(POPUP_WIDTH).toInt()
-        popup.height = view.root.dp(POPUP_HEIGHT).toInt()
-        popup.isFocusable = true
-        popup.elevation = view.root.dp(24f)
+        dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
+        dialog.setContentView(view.root)
+        dialog.window?.apply {
+            setLayout(
+                view.root.dp(POPUP_WIDTH).toInt(),
+                view.root.dp(POPUP_HEIGHT).toInt()
+            )
+            setBackgroundDrawableResource(android.R.color.transparent)
+        }
+
         view.value.setOnKeyListener { _, keyCode, event ->
             if (event.action == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
                 save()
@@ -99,15 +96,16 @@ class NumberPopup(
             view.value.setText((Entry.SKIP.toDouble() / 1000).toString())
             save()
         }
-        popup.showAtLocation(anchor, Gravity.CENTER, 0, 0)
         view.value.requestFocusWithKeyboard()
-        popup.dimBehind()
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.dimBehind()
+        dialog.show()
     }
 
     fun save() {
         val value = view.value.text.toString().toDoubleOrNull() ?: originalValue
         val notes = view.notes.text.toString()
         onToggle(value, notes)
-        popup.dismiss()
+        dialog.dismiss()
     }
 }

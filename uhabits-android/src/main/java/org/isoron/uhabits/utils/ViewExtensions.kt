@@ -20,8 +20,8 @@
 package org.isoron.uhabits.utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
@@ -36,7 +36,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
-import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
 import android.widget.RelativeLayout.ALIGN_PARENT_TOP
@@ -219,15 +218,9 @@ fun View.drawNotesIndicator(canvas: Canvas, color: Int, size: Float, notes: Stri
 val View.sres: StyledResources
     get() = StyledResources(context)
 
-fun PopupWindow.dimBehind() {
-    // https://stackoverflow.com/questions/35874001/dim-the-background-using-popupwindow-in-android
-    val container = contentView.rootView
-    val context = contentView.context
-    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    val p = container.layoutParams as WindowManager.LayoutParams
-    p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
-    p.dimAmount = 0.5f
-    wm.updateViewLayout(container, p)
+fun Dialog.dimBehind() {
+    window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+    window?.setDimAmount(0.5f)
 }
 
 fun View.requestFocusWithKeyboard() {
