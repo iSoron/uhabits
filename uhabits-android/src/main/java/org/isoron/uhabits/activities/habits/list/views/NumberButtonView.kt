@@ -108,7 +108,8 @@ class NumberButtonView(
             invalidate()
         }
 
-    var onEdit: () -> Unit = {}
+    var onEdit: () -> Unit = { }
+
     private var drawer: Drawer = Drawer(context)
 
     init {

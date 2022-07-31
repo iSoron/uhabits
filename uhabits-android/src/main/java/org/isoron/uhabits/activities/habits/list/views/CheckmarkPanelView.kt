@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
-import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
@@ -67,7 +66,7 @@ class CheckmarkPanelView(
             setupButtons()
         }
 
-    var onEdit: (ScreenLocation, Timestamp) -> Unit = { _, _ -> }
+    var onEdit: (Timestamp) -> Unit = { _ -> }
         set(value) {
             field = value
             setupButtons()
@@ -91,7 +90,7 @@ class CheckmarkPanelView(
             }
             button.color = color
             button.onToggle = { value, notes, delay -> onToggle(timestamp, value, notes, delay) }
-            button.onEdit = { location -> onEdit(location, timestamp) }
+            button.onEdit = { onEdit(timestamp) }
         }
     }
 }
