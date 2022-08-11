@@ -43,6 +43,7 @@ class NumberPopup(
     private val anchor: View,
 ) {
     var onToggle: (Double, String) -> Unit = { _, _ -> }
+    var onDismiss: () -> Unit = {}
     private val originalValue = value
     private lateinit var dialog: Dialog
 
@@ -80,6 +81,9 @@ class NumberPopup(
                 view.root.dp(POPUP_HEIGHT).toInt()
             )
             setBackgroundDrawableResource(android.R.color.transparent)
+        }
+        dialog.setOnDismissListener {
+            onDismiss()
         }
 
         view.value.setOnKeyListener { _, keyCode, event ->
