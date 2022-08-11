@@ -95,7 +95,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
     androidTestImplementation("com.google.dagger:dagger:$daggerVersion")
-    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.1")
+    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
     androidTestImplementation("androidx.annotation:annotation:1.4.0")
