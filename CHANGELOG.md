@@ -7,7 +7,7 @@
 - Allow user to add skips to measurable habits (@kalina559, #1319)
 - Bring back custom frequencies (x times in y days) (@hiqua, #1079)
 - Improve number picker (@hiqua, @iSoron, #1082, #1370)
-- Add new checkmark state picker (@iSoron, #1370)
+- Add new checkmark and number picker (@iSoron, #1370)
 - Allow user to import numerical habits from HabitBull (@hiqua, #1278)
 
 ### Removed
@@ -20,19 +20,20 @@
 - Add delay after toggling a habit (@hiqua, @kalina559, #1147)
 - Small theme improvements (@KristianTashkov, #1113)
 - Left-align habit notes (@iSoron)
+- Increase target SDK to 31 (@hiqua)
 
 ### Fixed
 - Fix small dialog buttons (@kalina559, #1096)
 - Fix invalid CSV files (@hiqua, #1177)
 - Fix small issues in calendar chart (@kalina559, #1314)
 - Resort habit list after edit (@hiqua, #1350)
+- Fix marker scaling in frequency display (@eduebernal, #1425)
 
 ### Refactoring & Testing
 - Replace raster icons by vector assets (@kalina559)
 - Remove JVM dependencies from uhabits-core module (@sgallese)
 - Add various missing tests (@sgallese)
 - Upgrade project dependencies (@hiqua, @sgallese)
-- Increase target SDK to 31 (@hiqua)
 
 ## [2.0.3] - 2021-08-21
 ### Fixed
