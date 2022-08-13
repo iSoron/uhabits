@@ -24,6 +24,7 @@ import android.content.DialogInterface.OnMultiChoiceClickListener
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.utils.DateUtils
@@ -59,8 +60,9 @@ class WeekdayPickerDialog :
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        HabitsApplication.clearCurrentDialog()
         val builder = AlertDialog.Builder(
-            activity!!
+            requireActivity()
         )
         builder
             .setTitle(R.string.select_weekdays)
@@ -73,7 +75,15 @@ class WeekdayPickerDialog :
             .setNegativeButton(
                 android.R.string.cancel
             ) { _: DialogInterface?, _: Int -> dismiss() }
-        return builder.create()
+
+        val dialog = builder.create()
+        HabitsApplication.currentDialog = dialog
+        return dialog
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        HabitsApplication.currentDialog = null
     }
 
     fun setListener(listener: OnWeekdaysPickedListener?) {

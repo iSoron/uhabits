@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.common.dialogs
 import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.isoron.uhabits.inject.ActivityContext
@@ -34,6 +35,7 @@ class ConfirmDeleteDialog(
     quantity: Int
 ) : AlertDialog(context) {
     init {
+        HabitsApplication.clearCurrentDialog()
         val res = context.resources
         setTitle(res.getQuantityString(R.plurals.delete_habits_title, quantity))
         setMessage(res.getQuantityString(R.plurals.delete_habits_message, quantity))
@@ -45,5 +47,12 @@ class ConfirmDeleteDialog(
             BUTTON_NEGATIVE,
             res.getString(R.string.no)
         ) { dialog: DialogInterface?, which: Int -> }
+
+        HabitsApplication.currentDialog = this
+
+        this.setOnDismissListener{
+            HabitsApplication.currentDialog = null
+        }
     }
+
 }

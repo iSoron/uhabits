@@ -20,6 +20,7 @@
 package org.isoron.uhabits
 
 import android.app.Application
+import android.app.Dialog
 import android.content.Context
 import org.isoron.uhabits.core.database.UnsupportedDatabaseVersionException
 import org.isoron.uhabits.core.reminders.ReminderScheduler
@@ -117,6 +118,12 @@ class HabitsApplication : Application() {
             } catch (e: ClassNotFoundException) {
                 false
             }
+        }
+
+        var currentDialog: Dialog? = null
+        fun clearCurrentDialog() {
+            currentDialog?.dismiss()
+            currentDialog = null
         }
     }
 }

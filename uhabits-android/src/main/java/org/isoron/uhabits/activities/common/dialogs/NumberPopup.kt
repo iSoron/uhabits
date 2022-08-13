@@ -27,6 +27,7 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
@@ -73,7 +74,7 @@ class NumberPopup(
     }
 
     fun show() {
-        clearCurrentDialog()
+        HabitsApplication.clearCurrentDialog()
         dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
         dialog.setContentView(view.root)
         dialog.window?.apply {
@@ -85,7 +86,7 @@ class NumberPopup(
         }
         dialog.setOnDismissListener {
             onDismiss()
-            currentDialog = null
+            HabitsApplication.currentDialog = null
         }
 
         view.value.setOnKeyListener { _, keyCode, event ->
@@ -105,7 +106,7 @@ class NumberPopup(
         view.value.requestFocusWithKeyboard()
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        currentDialog = dialog
+        HabitsApplication.currentDialog = dialog
         dialog.show()
     }
 
@@ -114,15 +115,5 @@ class NumberPopup(
         val notes = view.notes.text.toString()
         onToggle(value, notes)
         dialog.dismiss()
-    }
-
-    companion object {
-        // Used to make sure that 2 popups aren't shown on top of each other
-        // If dialog that's already shown is detected, it's dismissed before the next one is opened.
-        private var currentDialog: Dialog? = null
-        fun clearCurrentDialog() {
-            currentDialog?.dismiss()
-            currentDialog = null
-        }
     }
 }
