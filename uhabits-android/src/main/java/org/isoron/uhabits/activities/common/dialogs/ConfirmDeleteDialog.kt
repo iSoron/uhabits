@@ -50,7 +50,7 @@ class ConfirmDeleteDialog(
 
         HabitsApplication.currentDialog = this
 
-        this.setOnDismissListener{
+        this.setOnDismissListener {
             HabitsApplication.currentDialog = null
         }
     }

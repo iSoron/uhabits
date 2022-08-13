@@ -36,7 +36,6 @@ import org.isoron.uhabits.core.ui.views.HistoryChart
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.core.utils.DateUtils
-import org.isoron.uhabits.inject.HabitsApplicationComponent
 import java.util.Locale
 import kotlin.math.min
 
