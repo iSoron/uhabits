@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -100,7 +101,11 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         rootView.postInvalidate()
         midnightTimer.onResume()
         taskRunner.run {
-            AutoBackup(this@ListHabitsActivity).run()
+            try {
+                AutoBackup(this@ListHabitsActivity).run()
+            } catch (e: Exception) {
+                Log.e("ListHabitActivity", "AutoBackup task failed", e)
+            }
         }
         if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {
             restartWithFade(ListHabitsActivity::class.java)
