@@ -25,8 +25,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
@@ -99,7 +99,6 @@ class CheckmarkPopup(
     }
 
     fun show() {
-        HabitsApplication.clearCurrentDialog()
         dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
         dialog.setContentView(view.root)
         dialog.window?.apply {
@@ -119,13 +118,12 @@ class CheckmarkPopup(
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        HabitsApplication.currentDialog = dialog
+        dialog.dismissCurrentAndShow()
         dialog.show()
     }
 
     fun save() {
         onToggle(value, view.notes.text.toString().trim())
-        HabitsApplication.currentDialog = null
         dialog.dismiss()
     }
 }

@@ -27,7 +27,7 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
@@ -74,7 +74,6 @@ class NumberPopup(
     }
 
     fun show() {
-        HabitsApplication.clearCurrentDialog()
         dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
         dialog.setContentView(view.root)
         dialog.window?.apply {
@@ -86,7 +85,6 @@ class NumberPopup(
         }
         dialog.setOnDismissListener {
             onDismiss()
-            HabitsApplication.currentDialog = null
         }
 
         view.value.setOnKeyListener { _, keyCode, event ->
@@ -106,7 +104,7 @@ class NumberPopup(
         view.value.requestFocusWithKeyboard()
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        HabitsApplication.currentDialog = dialog
+        dialog.dismissCurrentAndShow()
         dialog.show()
     }
 

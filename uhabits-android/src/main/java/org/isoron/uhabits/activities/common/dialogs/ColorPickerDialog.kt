@@ -19,10 +19,9 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import com.android.colorpicker.ColorPickerDialog
-import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
 import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
 import org.isoron.uhabits.utils.toPaletteColor
 
@@ -38,16 +37,7 @@ class ColorPickerDialog : ColorPickerDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        HabitsApplication.clearCurrentDialog()
-        HabitsApplication.currentDialog = this.dialog
+        this.dialog?.dismissCurrentAndShow()
         return super.onCreateDialog(savedInstanceState)
-    }
-    override fun onColorSelected(color: Int) {
-        super.onColorSelected(color)
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        HabitsApplication.currentDialog = null
-        super.onDismiss(dialog)
     }
 }

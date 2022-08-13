@@ -20,7 +20,6 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +30,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import kotlinx.android.synthetic.main.frequency_picker_dialog.view.*
-import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
 
 class FrequencyPickerDialog(
     var freqNumerator: Int,
@@ -45,7 +44,6 @@ class FrequencyPickerDialog(
     constructor() : this(1, 1)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        HabitsApplication.clearCurrentDialog()
         val inflater = LayoutInflater.from(requireActivity())
         contentView = inflater.inflate(R.layout.frequency_picker_dialog, null)
 
@@ -118,13 +116,8 @@ class FrequencyPickerDialog(
             .setView(contentView)
             .setPositiveButton(R.string.save) { _, _ -> onSaveClicked() }
             .create()
-        HabitsApplication.currentDialog = dialog
+        dialog.dismissCurrentAndShow()
         return dialog
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        HabitsApplication.currentDialog = null
     }
 
     private fun addBeforeAfterText(
