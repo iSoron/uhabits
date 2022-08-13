@@ -73,6 +73,7 @@ class NumberPopup(
     }
 
     fun show() {
+        clearCurrentDialog()
         dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
         dialog.setContentView(view.root)
         dialog.window?.apply {
@@ -84,6 +85,7 @@ class NumberPopup(
         }
         dialog.setOnDismissListener {
             onDismiss()
+            currentDialog = null
         }
 
         view.value.setOnKeyListener { _, keyCode, event ->
@@ -103,6 +105,7 @@ class NumberPopup(
         view.value.requestFocusWithKeyboard()
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
+        currentDialog = dialog
         dialog.show()
     }
 
@@ -111,5 +114,15 @@ class NumberPopup(
         val notes = view.notes.text.toString()
         onToggle(value, notes)
         dialog.dismiss()
+    }
+
+    companion object {
+        // Used to make sure that 2 popups aren't shown on top of each other
+        // If dialog that's already shown is detected, it's dismissed before the next one is opened.
+        private var currentDialog: Dialog? = null
+        fun clearCurrentDialog() {
+            currentDialog?.dismiss()
+            currentDialog = null
+        }
     }
 }
