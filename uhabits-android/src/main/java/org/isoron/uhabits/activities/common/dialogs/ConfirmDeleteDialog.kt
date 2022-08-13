@@ -54,5 +54,4 @@ class ConfirmDeleteDialog(
             HabitsApplication.currentDialog = null
         }
     }
-
 }
