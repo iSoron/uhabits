@@ -7,13 +7,9 @@ class MultipleDialogsHandler {
     companion object {
         var currentDialog: WeakReference<Dialog> = WeakReference(null)
 
-        fun Dialog.dismissCurrentAndShow() {
-            if (currentDialog.get() != null) {
-                var test = currentDialog.get()!!.isShowing
-            }
+        fun Dialog.dismissCurrent() {
             currentDialog.get()?.dismiss()
             currentDialog = WeakReference(this)
-            show()
         }
     }
 }

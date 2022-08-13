@@ -27,7 +27,7 @@ import android.view.MotionEvent.ACTION_DOWN
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
@@ -104,7 +104,7 @@ class NumberPopup(
         view.value.requestFocusWithKeyboard()
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        dialog.dismissCurrentAndShow()
+        dialog.dismissCurrent()
         dialog.show()
     }
 

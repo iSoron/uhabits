@@ -46,6 +46,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.FrequencyPickerDialog
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
@@ -189,7 +190,9 @@ class EditHabitActivity : AppCompatActivity() {
                 populateTargetType()
                 dialog.dismiss()
             }
-            builder.show()
+            val dialog = builder.create()
+            dialog.dismissCurrent()
+            dialog.show()
         }
 
         binding.numericalFrequencyPicker.setOnClickListener {

@@ -26,7 +26,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
@@ -118,7 +118,7 @@ class CheckmarkPopup(
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        dialog.dismissCurrentAndShow()
+        dialog.dismissCurrent()
         dialog.show()
     }
 

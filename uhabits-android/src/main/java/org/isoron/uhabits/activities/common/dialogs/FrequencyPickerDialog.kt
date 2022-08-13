@@ -31,7 +31,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import kotlinx.android.synthetic.main.frequency_picker_dialog.view.*
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 
 class FrequencyPickerDialog(
     var freqNumerator: Int,
@@ -116,7 +116,7 @@ class FrequencyPickerDialog(
             .setView(contentView)
             .setPositiveButton(R.string.save) { _, _ -> onSaveClicked() }
             .create()
-        dialog.dismissCurrentAndShow()
+        dialog.dismissCurrent()
         return dialog
     }
 

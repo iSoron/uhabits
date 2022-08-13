@@ -25,7 +25,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrentAndShow
+import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.utils.DateUtils
 import java.util.Calendar
@@ -76,7 +76,7 @@ class WeekdayPickerDialog :
             ) { _: DialogInterface?, _: Int -> dismiss() }
 
         val dialog = builder.create()
-        dialog.dismissCurrentAndShow()
+        dialog.dismissCurrent()
         return dialog
     }
 
