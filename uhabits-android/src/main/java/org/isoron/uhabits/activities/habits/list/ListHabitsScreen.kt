@@ -62,12 +62,7 @@ import org.isoron.uhabits.intents.IntentFactory
 import org.isoron.uhabits.tasks.ExportDBTaskFactory
 import org.isoron.uhabits.tasks.ImportDataTask
 import org.isoron.uhabits.tasks.ImportDataTaskFactory
-import org.isoron.uhabits.utils.copyTo
-import org.isoron.uhabits.utils.currentTheme
-import org.isoron.uhabits.utils.restartWithFade
-import org.isoron.uhabits.utils.showMessage
-import org.isoron.uhabits.utils.showSendEmailScreen
-import org.isoron.uhabits.utils.showSendFileScreen
+import org.isoron.uhabits.utils.*
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -163,7 +158,7 @@ class ListHabitsScreen
     }
 
     override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback, quantity: Int) {
-        ConfirmDeleteDialog(activity, callback, quantity).show()
+        ConfirmDeleteDialog(activity, callback, quantity).dismissCurrentAndShow()
     }
 
     override fun showEditHabitsScreen(selected: List<Habit>) {
@@ -224,7 +219,8 @@ class ListHabitsScreen
     override fun showColorPicker(defaultColor: PaletteColor, callback: OnColorPickedCallback) {
         val picker = colorPickerFactory.create(defaultColor, themeSwitcher.currentTheme!!)
         picker.setListener(callback)
-        picker.show(activity.supportFragmentManager, "picker")
+        //picker.show(activity.supportFragmentManager, "picker")
+        picker.dialog?.dismissCurrentAndShow()
     }
 
     override fun showNumberPopup(

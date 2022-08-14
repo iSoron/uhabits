@@ -26,7 +26,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
@@ -36,6 +35,7 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.utils.dimBehind
+import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
 
@@ -118,8 +118,7 @@ class CheckmarkPopup(
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        dialog.dismissCurrent()
-        dialog.show()
+        dialog.dismissCurrentAndShow()
     }
 
     fun save() {

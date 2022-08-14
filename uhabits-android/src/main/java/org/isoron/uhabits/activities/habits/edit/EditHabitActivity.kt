@@ -46,7 +46,6 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.FrequencyPickerDialog
-import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
@@ -60,6 +59,7 @@ import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.databinding.ActivityEditHabitBinding
 import org.isoron.uhabits.utils.ColorUtils
+import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.formatTime
 import org.isoron.uhabits.utils.toFormattedString
 
@@ -157,23 +157,23 @@ class EditHabitActivity : AppCompatActivity() {
 
         val colorPickerDialogFactory = ColorPickerDialogFactory(this)
         binding.colorButton.setOnClickListener {
-            val dialog = colorPickerDialogFactory.create(color, themeSwitcher.currentTheme)
-            dialog.setListener { paletteColor ->
+            val picker = colorPickerDialogFactory.create(color, themeSwitcher.currentTheme)
+            picker.setListener { paletteColor ->
                 this.color = paletteColor
                 updateColors()
             }
-            dialog.show(supportFragmentManager, "colorPicker")
+            picker.dismissCurrentAndShow(supportFragmentManager, "colorPicker")
         }
 
         populateFrequency()
         binding.booleanFrequencyPicker.setOnClickListener {
-            val dialog = FrequencyPickerDialog(freqNum, freqDen)
-            dialog.onFrequencyPicked = { num, den ->
+            val picker = FrequencyPickerDialog(freqNum, freqDen)
+            picker.onFrequencyPicked = { num, den ->
                 freqNum = num
                 freqDen = den
                 populateFrequency()
             }
-            dialog.show(supportFragmentManager, "frequencyPicker")
+            picker.dismissCurrentAndShow(supportFragmentManager, "frequencyPicker")
         }
 
         populateTargetType()
@@ -191,8 +191,7 @@ class EditHabitActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             val dialog = builder.create()
-            dialog.dismissCurrent()
-            dialog.show()
+            dialog.dismissCurrentAndShow()
         }
 
         binding.numericalFrequencyPicker.setOnClickListener {
@@ -238,7 +237,7 @@ class EditHabitActivity : AppCompatActivity() {
                 is24HourMode,
                 androidColor
             )
-            dialog.show(supportFragmentManager, "timePicker")
+            dialog.dismissCurrentAndShow(supportFragmentManager, "timePicker")
         }
 
         binding.reminderDatePicker.setOnClickListener {
@@ -250,7 +249,7 @@ class EditHabitActivity : AppCompatActivity() {
                 populateReminder()
             }
             dialog.setSelectedDays(reminderDays)
-            dialog.show(supportFragmentManager, "dayPicker")
+            dialog.dismissCurrentAndShow(supportFragmentManager, "dayPicker")
         }
 
         binding.buttonSave.setOnClickListener {

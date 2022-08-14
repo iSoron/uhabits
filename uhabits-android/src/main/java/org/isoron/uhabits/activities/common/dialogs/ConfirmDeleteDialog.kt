@@ -22,7 +22,6 @@ import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.MultipleDialogsHandler.Companion.dismissCurrent
 import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.isoron.uhabits.inject.ActivityContext
 
@@ -46,7 +45,5 @@ class ConfirmDeleteDialog(
             BUTTON_NEGATIVE,
             res.getString(R.string.no)
         ) { dialog: DialogInterface?, which: Int -> }
-
-        this.dismissCurrent()
     }
 }
