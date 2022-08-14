@@ -61,7 +61,7 @@ class WeekdayPickerDialog :
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(
-            requireActivity()
+            activity!!
         )
         builder
             .setTitle(R.string.select_weekdays)

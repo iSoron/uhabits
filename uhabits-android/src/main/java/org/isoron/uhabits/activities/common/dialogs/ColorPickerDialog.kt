@@ -31,7 +31,7 @@ import org.isoron.uhabits.utils.toPaletteColor
 class ColorPickerDialog : ColorPickerDialog() {
     fun setListener(callback: OnColorPickedCallback) {
         super.setOnColorSelectedListener { c: Int ->
-            val pc = c.toPaletteColor(requireContext())
+            val pc = c.toPaletteColor(context!!)
             callback.onColorPicked(pc)
         }
     }
