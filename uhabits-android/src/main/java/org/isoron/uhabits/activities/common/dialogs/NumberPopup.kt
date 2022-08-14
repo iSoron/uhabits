@@ -31,6 +31,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.dimBehind
+import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.requestFocusWithKeyboard
 import java.text.DecimalFormat
@@ -103,7 +104,7 @@ class NumberPopup(
         view.value.requestFocusWithKeyboard()
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        dialog.show()
+        dialog.dismissCurrentAndShow()
     }
 
     fun save() {

@@ -149,8 +149,10 @@ class FrequencyPickerDialog(
             }
             contentView.xTimesPerYDaysRadioButton.isChecked -> {
                 if (contentView.xTimesPerYDaysXTextView.text.isNotEmpty() && contentView.xTimesPerYDaysYTextView.text.isNotEmpty()) {
-                    numerator = Integer.parseInt(contentView.xTimesPerYDaysXTextView.text.toString())
-                    denominator = Integer.parseInt(contentView.xTimesPerYDaysYTextView.text.toString())
+                    numerator =
+                        Integer.parseInt(contentView.xTimesPerYDaysXTextView.text.toString())
+                    denominator =
+                        Integer.parseInt(contentView.xTimesPerYDaysYTextView.text.toString())
                 }
             }
             else -> {
