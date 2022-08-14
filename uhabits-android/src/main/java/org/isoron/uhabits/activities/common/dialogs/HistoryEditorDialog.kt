@@ -49,12 +49,12 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
     private var onDateClickedListener: OnDateClickedListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val component = (activity!!.application as HabitsApplication).component
+        val component = (requireActivity().application as HabitsApplication).component
         commandRunner = component.commandRunner
-        habit = component.habitList.getById(arguments!!.getLong("habit"))!!
+        habit = component.habitList.getById(requireArguments().getLong("habit"))!!
         preferences = component.preferences
 
-        val themeSwitcher = AndroidThemeSwitcher(activity!!, preferences)
+        val themeSwitcher = AndroidThemeSwitcher(requireActivity(), preferences)
         themeSwitcher.apply()
 
         chart = HistoryChart(
@@ -69,10 +69,10 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
             onDateClickedListener = onDateClickedListener ?: object : OnDateClickedListener {},
             padding = 10.0,
         )
-        dataView = AndroidDataView(context!!, null)
+        dataView = AndroidDataView(requireContext(), null)
         dataView.view = chart!!
 
-        return Dialog(context!!).apply {
+        return Dialog(requireContext()).apply {
             val metrics = resources.displayMetrics
             val maxHeight = resources.getDimensionPixelSize(R.dimen.history_editor_max_height)
             setContentView(dataView)

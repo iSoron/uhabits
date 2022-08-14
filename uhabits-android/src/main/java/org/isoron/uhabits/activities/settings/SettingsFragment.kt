@@ -63,7 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
-        val appContext = context!!.applicationContext
+        val appContext = requireContext().applicationContext
         if (appContext is HabitsApplication) {
             prefs = appContext.component.preferences
             widgetUpdater = appContext.component.widgetUpdater
@@ -91,9 +91,9 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
             return true
         } else if (key == "reminderCustomize") {
             if (SDK_INT < Build.VERSION_CODES.O) return true
-            createAndroidNotificationChannel(context!!)
+            createAndroidNotificationChannel(requireContext())
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context!!.packageName)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
             intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID)
             startActivity(intent)
             return true
@@ -103,7 +103,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
 
     override fun onResume() {
         super.onResume()
-        ringtoneManager = RingtoneManager(activity!!)
+        ringtoneManager = RingtoneManager(requireActivity())
         sharedPrefs = preferenceManager.sharedPreferences
         sharedPrefs!!.registerOnSharedPreferenceChangeListener(this)
         if (!prefs.isDeveloper) {
@@ -146,8 +146,8 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         val pref = findPreference(key)
         pref.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                activity!!.setResult(result)
-                activity!!.finish()
+                requireActivity().setResult(result)
+                requireActivity().finish()
                 true
             }
     }
