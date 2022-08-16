@@ -32,7 +32,7 @@ tasks.compileLint {
 
 android {
 
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
         versionCode = 20003
@@ -66,12 +66,6 @@ android {
         getByName("debug") {
             isTestCoverageEnabled = true
         }
-    }
-
-    lint {
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
-        disable("GoogleAppIndexingWarning")
     }
 
     compileOptions {
@@ -116,7 +110,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kxCoroutinesVersion")
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.appcompat:appcompat:1.5.0")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.6.1")
