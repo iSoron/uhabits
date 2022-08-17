@@ -53,6 +53,7 @@ object ListHabitsSteps {
                 clickViewWithId(R.id.action_filter)
                 CommonSteps.clickText(R.string.hide_completed)
             }
+            else -> throw RuntimeException()
         }
         device.waitForIdle()
     }

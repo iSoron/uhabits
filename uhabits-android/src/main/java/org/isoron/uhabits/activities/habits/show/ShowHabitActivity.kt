@@ -220,6 +220,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 ShowHabitMenuPresenter.Message.COULD_NOT_EXPORT -> {
                     showMessage(resources.getString(R.string.could_not_export))
                 }
+                else -> {}
             }
         }
 
