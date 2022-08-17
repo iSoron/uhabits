@@ -73,6 +73,7 @@ class WeekdayPickerDialog :
             .setNegativeButton(
                 android.R.string.cancel
             ) { _: DialogInterface?, _: Int -> dismiss() }
+
         return builder.create()
     }
 

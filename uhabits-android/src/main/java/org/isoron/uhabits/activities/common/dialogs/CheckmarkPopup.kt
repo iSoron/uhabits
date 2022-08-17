@@ -35,6 +35,7 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.utils.dimBehind
+import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
 
@@ -117,7 +118,7 @@ class CheckmarkPopup(
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        dialog.show()
+        dialog.dismissCurrentAndShow()
     }
 
     fun save() {

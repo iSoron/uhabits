@@ -19,6 +19,7 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.platform.gui.AndroidDataView
@@ -49,6 +50,7 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
     private var onDateClickedListener: OnDateClickedListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        clearCurrentDialog()
         val component = (requireActivity().application as HabitsApplication).component
         commandRunner = component.commandRunner
         habit = component.habitList.getById(requireArguments().getLong("habit"))!!
@@ -72,12 +74,20 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
         dataView = AndroidDataView(requireContext(), null)
         dataView.view = chart!!
 
-        return Dialog(requireContext()).apply {
+        val dialog = Dialog(requireContext()).apply {
             val metrics = resources.displayMetrics
             val maxHeight = resources.getDimensionPixelSize(R.dimen.history_editor_max_height)
             setContentView(dataView)
             window!!.setLayout(metrics.widthPixels, min(metrics.heightPixels, maxHeight))
         }
+
+        currentDialog = dialog
+        return dialog
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        currentDialog = null
     }
 
     override fun onResume() {
@@ -110,5 +120,15 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
 
     override fun onCommandFinished(command: Command) {
         refreshData()
+    }
+
+    companion object {
+        // HistoryEditorDialog handles multiple dialogs on its own,
+        // because sometimes we want it to be shown under another dialog (e.g. NumberPopup)
+        var currentDialog: Dialog? = null
+        fun clearCurrentDialog() {
+            currentDialog?.dismiss()
+            currentDialog = null
+        }
     }
 }
