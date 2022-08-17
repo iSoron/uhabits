@@ -102,8 +102,9 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         taskRunner.run {
             try {
                 AutoBackup(this@ListHabitsActivity).run()
+                appComponent.widgetUpdater.updateWidgets()
             } catch (e: Exception) {
-                Log.e("ListHabitActivity", "AutoBackup task failed", e)
+                Log.e("ListHabitActivity", "TaskRunner failed", e)
             }
         }
         if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {
