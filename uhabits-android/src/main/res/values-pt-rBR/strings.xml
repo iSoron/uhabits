@@ -75,6 +75,7 @@
     <string name="interval_always_ask">Perguntar sempre</string>
     <string name="interval_custom">Personalizar...</string>
     <string name="pref_toggle_title">Marcar repetições com um toque curto</string>
+    <string name="pref_toggle_description_2">Adicione marcações com um simples toque, ao invés de pressionar e segurar.</string>
     <string name="pref_rate_this_app">Avaliar esse app no Google Play</string>
     <string name="pref_send_feedback">Mandar sugestões para o desenvolvedor</string>
     <string name="pref_view_source_code">Ver código-fonte no GitHub</string>
@@ -146,6 +147,7 @@
     <string name="none">Nenhum</string>
     <string name="filter">Filtro</string>
     <string name="hide_completed">Ocultar concluído</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Ocultar marcado</string>
     <string name="hide_archived">Ocultar arquivado</string>
     <string name="sticky_notifications">Tornar notificações persistentes</string>
     <string name="sticky_notifications_description">Impede que as notificações sejam removidas.</string>
@@ -165,8 +167,12 @@
     <string name="by_status">Por status</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Pressione e segure para alterar o valor</string>
+    <string name="value">Valor</string>
     <string name="calendar">Calendário</string>
     <string name="unit">Unidade</string>
+    <string name="target_type">Tipo de meta</string>
+    <string name="target_type_at_least">Pelo menos</string>
+    <string name="target_type_at_most">No máximo</string>
     <string name="example_question_boolean">ex.: Você se exercitou hoje?</string>
     <string name="question">Questão</string>
     <string name="target">Alvo</string>

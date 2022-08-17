@@ -120,18 +120,6 @@
         </activity>
 
         <activity
-            android:name=".widgets.activities.NumericalCheckmarkWidgetActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:label="NumericalCheckmarkWidget"
-            android:noHistory="true"
-            android:theme="@style/Theme.Transparent">
-            <intent-filter>
-                <action android:name="org.isoron.uhabits.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".notifications.SnoozeDelayPickerActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"

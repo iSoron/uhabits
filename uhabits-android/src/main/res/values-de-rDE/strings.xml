@@ -75,6 +75,7 @@
     <string name="interval_always_ask">Immer fragen</string>
     <string name="interval_custom">Benutzerdefiniert...</string>
     <string name="pref_toggle_title">Markierung durch kurzes Tippen ändern</string>
+    <string name="pref_toggle_description_2">Häkchen durch einfaches Antippen setzen, anstatt durch Drücken und Halten.</string>
     <string name="pref_rate_this_app">Bewerte diese App auf Google Play</string>
     <string name="pref_send_feedback">Sende dem Entwickler Feedback</string>
     <string name="pref_view_source_code">Zeige den Quellcode auf GitHub</string>
@@ -98,7 +99,7 @@
     <string name="any_weekday">Montag bis Freitag</string>
     <string name="any_day">Jeden Tag</string>
     <string name="select_weekdays">Tage auswählen</string>
-    <string name="export_to_csv">Exportiere als CSV</string>
+    <string name="export_to_csv">Als CSV exportieren</string>
     <string name="done_label">Fertig</string>
     <string name="clear_label">Löschen</string>
     <string name="select_hours">Stunden auswählen</string>
@@ -118,7 +119,7 @@
     <string name="file_not_recognized">Datei nicht erkannt.</string>
     <string name="habits_imported">Gewohnheiten erfolgreich importiert.</string>
     <string name="import_data">Daten importieren</string>
-    <string name="export_full_backup">Exportiere vollständige Sicherung</string>
+    <string name="export_full_backup">Vollständige Sicherung exportieren</string>
     <string name="import_data_summary">Unterstützt vollständige Sicherungen dieser App, als auch von Tickmate, HabitBull und Rewire. Siehe FAQ für weitere Informationen.</string>
     <string name="export_as_csv_summary">Erstellt Dateien, die von Tabellenkalkulationsprogrammen wie Microsoft Excel oder LibreOffice Calc geöffnet werden können. Diese Dateien können nicht wieder importiert werden.</string>
     <string name="export_full_backup_summary">Erstellt eine Datei, die alle deine Daten enthält. Diese Datei kann wieder importiert werden.</string>
@@ -146,6 +147,7 @@
     <string name="none">Keiner</string>
     <string name="filter">Filter</string>
     <string name="hide_completed">Erledigte verbergen</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Eingegebenes ausblenden</string>
     <string name="hide_archived">Archivierte verbergen</string>
     <string name="sticky_notifications">Fixiere Benachrichtigungen</string>
     <string name="sticky_notifications_description">Verhindert das Wegwischen von Benachrichtigungen.</string>
@@ -165,8 +167,12 @@
     <string name="by_status">Nach Zustand</string>
     <string name="export">Exportieren</string>
     <string name="long_press_to_edit">Gedrückt halten, um den Wert zu ändern</string>
+    <string name="value">Wert</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Einheit</string>
+    <string name="target_type">Zieltyp</string>
+    <string name="target_type_at_least">Mindestens</string>
+    <string name="target_type_at_most">Höchtens</string>
     <string name="example_question_boolean">z.B. Hast du heute trainiert?</string>
     <string name="question">Frage</string>
     <string name="target">Ziel</string>
@@ -202,7 +208,7 @@
     <string name="no_habits">Keine Gewohnheiten gefunden</string>
     <string name="no_numerical_habits">Keine messbaren Gewohnheiten gefunden</string>
     <string name="no_boolean_habits">Keine Ja-oder-Nein-Gewohnheiten gefunden</string>
-    <string name="increment">Vergrößern</string>
+    <string name="increment">Erhöhen</string>
     <string name="decrement">Verringern</string>
     <string name="pref_skip_title">Tage überspringen aktivieren</string>
     <string name="pref_skip_description">Zwei mal markieren, um eine Lücke einzutragen statt abzuhaken. Lücken lassen deine Wertung unverändert und beenden deine Serie nicht.</string>

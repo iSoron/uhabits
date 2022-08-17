@@ -27,6 +27,7 @@ import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 import java.util.ArrayList
 import java.util.Calendar
+import kotlin.math.max
 
 data class TargetCardState(
     val color: PaletteColor,
@@ -96,15 +97,44 @@ class TargetCardPresenter {
 
             val cal = DateUtils.getStartOfTodayCalendarWithOffset()
             val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+            val daysInWeek = 7
             val daysInQuarter = 91
             val daysInYear = cal.getActualMaximum(Calendar.DAY_OF_YEAR)
+            val weeksInMonth = daysInMonth / 7
+            val weeksInQuarter = 13
+            val weeksInYear = 52
+            val monthsInQuarter = 3
+            val monthsInYear = 12
 
+            val denominator = habit.frequency.denominator
             val dailyTarget = habit.targetValue / habit.frequency.denominator
-            val targetToday = dailyTarget * (1 - skippedDayToday)
-            val targetThisWeek = dailyTarget * (7 - skippedDaysThisWeek)
-            val targetThisMonth = dailyTarget * (daysInMonth - skippedDaysThisMonth)
-            val targetThisQuarter = dailyTarget * (daysInQuarter - skippedDaysThisQuarter)
-            val targetThisYear = dailyTarget * (daysInYear - skippedDaysThisYear)
+
+            var targetToday = dailyTarget
+            var targetThisWeek = when (denominator) {
+                7 -> habit.targetValue
+                else -> dailyTarget * daysInWeek
+            }
+            var targetThisMonth = when (denominator) {
+                30 -> habit.targetValue
+                7 -> habit.targetValue * weeksInMonth
+                else -> dailyTarget * daysInMonth
+            }
+            var targetThisQuarter = when (denominator) {
+                30 -> habit.targetValue * monthsInQuarter
+                7 -> habit.targetValue * weeksInQuarter
+                else -> dailyTarget * daysInQuarter
+            }
+            var targetThisYear = when (denominator) {
+                30 -> habit.targetValue * monthsInYear
+                7 -> habit.targetValue * weeksInYear
+                else -> dailyTarget * daysInYear
+            }
+
+            targetToday = max(0.0, targetToday - dailyTarget * skippedDayToday)
+            targetThisWeek = max(0.0, targetThisWeek - dailyTarget * skippedDaysThisWeek)
+            targetThisMonth = max(0.0, targetThisMonth - dailyTarget * skippedDaysThisMonth)
+            targetThisQuarter = max(0.0, targetThisQuarter - dailyTarget * skippedDaysThisQuarter)
+            targetThisYear = max(0.0, targetThisYear - dailyTarget * skippedDaysThisYear)
 
             val values = ArrayList<Double>()
             if (habit.frequency.denominator <= 1) values.add(valueToday / 1e3)

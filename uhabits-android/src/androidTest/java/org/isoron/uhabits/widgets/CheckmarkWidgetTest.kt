@@ -32,6 +32,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,10 +43,12 @@ class CheckmarkWidgetTest : BaseViewTest() {
     private lateinit var habit: Habit
     private lateinit var entries: EntryList
     private lateinit var view: FrameLayout
-    private val today = getTodayWithOffset()
+    private lateinit var today: Timestamp
+
     override fun setUp() {
         super.setUp()
         setTheme(R.style.WidgetTheme)
+        today = getTodayWithOffset()
         prefs.widgetOpacity = 255
         prefs.isSkipEnabled = true
         habit = fixtures.createVeryLongHabit()

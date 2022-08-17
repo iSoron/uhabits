@@ -123,7 +123,7 @@
     <string name="none">صامت </string>
     <string name="filter">تصنيف </string>
     <string name="hide_completed">إخفاء المكتملة </string>
-    <string name="hide_entered">إخفاء المُدخل</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">إخفاء المُدخل</string>
     <string name="hide_archived">إخفاء المؤرشفة </string>
     <string name="sticky_notifications">جعل الإشعارات ثابتة </string>
     <string name="sticky_notifications_description">منع الإشعارات من تمريرها بعيداً. </string>

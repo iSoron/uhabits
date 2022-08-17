@@ -7,59 +7,24 @@ on:
     paths-ignore:
     - '**.md'
 jobs:
-  Build:
-    runs-on: ubuntu-latest
+  Test:
+    runs-on: self-hosted
     steps:
     - name: Check out source code
       uses: actions/checkout@v1
 
-    - name: Install Java Development Kit 11
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-
-    - name: Build Project
+    - name: Build project
       run: ./build.sh build
 
-    - name: Upload Build Artifacts
+    - name: Run Android tests
+      run: ./build.sh android-tests-parallel 23 24 25 26 27 28 30 31
+
+    - name: Upload artifacts
+      if: always()
       uses: actions/upload-artifact@v2
       with:
-        name: uhabits-android
-        path: uhabits-android/build/outputs/
-
-  AndroidTest:
-    needs: Build
-    runs-on: macOS-10.15
-    timeout-minutes: 60
-    strategy:
-      matrix:
-        api: [
-          23,
-          24,
-          25,
-          26,
-          27,
-          28,
-          # 29,  # Crashes constantly, see: https://issuetracker.google.com/issues/159732638 
-          # 30,  # Not available yet
-          # 31,  # Not available yet
-        ]
-
-    steps:
-    - name: Check out source code
-      uses: actions/checkout@v1
-
-    - name: Download Previously Built APK
-      uses: actions/download-artifact@v2
-      with:
-        name: uhabits-android
-        path: uhabits-android/build/outputs/
-
-    - name: Install flock
-      run: |
-        brew install util-linux
-        echo "/usr/local/opt/util-linux/bin" >> $GITHUB_PATH
-
-    - name: Run Android Tests
-      run: ./build.sh android-tests ${{ matrix.api }}
+        name: build
+        path: |
+          build/*log
+          uhabits-android/build/outputs
 

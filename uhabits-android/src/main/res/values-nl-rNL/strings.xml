@@ -71,6 +71,7 @@
     <string name="interval_always_ask">Altijd vragen</string>
     <string name="interval_custom">Aangepast...</string>
     <string name="pref_toggle_title">Wijzig herhalingen door kort indrukken</string>
+    <string name="pref_toggle_description_2">Zet vinkjes met een enkele keer drukken in plaats van ingedrukt te houden.</string>
     <string name="pref_rate_this_app">Beoordeel deze app in Google Play</string>
     <string name="pref_send_feedback">Stuur feedback aan de ontwikkelaar</string>
     <string name="pref_view_source_code">Bekijk de broncode op GitHub</string>
@@ -134,6 +135,7 @@
     <string name="none">Stil</string>
     <string name="filter">Filteren</string>
     <string name="hide_completed">Verberg voltooide</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Verberg ingevoerde</string>
     <string name="hide_archived">Verberg gearchiveerde</string>
     <string name="sticky_notifications">Maak meldingen persistent</string>
     <string name="sticky_notifications_description">Voorkom dat meldingen weggehaald kunnen worden.</string>
@@ -156,6 +158,7 @@
     <string name="value">Waarde</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Eenheid</string>
+    <string name="target_type">Doeltype</string>
     <string name="target_type_at_least">Minimaal</string>
     <string name="target_type_at_most">Maximaal</string>
     <string name="example_question_boolean">bijv. Heb je vandaag gesport?</string>

@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.habits.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import org.isoron.uhabits.BaseExceptionHandler
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
+import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_DARK
@@ -36,11 +38,15 @@ import org.isoron.uhabits.core.utils.MidnightTimer
 import org.isoron.uhabits.database.AutoBackup
 import org.isoron.uhabits.inject.ActivityContextModule
 import org.isoron.uhabits.inject.DaggerHabitsActivityComponent
+import org.isoron.uhabits.inject.HabitsActivityComponent
+import org.isoron.uhabits.inject.HabitsApplicationComponent
 import org.isoron.uhabits.utils.restartWithFade
 
 class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
 
     var pureBlack: Boolean = false
+    lateinit var appComponent: HabitsApplicationComponent
+    lateinit var component: HabitsActivityComponent
     lateinit var taskRunner: TaskRunner
     lateinit var adapter: HabitCardListAdapter
     lateinit var rootView: ListHabitsRootView
@@ -59,8 +65,8 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val appComponent = (applicationContext as HabitsApplication).component
-        val component = DaggerHabitsActivityComponent
+        appComponent = (applicationContext as HabitsApplication).component
+        component = DaggerHabitsActivityComponent
             .builder()
             .activityContextModule(ActivityContextModule(this))
             .habitsApplicationComponent(appComponent)
@@ -79,6 +85,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         Thread.setDefaultUncaughtExceptionHandler(BaseExceptionHandler(this))
         component.listHabitsBehavior.onStartup()
         setContentView(rootView)
+        parseIntents()
     }
 
     override fun onPause() {
@@ -94,7 +101,11 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         rootView.postInvalidate()
         midnightTimer.onResume()
         taskRunner.run {
-            AutoBackup(this@ListHabitsActivity).run()
+            try {
+                AutoBackup(this@ListHabitsActivity).run()
+            } catch (e: Exception) {
+                Log.e("ListHabitActivity", "AutoBackup task failed", e)
+            }
         }
         if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {
             restartWithFade(ListHabitsActivity::class.java)
@@ -115,5 +126,20 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
     override fun onActivityResult(request: Int, result: Int, data: Intent?) {
         super.onActivityResult(request, result, data)
         screen.onResult(request, result, data)
+    }
+
+    private fun parseIntents() {
+        if (intent.action == ACTION_EDIT) {
+            val habitId = intent.extras?.getLong("habit")
+            val timestamp = intent.extras?.getLong("timestamp")
+            if (habitId != null && timestamp != null) {
+                val habit = appComponent.habitList.getById(habitId)!!
+                component.listHabitsBehavior.onEdit(habit, Timestamp(timestamp))
+            }
+        }
+    }
+
+    companion object {
+        const val ACTION_EDIT = "org.isoron.uhabits.ACTION_EDIT"
     }
 }

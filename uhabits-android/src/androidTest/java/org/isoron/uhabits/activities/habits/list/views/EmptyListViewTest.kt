@@ -29,6 +29,10 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class EmptyListViewTest : BaseViewTest() {
+    init {
+        // TODO: fix rendering differences across APIs
+        similarityCutoff = 0.00035
+    }
 
     private val path = "habits/list/EmptyListView"
     private val view: EmptyListView = EmptyListView(targetContext)

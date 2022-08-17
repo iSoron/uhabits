@@ -27,6 +27,7 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
@@ -43,6 +44,7 @@ import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getLongWeekdayNames
 import org.isoron.uhabits.notifications.AndroidNotificationTray.Companion.createAndroidNotificationChannel
 import org.isoron.uhabits.notifications.RingtoneManager
+import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.widgets.WidgetUpdater
 import java.util.Calendar
 
@@ -82,6 +84,12 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     override fun onPause() {
         sharedPrefs!!.unregisterOnSharedPreferenceChangeListener(this)
         super.onPause()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val sr = StyledResources(context!!)
+        view.setBackgroundColor(sr.getColor(R.attr.contrast0))
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {

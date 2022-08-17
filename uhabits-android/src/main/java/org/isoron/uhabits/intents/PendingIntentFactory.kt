@@ -22,10 +22,12 @@ package org.isoron.uhabits.intents
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.app.PendingIntent.getActivity
 import android.app.PendingIntent.getBroadcast
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import org.isoron.uhabits.activities.habits.list.ListHabitsActivity
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
@@ -127,25 +129,6 @@ class PendingIntentFactory
             FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
-    fun setNumericalValue(
-        widgetContext: Context,
-        habit: Habit,
-        numericalValue: Int,
-        timestamp: Long?
-    ):
-        PendingIntent =
-        getBroadcast(
-            widgetContext,
-            2,
-            Intent(widgetContext, WidgetReceiver::class.java).apply {
-                data = Uri.parse(habit.uriString)
-                action = WidgetReceiver.ACTION_SET_NUMERICAL_VALUE
-                putExtra("numericalValue", numericalValue)
-                if (timestamp != null) putExtra("timestamp", timestamp)
-            },
-            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
-        )
-
     fun updateWidgets(): PendingIntent =
         getBroadcast(
             context,
@@ -155,4 +138,17 @@ class PendingIntentFactory
             },
             FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
+
+    fun showNumberPicker(habit: Habit, timestamp: Timestamp): PendingIntent? {
+        return getActivity(
+            context,
+            0,
+            Intent(context, ListHabitsActivity::class.java).apply {
+                action = ListHabitsActivity.ACTION_EDIT
+                putExtra("habit", habit.id)
+                putExtra("timestamp", timestamp.unixTime)
+            },
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
+    }
 }

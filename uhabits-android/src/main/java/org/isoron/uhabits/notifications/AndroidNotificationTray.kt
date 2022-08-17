@@ -112,7 +112,7 @@ class AndroidNotificationTray
         val enterAction = Action(
             R.drawable.ic_action_check,
             context.getString(R.string.enter),
-            pendingIntents.setNumericalValue(context, habit, 0, null)
+            pendingIntents.showNumberPicker(habit, timestamp)
         )
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
