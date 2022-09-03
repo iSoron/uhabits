@@ -29,11 +29,14 @@ import android.widget.RemoteViewsService
 import android.widget.RemoteViewsService.RemoteViewsFactory
 import org.isoron.platform.utils.StringUtils.Companion.splitLongs
 import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitNotFoundException
 import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
+import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.intents.PendingIntentFactory
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
-import java.util.ArrayList
 
 class StackWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
@@ -138,14 +141,18 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         val options = AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId)
         val newRemoteViews = ArrayList<RemoteViews>()
         if (Looper.myLooper() == null) Looper.prepare()
-        for (id in habitIds) {
-            val h = habitList.getById(id) ?: throw HabitNotFoundException()
+        val habits = habitIds.map { habitList.getById(it) ?: throw HabitNotFoundException() }
+        for (h in habits) {
             val widget = constructWidget(h, prefs)
             widget.setDimensions(getDimensionsFromOptions(context, options))
             val landscapeViews = widget.landscapeRemoteViews
             val portraitViews = widget.portraitRemoteViews
+            val factory = PendingIntentFactory(context, IntentFactory())
+            val intent = StackWidgetType.getIntentFillIn(factory, widgetType, h, habits, getToday())
+            landscapeViews.setOnClickFillInIntent(R.id.button, intent)
+            portraitViews.setOnClickFillInIntent(R.id.button, intent)
             newRemoteViews.add(RemoteViews(landscapeViews, portraitViews))
-            Log.i("StackRemoteViewsFactory", "onDataSetChanged constructed widget $id")
+            Log.i("StackRemoteViewsFactory", "onDataSetChanged constructed widget ${h.id}")
         }
         remoteViews = newRemoteViews
         Log.i("StackRemoteViewsFactory", "onDataSetChanged ended")
