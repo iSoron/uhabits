@@ -159,7 +159,7 @@ class PendingIntentFactory
     fun showNumberPicker(habit: Habit, timestamp: Timestamp): PendingIntent? {
         return getActivity(
             context,
-            0,
+            (habit.id!! % Integer.MAX_VALUE).toInt() + 1,
             Intent(context, ListHabitsActivity::class.java).apply {
                 action = ListHabitsActivity.ACTION_EDIT
                 putExtra("habit", habit.id)
