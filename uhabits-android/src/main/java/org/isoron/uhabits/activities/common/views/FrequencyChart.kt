@@ -238,8 +238,8 @@ class FrequencyChart : ScrollableChart {
         // maximal allowed mark radius
         val maxRadius = (rect.height() - 2 * padding) / 2.0f
         // the real mark radius is scaled down by a factor depending on the maximal frequency
-
-        val scale = 1.0f / frequency * valueCopy!!
+        val scalingFactor = if (isNumerical) maxFreq else weekdayFrequency
+        val scale = 1.0f / scalingFactor * valueCopy!!
         val radius = maxRadius * scale
         val colorIndex = min((colors.size - 1), ((colors.size - 1) * scale).roundToInt())
         pGraph!!.color = colors[colorIndex]
