@@ -65,6 +65,7 @@ class FrequencyChart : ScrollableChart {
     private lateinit var frequency: HashMap<Timestamp, Array<Int>>
     private var maxFreq = 0
     private var firstWeekday = Calendar.SUNDAY
+    private var isNumerical: Boolean = false
 
     constructor(context: Context?) : super(context) {
         init()
@@ -78,6 +79,11 @@ class FrequencyChart : ScrollableChart {
     fun setColor(color: Int) {
         primaryColor = color
         initColors()
+        postInvalidate()
+    }
+
+    fun setIsNumerical(type: Boolean) {
+        isNumerical = type
         postInvalidate()
     }
 
