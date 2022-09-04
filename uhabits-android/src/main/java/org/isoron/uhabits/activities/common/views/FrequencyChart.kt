@@ -63,6 +63,7 @@ class FrequencyChart : ScrollableChart {
     private var primaryColor = 0
     private var isBackgroundTransparent = false
     private lateinit var frequency: HashMap<Timestamp, Array<Int>>
+    private var maxFreq = 0
     private var firstWeekday = Calendar.SUNDAY
 
     constructor(context: Context?) : super(context) {
@@ -82,12 +83,22 @@ class FrequencyChart : ScrollableChart {
 
     fun setFrequency(frequency: java.util.HashMap<Timestamp, Array<Int>>) {
         this.frequency = frequency
+        maxFreq = getMaxFreq(frequency)
         postInvalidate()
     }
 
     fun setFirstWeekday(firstWeekday: Int) {
         this.firstWeekday = firstWeekday
         postInvalidate()
+    }
+
+    private fun getMaxFreq(frequency: HashMap<Timestamp, Array<Int>>): Int {
+        var maxValue = 1
+        for (values in frequency.values) for (value in values) maxValue = max(
+            value,
+            maxValue
+        )
+        return maxValue
     }
 
     fun setIsBackgroundTransparent(isBackgroundTransparent: Boolean) {
@@ -285,5 +296,6 @@ class FrequencyChart : ScrollableChart {
             frequency[Timestamp(date)] = values
             date.add(Calendar.MONTH, -1)
         }
+        maxFreq = getMaxFreq(frequency)
     }
 }
