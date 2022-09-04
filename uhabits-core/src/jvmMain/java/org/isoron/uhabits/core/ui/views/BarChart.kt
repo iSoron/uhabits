@@ -92,7 +92,7 @@ class BarChart(
             val r = round(barWidth * 0.15)
             if (2 * r < barHeight) {
                 canvas.fillRect(x, y + r, barWidth, barHeight - r)
-                canvas.fillRect(x + r, y, barWidth - 2 * r, r)
+                canvas.fillRect(x + r, y, barWidth - 2 * r, r + 1)
                 canvas.fillCircle(x + r, y + r, r)
                 canvas.fillCircle(x + barWidth - r, y + r, r)
             } else {
