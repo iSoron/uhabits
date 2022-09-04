@@ -230,7 +230,7 @@ class FrequencyChart : ScrollableChart {
         canvas.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top, pGrid!!)
     }
 
-    private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?, frequency: Int) {
+    private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?, weekdayFrequency: Int) {
         // value can be negative when the entry is skipped
         val valueCopy = value?.let { max(0, it) }
 
