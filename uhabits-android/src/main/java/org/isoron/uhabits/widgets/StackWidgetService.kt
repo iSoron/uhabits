@@ -57,7 +57,6 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
     )
     private val habitIds: LongArray
     private val widgetType: StackWidgetType
-    private var remoteViews = ArrayList<RemoteViews>()
     override fun onCreate() {}
     override fun onDestroy() {}
     override fun getCount(): Int {
@@ -89,7 +88,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
 
     override fun getViewAt(position: Int): RemoteViews? {
         Log.i("StackRemoteViewsFactory", "getViewAt $position started")
-        if (position < 0 || position >= remoteViews.size) return null
+        if (position < 0 || position >= habitIds.size) return null
         val app = context.applicationContext as HabitsApplication
         val prefs = app.component.preferences
         val habitList = app.component.habitList
