@@ -30,6 +30,7 @@ data class FrequencyCardState(
     val firstWeekday: Int,
     val frequency: HashMap<Timestamp, Array<Int>>,
     val theme: Theme,
+    val isNumerical: Boolean
 )
 
 class FrequencyCardPresenter {
@@ -40,6 +41,7 @@ class FrequencyCardPresenter {
             theme: Theme
         ) = FrequencyCardState(
             color = habit.color,
+            isNumerical = habit.isNumerical,
             frequency = habit.originalEntries.computeWeekdayFrequency(
                 isNumerical = habit.isNumerical
             ),
