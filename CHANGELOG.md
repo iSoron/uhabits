@@ -9,6 +9,7 @@
 - Improve number picker (@hiqua, @iSoron, #1082, #1370)
 - Add new checkmark and number picker (@iSoron, #1370)
 - Allow user to import numerical habits from HabitBull (@hiqua, #1278)
+- Add support for Android 13 themed icons (@cheeeeer, #1497)
 
 ### Removed
 - Hide snooze button Android 12 notifications (@hiqua, #1226)
@@ -28,6 +29,7 @@
 - Fix small issues in calendar chart (@kalina559, #1314)
 - Resort habit list after edit (@hiqua, #1350)
 - Fix marker scaling in frequency display (@eduebernal, #1425)
+- Fix widgets not working correctly on API 33 (@iSoron, #1488)
 
 ### Refactoring & Testing
 - Replace raster icons by vector assets (@kalina559)
