@@ -25,6 +25,12 @@ class StringUtils {
 
         fun joinLongs(values: LongArray): String = values.joinToString(separator = ",")
 
-        fun splitLongs(str: String): LongArray = str.split(",").map { it.toLong() }.toLongArray()
+        fun splitLongs(str: String): LongArray {
+            return try {
+                str.split(",").map { it.toLong() }.toLongArray()
+            } catch (e: NumberFormatException) {
+                LongArray(0)
+            }
+        }
     }
 }
