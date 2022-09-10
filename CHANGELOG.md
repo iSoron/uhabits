@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.1.0] -- Unreleased
+## [2.1.0] -- 2022-09-10
 ### Added
 - Allow user to add notes to specific dates (@vbh, #1103)
 - Allow user to track "at most" numerical habits (@KristianTashkov, #1101)
