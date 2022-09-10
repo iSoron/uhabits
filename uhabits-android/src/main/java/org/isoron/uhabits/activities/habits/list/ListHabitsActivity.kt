@@ -85,7 +85,6 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         Thread.setDefaultUncaughtExceptionHandler(BaseExceptionHandler(this))
         component.listHabitsBehavior.onStartup()
         setContentView(rootView)
-        parseIntents()
     }
 
     override fun onPause() {
@@ -110,6 +109,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {
             restartWithFade(ListHabitsActivity::class.java)
         }
+        parseIntents()
         super.onResume()
     }
 
@@ -129,6 +129,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
     }
 
     private fun parseIntents() {
+        if (intent == null) return
         if (intent.action == ACTION_EDIT) {
             val habitId = intent.extras?.getLong("habit")
             val timestamp = intent.extras?.getLong("timestamp")
@@ -137,6 +138,12 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
                 component.listHabitsBehavior.onEdit(habit, Timestamp(timestamp))
             }
         }
+        intent = null
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
     }
 
     companion object {

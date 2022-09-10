@@ -29,11 +29,14 @@ import android.widget.RemoteViewsService
 import android.widget.RemoteViewsService.RemoteViewsFactory
 import org.isoron.platform.utils.StringUtils.Companion.splitLongs
 import org.isoron.uhabits.HabitsApplication
+import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitNotFoundException
 import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
+import org.isoron.uhabits.intents.IntentFactory
+import org.isoron.uhabits.intents.PendingIntentFactory
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
-import java.util.ArrayList
 
 class StackWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
@@ -54,7 +57,6 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
     )
     private val habitIds: LongArray
     private val widgetType: StackWidgetType
-    private var remoteViews = ArrayList<RemoteViews>()
     override fun onCreate() {}
     override fun onDestroy() {}
     override fun getCount(): Int {
@@ -85,8 +87,26 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
     }
 
     override fun getViewAt(position: Int): RemoteViews? {
-        Log.i("StackRemoteViewsFactory", "getViewAt $position")
-        return if (0 <= position && position < remoteViews.size) remoteViews[position] else null
+        Log.i("StackRemoteViewsFactory", "getViewAt $position started")
+        if (position < 0 || position >= habitIds.size) return null
+        val app = context.applicationContext as HabitsApplication
+        val prefs = app.component.preferences
+        val habitList = app.component.habitList
+        val options = AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId)
+        if (Looper.myLooper() == null) Looper.prepare()
+        val habits = habitIds.map { habitList.getById(it) ?: throw HabitNotFoundException() }
+        val h = habits[position]
+        val widget = constructWidget(h, prefs)
+        widget.setDimensions(getDimensionsFromOptions(context, options))
+        val landscapeViews = widget.landscapeRemoteViews
+        val portraitViews = widget.portraitRemoteViews
+        val factory = PendingIntentFactory(context, IntentFactory())
+        val intent = StackWidgetType.getIntentFillIn(factory, widgetType, h, habits, getToday())
+        landscapeViews.setOnClickFillInIntent(R.id.button, intent)
+        portraitViews.setOnClickFillInIntent(R.id.button, intent)
+        val remoteViews = RemoteViews(landscapeViews, portraitViews)
+        Log.i("StackRemoteViewsFactory", "getViewAt $position ended")
+        return remoteViews
     }
 
     private fun constructWidget(
@@ -131,24 +151,6 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
     }
 
     override fun onDataSetChanged() {
-        Log.i("StackRemoteViewsFactory", "onDataSetChanged started")
-        val app = context.applicationContext as HabitsApplication
-        val prefs = app.component.preferences
-        val habitList = app.component.habitList
-        val options = AppWidgetManager.getInstance(context).getAppWidgetOptions(widgetId)
-        val newRemoteViews = ArrayList<RemoteViews>()
-        if (Looper.myLooper() == null) Looper.prepare()
-        for (id in habitIds) {
-            val h = habitList.getById(id) ?: throw HabitNotFoundException()
-            val widget = constructWidget(h, prefs)
-            widget.setDimensions(getDimensionsFromOptions(context, options))
-            val landscapeViews = widget.landscapeRemoteViews
-            val portraitViews = widget.portraitRemoteViews
-            newRemoteViews.add(RemoteViews(landscapeViews, portraitViews))
-            Log.i("StackRemoteViewsFactory", "onDataSetChanged constructed widget $id")
-        }
-        remoteViews = newRemoteViews
-        Log.i("StackRemoteViewsFactory", "onDataSetChanged ended")
     }
 
     init {
