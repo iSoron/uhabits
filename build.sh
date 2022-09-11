@@ -85,10 +85,10 @@ android_setup() {
         $AVDMANAGER delete avd --name $AVDNAME
 
         log_info "Creating new Android virtual device (API $API)..."
-        (echo "y" | $SDKMANAGER --install "system-images;android-$API;default;x86_64") || return 1
+        (echo "y" | $SDKMANAGER --install "system-images;android-$API;google_apis;x86_64") || return 1
         $AVDMANAGER create avd \
                 --name $AVDNAME \
-                --package "system-images;android-$API;default;x86_64" \
+                --package "system-images;android-$API;google_apis;x86_64" \
                 --device "Nexus 4" || return 1
 
         flock -u 10
