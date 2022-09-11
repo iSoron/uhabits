@@ -79,7 +79,6 @@
     <string name="interval_always_ask">Uvek pitaj</string>
     <string name="interval_custom">Prilagođeno...</string>
     <string name="pref_toggle_title">Menjaj stanje dodirom</string>
-    <string name="pref_toggle_description">Stavlja kvačice dodirom umesto dugog pritiska. Zgodnije, ali može slučajno doći do prebacivanja.</string>
     <string name="pref_rate_this_app">Oceni aplikaciju</string>
     <string name="pref_send_feedback">Povratne informacije</string>
     <string name="pref_view_source_code">Izvorni kôd na Githabu</string>
@@ -133,7 +132,7 @@
     <string name="generate_bug_report">Napravi izveštaj o grešci</string>
     <string name="troubleshooting">Rešavanje problema</string>
     <string name="help_translate">Pomozite prevođenje</string>
-    <string name="night_mode" comment="dark_theme">Tamna tema</string>
+    <string name="night_mode">Tamna tema</string>
     <string name="use_pure_black">Čista crna u tamnoj temi</string>
     <string name="pure_black_description">Menja sivu pozadinu sa čistom crnom u tamnoj temi. Smanjuje potrošnju baterije kod telefona sa AMOLED ekranom.</string>
     <string name="interface_preferences">Sučelje</string>
@@ -172,7 +171,6 @@
     <string name="by_status">po stanju</string>
     <string name="export">Izvoz</string>
     <string name="long_press_to_edit">Dug pritisak za promenu vrednosti</string>
-    <string name="change_value">Izmeni vrednost</string>
     <string name="calendar">Kalendar</string>
     <string name="unit">Jedinica</string>
     <string name="example_question_boolean">npr. Da li ste vežbali danas?</string>

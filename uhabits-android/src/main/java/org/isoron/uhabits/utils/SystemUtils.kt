@@ -21,19 +21,11 @@ package org.isoron.uhabits.utils
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
-import android.os.Build
-import android.view.WindowManager
 
 object SystemUtils {
-    val isAndroidOOrLater: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
     fun unlockScreen(activity: Activity) {
-        if (isAndroidOOrLater) {
-            val km = activity.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            km.requestDismissKeyguard(activity, null)
-        } else {
-            activity.window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
-        }
+        val km = activity.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        km.requestDismissKeyguard(activity, null)
     }
 }

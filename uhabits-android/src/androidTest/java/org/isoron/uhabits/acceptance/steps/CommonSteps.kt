@@ -18,7 +18,9 @@
  */
 package org.isoron.uhabits.acceptance.steps
 
-import android.os.Build.VERSION
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
@@ -72,7 +74,7 @@ object CommonSteps : BaseUserInterfaceTest() {
     }
 
     fun offsetHeaders() {
-        device.swipe(750, 160, 600, 160, 20)
+        device.swipe(500, 160, 350, 160, 20)
     }
 
     fun scrollToText(text: String?) {
@@ -133,7 +135,7 @@ object CommonSteps : BaseUserInterfaceTest() {
     @Throws(Exception::class)
     fun verifyOpensWebsite(url: String?) {
         var browserPkg = "org.chromium.webview_shell"
-        if (VERSION.SDK_INT <= 23) {
+        if (SDK_INT <= Build.VERSION_CODES.M) {
             browserPkg = "com.android.browser"
         }
         assertTrue(device.wait(Until.hasObject(By.pkg(browserPkg)), 5000))
@@ -176,6 +178,22 @@ object CommonSteps : BaseUserInterfaceTest() {
         verifyShowsScreen(Screen.EDIT_HABIT)
         EditHabitSteps.typeName(habitName)
         EditHabitSteps.clickSave()
+    }
+
+    fun changeFrequencyToDaily(habitName: String) {
+        clickText(habitName)
+        Espresso.onView(ViewMatchers.withId(R.id.action_edit_habit)).perform(ViewActions.click())
+        EditHabitSteps.pickDailyFrequency()
+        EditHabitSteps.clickSave()
+        pressBack()
+    }
+
+    fun changeFrequencyToMonthly(habitName: String) {
+        clickText(habitName)
+        Espresso.onView(ViewMatchers.withId(R.id.action_edit_habit)).perform(ViewActions.click())
+        EditHabitSteps.pickMonthFrequency()
+        EditHabitSteps.clickSave()
+        pressBack()
     }
 
     enum class Screen {

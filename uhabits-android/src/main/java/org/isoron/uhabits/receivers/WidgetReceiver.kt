@@ -27,7 +27,6 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.core.ui.widgets.WidgetBehavior
 import org.isoron.uhabits.inject.HabitsApplicationComponent
 import org.isoron.uhabits.intents.IntentParser.CheckmarkIntentData
-import org.isoron.uhabits.widgets.activities.NumericalCheckmarkWidgetActivity
 
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
@@ -96,15 +95,6 @@ class WidgetReceiver : BroadcastReceiver() {
                         data.timestamp
                     )
                 }
-                ACTION_SET_NUMERICAL_VALUE -> {
-                    context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-                    val numberSelectorIntent = Intent(context, NumericalCheckmarkWidgetActivity::class.java)
-                    numberSelectorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    numberSelectorIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    numberSelectorIntent.action = NumericalCheckmarkWidgetActivity.ACTION_SHOW_NUMERICAL_VALUE_ACTIVITY
-                    parser.copyIntentData(intent, numberSelectorIntent)
-                    context.startActivity(numberSelectorIntent)
-                }
                 ACTION_UPDATE_WIDGETS_VALUE -> {
                     widgetUpdater.updateWidgets()
                     widgetUpdater.scheduleStartDayWidgetUpdate()
@@ -126,7 +116,6 @@ class WidgetReceiver : BroadcastReceiver() {
         const val ACTION_DISMISS_REMINDER = "org.isoron.uhabits.ACTION_DISMISS_REMINDER"
         const val ACTION_REMOVE_REPETITION = "org.isoron.uhabits.ACTION_REMOVE_REPETITION"
         const val ACTION_TOGGLE_REPETITION = "org.isoron.uhabits.ACTION_TOGGLE_REPETITION"
-        const val ACTION_SET_NUMERICAL_VALUE = "org.isoron.uhabits.ACTION_SET_NUMERICAL_VALUE"
         const val ACTION_UPDATE_WIDGETS_VALUE = "org.isoron.uhabits.ACTION_UPDATE_WIDGETS_VALUE"
         private const val TAG = "WidgetReceiver"
         var lastReceivedIntent: Intent? = null

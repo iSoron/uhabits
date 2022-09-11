@@ -53,6 +53,7 @@ object ListHabitsSteps {
                 clickViewWithId(R.id.action_filter)
                 CommonSteps.clickText(R.string.hide_completed)
             }
+            else -> throw RuntimeException()
         }
         device.waitForIdle()
     }
@@ -118,6 +119,12 @@ object ListHabitsSteps {
             longClickDescendantWithClass(CheckmarkButtonView::class.java, count)
         )
         BaseUserInterfaceTest.device.waitForIdle()
+    }
+
+    fun changeSort(sortText: String) {
+        clickViewWithId(R.id.action_filter)
+        Espresso.onView(ViewMatchers.withText("Sort")).perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(sortText)).perform(ViewActions.click())
     }
 
     enum class MenuItem {

@@ -152,17 +152,8 @@ open class Preferences(private val storage: Storage) {
         for (l in listeners) l.onNotificationsChanged()
     }
 
-    fun setNotificationsLed(enabled: Boolean) {
-        storage.putBoolean("pref_led_notifications", enabled)
-        for (l in listeners) l.onNotificationsChanged()
-    }
-
     fun shouldMakeNotificationsSticky(): Boolean {
         return storage.getBoolean("pref_sticky_notifications", false)
-    }
-
-    fun shouldMakeNotificationsLed(): Boolean {
-        return storage.getBoolean("pref_led_notifications", false)
     }
 
     open var isCheckmarkSequenceReversed: Boolean

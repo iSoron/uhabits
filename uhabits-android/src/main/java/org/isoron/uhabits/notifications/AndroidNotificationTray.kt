@@ -25,7 +25,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.BitmapFactory.decodeResource
-import android.graphics.Color
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.util.Log
@@ -113,7 +112,7 @@ class AndroidNotificationTray
         val enterAction = Action(
             R.drawable.ic_action_check,
             context.getString(R.string.enter),
-            pendingIntents.setNumericalValue(context, habit, 0, null)
+            pendingIntents.showNumberPicker(habit, timestamp)
         )
 
         val wearableBg = decodeResource(context.resources, R.drawable.stripe)
@@ -150,9 +149,6 @@ class AndroidNotificationTray
         if (!disableSound)
             builder.setSound(ringtoneManager.getURI())
 
-        if (preferences.shouldMakeNotificationsLed())
-            builder.setLights(Color.RED, 1000, 1000)
-
         if (SDK_INT < Build.VERSION_CODES.S) {
             val snoozeAction = Action(
                 R.drawable.ic_action_snooze,
@@ -172,14 +168,12 @@ class AndroidNotificationTray
         fun createAndroidNotificationChannel(context: Context) {
             val notificationManager = context.getSystemService(Activity.NOTIFICATION_SERVICE)
                 as NotificationManager
-            if (SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(
-                    REMINDERS_CHANNEL_ID,
-                    context.resources.getString(R.string.reminder),
-                    NotificationManager.IMPORTANCE_DEFAULT
-                )
-                notificationManager.createNotificationChannel(channel)
-            }
+            val channel = NotificationChannel(
+                REMINDERS_CHANNEL_ID,
+                context.resources.getString(R.string.reminder),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }

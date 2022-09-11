@@ -389,16 +389,39 @@
         <item name="android:textSize">@dimen/smallTextSize</item>
     </style>
 
-    <style name="CheckmarkDialogBtn">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:textSize">@dimen/regularTextSize</item>
-        <item name="backgroundTint">@null</item>
-        <item name="android:background">@drawable/bg_select_button</item>
-        <item name="selectable">true</item>
+    <style name="CheckmarkPopupBtn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/ripple_transparent</item>
+        <item name="android:textSize">@dimen/smallerTextSize</item>
+    </style>
+
+    <style name="NumericalPopupBtn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/ripple_transparent</item>
+        <item name="android:textSize">@dimen/smallerTextSize</item>
+        <item name="android:textAllCaps">true</item>
+
+    </style>
+
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
 </resources>

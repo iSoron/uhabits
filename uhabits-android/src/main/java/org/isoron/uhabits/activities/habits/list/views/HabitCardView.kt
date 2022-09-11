@@ -21,8 +21,8 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
 import android.graphics.text.LineBreaker.BREAK_STRATEGY_BALANCED
+import android.os.Build
 import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.M
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
@@ -60,7 +60,8 @@ class HabitCardViewFactory
 data class DelayedToggle(
     var habit: Habit,
     var timestamp: Timestamp,
-    var value: Int
+    var value: Int,
+    var notes: String
 )
 
 class HabitCardView(
@@ -121,11 +122,11 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
-    var notesIndicators
-        get() = checkmarkPanel.notesIndicators
+    var notes
+        get() = checkmarkPanel.notes
         set(values) {
-            checkmarkPanel.notesIndicators = values
-            numberPanel.notesIndicators = values
+            checkmarkPanel.notes = values
+            numberPanel.notes = values
         }
 
     var checkmarkPanel: CheckmarkPanelView
@@ -153,15 +154,17 @@ class HabitCardView(
             maxLines = 2
             ellipsize = TextUtils.TruncateAt.END
             layoutParams = LinearLayout.LayoutParams(0, WRAP_CONTENT, 1f)
-            if (SDK_INT >= M) breakStrategy = BREAK_STRATEGY_BALANCED
+            if (SDK_INT >= Build.VERSION_CODES.Q) {
+                breakStrategy = BREAK_STRATEGY_BALANCED
+            }
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {
-            onToggle = { timestamp, value ->
-                triggerRipple(timestamp)
+            onToggle = { timestamp, value, notes, delay ->
+                if (delay > 0) triggerRipple(timestamp)
                 habit?.let {
-                    val taskId = queueToggle(it, timestamp, value);
-                    { runPendingToggles(taskId) }.delay(TOGGLE_DELAY_MILLIS)
+                    val taskId = queueToggle(it, timestamp, value, notes);
+                    { runPendingToggles(taskId) }.delay(delay)
                 }
             }
             onEdit = { timestamp ->
@@ -205,7 +208,7 @@ class HabitCardView(
     @Synchronized
     private fun runPendingToggles(id: Int) {
         if (currentToggleTaskId != id) return
-        for ((h, t, v) in queuedToggles) behavior.onToggle(h, t, v)
+        for ((h, t, v, n) in queuedToggles) behavior.onToggle(h, t, v, n)
         queuedToggles.clear()
     }
 
@@ -213,10 +216,11 @@ class HabitCardView(
     private fun queueToggle(
         it: Habit,
         timestamp: Timestamp,
-        value: Int
+        value: Int,
+        notes: String,
     ): Int {
         currentToggleTaskId += 1
-        queuedToggles.add(DelayedToggle(it, timestamp, value))
+        queuedToggles.add(DelayedToggle(it, timestamp, value, notes))
         return currentToggleTaskId
     }
 
@@ -306,8 +310,6 @@ class HabitCardView(
     }
 
     companion object {
-        const val TOGGLE_DELAY_MILLIS = 2000L
-
         fun (() -> Unit).delay(delayInMillis: Long) {
             Handler(Looper.getMainLooper()).postDelayed(this, delayInMillis)
         }

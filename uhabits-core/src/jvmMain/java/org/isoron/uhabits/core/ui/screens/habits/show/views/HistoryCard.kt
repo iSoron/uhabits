@@ -29,16 +29,21 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
-import org.isoron.uhabits.core.models.NumericalHabitType
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.views.HistoryChart
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.DIMMED
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.GREY
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF
+import org.isoron.uhabits.core.ui.views.HistoryChart.Square.ON
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
-import kotlin.math.max
 import kotlin.math.roundToInt
 
 data class HistoryCardState(
@@ -63,23 +68,10 @@ class HistoryCardPresenter(
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-            showNumberPicker(timestamp)
+            showNumberPopup(timestamp)
         } else {
-            val entry = habit.computedEntries.get(timestamp)
-            val nextValue = Entry.nextToggleValue(
-                value = entry.value,
-                isSkipEnabled = preferences.isSkipEnabled,
-                areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
-            )
-            commandRunner.run(
-                CreateRepetitionCommand(
-                    habitList,
-                    habit,
-                    timestamp,
-                    nextValue,
-                    entry.notes,
-                ),
-            )
+            if (preferences.isShortToggleEnabled) showCheckmarkPopup(timestamp)
+            else toggle(timestamp)
         }
     }
 
@@ -87,37 +79,58 @@ class HistoryCardPresenter(
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
         if (habit.isNumerical) {
-            showNumberPicker(timestamp)
+            showNumberPopup(timestamp)
         } else {
-            val entry = habit.computedEntries.get(timestamp)
-            screen.showCheckmarkDialog(
-                entry.value,
-                entry.notes,
-                timestamp.toDialogDateString(),
-                preferences,
-                habit.color,
-            ) { newValue, newNotes ->
-                commandRunner.run(
-                    CreateRepetitionCommand(
-                        habitList,
-                        habit,
-                        timestamp,
-                        newValue,
-                        newNotes,
-                    ),
-                )
-            }
+            if (preferences.isShortToggleEnabled) toggle(timestamp)
+            else showCheckmarkPopup(timestamp)
         }
     }
 
-    private fun showNumberPicker(timestamp: Timestamp) {
+    private fun showCheckmarkPopup(timestamp: Timestamp) {
+        val entry = habit.computedEntries.get(timestamp)
+        screen.showCheckmarkPopup(
+            entry.value,
+            entry.notes,
+            preferences,
+            habit.color,
+        ) { newValue, newNotes ->
+            commandRunner.run(
+                CreateRepetitionCommand(
+                    habitList,
+                    habit,
+                    timestamp,
+                    newValue,
+                    newNotes,
+                ),
+            )
+        }
+    }
+
+    private fun toggle(timestamp: Timestamp) {
+        val entry = habit.computedEntries.get(timestamp)
+        val nextValue = Entry.nextToggleValue(
+            value = entry.value,
+            isSkipEnabled = preferences.isSkipEnabled,
+            areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
+        )
+        commandRunner.run(
+            CreateRepetitionCommand(
+                habitList,
+                habit,
+                timestamp,
+                nextValue,
+                entry.notes,
+            ),
+        )
+    }
+
+    private fun showNumberPopup(timestamp: Timestamp) {
         val entry = habit.computedEntries.get(timestamp)
         val oldValue = entry.value
-        screen.showNumberPicker(
-            oldValue / 1000.0,
-            habit.unit,
-            entry.notes,
-            timestamp.toDialogDateString(),
+        screen.showNumberPopup(
+            value = oldValue / 1000.0,
+            notes = entry.notes,
+            preferences = preferences,
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -146,36 +159,25 @@ class HistoryCardPresenter(
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today)
             val series = if (habit.isNumerical) {
-                if (habit.targetType == NumericalHabitType.AT_LEAST) {
-                    entries.map {
-                        when (max(0, it.value)) {
-                            0 -> HistoryChart.Square.OFF
-                            else -> HistoryChart.Square.ON
-                        }
-                    }
-                } else {
-                    entries.map {
-                        when {
-                            max(0.0, it.value / 1000.0) <= habit.targetValue -> HistoryChart.Square.ON
-                            else -> HistoryChart.Square.OFF
-                        }
+                entries.map {
+                    when {
+                        it.value == Entry.UNKNOWN -> OFF
+                        it.value == SKIP -> HATCHED
+                        (habit.targetType == AT_MOST) && (it.value / 1000.0 <= habit.targetValue) -> ON
+                        (habit.targetType == AT_LEAST) && (it.value / 1000.0 >= habit.targetValue) -> ON
+                        else -> GREY
                     }
                 }
             } else {
                 entries.map {
                     when (it.value) {
-                        YES_MANUAL -> HistoryChart.Square.ON
-                        YES_AUTO -> HistoryChart.Square.DIMMED
-                        SKIP -> HistoryChart.Square.HATCHED
-                        else -> HistoryChart.Square.OFF
+                        YES_MANUAL -> ON
+                        YES_AUTO -> DIMMED
+                        SKIP -> HATCHED
+                        else -> OFF
                     }
                 }
             }
-            val defaultSquare = if (habit.isNumerical && habit.targetType == NumericalHabitType.AT_MOST)
-                HistoryChart.Square.ON
-            else
-                HistoryChart.Square.OFF
-
             val notesIndicators = entries.map {
                 when (it.notes) {
                     "" -> false
@@ -189,7 +191,7 @@ class HistoryCardPresenter(
                 today = today.toLocalDate(),
                 theme = theme,
                 series = series,
-                defaultSquare = defaultSquare,
+                defaultSquare = OFF,
                 notesIndicators = notesIndicators,
             )
         }
@@ -198,17 +200,15 @@ class HistoryCardPresenter(
     interface Screen {
         fun showHistoryEditorDialog(listener: OnDateClickedListener)
         fun showFeedback()
-        fun showNumberPicker(
+        fun showNumberPopup(
             value: Double,
-            unit: String,
             notes: String,
-            dateString: String,
+            preferences: Preferences,
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
-        fun showCheckmarkDialog(
-            value: Int,
+        fun showCheckmarkPopup(
+            selectedValue: Int,
             notes: String,
-            dateString: String,
             preferences: Preferences,
             color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback,

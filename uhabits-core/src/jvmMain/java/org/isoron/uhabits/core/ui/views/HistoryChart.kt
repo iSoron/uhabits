@@ -53,6 +53,7 @@ class HistoryChart(
     enum class Square {
         ON,
         OFF,
+        GREY,
         DIMMED,
         HATCHED,
     }
@@ -86,7 +87,7 @@ class HistoryChart(
         val col = ((x - padding) / squareSize).toInt()
         val row = ((y - padding) / squareSize).toInt()
         val offset = col * 7 + (row - 1)
-        if (row == 0 || col == nColumns) return
+        if (x - padding < 0 || row == 0 || row > 7 || col == nColumns) return
         val clickedDate = topLeftDate.plus(offset)
         if (clickedDate.isNewerThan(today)) return
         if (isLongClick) {
@@ -216,6 +217,9 @@ class HistoryChart(
             Square.OFF -> {
                 theme.lowContrastTextColor
             }
+            Square.GREY -> {
+                theme.mediumContrastTextColor
+            }
             Square.DIMMED, Square.HATCHED -> {
                 color.blendWith(theme.cardBackgroundColor, 0.5)
             }
@@ -254,7 +258,7 @@ class HistoryChart(
 
         if (hasNotes) {
             circleColor = when (value) {
-                Square.ON -> theme.lowContrastTextColor
+                Square.ON, Square.GREY -> theme.lowContrastTextColor
                 else -> color
             }
             canvas.setColor(circleColor)

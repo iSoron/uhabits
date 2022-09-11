@@ -75,7 +75,7 @@
     <string name="interval_always_ask">Immer fragen</string>
     <string name="interval_custom">Benutzerdefiniert...</string>
     <string name="pref_toggle_title">Markierung durch kurzes Tippen ändern</string>
-    <string name="pref_toggle_description">Abhaken durch einfaches Tippen, anstatt durch Tippen und Halten. Bequemer, kann aber eine falsche Auswahl verursachen.</string>
+    <string name="pref_toggle_description_2">Häkchen durch einfaches Antippen setzen, anstatt durch Drücken und Halten.</string>
     <string name="pref_rate_this_app">Bewerte diese App auf Google Play</string>
     <string name="pref_send_feedback">Sende dem Entwickler Feedback</string>
     <string name="pref_view_source_code">Zeige den Quellcode auf GitHub</string>
@@ -99,7 +99,7 @@
     <string name="any_weekday">Montag bis Freitag</string>
     <string name="any_day">Jeden Tag</string>
     <string name="select_weekdays">Tage auswählen</string>
-    <string name="export_to_csv">Exportiere als CSV</string>
+    <string name="export_to_csv">Als CSV exportieren</string>
     <string name="done_label">Fertig</string>
     <string name="clear_label">Löschen</string>
     <string name="select_hours">Stunden auswählen</string>
@@ -119,7 +119,7 @@
     <string name="file_not_recognized">Datei nicht erkannt.</string>
     <string name="habits_imported">Gewohnheiten erfolgreich importiert.</string>
     <string name="import_data">Daten importieren</string>
-    <string name="export_full_backup">Exportiere vollständige Sicherung</string>
+    <string name="export_full_backup">Vollständige Sicherung exportieren</string>
     <string name="import_data_summary">Unterstützt vollständige Sicherungen dieser App, als auch von Tickmate, HabitBull und Rewire. Siehe FAQ für weitere Informationen.</string>
     <string name="export_as_csv_summary">Erstellt Dateien, die von Tabellenkalkulationsprogrammen wie Microsoft Excel oder LibreOffice Calc geöffnet werden können. Diese Dateien können nicht wieder importiert werden.</string>
     <string name="export_full_backup_summary">Erstellt eine Datei, die alle deine Daten enthält. Diese Datei kann wieder importiert werden.</string>
@@ -127,7 +127,7 @@
     <string name="generate_bug_report">Erstelle einen Fehlerbericht</string>
     <string name="troubleshooting">Fehlerbehebung</string>
     <string name="help_translate">Hilf mit, diese App zu übersetzen</string>
-    <string name="night_mode" comment="dark_theme">Nachtmodus</string>
+    <string name="night_mode">Nachtmodus</string>
     <string name="use_pure_black">Verwende reines Schwarz im Nachtmodus</string>
     <string name="pure_black_description">Ersetzt im Nachtmodus das Grau des Hintergrunds durch Schwarz. Reduziert den Stromverbrauch von Smartphones mit AMOLED Displays.</string>
     <string name="interface_preferences">Oberfläche</string>
@@ -147,6 +147,7 @@
     <string name="none">Keiner</string>
     <string name="filter">Filter</string>
     <string name="hide_completed">Erledigte verbergen</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Eingegebenes ausblenden</string>
     <string name="hide_archived">Archivierte verbergen</string>
     <string name="sticky_notifications">Fixiere Benachrichtigungen</string>
     <string name="sticky_notifications_description">Verhindert das Wegwischen von Benachrichtigungen.</string>
@@ -166,9 +167,12 @@
     <string name="by_status">Nach Zustand</string>
     <string name="export">Exportieren</string>
     <string name="long_press_to_edit">Gedrückt halten, um den Wert zu ändern</string>
-    <string name="change_value">Wert ändern</string>
+    <string name="value">Wert</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Einheit</string>
+    <string name="target_type">Zieltyp</string>
+    <string name="target_type_at_least">Mindestens</string>
+    <string name="target_type_at_most">Höchtens</string>
     <string name="example_question_boolean">z.B. Hast du heute trainiert?</string>
     <string name="question">Frage</string>
     <string name="target">Ziel</string>
@@ -190,6 +194,7 @@
     <string name="measurable_example">z.B. Wie viele Kilometer bist du heute gelaufen? Wie viele Seiten hast du gelesen?</string>
     <string name="x_times_per_week">%d mal pro Woche</string>
     <string name="x_times_per_month">%d mal pro Monat</string>
+    <string name="x_times_per_y_days">%d Mal in %d Tagen</string>
     <string name="yes_or_no_short_example">z.B. Übung</string>
     <string name="color">Farbe</string>
     <string name="example_target">z.B. 15</string>
@@ -203,7 +208,7 @@
     <string name="no_habits">Keine Gewohnheiten gefunden</string>
     <string name="no_numerical_habits">Keine messbaren Gewohnheiten gefunden</string>
     <string name="no_boolean_habits">Keine Ja-oder-Nein-Gewohnheiten gefunden</string>
-    <string name="increment">Vergrößern</string>
+    <string name="increment">Erhöhen</string>
     <string name="decrement">Verringern</string>
     <string name="pref_skip_title">Tage überspringen aktivieren</string>
     <string name="pref_skip_description">Zwei mal markieren, um eine Lücke einzutragen statt abzuhaken. Lücken lassen deine Wertung unverändert und beenden deine Serie nicht.</string>
@@ -213,5 +218,4 @@
     <string name="activity_not_found">Für diese Aktion wurde keine App gefunden.</string>
     <string name="pref_midnight_delay_title">Verlängere den Tag um ein paar Stunden nach Mitternacht</string>
     <string name="pref_midnight_delay_description">Bis 3:00 Uhr warten, bevor ein neuer Tag angezeigt wird. Nützlich, wenn du normalerweise nach Mitternacht schlafen gehst. Benötigt einen Neustart der App.</string>
-    <string name="x_times_per_y_days">%d Mal in %d Tagen</string>
 </resources>

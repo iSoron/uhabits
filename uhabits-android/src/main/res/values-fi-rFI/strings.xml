@@ -75,7 +75,7 @@
     <string name="interval_always_ask">Kysy aina</string>
     <string name="interval_custom">Muu</string>
     <string name="pref_toggle_title">Vaihda merkintää lyhyellä painalluksella</string>
-    <string name="pref_toggle_description">Tee merkit yhdellä painalluksella pitkän painalluksen sijaan. Kätevämpi, mutta saattaa aiheuttaa vahingossa painamista.</string>
+    <string name="pref_toggle_description_2">Lisää valinnat yhdellä napautuksella pitkään painettuna pitämisen sijaan.</string>
     <string name="pref_rate_this_app">Arvostele Google Playssä</string>
     <string name="pref_send_feedback">Lähetä palautetta kehittäjälle</string>
     <string name="pref_view_source_code">Katso lähdekoodi GitHubissa</string>
@@ -127,7 +127,7 @@
     <string name="generate_bug_report">Luo virheraportti</string>
     <string name="troubleshooting">Apua</string>
     <string name="help_translate">Auta kääntämään tämä sovellus</string>
-    <string name="night_mode" comment="dark_theme">Yötila</string>
+    <string name="night_mode">Yötila</string>
     <string name="use_pure_black">Käytä puhdasta mustaa yötilassa</string>
     <string name="pure_black_description">Korvaa harmaat taustat puhtaalla mustalla tummalla teemalla. Vähentää akun käyttöä puhelimissa AMOLED-näytöllä.</string>
     <string name="interface_preferences">Käyttöliittymä</string>
@@ -147,6 +147,7 @@
     <string name="none">Ei mitään</string>
     <string name="filter">Suodata</string>
     <string name="hide_completed">Piilota suoritetut</string>
+    <string name="hide_entered">Piilota syötetty</string>
     <string name="hide_archived">Piilota arkistoidut</string>
     <string name="sticky_notifications">Tee ilmoituksesta kiinnitettyjä</string>
     <string name="sticky_notifications_description">Estää ilmoitusten pois pyyhkäisemisen.</string>
@@ -166,9 +167,12 @@
     <string name="by_status">Tilan mukaan</string>
     <string name="export">Vie</string>
     <string name="long_press_to_edit">Pidä painettuna muuttaaksesi arvoa</string>
-    <string name="change_value">Muuta arvo</string>
+    <string name="value">Arvo</string>
     <string name="calendar">Kalenteri</string>
     <string name="unit">Yksikkö</string>
+    <string name="target_type">Kohdetyyppi</string>
+    <string name="target_type_at_least">Vähintään</string>
+    <string name="target_type_at_most">Enintään</string>
     <string name="example_question_boolean">esim. Harrastitko tänään liikuntaa?</string>
     <string name="question">Kysymys</string>
     <string name="target">Tavoite</string>
@@ -190,6 +194,7 @@
     <string name="measurable_example">esim. Montako kilometriä juoksit tänään? Montako sivua luit?</string>
     <string name="x_times_per_week">%d kertaa viikossa</string>
     <string name="x_times_per_month">%d kertaa kuukaudessa</string>
+    <string name="x_times_per_y_days">%d kertaa %d päivässä</string>
     <string name="yes_or_no_short_example">Esim. kuntoilu</string>
     <string name="color">Väri</string>
     <string name="example_target">Esim. 15</string>
@@ -213,5 +218,4 @@
     <string name="activity_not_found">Tälle toiminnolle ei löytynyt yhtään sovellusta</string>
     <string name="pref_midnight_delay_title">Pidennä päivää muutama tunti keskiyön jälkeen</string>
     <string name="pref_midnight_delay_description">Odota kello 3.00 asti ennen uuden päivän näyttämistä. Hyödyllinen jos menet nukkumaan yleensä keskiyön jälkeen. Vaatii sovelluksen uudelleenkäynnistyksen.</string>
-    <string name="x_times_per_y_days">%d kertaa %d päivässä</string>
 </resources>

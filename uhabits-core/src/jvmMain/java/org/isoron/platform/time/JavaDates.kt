@@ -19,6 +19,7 @@
 
 package org.isoron.platform.time
 
+import java.text.DateFormat
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.DAY_OF_WEEK
 import java.util.Calendar.HOUR_OF_DAY
@@ -65,5 +66,11 @@ class JavaLocalDateFormatter(private val locale: Locale) : LocalDateFormatter {
     override fun shortWeekdayName(date: LocalDate): String {
         val cal = date.toGregorianCalendar()
         return cal.getDisplayName(DAY_OF_WEEK, SHORT, locale)
+    }
+
+    fun longFormat(date: LocalDate): String {
+        val df = DateFormat.getDateInstance(DateFormat.LONG, locale)
+        df.timeZone = TimeZone.getTimeZone("UTC")
+        return df.format(date.toGregorianCalendar().time)
     }
 }

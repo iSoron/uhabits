@@ -73,6 +73,10 @@ class StackWidget(
             StackWidgetType.getStackWidgetAdapterViewId(widgetType),
             StackWidgetType.getStackWidgetEmptyViewId(widgetType)
         )
+        remoteViews.setPendingIntentTemplate(
+            StackWidgetType.getStackWidgetAdapterViewId(widgetType),
+            StackWidgetType.getPendingIntentTemplate(pendingIntentFactory, widgetType, habits)
+        )
         return remoteViews
     }
 }

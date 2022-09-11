@@ -44,6 +44,8 @@ import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 import javax.inject.Inject
 
+const val TOGGLE_DELAY_MILLIS = 2000L
+
 class CheckmarkButtonViewFactory
 @Inject constructor(
     @ActivityContext val context: Context,
@@ -71,42 +73,42 @@ class CheckmarkButtonView(
             invalidate()
         }
 
-    var hasNotes = false
+    var notes = ""
         set(value) {
             field = value
             invalidate()
         }
 
-    var onToggle: (Int) -> Unit = {}
+    var onToggle: (Int, String, Long) -> Unit = { _, _, _ -> }
 
-    var onEdit: () -> Unit = {}
+    var onEdit: () -> Unit = { }
+
     private var drawer = Drawer()
 
     init {
-        isFocusable = false
         setOnClickListener(this)
         setOnLongClickListener(this)
     }
 
-    fun performToggle() {
+    fun performToggle(delay: Long) {
         value = Entry.nextToggleValue(
             value = value,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        onToggle(value)
+        onToggle(value, notes, delay)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
     }
 
     override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) performToggle()
+        if (preferences.isShortToggleEnabled) performToggle(TOGGLE_DELAY_MILLIS)
         else onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
         if (preferences.isShortToggleEnabled) onEdit()
-        else performToggle()
+        else performToggle(TOGGLE_DELAY_MILLIS)
         return true
     }
 
@@ -180,7 +182,7 @@ class CheckmarkButtonView(
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
             }
 
-            drawNotesIndicator(canvas, color, em, hasNotes)
+            drawNotesIndicator(canvas, color, em, notes)
         }
     }
 }

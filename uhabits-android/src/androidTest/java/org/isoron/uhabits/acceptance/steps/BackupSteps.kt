@@ -20,6 +20,7 @@
 package org.isoron.uhabits.acceptance.steps
 
 import android.os.Build.VERSION.SDK_INT
+import android.os.SystemClock.sleep
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiSelector
 import org.isoron.uhabits.BaseUserInterfaceTest.Companion.device
@@ -39,7 +40,7 @@ fun exportFullBackup() {
 }
 
 fun clearDownloadFolder() {
-    device.executeShellCommand("rm -rf /sdcard/Download/")
+    device.executeShellCommand("rm -rf /sdcard/Download")
 }
 
 fun clearBackupFolder() {
@@ -86,6 +87,7 @@ fun importBackupFromDownloadFolder() {
         device.findObject(UiSelector().textContains("Loop")).click()
     } else {
         device.click(50, 90) // Click menu button
+        Thread.sleep(1000)
         device.findObject(UiSelector().textContains("Download")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
     }

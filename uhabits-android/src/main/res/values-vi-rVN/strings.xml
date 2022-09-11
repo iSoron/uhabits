@@ -71,7 +71,7 @@
     <string name="interval_always_ask">Luôn hỏi</string>
     <string name="interval_custom">Tùy chỉnh...</string>
     <string name="pref_toggle_title">Bấm nhanh để chuyển trạng thái</string>
-    <string name="pref_toggle_description">Chỉ cần chạm một lần để đánh dấu thay cho việc nhấn giữ. Tiện lợi hơn nhưng có thể đánh dấu sai.</string>
+    <string name="pref_toggle_description_2">Đặt dấu kiểm bằng một lần nhấn thay vì nhấn và giữ.</string>
     <string name="pref_rate_this_app">Đánh giá ứng dụng trên Google Play</string>
     <string name="pref_send_feedback">Gửi phản hồi cho nhà phát triển</string>
     <string name="pref_view_source_code">Xem mã nguồn trên Github</string>
@@ -121,7 +121,7 @@
     <string name="generate_bug_report">Tạo báo cáo lỗi</string>
     <string name="troubleshooting">Xử lí sự cố</string>
     <string name="help_translate">Giúp dịch ứng dụng</string>
-    <string name="night_mode" comment="dark_theme">Chế độ ban đêm</string>
+    <string name="night_mode">Chế độ ban đêm</string>
     <string name="use_pure_black">Sử dụng màu đen thuần trong chế độ ban đêm</string>
     <string name="pure_black_description">Thay thế nền màu xám bởi màu đen thuần trong chế độ ban đêm. Giảm thiểu việc sử dụng pin của điện thoại có màn hình AMOLED.</string>
     <string name="interface_preferences">Giao diện</string>
@@ -141,6 +141,7 @@
     <string name="none">Không có</string>
     <string name="filter">Lọc</string>
     <string name="hide_completed">Ẩn mục đã hoàn thành</string>
+    <string name="hide_entered">Ẩn đã nhập</string>
     <string name="hide_archived">Ẩn mục đã lưu trữ</string>
     <string name="sticky_notifications">Gửi thông báo cố định</string>
     <string name="sticky_notifications_description">Không cho các thông báo bị vuốt ngang mất.</string>
@@ -160,9 +161,12 @@
     <string name="by_status">Theo trạng thái</string>
     <string name="export">Xuất dữ liệu ra</string>
     <string name="long_press_to_edit">Nhấn và giữ để thay đổi giá trị</string>
-    <string name="change_value">Thay đổi giá trị</string>
+    <string name="value">Giá trị</string>
     <string name="calendar">Lịch</string>
     <string name="unit">Đơn vị</string>
+    <string name="target_type">Loại mục tiêu</string>
+    <string name="target_type_at_least">Ít nhất</string>
+    <string name="target_type_at_most">Nhiều nhất</string>
     <string name="example_question_boolean">v.d. Hôm nay bạn đã tập thể dục chưa?</string>
     <string name="question">Câu hỏi</string>
     <string name="target">Mục tiêu</string>
@@ -184,6 +188,7 @@
     <string name="measurable_example">Ví dụ: Hôm nay bạn đã chạy bao nhiêu dặm? Bạn đã đọc bao nhiêu trang?</string>
     <string name="x_times_per_week">%d lần mỗi tuần</string>
     <string name="x_times_per_month">%d lần mỗi tháng</string>
+    <string name="x_times_per_y_days">%d lần trong %d ngày</string>
     <string name="yes_or_no_short_example">Ví dụ: Tập thể dục</string>
     <string name="color">Màu sắc</string>
     <string name="example_target">Ví dụ: 15</string>
@@ -207,5 +212,4 @@
     <string name="activity_not_found">Không tìm thấy ứng dụng nào để hỗ trợ hành động này</string>
     <string name="pref_midnight_delay_title">Kéo dài ngày thêm một vài giờ sau nửa đêm</string>
     <string name="pref_midnight_delay_description">Chờ đến 3:00 sáng để hiện một ngày mới. Rất hữu ích nếu bạn thường đi ngủ sau nửa đêm. Yêu cầu khởi động lại ứng dụng.</string>
-    <string name="x_times_per_y_days">%d lần trong %d ngày</string>
 </resources>

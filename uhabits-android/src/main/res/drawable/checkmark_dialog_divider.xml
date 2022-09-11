@@ -18,6 +18,8 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
-
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:width="1dip"/>
+    <size android:height="1dip"/>
+    <solid android:color="?contrast40"/>
+</shape>

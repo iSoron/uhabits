@@ -22,11 +22,10 @@ import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.os.Build
-import android.os.Build.VERSION
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
@@ -43,6 +42,7 @@ import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getLongWeekdayNames
 import org.isoron.uhabits.notifications.AndroidNotificationTray.Companion.createAndroidNotificationChannel
 import org.isoron.uhabits.notifications.RingtoneManager
+import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.widgets.WidgetUpdater
 import java.util.Calendar
 
@@ -63,7 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
-        val appContext = context!!.applicationContext
+        val appContext = requireContext().applicationContext
         if (appContext is HabitsApplication) {
             prefs = appContext.component.preferences
             widgetUpdater = appContext.component.widgetUpdater
@@ -84,16 +84,21 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         super.onPause()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val sr = StyledResources(context!!)
+        view.setBackgroundColor(sr.getColor(R.attr.contrast0))
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         val key = preference.key ?: return false
         if (key == "reminderSound") {
             showRingtonePicker()
             return true
         } else if (key == "reminderCustomize") {
-            if (VERSION.SDK_INT < Build.VERSION_CODES.O) return true
-            createAndroidNotificationChannel(context!!)
+            createAndroidNotificationChannel(requireContext())
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context!!.packageName)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
             intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID)
             startActivity(intent)
             return true
@@ -103,7 +108,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
 
     override fun onResume() {
         super.onResume()
-        ringtoneManager = RingtoneManager(activity!!)
+        ringtoneManager = RingtoneManager(requireActivity())
         sharedPrefs = preferenceManager.sharedPreferences
         sharedPrefs!!.registerOnSharedPreferenceChangeListener(this)
         if (!prefs.isDeveloper) {
@@ -112,11 +117,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         }
         updateWeekdayPreference()
 
-        if (VERSION.SDK_INT < Build.VERSION_CODES.O)
-            findPreference("reminderCustomize").isVisible = false
-        else {
-            findPreference("reminderSound").isVisible = false
-        }
+        findPreference("reminderSound").isVisible = false
     }
 
     private fun updateWeekdayPreference() {
@@ -146,8 +147,8 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         val pref = findPreference(key)
         pref.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                activity!!.setResult(result)
-                activity!!.finish()
+                requireActivity().setResult(result)
+                requireActivity().finish()
                 true
             }
     }

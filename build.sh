@@ -26,6 +26,7 @@ GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
 SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
 VERSION=$(grep versionName uhabits-android/build.gradle.kts | sed -e 's/.*"\([^"]*\)".*/\1/g')
+BOOT_TIMEOUT=360
 
 if [ -z $VERSION ]; then
     echo "Could not parse app version from: uhabits-android/build.gradle.kts"
@@ -69,8 +70,7 @@ core_build() {
 # Android
 # -----------------------------------------------------------------------------
 
-# shellcheck disable=SC2016
-android_test() {
+android_setup() {
     API=$1
     AVDNAME=${AVD_PREFIX}${API}
 
@@ -85,31 +85,87 @@ android_test() {
         $AVDMANAGER delete avd --name $AVDNAME
 
         log_info "Creating new Android virtual device (API $API)..."
-        (echo "y" | $SDKMANAGER --install "system-images;android-$API;default;x86_64") || return 1
+        (echo "y" | $SDKMANAGER --install "system-images;android-$API;google_apis;x86_64") || return 1
         $AVDMANAGER create avd \
                 --name $AVDNAME \
-                --package "system-images;android-$API;default;x86_64" \
+                --package "system-images;android-$API;google_apis;x86_64" \
                 --device "Nexus 4" || return 1
 
         flock -u 10
     ) 10>/tmp/uhabitsTest.lock
 
     log_info "Launching emulator..."
-    $EMULATOR -avd $AVDNAME -port 6${API}0 1>/dev/null 2>&1 &
+    $EMULATOR \
+        -avd $AVDNAME \
+        -port 6${API}0 \
+        1>/dev/null 2>&1 &
 
     log_info "Waiting for emulator to boot..."
     export ADB="$ADB -s emulator-6${API}0"
-    $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82' || return 1
-    $ADB root || return 1
+    timeout $BOOT_TIMEOUT $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82'
+    if [ $? -ne 0 ]; then
+        log_error "Emulator failed to boot after $BOOT_TIMEOUT seconds."
+        return 1
+    fi
+
+    log_info "Saving snapshot..."
+    $ADB emu avd snapshot save fresh-install
+}
+
+android_boot_attempt() {
+    API=$1
+    AVDNAME=${AVD_PREFIX}${API}
+
+    log_info "Stopping Android emulator..."
+    while [[ -n $(pgrep -f ${AVDNAME}) ]]; do
+        pkill -9 -f ${AVDNAME}
+    done
+
+    log_info "Launching emulator..."
+    $EMULATOR \
+        -avd $AVDNAME \
+        -port 6${API}0 \
+        -snapshot fresh-install \
+        -no-snapshot-save \
+        -wipe-data \
+        1>/dev/null 2>&1 &
+
+    log_info "Waiting for emulator to boot..."
+    export ADB="$ADB -s emulator-6${API}0"
     sleep 5
+    timeout $BOOT_TIMEOUT $ADB wait-for-device shell 'while [[ -z "$(getprop sys.boot_completed)" ]]; do echo Waiting...; sleep 1; done; input keyevent 82'
+    if [ $? -ne 0 ]; then
+        log_error "Emulator failed to boot after $BOOT_TIMEOUT seconds."
+        return 1
+    fi
 
     log_info "Disabling animations..."
+    $ADB root || return 1
+    sleep 5
     $ADB shell settings put global window_animation_scale 0 || return 1
     $ADB shell settings put global transition_animation_scale 0 || return 1
     $ADB shell settings put global animator_duration_scale 0 || return 1
 
     log_info "Acquiring wake lock..."
     $ADB shell 'echo android-test > /sys/power/wake_lock' || return 1
+
+}
+
+android_boot() {
+    for attempt in {1..5}; do
+        android_boot_attempt $1 && return 0
+        sleep 5
+    done
+    log_error "Too many failed attempts. Aborting."
+    return 1
+}
+
+# shellcheck disable=SC2016
+android_test() {
+    API=$1
+    AVDNAME=${AVD_PREFIX}${API}
+
+    android_boot $API || return 1
 
     if [ -n "$RELEASE" ]; then
         log_info "Installing release APK..."
@@ -122,14 +178,25 @@ android_test() {
     $ADB install -r ${ANDROID_OUTPUTS_DIR}/apk/androidTest/debug/uhabits-android-debug-androidTest.apk || return 1
 
     for size in medium large; do
-        log_info "Running $size instrumented tests..."
         OUT_INSTRUMENT=${ANDROID_OUTPUTS_DIR}/instrument-${API}.txt
         OUT_LOGCAT=${ANDROID_OUTPUTS_DIR}/logcat-${API}.txt
-        $ADB shell am instrument \
-            -r -e coverage true -e size $size \
-            -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
-            | tee $OUT_INSTRUMENT
-        if grep "\(INSTRUMENTATION_STATUS_CODE.*-1\|FAILURES\|ABORTED\|onError\|Error type\|crashed\)" $OUT_INSTRUMENT; then
+        FAILED_TESTS=""
+        for i in {1..5}; do
+            log_info "Running $size instrumented tests (attempt $i)..."
+            $ADB shell am instrument \
+                -r -e coverage true -e size "$size" $FAILED_TESTS \
+                -w ${PACKAGE_NAME}.test/androidx.test.runner.AndroidJUnitRunner \
+                | ts "%.s" | tee "$OUT_INSTRUMENT"
+
+            FAILED_TESTS=$(tools/parseInstrument.py "$OUT_INSTRUMENT")
+            SUCCESS=$?
+            if [ $SUCCESS -eq 0 ]; then
+                log_info "$size tests passed."
+                break
+            fi
+        done
+
+        if [ $SUCCESS -ne 0 ]; then
             log_error "Some $size instrumented tests failed."
             log_error "Saving logcat: $OUT_LOGCAT..."
             $ADB logcat -d > $OUT_LOGCAT
@@ -138,13 +205,14 @@ android_test() {
             $ADB shell rm -r /sdcard/Android/data/${PACKAGE_NAME}/files/test-screenshots/
             return 1
         fi
-        log_info "$size tests passed."
     done
 
     return 0
 }
 
 android_test_parallel() {
+    # Launch background processes
+    PIDS=""
     for API in $*; do
         (
             LOG=build/android-test-$API.log
@@ -152,12 +220,27 @@ android_test_parallel() {
             if android_test $API 1>$LOG 2>&1; then
                 log_info "API $API: Passed"
             else
-                log_error "API $API: Failed. See $LOG for more details."
+                log_error "API $API: Failed"
             fi
             pkill -9 -f ${AVD_PREFIX}${API}
         )&
+	PIDS+=" $!"
     done
-    wait
+
+    # Check exit codes
+    RET_CODE=0
+    for pid in $PIDS; do
+        wait $pid || RET_CODE=1
+    done
+
+    # Print all logs
+    for API in $*; do
+        echo "::group::Android Tests (API $API)"
+        cat build/android-test-$API.log
+        echo "::endgroup::"
+    done
+
+    return $RET_CODE
 }
 
 android_build() {
@@ -229,12 +312,14 @@ CI/CD script for Loop Habit Tracker.
 
 Usage:
     build.sh build [options]
+    build.sh android-setup <API>
     build.sh android-tests <API> [options]
     build.sh android-tests-parallel <API> <API>... [options]
     build.sh android-accept-images [options]
 
 Commands:
     build                   Build the app and run small tests
+    android-setup           Create Android virtual machine
     android-tests           Run medium and large Android tests on an emulator
     android-tests-parallel  Tests multiple API levels simultaneously
     android-accept-images   Copy fetched images to corresponding assets folder
@@ -270,18 +355,17 @@ main() {
             core_build
             android_build
             ;;
+        android-setup)
+            shift; _parse_opts "$@"
+            android_setup $1
+            ;;
         android-tests)
             shift; _parse_opts "$@"
             if [ -z $1 ]; then
                 _print_usage
                 exit 1
             fi
-            for attempt in {1..5}; do
-                log_info "Running Android tests (attempt $attempt)..."
-                android_test $1 && return 0
-            done
-            log_error "Maximum number of attempts reached. Failing."
-            return 1
+            android_test $1
             ;;
         android-tests-parallel)
             shift; _parse_opts "$@"

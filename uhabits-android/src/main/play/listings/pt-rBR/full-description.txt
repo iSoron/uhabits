@@ -16,7 +16,7 @@ Agende notificações para lembrá-lo de seus hábitos. Cada hábito pode ter se
 Lembre-se de seus hábitos sempre que desbloquear o telefone. Widgets coloridos permitem que você acompanhe seus hábitos diretamente na tela inicial, sem abrir o aplicativo.
 
 <b>Assuma o controle de seus dados</b>
-Se você deseja analisar melhor seus dados ou movê-los para outro serviço, o Loop permite exportá-los para planilhas (CSV) ou para um arquivo de banco de dados (SQLite). Para usuários avançados, marcas de seleção podem ser adicionadas através de outros aplicativos, como o Tasker.
+Se você deseja analisar melhor seus dados ou movê-los para outro serviço, o Loop permite exportá-los para planilhas (CSV) ou para um arquivo de banco de dados (SQLite). Para usuários avançados, dados podem ser adicionadas através de outros aplicativos, como o Tasker.
 
 <b>Sem limitações</b>
 Acompanhe quantos hábitos desejar. O Loop não impõe limites artificiais sobre quantos hábitos você pode ter. Todos os recursos estão disponíveis para todos os usuários. Não há nenhum item à venda no aplicativo.

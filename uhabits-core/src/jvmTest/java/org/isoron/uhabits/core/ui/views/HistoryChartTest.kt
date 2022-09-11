@@ -73,8 +73,7 @@ class HistoryChartTest {
                 else -> OFF
             }
         },
-        notesIndicators = MutableList(85) {
-            index: Int ->
+        notesIndicators = MutableList(85) { index: Int ->
             index % 3 == 0
         }
     )

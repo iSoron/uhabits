@@ -51,21 +51,15 @@ open class ListHabitsBehavior @Inject constructor(
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
-            val oldValue = entry.value.toDouble()
-            screen.showNumberPicker(
-                oldValue / 1000,
-                habit.unit,
-                entry.notes,
-                timestamp.toDialogDateString(),
-            ) { newValue: Double, newNotes: String, ->
+            val oldValue = entry.value.toDouble() / 1000
+            screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
         } else {
-            screen.showCheckmarkDialog(
+            screen.showCheckmarkPopup(
                 entry.value,
                 entry.notes,
-                timestamp.toDialogDateString(),
                 habit.color,
             ) { newValue, newNotes ->
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
@@ -119,8 +113,7 @@ open class ListHabitsBehavior @Inject constructor(
         if (prefs.isFirstRun) onFirstRun()
     }
 
-    fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int) {
-        val notes = habit.computedEntries.get(timestamp!!).notes
+    fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String) {
         commandRunner.run(
             CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
         )
@@ -160,21 +153,17 @@ open class ListHabitsBehavior @Inject constructor(
         fun showHabitScreen(h: Habit)
         fun showIntroScreen()
         fun showMessage(m: Message)
-        fun showNumberPicker(
+        fun showNumberPopup(
             value: Double,
-            unit: String,
             notes: String,
-            dateString: String,
             callback: NumberPickerCallback
         )
-        fun showCheckmarkDialog(
-            value: Int,
+        fun showCheckmarkPopup(
+            selectedValue: Int,
             notes: String,
-            dateString: String,
             color: PaletteColor,
             callback: CheckMarkDialogCallback
         )
-
         fun showSendBugReportToDeveloperScreen(log: String)
         fun showSendFileScreen(filename: String)
     }

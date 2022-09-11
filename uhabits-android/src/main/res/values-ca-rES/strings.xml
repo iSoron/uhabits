@@ -26,7 +26,7 @@
     <string name="archive">Arxivar</string>
     <string name="unarchive">Treure de l\'arxiu</string>
     <string name="add_habit">Afegir hàbit</string>
-    <string name="color_picker_default_title">Canviar color</string>
+    <string name="color_picker_default_title">Canviar el color</string>
     <string name="toast_habit_created">Hàbit creat.</string>
     <plurals name="toast_habits_changed">
         <item quantity="one">Hàbit modificat.</item>
@@ -67,7 +67,6 @@
     <string name="interval_always_ask">Pregunta sempre</string>
     <string name="interval_custom">Personalitza...</string>
     <string name="pref_toggle_title">Activar/desactivar repeticions prement curt</string>
-    <string name="pref_toggle_description">Posar les marques de verificació amb un sol toc enlloc de prémer i mantenir. Més adequat, però pot causar activacions accidentals.</string>
     <string name="pref_rate_this_app">Valora aquesta app a Google Play</string>
     <string name="pref_send_feedback">Enviar resposta al desenvolupador</string>
     <string name="pref_view_source_code">Veure codi font a Github</string>
@@ -81,6 +80,10 @@
     <plurals name="delete_habits_title">
         <item quantity="one">Esborrar hàbit</item>
         <item quantity="other">Esborrar hàbit</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">L\' hàbit serà esborrat permanentment. Aquesta acció no es pot desfer.</item>
+        <item quantity="other">Els hàbits seran esborrats permanentment. Aquesta acció no es pot desfer.</item>
     </plurals>
     <string name="habit_not_found">Hàbit suprimit / no trobat</string>
     <string name="weekends">Caps de setmana</string>
@@ -115,7 +118,7 @@
     <string name="generate_bug_report">Generar informe d\'error</string>
     <string name="troubleshooting">Resolució de problemes</string>
     <string name="help_translate">Ajuda a traduïr aquesta app</string>
-    <string name="night_mode" comment="dark_theme">Mode nocturn</string>
+    <string name="night_mode">Mode nocturn</string>
     <string name="use_pure_black">Utilitzar negre pur en el mode nocturn</string>
     <string name="pure_black_description">Reemplaça fons grisos per negre pur en el mode nocturn. Redueix consum de bateria en telèfons amb pantalla AMOLED.</string>
     <string name="interface_preferences">Interfície</string>
@@ -154,7 +157,6 @@
     <string name="by_status">Per estat</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Prémer i mantenir per a canviar el valor</string>
-    <string name="change_value">Canviar el valor</string>
     <string name="calendar">Calendari</string>
     <string name="unit">Unitat</string>
     <string name="example_question_boolean">p.e. Has fet exercici avui?</string>
@@ -175,8 +177,10 @@
     <string name="example_notes">Opcional</string>
     <string name="yes_or_no_example">Per exemple, us heu despertat aviat? Heu fet exercici? Heu jugat a escacs?</string>
     <string name="measurable">Mesurable</string>
+    <string name="measurable_example">p.e. Quants quilòmetres has fet hui? Quantes pàgines has llegit?</string>
     <string name="x_times_per_week">%d vegades per setmana</string>
     <string name="x_times_per_month">%d vegades al mes</string>
+    <string name="x_times_per_y_days">%d vegades en %d dies</string>
     <string name="yes_or_no_short_example">Ex. Exercici</string>
     <string name="color">Color</string>
     <string name="example_target">ex. 15</string>
@@ -186,5 +190,18 @@
     <string name="every_month">Cada mes</string>
     <string name="validation_cannot_be_blank">No es pot deixar en blanc</string>
     <string name="today">Avui</string>
-    <string name="x_times_per_y_days">%d vegades en %d dies</string>
+    <string name="enter">Introduïr</string>
+    <string name="no_habits">No s\'han trobat hàbits.</string>
+    <string name="no_numerical_habits">No s\'han trobat hàbits mesurables</string>
+    <string name="no_boolean_habits">No s\'han trobat hàbits de sí o no</string>
+    <string name="increment">Increment</string>
+    <string name="decrement">Disminueix</string>
+    <string name="pref_skip_title">Activa omitir dies</string>
+    <string name="pref_skip_description">Toca dues vegades per a afegir una omissió en compte d\'una marca de verificació. Les omissions mantenen la teua puntuació sense canvis i no trenquen la ratxa.</string>
+    <string name="pref_unknown_title">Mostra signes d\'interrogació per a les dades que falten</string>
+    <string name="pref_unknown_description">Diferenciar els dies sense dades dels lapses reals. Per introduir un lapse, canvia dues vegades.</string>
+    <string name="you_are_now_a_developer">Ara eres un desenvolupador</string>
+    <string name="activity_not_found">No s\'ha trobat cap aplicació per a gestionar aquesta acció</string>
+    <string name="pref_midnight_delay_title">Ampliar el dia unes hores després de la mitjanit</string>
+    <string name="pref_midnight_delay_description">Esperar fins a les 3:00 per mostrar un nou dia. Útil si normalment vas a dormir després de la mitjanit. Requereix el reinici de l\'aplicació.</string>
 </resources>

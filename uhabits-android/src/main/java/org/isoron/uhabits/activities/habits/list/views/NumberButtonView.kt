@@ -29,7 +29,9 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.View.OnLongClickListener
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.NumericalHabitType
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
@@ -37,7 +39,6 @@ import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sres
-import java.lang.Double.max
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -90,7 +91,7 @@ class NumberButtonView(
             invalidate()
         }
 
-    var targetType = NumericalHabitType.AT_LEAST
+    var targetType = AT_LEAST
         set(value) {
             field = value
             invalidate()
@@ -101,13 +102,14 @@ class NumberButtonView(
             field = value
             invalidate()
         }
-    var hasNotes = false
+    var notes = ""
         set(value) {
             field = value
             invalidate()
         }
 
-    var onEdit: () -> Unit = {}
+    var onEdit: () -> Unit = { }
+
     private var drawer: Drawer = Drawer(context)
 
     init {
@@ -143,6 +145,12 @@ class NumberButtonView(
         private val lowContrast: Int
         private val mediumContrast: Int
 
+        private val paint = TextPaint().apply {
+            typeface = getFontAwesome()
+            isAntiAlias = true
+            textAlign = Paint.Align.CENTER
+        }
+
         private val pUnit: TextPaint = TextPaint().apply {
             textSize = getDimension(context, R.dimen.smallerTextSize)
             typeface = NORMAL_TYPEFACE
@@ -164,18 +172,11 @@ class NumberButtonView(
         }
 
         fun draw(canvas: Canvas) {
-            var activeColor = if (targetType == NumericalHabitType.AT_LEAST) {
-                when {
-                    value < 0.0 && preferences.areQuestionMarksEnabled -> lowContrast
-                    max(0.0, value) >= threshold -> color
-                    else -> mediumContrast
-                }
-            } else {
-                when {
-                    value < 0.0 && preferences.areQuestionMarksEnabled -> lowContrast
-                    value <= threshold -> color
-                    else -> mediumContrast
-                }
+            val activeColor = when {
+                value < 0.0 -> lowContrast
+                (targetType == AT_LEAST) && (value >= threshold) -> color
+                (targetType == AT_MOST) && (value <= threshold) -> color
+                else -> mediumContrast
             }
 
             val label: String
@@ -183,6 +184,11 @@ class NumberButtonView(
             val textSize: Float
 
             when {
+                value == Entry.SKIP.toDouble() / 1000 -> {
+                    label = resources.getString(R.string.fa_skipped)
+                    textSize = dim(R.dimen.smallTextSize)
+                    typeface = getFontAwesome()
+                }
                 value >= 0 -> {
                     label = value.toShortString()
                     typeface = BOLD_TYPEFACE
@@ -216,7 +222,7 @@ class NumberButtonView(
                 canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
             }
 
-            drawNotesIndicator(canvas, color, em, hasNotes)
+            drawNotesIndicator(canvas, color, em, notes)
         }
     }
 }

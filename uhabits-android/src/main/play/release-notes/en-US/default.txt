@@ -1,12 +1,6 @@
-2.0.3:
-* Bug fixes
-2.0:
-* Track numeric habits (e.g. how many pages did you read?)
-* Skip days without breaking your streak
-* Show question marks for days with missing data
-* Extend day a few hours past midnight
-* Show multiple habits in a single widget
-* Export daily backups automatically
-* Sort habits by status and in reverse
-* Add notes to habits
-* Improve theme and accessibility
+2.1:
+* Add notes to specific dates
+* Track at-most measurable habits
+* Add skips to measurable habits
+* Bring back custom frequencies
+* Other minor improvements and bug fixes

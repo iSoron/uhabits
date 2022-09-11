@@ -36,6 +36,7 @@ class EntryButtonViewTest : BaseViewTest() {
     lateinit var view: CheckmarkButtonView
 
     var toggled = false
+    var edited = false
 
     @Before
     override fun setUp() {
@@ -43,7 +44,8 @@ class EntryButtonViewTest : BaseViewTest() {
         view = component.getEntryButtonViewFactory().create().apply {
             value = Entry.NO
             color = PaletteUtils.getAndroidTestColor(5)
-            onToggle = { toggled = true }
+            onToggle = { _, _, _ -> toggled = true }
+            onEdit = { edited = true }
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }
@@ -70,20 +72,28 @@ class EntryButtonViewTest : BaseViewTest() {
     fun testClick_withShortToggleDisabled() {
         prefs.isShortToggleEnabled = false
         view.performClick()
-        assertFalse(toggled)
+        assertTrue(!toggled and edited)
     }
 
     @Test
     fun testClick_withShortToggleEnabled() {
         prefs.isShortToggleEnabled = true
         view.performClick()
-        assertTrue(toggled)
+        assertTrue(toggled and !edited)
     }
 
     @Test
-    fun testLongClick() {
+    fun testLongClick_withShortToggleDisabled() {
+        prefs.isShortToggleEnabled = false
         view.performLongClick()
-        assertTrue(toggled)
+        assertTrue(toggled and !edited)
+    }
+
+    @Test
+    fun testLongClick_withShortToggleEnabled() {
+        prefs.isShortToggleEnabled = true
+        view.performLongClick()
+        assertTrue(!toggled and edited)
     }
 
     private fun assertRendersCheckedExplicitly() {

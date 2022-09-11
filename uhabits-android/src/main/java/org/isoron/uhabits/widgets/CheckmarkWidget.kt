@@ -21,9 +21,7 @@ package org.isoron.uhabits.widgets
 
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
@@ -43,13 +41,12 @@ open class CheckmarkWidget(
 
     override fun getOnClickPendingIntent(context: Context): PendingIntent? {
         return if (habit.isNumerical) {
-            pendingIntentFactory.setNumericalValue(context, habit, 10, null)
+            pendingIntentFactory.showNumberPicker(habit, DateUtils.getToday())
         } else {
             pendingIntentFactory.toggleCheckmark(habit, null)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun refreshData(widgetView: View) {
         (widgetView as CheckmarkWidgetView).apply {
             val today = DateUtils.getTodayWithOffset()

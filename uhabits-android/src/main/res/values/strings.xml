@@ -225,6 +225,7 @@
     <string name="increment">Increment</string>
     <string name="decrement">Decrement</string>
     <string name="pref_skip_title">Enable skip days</string>
+    <string name="skip_day">Skip</string>
     <string name="pref_skip_description">Toggle twice to add a skip instead of a checkmark. Skips keep your score unchanged and don\'t break your streak.</string>
     <string name="pref_unknown_title">Show question marks for missing data</string>
     <string name="pref_unknown_description">Differentiate days without data from actual lapses. To enter a lapse, toggle twice.</string>
