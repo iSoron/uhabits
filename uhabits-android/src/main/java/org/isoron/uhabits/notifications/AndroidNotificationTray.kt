@@ -168,14 +168,12 @@ class AndroidNotificationTray
         fun createAndroidNotificationChannel(context: Context) {
             val notificationManager = context.getSystemService(Activity.NOTIFICATION_SERVICE)
                 as NotificationManager
-            if (SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(
-                    REMINDERS_CHANNEL_ID,
-                    context.resources.getString(R.string.reminder),
-                    NotificationManager.IMPORTANCE_DEFAULT
-                )
-                notificationManager.createNotificationChannel(channel)
-            }
+            val channel = NotificationChannel(
+                REMINDERS_CHANNEL_ID,
+                context.resources.getString(R.string.reminder),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }

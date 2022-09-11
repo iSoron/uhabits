@@ -22,8 +22,6 @@ import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.os.Build
-import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -98,7 +96,6 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
             showRingtonePicker()
             return true
         } else if (key == "reminderCustomize") {
-            if (SDK_INT < Build.VERSION_CODES.O) return true
             createAndroidNotificationChannel(requireContext())
             val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
             intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
@@ -120,11 +117,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         }
         updateWeekdayPreference()
 
-        if (SDK_INT < Build.VERSION_CODES.O)
-            findPreference("reminderCustomize").isVisible = false
-        else {
-            findPreference("reminderSound").isVisible = false
-        }
+        findPreference("reminderSound").isVisible = false
     }
 
     private fun updateWeekdayPreference() {
