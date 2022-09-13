@@ -24,6 +24,7 @@ plugins {
 
 kotlin {
     jvm().withJava()
+    js()
 
     sourceSets {
         val commonMain by getting {
@@ -65,12 +66,28 @@ kotlin {
                 implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
             }
         }
+
+        val jsMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib-js"))
+            }
+        }
+
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test-js"))
+            }
+        }
+    }
+
+    js {
+        browser()
     }
 }
 
-tasks.named<org.gradle.language.jvm.tasks.ProcessResources>("jvmProcessResources") {
+tasks.named<ProcessResources>("jvmProcessResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
-tasks.named<org.gradle.language.jvm.tasks.ProcessResources>("jvmTestProcessResources") {
+tasks.named<ProcessResources>(name = "jvmTestProcessResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
