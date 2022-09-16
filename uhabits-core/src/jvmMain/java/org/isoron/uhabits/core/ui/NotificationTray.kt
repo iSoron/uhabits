@@ -18,17 +18,18 @@
  */
 package org.isoron.uhabits.core.ui
 
+import kotlinx.serialization.Serializable
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.Task
 import org.isoron.uhabits.core.tasks.TaskRunner
-import java.util.HashMap
 import java.util.Locale
 import java.util.Objects
 import javax.inject.Inject
@@ -38,9 +39,31 @@ class NotificationTray @Inject constructor(
     private val taskRunner: TaskRunner,
     private val commandRunner: CommandRunner,
     private val preferences: Preferences,
-    private val systemTray: SystemTray
+    private val systemTray: SystemTray,
+    private val habitList: HabitList
 ) : CommandRunner.Listener, Preferences.Listener {
-    private val active: HashMap<Habit, NotificationData> = HashMap()
+
+    /**
+     * A mapping from habits to active notifications, automatically persisting on removal.
+     */
+    private val active = object {
+        private val m: HashMap<Habit, NotificationData> =
+            preferences.getActiveNotifications(habitList)
+
+        val entries get() = m.entries
+
+        operator fun set(habit: Habit, notificationData: NotificationData) {
+            m[habit] = notificationData
+            persist()
+        }
+
+        fun remove(habit: Habit) {
+            m.remove(habit)?.let { persist() } // persist if changed
+        }
+
+        fun persist() = preferences.setActiveNotifications(m)
+    }
+
     fun cancel(habit: Habit) {
         val notificationId = getNotificationId(habit)
         systemTray.removeNotification(notificationId)
@@ -64,7 +87,6 @@ class NotificationTray @Inject constructor(
 
     fun show(habit: Habit, timestamp: Timestamp, reminderTime: Long) {
         val data = NotificationData(timestamp, reminderTime)
-        active[habit] = data
         taskRunner.execute(ShowNotificationTask(habit, data))
     }
 
@@ -83,7 +105,7 @@ class NotificationTray @Inject constructor(
         return (id % Int.MAX_VALUE).toInt()
     }
 
-    private fun reshowAll() {
+    fun reshowAll() {
         for ((habit, data) in active.entries) {
             taskRunner.execute(ShowNotificationTask(habit, data))
         }
@@ -101,6 +123,7 @@ class NotificationTray @Inject constructor(
         fun log(msg: String)
     }
 
+    @Serializable
     internal class NotificationData(val timestamp: Timestamp, val reminderTime: Long)
     private inner class ShowNotificationTask(private val habit: Habit, data: NotificationData) :
         Task {
@@ -164,6 +187,17 @@ class NotificationTray @Inject constructor(
                 timestamp,
                 reminderTime
             )
+            if (data.shown) {
+                systemTray.log(
+                    String.format(
+                        Locale.US,
+                        "Showing notification for habit %d silently because it has been shown before.",
+                        habit.id
+                    )
+                )
+            }
+            data.shown = true
+            active[habit] = data
         }
 
         private fun shouldShowReminderToday(): Boolean {

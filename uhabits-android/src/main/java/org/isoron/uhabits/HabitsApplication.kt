@@ -94,6 +94,7 @@ class HabitsApplication : Application() {
         taskRunner.execute {
             reminderScheduler.scheduleAll()
             widgetUpdater.updateWidgets()
+            notificationTray.reshowAll()
         }
     }
 

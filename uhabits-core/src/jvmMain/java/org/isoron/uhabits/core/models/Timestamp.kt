@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.models
 
+import kotlinx.serialization.Serializable
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.utils.DateFormats.Companion.getCSVDateFormat
 import org.isoron.uhabits.core.utils.DateFormats.Companion.getDialogDateFormat
@@ -29,6 +30,7 @@ import java.util.Date
 import java.util.GregorianCalendar
 import java.util.TimeZone
 
+@Serializable
 data class Timestamp(var unixTime: Long) : Comparable<Timestamp> {
 
     constructor(cal: GregorianCalendar) : this(cal.timeInMillis)
