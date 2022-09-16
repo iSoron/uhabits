@@ -19,6 +19,7 @@
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.7.10"
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -30,6 +31,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.8")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
             }
         }
 
