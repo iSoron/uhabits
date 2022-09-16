@@ -96,7 +96,7 @@ class ReminderReceiver : BroadcastReceiver() {
                 }
                 Intent.ACTION_BOOT_COMPLETED -> {
                     Log.d("ReminderReceiver", "onBootCompleted")
-                    reminderController.onBootCompleted()
+                    // NOTE: Some activity is executed after boot through HabitsApplication, so receiving ACTION_BOOT_COMPLETED is essential.
                 }
             }
         } catch (e: RuntimeException) {
