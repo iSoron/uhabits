@@ -117,19 +117,26 @@ class NotificationTray @Inject constructor(
             habit: Habit,
             notificationId: Int,
             timestamp: Timestamp,
-            reminderTime: Long
+            reminderTime: Long,
+            silent: Boolean = false
         )
 
         fun log(msg: String)
     }
 
     @Serializable
-    internal class NotificationData(val timestamp: Timestamp, val reminderTime: Long)
-    private inner class ShowNotificationTask(private val habit: Habit, data: NotificationData) :
+    internal class NotificationData(
+        val timestamp: Timestamp,
+        val reminderTime: Long,
+        var shown: Boolean = false
+    )
+
+    private inner class ShowNotificationTask(
+        private val habit: Habit,
+        private val data: NotificationData
+    ) :
         Task {
         var isCompleted = false
-        private val timestamp: Timestamp = data.timestamp
-        private val reminderTime: Long = data.reminderTime
 
         override fun doInBackground() {
             isCompleted = habit.isCompletedToday()
@@ -184,8 +191,9 @@ class NotificationTray @Inject constructor(
             systemTray.showNotification(
                 habit,
                 getNotificationId(habit),
-                timestamp,
-                reminderTime
+                data.timestamp,
+                data.reminderTime,
+                silent = data.shown
             )
             if (data.shown) {
                 systemTray.log(
@@ -204,7 +212,7 @@ class NotificationTray @Inject constructor(
             if (!habit.hasReminder()) return false
             val reminder = habit.reminder
             val reminderDays = Objects.requireNonNull(reminder)!!.days.toArray()
-            val weekday = timestamp.weekday
+            val weekday = data.timestamp.weekday
             return reminderDays[weekday]
         }
     }
