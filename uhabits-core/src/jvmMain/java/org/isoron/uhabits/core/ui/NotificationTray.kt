@@ -122,6 +122,7 @@ class NotificationTray @Inject constructor(
                         habit.id
                     )
                 )
+                active.remove(habit)
                 return
             }
             if (!habit.hasReminder()) {
@@ -132,6 +133,7 @@ class NotificationTray @Inject constructor(
                         habit.id
                     )
                 )
+                active.remove(habit)
                 return
             }
             if (habit.isArchived) {
@@ -142,6 +144,7 @@ class NotificationTray @Inject constructor(
                         habit.id
                     )
                 )
+                active.remove(habit)
                 return
             }
             if (!shouldShowReminderToday()) {
@@ -152,6 +155,7 @@ class NotificationTray @Inject constructor(
                         habit.id
                     )
                 )
+                active.remove(habit)
                 return
             }
             systemTray.showNotification(
