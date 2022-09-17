@@ -217,6 +217,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".receivers.UpdateReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".receivers.WidgetReceiver"
             android:exported="true"
             android:permission="false">
