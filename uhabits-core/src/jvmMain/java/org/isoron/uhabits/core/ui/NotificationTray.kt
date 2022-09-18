@@ -87,7 +87,7 @@ class NotificationTray @Inject constructor(
 
     fun show(habit: Habit, timestamp: Timestamp, reminderTime: Long) {
         val data = NotificationData(timestamp, reminderTime)
-        taskRunner.execute(ShowNotificationTask(habit, data))
+        taskRunner.execute(ShowNotificationTask(habit, data, false))
     }
 
     fun startListening() {
@@ -107,7 +107,7 @@ class NotificationTray @Inject constructor(
 
     fun reshowAll() {
         for ((habit, data) in active.entries) {
-            taskRunner.execute(ShowNotificationTask(habit, data))
+            taskRunner.execute(ShowNotificationTask(habit, data, true))
         }
     }
 
@@ -128,12 +128,12 @@ class NotificationTray @Inject constructor(
     internal class NotificationData(
         val timestamp: Timestamp,
         val reminderTime: Long,
-        var shown: Boolean = false
     )
 
     private inner class ShowNotificationTask(
         private val habit: Habit,
-        private val data: NotificationData
+        private val data: NotificationData,
+        private val shown: Boolean
     ) :
         Task {
         var isCompleted = false
@@ -193,9 +193,9 @@ class NotificationTray @Inject constructor(
                 getNotificationId(habit),
                 data.timestamp,
                 data.reminderTime,
-                silent = data.shown
+                silent = shown
             )
-            if (data.shown) {
+            if (shown) {
                 systemTray.log(
                     String.format(
                         Locale.US,
@@ -204,7 +204,6 @@ class NotificationTray @Inject constructor(
                     )
                 )
             }
-            data.shown = true
             active[habit] = data
         }
 
