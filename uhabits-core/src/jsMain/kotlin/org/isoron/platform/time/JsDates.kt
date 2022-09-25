@@ -38,6 +38,15 @@ class JsLocalDateFormatter(private val locale: String = "en-US") : LocalDateForm
         return formatWeekday(localDateToJsDate(date), "short")
     }
 
+    override fun narrowWeekdayName(weekday: DayOfWeek): String {
+        val date = weekdayToJsDate(weekday)
+        return formatWeekday(date, "narrow")
+    }
+
+    override fun narrowWeekdayName(date: LocalDate): String {
+        return formatWeekday(localDateToJsDate(date), "narrow")
+    }
+
     override fun shortMonthName(date: LocalDate): String {
         val jsDate = localDateToJsDate(date)
         val options = js("{month: 'short', timeZone: 'UTC'}")
