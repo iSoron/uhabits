@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.preferences
 
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encodeToString
@@ -152,9 +153,18 @@ open class Preferences(private val storage: Storage) {
         return if (serialized == "") {
             HashMap()
         } else {
-            val activeById = Json.decodeFromString(MapSerializer(Long.serializer(), NotificationTray.NotificationData.serializer()), serialized)
-            val activeByHabit = activeById.mapNotNull { (id, v) -> habitList.getById(id)?.let { it to v } }
-            activeByHabit.toMap(HashMap())
+            try {
+                val activeById = Json.decodeFromString(
+                    MapSerializer(Long.serializer(), NotificationTray.NotificationData.serializer()),
+                    serialized
+                )
+                val activeByHabit = activeById.mapNotNull { (id, v) -> habitList.getById(id)?.let { it to v } }
+                activeByHabit.toMap(HashMap())
+            } catch (e : IllegalArgumentException) {
+                HashMap()
+            } catch (e : SerializationException) {
+                HashMap()
+            }
         }
     }
 
