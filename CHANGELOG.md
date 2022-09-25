@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.1] -- 2022-09-24
+### Fixed
+- Fix Tasker plugin (@iSoron, #1503)
+
 ## [2.1.0] -- 2022-09-10
 ### Added
 - Allow user to add notes to specific dates (@vbh, #1103)

@@ -270,7 +270,7 @@
         <!-- Locale/Tasker -->
         <receiver
             android:name=".automation.FireSettingReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>

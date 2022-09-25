@@ -1,6 +1,10 @@
+2.1.1:
+* Fix Tasker plugin
+
 2.1:
 * Add notes to specific dates
 * Track at-most measurable habits
 * Add skips to measurable habits
 * Bring back custom frequencies
 * Other minor improvements and bug fixes
+
