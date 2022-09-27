@@ -144,14 +144,14 @@ class HistoryChart(
     private fun calcNumOfColumns(weekdayColumnWidth: Double) =
         floor((width - 2 * padding - weekdayColumnWidth) / squareSize).toInt()
 
-    private fun weekdayDisplayName(weekday: DayOfWeek):String {
+    private fun weekdayDisplayName(weekday: DayOfWeek): String {
         if (shouldUseNarrowWeekdayName()) {
             return dateFormatter.narrowWeekdayName(weekday)
         }
         return dateFormatter.shortWeekdayName(weekday)
     }
 
-    private fun weekdayDisplayName(localDate: LocalDate):String {
+    private fun weekdayDisplayName(localDate: LocalDate): String {
         if (shouldUseNarrowWeekdayName()) {
             return dateFormatter.narrowWeekdayName(localDate)
         }

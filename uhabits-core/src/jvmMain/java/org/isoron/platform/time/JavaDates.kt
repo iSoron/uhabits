@@ -20,7 +20,17 @@
 package org.isoron.platform.time
 
 import java.text.DateFormat
-import java.util.Calendar.*
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.DAY_OF_WEEK
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.LONG
+import java.util.Calendar.MILLISECOND
+import java.util.Calendar.MINUTE
+import java.util.Calendar.MONTH
+import java.util.Calendar.NARROW_FORMAT
+import java.util.Calendar.SECOND
+import java.util.Calendar.SHORT
+import java.util.Calendar.YEAR
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
