@@ -142,13 +142,13 @@ open class Preferences(private val storage: Storage) {
             storage.putBoolean("pref_short_toggle", enabled)
         }
 
-    internal fun setActiveNotifications(activeNotifications: Map<Habit, NotificationTray.NotificationData>) {
+    internal open fun setActiveNotifications(activeNotifications: Map<Habit, NotificationTray.NotificationData>) {
         val activeById = activeNotifications.mapKeys { it.key.id }
         val serialized = Json.encodeToString(activeById)
         storage.putString("pref_active_notifications", serialized)
     }
 
-    internal fun getActiveNotifications(habitList: HabitList): HashMap<Habit, NotificationTray.NotificationData> {
+    internal open fun getActiveNotifications(habitList: HabitList): HashMap<Habit, NotificationTray.NotificationData> {
         val serialized = storage.getString("pref_active_notifications", "")
         return if (serialized == "") {
             HashMap()
