@@ -125,28 +125,10 @@ class NotificationTray @Inject constructor(
     }
 
     @Serializable
-    internal class NotificationData(
+    internal data class NotificationData(
         val timestamp: Timestamp,
         val reminderTime: Long,
-    ) {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as NotificationData
-
-            if (timestamp != other.timestamp) return false
-            if (reminderTime != other.reminderTime) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = timestamp.hashCode()
-            result = 31 * result + reminderTime.hashCode()
-            return result
-        }
-    }
+    )
 
     private inner class ShowNotificationTask(
         private val habit: Habit,
