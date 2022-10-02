@@ -155,14 +155,18 @@ open class Preferences(private val storage: Storage) {
         } else {
             try {
                 val activeById = Json.decodeFromString(
-                    MapSerializer(Long.serializer(), NotificationTray.NotificationData.serializer()),
+                    MapSerializer(
+                        Long.serializer(),
+                        NotificationTray.NotificationData.serializer()
+                    ),
                     serialized
                 )
-                val activeByHabit = activeById.mapNotNull { (id, v) -> habitList.getById(id)?.let { it to v } }
+                val activeByHabit =
+                    activeById.mapNotNull { (id, v) -> habitList.getById(id)?.let { it to v } }
                 activeByHabit.toMap(HashMap())
-            } catch (e : IllegalArgumentException) {
+            } catch (e: IllegalArgumentException) {
                 HashMap()
-            } catch (e : SerializationException) {
+            } catch (e: SerializationException) {
                 HashMap()
             }
         }
