@@ -108,7 +108,7 @@ class NumberPopup(
     }
 
     fun save() {
-        val tmp = view.value.text.toString().replace(',','.')
+        val tmp = view.value.text.toString().replace(',', '.')
         val value = tmp.toDoubleOrNull() ?: originalValue
         val notes = view.notes.text.toString()
         onToggle(value, notes)
