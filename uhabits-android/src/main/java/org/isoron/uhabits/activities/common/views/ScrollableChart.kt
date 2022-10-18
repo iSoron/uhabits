@@ -116,7 +116,7 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
         return BundleSavedState(superState, bundle)
     }
 
-    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, dx: Float, dy: Float): Boolean {
+    override fun onScroll(e1: MotionEvent, e2: MotionEvent, dx: Float, dy: Float): Boolean {
         var dx = dx
         if (scrollerBucketSize == 0) return false
         if (abs(dx) > abs(dy)) {

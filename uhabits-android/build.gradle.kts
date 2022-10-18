@@ -42,13 +42,13 @@ kotlin {
 
 android {
 
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         versionCode = 20200
         versionName = "2.2.0"
         minSdk = 28
-        targetSdk = 32
+        targetSdk = 33
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
