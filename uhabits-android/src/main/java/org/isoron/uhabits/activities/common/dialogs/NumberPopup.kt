@@ -21,6 +21,7 @@ package org.isoron.uhabits.activities.common.dialogs
 
 import android.app.Dialog
 import android.content.Context
+import android.text.method.DigitsKeyListener
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.LayoutInflater
 import android.view.MotionEvent.ACTION_DOWN
@@ -35,6 +36,9 @@ import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.requestFocusWithKeyboard
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.text.ParseException
 
 class NumberPopup(
     private val context: Context,
@@ -55,8 +59,15 @@ class NumberPopup(
 
     init {
         view.numberButtons.visibility = VISIBLE
+        fixDecimalSeparator()
         hideDisabledButtons()
         populate()
+    }
+
+    private fun fixDecimalSeparator() {
+        // https://stackoverflow.com/a/34256139
+        val separator = DecimalFormatSymbols.getInstance().decimalSeparator
+        view.value.keyListener = DigitsKeyListener.getInstance("0123456789$separator")
     }
 
     private fun hideDisabledButtons() {
@@ -108,7 +119,14 @@ class NumberPopup(
     }
 
     fun save() {
-        val value = view.value.text.toString().toDoubleOrNull() ?: originalValue
+        var value = originalValue
+        try {
+            val numberFormat = NumberFormat.getInstance()
+            val valueStr = view.value.text.toString()
+            value = numberFormat.parse(valueStr)!!.toDouble()
+        } catch (e: ParseException) {
+            // NOP
+        }
         val notes = view.notes.text.toString()
         onToggle(value, notes)
         dialog.dismiss()
