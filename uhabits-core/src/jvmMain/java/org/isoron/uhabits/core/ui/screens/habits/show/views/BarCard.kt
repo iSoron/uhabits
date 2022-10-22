@@ -57,7 +57,7 @@ class BarCardPresenter(
             } else {
                 boolBucketSizes[boolSpinnerPosition]
             }
-            val today = DateUtils.getToday()
+            val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today).groupedSum(
                 truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
