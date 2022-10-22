@@ -7,6 +7,10 @@ import java.lang.ref.WeakReference
 
 var currentDialog: WeakReference<Dialog> = WeakReference(null)
 
+fun dismissCurrentDialog() {
+    currentDialog.get()?.dismiss()
+}
+
 fun Dialog.dismissCurrentAndShow() {
     currentDialog.get()?.dismiss()
     currentDialog = WeakReference(this)
