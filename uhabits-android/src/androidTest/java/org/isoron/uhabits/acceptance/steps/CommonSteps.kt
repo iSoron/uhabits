@@ -20,6 +20,7 @@ package org.isoron.uhabits.acceptance.steps
 
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
@@ -73,7 +74,7 @@ object CommonSteps : BaseUserInterfaceTest() {
     }
 
     fun offsetHeaders() {
-        device.swipe(750, 160, 600, 160, 20)
+        device.swipe(500, 160, 350, 160, 20)
     }
 
     fun scrollToText(text: String?) {

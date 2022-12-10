@@ -71,7 +71,7 @@
     <string name="interval_always_ask">Selalu bertanya</string>
     <string name="interval_custom">Kustom...</string>
     <string name="pref_toggle_title">Tandai dengan cepat</string>
-    <string name="pref_toggle_description_2">Beri tanda centang dengan satu ketukan alih-alih tekan dan tahan.</string>
+    <string name="pref_toggle_description_2">Beri tanda centang dengan satu ketukan alih-alih tekan-dan-tahan.</string>
     <string name="pref_rate_this_app">Berikan rating aplikasi ini di Google Play</string>
     <string name="pref_send_feedback">Kirimkan umpan balik kepada Developer</string>
     <string name="pref_view_source_code">Lihat kode program di GitHub</string>
@@ -150,6 +150,7 @@
     <string name="none">Tidak ada</string>
     <string name="filter">Filter</string>
     <string name="hide_completed">Sembunyikan yang selesai</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Sembunyikan yang dimasukkan</string>
     <string name="hide_archived">Sembunyikan yang diarsipkan</string>
     <string name="sticky_notifications">Jadikan notifikasi melekat</string>
     <string name="sticky_notifications_description">Mencegah notifikasi untuk terhapus.</string>
@@ -169,8 +170,12 @@
     <string name="by_status">Berdasarkan status</string>
     <string name="export">Ekspor</string>
     <string name="long_press_to_edit">Tekan-dan-tahan untuk mengubah nilai</string>
+    <string name="value">Nilai</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Unit</string>
+    <string name="target_type">Jenis Target</string>
+    <string name="target_type_at_least">Paling sedikit</string>
+    <string name="target_type_at_most">Paling banyak</string>
     <string name="example_question_boolean">mis. Apakah kamu sudah berolahraga hari ini?</string>
     <string name="question">Pertanyaan</string>
     <string name="target">Target</string>

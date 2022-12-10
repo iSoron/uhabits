@@ -32,12 +32,12 @@ tasks.compileLint {
 
 android {
 
-    compileSdk = 31
+    compileSdk = 32
 
     defaultConfig {
-        versionCode = 20003
-        versionName = "2.0.3"
-        minSdk = 23
+        versionCode = 20101
+        versionName = "2.1.1"
+        minSdk = 28
         targetSdk = 31
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -68,12 +68,6 @@ android {
         }
     }
 
-    lint {
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
-        disable("GoogleAppIndexingWarning")
-    }
-
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
         targetCompatibility(JavaVersion.VERSION_1_8)
@@ -86,16 +80,16 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.42"
-    val kotlinVersion = "1.7.0"
-    val kxCoroutinesVersion = "1.6.3"
+    val daggerVersion = "2.43.2"
+    val kotlinVersion = "1.7.21"
+    val kxCoroutinesVersion = "1.6.4"
     val ktorVersion = "1.6.8"
     val espressoVersion = "3.4.0"
 
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
     androidTestImplementation("com.google.dagger:dagger:$daggerVersion")
-    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.1")
+    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
     androidTestImplementation("androidx.annotation:annotation:1.4.0")
@@ -104,7 +98,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.4.0")
     androidTestImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     compileOnly("javax.annotation:jsr250-api:1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
     implementation("com.github.AppIntro:AppIntro:6.2.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
@@ -116,11 +110,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kxCoroutinesVersion")
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.6.1")
-    implementation("com.opencsv:opencsv:5.6")
+    implementation("com.opencsv:opencsv:5.7.1")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")

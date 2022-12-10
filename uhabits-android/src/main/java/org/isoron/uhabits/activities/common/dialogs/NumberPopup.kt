@@ -31,6 +31,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.dimBehind
+import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.requestFocusWithKeyboard
 import java.text.DecimalFormat
@@ -43,6 +44,7 @@ class NumberPopup(
     private val anchor: View,
 ) {
     var onToggle: (Double, String) -> Unit = { _, _ -> }
+    var onDismiss: () -> Unit = {}
     private val originalValue = value
     private lateinit var dialog: Dialog
 
@@ -81,6 +83,9 @@ class NumberPopup(
             )
             setBackgroundDrawableResource(android.R.color.transparent)
         }
+        dialog.setOnDismissListener {
+            onDismiss()
+        }
 
         view.value.setOnKeyListener { _, keyCode, event ->
             if (event.action == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
@@ -99,7 +104,7 @@ class NumberPopup(
         view.value.requestFocusWithKeyboard()
         dialog.setCanceledOnTouchOutside(true)
         dialog.dimBehind()
-        dialog.show()
+        dialog.dismissCurrentAndShow()
     }
 
     fun save() {

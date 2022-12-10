@@ -84,7 +84,7 @@
     <string name="settings">Configuración</string>
     <string name="select_snooze_delay">Seleccione el retardo de la interrupción</string>
     <string name="hint_title">¿Sabías qué?</string>
-    <string name="hint_drag">Para reordenar las entradas, mantén la pulsado sobre el nombre del hábito, después arrástralo a su posición correcta.</string>
+    <string name="hint_drag">Para reordenar las entradas, mantén pulsado el nombre del hábito, después arrástralo a su posición correcta.</string>
     <string name="hint_landscape">Puedes ver más días al poner tu teléfono en modo horizontal.</string>
     <plurals name="delete_habits_title">
         <item quantity="one">¿Eliminar hábito?</item>
@@ -130,7 +130,7 @@
     <string name="night_mode">Modo nocturno</string>
     <string name="use_pure_black">Utilizar color negro en modo nocturno</string>
     <string name="pure_black_description">Reemplaza fondos grises por color negro en modo nocturno. Reduce el consumo de batería en teléfonos con pantalla AMOLED.</string>
-    <string name="interface_preferences">Interfície</string>
+    <string name="interface_preferences">Interfaz</string>
     <string name="reverse_days">Orden inverso de días</string>
     <string name="reverse_days_description">Mostrar días en orden inverso en la pantalla principal</string>
     <string name="day">Día</string>
@@ -147,7 +147,7 @@
     <string name="none">Ninguno</string>
     <string name="filter">Filtrar</string>
     <string name="hide_completed">Ocultar completos</string>
-    <string name="hide_entered">Ocultar ingresado</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Ocultar ingresado</string>
     <string name="hide_archived">Ocultar archivados</string>
     <string name="sticky_notifications">Hacer notificaciones fijas</string>
     <string name="sticky_notifications_description">Evita que las notificaciones sean descartadas.</string>
@@ -199,8 +199,8 @@
     <string name="color">Color</string>
     <string name="example_target">ej. 15</string>
     <string name="measurable_short_example">por ejemplo, correr</string>
-    <string name="measurable_question_example">ej. ¿Cuántos quilómetros has corrido hoy?</string>
-    <string name="measurable_units_example">ej. millas</string>
+    <string name="measurable_question_example">ej. ¿Cuántos kilómetros has corrido hoy?</string>
+    <string name="measurable_units_example">ej. kilómetros</string>
     <string name="every_month">Cada mes</string>
     <string name="validation_cannot_be_blank">No puede estar en blanco</string>
     <string name="today">Hoy</string>

@@ -50,6 +50,7 @@ import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.intents.IntentFactory
 import org.isoron.uhabits.utils.currentTheme
+import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.showSendFileScreen
 import org.isoron.uhabits.widgets.WidgetUpdater
@@ -220,6 +221,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 ShowHabitMenuPresenter.Message.COULD_NOT_EXPORT -> {
                     showMessage(resources.getString(R.string.could_not_export))
                 }
+                else -> {}
             }
         }
 
@@ -228,7 +230,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         }
 
         override fun showDeleteConfirmationScreen(callback: OnConfirmedCallback) {
-            ConfirmDeleteDialog(this@ShowHabitActivity, callback, 1).show()
+            ConfirmDeleteDialog(this@ShowHabitActivity, callback, 1).dismissCurrentAndShow()
         }
 
         override fun close() {

@@ -63,7 +63,9 @@ class FrequencyChart : ScrollableChart {
     private var primaryColor = 0
     private var isBackgroundTransparent = false
     private lateinit var frequency: HashMap<Timestamp, Array<Int>>
+    private var maxFreq = 0
     private var firstWeekday = Calendar.SUNDAY
+    private var isNumerical: Boolean = false
 
     constructor(context: Context?) : super(context) {
         init()
@@ -80,14 +82,29 @@ class FrequencyChart : ScrollableChart {
         postInvalidate()
     }
 
+    fun setIsNumerical(type: Boolean) {
+        isNumerical = type
+        postInvalidate()
+    }
+
     fun setFrequency(frequency: java.util.HashMap<Timestamp, Array<Int>>) {
         this.frequency = frequency
+        maxFreq = getMaxFreq(frequency)
         postInvalidate()
     }
 
     fun setFirstWeekday(firstWeekday: Int) {
         this.firstWeekday = firstWeekday
         postInvalidate()
+    }
+
+    private fun getMaxFreq(frequency: HashMap<Timestamp, Array<Int>>): Int {
+        var maxValue = 1
+        for (values in frequency.values) for (value in values) maxValue = max(
+            value,
+            maxValue
+        )
+        return maxValue
     }
 
     fun setIsBackgroundTransparent(isBackgroundTransparent: Boolean) {
@@ -213,7 +230,7 @@ class FrequencyChart : ScrollableChart {
         canvas.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top, pGrid!!)
     }
 
-    private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?, frequency: Int) {
+    private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?, weekdayFrequency: Int) {
         // value can be negative when the entry is skipped
         val valueCopy = value?.let { max(0, it) }
 
@@ -221,8 +238,8 @@ class FrequencyChart : ScrollableChart {
         // maximal allowed mark radius
         val maxRadius = (rect.height() - 2 * padding) / 2.0f
         // the real mark radius is scaled down by a factor depending on the maximal frequency
-
-        val scale = 1.0f / frequency * valueCopy!!
+        val scalingFactor = if (isNumerical) maxFreq else weekdayFrequency
+        val scale = 1.0f / scalingFactor * valueCopy!!
         val radius = maxRadius * scale
         val colorIndex = min((colors.size - 1), ((colors.size - 1) * scale).roundToInt())
         pGraph!!.color = colors[colorIndex]
@@ -285,5 +302,6 @@ class FrequencyChart : ScrollableChart {
             frequency[Timestamp(date)] = values
             date.add(Calendar.MONTH, -1)
         }
+        maxFreq = getMaxFreq(frequency)
     }
 }

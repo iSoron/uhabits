@@ -75,6 +75,7 @@
     <string name="interval_always_ask">Her zaman sor</string>
     <string name="interval_custom">Özel...</string>
     <string name="pref_toggle_title">Tek dokunuşla işaretle</string>
+    <string name="pref_toggle_description_2">Basılı tutma yerine tek bir dokunuşla onay işaretleri koy.</string>
     <string name="pref_rate_this_app">Google Play\'de uygulamayı oyla</string>
     <string name="pref_send_feedback">Geliştiriciye geri bildirim gönder</string>
     <string name="pref_view_source_code">Github\'da kaynak kodunu görüntüle</string>
@@ -146,6 +147,7 @@
     <string name="none">Sessiz</string>
     <string name="filter">Filtre</string>
     <string name="hide_completed">Tamamlananları gizle</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Girileni gizle</string>
     <string name="hide_archived">Arşivlenenleri gizle</string>
     <string name="sticky_notifications">Bildirimleri kalıcı yap</string>
     <string name="sticky_notifications_description">Bildirimlerin kaydırılmasını engeller.</string>
@@ -165,8 +167,12 @@
     <string name="by_status">Duruma göre</string>
     <string name="export">Dışarı aktar</string>
     <string name="long_press_to_edit">Değeri değiştirmek için basılı tut</string>
+    <string name="value">Değer</string>
     <string name="calendar">Takvim</string>
     <string name="unit">Birim</string>
+    <string name="target_type">Hedef Türü</string>
+    <string name="target_type_at_least">En az</string>
+    <string name="target_type_at_most">En fazla</string>
     <string name="example_question_boolean">örn: Bugün egzersiz yaptın mı?</string>
     <string name="question">Soru</string>
     <string name="target">Hedef</string>

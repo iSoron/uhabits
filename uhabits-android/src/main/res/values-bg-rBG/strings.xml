@@ -28,7 +28,23 @@
     <string name="add_habit">Добавяне на навик</string>
     <string name="color_picker_default_title">Промяна на цвят</string>
     <string name="toast_habit_created">Навикът е създаден</string>
-    <string name="overview">Обзор</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Навикът е променен</item>
+        <item quantity="other">Навиците са променени</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Навикът е изтрит</item>
+        <item quantity="other">Навиците са изтрити</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Навикът е архивиран</item>
+        <item quantity="other">Навиците са архивирани</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Навикът е разархивиран</item>
+        <item quantity="other">Навиците са разархивирани</item>
+    </plurals>
+    <string name="overview">Обобщение</string>
     <string name="habit_strength">Сила на навика</string>
     <string name="history">История</string>
     <string name="clear">Изчистване</string>
@@ -36,6 +52,7 @@
     <string name="save">Запазване</string>
     <string name="streaks">Поредици</string>
     <string name="no_habits_found">Нямате активни навици</string>
+    <string name="no_habits_left_to_do">Всичко сте изпълнили за днес!</string>
     <string name="long_press_to_toggle">Натиснете и задръжте за да добавите или премахнете отметка</string>
     <string name="reminder_off">Изключено</string>
     <string name="create_habit">Създаване на навик</string>
@@ -55,16 +72,28 @@
     <string name="interval_4_hour">4 часа</string>
     <string name="interval_8_hour">8 часа</string>
     <string name="interval_24_hour">24 часа</string>
+    <string name="interval_always_ask">Винаги да се пита</string>
+    <string name="interval_custom">Персонализирано...</string>
     <string name="pref_toggle_title">Маркиране с кратко натискане</string>
+    <string name="pref_toggle_description_2">Поставяне на отметки с кратко натискане вместо с натискане и задържане</string>
     <string name="pref_rate_this_app">Оценяване на това приложение в Google Play</string>
     <string name="pref_send_feedback">Изпращане на отзиви към разработчика</string>
     <string name="pref_view_source_code">Преглед на програмния код в GitHub</string>
     <string name="links">Препратки</string>
     <string name="name">Име</string>
     <string name="settings">Настройки</string>
+    <string name="select_snooze_delay">Избор на време за отлагане</string>
     <string name="hint_title">Знаете ли че?</string>
     <string name="hint_drag">За да пренаредите записите, натиснете и задръжте върху името на навика и го придърпайте до правилното място.</string>
     <string name="hint_landscape">Може да виждате повече дни като обърнете телефона си в хоризонтално положение.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Изтриване на навик?</item>
+        <item quantity="other">Изтриване на навици?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Навикът ще бъде перманентно изтрит. Това действие не може да бъде отменено.</item>
+        <item quantity="other">Навиците ще бъдат перманентно изтрити. Това действие не може да бъде отменено.</item>
+    </plurals>
     <string name="habit_not_found">Навикът е изтрит / не е намерен</string>
     <string name="weekends">Събота и неделя</string>
     <string name="any_weekday">От понеделник до петък</string>
@@ -98,9 +127,9 @@
     <string name="generate_bug_report">Генериране на доклад за грешки</string>
     <string name="troubleshooting">Отстраняване на проблеми</string>
     <string name="help_translate">Помагане за превода на това приложение</string>
-    <string name="night_mode">Нощен режим</string>
-    <string name="use_pure_black">Използване на чисто черно при нощен режим</string>
-    <string name="pure_black_description">Заменя сивите фонове с чисто черни при нощен режим. Намаля разхода на батерията при телефони с AMOLED дисплеи.</string>
+    <string name="night_mode">Тъмна тема</string>
+    <string name="use_pure_black">Използване на чисто черно при тъмна тема</string>
+    <string name="pure_black_description">Заменя сивите фонове с чисто черни при тъмна тема. Намаля разхода на батерията при телефони с AMOLED дисплеи.</string>
     <string name="interface_preferences">Интерфейс</string>
     <string name="reverse_days">Обратен ред на дните</string>
     <string name="reverse_days_description">Показва дните на основния екран в обратен ред</string>
@@ -110,6 +139,7 @@
     <string name="quarter">Тримесечие</string>
     <string name="year">Година</string>
     <string name="total">Общо</string>
+    <string name="yes_or_no">Да или не</string>
     <string name="every_x_days">На всеки %d дни</string>
     <string name="every_x_weeks">На всеки %d седмици</string>
     <string name="score">Сила</string>
@@ -117,9 +147,12 @@
     <string name="none">Няма</string>
     <string name="filter">Филтър</string>
     <string name="hide_completed">Скриване на завършените</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Скриване на въведените</string>
     <string name="hide_archived">Скриване на архивираните</string>
-    <string name="sticky_notifications">Направи нотификациите постоянни</string>
-    <string name="sticky_notifications_description">Предотвратява изчистването на нотификацията с плъзване настрани.</string>
+    <string name="sticky_notifications">Направи известията постоянни</string>
+    <string name="sticky_notifications_description">Предотвратява изчистването на известията с плъзване настрани.</string>
+    <string name="led_notifications">Светлина за известяване</string>
+    <string name="led_notifications_description">Показва мигаща светлина за напомняния. Налична само за телефони с LED светлини за известяване.</string>
     <string name="repair_database">Поправка на базата данни</string>
     <string name="database_repaired">Базата данни е поправена.</string>
     <string name="uncheck">Премахване на отметка</string>
@@ -131,6 +164,58 @@
     <string name="by_name">По име</string>
     <string name="by_color">По цвят</string>
     <string name="by_score">По сила</string>
+    <string name="by_status">По състояние</string>
     <string name="export">Експортиране</string>
+    <string name="long_press_to_edit">Натиснете и задръжте за да промените стойността</string>
+    <string name="value">Стойност</string>
+    <string name="calendar">Календар</string>
+    <string name="unit">Мерна единица</string>
+    <string name="target_type">Тип на целта</string>
+    <string name="target_type_at_least">Най-малко</string>
+    <string name="target_type_at_most">Най-много</string>
+    <string name="example_question_boolean">напр. Тренирахте ли днес?</string>
+    <string name="question">Въпрос</string>
+    <string name="target">Цел</string>
+    <string name="yes">Да</string>
+    <string name="no">Не</string>
+    <string name="customize_notification_summary">Промяна на звук, вибрация, светлина и други настройки на известията</string>
+    <string name="customize_notification">Персонализиране на известията</string>
+    <string name="pref_view_privacy">Преглед на политиката за поверителност</string>
+    <string name="view_all_contributors">Преглед на всички сътрудници...</string>
+    <string name="database">База данни</string>
+    <string name="widget_opacity_title">Прозрачност на приспособлението</string>
+    <string name="widget_opacity_description">Прави приспособленията по-прозрачни или по-непрозрачни на началния ви екран</string>
+    <string name="first_day_of_the_week">Първи ден от седмицата</string>
+    <string name="default_reminder_question">Изпълнихте ли навика днес?</string>
+    <string name="notes">Бележки</string>
+    <string name="example_notes">(Незадължително)</string>
+    <string name="yes_or_no_example">напр. Събудихте ли се рано днес? Тренирахте ли? Играхте ли шах?</string>
+    <string name="measurable">Измерим</string>
+    <string name="measurable_example">напр. Колко километра пробягахте днес? Колко страници прочетохте?</string>
+    <string name="x_times_per_week">%d пъти седмично</string>
+    <string name="x_times_per_month">%d пъти месечно</string>
     <string name="x_times_per_y_days">%d пъти в период от %d дни</string>
+    <string name="yes_or_no_short_example">напр. Тренировка</string>
+    <string name="color">Цвят</string>
+    <string name="example_target">напр. 15</string>
+    <string name="measurable_short_example">напр. Бягане</string>
+    <string name="measurable_question_example">напр. Колко километра пробягахте днес?</string>
+    <string name="measurable_units_example">напр. км</string>
+    <string name="every_month">Всеки месец</string>
+    <string name="validation_cannot_be_blank">Не може да бъде празно</string>
+    <string name="today">Днес</string>
+    <string name="enter">Въвеждане</string>
+    <string name="no_habits">Не са намерени навици</string>
+    <string name="no_numerical_habits">Не са намерени измерими навици</string>
+    <string name="no_boolean_habits">Не са намерени навици от тип \"да или не\"</string>
+    <string name="increment">Увеличаване</string>
+    <string name="decrement">Намаляване</string>
+    <string name="pref_skip_title">Включване на пропуснати дни</string>
+    <string name="pref_skip_description">Маркирайте два пъти за да добавите пропускане вместо отметка. Пропусканията поддържат силата на навика ви непроменена и не прекъсват поредицата ви.</string>
+    <string name="pref_unknown_title">Показване на питанки при липсващи данни</string>
+    <string name="pref_unknown_description">Разграничаване на дните без данни от реални пропуски. За да добавите пропуск, маркирайте два пъти.</string>
+    <string name="you_are_now_a_developer">Вие вече сте разработчик</string>
+    <string name="activity_not_found">Не е намерено приложение, което да поддържа това действие</string>
+    <string name="pref_midnight_delay_title">Удължаване на деня с няколко часа след полунощ</string>
+    <string name="pref_midnight_delay_description">Изчакване до 3:00 часа сутринта за показване на нов ден. Полезно, ако обичайно си лягате да спите след полунощ. Изисква рестартиране на приложението.</string>
 </resources>

@@ -28,6 +28,18 @@
     <string name="add_habit">Gehitu ohitura</string>
     <string name="color_picker_default_title">Kolorea aldatu</string>
     <string name="toast_habit_created">Ohitura sortu da</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Ohitura aldatu da</item>
+        <item quantity="other">Ohiturak aldatu dira</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Ohitura ezabatu da</item>
+        <item quantity="other">Ohiturak ezabatu dira</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Ohitura artxibatu da</item>
+        <item quantity="other">Ohiturak artxibatu dira</item>
+    </plurals>
     <string name="overview">Ikuspegi orokorra</string>
     <string name="habit_strength">Ohituraren indarra</string>
     <string name="history">Historia</string>
@@ -148,6 +160,7 @@
     <string name="value">Balioa</string>
     <string name="calendar">Egutegia</string>
     <string name="unit">Unitatea</string>
+    <string name="target_type_at_least">Gutxienez</string>
     <string name="target_type_at_most">Gehienez</string>
     <string name="example_question_boolean">adib. ariketa egin al duzu gaur?</string>
     <string name="question">Galdera</string>
@@ -179,8 +192,12 @@
     <string name="every_month">Hilabetero</string>
     <string name="validation_cannot_be_blank">Ezin da hutsik egon</string>
     <string name="today">Gaur</string>
+    <string name="enter">Sartu</string>
     <string name="no_habits">Ez da ohiturarik aurkitu</string>
+    <string name="no_numerical_habits">Ez da aurkitu ohitura neurgarririk</string>
+    <string name="no_boolean_habits">Ez da bai-ala-ez ohiturarik aurkitu</string>
     <string name="pref_unknown_title">Adierazi galdera ikurra falta diren datuetan</string>
     <string name="you_are_now_a_developer">Garatzailea zara!</string>
     <string name="activity_not_found">Ez da aurkitu akzio hau gauzatu dezakeen aplikaziorik</string>
+    <string name="pref_midnight_delay_description">Itxaron goizeko 3:00ak arte egun berri bat erakusteko. Erabilgarria normalean gauerdia pasata lotara joaten bazara. Aplikazioa berrabiarazi behar da.</string>
 </resources>

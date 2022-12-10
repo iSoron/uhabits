@@ -33,6 +33,7 @@ class FrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(co
     fun setState(state: FrequencyCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.frequencyChart.setFrequency(state.frequency)
+        binding.frequencyChart.setIsNumerical(state.isNumerical)
         binding.frequencyChart.setFirstWeekday(state.firstWeekday)
         binding.title.setTextColor(androidColor)
         binding.frequencyChart.setColor(androidColor)

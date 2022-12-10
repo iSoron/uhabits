@@ -60,7 +60,7 @@ class WeekdayPickerDialog :
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(
-            activity!!
+            requireActivity()
         )
         builder
             .setTitle(R.string.select_weekdays)
@@ -73,6 +73,7 @@ class WeekdayPickerDialog :
             .setNegativeButton(
                 android.R.string.cancel
             ) { _: DialogInterface?, _: Int -> dismiss() }
+
         return builder.create()
     }
 

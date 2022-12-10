@@ -43,13 +43,13 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                compileOnly("com.google.dagger:dagger:2.42")
+                compileOnly("com.google.dagger:dagger:2.43.2")
                 implementation("com.google.guava:guava:31.1-android")
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.3")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
                 implementation("androidx.annotation:annotation:1.4.0")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
-                implementation("com.opencsv:opencsv:5.6")
+                implementation("com.opencsv:opencsv:5.7.1")
                 implementation("commons-codec:commons-codec:1.15")
                 implementation("org.apache.commons:commons-lang3:3.12.0")
             }
@@ -59,7 +59,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation("org.xerial:sqlite-jdbc:3.36.0.3")
+                implementation("org.xerial:sqlite-jdbc:3.39.3.0")
                 implementation("org.hamcrest:hamcrest:2.2")
                 implementation("org.apache.commons:commons-io:1.3.2")
                 implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")

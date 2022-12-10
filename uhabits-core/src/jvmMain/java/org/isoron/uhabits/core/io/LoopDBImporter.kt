@@ -20,14 +20,13 @@ package org.isoron.uhabits.core.io
 
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.DATABASE_VERSION
-import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
-import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.database.DatabaseOpener
 import org.isoron.uhabits.core.database.MigrationHelper
 import org.isoron.uhabits.core.database.Repository
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
@@ -81,34 +80,33 @@ class LoopDBImporter
             var habit = habitList.getByUUID(habitRecord.uuid)
             val entryRecords = entryRepository.findAll("where habit = ?", habitRecord.id.toString())
 
-            var command: Command
             if (habit == null) {
                 habit = modelFactory.buildHabit()
                 habitRecord.id = null
                 habitRecord.copyTo(habit)
-                command = CreateHabitCommand(modelFactory, habitList, habit)
-                command.run()
+                CreateHabitCommand(modelFactory, habitList, habit).run()
             } else {
                 val modified = modelFactory.buildHabit()
                 habitRecord.id = habit.id
                 habitRecord.copyTo(modified)
-                command = EditHabitCommand(habitList, habit.id!!, modified)
-                command.run()
+                EditHabitCommand(habitList, habit.id!!, modified).run()
             }
 
             // Reload saved version of the habit
-            habit = habitList.getByUUID(habitRecord.uuid)
+            habit = habitList.getByUUID(habitRecord.uuid)!!
+            val entries = habit.originalEntries
 
+            // Import entries
             for (r in entryRecords) {
                 val t = Timestamp(r.timestamp!!)
-                val (_, value, notes) = habit!!.originalEntries.get(t)
-                val oldNotes = r.notes ?: ""
-                if (value != r.value || notes != oldNotes) CreateRepetitionCommand(habitList, habit, t, r.value!!, oldNotes).run()
+                val (_, value, notes) = entries.get(t)
+                if (value != r.value || notes != r.notes) {
+                    entries.add(Entry(t, r.value!!, r.notes ?: ""))
+                }
             }
-
-            runner.notifyListeners(command)
+            habit.recompute()
         }
-
+        habitList.resort()
         db.close()
     }
 }
