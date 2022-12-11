@@ -110,6 +110,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
             "rateApp" -> {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.playStoreURL)))
                 activity?.startActivitySafely(intent)
+                return true
             }
         }
         return super.onPreferenceTreeClick(preference)
