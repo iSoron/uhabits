@@ -73,7 +73,7 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         SystemUtils.unlockScreen(this)
     }
 
-    private fun AndroidThemeSwitcher.setTheme(){
+    private fun AndroidThemeSwitcher.setTheme() {
         if (this.isNightMode) {
             setTheme(R.style.BaseDialogDark)
             this.currentTheme = DarkTheme()
