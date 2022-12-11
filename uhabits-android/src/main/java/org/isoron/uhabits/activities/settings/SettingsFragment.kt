@@ -22,6 +22,7 @@ import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -43,6 +44,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getLongWeekdayNames
 import org.isoron.uhabits.notifications.AndroidNotificationTray.Companion.createAndroidNotificationChannel
 import org.isoron.uhabits.notifications.RingtoneManager
 import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.startActivitySafely
 import org.isoron.uhabits.widgets.WidgetUpdater
 import java.util.Calendar
 
@@ -92,16 +94,24 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         val key = preference.key ?: return false
-        if (key == "reminderSound") {
-            showRingtonePicker()
-            return true
-        } else if (key == "reminderCustomize") {
-            createAndroidNotificationChannel(requireContext())
-            val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
-            intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID)
-            startActivity(intent)
-            return true
+        when (key) {
+            "reminderSound" -> {
+                showRingtonePicker()
+                return true
+            }
+            "reminderCustomize" -> {
+                createAndroidNotificationChannel(requireContext())
+                val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID)
+                startActivity(intent)
+                return true
+            }
+            "rateApp" -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.playStoreURL)))
+                activity?.startActivitySafely(intent)
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }
