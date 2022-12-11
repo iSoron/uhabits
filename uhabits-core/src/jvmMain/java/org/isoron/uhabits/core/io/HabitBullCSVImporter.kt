@@ -86,10 +86,12 @@ class HabitBullCSVImporter
                         logger.info("Found a value of $value, considering this habit as numerical.")
                         h.type = HabitType.NUMERICAL
                     }
-                    h.originalEntries.add(Entry(timestamp, value, notes))
+                    h.originalEntries.add(Entry(timestamp, value * 1000, notes))
                 }
             }
         }
+
+        map.forEach { (_, habit) -> habit.recompute() }
     }
 
     private fun parseTimestamp(rawValue: String): Timestamp {
