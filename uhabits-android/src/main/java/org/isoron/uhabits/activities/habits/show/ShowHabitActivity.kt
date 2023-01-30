@@ -34,7 +34,7 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
-import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
+import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberPopup
@@ -195,18 +195,15 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback
         ) {
-            val anchor = getPopupAnchor() ?: return
-            CheckmarkPopup(
-                context = this@ShowHabitActivity,
-                prefs = preferences,
-                notes = notes,
-                color = view.currentTheme().color(color).toInt(),
-                anchor = anchor,
-                value = selectedValue,
-            ).apply {
-                onToggle = { v, n -> callback.onNotesSaved(v, n) }
-                show()
+            val theme = view.currentTheme()
+            val dialog = CheckmarkDialog()
+            dialog.arguments = Bundle().apply {
+                putInt("color", theme.color(color).toInt())
+                putInt("value", selectedValue)
+                putString("notes", notes)
             }
+            dialog.onToggle = { v, n -> callback.onNotesSaved(v, n) }
+            dialog.dismissCurrentAndShow(supportFragmentManager, "checkmarkDialog")
         }
 
         private fun getPopupAnchor(): View? {
