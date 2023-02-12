@@ -68,7 +68,7 @@ class CheckmarkWidgetView : HabitWidgetView {
         val fgColor: Int
         when (entryState) {
             YES_MANUAL, SKIP -> {
-                bgColor = activeColor
+                bgColor = res.getColor(R.attr.cardBgColor)
                 fgColor = res.getColor(R.attr.contrast0)
                 setShadowAlpha(0x4f)
                 backgroundPaint!!.color = bgColor
