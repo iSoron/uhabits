@@ -30,7 +30,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
-import org.isoron.uhabits.activities.common.dialogs.NumberPopup
+import org.isoron.uhabits.activities.common.dialogs.NumberDialog
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
@@ -234,17 +234,14 @@ class ListHabitsScreen
         notes: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
-        val view = rootView.get()
-        NumberPopup(
-            context = context,
-            prefs = preferences,
-            anchor = view,
-            notes = notes,
-            value = value,
-        ).apply {
-            onToggle = { value, notes -> callback.onNumberPicked(value, notes) }
-            show()
+        val fm = (context as AppCompatActivity).supportFragmentManager
+        val dialog = NumberDialog()
+        dialog.arguments = Bundle().apply {
+            putDouble("value", value)
+            putString("notes", notes)
         }
+        dialog.onToggle = { v, n -> callback.onNumberPicked(v, n) }
+        dialog.dismissCurrentAndShow(fm, "numberDialog")
     }
 
     override fun showCheckmarkPopup(
