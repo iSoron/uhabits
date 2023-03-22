@@ -162,6 +162,7 @@ android_boot() {
 
 # shellcheck disable=SC2016
 android_test() {
+    return 1
     API=$1
     AVDNAME=${AVD_PREFIX}${API}
 
