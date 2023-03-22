@@ -217,20 +217,28 @@ android_test_parallel() {
         (
             LOG=build/android-test-$API.log
             log_info "API $API: Running tests..."
-            if android_test $API 1>$LOG 2>&1; then
+            android_test $API 1>$LOG 2>&1
+            ret_code=$?
+            if [ $ret_code = 0 ]; then
                 log_info "API $API: Passed"
             else
                 log_error "API $API: Failed"
             fi
             pkill -9 -f ${AVD_PREFIX}${API}
+            exit $ret_code
         )&
 	PIDS+=" $!"
     done
 
     # Check exit codes
-    RET_CODE=0
+    success=0
     for pid in $PIDS; do
-        wait $pid || RET_CODE=1
+        wait $pid
+        ret_code=$?
+        if [ $ret_code != 0 ]; then
+            success=1
+        fi
+        echo pid=$pid ret_code=$ret_code success=$success
     done
 
     # Print all logs
@@ -240,7 +248,7 @@ android_test_parallel() {
         echo "::endgroup::"
     done
 
-    return $RET_CODE
+    return $success
 }
 
 android_build() {
