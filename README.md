@@ -59,6 +59,8 @@ There are no advertisements, annoying notifications or intrusive permissions in 
 * <b>Works offline and respects your privacy.</b>
 Loop doesn't require an Internet connection or online account registration. Your confidential data is never sent to anyone. Neither the developers nor any third-parties have access to it.
 
+The [FAQ](https://github.com/iSoron/uhabits/discussions/689) has more details on Loop's features and how to use the app.
+
 ## Installing
 
 The easiest way to install Loop is through the [Google Play Store][playstore] or [F-Droid][fdroid].
