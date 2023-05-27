@@ -36,6 +36,7 @@ class CheckmarkWidgetViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
+        similarityCutoff = 0.00025
         setTheme(R.style.WidgetTheme)
         val habit = fixtures.createShortHabit()
         val computedEntries = habit.computedEntries

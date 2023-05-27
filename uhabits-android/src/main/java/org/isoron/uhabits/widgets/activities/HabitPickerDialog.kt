@@ -24,7 +24,6 @@ import android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID
 import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
 import android.content.Intent
 import android.os.Bundle
-import android.widget.AbsListView.CHOICE_MODE_MULTIPLE
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
@@ -34,7 +33,6 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.widgets.WidgetUpdater
-import java.util.ArrayList
 
 class BooleanHabitPickerDialog : HabitPickerDialog() {
     override fun shouldHideNumerical() = true
@@ -88,20 +86,12 @@ open class HabitPickerDialog : Activity() {
         with(listView) {
             adapter = ArrayAdapter(
                 context,
-                android.R.layout.simple_list_item_multiple_choice,
+                android.R.layout.simple_list_item_1,
                 habitNames
             )
-            choiceMode = CHOICE_MODE_MULTIPLE
-            itemsCanFocus = false
-        }
-        saveButton.setOnClickListener {
-            val selectedIds = mutableListOf<Long>()
-            for (i in 0..listView.count) {
-                if (listView.isItemChecked(i)) {
-                    selectedIds.add(habitIds[i])
-                }
+            setOnItemClickListener { parent, view, position, id ->
+                confirm(mutableListOf(habitIds[position]))
             }
-            confirm(selectedIds)
         }
     }
 

@@ -34,10 +34,10 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
-import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
+import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
-import org.isoron.uhabits.activities.common.dialogs.NumberPopup
+import org.isoron.uhabits.activities.common.dialogs.NumberDialog
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
@@ -51,6 +51,7 @@ import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.intents.IntentFactory
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dismissCurrentAndShow
+import org.isoron.uhabits.utils.dismissCurrentDialog
 import org.isoron.uhabits.utils.showMessage
 import org.isoron.uhabits.utils.showSendFileScreen
 import org.isoron.uhabits.widgets.WidgetUpdater
@@ -129,6 +130,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     }
 
     override fun onPause() {
+        dismissCurrentDialog()
         commandRunner.removeListener(this)
         super.onPause()
     }
@@ -170,41 +172,32 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         override fun showNumberPopup(
             value: Double,
             notes: String,
-            preferences: Preferences,
             callback: ListHabitsBehavior.NumberPickerCallback
         ) {
-            val anchor = getPopupAnchor() ?: return
-            NumberPopup(
-                context = this@ShowHabitActivity,
-                prefs = preferences,
-                notes = notes,
-                anchor = anchor,
-                value = value,
-            ).apply {
-                onToggle = { v, n -> callback.onNumberPicked(v, n) }
-                show()
+            val dialog = NumberDialog()
+            dialog.arguments = Bundle().apply {
+                putDouble("value", value)
+                putString("notes", notes)
             }
+            dialog.onToggle = { v, n -> callback.onNumberPicked(v, n) }
+            dialog.dismissCurrentAndShow(supportFragmentManager, "numberDialog")
         }
 
         override fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
-            preferences: Preferences,
             color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback
         ) {
-            val anchor = getPopupAnchor() ?: return
-            CheckmarkPopup(
-                context = this@ShowHabitActivity,
-                prefs = preferences,
-                notes = notes,
-                color = view.currentTheme().color(color).toInt(),
-                anchor = anchor,
-                value = selectedValue,
-            ).apply {
-                onToggle = { v, n -> callback.onNotesSaved(v, n) }
-                show()
+            val theme = view.currentTheme()
+            val dialog = CheckmarkDialog()
+            dialog.arguments = Bundle().apply {
+                putInt("color", theme.color(color).toInt())
+                putInt("value", selectedValue)
+                putString("notes", notes)
             }
+            dialog.onToggle = { v, n -> callback.onNotesSaved(v, n) }
+            dialog.dismissCurrentAndShow(supportFragmentManager, "checkmarkDialog")
         }
 
         private fun getPopupAnchor(): View? {
