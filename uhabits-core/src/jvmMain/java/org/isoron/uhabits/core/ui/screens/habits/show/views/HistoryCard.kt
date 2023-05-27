@@ -91,7 +91,6 @@ class HistoryCardPresenter(
         screen.showCheckmarkPopup(
             entry.value,
             entry.notes,
-            preferences,
             habit.color,
         ) { newValue, newNotes ->
             commandRunner.run(
@@ -130,7 +129,6 @@ class HistoryCardPresenter(
         screen.showNumberPopup(
             value = oldValue / 1000.0,
             notes = entry.notes,
-            preferences = preferences,
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -203,13 +201,11 @@ class HistoryCardPresenter(
         fun showNumberPopup(
             value: Double,
             notes: String,
-            preferences: Preferences,
             callback: ListHabitsBehavior.NumberPickerCallback,
         )
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
-            preferences: Preferences,
             color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback,
         )

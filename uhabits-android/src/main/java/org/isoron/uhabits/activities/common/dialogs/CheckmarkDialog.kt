@@ -20,109 +20,60 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.app.Dialog
-import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatDialogFragment
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
-import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
-import org.isoron.uhabits.utils.dimBehind
-import org.isoron.uhabits.utils.dismissCurrentAndShow
-import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
 
-const val POPUP_WIDTH = 4 * 48f + 16f
-const val POPUP_HEIGHT = 48f * 2.5f + 8f
-
-class CheckmarkPopup(
-    private val context: Context,
-    private val color: Int,
-    private var notes: String,
-    private var value: Int,
-    private val prefs: Preferences,
-    private val anchor: View,
-) {
+class CheckmarkDialog : AppCompatDialogFragment() {
     var onToggle: (Int, String) -> Unit = { _, _ -> }
-    private lateinit var dialog: Dialog
 
-    private val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context)).apply {
-        // Required for round corners
-        container.clipToOutline = true
-    }
-
-    init {
-        view.booleanButtons.visibility = VISIBLE
-        initColors()
-        initTypefaces()
-        hideDisabledButtons()
-        populate()
-    }
-
-    private fun initColors() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val appComponent = (requireActivity().application as HabitsApplication).component
+        val prefs = appComponent.preferences
+        val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
         arrayOf(view.yesBtn, view.skipBtn).forEach {
-            it.setTextColor(color)
+            it.setTextColor(requireArguments().getInt("color"))
         }
         arrayOf(view.noBtn, view.unknownBtn).forEach {
             it.setTextColor(view.root.sres.getColor(R.attr.contrast60))
         }
-    }
-
-    private fun initTypefaces() {
         arrayOf(view.yesBtn, view.noBtn, view.skipBtn, view.unknownBtn).forEach {
-            it.typeface = getFontAwesome(context)
+            it.typeface = getFontAwesome(requireContext())
         }
-    }
-
-    private fun hideDisabledButtons() {
+        view.notes.setText(requireArguments().getString("notes")!!)
         if (!prefs.isSkipEnabled) view.skipBtn.visibility = GONE
         if (!prefs.areQuestionMarksEnabled) view.unknownBtn.visibility = GONE
-    }
-
-    private fun populate() {
-        val selectedBtn = when (value) {
-            YES_MANUAL -> view.yesBtn
-            YES_AUTO -> view.noBtn
-            NO -> view.noBtn
-            UNKNOWN -> if (prefs.areQuestionMarksEnabled) view.unknownBtn else view.noBtn
-            SKIP -> if (prefs.isSkipEnabled) view.skipBtn else view.noBtn
-            else -> null
-        }
-        view.notes.setText(notes)
-    }
-
-    fun show() {
-        dialog = Dialog(context, android.R.style.Theme_NoTitleBar)
+        view.booleanButtons.visibility = VISIBLE
+        val dialog = Dialog(requireContext())
         dialog.setContentView(view.root)
         dialog.window?.apply {
-            setLayout(
-                view.root.dp(POPUP_WIDTH).toInt(),
-                view.root.dp(POPUP_HEIGHT).toInt()
-            )
             setBackgroundDrawableResource(android.R.color.transparent)
         }
         fun onClick(v: Int) {
-            this.value = v
-            save()
+            val notes = view.notes.text.toString().trim()
+            onToggle(v, notes)
+            requireDialog().dismiss()
         }
         view.yesBtn.setOnClickListener { onClick(YES_MANUAL) }
         view.noBtn.setOnClickListener { onClick(NO) }
         view.skipBtn.setOnClickListener { onClick(SKIP) }
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
-        dialog.setCanceledOnTouchOutside(true)
-        dialog.dimBehind()
-        dialog.dismissCurrentAndShow()
-    }
+        view.notes.setOnEditorActionListener { v, actionId, event ->
+            onClick(requireArguments().getInt("value"))
+            true
+        }
 
-    fun save() {
-        onToggle(value, view.notes.text.toString().trim())
-        dialog.dismiss()
+        return dialog
     }
 }

@@ -77,7 +77,7 @@ class EntryPanelViewTest : BaseViewTest() {
     @Test
     fun testToggle() {
         val timestamps = mutableListOf<Timestamp>()
-        view.onToggle = { t, _, _, _ -> timestamps.add(t) }
+        view.onToggle = { t, _, _ -> timestamps.add(t) }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()
         view.buttons[3].performLongClick()
@@ -88,7 +88,7 @@ class EntryPanelViewTest : BaseViewTest() {
     fun testToggle_withOffset() {
         val timestamps = mutableListOf<Timestamp>()
         view.dataOffset = 3
-        view.onToggle = { t, _, _, _ -> timestamps += t }
+        view.onToggle = { t, _, _ -> timestamps += t }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()
         view.buttons[3].performLongClick()

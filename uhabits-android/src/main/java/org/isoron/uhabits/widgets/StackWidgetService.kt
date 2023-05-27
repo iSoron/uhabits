@@ -33,7 +33,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitNotFoundException
 import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.isoron.uhabits.intents.IntentFactory
 import org.isoron.uhabits.intents.PendingIntentFactory
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
@@ -101,7 +101,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
         val landscapeViews = widget.landscapeRemoteViews
         val portraitViews = widget.portraitRemoteViews
         val factory = PendingIntentFactory(context, IntentFactory())
-        val intent = StackWidgetType.getIntentFillIn(factory, widgetType, h, habits, getToday())
+        val intent = StackWidgetType.getIntentFillIn(factory, widgetType, h, habits, getTodayWithOffset())
         landscapeViews.setOnClickFillInIntent(R.id.button, intent)
         portraitViews.setOnClickFillInIntent(R.id.button, intent)
         val remoteViews = RemoteViews(landscapeViews, portraitViews)
