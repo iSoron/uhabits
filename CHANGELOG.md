@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.1.2] -- 2023-05-26
+### Fixed
+- Fix bug that caused widget to enter checkmark on wrong date (@iSoron, #1541)
+- Fix widget corners on Android 12 (@iSoron)
+- Fix bug that caused notes to be lost when editing a checkmark (@iSoron, #1566)
+- Prevent soft keyboard from covering entry popup (@iSoron)
+- Accept comma (instead of dot) in certain locales (@iSoron)
+
+### Changed
+- Remove update delay after entering a checkmark (@iSoron)
+
+### Removed
+- Remove stack widgets (@iSoron)
+
+
 ## [2.1.1] -- 2022-09-24
 ### Fixed
 - Fix Tasker plugin (@iSoron, #1503)
