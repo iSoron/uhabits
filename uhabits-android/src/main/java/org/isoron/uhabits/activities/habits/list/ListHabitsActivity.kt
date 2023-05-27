@@ -101,6 +101,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
+        appComponent.reminderScheduler.scheduleAll()
         taskRunner.run {
             try {
                 AutoBackup(this@ListHabitsActivity).run()
