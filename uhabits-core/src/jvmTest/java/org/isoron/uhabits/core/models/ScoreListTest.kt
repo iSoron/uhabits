@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.models
 
+import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.number.IsCloseTo
 import org.hamcrest.number.OrderingComparison
@@ -27,6 +28,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Before
 import org.junit.Test
 import java.util.ArrayList
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 open class BaseScoreListTest : BaseUnitTest() {
@@ -143,6 +145,93 @@ class YesNoScoreListTest : BaseScoreListTest() {
             0.0
         )
         checkScoreValues(expectedValues)
+    }
+
+    @Test
+    fun test_getNumberOfSkipsByInterval_NoSkips() {
+        val vars = intArrayOf(-1, -1, -1, -1, 3, 2, 2, -1, 2, 2, -1, 2, 2, -1, 3, 2)
+        val nbOfSkips = habit.scores.getNumberOfSkipsByInterval(vars, 5, 13)
+        assertEquals(0, nbOfSkips)
+    }
+
+    @Test
+    fun test_getNumberOfSkipsByInterval_SkipsOnlyInInitialInterval() {
+        val vars = intArrayOf(-1, -1, -1, -1, 3, 2, 2, -1, 3, 3, -1, 2, 2, -1, 3, 2)
+        val nbOfSkips = habit.scores.getNumberOfSkipsByInterval(vars, 4, 9)
+        assertEquals(3, nbOfSkips)
+    }
+
+    @Test
+    fun test_getNumberOfSkipsByInterval_SkipsInSubsequentIntervals() {
+        val vars = intArrayOf(-1, -1, -1, -1, 3, 2, 2, -1, 3, 3, -1, 2, 2, -1, 3, 2)
+        val nbOfSkips = habit.scores.getNumberOfSkipsByInterval(vars, 4, 11)
+        assertEquals(4, nbOfSkips)
+    }
+
+    @Test
+    fun test_getValueNonDailyWithSkip() {
+        habit.frequency = Frequency(6, 7)
+        check(0, 18)
+        addSkip(10)
+        addSkip(11)
+        addSkip(12)
+        habit.recompute()
+        val expectedValues = doubleArrayOf(
+            0.365222,
+            0.333100,
+            0.299354,
+            0.263899,
+            0.226651,
+            0.191734,
+            0.159268,
+            0.129375,
+            0.102187,
+            0.077839,
+            0.056477,
+            0.056477,
+            0.056477,
+            0.056477,
+            0.038251,
+            0.023319,
+            0.011848,
+            0.004014,
+            0.000000,
+            0.000000,
+            0.000000
+        )
+        checkScoreValues(expectedValues)
+    }
+
+    @Test
+    fun test_perfectDailyWithSkips() {
+        // If the habit is performed daily and the user always either completes or
+        // skips the habit, score should converge to 100%.
+        habit.frequency = Frequency(1, 1)
+        val values = ArrayList<Int>()
+        check(0, 500)
+        for (k in 0..99) {
+            addSkip(7 * k + 5)
+            addSkip(7 * k + 6)
+        }
+        habit.recompute()
+        check(values)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(1.0, E))
+    }
+
+    @Test
+    fun test_perfectNonDailyWithSkips() {
+        // If the habit is performed six times per week and the user always either completes or
+        // skips the habit, score should converge to 100%.
+        habit.frequency = Frequency(6, 7)
+        val values = ArrayList<Int>()
+        check(0, 500)
+        for (k in 0..99) {
+            addSkip(7 * k + 5)
+            addSkip(7 * k + 6)
+        }
+        habit.recompute()
+        check(values)
+        assertThat(habit.scores[today].value, IsCloseTo.closeTo(1.0, E))
     }
 
     @Test

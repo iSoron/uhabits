@@ -62,6 +62,31 @@ class ScoreList {
     }
 
     /**
+     * Returns the number of skips after the offset in the interval used to calculate
+     * the percentage of completed days.
+     *
+     * If skips are found in the interval, it is expanded until the interval has the size of the
+     * sum of the denominator and the number of skips within the interval.
+     */
+    @Synchronized
+    fun getNumberOfSkipsByInterval(
+        values: IntArray,
+        firstIndexToCheck: Int,
+        lastIndexToCheck: Int
+    ): Int {
+        if (lastIndexToCheck < firstIndexToCheck) return 0
+        var nbOfSkips = 0
+        var nextLastIndex = lastIndexToCheck
+        for (i in firstIndexToCheck..lastIndexToCheck) {
+            if (values[i] == Entry.SKIP) {
+                nbOfSkips++
+                if (lastIndexToCheck + nbOfSkips < values.size) nextLastIndex++
+            }
+        }
+        return nbOfSkips + getNumberOfSkipsByInterval(values, lastIndexToCheck + 1, nextLastIndex)
+    }
+
+    /**
      * Recomputes all scores between the provided [from] and [to] timestamps.
      */
     @Synchronized
@@ -125,8 +150,12 @@ class ScoreList {
                     rollingSum += 1.0
                 }
                 if (offset + denominator < values.size) {
-                    if (values[offset + denominator] == Entry.YES_MANUAL) {
-                        rollingSum -= 1.0
+                    val nbOfSkips =
+                        getNumberOfSkipsByInterval(values, offset, offset + denominator)
+                    if (offset + denominator + nbOfSkips < values.size) {
+                        if (values[offset + denominator + nbOfSkips] == Entry.YES_MANUAL) {
+                            if (values[offset] != Entry.SKIP) rollingSum -= 1.0
+                        }
                     }
                 }
                 if (values[offset] != Entry.SKIP) {
