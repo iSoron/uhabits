@@ -65,7 +65,7 @@ class NumberDialog : AppCompatDialogFragment() {
             save()
         }
         view.skipBtnNumber.setOnClickListener {
-            view.value.setText((Entry.SKIP.toDouble() / 1000).toString())
+            view.value.setText(DecimalFormat("#.###").format((Entry.SKIP.toDouble() / 1000)))
             save()
         }
         view.notes.setOnEditorActionListener { v, actionId, event ->
