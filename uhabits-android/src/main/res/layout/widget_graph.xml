@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="@dimen/smallTextSize"
+            android:maxLines="2"
             android:textColor="@color/white"/>
 
     </LinearLayout>
