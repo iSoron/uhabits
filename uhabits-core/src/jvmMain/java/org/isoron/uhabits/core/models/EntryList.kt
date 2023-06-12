@@ -204,9 +204,16 @@ open class EntryList {
             // Copy original entries
             original.forEach { entry ->
                 val offset = entry.timestamp.daysUntil(to)
-                if (result[offset].value == UNKNOWN || entry.value == SKIP || entry.value == YES_MANUAL) {
-                    result[offset] = entry
+                val value = if (
+                    result[offset].value == UNKNOWN ||
+                    entry.value == SKIP ||
+                    entry.value == YES_MANUAL
+                ) {
+                    entry.value
+                } else {
+                    YES_AUTO
                 }
+                result[offset] = Entry(entry.timestamp, value, entry.notes)
             }
 
             return result

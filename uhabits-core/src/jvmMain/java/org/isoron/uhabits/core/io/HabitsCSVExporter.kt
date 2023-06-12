@@ -149,7 +149,7 @@ class HabitsCSVExporter(
 
         val timeframe = getTimeframe()
         val oldest = timeframe[0]
-        val newest = DateUtils.getToday()
+        val newest = DateUtils.getTodayWithOffset()
         val checkmarks: MutableList<ArrayList<Entry>> = ArrayList()
         val scores: MutableList<ArrayList<Score>> = ArrayList()
         for (habit in selectedHabits) {
