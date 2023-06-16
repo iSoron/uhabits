@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -16,6 +17,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.requestFocusWithKeyboard
+import org.isoron.uhabits.utils.showConfetti
 import org.isoron.uhabits.utils.sres
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -115,5 +117,11 @@ class NumberDialog : AppCompatDialogFragment() {
         val notes = view.notes.text.toString()
         onToggle(value, notes)
         requireDialog().dismiss()
+        val v = requireActivity().findViewById<LinearLayout>(R.id.konfettiLayout)
+
+        if (value > 0.0) {
+            showConfetti(v)
+
+        }
     }
 }

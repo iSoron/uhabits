@@ -44,6 +44,7 @@ import org.isoron.uhabits.utils.addAtBottom
 import org.isoron.uhabits.utils.addAtTop
 import org.isoron.uhabits.utils.addBelow
 import org.isoron.uhabits.utils.buildToolbar
+import org.isoron.uhabits.utils.buildKonfettiView
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.dp
@@ -69,6 +70,7 @@ class ListHabitsRootView @Inject constructor(
     val listView: HabitCardListView = habitCardListViewFactory.create()
     val llEmpty = EmptyListView(context)
     val tbar = buildToolbar()
+    val konfettiView = buildKonfettiView()
     val progressBar = TaskProgressBar(context, runner)
     val hintView: HintView
     val header = HeaderView(context, preferences, midnightTimer)
@@ -80,6 +82,7 @@ class ListHabitsRootView @Inject constructor(
 
         val rootView = RelativeLayout(context).apply {
             background = sres.getDrawable(R.attr.windowBackgroundColor)
+            addAtTop(konfettiView)
             addAtTop(tbar)
             addBelow(header, tbar)
             addBelow(listView, header, height = MATCH_PARENT)

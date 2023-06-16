@@ -39,6 +39,7 @@ import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
+import org.isoron.uhabits.utils.showConfetti
 import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
@@ -88,7 +89,7 @@ class CheckmarkButtonView(
         setOnLongClickListener(this)
     }
 
-    fun performToggle() {
+    fun performToggle(v: View) {
         value = Entry.nextToggleValue(
             value = value,
             isSkipEnabled = preferences.isSkipEnabled,
@@ -96,12 +97,15 @@ class CheckmarkButtonView(
         )
         onToggle(value, notes)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        when (value) {
+            YES_MANUAL -> showConfetti(v.rootView)
+        }
         invalidate()
     }
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) {
-            performToggle()
+            performToggle(v)
         } else {
             onEdit()
         }
@@ -111,7 +115,7 @@ class CheckmarkButtonView(
         if (preferences.isShortToggleEnabled) {
             onEdit()
         } else {
-            performToggle()
+            performToggle(v)
         }
         return true
     }
