@@ -36,6 +36,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
 import android.widget.RelativeLayout.ALIGN_PARENT_TOP
@@ -46,6 +47,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.Position
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.xml.KonfettiView
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -53,6 +58,7 @@ import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.views.Theme
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 fun RelativeLayout.addBelow(
     view: View,
@@ -79,7 +85,9 @@ fun RelativeLayout.addAtBottom(
     view.layoutParams = RelativeLayout.LayoutParams(width, height).apply {
         addRule(ALIGN_PARENT_BOTTOM)
     }
-    view.id = View.generateViewId()
+    if (view.id == null) {
+        view.id = View.generateViewId()
+    }
     this.addView(view)
 }
 
@@ -92,13 +100,38 @@ fun RelativeLayout.addAtTop(
     view.layoutParams = RelativeLayout.LayoutParams(width, height).apply {
         addRule(ALIGN_PARENT_TOP)
     }
-    view.id = View.generateViewId()
+
+    if (view.id == null) {
+        view.id = View.generateViewId()
+    }
     this.addView(view)
 }
 
 fun ViewGroup.buildToolbar(): Toolbar {
     val inflater = LayoutInflater.from(context)
     return inflater.inflate(R.layout.toolbar, null) as Toolbar
+}
+
+fun ViewGroup.buildKonfettiView(): View {
+    val inflater = LayoutInflater.from(context)
+    return inflater.inflate(R.layout.konfetti, null) as View
+}
+
+fun showConfetti(view: View) {
+    val viewId = R.id.konfettttiView
+    val linearLayout = view.findViewById<LinearLayout>(R.id.konfettiLayout)
+    val kv = view.findViewById<KonfettiView>(viewId)
+    linearLayout.bringToFront()
+    val party = Party(
+        speed = 0f,
+        maxSpeed = 32f,
+        damping = 0.9f,
+        spread = 360,
+        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def, 0x818181, 0x81a48c),
+        position = Position.Relative(0.5, 0.3),
+        emitter = Emitter(duration = 300, TimeUnit.MILLISECONDS).max(300)
+    )
+    kv.start(party)
 }
 
 fun View.showMessage(msg: String) {
