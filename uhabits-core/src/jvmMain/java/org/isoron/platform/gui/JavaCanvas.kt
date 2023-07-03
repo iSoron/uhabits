@@ -37,7 +37,7 @@ import kotlin.math.roundToInt
 
 class JavaCanvas(
     val image: BufferedImage,
-    val pixelScale: Double = 2.0,
+    val pixelScale: Double = 2.0
 ) : Canvas {
 
     override fun toImage(): Image {
@@ -131,7 +131,7 @@ class JavaCanvas(
         y: Double,
         width: Double,
         height: Double,
-        cornerRadius: Double,
+        cornerRadius: Double
     ) {
         g2d.fill(
             RoundRectangle2D.Double(
@@ -140,7 +140,7 @@ class JavaCanvas(
                 toPixel(width).toDouble(),
                 toPixel(height).toDouble(),
                 toPixel(cornerRadius).toDouble(),
-                toPixel(cornerRadius).toDouble(),
+                toPixel(cornerRadius).toDouble()
             )
         )
     }
@@ -194,9 +194,8 @@ class JavaCanvas(
         centerY: Double,
         radius: Double,
         startAngle: Double,
-        swipeAngle: Double,
+        swipeAngle: Double
     ) {
-
         g2d.fillArc(
             toPixel(centerX - radius),
             toPixel(centerY - radius),

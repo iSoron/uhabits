@@ -103,7 +103,9 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         if (snoozeValues[position] >= 0) {
             reminderController!!.onSnoozeDelayPicked(habit!!, snoozeValues[position])
             finish()
-        } else showTimePicker()
+        } else {
+            showTimePicker()
+        }
     }
 
     override fun finish() {

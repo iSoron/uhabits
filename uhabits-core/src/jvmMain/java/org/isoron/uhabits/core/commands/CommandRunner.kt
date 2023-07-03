@@ -27,7 +27,7 @@ import javax.inject.Inject
 @AppScope
 open class CommandRunner
 @Inject constructor(
-    private val taskRunner: TaskRunner,
+    private val taskRunner: TaskRunner
 ) {
     private val listeners: LinkedList<Listener> = LinkedList()
 

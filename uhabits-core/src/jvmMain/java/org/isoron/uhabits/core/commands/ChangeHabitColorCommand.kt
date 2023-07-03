@@ -25,7 +25,7 @@ import org.isoron.uhabits.core.models.PaletteColor
 data class ChangeHabitColorCommand(
     val habitList: HabitList,
     val selected: List<Habit>,
-    val newColor: PaletteColor,
+    val newColor: PaletteColor
 ) : Command {
     override fun run() {
         for (h in selected) h.color = newColor

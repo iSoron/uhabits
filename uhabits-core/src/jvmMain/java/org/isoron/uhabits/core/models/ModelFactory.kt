@@ -35,7 +35,7 @@ interface ModelFactory {
             scores = scores,
             streaks = streaks,
             originalEntries = buildOriginalEntries(),
-            computedEntries = buildComputedEntries(),
+            computedEntries = buildComputedEntries()
         )
     }
     fun buildComputedEntries(): EntryList

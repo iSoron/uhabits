@@ -30,7 +30,7 @@ class AndroidDatabaseOpener @Inject constructor() : DatabaseOpener {
             db = SQLiteDatabase.openDatabase(
                 file.absolutePath,
                 null,
-                SQLiteDatabase.OPEN_READWRITE,
+                SQLiteDatabase.OPEN_READWRITE
             ),
             file = file
         )

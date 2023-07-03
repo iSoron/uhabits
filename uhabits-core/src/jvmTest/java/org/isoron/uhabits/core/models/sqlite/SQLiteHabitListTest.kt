@@ -73,7 +73,7 @@ class SQLiteHabitListTest : BaseUnitTest() {
         reminderHabits = habitList.getFiltered(
             HabitMatcher(
                 isArchivedAllowed = true,
-                isReminderRequired = true,
+                isReminderRequired = true
             )
         )
         habitList.observable.addListener(listener)

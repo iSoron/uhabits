@@ -181,8 +181,9 @@ class FrequencyChart : ScrollableChart {
             rect[0f, 0f, baseSize.toFloat()] = baseSize.toFloat()
             rect.offset(prevRect!!.left, prevRect!!.top + baseSize * j)
             val i = localeWeekdayList[j] % 7
-            if (values != null)
+            if (values != null) {
                 drawMarker(canvas, rect, values[i], weekDaysInMonth[i])
+            }
             rect.offset(0f, rowHeight)
         }
         drawFooter(canvas, rect, date)
@@ -196,12 +197,14 @@ class FrequencyChart : ScrollableChart {
             rect.centerY() - 0.1f * em,
             pText!!
         )
-        if (date[Calendar.MONTH] == 1) canvas.drawText(
-            dfYear!!.format(time),
-            rect.centerX(),
-            rect.centerY() + 0.9f * em,
-            pText!!
-        )
+        if (date[Calendar.MONTH] == 1) {
+            canvas.drawText(
+                dfYear!!.format(time),
+                rect.centerX(),
+                rect.centerY() + 0.9f * em,
+                pText!!
+            )
+        }
     }
 
     private fun drawGrid(canvas: Canvas, rGrid: RectF?) {

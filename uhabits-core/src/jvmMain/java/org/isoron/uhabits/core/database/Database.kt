@@ -35,7 +35,7 @@ interface Database {
         tableName: String,
         values: Map<String, Any?>,
         where: String,
-        vararg params: String,
+        vararg params: String
     ): Int
 
     fun insert(tableName: String, values: Map<String, Any?>): Long?

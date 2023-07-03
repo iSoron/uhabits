@@ -45,7 +45,7 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             series = state.series,
             defaultSquare = state.defaultSquare,
             notesIndicators = state.notesIndicators,
-            firstWeekday = state.firstWeekday,
+            firstWeekday = state.firstWeekday
         )
         binding.chart.postInvalidate()
     }

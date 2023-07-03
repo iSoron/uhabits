@@ -49,7 +49,7 @@ class ScoreList {
     @Synchronized
     fun getByInterval(
         fromTimestamp: Timestamp,
-        toTimestamp: Timestamp,
+        toTimestamp: Timestamp
     ): List<Score> {
         val result: MutableList<Score> = ArrayList()
         if (fromTimestamp.isNewerThan(toTimestamp)) return result
@@ -72,7 +72,7 @@ class ScoreList {
         targetValue: Double,
         computedEntries: EntryList,
         from: Timestamp,
-        to: Timestamp,
+        to: Timestamp
     ) {
         map.clear()
         var rollingSum = 0.0
@@ -102,10 +102,11 @@ class ScoreList {
                 val normalizedRollingSum = rollingSum / 1000
                 if (values[offset] != Entry.SKIP) {
                     val percentageCompleted = if (!isAtMost) {
-                        if (targetValue > 0)
+                        if (targetValue > 0) {
                             min(1.0, normalizedRollingSum / targetValue)
-                        else
+                        } else {
                             1.0
+                        }
                     } else {
                         if (targetValue > 0) {
                             (1 - ((normalizedRollingSum - targetValue) / targetValue)).coerceIn(

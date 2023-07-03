@@ -48,22 +48,22 @@ class FrequencyPickerDialog(
 
         addBeforeAfterText(
             this.getString(R.string.every_x_days),
-            contentView.everyXDaysContainer,
+            contentView.everyXDaysContainer
         )
 
         addBeforeAfterText(
             this.getString(R.string.x_times_per_week),
-            contentView.xTimesPerWeekContainer,
+            contentView.xTimesPerWeekContainer
         )
 
         addBeforeAfterText(
             this.getString(R.string.x_times_per_month),
-            contentView.xTimesPerMonthContainer,
+            contentView.xTimesPerMonthContainer
         )
 
         addBeforeAfterText(
             this.getString(R.string.x_times_per_y_days),
-            contentView.xTimesPerYDaysContainer,
+            contentView.xTimesPerYDaysContainer
         )
 
         contentView.everyDayRadioButton.setOnClickListener {
@@ -124,7 +124,8 @@ class FrequencyPickerDialog(
         val parts = str.split("%d")
         for (i in parts.indices) {
             container.addView(
-                TextView(activity).apply { text = parts[i].trim() }, 2 * i + 1,
+                TextView(activity).apply { text = parts[i].trim() },
+                2 * i + 1
             )
         }
     }

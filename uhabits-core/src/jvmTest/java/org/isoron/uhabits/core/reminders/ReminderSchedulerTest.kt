@@ -149,10 +149,14 @@ class ReminderSchedulerTest : BaseUnitTest() {
         expectedCheckmarkTime: Long,
         expectedReminderTime: Long
     ) {
-        if (atTime == null) reminderScheduler.schedule(habit) else reminderScheduler.scheduleAtTime(
-            habit,
-            atTime
-        )
+        if (atTime == null) {
+            reminderScheduler.schedule(habit)
+        } else {
+            reminderScheduler.scheduleAtTime(
+                habit,
+                atTime
+            )
+        }
         verify(sys).scheduleShowReminder(
             expectedReminderTime,
             habit,

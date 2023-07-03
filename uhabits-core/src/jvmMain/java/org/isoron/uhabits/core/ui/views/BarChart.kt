@@ -31,7 +31,7 @@ import kotlin.math.round
 
 class BarChart(
     var theme: Theme,
-    var dateFormatter: LocalDateFormatter,
+    var dateFormatter: LocalDateFormatter
 ) : DataView {
 
     // Data

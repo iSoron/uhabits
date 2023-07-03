@@ -33,8 +33,11 @@ class JavaResourceFile(val path: String) : ResourceFile {
         get() {
             val mainPath = Paths.get("assets/main/$path")
             val testPath = Paths.get("assets/test/$path")
-            return if (Files.exists(mainPath)) mainPath
-            else testPath
+            return if (Files.exists(mainPath)) {
+                mainPath
+            } else {
+                testPath
+            }
         }
 
     override suspend fun exists(): Boolean {

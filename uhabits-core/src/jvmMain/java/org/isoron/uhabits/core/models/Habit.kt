@@ -39,7 +39,7 @@ data class Habit(
     val computedEntries: EntryList,
     val originalEntries: EntryList,
     val scores: ScoreList,
-    val streaks: StreakList,
+    val streaks: StreakList
 ) {
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
@@ -78,7 +78,7 @@ data class Habit(
         computedEntries.recomputeFrom(
             originalEntries = originalEntries,
             frequency = frequency,
-            isNumerical = isNumerical,
+            isNumerical = isNumerical
         )
 
         val today = DateUtils.getTodayWithOffset()
@@ -94,13 +94,13 @@ data class Habit(
             targetValue = targetValue,
             computedEntries = computedEntries,
             from = from,
-            to = to,
+            to = to
         )
 
         streaks.recompute(
             computedEntries,
             from,
-            to,
+            to
         )
     }
 

@@ -28,7 +28,7 @@ import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitMenuPresenter
 class ShowHabitMenu(
     val activity: ShowHabitActivity,
     val presenter: ShowHabitMenuPresenter,
-    val preferences: Preferences,
+    val preferences: Preferences
 ) {
     fun onCreateOptionsMenu(menu: Menu): Boolean {
         activity.menuInflater.inflate(R.menu.show_habit, menu)

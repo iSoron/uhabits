@@ -77,12 +77,12 @@ class WidgetBehaviorTest : BaseUnitTest() {
     @Test
     fun testOnToggleRepetition() {
         for (skipEnabled in listOf(true, false)) for (
-            currentValue in listOf(
-                Entry.NO,
-                Entry.YES_MANUAL,
-                Entry.YES_AUTO,
-                Entry.SKIP,
-            )
+        currentValue in listOf(
+            Entry.NO,
+            Entry.YES_MANUAL,
+            Entry.YES_AUTO,
+            Entry.SKIP
+        )
         ) {
             whenever(preferences.isSkipEnabled).thenReturn(skipEnabled)
             val nextValue: Int = nextToggleValue(

@@ -24,7 +24,7 @@ import java.io.InputStream
 import java.util.Locale
 
 class MigrationHelper(
-    private val db: Database,
+    private val db: Database
 ) {
     fun migrateTo(newVersion: Int) {
         try {

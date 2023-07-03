@@ -69,7 +69,7 @@ suspend fun assertRenders(
     width: Int,
     height: Int,
     expectedPath: String,
-    view: View,
+    view: View
 ) {
     val canvas = createCanvas(width, height)
     view.draw(canvas)

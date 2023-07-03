@@ -46,7 +46,7 @@ class FrequencyCardPresenter {
                 isNumerical = habit.isNumerical
             ),
             firstWeekday = firstWeekday,
-            theme = theme,
+            theme = theme
         )
     }
 }
