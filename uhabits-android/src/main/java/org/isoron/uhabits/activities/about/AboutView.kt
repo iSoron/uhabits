@@ -32,7 +32,7 @@ import org.isoron.uhabits.utils.setupToolbar
 @SuppressLint("ViewConstructor")
 class AboutView(
     context: Context,
-    private val screen: AboutScreen,
+    private val screen: AboutScreen
 ) : FrameLayout(context) {
 
     private var binding = AboutBinding.inflate(LayoutInflater.from(context))
@@ -43,7 +43,7 @@ class AboutView(
             toolbar = binding.toolbar,
             color = PaletteColor(11),
             title = resources.getString(R.string.about),
-            theme = currentTheme(),
+            theme = currentTheme()
         )
         val version = resources.getString(R.string.version_n)
         binding.tvContributors.setOnClickListener { screen.showCodeContributorsWebsite() }

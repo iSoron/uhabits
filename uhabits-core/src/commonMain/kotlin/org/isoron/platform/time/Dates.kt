@@ -29,7 +29,7 @@ enum class DayOfWeek(val daysSinceSunday: Int) {
     WEDNESDAY(3),
     THURSDAY(4),
     FRIDAY(5),
-    SATURDAY(6),
+    SATURDAY(6)
 }
 
 data class LocalDate(val daysSince2000: Int) {
@@ -155,7 +155,6 @@ val nonLeapOffset = arrayOf(
 )
 
 private fun daysSince2000(year: Int, month: Int, day: Int): Int {
-
     var result = 365 * (year - 2000)
     result += ceil((year - 2000) / 4.0).toInt()
     result -= ceil((year - 2000) / 100.0).toInt()

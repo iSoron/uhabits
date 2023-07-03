@@ -60,8 +60,11 @@ abstract class ButtonPanelView<T : View>(
         repeat(buttonCount) { buttons.add(createButton()) }
 
         removeAllViews()
-        if (reverse) buttons.reversed().forEach { addView(it) }
-        else buttons.forEach { addView(it) }
+        if (reverse) {
+            buttons.reversed().forEach { addView(it) }
+        } else {
+            buttons.forEach { addView(it) }
+        }
         setupButtons()
         requestLayout()
     }

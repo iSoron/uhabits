@@ -28,6 +28,7 @@ import org.junit.Test
 class ArchiveHabitsCommandTest : BaseUnitTest() {
     private lateinit var command: ArchiveHabitsCommand
     private lateinit var habit: Habit
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {

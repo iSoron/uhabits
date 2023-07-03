@@ -33,7 +33,7 @@ import kotlin.math.max
  */
 class AndroidDataView(
     context: Context,
-    attrs: AttributeSet? = null,
+    attrs: AttributeSet? = null
 ) : AndroidView<DataView>(context, attrs),
     GestureDetector.OnGestureListener,
     ValueAnimator.AnimatorUpdateListener {
@@ -60,7 +60,7 @@ class AndroidDataView(
         e1: MotionEvent?,
         e2: MotionEvent?,
         dx: Float,
-        dy: Float,
+        dy: Float
     ): Boolean {
         if (abs(dx) > abs(dy)) {
             val parent = parent
@@ -82,7 +82,7 @@ class AndroidDataView(
         e1: MotionEvent?,
         e2: MotionEvent?,
         velocityX: Float,
-        velocityY: Float,
+        velocityY: Float
     ): Boolean {
         scroller.fling(
             scroller.currX,
@@ -140,8 +140,11 @@ class AndroidDataView(
             // e.getPointerId.
             return false
         }
-        if (isSingleTap) view?.onClick(x / canvas.innerDensity, y / canvas.innerDensity)
-        else view?.onLongClick(x / canvas.innerDensity, y / canvas.innerDensity)
+        if (isSingleTap) {
+            view?.onClick(x / canvas.innerDensity, y / canvas.innerDensity)
+        } else {
+            view?.onLongClick(x / canvas.innerDensity, y / canvas.innerDensity)
+        }
         return true
     }
 }

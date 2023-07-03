@@ -25,7 +25,7 @@ import org.isoron.uhabits.core.models.ModelFactory
 data class CreateHabitCommand(
     val modelFactory: ModelFactory,
     val habitList: HabitList,
-    val model: Habit,
+    val model: Habit
 ) : Command {
     override fun run() {
         val habit = modelFactory.buildHabit()

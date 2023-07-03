@@ -33,7 +33,7 @@ class FrequencyWidget(
     widgetId: Int,
     private val habit: Habit,
     private val firstWeekday: Int,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, widgetId, stacked) {
     override val defaultHeight: Int = 200
     override val defaultWidth: Int = 200

@@ -44,7 +44,7 @@ class ScoreChartTest : BaseViewTest() {
             habit = habit,
             firstWeekday = prefs.firstWeekdayInt,
             spinnerPosition = 0,
-            theme = LightTheme(),
+            theme = LightTheme()
         )
         view = ScoreChart(targetContext).apply {
             setScores(state.scores)

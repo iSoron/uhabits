@@ -48,7 +48,7 @@ class StreakCardViewTest : BaseViewTest() {
             StreakCardState(
                 bestStreaks = habit.streaks.getBest(10),
                 color = habit.color,
-                theme = LightTheme(),
+                theme = LightTheme()
             )
         )
         measureView(view, 800f, 600f)

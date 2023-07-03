@@ -94,7 +94,7 @@ class ListHabitsRootView @Inject constructor(
             title = resources.getString(R.string.main_activity_title),
             color = PaletteColor(17),
             displayHomeAsUpEnabled = false,
-            theme = currentTheme(),
+            theme = currentTheme()
         )
         addView(rootView, MATCH_PARENT, MATCH_PARENT)
         listAdapter.setListView(listView)

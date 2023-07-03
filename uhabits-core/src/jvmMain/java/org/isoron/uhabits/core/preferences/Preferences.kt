@@ -158,8 +158,10 @@ open class Preferences(private val storage: Storage) {
 
     open var isCheckmarkSequenceReversed: Boolean
         get() {
-            if (shouldReverseCheckmarks == null) shouldReverseCheckmarks =
-                storage.getBoolean("pref_checkmark_reverse_order", false)
+            if (shouldReverseCheckmarks == null) {
+                shouldReverseCheckmarks =
+                    storage.getBoolean("pref_checkmark_reverse_order", false)
+            }
             return shouldReverseCheckmarks!!
         }
         set(reverse) {
@@ -255,9 +257,13 @@ open class Preferences(private val storage: Storage) {
 
         fun getLongArray(key: String, defValue: LongArray): LongArray {
             val string = getString(key, "")
-            return if (string.isEmpty()) defValue else splitLongs(
-                string
-            )
+            return if (string.isEmpty()) {
+                defValue
+            } else {
+                splitLongs(
+                    string
+                )
+            }
         }
     }
 

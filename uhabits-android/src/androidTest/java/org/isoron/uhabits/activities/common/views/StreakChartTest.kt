@@ -30,6 +30,7 @@ import org.junit.runner.RunWith
 @MediumTest
 class StreakChartTest : BaseViewTest() {
     private lateinit var view: StreakChart
+
     @Before
     override fun setUp() {
         super.setUp()

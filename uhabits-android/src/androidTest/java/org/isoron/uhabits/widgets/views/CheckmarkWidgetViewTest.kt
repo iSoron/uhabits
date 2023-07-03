@@ -33,6 +33,7 @@ import java.io.IOException
 @MediumTest
 class CheckmarkWidgetViewTest : BaseViewTest() {
     private lateinit var view: CheckmarkWidgetView
+
     @Before
     override fun setUp() {
         super.setUp()

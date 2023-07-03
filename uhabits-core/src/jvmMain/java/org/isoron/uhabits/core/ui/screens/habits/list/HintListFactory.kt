@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class HintListFactory
 @Inject constructor(
-    val preferences: Preferences,
+    val preferences: Preferences
 ) {
     fun create(hints: Array<String>) = HintList(preferences, hints)
 }

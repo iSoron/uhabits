@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat
 
 object DatabaseUtils {
     private var opener: HabitsDatabaseOpener? = null
+
     @JvmStatic
     fun getDatabaseFile(context: Context): File {
         val databaseFilename = databaseFilename

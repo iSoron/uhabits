@@ -23,7 +23,7 @@ data class Color(
     val red: Double,
     val green: Double,
     val blue: Double,
-    val alpha: Double,
+    val alpha: Double
 ) {
     val luminosity: Double
         get() {

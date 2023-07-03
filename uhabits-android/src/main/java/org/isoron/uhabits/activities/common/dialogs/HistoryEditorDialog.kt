@@ -69,7 +69,7 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
             theme = themeSwitcher.currentTheme,
             today = DateUtils.getTodayWithOffset().toLocalDate(),
             onDateClickedListener = onDateClickedListener ?: object : OnDateClickedListener {},
-            padding = 10.0,
+            padding = 10.0
         )
         dataView = AndroidDataView(requireContext(), null)
         dataView.view = chart!!

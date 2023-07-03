@@ -22,13 +22,13 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Habit
 
 data class NotesCardState(
-    val description: String,
+    val description: String
 )
 
 class NotesCardPresenter {
     companion object {
         fun buildState(habit: Habit) = NotesCardState(
-            description = habit.description,
+            description = habit.description
         )
     }
 }

@@ -63,7 +63,7 @@ class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context,
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
-                id: Long,
+                id: Long
             ) {
                 presenter.onBoolSpinnerPosition(position)
             }
@@ -77,7 +77,7 @@ class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context,
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
-                    id: Long,
+                    id: Long
                 ) {
                     presenter.onNumericalSpinnerPosition(position)
                 }

@@ -37,7 +37,7 @@ class StreakList {
     fun recompute(
         computedEntries: EntryList,
         from: Timestamp,
-        to: Timestamp,
+        to: Timestamp
     ) {
         list.clear()
         val timestamps = computedEntries

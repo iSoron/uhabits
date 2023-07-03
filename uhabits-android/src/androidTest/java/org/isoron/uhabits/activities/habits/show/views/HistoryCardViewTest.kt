@@ -49,7 +49,7 @@ class HistoryCardViewTest : BaseViewTest() {
             HistoryCardPresenter.buildState(
                 habit = habit,
                 firstWeekday = SUNDAY,
-                theme = LightTheme(),
+                theme = LightTheme()
             )
         )
         measureView(view, 800f, 600f)

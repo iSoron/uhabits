@@ -26,5 +26,6 @@ import dagger.Provides
 class AppContextModule(
     @get:Provides
     @get:AppContext
-    @param:AppContext val context: Context
+    @param:AppContext
+    val context: Context
 )

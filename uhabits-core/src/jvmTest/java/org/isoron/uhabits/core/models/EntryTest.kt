@@ -37,10 +37,10 @@ class EntryTest {
                 YES_MANUAL to SKIP,
                 SKIP to NO,
                 NO to UNKNOWN,
-                UNKNOWN to YES_MANUAL,
+                UNKNOWN to YES_MANUAL
             ),
             isSkipEnabled = true,
-            areQuestionMarksEnabled = true,
+            areQuestionMarksEnabled = true
         )
         check(
             mapOf(
@@ -48,10 +48,10 @@ class EntryTest {
                 YES_MANUAL to NO,
                 SKIP to NO,
                 NO to UNKNOWN,
-                UNKNOWN to YES_MANUAL,
+                UNKNOWN to YES_MANUAL
             ),
             isSkipEnabled = false,
-            areQuestionMarksEnabled = true,
+            areQuestionMarksEnabled = true
         )
         check(
             mapOf(
@@ -59,10 +59,10 @@ class EntryTest {
                 YES_MANUAL to SKIP,
                 SKIP to NO,
                 NO to YES_MANUAL,
-                UNKNOWN to YES_MANUAL,
+                UNKNOWN to YES_MANUAL
             ),
             isSkipEnabled = true,
-            areQuestionMarksEnabled = false,
+            areQuestionMarksEnabled = false
         )
         check(
             mapOf(
@@ -70,10 +70,10 @@ class EntryTest {
                 YES_MANUAL to NO,
                 SKIP to NO,
                 NO to YES_MANUAL,
-                UNKNOWN to YES_MANUAL,
+                UNKNOWN to YES_MANUAL
             ),
             isSkipEnabled = false,
-            areQuestionMarksEnabled = false,
+            areQuestionMarksEnabled = false
         )
     }
 
@@ -87,9 +87,9 @@ class EntryTest {
                 nextToggleValue(
                     value = value,
                     isSkipEnabled = isSkipEnabled,
-                    areQuestionMarksEnabled = areQuestionMarksEnabled,
+                    areQuestionMarksEnabled = areQuestionMarksEnabled
                 ),
-                expected,
+                expected
             )
         }
     }

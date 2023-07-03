@@ -40,7 +40,7 @@ class SettingsActivity : AppCompatActivity() {
             toolbar = binding.toolbar,
             title = resources.getString(R.string.settings),
             color = PaletteColor(11),
-            theme = themeSwitcher.currentTheme,
+            theme = themeSwitcher.currentTheme
         )
         setContentView(binding.root)
     }

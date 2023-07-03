@@ -148,8 +148,12 @@ class RingView : View {
         pRing!!.color = inactiveColor!!
         activeCanvas.drawArc(rect!!, angle - 90, 360 - angle, true, pRing!!)
         if (thickness > 0) {
-            if (isTransparencyEnabled) pRing!!.xfermode = XFERMODE_CLEAR else pRing!!.color =
-                backgroundColor!!
+            if (isTransparencyEnabled) {
+                pRing!!.xfermode = XFERMODE_CLEAR
+            } else {
+                pRing!!.color =
+                    backgroundColor!!
+            }
             rect!!.inset(thickness, thickness)
             activeCanvas.drawArc(rect!!, 0f, 360f, true, pRing!!)
             pRing!!.xfermode = null
