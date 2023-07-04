@@ -102,11 +102,11 @@ class NumberDialog : AppCompatDialogFragment() {
         val notes = view.notes.text.toString()
         onToggle(value, notes)
         requireDialog().dismiss()
-        val v = requireActivity().findViewById<LinearLayout>(R.id.konfettiLayout)
+        val konfettiView = requireActivity().findViewById<LinearLayout>(R.id.konfettiLayout)
 
         if (value > 0.0) {
-            showConfetti(v)
-
+            //To motivate, show confetti even if some value is present
+            showConfetti(konfettiView)
         }
     }
 }

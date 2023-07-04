@@ -89,7 +89,7 @@ class CheckmarkButtonView(
         setOnLongClickListener(this)
     }
 
-    fun performToggle(v: View) {
+    fun performToggle(view: View) {
         value = Entry.nextToggleValue(
             value = value,
             isSkipEnabled = preferences.isSkipEnabled,
@@ -98,7 +98,7 @@ class CheckmarkButtonView(
         onToggle(value, notes)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         when (value) {
-            YES_MANUAL -> showConfetti(v.rootView)
+            YES_MANUAL -> showConfetti(view.rootView)
         }
         invalidate()
     }
