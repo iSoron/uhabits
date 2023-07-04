@@ -105,7 +105,7 @@ class NumberDialog : AppCompatDialogFragment() {
         val konfettiView = requireActivity().findViewById<LinearLayout>(R.id.konfettiLayout)
 
         if (value > 0.0) {
-            //To motivate, show confetti even if some value is present
+            // To motivate, show confetti even if some value is present
             showConfetti(konfettiView)
         }
     }
