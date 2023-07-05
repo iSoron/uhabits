@@ -43,8 +43,8 @@ import org.isoron.uhabits.inject.ActivityScope
 import org.isoron.uhabits.utils.addAtBottom
 import org.isoron.uhabits.utils.addAtTop
 import org.isoron.uhabits.utils.addBelow
-import org.isoron.uhabits.utils.buildToolbar
 import org.isoron.uhabits.utils.buildKonfettiView
+import org.isoron.uhabits.utils.buildToolbar
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dim
 import org.isoron.uhabits.utils.dp
