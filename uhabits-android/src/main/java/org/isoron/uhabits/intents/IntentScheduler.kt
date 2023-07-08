@@ -57,7 +57,7 @@ class IntentScheduler
             )
             return SchedulerResult.IGNORED
         }
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !manager.canScheduleExactAlarms()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !manager.canScheduleExactAlarms()) {
             Log.e("IntentScheduler", "No permission to schedule exact alarms")
             return SchedulerResult.IGNORED
         }
