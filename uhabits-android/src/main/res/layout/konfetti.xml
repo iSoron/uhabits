@@ -24,6 +24,6 @@
     <nl.dionsegijn.konfetti.xml.KonfettiView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/konfettttiView"/>
+        android:id="@+id/konfetttiView"/>
 
 </LinearLayout>

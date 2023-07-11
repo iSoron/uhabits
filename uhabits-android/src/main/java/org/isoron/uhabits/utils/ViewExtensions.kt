@@ -118,10 +118,12 @@ fun ViewGroup.buildKonfettiView(): View {
 }
 
 fun showConfetti(view: View) {
-    val viewId = R.id.konfettttiView
+    val viewId = R.id.konfetttiView
     val linearLayout = view.findViewById<LinearLayout>(R.id.konfettiLayout)
     val kv = view.findViewById<KonfettiView>(viewId)
-    linearLayout.bringToFront()
+    if (linearLayout != null) {
+        linearLayout.bringToFront()
+    }
     val party = Party(
         speed = 0f,
         maxSpeed = 32f,
@@ -131,7 +133,9 @@ fun showConfetti(view: View) {
         position = Position.Relative(0.5, 0.3),
         emitter = Emitter(duration = 300, TimeUnit.MILLISECONDS).max(300)
     )
-    kv.start(party)
+    if (kv != null) {
+        kv.start(party)
+    }
 }
 
 fun View.showMessage(msg: String) {
