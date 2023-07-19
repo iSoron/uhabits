@@ -38,7 +38,7 @@ class BarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
     fun setState(state: BarCardState) {
         val androidColor = state.theme.color(state.color).toInt()
-        binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.US)).apply {
+        binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.getDefault())).apply {
             series = mutableListOf(state.entries.map { it.value / 1000.0 })
             colors = mutableListOf(theme.color(state.color.paletteIndex))
             axis = state.entries.map { it.timestamp.toLocalDate() }
