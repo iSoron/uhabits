@@ -27,13 +27,10 @@ import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.MigrationHelper
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
 import org.isoron.uhabits.core.test.HabitFixtures
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
+import org.junit.jupiter.api.Assertions.assertThrows
 
 class Version22Test : BaseUnitTest() {
-    @get:Rule
-    var exception = ExpectedException.none()!!
     private lateinit var db: Database
     private lateinit var helper: MigrationHelper
 
@@ -76,8 +73,8 @@ class Version22Test : BaseUnitTest() {
     @Throws(Exception::class)
     fun testDisallowNewRepsWithInvalidRef() {
         helper.migrateTo(22)
-        exception.expectMessage(Matchers.containsString("SQLITE_CONSTRAINT"))
-        db.execute("insert into Repetitions(habit, timestamp, value) values (99999, 100, 2)")
+        val exception = assertThrows(java.lang.RuntimeException::class.java) { db.execute("insert into Repetitions(habit, timestamp, value) values (99999, 100, 2)") }
+        assertThat(exception.message, Matchers.containsString("SQLITE_CONSTRAINT"))
     }
 
     @Test
@@ -97,8 +94,12 @@ class Version22Test : BaseUnitTest() {
     @Throws(Exception::class)
     fun testDisallowNullTimestamp() {
         helper.migrateTo(22)
-        exception.expectMessage(Matchers.containsString("SQLITE_CONSTRAINT"))
-        db.execute("insert into Repetitions(habit, value) " + "values (0, 2)")
+
+        val exception = assertThrows(java.lang.RuntimeException::class.java) {
+            db.execute("insert into Repetitions(habit, value) " + "values (0, 2)")
+        }
+
+        assertThat(exception.message, Matchers.containsString("SQLITE_CONSTRAINT"))
     }
 
     @Test
@@ -118,8 +119,12 @@ class Version22Test : BaseUnitTest() {
     @Throws(Exception::class)
     fun testDisallowNullHabit() {
         helper.migrateTo(22)
-        exception.expectMessage(Matchers.containsString("SQLITE_CONSTRAINT"))
-        db.execute("insert into Repetitions(timestamp, value) " + "values (5, 2)")
+
+        val exception = assertThrows(java.lang.RuntimeException::class.java) {
+            db.execute("insert into Repetitions(timestamp, value) " + "values (5, 2)")
+        }
+
+        assertThat(exception.message, Matchers.containsString("SQLITE_CONSTRAINT"))
     }
 
     @Test
@@ -142,7 +147,11 @@ class Version22Test : BaseUnitTest() {
     fun testDisallowNewDuplicateTimestamps() {
         helper.migrateTo(22)
         db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 2)")
-        exception.expectMessage(Matchers.containsString("SQLITE_CONSTRAINT"))
-        db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 5)")
+
+        val exception = assertThrows(java.lang.RuntimeException::class.java) {
+            db.execute("insert into repetitions(habit, timestamp, value)values (0, 100, 5)")
+        }
+
+        assertThat(exception.message, Matchers.containsString("SQLITE_CONSTRAINT"))
     }
 }
