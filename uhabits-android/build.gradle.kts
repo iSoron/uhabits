@@ -31,6 +31,7 @@ tasks.compileLint {
 }
 
 android {
+    namespace = "org.isoron.uhabits"
 
     compileSdk = 32
 
