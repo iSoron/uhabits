@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.preferences
 
-import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.equalTo
@@ -28,6 +27,7 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 import java.util.Arrays
+import kotlin.test.assertEquals
 
 class PropertiesStorageTest : BaseUnitTest() {
     private lateinit var storage: PropertiesStorage

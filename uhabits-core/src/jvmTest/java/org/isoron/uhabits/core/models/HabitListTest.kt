@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.models
 
-import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertNull
 import org.hamcrest.CoreMatchers.equalTo
@@ -31,6 +30,7 @@ import org.junit.rules.ExpectedException
 import java.io.IOException
 import java.io.StringWriter
 import java.util.ArrayList
+import kotlin.test.assertEquals
 
 class HabitListTest : BaseUnitTest() {
     @get:Rule
