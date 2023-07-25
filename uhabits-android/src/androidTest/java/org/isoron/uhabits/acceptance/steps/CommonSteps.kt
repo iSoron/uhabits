@@ -20,7 +20,6 @@ package org.isoron.uhabits.acceptance.steps
 
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
@@ -33,11 +32,11 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiSelector
 import androidx.test.uiautomator.Until
-import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers
 import org.isoron.uhabits.BaseUserInterfaceTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.ListHabitsActivity
+import org.junit.Assert.assertTrue
 
 object CommonSteps : BaseUserInterfaceTest() {
     fun pressBack() {
@@ -148,15 +147,19 @@ object CommonSteps : BaseUserInterfaceTest() {
             Screen.LIST_HABITS ->
                 Espresso.onView(ViewMatchers.withClassName(CoreMatchers.endsWith("ListHabitsRootView")))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
             Screen.SHOW_HABIT ->
                 Espresso.onView(ViewMatchers.withId(R.id.subtitleCard))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
             Screen.EDIT_HABIT ->
                 Espresso.onView(ViewMatchers.withId(R.id.questionInput))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
             Screen.SELECT_HABIT_TYPE ->
                 Espresso.onView(ViewMatchers.withText(R.string.yes_or_no_example))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
             else -> throw IllegalStateException()
         }
     }

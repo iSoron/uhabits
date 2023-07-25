@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.models
 
-import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.number.IsCloseTo
 import org.hamcrest.number.OrderingComparison
@@ -28,6 +27,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Before
 import org.junit.Test
 import java.util.ArrayList
+import kotlin.test.assertTrue
 
 open class BaseScoreListTest : BaseUnitTest() {
     protected lateinit var habit: Habit

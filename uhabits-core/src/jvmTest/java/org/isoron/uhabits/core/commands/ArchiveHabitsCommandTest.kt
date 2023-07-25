@@ -18,12 +18,12 @@
  */
 package org.isoron.uhabits.core.commands
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ArchiveHabitsCommandTest : BaseUnitTest() {
     private lateinit var command: ArchiveHabitsCommand

@@ -82,8 +82,8 @@ class JavaUserFile(val path: Path) : UserFile {
 @Suppress("NewApi")
 class JavaFileOpener : FileOpener {
     override fun openUserFile(path: String): UserFile {
-        val path = Paths.get("/tmp/$path")
-        return JavaUserFile(path)
+        val resolvedPath = Paths.get("/tmp/$path")
+        return JavaUserFile(resolvedPath)
     }
 
     override fun openResourceFile(path: String): ResourceFile {

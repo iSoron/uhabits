@@ -19,9 +19,9 @@
 
 package org.isoron.platform.gui
 
-import junit.framework.Assert.fail
 import kotlinx.coroutines.runBlocking
 import org.isoron.platform.io.JavaFileOpener
+import org.junit.Assert.fail
 import org.junit.Test
 import java.awt.image.BufferedImage
 import java.awt.image.BufferedImage.TYPE_INT_ARGB

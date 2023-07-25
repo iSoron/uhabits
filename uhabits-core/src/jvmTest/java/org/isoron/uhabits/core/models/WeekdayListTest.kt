@@ -18,12 +18,12 @@
  */
 package org.isoron.uhabits.core.models
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class WeekdayListTest : BaseUnitTest() {
     @Test

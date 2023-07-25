@@ -18,9 +18,6 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertNull
-import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
@@ -31,6 +28,9 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class HintListTest : BaseUnitTest() {
     private lateinit var hintList: HintList
