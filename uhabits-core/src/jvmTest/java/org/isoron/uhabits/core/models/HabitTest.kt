@@ -24,16 +24,12 @@ import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Assert.assertNotEquals
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class HabitTest : BaseUnitTest() {
-    @get:Rule
-    val exception = ExpectedException.none()!!
 
     @Throws(Exception::class)
     override fun setUp() {

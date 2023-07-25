@@ -23,17 +23,12 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
-import java.util.LinkedList
+import java.util.*
 
 class DeleteHabitsCommandTest : BaseUnitTest() {
     private lateinit var command: DeleteHabitsCommand
     private lateinit var selected: LinkedList<Habit>
-
-    @get:Rule
-    var thrown = ExpectedException.none()!!
 
     @Before
     @Throws(Exception::class)

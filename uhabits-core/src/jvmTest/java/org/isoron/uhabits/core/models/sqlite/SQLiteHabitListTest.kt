@@ -31,17 +31,14 @@ import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
 import org.isoron.uhabits.core.test.HabitFixtures
-import org.junit.Rule
+import org.junit.Assert.assertThrows
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import java.util.ArrayList
 import kotlin.test.assertNull
 
 class SQLiteHabitListTest : BaseUnitTest() {
-    @get:Rule
-    var exception = ExpectedException.none()!!
     private lateinit var repository: Repository<HabitRecord>
     private var listener: ModelObservable.Listener = mock()
     private lateinit var habitsArray: ArrayList<Habit>
@@ -90,8 +87,9 @@ class SQLiteHabitListTest : BaseUnitTest() {
         val habit = modelFactory.buildHabit()
         habitList.add(habit)
         verify(listener).onModelChange()
-        exception.expect(IllegalArgumentException::class.java)
-        habitList.add(habit)
+        assertThrows(IllegalArgumentException::class.java) {
+            habitList.add(habit)
+        }
     }
 
     @Test
