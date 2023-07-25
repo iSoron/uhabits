@@ -49,7 +49,7 @@ class HabitListHeader(
 
         repeat(nButtons) { index ->
             val date = today.minus(nButtons - index - 1)
-            val name = fmt.shortWeekdayName(date).toUpperCase()
+            val name = fmt.shortWeekdayName(date).uppercase()
             val number = date.day.toString()
 
             val x = width - (index + 1) * buttonSize + buttonSize / 2

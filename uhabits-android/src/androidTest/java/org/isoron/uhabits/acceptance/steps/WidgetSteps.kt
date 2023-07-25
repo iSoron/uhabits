@@ -21,9 +21,9 @@ package org.isoron.uhabits.acceptance.steps
 import android.os.Build.VERSION.SDK_INT
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.isoron.uhabits.BaseUserInterfaceTest
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 
 object WidgetSteps {
     @Throws(Exception::class)

@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.utils
 
-import junit.framework.Assert.assertEquals
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
@@ -40,6 +39,7 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.test.assertEquals
 
 class DateUtilsTest : BaseUnitTest() {
     var firstWeekday = Calendar.SUNDAY

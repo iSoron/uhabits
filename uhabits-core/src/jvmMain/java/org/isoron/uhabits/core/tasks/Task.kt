@@ -25,5 +25,5 @@ fun interface Task {
     fun onAttached(runner: TaskRunner) {}
     fun onPostExecute() {}
     fun onPreExecute() {}
-    fun onProgressUpdate(value: Int) {}
+    fun onProgressUpdate(currentPosition: Int) {}
 }

@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.models.sqlite
 
-import junit.framework.Assert.assertNull
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
@@ -38,6 +37,7 @@ import org.junit.rules.ExpectedException
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import java.util.ArrayList
+import kotlin.test.assertNull
 
 class SQLiteHabitListTest : BaseUnitTest() {
     @get:Rule

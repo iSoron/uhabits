@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.core.models.sqlite
 
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import org.isoron.uhabits.core.BaseUnitTest.Companion.buildMemoryDatabase
 import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Entry
@@ -30,6 +28,8 @@ import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
 import org.isoron.uhabits.core.utils.DateUtils
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class SQLiteEntryListTest {
 

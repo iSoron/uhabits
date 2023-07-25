@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core.io
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
@@ -34,6 +32,8 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 import java.io.IOException
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ImportTest : BaseUnitTest() {
     @Before

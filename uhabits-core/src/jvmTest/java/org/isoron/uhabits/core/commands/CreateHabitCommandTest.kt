@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.commands
 
-import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
@@ -27,6 +26,7 @@ import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertTrue
 
 class CreateHabitCommandTest : BaseUnitTest() {
     private lateinit var command: CreateHabitCommand
