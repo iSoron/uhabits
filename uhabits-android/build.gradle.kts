@@ -38,7 +38,7 @@ android {
         versionCode = 20200
         versionName = "2.2.0"
         minSdk = 28
-        targetSdk = 31
+        targetSdk = 32
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
