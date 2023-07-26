@@ -22,7 +22,6 @@ plugins {
     id("com.android.application") version "7.4.2"
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
-    id("org.jetbrains.kotlin.android.extensions")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
