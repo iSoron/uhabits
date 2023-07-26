@@ -18,7 +18,7 @@ jobs:
       run: ./build.sh build
 
     - name: Run Android tests
-      run: ./build.sh android-tests-parallel 28 29 30 31 32 33
+      run: ./build.sh android-tests-parallel 28 29 30 31 32 33 34
 
     - name: Upload artifacts
       if: always()
