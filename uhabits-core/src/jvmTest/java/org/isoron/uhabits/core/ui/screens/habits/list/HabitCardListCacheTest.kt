@@ -18,10 +18,6 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.reset
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
@@ -30,6 +26,10 @@ import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.reset
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
 
 class HabitCardListCacheTest : BaseUnitTest() {
     private lateinit var cache: HabitCardListCache

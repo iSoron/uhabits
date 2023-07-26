@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.preferences
 
-import com.nhaarman.mockitokotlin2.mock
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertNull
 import junit.framework.Assert.assertTrue
@@ -30,6 +29,7 @@ import org.isoron.uhabits.core.models.Timestamp.Companion.ZERO
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.mock
 import java.io.File
 
 class PreferencesTest : BaseUnitTest() {

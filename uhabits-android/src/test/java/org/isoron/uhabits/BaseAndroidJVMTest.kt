@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits
 
-import com.nhaarman.mockitokotlin2.spy
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.memory.MemoryModelFactory
@@ -31,6 +30,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.spy
 
 @RunWith(MockitoJUnitRunner::class)
 open class BaseAndroidJVMTest {
