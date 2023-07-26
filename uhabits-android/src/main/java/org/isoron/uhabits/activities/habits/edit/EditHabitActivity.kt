@@ -35,11 +35,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.android.datetimepicker.time.RadialPickerLayout
 import com.android.datetimepicker.time.TimePickerDialog
-import kotlinx.android.synthetic.main.activity_edit_habit.nameInput
-import kotlinx.android.synthetic.main.activity_edit_habit.notesInput
-import kotlinx.android.synthetic.main.activity_edit_habit.questionInput
-import kotlinx.android.synthetic.main.activity_edit_habit.targetInput
-import kotlinx.android.synthetic.main.activity_edit_habit.unitInput
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -271,9 +266,9 @@ class EditHabitActivity : AppCompatActivity() {
             habit.copyFrom(original)
         }
 
-        habit.name = nameInput.text.trim().toString()
-        habit.question = questionInput.text.trim().toString()
-        habit.description = notesInput.text.trim().toString()
+        habit.name = binding.nameInput.text.trim().toString()
+        habit.question = binding.questionInput.text.trim().toString()
+        habit.description = binding.notesInput.text.trim().toString()
         habit.color = color
         if (reminderHour >= 0) {
             habit.reminder = Reminder(reminderHour, reminderMin, reminderDays)
@@ -283,9 +278,9 @@ class EditHabitActivity : AppCompatActivity() {
 
         habit.frequency = Frequency(freqNum, freqDen)
         if (habitType == HabitType.NUMERICAL) {
-            habit.targetValue = targetInput.text.toString().toDouble()
+            habit.targetValue = binding.targetInput.text.toString().toDouble()
             habit.targetType = targetType
-            habit.unit = unitInput.text.trim().toString()
+            habit.unit = binding.unitInput.text.trim().toString()
         }
         habit.type = habitType
 
@@ -308,13 +303,13 @@ class EditHabitActivity : AppCompatActivity() {
 
     private fun validate(): Boolean {
         var isValid = true
-        if (nameInput.text.isEmpty()) {
-            nameInput.error = getFormattedValidationError(R.string.validation_cannot_be_blank)
+        if (binding.nameInput.text.isEmpty()) {
+            binding.nameInput.error = getFormattedValidationError(R.string.validation_cannot_be_blank)
             isValid = false
         }
         if (habitType == HabitType.NUMERICAL) {
-            if (targetInput.text.isEmpty()) {
-                targetInput.error = getString(R.string.validation_cannot_be_blank)
+            if (binding.targetInput.text.isEmpty()) {
+                binding.targetInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
         }
