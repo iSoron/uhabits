@@ -21,6 +21,7 @@
     <dimen name="baseSize">20dp</dimen>
     <dimen name="checkmarkWidth">48dp</dimen>
     <dimen name="checkmarkHeight">48dp</dimen>
+    <dimen name="headerViewDateHeight">72dp</dimen>
     <dimen name="history_editor_max_height">350dp</dimen>
     <dimen name="regularTextSize">16sp</dimen>
     <dimen name="smallTextSize">14sp</dimen>

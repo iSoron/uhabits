@@ -42,7 +42,7 @@ import java.util.GregorianCalendar
 class HeaderView(
     context: Context,
     val prefs: Preferences,
-    val midnightTimer: MidnightTimer
+    private val midnightTimer: MidnightTimer
 ) : ScrollableChart(context),
     Preferences.Listener,
     MidnightTimer.MidnightListener {
@@ -114,7 +114,7 @@ class HeaderView(
         fun draw(canvas: Canvas) {
             val day = DateUtils.getStartOfTodayCalendarWithOffset()
             val width = dim(R.dimen.checkmarkWidth)
-            val height = dim(R.dimen.checkmarkHeight)
+            val height = dim(R.dimen.headerViewDateHeight)
             val isReversed = prefs.isCheckmarkSequenceReversed
 
             day.add(GregorianCalendar.DAY_OF_MONTH, -dataOffset)
@@ -138,12 +138,13 @@ class HeaderView(
                         rect.bottom
                     )
                 }
-
-                val y1 = rect.centerY() - 0.25 * em
-                val y2 = rect.centerY() + 1.25 * em
-                val lines = DateUtils.formatHeaderDate(day).toUpperCase().split("\n")
+                val y1 = rect.centerY() - 2.25 * em
+                val y2 = rect.centerY() - 0.75 * em
+                val y3 = rect.centerY() + 0.75 * em
+                val lines = DateUtils.formatHeaderDate(day).uppercase().split("\n")
                 canvas.drawText(lines[0], rect.centerX(), y1.toFloat(), paint)
                 canvas.drawText(lines[1], rect.centerX(), y2.toFloat(), paint)
+                canvas.drawText(lines[2], rect.centerX(), y3.toFloat(), paint)
                 day.add(GregorianCalendar.DAY_OF_MONTH, -1)
             }
         }

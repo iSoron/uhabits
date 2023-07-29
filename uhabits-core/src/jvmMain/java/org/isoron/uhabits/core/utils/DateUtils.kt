@@ -23,6 +23,7 @@ import java.time.YearMonth
 import java.util.Calendar
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.DAY_OF_WEEK
+import java.util.Calendar.MONTH
 import java.util.Calendar.SHORT
 import java.util.Date
 import java.util.GregorianCalendar
@@ -68,7 +69,8 @@ abstract class DateUtils {
             val locale = getLocale()
             val dayOfMonth: String = day.get(DAY_OF_MONTH).toString()
             val dayOfWeek = day.getDisplayName(DAY_OF_WEEK, SHORT, locale)
-            return dayOfWeek + "\n" + dayOfMonth
+            val month = day.getDisplayName(MONTH, SHORT, locale)
+            return "$dayOfWeek\n$dayOfMonth\n$month"
         }
 
         private fun getCalendar(timestamp: Long): GregorianCalendar {
