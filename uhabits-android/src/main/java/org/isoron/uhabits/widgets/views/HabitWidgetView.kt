@@ -69,7 +69,7 @@ abstract class HabitWidgetView : FrameLayout {
         val shadowRadius = dpToPixels(context, 2f).toInt()
         val shadowOffset = dpToPixels(context, 1f).toInt()
         val shadowColor = Color.argb(shadowAlpha, 0, 0, 0)
-        val cornerRadius = dpToPixels(context, 5f)
+        val cornerRadius = dpToPixels(context, 12f)
         val radii = FloatArray(8)
         Arrays.fill(radii, cornerRadius)
         val shape = RoundRectShape(radii, null, null)

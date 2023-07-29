@@ -119,7 +119,7 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
             "Wake up early",
             "Meditate",
             "Read books",
-            "Track time",
+            "Track time"
         )
     }
 }

@@ -48,7 +48,7 @@ class FrequencyCardViewTest : BaseViewTest() {
             FrequencyCardPresenter.buildState(
                 habit = habit,
                 firstWeekday = 0,
-                theme = LightTheme(),
+                theme = LightTheme()
             )
         )
         measureView(view, 800f, 600f)

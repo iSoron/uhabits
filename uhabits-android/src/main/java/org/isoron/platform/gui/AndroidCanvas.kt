@@ -60,7 +60,7 @@ class AndroidCanvas : Canvas {
             y1.toDp(),
             x2.toDp(),
             y2.toDp(),
-            paint,
+            paint
         )
     }
 
@@ -69,7 +69,7 @@ class AndroidCanvas : Canvas {
             text,
             x.toDp(),
             y.toDp() + 0.6f * mHeight,
-            textPaint,
+            textPaint
         )
     }
 
@@ -83,7 +83,7 @@ class AndroidCanvas : Canvas {
         y: Double,
         width: Double,
         height: Double,
-        cornerRadius: Double,
+        cornerRadius: Double
     ) {
         paint.style = Paint.Style.FILL
         innerCanvas.drawRoundRect(
@@ -93,7 +93,7 @@ class AndroidCanvas : Canvas {
             (y + height).toDp(),
             cornerRadius.toDp(),
             cornerRadius.toDp(),
-            paint,
+            paint
         )
     }
 
@@ -108,7 +108,7 @@ class AndroidCanvas : Canvas {
             y.toDp(),
             (x + width).toDp(),
             (y + height).toDp(),
-            paint,
+            paint
         )
     }
 
@@ -148,7 +148,7 @@ class AndroidCanvas : Canvas {
         centerY: Double,
         radius: Double,
         startAngle: Double,
-        swipeAngle: Double,
+        swipeAngle: Double
     ) {
         paint.style = Paint.Style.FILL
         innerCanvas.drawArc(
@@ -159,14 +159,14 @@ class AndroidCanvas : Canvas {
             -startAngle.toFloat(),
             -swipeAngle.toFloat(),
             true,
-            paint,
+            paint
         )
     }
 
     override fun fillCircle(
         centerX: Double,
         centerY: Double,
-        radius: Double,
+        radius: Double
     ) {
         paint.style = Paint.Style.FILL
         innerCanvas.drawCircle(centerX.toDp(), centerY.toDp(), radius.toDp(), paint)

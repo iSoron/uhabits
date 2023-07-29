@@ -22,14 +22,15 @@ package org.isoron.uhabits.activities.habits.list
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.dialogs.CheckmarkPopup
+import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
-import org.isoron.uhabits.activities.common.dialogs.NumberPopup
+import org.isoron.uhabits.activities.common.dialogs.NumberDialog
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
@@ -95,7 +96,7 @@ class ListHabitsScreen
     private val colorPickerFactory: ColorPickerDialogFactory,
     private val behavior: Lazy<ListHabitsBehavior>,
     private val preferences: Preferences,
-    private val rootView: Lazy<ListHabitsRootView>,
+    private val rootView: Lazy<ListHabitsRootView>
 ) : CommandRunner.Listener,
     ListHabitsBehavior.Screen,
     ListHabitsMenuBehavior.Screen,
@@ -233,17 +234,14 @@ class ListHabitsScreen
         notes: String,
         callback: ListHabitsBehavior.NumberPickerCallback
     ) {
-        val view = rootView.get()
-        NumberPopup(
-            context = context,
-            prefs = preferences,
-            anchor = view,
-            notes = notes,
-            value = value,
-        ).apply {
-            onToggle = { value, notes -> callback.onNumberPicked(value, notes) }
-            show()
+        val fm = (context as AppCompatActivity).supportFragmentManager
+        val dialog = NumberDialog()
+        dialog.arguments = Bundle().apply {
+            putDouble("value", value)
+            putString("notes", notes)
         }
+        dialog.onToggle = { v, n -> callback.onNumberPicked(v, n) }
+        dialog.dismissCurrentAndShow(fm, "numberDialog")
     }
 
     override fun showCheckmarkPopup(
@@ -252,18 +250,16 @@ class ListHabitsScreen
         color: PaletteColor,
         callback: ListHabitsBehavior.CheckMarkDialogCallback
     ) {
-        val view = rootView.get()
-        CheckmarkPopup(
-            context = context,
-            prefs = preferences,
-            anchor = view,
-            color = view.currentTheme().color(color).toInt(),
-            notes = notes,
-            value = selectedValue,
-        ).apply {
-            onToggle = { value, notes -> callback.onNotesSaved(value, notes) }
-            show()
+        val theme = rootView.get().currentTheme()
+        val fm = (context as AppCompatActivity).supportFragmentManager
+        val dialog = CheckmarkDialog()
+        dialog.arguments = Bundle().apply {
+            putInt("color", theme.color(color).toInt())
+            putInt("value", selectedValue)
+            putString("notes", notes)
         }
+        dialog.onToggle = { v, n -> callback.onNotesSaved(v, n) }
+        dialog.dismissCurrentAndShow(fm, "checkmarkDialog")
     }
 
     private fun getExecuteString(command: Command): String? {
@@ -325,8 +321,11 @@ class ListHabitsScreen
     private fun onExportDB() {
         taskRunner.execute(
             exportDBFactory.create { filename ->
-                if (filename != null) activity.showSendFileScreen(filename)
-                else activity.showMessage(activity.resources.getString(R.string.could_not_export))
+                if (filename != null) {
+                    activity.showSendFileScreen(filename)
+                } else {
+                    activity.showMessage(activity.resources.getString(R.string.could_not_export))
+                }
             }
         )
     }

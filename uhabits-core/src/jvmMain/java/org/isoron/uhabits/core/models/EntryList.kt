@@ -90,7 +90,7 @@ open class EntryList {
     open fun recomputeFrom(
         originalEntries: EntryList,
         frequency: Frequency,
-        isNumerical: Boolean,
+        isNumerical: Boolean
     ) {
         clear()
         val original = originalEntries.getKnown()
@@ -167,7 +167,7 @@ open class EntryList {
          */
         fun buildEntriesFromInterval(
             original: List<Entry>,
-            intervals: List<Interval>,
+            intervals: List<Interval>
         ): List<Entry> {
             val result = arrayListOf<Entry>()
             if (original.isEmpty()) return result
@@ -204,9 +204,16 @@ open class EntryList {
             // Copy original entries
             original.forEach { entry ->
                 val offset = entry.timestamp.daysUntil(to)
-                if (result[offset].value == UNKNOWN || entry.value == SKIP || entry.value == YES_MANUAL) {
-                    result[offset] = entry
+                val value = if (
+                    result[offset].value == UNKNOWN ||
+                    entry.value == SKIP ||
+                    entry.value == YES_MANUAL
+                ) {
+                    entry.value
+                } else {
+                    YES_AUTO
                 }
+                result[offset] = Entry(entry.timestamp, value, entry.notes)
             }
 
             return result
@@ -239,7 +246,7 @@ open class EntryList {
 
         fun buildIntervals(
             freq: Frequency,
-            entries: List<Entry>,
+            entries: List<Entry>
         ): ArrayList<Interval> {
             val filtered = entries.filter { it.value == YES_MANUAL }
             val num = freq.numerator
@@ -287,21 +294,22 @@ open class EntryList {
 fun List<Entry>.groupedSum(
     truncateField: DateUtils.TruncateField,
     firstWeekday: Int = Calendar.SATURDAY,
-    isNumerical: Boolean,
+    isNumerical: Boolean
 ): List<Entry> {
     return this.map { (timestamp, value) ->
         if (isNumerical) {
-            if (value == SKIP)
+            if (value == SKIP) {
                 Entry(timestamp, 0)
-            else
+            } else {
                 Entry(timestamp, max(0, value))
+            }
         } else {
             Entry(timestamp, if (value == YES_MANUAL) 1000 else 0)
         }
     }.groupBy { entry ->
         entry.timestamp.truncate(
             truncateField,
-            firstWeekday,
+            firstWeekday
         )
     }.entries.map { (timestamp, entries) ->
         Entry(timestamp, entries.sumOf { it.value })
@@ -326,7 +334,7 @@ fun List<Entry>.countSkippedDays(
     }.groupBy { entry ->
         entry.timestamp.truncate(
             truncateField,
-            firstWeekday,
+            firstWeekday
         )
     }.entries.map { (timestamp, entries) ->
         Entry(timestamp, entries.sumOf { it.value })

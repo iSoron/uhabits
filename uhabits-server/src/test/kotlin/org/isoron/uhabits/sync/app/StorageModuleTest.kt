@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.sync.app
 
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import io.ktor.http.*
 import io.ktor.server.testing.*
 import kotlinx.coroutines.*

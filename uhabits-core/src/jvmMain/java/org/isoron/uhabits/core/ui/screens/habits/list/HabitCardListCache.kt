@@ -56,7 +56,7 @@ class HabitCardListCache @Inject constructor(
     private val allHabits: HabitList,
     private val commandRunner: CommandRunner,
     taskRunner: TaskRunner,
-    logging: Logging,
+    logging: Logging
 ) : CommandRunner.Listener {
 
     private val logger = logging.getLogger("HabitCardListCache")
@@ -219,8 +219,12 @@ class HabitCardListCache @Inject constructor(
         fun copyCheckmarksFrom(oldData: CacheData) {
             val empty = IntArray(checkmarkCount)
             for (id in idToHabit.keys) {
-                if (oldData.checkmarks.containsKey(id)) checkmarks[id] =
-                    oldData.checkmarks[id]!! else checkmarks[id] = empty
+                if (oldData.checkmarks.containsKey(id)) {
+                    checkmarks[id] =
+                        oldData.checkmarks[id]!!
+                } else {
+                    checkmarks[id] = empty
+                }
             }
         }
 
@@ -228,16 +232,24 @@ class HabitCardListCache @Inject constructor(
         fun copyNoteIndicatorsFrom(oldData: CacheData) {
             val empty = (0..checkmarkCount).map { "" }.toTypedArray()
             for (id in idToHabit.keys) {
-                if (oldData.notes.containsKey(id)) notes[id] =
-                    oldData.notes[id]!! else notes[id] = empty
+                if (oldData.notes.containsKey(id)) {
+                    notes[id] =
+                        oldData.notes[id]!!
+                } else {
+                    notes[id] = empty
+                }
             }
         }
 
         @Synchronized
         fun copyScoresFrom(oldData: CacheData) {
             for (id in idToHabit.keys) {
-                if (oldData.scores.containsKey(id)) scores[id] =
-                    oldData.scores[id]!! else scores[id] = 0.0
+                if (oldData.scores.containsKey(id)) {
+                    scores[id] =
+                        oldData.scores[id]!!
+                } else {
+                    scores[id] = 0.0
+                }
             }
         }
 
@@ -384,11 +396,13 @@ class HabitCardListCache @Inject constructor(
             if (prevPosition < 0) {
                 performInsert(habit, currentPosition)
             } else {
-                if (prevPosition != currentPosition) performMove(
-                    habit,
-                    prevPosition,
-                    currentPosition
-                )
+                if (prevPosition != currentPosition) {
+                    performMove(
+                        habit,
+                        prevPosition,
+                        currentPosition
+                    )
+                }
                 if (id == null) throw NullPointerException()
                 performUpdate(id, currentPosition)
             }

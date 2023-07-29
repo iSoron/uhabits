@@ -125,7 +125,7 @@ class RewireDBImporter
         try {
             c = db.query(
                 "select distinct date from checkins where habit_id=? and type=2",
-                rewireHabitId.toString(),
+                rewireHabitId.toString()
             )
             if (!c.moveToNext()) return
             do {
@@ -147,7 +147,7 @@ class RewireDBImporter
         try {
             c = db.query(
                 "select time, active_days from reminders where habit_id=? limit 1",
-                rewireHabitId.toString(),
+                rewireHabitId.toString()
             )
             if (!c.moveToNext()) return
             val rewireReminder = c.getInt(0)!!

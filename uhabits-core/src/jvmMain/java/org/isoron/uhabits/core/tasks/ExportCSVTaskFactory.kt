@@ -31,6 +31,6 @@ class ExportCSVTaskFactory
     fun create(
         selectedHabits: List<Habit>,
         outputDir: File,
-        listener: ExportCSVTask.Listener,
+        listener: ExportCSVTask.Listener
     ) = ExportCSVTask(habitList, selectedHabits, outputDir, listener)
 }

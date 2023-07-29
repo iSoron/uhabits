@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core.models.sqlite
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import junit.framework.Assert.assertNull
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -37,6 +35,8 @@ import org.isoron.uhabits.core.test.HabitFixtures
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 import java.util.ArrayList
 
 class SQLiteHabitListTest : BaseUnitTest() {
@@ -73,7 +73,7 @@ class SQLiteHabitListTest : BaseUnitTest() {
         reminderHabits = habitList.getFiltered(
             HabitMatcher(
                 isArchivedAllowed = true,
-                isReminderRequired = true,
+                isReminderRequired = true
             )
         )
         habitList.observable.addListener(listener)

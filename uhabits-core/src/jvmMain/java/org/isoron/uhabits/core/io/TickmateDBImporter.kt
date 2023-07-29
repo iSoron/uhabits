@@ -72,7 +72,7 @@ class TickmateDBImporter @Inject constructor(
         try {
             c = db.query(
                 "select distinct year, month, day from ticks where _track_id=?",
-                tickmateTrackId.toString(),
+                tickmateTrackId.toString()
             )
             if (!c.moveToNext()) return
             do {

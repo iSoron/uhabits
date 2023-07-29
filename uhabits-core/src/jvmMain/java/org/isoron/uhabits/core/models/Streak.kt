@@ -22,11 +22,14 @@ import java.lang.Long.signum
 
 data class Streak(
     val start: Timestamp,
-    val end: Timestamp,
+    val end: Timestamp
 ) {
     fun compareLonger(other: Streak): Int {
-        return if (length != other.length) signum(length - other.length.toLong())
-        else compareNewer(other)
+        return if (length != other.length) {
+            signum(length - other.length.toLong())
+        } else {
+            compareNewer(other)
+        }
     }
 
     fun compareNewer(other: Streak): Int {

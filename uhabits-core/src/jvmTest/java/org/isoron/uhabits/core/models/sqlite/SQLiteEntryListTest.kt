@@ -67,15 +67,15 @@ class SQLiteEntryListTest {
         )
         assertEquals(
             Entry(timestamp = today, value = 500),
-            entries.get(today),
+            entries.get(today)
         )
         assertEquals(
             Entry(timestamp = today.minus(1), value = UNKNOWN),
-            entries.get(today.minus(1)),
+            entries.get(today.minus(1))
         )
         assertEquals(
             Entry(timestamp = today.minus(5), value = 300),
-            entries.get(today.minus(5)),
+            entries.get(today.minus(5))
         )
     }
 
@@ -100,7 +100,7 @@ class SQLiteEntryListTest {
         return repository.findFirst(
             "where habit = ? and timestamp = ?",
             habitId.toString(),
-            timestamp.unixTime.toString(),
+            timestamp.unixTime.toString()
         )
     }
 }

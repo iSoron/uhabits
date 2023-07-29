@@ -44,8 +44,6 @@ import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 import javax.inject.Inject
 
-const val TOGGLE_DELAY_MILLIS = 2000L
-
 class CheckmarkButtonViewFactory
 @Inject constructor(
     @ActivityContext val context: Context,
@@ -79,7 +77,7 @@ class CheckmarkButtonView(
             invalidate()
         }
 
-    var onToggle: (Int, String, Long) -> Unit = { _, _, _ -> }
+    var onToggle: (Int, String) -> Unit = { _, _ -> }
 
     var onEdit: () -> Unit = { }
 
@@ -90,25 +88,31 @@ class CheckmarkButtonView(
         setOnLongClickListener(this)
     }
 
-    fun performToggle(delay: Long) {
+    fun performToggle() {
         value = Entry.nextToggleValue(
             value = value,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        onToggle(value, notes, delay)
+        onToggle(value, notes)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
     }
 
     override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) performToggle(TOGGLE_DELAY_MILLIS)
-        else onEdit()
+        if (preferences.isShortToggleEnabled) {
+            performToggle()
+        } else {
+            onEdit()
+        }
     }
 
     override fun onLongClick(v: View): Boolean {
-        if (preferences.isShortToggleEnabled) onEdit()
-        else performToggle(TOGGLE_DELAY_MILLIS)
+        if (preferences.isShortToggleEnabled) {
+            onEdit()
+        } else {
+            performToggle()
+        }
         return true
     }
 
@@ -142,8 +146,11 @@ class CheckmarkButtonView(
             paint.color = when (value) {
                 YES_MANUAL, YES_AUTO, SKIP -> color
                 NO -> {
-                    if (preferences.areQuestionMarksEnabled) mediumContrastColor
-                    else lowContrastColor
+                    if (preferences.areQuestionMarksEnabled) {
+                        mediumContrastColor
+                    } else {
+                        lowContrastColor
+                    }
                 }
                 else -> lowContrastColor
             }
@@ -151,8 +158,11 @@ class CheckmarkButtonView(
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
                 UNKNOWN -> {
-                    if (preferences.areQuestionMarksEnabled) R.string.fa_question
-                    else R.string.fa_times
+                    if (preferences.areQuestionMarksEnabled) {
+                        R.string.fa_question
+                    } else {
+                        R.string.fa_times
+                    }
                 }
                 else -> R.string.fa_check
             }

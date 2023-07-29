@@ -33,6 +33,7 @@ class EditHabitCommandTest : BaseUnitTest() {
     private lateinit var habit: Habit
     private lateinit var modified: Habit
     private lateinit var today: Timestamp
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {

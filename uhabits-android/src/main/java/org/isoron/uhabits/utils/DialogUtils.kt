@@ -6,16 +6,24 @@ import androidx.fragment.app.FragmentManager
 import java.lang.ref.WeakReference
 
 var currentDialog: WeakReference<Dialog> = WeakReference(null)
+var currentDialogFragment: WeakReference<DialogFragment> = WeakReference(null)
+
+fun dismissCurrentDialog() {
+    currentDialog.get()?.dismiss()
+    currentDialog = WeakReference(null)
+    currentDialogFragment.get()?.dismiss()
+    currentDialogFragment = WeakReference(null)
+}
 
 fun Dialog.dismissCurrentAndShow() {
-    currentDialog.get()?.dismiss()
+    dismissCurrentDialog()
     currentDialog = WeakReference(this)
     show()
 }
 
 fun DialogFragment.dismissCurrentAndShow(fragmentManager: FragmentManager, tag: String) {
-    currentDialog.get()?.dismiss()
+    dismissCurrentDialog()
+    currentDialogFragment = WeakReference(this)
     show(fragmentManager, tag)
     fragmentManager.executePendingTransactions()
-    currentDialog = WeakReference(this.dialog)
 }

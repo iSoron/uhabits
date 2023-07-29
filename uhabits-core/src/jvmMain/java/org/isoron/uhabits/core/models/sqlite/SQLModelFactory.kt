@@ -33,7 +33,7 @@ import javax.inject.Inject
  */
 class SQLModelFactory
 @Inject constructor(
-    val database: Database,
+    val database: Database
 ) : ModelFactory {
     override fun buildOriginalEntries() = SQLiteEntryList(database)
     override fun buildComputedEntries() = EntryList()

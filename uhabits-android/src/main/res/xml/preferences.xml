@@ -160,11 +160,9 @@
         </Preference>
 
         <Preference
+                android:key="rateApp"
                 android:title="@string/pref_rate_this_app"
                 app:iconSpaceReserved="false">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="@string/playStoreURL" />
         </Preference>
 
         <Preference

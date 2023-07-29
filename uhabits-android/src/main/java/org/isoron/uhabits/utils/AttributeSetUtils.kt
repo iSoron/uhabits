@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Contract
 
 object AttributeSetUtils {
     const val ISORON_NAMESPACE = "http://isoron.org/android"
+
     @JvmStatic
     fun getAttribute(
         context: Context,

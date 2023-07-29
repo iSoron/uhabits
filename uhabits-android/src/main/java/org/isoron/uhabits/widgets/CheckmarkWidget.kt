@@ -33,7 +33,7 @@ open class CheckmarkWidget(
     context: Context,
     widgetId: Int,
     protected val habit: Habit,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, widgetId, stacked) {
 
     override val defaultHeight: Int = 125
@@ -41,7 +41,7 @@ open class CheckmarkWidget(
 
     override fun getOnClickPendingIntent(context: Context): PendingIntent? {
         return if (habit.isNumerical) {
-            pendingIntentFactory.showNumberPicker(habit, DateUtils.getToday())
+            pendingIntentFactory.showNumberPicker(habit, DateUtils.getTodayWithOffset())
         } else {
             pendingIntentFactory.toggleCheckmark(habit, null)
         }

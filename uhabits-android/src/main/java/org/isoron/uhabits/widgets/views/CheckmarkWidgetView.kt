@@ -66,23 +66,21 @@ class CheckmarkWidgetView : HabitWidgetView {
         val res = StyledResources(context)
         val bgColor: Int
         val fgColor: Int
+        setShadowAlpha(0x4f)
         when (entryState) {
             YES_MANUAL, SKIP -> {
                 bgColor = activeColor
                 fgColor = res.getColor(R.attr.contrast0)
-                setShadowAlpha(0x4f)
                 backgroundPaint!!.color = bgColor
                 frame!!.setBackgroundDrawable(background)
             }
             YES_AUTO, NO, UNKNOWN -> {
                 bgColor = res.getColor(R.attr.cardBgColor)
                 fgColor = res.getColor(R.attr.contrast60)
-                setShadowAlpha(0x00)
             }
             else -> {
                 bgColor = res.getColor(R.attr.cardBgColor)
                 fgColor = res.getColor(R.attr.contrast60)
-                setShadowAlpha(0x00)
             }
         }
         ring.setPercentage(percentage)
@@ -98,21 +96,23 @@ class CheckmarkWidgetView : HabitWidgetView {
     private val text: String
         get() = if (isNumerical) {
             (max(0, entryValue) / 1000.0).toShortString()
-        } else when (entryState) {
-            YES_MANUAL, YES_AUTO -> resources.getString(R.string.fa_check)
-            SKIP -> resources.getString(R.string.fa_skipped)
-            UNKNOWN -> {
-                run {
-                    if (preferences!!.areQuestionMarksEnabled) {
-                        return resources.getString(R.string.fa_question)
-                    } else {
-                        resources.getString(R.string.fa_times)
+        } else {
+            when (entryState) {
+                YES_MANUAL, YES_AUTO -> resources.getString(R.string.fa_check)
+                SKIP -> resources.getString(R.string.fa_skipped)
+                UNKNOWN -> {
+                    run {
+                        if (preferences!!.areQuestionMarksEnabled) {
+                            return resources.getString(R.string.fa_question)
+                        } else {
+                            resources.getString(R.string.fa_times)
+                        }
                     }
+                    resources.getString(R.string.fa_times)
                 }
-                resources.getString(R.string.fa_times)
+                NO -> resources.getString(R.string.fa_times)
+                else -> resources.getString(R.string.fa_times)
             }
-            NO -> resources.getString(R.string.fa_times)
-            else -> resources.getString(R.string.fa_times)
         }
 
     override val innerLayoutId: Int
@@ -126,7 +126,7 @@ class CheckmarkWidgetView : HabitWidgetView {
         } else {
             width = min(width, height)
         }
-        val textSize = min(0.2f * width, getDimension(context, R.dimen.smallerTextSize))
+        val textSize = min(0.175f * width, getDimension(context, R.dimen.smallTextSize))
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         if (isNumerical) {
             ring.setTextSize(textSize * 0.9f)
@@ -141,7 +141,8 @@ class CheckmarkWidgetView : HabitWidgetView {
     }
 
     private fun init() {
-        val appComponent: HabitsApplicationComponent = (context.applicationContext as HabitsApplication).component
+        val appComponent: HabitsApplicationComponent =
+            (context.applicationContext as HabitsApplication).component
         preferences = appComponent.preferences
         ring = findViewById<View>(R.id.scoreRing) as RingView
         label = findViewById<View>(R.id.label) as TextView

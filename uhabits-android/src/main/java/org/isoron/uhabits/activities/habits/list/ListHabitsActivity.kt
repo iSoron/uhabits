@@ -40,6 +40,7 @@ import org.isoron.uhabits.inject.ActivityContextModule
 import org.isoron.uhabits.inject.DaggerHabitsActivityComponent
 import org.isoron.uhabits.inject.HabitsActivityComponent
 import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.isoron.uhabits.utils.dismissCurrentDialog
 import org.isoron.uhabits.utils.restartWithFade
 
 class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
@@ -91,6 +92,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         midnightTimer.onPause()
         screen.onDetached()
         adapter.cancelRefresh()
+        dismissCurrentDialog()
         super.onPause()
     }
 
@@ -99,6 +101,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
+        appComponent.reminderScheduler.scheduleAll()
         taskRunner.run {
             try {
                 AutoBackup(this@ListHabitsActivity).run()

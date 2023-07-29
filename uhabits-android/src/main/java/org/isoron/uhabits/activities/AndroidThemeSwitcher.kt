@@ -39,7 +39,7 @@ import org.isoron.uhabits.inject.ActivityScope
 class AndroidThemeSwitcher
 constructor(
     @ActivityContext val context: Context,
-    preferences: Preferences,
+    preferences: Preferences
 ) : ThemeSwitcher(preferences) {
 
     override var currentTheme: Theme = LightTheme()

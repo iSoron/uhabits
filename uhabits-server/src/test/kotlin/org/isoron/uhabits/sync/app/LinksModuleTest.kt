@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.sync.app
 
-import com.nhaarman.mockitokotlin2.whenever
+import org.mockito.kotlin.whenever
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod

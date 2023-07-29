@@ -26,7 +26,7 @@ import java.io.File
 
 class AndroidDatabase(
     private val db: SQLiteDatabase,
-    override val file: File?,
+    override val file: File?
 ) : Database {
 
     override fun beginTransaction() = db.beginTransaction()
@@ -45,7 +45,7 @@ class AndroidDatabase(
         tableName: String,
         values: Map<String, Any?>,
         where: String,
-        vararg params: String,
+        vararg params: String
     ): Int {
         val contValues = mapToContentValues(values)
         return db.update(tableName, contValues, where, params)
@@ -59,7 +59,7 @@ class AndroidDatabase(
     override fun delete(
         tableName: String,
         where: String,
-        vararg params: String,
+        vararg params: String
     ) {
         db.delete(tableName, where, params)
     }

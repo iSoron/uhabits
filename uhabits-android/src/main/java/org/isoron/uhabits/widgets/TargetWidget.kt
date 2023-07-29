@@ -37,7 +37,7 @@ class TargetWidget(
     context: Context,
     id: Int,
     private val habit: Habit,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, id, stacked) {
     override val defaultHeight: Int = 200
     override val defaultWidth: Int = 200
@@ -53,7 +53,7 @@ class TargetWidget(
         val data = TargetCardPresenter.buildState(
             habit = habit,
             firstWeekday = prefs.firstWeekdayInt,
-            theme = WidgetTheme(),
+            theme = WidgetTheme()
         )
         chart.setColor(WidgetTheme().color(habit.color).toInt())
         chart.setTargets(data.targets)

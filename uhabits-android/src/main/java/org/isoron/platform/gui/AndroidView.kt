@@ -24,7 +24,7 @@ import android.util.AttributeSet
 
 open class AndroidView<T : View>(
     context: Context,
-    attrs: AttributeSet? = null,
+    attrs: AttributeSet? = null
 ) : android.view.View(context, attrs) {
 
     var view: T? = null

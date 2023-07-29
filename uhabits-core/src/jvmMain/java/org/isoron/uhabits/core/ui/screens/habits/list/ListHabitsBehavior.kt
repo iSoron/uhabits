@@ -60,7 +60,7 @@ open class ListHabitsBehavior @Inject constructor(
             screen.showCheckmarkPopup(
                 entry.value,
                 entry.notes,
-                habit.color,
+                habit.color
             ) { newValue, newNotes ->
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
@@ -73,9 +73,13 @@ open class ListHabitsBehavior @Inject constructor(
         val outputDir = dirFinder.getCSVOutputDir()
         taskRunner.execute(
             ExportCSVTask(habitList, selected, outputDir) { filename: String? ->
-                if (filename != null) screen.showSendFileScreen(filename) else screen.showMessage(
-                    Message.COULD_NOT_EXPORT
-                )
+                if (filename != null) {
+                    screen.showSendFileScreen(filename)
+                } else {
+                    screen.showMessage(
+                        Message.COULD_NOT_EXPORT
+                    )
+                }
             }
         )
     }
@@ -125,7 +129,7 @@ open class ListHabitsBehavior @Inject constructor(
         IMPORT_FAILED,
         DATABASE_REPAIRED,
         COULD_NOT_GENERATE_BUG_REPORT,
-        FILE_NOT_RECOGNIZED,
+        FILE_NOT_RECOGNIZED
     }
 
     interface BugReporter {

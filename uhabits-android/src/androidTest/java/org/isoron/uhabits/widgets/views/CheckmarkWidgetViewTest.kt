@@ -33,9 +33,11 @@ import java.io.IOException
 @MediumTest
 class CheckmarkWidgetViewTest : BaseViewTest() {
     private lateinit var view: CheckmarkWidgetView
+
     @Before
     override fun setUp() {
         super.setUp()
+        similarityCutoff = 0.00025
         setTheme(R.style.WidgetTheme)
         val habit = fixtures.createShortHabit()
         val computedEntries = habit.computedEntries

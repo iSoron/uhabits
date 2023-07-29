@@ -53,8 +53,9 @@ class IntentParser
         var timestamp = intent.getLongExtra("timestamp", today)
         timestamp = DateUtils.getStartOfDay(timestamp)
 
-        if (timestamp < 0 || timestamp > today)
+        if (timestamp < 0 || timestamp > today) {
             throw IllegalArgumentException("timestamp is not valid")
+        }
 
         return Timestamp(timestamp)
     }

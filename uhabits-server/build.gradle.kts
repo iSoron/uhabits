@@ -35,7 +35,7 @@ application {
 dependencies {
     val ktorVersion = "1.6.8"
     val kotlinVersion = "1.7.21"
-    val logbackVersion = "1.4.4"
+    val logbackVersion = "1.4.5"
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
@@ -47,7 +47,7 @@ dependencies {
     implementation("io.prometheus:simpleclient_httpserver:0.16.0")
     implementation("io.prometheus:simpleclient_hotspot:0.16.0")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
 }

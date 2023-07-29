@@ -57,13 +57,6 @@ class HabitCardViewFactory
     fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
 }
 
-data class DelayedToggle(
-    var habit: Habit,
-    var timestamp: Timestamp,
-    var value: Int,
-    var notes: String
-)
-
 class HabitCardView(
     @ActivityContext context: Context,
     checkmarkPanelFactory: CheckmarkPanelViewFactory,
@@ -136,7 +129,6 @@ class HabitCardView(
     private var scoreRing: RingView
 
     private var currentToggleTaskId = 0
-    private var queuedToggles = mutableListOf<DelayedToggle>()
 
     init {
         scoreRing = RingView(context).apply {
@@ -160,12 +152,9 @@ class HabitCardView(
         }
 
         checkmarkPanel = checkmarkPanelFactory.create().apply {
-            onToggle = { timestamp, value, notes, delay ->
-                if (delay > 0) triggerRipple(timestamp)
-                habit?.let {
-                    val taskId = queueToggle(it, timestamp, value, notes);
-                    { runPendingToggles(taskId) }.delay(delay)
-                }
+            onToggle = { timestamp, value, notes ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onToggle(it, timestamp, value, notes) }
             }
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
@@ -205,25 +194,6 @@ class HabitCardView(
         addView(innerFrame)
     }
 
-    @Synchronized
-    private fun runPendingToggles(id: Int) {
-        if (currentToggleTaskId != id) return
-        for ((h, t, v, n) in queuedToggles) behavior.onToggle(h, t, v, n)
-        queuedToggles.clear()
-    }
-
-    @Synchronized
-    private fun queueToggle(
-        it: Habit,
-        timestamp: Timestamp,
-        value: Int,
-        notes: String,
-    ): Int {
-        currentToggleTaskId += 1
-        queuedToggles.add(DelayedToggle(it, timestamp, value, notes))
-        return currentToggleTaskId
-    }
-
     override fun onModelChange() {
         Handler(Looper.getMainLooper()).post {
             habit?.let { copyAttributesFrom(it) }
@@ -255,7 +225,6 @@ class HabitCardView(
     }
 
     private fun copyAttributesFrom(h: Habit) {
-
         fun getActiveColor(habit: Habit): Int {
             return when (habit.isArchived) {
                 true -> sres.getColor(R.attr.contrast60)
@@ -301,7 +270,6 @@ class HabitCardView(
     }
 
     private fun updateBackground(isSelected: Boolean) {
-
         val background = when (isSelected) {
             true -> R.drawable.selected_box
             false -> R.drawable.ripple

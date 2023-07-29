@@ -19,7 +19,7 @@
 
 plugins {
     id("com.github.triplet.play") version "3.7.0"
-    id("com.android.application")
+    id("com.android.application") version "7.4.2"
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.android.extensions")
@@ -35,8 +35,8 @@ android {
     compileSdk = 32
 
     defaultConfig {
-        versionCode = 20101
-        versionName = "2.1.1"
+        versionCode = 20200
+        versionName = "2.2.0"
         minSdk = 28
         targetSdk = 31
         applicationId = "org.isoron.uhabits"
@@ -80,11 +80,11 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.43.2"
+    val daggerVersion = "2.46"
     val kotlinVersion = "1.7.21"
     val kxCoroutinesVersion = "1.6.4"
     val ktorVersion = "1.6.8"
-    val espressoVersion = "3.4.0"
+    val espressoVersion = "3.5.1"
 
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
@@ -92,11 +92,11 @@ dependencies {
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
-    androidTestImplementation("androidx.annotation:annotation:1.4.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.annotation:annotation:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
-    androidTestImplementation("androidx.test:rules:1.4.0")
-    androidTestImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
     compileOnly("javax.annotation:jsr250-api:1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
     implementation("com.github.AppIntro:AppIntro:6.2.0")
@@ -113,14 +113,14 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.android.material:material:1.6.1")
+    implementation("com.google.android.material:material:1.8.0")
     implementation("com.opencsv:opencsv:5.7.1")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("com.google.dagger:dagger:$daggerVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
 }
 
 kapt {

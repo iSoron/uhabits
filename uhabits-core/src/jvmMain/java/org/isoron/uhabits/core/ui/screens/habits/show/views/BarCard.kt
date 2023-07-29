@@ -34,12 +34,12 @@ data class BarCardState(
     val color: PaletteColor,
     val entries: List<Entry>,
     val isNumerical: Boolean,
-    val numericalSpinnerPosition: Int,
+    val numericalSpinnerPosition: Int
 )
 
 class BarCardPresenter(
     val preferences: Preferences,
-    val screen: Screen,
+    val screen: Screen
 ) {
     companion object {
         val numericalBucketSizes = intArrayOf(1, 7, 31, 92, 365)
@@ -50,19 +50,19 @@ class BarCardPresenter(
             firstWeekday: Int,
             numericalSpinnerPosition: Int,
             boolSpinnerPosition: Int,
-            theme: Theme,
+            theme: Theme
         ): BarCardState {
             val bucketSize = if (habit.isNumerical) {
                 numericalBucketSizes[numericalSpinnerPosition]
             } else {
                 boolBucketSizes[boolSpinnerPosition]
             }
-            val today = DateUtils.getToday()
+            val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today).groupedSum(
                 truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
                 firstWeekday = firstWeekday,
-                isNumerical = habit.isNumerical,
+                isNumerical = habit.isNumerical
             )
             return BarCardState(
                 theme = theme,
@@ -71,7 +71,7 @@ class BarCardPresenter(
                 color = habit.color,
                 isNumerical = habit.isNumerical,
                 numericalSpinnerPosition = numericalSpinnerPosition,
-                boolSpinnerPosition = boolSpinnerPosition,
+                boolSpinnerPosition = boolSpinnerPosition
             )
         }
     }
