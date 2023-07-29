@@ -153,18 +153,22 @@ open class BaseViewTest : BaseAndroidTest() {
         var filename = filename
         var dir = getSDCardDir("test-screenshots")
         if (dir == null) dir = AndroidDirFinder(targetContext).getFilesDir("test-screenshots")
-        if (dir == null) throw RuntimeException(
-            "Could not find suitable dir for screenshots"
-        )
+        if (dir == null) {
+            throw RuntimeException(
+                "Could not find suitable dir for screenshots"
+            )
+        }
         filename = filename.replace("\\.png$".toRegex(), "$suffix.png")
         val absolutePath = String.format("%s/%s", dir.absolutePath, filename)
         val parent = File(absolutePath).parentFile
-        if (!parent.exists() && !parent.mkdirs()) throw RuntimeException(
-            String.format(
-                "Could not create dir: %s",
-                parent.absolutePath
+        if (!parent.exists() && !parent.mkdirs()) {
+            throw RuntimeException(
+                String.format(
+                    "Could not create dir: %s",
+                    parent.absolutePath
+                )
             )
-        )
+        }
         val out = FileOutputStream(absolutePath)
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
         return absolutePath

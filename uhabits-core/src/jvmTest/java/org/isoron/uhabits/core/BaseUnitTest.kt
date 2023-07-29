@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core
 
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.validateMockitoUsage
 import org.apache.commons.io.IOUtils
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.database.Database
@@ -40,6 +38,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.validateMockitoUsage
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

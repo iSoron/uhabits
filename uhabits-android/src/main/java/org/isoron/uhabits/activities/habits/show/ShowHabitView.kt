@@ -39,7 +39,7 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
             binding.toolbar,
             title = data.title,
             color = data.color,
-            theme = data.theme,
+            theme = data.theme
         )
         binding.subtitleCard.setState(data.subtitle)
         binding.overviewCard.setState(data.overview)

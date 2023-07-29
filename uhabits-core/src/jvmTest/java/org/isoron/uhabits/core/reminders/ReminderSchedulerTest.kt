@@ -18,10 +18,6 @@
  */
 package org.isoron.uhabits.core.reminders
 
-import com.nhaarman.mockitokotlin2.eq
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Reminder
@@ -37,6 +33,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.eq
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import java.util.Calendar
 import java.util.TimeZone
 
@@ -149,10 +149,14 @@ class ReminderSchedulerTest : BaseUnitTest() {
         expectedCheckmarkTime: Long,
         expectedReminderTime: Long
     ) {
-        if (atTime == null) reminderScheduler.schedule(habit) else reminderScheduler.scheduleAtTime(
-            habit,
-            atTime
-        )
+        if (atTime == null) {
+            reminderScheduler.schedule(habit)
+        } else {
+            reminderScheduler.scheduleAtTime(
+                habit,
+                atTime
+            )
+        }
         verify(sys).scheduleShowReminder(
             expectedReminderTime,
             habit,

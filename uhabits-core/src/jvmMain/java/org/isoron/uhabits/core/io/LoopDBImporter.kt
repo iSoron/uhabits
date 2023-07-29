@@ -45,7 +45,7 @@ class LoopDBImporter
     @AppScope val modelFactory: ModelFactory,
     @AppScope val opener: DatabaseOpener,
     @AppScope val runner: CommandRunner,
-    @AppScope logging: Logging,
+    @AppScope logging: Logging
 ) : AbstractImporter() {
 
     private val logger = logging.getLogger("LoopDBImporter")

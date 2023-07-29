@@ -124,15 +124,20 @@ class HeaderView(
                 rect.set(0f, 0f, width, height)
                 rect.offset(canvas.width.toFloat() - dp(3.0f), 0f)
 
-                if (isReversed) rect.offset(-(index + 1) * width, 0f)
-                else rect.offset((index - buttonCount) * width, 0f)
+                if (isReversed) {
+                    rect.offset(-(index + 1) * width, 0f)
+                } else {
+                    rect.offset((index - buttonCount) * width, 0f)
+                }
 
-                if (isRTL()) rect.set(
-                    canvas.width - rect.right,
-                    rect.top,
-                    canvas.width - rect.left,
-                    rect.bottom
-                )
+                if (isRTL()) {
+                    rect.set(
+                        canvas.width - rect.right,
+                        rect.top,
+                        canvas.width - rect.left,
+                        rect.bottom
+                    )
+                }
 
                 val y1 = rect.centerY() - 0.25 * em
                 val y2 = rect.centerY() + 1.25 * em

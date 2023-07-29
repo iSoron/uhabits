@@ -31,6 +31,7 @@ class CreateRepetitionCommandTest : BaseUnitTest() {
     private lateinit var command: CreateRepetitionCommand
     private lateinit var habit: Habit
     private lateinit var today: Timestamp
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {

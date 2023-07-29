@@ -57,7 +57,7 @@ data class ShowHabitState(
     val frequency: FrequencyCardState,
     val history: HistoryCardState,
     val bar: BarCardState,
-    val theme: Theme,
+    val theme: Theme
 )
 
 class ShowHabitPresenter(
@@ -65,31 +65,31 @@ class ShowHabitPresenter(
     val habitList: HabitList,
     val preferences: Preferences,
     val screen: Screen,
-    val commandRunner: CommandRunner,
+    val commandRunner: CommandRunner
 ) {
     val historyCardPresenter = HistoryCardPresenter(
         commandRunner = commandRunner,
         habit = habit,
         habitList = habitList,
         preferences = preferences,
-        screen = screen,
+        screen = screen
     )
 
     val barCardPresenter = BarCardPresenter(
         preferences = preferences,
-        screen = screen,
+        screen = screen
     )
 
     val scoreCardPresenter = ScoreCardPresenter(
         preferences = preferences,
-        screen = screen,
+        screen = screen
     )
 
     companion object {
         fun buildState(
             habit: Habit,
             preferences: Preferences,
-            theme: Theme,
+            theme: Theme
         ): ShowHabitState {
             return ShowHabitState(
                 title = habit.name,
@@ -98,47 +98,47 @@ class ShowHabitPresenter(
                 theme = theme,
                 subtitle = SubtitleCardPresenter.buildState(
                     habit = habit,
-                    theme = theme,
+                    theme = theme
                 ),
                 overview = OverviewCardPresenter.buildState(
                     habit = habit,
-                    theme = theme,
+                    theme = theme
                 ),
                 notes = NotesCardPresenter.buildState(
-                    habit = habit,
+                    habit = habit
                 ),
                 target = TargetCardPresenter.buildState(
                     habit = habit,
                     firstWeekday = preferences.firstWeekdayInt,
-                    theme = theme,
+                    theme = theme
                 ),
                 streaks = StreakCartPresenter.buildState(
                     habit = habit,
-                    theme = theme,
+                    theme = theme
                 ),
                 scores = ScoreCardPresenter.buildState(
                     spinnerPosition = preferences.scoreCardSpinnerPosition,
                     habit = habit,
                     firstWeekday = preferences.firstWeekdayInt,
-                    theme = theme,
+                    theme = theme
                 ),
                 frequency = FrequencyCardPresenter.buildState(
                     habit = habit,
                     firstWeekday = preferences.firstWeekdayInt,
-                    theme = theme,
+                    theme = theme
                 ),
                 history = HistoryCardPresenter.buildState(
                     habit = habit,
                     firstWeekday = preferences.firstWeekday,
-                    theme = theme,
+                    theme = theme
                 ),
                 bar = BarCardPresenter.buildState(
                     habit = habit,
                     firstWeekday = preferences.firstWeekdayInt,
                     boolSpinnerPosition = preferences.barCardBoolSpinnerPosition,
                     numericalSpinnerPosition = preferences.barCardNumericalSpinnerPosition,
-                    theme = theme,
-                ),
+                    theme = theme
+                )
             )
         }
     }

@@ -33,7 +33,7 @@ class ScoreWidget(
     context: Context,
     id: Int,
     private val habit: Habit,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, id, stacked) {
     override val defaultHeight: Int = 300
     override val defaultWidth: Int = 300
@@ -46,7 +46,7 @@ class ScoreWidget(
             habit = habit,
             firstWeekday = prefs.firstWeekdayInt,
             spinnerPosition = prefs.scoreCardSpinnerPosition,
-            theme = WidgetTheme(),
+            theme = WidgetTheme()
         )
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)

@@ -257,12 +257,14 @@ class YesNoScoreListTest : BaseScoreListTest() {
 
     private fun check(values: ArrayList<Int>) {
         val entries = habit.originalEntries
-        for (i in values.indices) if (values[i] == Entry.YES_MANUAL) entries.add(
-            Entry(
-                today.minus(i),
-                Entry.YES_MANUAL
+        for (i in values.indices) if (values[i] == Entry.YES_MANUAL) {
+            entries.add(
+                Entry(
+                    today.minus(i),
+                    Entry.YES_MANUAL
+                )
             )
-        )
+        }
         habit.recompute()
     }
 

@@ -96,7 +96,7 @@ class ListHabitsScreen
     private val colorPickerFactory: ColorPickerDialogFactory,
     private val behavior: Lazy<ListHabitsBehavior>,
     private val preferences: Preferences,
-    private val rootView: Lazy<ListHabitsRootView>,
+    private val rootView: Lazy<ListHabitsRootView>
 ) : CommandRunner.Listener,
     ListHabitsBehavior.Screen,
     ListHabitsMenuBehavior.Screen,
@@ -321,8 +321,11 @@ class ListHabitsScreen
     private fun onExportDB() {
         taskRunner.execute(
             exportDBFactory.create { filename ->
-                if (filename != null) activity.showSendFileScreen(filename)
-                else activity.showMessage(activity.resources.getString(R.string.could_not_export))
+                if (filename != null) {
+                    activity.showSendFileScreen(filename)
+                } else {
+                    activity.showMessage(activity.resources.getString(R.string.could_not_export))
+                }
             }
         )
     }

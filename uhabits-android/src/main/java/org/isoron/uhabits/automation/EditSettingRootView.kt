@@ -54,7 +54,7 @@ class EditSettingRootView(
             title = resources.getString(R.string.app_name),
             color = PaletteColor(11),
             displayHomeAsUpEnabled = false,
-            theme = currentTheme(),
+            theme = currentTheme()
         )
         populateHabitSpinner()
         binding.habitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -69,7 +69,7 @@ class EditSettingRootView(
             val habit = habitList.getByPosition(binding.habitSpinner.selectedItemPosition)
             val action = mapSpinnerPositionToAction(
                 isNumerical = habit.isNumerical,
-                itemPosition = binding.actionSpinner.selectedItemPosition,
+                itemPosition = binding.actionSpinner.selectedItemPosition
             )
             onSave(habit, action)
         }

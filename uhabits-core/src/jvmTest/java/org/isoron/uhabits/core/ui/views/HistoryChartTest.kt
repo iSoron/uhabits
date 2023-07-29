@@ -19,10 +19,6 @@
 
 package org.isoron.uhabits.core.ui.views
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.reset
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import kotlinx.coroutines.runBlocking
 import org.isoron.platform.gui.assertRenders
 import org.isoron.platform.time.DayOfWeek
@@ -35,6 +31,10 @@ import org.isoron.uhabits.core.ui.views.HistoryChart.Square.HATCHED
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.OFF
 import org.isoron.uhabits.core.ui.views.HistoryChart.Square.ON
 import org.junit.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.reset
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
 import java.util.Locale
 
 class HistoryChartTest {
@@ -64,7 +64,7 @@ class HistoryChartTest {
             1, 2, 1, 1, 1, 1, 2,
             2, 2, 2, 2, 2, 1, 1,
             1, 1, 2, 2, 1, 2, 1,
-            1, 1, 1, 1, 2, 2, 2,
+            1, 1, 1, 1, 2, 2, 2
         ).map {
             when (it) {
                 3 -> HATCHED

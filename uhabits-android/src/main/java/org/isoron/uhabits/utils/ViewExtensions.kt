@@ -67,7 +67,6 @@ fun RelativeLayout.addBelow(
     height: Int = WRAP_CONTENT,
     applyCustomRules: (params: RelativeLayout.LayoutParams) -> Unit = {}
 ) {
-
     view.layoutParams = RelativeLayout.LayoutParams(width, height).apply {
         addRule(BELOW, subject.id)
         applyCustomRules(this)
@@ -81,7 +80,6 @@ fun RelativeLayout.addAtBottom(
     width: Int = MATCH_PARENT,
     height: Int = WRAP_CONTENT
 ) {
-
     view.layoutParams = RelativeLayout.LayoutParams(width, height).apply {
         addRule(ALIGN_PARENT_BOTTOM)
     }
@@ -96,7 +94,6 @@ fun RelativeLayout.addAtTop(
     width: Int = MATCH_PARENT,
     height: Int = WRAP_CONTENT
 ) {
-
     view.layoutParams = RelativeLayout.LayoutParams(width, height).apply {
         addRule(ALIGN_PARENT_TOP)
     }
@@ -196,7 +193,7 @@ fun Activity.restartWithFade(cls: Class<*>?) {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             startActivity(Intent(this, cls))
         },
-        500,
+        500
     ) // HACK: Let the menu disappear first
 }
 
@@ -205,7 +202,7 @@ fun View.setupToolbar(
     title: String,
     color: PaletteColor,
     theme: Theme,
-    displayHomeAsUpEnabled: Boolean = true,
+    displayHomeAsUpEnabled: Boolean = true
 ) {
     toolbar.elevation = InterfaceUtils.dpToPixels(context, 2f)
     val res = StyledResources(context)

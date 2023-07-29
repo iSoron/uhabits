@@ -34,7 +34,7 @@ class StackWidget(
     widgetId: Int,
     private val widgetType: StackWidgetType,
     private val habits: List<Habit>,
-    stacked: Boolean = true,
+    stacked: Boolean = true
 ) : BaseWidget(context, widgetId, stacked) {
     override val defaultHeight: Int = 0
     override val defaultWidth: Int = 0

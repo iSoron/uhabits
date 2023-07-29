@@ -33,7 +33,7 @@ open class CheckmarkWidget(
     context: Context,
     widgetId: Int,
     protected val habit: Habit,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, widgetId, stacked) {
 
     override val defaultHeight: Int = 125

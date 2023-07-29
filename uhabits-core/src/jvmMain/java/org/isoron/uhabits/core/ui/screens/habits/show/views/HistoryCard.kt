@@ -53,7 +53,7 @@ data class HistoryCardState(
     val defaultSquare: HistoryChart.Square,
     val notesIndicators: List<Boolean>,
     val theme: Theme,
-    val today: LocalDate,
+    val today: LocalDate
 )
 
 class HistoryCardPresenter(
@@ -61,7 +61,7 @@ class HistoryCardPresenter(
     val habit: Habit,
     val habitList: HabitList,
     val preferences: Preferences,
-    val screen: Screen,
+    val screen: Screen
 ) : OnDateClickedListener {
 
     override fun onDateLongPress(date: LocalDate) {
@@ -70,8 +70,11 @@ class HistoryCardPresenter(
         if (habit.isNumerical) {
             showNumberPopup(timestamp)
         } else {
-            if (preferences.isShortToggleEnabled) showCheckmarkPopup(timestamp)
-            else toggle(timestamp)
+            if (preferences.isShortToggleEnabled) {
+                showCheckmarkPopup(timestamp)
+            } else {
+                toggle(timestamp)
+            }
         }
     }
 
@@ -81,8 +84,11 @@ class HistoryCardPresenter(
         if (habit.isNumerical) {
             showNumberPopup(timestamp)
         } else {
-            if (preferences.isShortToggleEnabled) toggle(timestamp)
-            else showCheckmarkPopup(timestamp)
+            if (preferences.isShortToggleEnabled) {
+                toggle(timestamp)
+            } else {
+                showCheckmarkPopup(timestamp)
+            }
         }
     }
 
@@ -91,7 +97,7 @@ class HistoryCardPresenter(
         screen.showCheckmarkPopup(
             entry.value,
             entry.notes,
-            habit.color,
+            habit.color
         ) { newValue, newNotes ->
             commandRunner.run(
                 CreateRepetitionCommand(
@@ -99,8 +105,8 @@ class HistoryCardPresenter(
                     habit,
                     timestamp,
                     newValue,
-                    newNotes,
-                ),
+                    newNotes
+                )
             )
         }
     }
@@ -118,8 +124,8 @@ class HistoryCardPresenter(
                 habit,
                 timestamp,
                 nextValue,
-                entry.notes,
-            ),
+                entry.notes
+            )
         )
     }
 
@@ -128,7 +134,7 @@ class HistoryCardPresenter(
         val oldValue = entry.value
         screen.showNumberPopup(
             value = oldValue / 1000.0,
-            notes = entry.notes,
+            notes = entry.notes
         ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
@@ -137,8 +143,8 @@ class HistoryCardPresenter(
                     habit,
                     timestamp,
                     thousands,
-                    newNotes,
-                ),
+                    newNotes
+                )
             )
         }
     }
@@ -151,7 +157,7 @@ class HistoryCardPresenter(
         fun buildState(
             habit: Habit,
             firstWeekday: DayOfWeek,
-            theme: Theme,
+            theme: Theme
         ): HistoryCardState {
             val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
@@ -190,7 +196,7 @@ class HistoryCardPresenter(
                 theme = theme,
                 series = series,
                 defaultSquare = OFF,
-                notesIndicators = notesIndicators,
+                notesIndicators = notesIndicators
             )
         }
     }
@@ -201,13 +207,13 @@ class HistoryCardPresenter(
         fun showNumberPopup(
             value: Double,
             notes: String,
-            callback: ListHabitsBehavior.NumberPickerCallback,
+            callback: ListHabitsBehavior.NumberPickerCallback
         )
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
             color: PaletteColor,
-            callback: ListHabitsBehavior.CheckMarkDialogCallback,
+            callback: ListHabitsBehavior.CheckMarkDialogCallback
         )
     }
 }

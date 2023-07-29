@@ -52,7 +52,7 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         binding.frequencyLabel.text = formatFrequency(
             state.frequency.numerator,
             state.frequency.denominator,
-            resources,
+            resources
         )
         binding.questionLabel.setTextColor(color)
         binding.questionLabel.text = state.question

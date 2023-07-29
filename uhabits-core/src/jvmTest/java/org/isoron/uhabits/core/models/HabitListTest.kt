@@ -57,7 +57,7 @@ class HabitListTest : BaseUnitTest() {
         reminderHabits = habitList.getFiltered(
             HabitMatcher(
                 isArchivedAllowed = true,
-                isReminderRequired = true,
+                isReminderRequired = true
             )
         )
     }
@@ -183,7 +183,7 @@ class HabitListTest : BaseUnitTest() {
         val filteredList = habitList.getFiltered(
             HabitMatcher(
                 isArchivedAllowed = false,
-                isCompletedAllowed = false,
+                isCompletedAllowed = false
             )
         )
         assertEquals(filteredList.primaryOrder, HabitList.Order.BY_COLOR_ASC)

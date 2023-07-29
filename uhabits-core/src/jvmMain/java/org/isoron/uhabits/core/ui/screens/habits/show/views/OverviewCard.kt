@@ -31,7 +31,7 @@ data class OverviewCardState(
     val scoreYearDiff: Float,
     val scoreToday: Float,
     val totalCount: Long,
-    val theme: Theme,
+    val theme: Theme
 )
 
 class OverviewCardPresenter {
@@ -54,7 +54,7 @@ class OverviewCardPresenter {
                 scoreMonthDiff = scoreToday - scoreLastMonth,
                 scoreYearDiff = scoreToday - scoreLastYear,
                 totalCount = totalCount,
-                theme = theme,
+                theme = theme
             )
         }
     }

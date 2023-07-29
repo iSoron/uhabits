@@ -104,13 +104,19 @@ class CheckmarkButtonView(
     }
 
     override fun onClick(v: View) {
-        if (preferences.isShortToggleEnabled) performToggle(v)
-        else onEdit()
+        if (preferences.isShortToggleEnabled) {
+            performToggle(v)
+        } else {
+            onEdit()
+        }
     }
 
     override fun onLongClick(v: View): Boolean {
-        if (preferences.isShortToggleEnabled) onEdit()
-        else performToggle(v)
+        if (preferences.isShortToggleEnabled) {
+            onEdit()
+        } else {
+            performToggle(v)
+        }
         return true
     }
 
@@ -144,8 +150,11 @@ class CheckmarkButtonView(
             paint.color = when (value) {
                 YES_MANUAL, YES_AUTO, SKIP -> color
                 NO -> {
-                    if (preferences.areQuestionMarksEnabled) mediumContrastColor
-                    else lowContrastColor
+                    if (preferences.areQuestionMarksEnabled) {
+                        mediumContrastColor
+                    } else {
+                        lowContrastColor
+                    }
                 }
                 else -> lowContrastColor
             }
@@ -153,8 +162,11 @@ class CheckmarkButtonView(
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
                 UNKNOWN -> {
-                    if (preferences.areQuestionMarksEnabled) R.string.fa_question
-                    else R.string.fa_times
+                    if (preferences.areQuestionMarksEnabled) {
+                        R.string.fa_question
+                    } else {
+                        R.string.fa_times
+                    }
                 }
                 else -> R.string.fa_check
             }

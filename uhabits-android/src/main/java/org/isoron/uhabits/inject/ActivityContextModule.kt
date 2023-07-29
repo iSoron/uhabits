@@ -25,5 +25,6 @@ import dagger.Provides
 @Module
 class ActivityContextModule(
     @get:Provides
-    @get:ActivityContext val context: Context
+    @get:ActivityContext
+    val context: Context
 )

@@ -36,7 +36,7 @@ class HistoryWidget(
     context: Context,
     id: Int,
     private val habit: Habit,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, id, stacked) {
 
     override val defaultHeight: Int = 250
@@ -53,7 +53,7 @@ class HistoryWidget(
         val model = HistoryCardPresenter.buildState(
             habit = habit,
             firstWeekday = prefs.firstWeekday,
-            theme = WidgetTheme(),
+            theme = WidgetTheme()
         )
         (widgetView.dataView as AndroidDataView).apply {
             val historyChart = (this.view as HistoryChart)
@@ -75,7 +75,7 @@ class HistoryWidget(
                     firstWeekday = prefs.firstWeekday,
                     series = listOf(),
                     defaultSquare = HistoryChart.Square.OFF,
-                    notesIndicators = listOf(),
+                    notesIndicators = listOf()
                 )
             }
         ).apply {

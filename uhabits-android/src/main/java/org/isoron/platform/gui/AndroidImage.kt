@@ -47,6 +47,6 @@ fun Color.toInt(): Int {
         (255 * this.alpha).roundToInt(),
         (255 * this.red).roundToInt(),
         (255 * this.green).roundToInt(),
-        (255 * this.blue).roundToInt(),
+        (255 * this.blue).roundToInt()
     )
 }

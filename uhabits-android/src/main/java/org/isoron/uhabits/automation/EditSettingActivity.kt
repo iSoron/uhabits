@@ -32,7 +32,7 @@ class EditSettingActivity : AppCompatActivity() {
         val habits = app.component.habitList.getFiltered(
             HabitMatcher(
                 isArchivedAllowed = false,
-                isCompletedAllowed = true,
+                isCompletedAllowed = true
             )
         )
         AndroidThemeSwitcher(this, app.component.preferences).apply()
@@ -43,7 +43,7 @@ class EditSettingActivity : AppCompatActivity() {
             context = this,
             habitList = app.component.habitList,
             onSave = controller::onSave,
-            args = args,
+            args = args
         )
         setContentView(view)
     }

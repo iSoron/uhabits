@@ -49,7 +49,7 @@ class ScoreCardViewTest : BaseViewTest() {
                 habit = habit,
                 firstWeekday = 0,
                 spinnerPosition = 0,
-                theme = LightTheme(),
+                theme = LightTheme()
             )
         )
         measureView(view, 800f, 600f)

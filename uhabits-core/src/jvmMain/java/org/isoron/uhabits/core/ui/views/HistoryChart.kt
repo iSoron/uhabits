@@ -47,7 +47,7 @@ class HistoryChart(
     var theme: Theme,
     var today: LocalDate,
     var onDateClickedListener: OnDateClickedListener = object : OnDateClickedListener {},
-    var padding: Double = 0.0,
+    var padding: Double = 0.0
 ) : DataView {
 
     enum class Square {
@@ -55,7 +55,7 @@ class HistoryChart(
         OFF,
         GREY,
         DIMMED,
-        HATCHED,
+        HATCHED
     }
 
     var squareSpacing = 1.0
@@ -147,7 +147,7 @@ class HistoryChart(
         canvas: Canvas,
         column: Int,
         topDate: LocalDate,
-        topOffset: Int,
+        topOffset: Int
     ) {
         drawHeader(canvas, column, topDate)
         repeat(7) { row ->
@@ -202,9 +202,8 @@ class HistoryChart(
         width: Double,
         height: Double,
         date: LocalDate,
-        offset: Int,
+        offset: Int
     ) {
-
         val value = if (offset >= series.size) defaultSquare else series[offset]
         val hasNotes = if (offset >= notesIndicators.size) false else notesIndicators[offset]
         val squareColor: Color

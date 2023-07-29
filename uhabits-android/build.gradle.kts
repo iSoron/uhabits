@@ -19,7 +19,7 @@
 
 plugins {
     id("com.github.triplet.play") version "3.7.0"
-    id("com.android.application")
+    id("com.android.application") version "7.4.2"
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.android.extensions")
@@ -37,7 +37,7 @@ android {
     defaultConfig {
         versionCode = 20200
         versionName = "2.2.0"
-        minSdk = 23
+        minSdk = 28
         targetSdk = 31
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -96,7 +96,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
     compileOnly("javax.annotation:jsr250-api:1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
     implementation("com.github.AppIntro:AppIntro:6.2.0")
@@ -121,7 +121,7 @@ dependencies {
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("com.google.dagger:dagger:$daggerVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
 }
 
 kapt {

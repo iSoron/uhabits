@@ -48,7 +48,7 @@ class HabitBullCSVImporter
 @Inject constructor(
     private val habitList: HabitList,
     private val modelFactory: ModelFactory,
-    logging: Logging,
+    logging: Logging
 ) : AbstractImporter() {
 
     private val logger = logging.getLogger("HabitBullCSVImporter")
@@ -98,7 +98,7 @@ class HabitBullCSVImporter
         val formats = listOf(
             DateFormat.getDateInstance(DateFormat.SHORT),
             SimpleDateFormat("yyyy-MM-dd", Locale.US),
-            SimpleDateFormat("MM/dd/yyyy", Locale.US),
+            SimpleDateFormat("MM/dd/yyyy", Locale.US)
         )
         var parsedDate: Date? = null
         for (fmt in formats) {
@@ -116,7 +116,7 @@ class HabitBullCSVImporter
         return Timestamp.from(
             parsedCalendar[YEAR],
             parsedCalendar[MONTH],
-            parsedCalendar[DAY_OF_MONTH],
+            parsedCalendar[DAY_OF_MONTH]
         )
     }
 

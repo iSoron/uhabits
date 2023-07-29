@@ -225,7 +225,6 @@ class HabitCardView(
     }
 
     private fun copyAttributesFrom(h: Habit) {
-
         fun getActiveColor(habit: Habit): Int {
             return when (habit.isArchived) {
                 true -> sres.getColor(R.attr.contrast60)
@@ -271,7 +270,6 @@ class HabitCardView(
     }
 
     private fun updateBackground(isSelected: Boolean) {
-
         val background = when (isSelected) {
             true -> R.drawable.selected_box
             false -> R.drawable.ripple

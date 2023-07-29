@@ -27,7 +27,7 @@ import org.isoron.uhabits.widgets.views.EmptyWidgetView
 class EmptyWidget(
     context: Context,
     widgetId: Int,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, widgetId, stacked) {
     override val defaultHeight: Int = 200
     override val defaultWidth: Int = 200

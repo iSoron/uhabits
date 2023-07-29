@@ -106,14 +106,14 @@ class ListHabitsMenuBehavior @Inject constructor(
             adapter.setFilter(
                 HabitMatcher(
                     isArchivedAllowed = showArchived,
-                    isEnteredAllowed = showCompleted,
+                    isEnteredAllowed = showCompleted
                 )
             )
         } else {
             adapter.setFilter(
                 HabitMatcher(
                     isArchivedAllowed = showArchived,
-                    isCompletedAllowed = showCompleted,
+                    isCompletedAllowed = showCompleted
                 )
             )
         }
