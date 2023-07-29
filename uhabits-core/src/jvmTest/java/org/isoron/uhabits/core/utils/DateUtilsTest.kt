@@ -56,7 +56,7 @@ class DateUtilsTest : BaseUnitTest() {
         val timestamp = unixTime(2015, Calendar.DECEMBER, 31)
         val date = Timestamp(timestamp).toCalendar()
         val formatted = formatHeaderDate(date)
-        assertThat(formatted, equalTo("Thu\n31"))
+        assertThat(formatted, equalTo("Thu\n31\nDec"))
     }
 
     @Test
