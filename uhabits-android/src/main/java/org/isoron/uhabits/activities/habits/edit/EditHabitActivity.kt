@@ -23,6 +23,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
@@ -138,6 +139,7 @@ class EditHabitActivity : AppCompatActivity() {
                 binding.targetOuterBox.visibility = View.GONE
                 binding.targetTypeOuterBox.visibility = View.GONE
             }
+
             HabitType.NUMERICAL -> {
                 binding.nameInput.hint = getString(R.string.measurable_short_example)
                 binding.questionInput.hint = getString(R.string.measurable_question_example)
@@ -271,6 +273,14 @@ class EditHabitActivity : AppCompatActivity() {
         habit.description = binding.notesInput.text.trim().toString()
         habit.color = color
         if (reminderHour >= 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissions(
+                    arrayOf(
+                        android.Manifest.permission.POST_NOTIFICATIONS
+                    ),
+                    1
+                )
+            }
             habit.reminder = Reminder(reminderHour, reminderMin, reminderDays)
         } else {
             habit.reminder = null
