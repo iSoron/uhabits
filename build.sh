@@ -64,6 +64,7 @@ fail() {
 core_build() {
     log_info "Building uhabits-core..."
     $GRADLE ktlintCheck || fail
+    $GRADLE lintDebug || fail
     $GRADLE :uhabits-core:build || fail
 }
 
