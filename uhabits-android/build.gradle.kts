@@ -18,7 +18,7 @@
  */
 
 plugins {
-    id("com.github.triplet.play") version "3.7.0"
+    id("com.github.triplet.play") version "3.8.4"
     id("com.android.application") version "7.4.2"
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
@@ -79,9 +79,9 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.46"
+    val daggerVersion = "2.47"
     val kotlinVersion = "1.7.21"
-    val kxCoroutinesVersion = "1.6.4"
+    val kxCoroutinesVersion = "1.7.3"
     val ktorVersion = "1.6.8"
     val espressoVersion = "3.5.1"
 
@@ -91,17 +91,17 @@ dependencies {
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
-    androidTestImplementation("androidx.annotation:annotation:1.5.0")
+    androidTestImplementation("androidx.annotation:annotation:1.6.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
     compileOnly("javax.annotation:jsr250-api:1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
     implementation("com.github.AppIntro:AppIntro:6.2.0")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
-    implementation("com.google.guava:guava:31.1-android")
+    implementation("com.google.guava:guava:32.1.2-android")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-jackson:$ktorVersion")
@@ -112,14 +112,14 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.android.material:material:1.8.0")
-    implementation("com.opencsv:opencsv:5.7.1")
+    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.opencsv:opencsv:5.8")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("com.google.dagger:dagger:$daggerVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
 }
 
 kapt {
