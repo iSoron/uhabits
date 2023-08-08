@@ -127,6 +127,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         return menu.onItemSelected(item)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(request: Int, result: Int, data: Intent?) {
         super.onActivityResult(request, result, data)
         screen.onResult(request, result, data)
