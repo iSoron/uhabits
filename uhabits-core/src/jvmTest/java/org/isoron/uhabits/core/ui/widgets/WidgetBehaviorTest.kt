@@ -32,7 +32,7 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.reset
 import org.mockito.kotlin.verify
-import org.mockito.kotlin.verifyZeroInteractions
+import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
 
 class WidgetBehaviorTest : BaseUnitTest() {
@@ -61,7 +61,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, Entry.YES_MANUAL, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 
     @Test
@@ -71,7 +71,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, Entry.NO, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 
     @Test
@@ -113,7 +113,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, 600, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 
     @Test
@@ -126,6 +126,6 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, 400, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 }
