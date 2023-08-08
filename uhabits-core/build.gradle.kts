@@ -24,6 +24,7 @@ plugins {
 
 kotlin {
     jvm().withJava()
+    jvmToolchain(11)
 
     sourceSets {
         val commonMain by getting {
@@ -61,7 +62,7 @@ kotlin {
                 implementation("org.xerial:sqlite-jdbc:3.42.0.0")
                 implementation("org.hamcrest:hamcrest:2.2")
                 implementation("org.apache.commons:commons-io:1.3.2")
-                implementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+                implementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
                 implementation("org.junit.jupiter:junit-jupiter:5.10.0")
             }
         }
