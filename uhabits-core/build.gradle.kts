@@ -46,7 +46,7 @@ kotlin {
                 compileOnly("com.google.dagger:dagger:2.46")
                 implementation("com.google.guava:guava:31.1-android")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-                implementation("androidx.annotation:annotation:1.5.0")
+                implementation("androidx.annotation:annotation:1.6.0")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
                 implementation("com.opencsv:opencsv:5.7.1")
                 implementation("commons-codec:commons-codec:1.16.0")

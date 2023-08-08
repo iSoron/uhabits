@@ -91,7 +91,7 @@ dependencies {
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
-    androidTestImplementation("androidx.annotation:annotation:1.5.0")
+    androidTestImplementation("androidx.annotation:annotation:1.6.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.5.0")
