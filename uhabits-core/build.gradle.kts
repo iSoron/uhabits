@@ -62,7 +62,7 @@ kotlin {
                 implementation("org.hamcrest:hamcrest:2.2")
                 implementation("org.apache.commons:commons-io:1.3.2")
                 implementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
-                implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+                implementation("org.junit.jupiter:junit-jupiter:5.10.0")
             }
         }
     }
