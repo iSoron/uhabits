@@ -61,7 +61,7 @@ kotlin {
                 implementation("org.xerial:sqlite-jdbc:3.40.0.0")
                 implementation("org.hamcrest:hamcrest:2.2")
                 implementation("org.apache.commons:commons-io:1.3.2")
-                implementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+                implementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
                 implementation("org.junit.jupiter:junit-jupiter:5.8.1")
             }
         }
