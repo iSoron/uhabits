@@ -60,12 +60,14 @@ class AndroidTaskRunner : TaskRunner {
             publishProgress(progress)
         }
 
+        @Deprecated("Deprecated in Java")
         override fun doInBackground(vararg params: Void?): Void? {
             if (isCancelled) return null
             task.doInBackground()
             return null
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onPostExecute(aVoid: Void?) {
             if (isCancelled) return
             task.onPostExecute()
@@ -74,6 +76,7 @@ class AndroidTaskRunner : TaskRunner {
             for (l in listeners) l.onTaskFinished(task)
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onPreExecute() {
             if (isCancelled) return
             for (l in listeners) l.onTaskStarted(task)
@@ -82,6 +85,7 @@ class AndroidTaskRunner : TaskRunner {
             task.onPreExecute()
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onProgressUpdate(vararg values: Int?) {
             values[0]?.let { task.onProgressUpdate(it) }
         }
