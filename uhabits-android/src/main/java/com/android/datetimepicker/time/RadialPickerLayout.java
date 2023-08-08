@@ -28,7 +28,6 @@ import android.view.View.*;
 import android.view.accessibility.*;
 import android.widget.*;
 
-import com.android.*;
 import com.android.datetimepicker.*;
 
 import org.isoron.uhabits.R;

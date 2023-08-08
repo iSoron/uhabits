@@ -23,7 +23,6 @@ import android.graphics.Paint.*;
 import android.util.*;
 import android.view.*;
 
-import com.android.*;
 import com.android.datetimepicker.*;
 
 import org.isoron.uhabits.R;
