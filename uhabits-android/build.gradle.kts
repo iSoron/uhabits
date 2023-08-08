@@ -109,7 +109,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
     compileOnly("javax.annotation:jsr250-api:1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
     implementation("com.github.AppIntro:AppIntro:6.2.0")
@@ -133,7 +133,7 @@ dependencies {
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("com.google.dagger:dagger:$daggerVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 }
 
 kapt {
