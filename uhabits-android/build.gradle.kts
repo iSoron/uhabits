@@ -29,6 +29,17 @@ tasks.compileLint {
     dependsOn("updateTranslators")
 }
 
+/*
+Added on top of kotlinOptions to work around this issue:
+https://youtrack.jetbrains.com/issue/KTIJ-24311/task-current-target-is-17-and-kaptGenerateStubsProductionDebugKotlin-task-current-target-is-1.8-jvm-target-compatibility-should#focus=Comments-27-6798448.0-0
+Updating gradle might fix this, so try again in the future to remove this and run:
+./gradlew --rerun-tasks :uhabits-android:kaptGenerateStubsReleaseKotlin
+If this doesn't produce any warning, try to remove it.
+ */
+kotlin {
+    jvmToolchain(11)
+}
+
 android {
 
     compileSdk = 32
@@ -69,8 +80,11 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        targetCompatibility(JavaVersion.VERSION_1_8)
-        sourceCompatibility(JavaVersion.VERSION_1_8)
+        targetCompatibility(JavaVersion.VERSION_11)
+        sourceCompatibility(JavaVersion.VERSION_11)
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     buildFeatures {
