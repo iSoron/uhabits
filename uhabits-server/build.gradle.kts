@@ -47,7 +47,7 @@ dependencies {
     implementation("io.prometheus:simpleclient_httpserver:0.16.0")
     implementation("io.prometheus:simpleclient_hotspot:0.16.0")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
 }
