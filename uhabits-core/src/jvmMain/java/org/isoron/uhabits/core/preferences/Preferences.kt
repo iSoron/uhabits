@@ -192,6 +192,16 @@ open class Preferences(private val storage: Storage) {
         set(value) {
             storage.putString("pref_widget_opacity", value.toString())
         }
+    var widgetCheckmarkTinting: Boolean
+        get() = storage.getBoolean("pref_widget_checkmark_tint", false)
+        set(checkmarkTinting) {
+            storage.putBoolean("pref_widget_checkmark_tint", checkmarkTinting)
+        }
+    var widgetCheckmarkHideRing: Boolean
+        get() = storage.getBoolean("pref_widget_checkmark_hide_ring", false)
+        set(checkmarkHideRing) {
+            storage.putBoolean("pref_widget_checkmark_hide_ring", checkmarkHideRing)
+        }
     var isSkipEnabled: Boolean
         get() = storage.getBoolean("pref_skip_enabled", false)
         set(value) {

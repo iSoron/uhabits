@@ -23,6 +23,10 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.core.graphics.ColorUtils.blendARGB
+import com.google.android.material.color.utilities.MathUtils.lerp
+import org.isoron.platform.gui.Color
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
@@ -67,21 +71,26 @@ class CheckmarkWidgetView : HabitWidgetView {
         val bgColor: Int
         val fgColor: Int
         setShadowAlpha(0x4f)
-        when (entryState) {
-            YES_MANUAL, SKIP -> {
-                bgColor = activeColor
-                fgColor = res.getColor(R.attr.contrast0)
-                backgroundPaint!!.color = bgColor
-                frame!!.setBackgroundDrawable(background)
-            }
-            YES_AUTO, NO, UNKNOWN -> {
-                bgColor = res.getColor(R.attr.cardBgColor)
-                fgColor = res.getColor(R.attr.contrast60)
-            }
-            else -> {
-                bgColor = res.getColor(R.attr.cardBgColor)
-                fgColor = res.getColor(R.attr.contrast60)
-            }
+
+        if(entryState == YES_MANUAL || entryState == SKIP) {
+            bgColor = activeColor
+            fgColor = res.getColor(R.attr.contrast0)
+            backgroundPaint!!.color = bgColor
+            frame!!.setBackgroundDrawable(background)
+        } else if(preferences!!.widgetCheckmarkTinting && entryState == YES_AUTO) {
+            bgColor = blendARGB(activeColor, res.getColor(R.attr.cardBgColor), 0.5f)
+            fgColor = res.getColor(R.attr.contrast0)
+            backgroundPaint!!.color = bgColor
+            frame!!.setBackgroundDrawable(background)
+        } else {
+            bgColor = res.getColor(R.attr.cardBgColor)
+            fgColor = res.getColor(R.attr.contrast60)
+        }
+
+        if(preferences!!.widgetCheckmarkHideRing) {
+            ring.hide()
+        } else {
+            ring.show()
         }
         ring.setPercentage(percentage)
         ring.setColor(fgColor)

@@ -76,6 +76,24 @@
                 android:title="@string/widget_opacity_title"
                 app:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:id="@+id/switchPreferenceCheckmarkTinting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="pref_widget_checkmark_tint"
+            android:summary="@string/pref_checkmark_tinting_summary"
+            android:title="@string/pref_checkmark_tinting"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            android:id="@+id/switchPreferenceCheckmarkHideRing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="pref_widget_checkmark_hide_ring"
+            android:summary="@string/pref_checkmark_hide_ring_summary"
+            android:title="@string/pref_checkmark_hide_ring"
+            app:iconSpaceReserved="false" />
         <ListPreference
                 android:key="pref_first_weekday"
                 android:title="@string/first_day_of_the_week"

@@ -215,4 +215,16 @@ class RingView : View {
     companion object {
         val XFERMODE_CLEAR = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
+
+    fun hide() {
+        this.visibility = GONE
+    }
+
+    fun show() {
+        this.visibility = VISIBLE
+    }
+
+    fun makeInvisible(){
+        this.visibility = INVISIBLE
+    }
 }
