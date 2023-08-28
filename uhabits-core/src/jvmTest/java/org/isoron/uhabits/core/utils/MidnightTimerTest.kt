@@ -4,6 +4,7 @@ import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.isoron.uhabits.core.BaseUnitTest
+import org.isoron.uhabits.core.io.StandardLogging
 import org.junit.Test
 import java.util.Calendar
 import java.util.TimeZone
@@ -34,7 +35,7 @@ class MidnightTimerTest : BaseUnitTest() {
             )
 
             val suspendedListener = suspendCoroutine<Boolean> { continuation ->
-                MidnightTimer().apply {
+                MidnightTimer(StandardLogging()).apply {
                     addListener { continuation.resume(true) }
                     // When
                     onResume(1, executor)

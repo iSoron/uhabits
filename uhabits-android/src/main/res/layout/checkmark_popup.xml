@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:inputType="textCapSentences"
+        android:inputType="textCapSentences|textMultiLine"
         android:textSize="@dimen/smallTextSize"
         android:padding="4dp"
         android:background="@color/transparent"
