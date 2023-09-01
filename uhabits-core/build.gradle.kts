@@ -43,7 +43,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                compileOnly("com.google.dagger:dagger:2.47")
+                compileOnly("com.google.dagger:dagger:2.48")
                 implementation("com.google.guava:guava:32.1.2-android")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
                 implementation("androidx.annotation:annotation:1.6.0")
