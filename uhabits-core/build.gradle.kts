@@ -59,7 +59,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation("org.xerial:sqlite-jdbc:3.42.0.0")
+                implementation("org.xerial:sqlite-jdbc:3.43.2.2")
                 implementation("org.hamcrest:hamcrest:2.2")
                 implementation("org.apache.commons:commons-io:1.3.2")
                 implementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
