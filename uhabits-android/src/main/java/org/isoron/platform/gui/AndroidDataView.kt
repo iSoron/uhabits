@@ -57,7 +57,7 @@ class AndroidDataView(
     }
 
     override fun onScroll(
-        e1: MotionEvent,
+        e1: MotionEvent?,
         e2: MotionEvent,
         dx: Float,
         dy: Float
@@ -79,7 +79,7 @@ class AndroidDataView(
     }
 
     override fun onFling(
-        e1: MotionEvent,
+        e1: MotionEvent?,
         e2: MotionEvent,
         velocityX: Float,
         velocityY: Float
