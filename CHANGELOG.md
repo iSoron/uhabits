@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.2.0] -- 2023-12-01
+### Added
+- Add support for Android 14 (@iSoron, @hiqua)
+- Allow user to change app language (@leondzn)
+
+### Fixed
+- Implement workaround to make notifications non-dismissible in Android 14 (@iSoron, #1872)
+
+## [2.1.3] -- 2023-08-28
+### Fixed
+- Use text input on Samsung devices (@iSoron, #1719)
+- Prevent crash if alarm permission is revoked (@iSoron)
+- Adjust widget colors (@iSoron)
+- Fix bug preventing screens from updating at midnight (@iSoron)
+- Fix skip button in locales that use comma instead of dot (@iSoron, #1721)
+
 ## [2.1.2] -- 2023-05-26
 ### Fixed
 - Fix bug that caused widget to enter checkmark on wrong date (@iSoron, #1541)
