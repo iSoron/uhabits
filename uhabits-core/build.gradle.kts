@@ -49,7 +49,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
                 implementation("androidx.annotation:annotation:1.7.0")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
-                implementation("com.opencsv:opencsv:5.8")
+                implementation("com.opencsv:opencsv:5.9")
                 implementation("commons-codec:commons-codec:1.16.0")
                 implementation("org.apache.commons:commons-lang3:3.13.0")
             }
