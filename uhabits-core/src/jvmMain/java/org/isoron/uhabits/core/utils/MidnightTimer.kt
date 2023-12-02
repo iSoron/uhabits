@@ -19,6 +19,7 @@
 package org.isoron.uhabits.core.utils
 
 import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.io.Logging
 import java.util.LinkedList
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -29,9 +30,10 @@ import javax.inject.Inject
  * A class that emits events when a new day starts.
  */
 @AppScope
-open class MidnightTimer @Inject constructor() {
+open class MidnightTimer @Inject constructor(logging: Logging) {
     private val listeners: MutableList<MidnightListener> = LinkedList()
     private lateinit var executor: ScheduledExecutorService
+    private val logger = logging.getLogger("MidnightTimer")
 
     @Synchronized
     fun addListener(listener: MidnightListener) {
@@ -39,7 +41,10 @@ open class MidnightTimer @Inject constructor() {
     }
 
     @Synchronized
-    fun onPause(): MutableList<Runnable>? = executor.shutdownNow()
+    fun onPause(): MutableList<Runnable>? {
+        logger.info("Pausing timer")
+        return executor.shutdownNow()
+    }
 
     @Synchronized
     fun onResume(
@@ -47,9 +52,11 @@ open class MidnightTimer @Inject constructor() {
         testExecutor: ScheduledExecutorService? = null
     ) {
         executor = testExecutor ?: Executors.newSingleThreadScheduledExecutor()
+        val initialDelay = DateUtils.millisecondsUntilTomorrowWithOffset() + delayOffsetInMillis
+        logger.info("Scheduling refresh for $initialDelay ms from now")
         executor.scheduleAtFixedRate(
             { notifyListeners() },
-            DateUtils.millisecondsUntilTomorrowWithOffset() + delayOffsetInMillis,
+            initialDelay,
             DateUtils.DAY_LENGTH,
             TimeUnit.MILLISECONDS
         )
@@ -60,6 +67,7 @@ open class MidnightTimer @Inject constructor() {
 
     @Synchronized
     private fun notifyListeners() {
+        logger.info("Midnight refresh")
         for (l in listeners) {
             l.atMidnight()
         }
