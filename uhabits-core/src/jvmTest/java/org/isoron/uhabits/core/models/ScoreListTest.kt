@@ -24,6 +24,8 @@ import org.hamcrest.number.IsCloseTo
 import org.hamcrest.number.OrderingComparison
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
+import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
+import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Before
 import org.junit.Test
@@ -149,21 +151,24 @@ class YesNoScoreListTest : BaseScoreListTest() {
 
     @Test
     fun test_getNumberOfSkipsByInterval_NoSkips() {
-        val vars = intArrayOf(-1, -1, -1, -1, 3, 2, 2, -1, 2, 2, -1, 2, 2, -1, 3, 2)
+        val vars = intArrayOf(UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN, SKIP, YES_MANUAL, YES_MANUAL,
+            UNKNOWN, YES_MANUAL, YES_MANUAL, UNKNOWN, YES_MANUAL, YES_MANUAL, UNKNOWN, SKIP, YES_MANUAL)
         val nbOfSkips = habit.scores.getNumberOfSkipsByInterval(vars, 5, 13)
         assertEquals(0, nbOfSkips)
     }
 
     @Test
     fun test_getNumberOfSkipsByInterval_SkipsOnlyInInitialInterval() {
-        val vars = intArrayOf(-1, -1, -1, -1, 3, 2, 2, -1, 3, 3, -1, 2, 2, -1, 3, 2)
+        val vars = intArrayOf(UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN, SKIP, YES_MANUAL, YES_MANUAL,
+            UNKNOWN, SKIP, SKIP, UNKNOWN, YES_MANUAL, YES_MANUAL, UNKNOWN, SKIP, YES_MANUAL)
         val nbOfSkips = habit.scores.getNumberOfSkipsByInterval(vars, 4, 9)
         assertEquals(3, nbOfSkips)
     }
 
     @Test
     fun test_getNumberOfSkipsByInterval_SkipsInSubsequentIntervals() {
-        val vars = intArrayOf(-1, -1, -1, -1, 3, 2, 2, -1, 3, 3, -1, 2, 2, -1, 3, 2)
+        val vars = intArrayOf(UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN, SKIP, YES_MANUAL, YES_MANUAL,
+            UNKNOWN, SKIP, SKIP, UNKNOWN, YES_MANUAL, YES_MANUAL, UNKNOWN, SKIP, YES_MANUAL)
         val nbOfSkips = habit.scores.getNumberOfSkipsByInterval(vars, 4, 11)
         assertEquals(4, nbOfSkips)
     }

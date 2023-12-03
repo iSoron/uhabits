@@ -65,25 +65,25 @@ class ScoreList {
      * Returns the number of skips after the offset in the interval used to calculate
      * the percentage of completed days.
      *
-     * If skips are found in the interval, it is expanded until the interval has the size of the
-     * sum of the denominator and the number of skips within the interval.
+     * If skips are found in the interval, it expands the interval by the number of skips found
+     * and repeats this process for the expanded part until no skips are found in an expanded part.
      */
     @Synchronized
     fun getNumberOfSkipsByInterval(
         values: IntArray,
-        firstIndexToCheck: Int,
-        lastIndexToCheck: Int
+        firstIndexCurrentInterval: Int,
+        lastIndexCurrentInterval: Int
     ): Int {
-        if (lastIndexToCheck < firstIndexToCheck) return 0
+        if (lastIndexCurrentInterval < firstIndexCurrentInterval) return 0
         var nbOfSkips = 0
-        var nextLastIndex = lastIndexToCheck
-        for (i in firstIndexToCheck..lastIndexToCheck) {
+        var nextLastIndex = lastIndexCurrentInterval
+        for (i in firstIndexCurrentInterval..lastIndexCurrentInterval) {
             if (values[i] == Entry.SKIP) {
                 nbOfSkips++
-                if (lastIndexToCheck + nbOfSkips < values.size) nextLastIndex++
+                if (lastIndexCurrentInterval + nbOfSkips < values.size) nextLastIndex++
             }
         }
-        return nbOfSkips + getNumberOfSkipsByInterval(values, lastIndexToCheck + 1, nextLastIndex)
+        return nbOfSkips + getNumberOfSkipsByInterval(values, lastIndexCurrentInterval + 1, nextLastIndex)
     }
 
     /**
@@ -152,8 +152,9 @@ class ScoreList {
                 if (offset + denominator < values.size) {
                     val nbOfSkips =
                         getNumberOfSkipsByInterval(values, offset, offset + denominator)
-                    if (offset + denominator + nbOfSkips < values.size) {
-                        if (values[offset + denominator + nbOfSkips] == Entry.YES_MANUAL) {
+                    val lastIndexForRollingSum = offset + denominator + nbOfSkips
+                    if (lastIndexForRollingSum < values.size) {
+                        if (values[lastIndexForRollingSum] == Entry.YES_MANUAL) {
                             if (values[offset] != Entry.SKIP) rollingSum -= 1.0
                         }
                     }
