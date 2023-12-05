@@ -33,8 +33,8 @@ class BarChartTest {
     val theme = LightTheme()
     val component = BarChart(theme, fmt)
     private val axis = (0..100).map { today.minus(it) }
-    private val series1 = listOf(200.0, 0.0, 150.0, 137.0, 0.0, 0.0, 500.0, 30.0, 100.0, 0.0, 300.0)
-    private val series2 = listOf(10.0, 0.0, 50.0, 0.0, 0.0, 0.0, 100.0, 0.0, 60.0, 0.0, 150.0)
+    private val series1 = listOf(200.0, 0.0,  150.0, 137.0, 0.0, 0.0, 500.0, 30.0, 100.0, 0.0, 300.0)
+    private val series2 = listOf(10.0,  50.0, 50.0,  0.0,   0.0, 0.0, 0.0,   0.0,  60.0,  0.0, 110.0)
 
     init {
         component.axis = axis
