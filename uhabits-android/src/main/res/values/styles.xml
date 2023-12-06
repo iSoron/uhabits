@@ -18,7 +18,7 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="AppBaseTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
         <item name="aboutScreenColor">@color/blue_800</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="actionModeBackground">@color/grey_700</item>
@@ -64,6 +64,10 @@
         <item name="android:textColorAlertDialogListItem">@color/grey_800</item>
         <item name="singleLineTitle">false</item>
         <item name="dialogFormLabelColor">@color/white</item>
+    </style>
+
+    <style name="AppBaseTheme" parent="@style/AppTheme">
+        <item name="windowSplashScreenBackground">@color/splash_screen_background</item>
     </style>
 
     <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
