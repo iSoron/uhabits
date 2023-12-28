@@ -93,7 +93,11 @@ class NumberDialog : AppCompatDialogFragment() {
         try {
             val numberFormat = NumberFormat.getInstance()
             val valueStr = view.value.text.toString()
-            value = numberFormat.parse(valueStr)!!.toDouble()
+            value = if (valueStr.isNotEmpty()) {
+                numberFormat.parse(valueStr)!!.toDouble()
+            } else {
+                Entry.UNKNOWN.toDouble() / 1000
+            }
         } catch (e: ParseException) {
             // NOP
         }
