@@ -40,7 +40,7 @@ dependencies {
     val ktorVersion = "1.6.8"
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.21")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:1.4.13")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-html-builder:$ktorVersion")
     implementation("io.ktor:ktor-jackson:$ktorVersion")
