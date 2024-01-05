@@ -68,13 +68,13 @@ class CheckmarkWidgetView : HabitWidgetView {
         val fgColor: Int
         setShadowAlpha(0x4f)
         when (entryState) {
-            YES_MANUAL, SKIP -> {
+            YES_MANUAL, SKIP, YES_AUTO -> {
                 bgColor = activeColor
                 fgColor = res.getColor(R.attr.contrast0)
                 backgroundPaint!!.color = bgColor
                 frame!!.setBackgroundDrawable(background)
             }
-            YES_AUTO, NO, UNKNOWN -> {
+            NO, UNKNOWN -> {
                 bgColor = res.getColor(R.attr.cardBgColor)
                 fgColor = res.getColor(R.attr.contrast60)
             }
@@ -87,11 +87,22 @@ class CheckmarkWidgetView : HabitWidgetView {
         ring.setColor(fgColor)
         ring.setBackgroundColor(bgColor)
         ring.setText(text)
+        ring.setIsStrokedTextEnabled(strokedTextEnabled)
         label.text = name
         label.setTextColor(fgColor)
         requestLayout()
         postInvalidate()
     }
+
+    private val strokedTextEnabled: Boolean
+        get() = if (isNumerical) {
+            false
+        } else {
+            when (entryState) {
+                YES_AUTO -> true
+                else -> false
+            }
+        }
 
     private val text: String
         get() = if (isNumerical) {
@@ -135,14 +146,14 @@ class CheckmarkWidgetView : HabitWidgetView {
         }
         ring.setThickness(0.03f * width)
         super.onMeasure(
-            MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
-            MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
+                MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
         )
     }
 
     private fun init() {
         val appComponent: HabitsApplicationComponent =
-            (context.applicationContext as HabitsApplication).component
+                (context.applicationContext as HabitsApplication).component
         preferences = appComponent.preferences
         ring = findViewById<View>(R.id.scoreRing) as RingView
         label = findViewById<View>(R.id.label) as TextView
