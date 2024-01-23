@@ -19,5 +19,5 @@
   -->
 
 <resources>
-    <color name="splash_screen_background">@color/grey_900</color>
+    <color name="color_background">@color/grey_900</color>
 </resources>
