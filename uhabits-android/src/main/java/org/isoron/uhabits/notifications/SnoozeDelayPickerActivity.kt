@@ -33,7 +33,8 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_LIGHT
+import org.isoron.uhabits.core.ui.views.DarkTheme
+import org.isoron.uhabits.core.ui.views.LightTheme
 import org.isoron.uhabits.receivers.ReminderController
 import org.isoron.uhabits.utils.SystemUtils
 import java.util.Calendar
@@ -51,11 +52,8 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         val app = applicationContext as HabitsApplication
         val appComponent = app.component
         val themeSwitcher = AndroidThemeSwitcher(this, appComponent.preferences)
-        if (themeSwitcher.getSystemTheme() == THEME_LIGHT) {
-            setTheme(R.style.BaseDialog)
-        } else {
-            setTheme(R.style.BaseDialogDark)
-        }
+        themeSwitcher.setTheme()
+
         val data = intent.data
         if (data == null) {
             finish()
@@ -73,6 +71,16 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         dialog!!.setOnDismissListener { finish() }
         dialog!!.show()
         SystemUtils.unlockScreen(this)
+    }
+
+    private fun AndroidThemeSwitcher.setTheme() {
+        if (this.isNightMode) {
+            setTheme(R.style.BaseDialogDark)
+            this.currentTheme = DarkTheme()
+        } else {
+            setTheme(R.style.BaseDialog)
+            this.currentTheme = LightTheme()
+        }
     }
 
     private fun showTimePicker() {
@@ -95,7 +103,9 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         if (snoozeValues[position] >= 0) {
             reminderController!!.onSnoozeDelayPicked(habit!!, snoozeValues[position])
             finish()
-        } else showTimePicker()
+        } else {
+            showTimePicker()
+        }
     }
 
     override fun finish() {

@@ -22,7 +22,7 @@ data class HabitMatcher(
     val isArchivedAllowed: Boolean = false,
     val isReminderRequired: Boolean = false,
     val isCompletedAllowed: Boolean = true,
-    val isEnteredAllowed: Boolean = true,
+    val isEnteredAllowed: Boolean = true
 ) {
     fun matches(habit: Habit): Boolean {
         if (!isArchivedAllowed && habit.isArchived) return false
@@ -36,7 +36,7 @@ data class HabitMatcher(
         @JvmField
         val WITH_ALARM = HabitMatcher(
             isArchivedAllowed = true,
-            isReminderRequired = true,
+            isReminderRequired = true
         )
     }
 }

@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core.io
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
@@ -34,6 +32,8 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 import java.io.IOException
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ImportTest : BaseUnitTest() {
     @Before
@@ -85,8 +85,8 @@ class ImportTest : BaseUnitTest() {
         assertThat(habit.type, equalTo(HabitType.NUMERICAL))
         assertThat(habit.description, equalTo(""))
         assertThat(habit.frequency, equalTo(Frequency.DAILY))
-        assertThat(getValue(habit, 2021, 9, 1), equalTo(30))
-        assertThat(getValue(habit, 2022, 1, 8), equalTo(100))
+        assertThat(getValue(habit, 2021, 9, 1), equalTo(30000))
+        assertThat(getValue(habit, 2022, 1, 8), equalTo(100000))
 
         val habit2 = habitList.getByPosition(1)
         assertThat(habit2.name, equalTo("run"))
@@ -96,6 +96,21 @@ class ImportTest : BaseUnitTest() {
         assertTrue(isChecked(habit2, 2022, 1, 3))
         assertTrue(isChecked(habit2, 2022, 1, 18))
         assertTrue(isChecked(habit2, 2022, 1, 19))
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun testHabitBullCSV4() {
+        importFromFile("habitbull4.csv")
+        assertThat(habitList.size(), equalTo(1))
+
+        val habit = habitList.getByPosition(0)
+        assertThat(habit.name, equalTo("Caffeine"))
+        assertThat(habit.type, equalTo(HabitType.NUMERICAL))
+        assertThat(habit.description, equalTo(""))
+        assertThat(habit.frequency, equalTo(Frequency.DAILY))
+        assertThat(getValue(habit, 2022, 11, 21), equalTo(80000))
+        assertThat(getValue(habit, 2022, 11, 22), equalTo(80000))
     }
 
     @Test

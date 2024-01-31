@@ -18,10 +18,6 @@
  */
 package org.isoron.uhabits.core.preferences
 
-import com.nhaarman.mockitokotlin2.mock
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertNull
-import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
@@ -30,7 +26,11 @@ import org.isoron.uhabits.core.models.Timestamp.Companion.ZERO
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.mock
 import java.io.File
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class PreferencesTest : BaseUnitTest() {
     private lateinit var prefs: Preferences

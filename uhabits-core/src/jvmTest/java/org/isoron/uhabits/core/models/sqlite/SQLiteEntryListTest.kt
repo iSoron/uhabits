@@ -19,8 +19,6 @@
 
 package org.isoron.uhabits.core.models.sqlite
 
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import org.isoron.uhabits.core.BaseUnitTest.Companion.buildMemoryDatabase
 import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Entry
@@ -30,6 +28,8 @@ import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
 import org.isoron.uhabits.core.utils.DateUtils
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class SQLiteEntryListTest {
 
@@ -67,15 +67,15 @@ class SQLiteEntryListTest {
         )
         assertEquals(
             Entry(timestamp = today, value = 500),
-            entries.get(today),
+            entries.get(today)
         )
         assertEquals(
             Entry(timestamp = today.minus(1), value = UNKNOWN),
-            entries.get(today.minus(1)),
+            entries.get(today.minus(1))
         )
         assertEquals(
             Entry(timestamp = today.minus(5), value = 300),
-            entries.get(today.minus(5)),
+            entries.get(today.minus(5))
         )
     }
 
@@ -100,7 +100,7 @@ class SQLiteEntryListTest {
         return repository.findFirst(
             "where habit = ? and timestamp = ?",
             habitId.toString(),
-            timestamp.unixTime.toString(),
+            timestamp.unixTime.toString()
         )
     }
 }

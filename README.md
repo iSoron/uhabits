@@ -17,8 +17,8 @@ show you how your habits improved over time. It is completely ad-free and open
 source.
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
-  <a href="https://f-droid.org/app/org.isoron.uhabits"><img alt="Get it on F-Droid" src="https://i.imgur.com/baSPE7X.png" height="75px"/></a>
+  <a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80px"/></a>
+  <a href="https://f-droid.org/app/org.isoron.uhabits"><img alt="Get it on F-Droid" src="https://f-droid.org/badge/get-it-on.png" height="80px"/></a>
 </p>
 
 ## Screenshots

@@ -27,7 +27,7 @@ import javax.inject.Inject
 class ExportDBTaskFactory
 @Inject constructor(
     @AppContext private val context: Context,
-    private val system: AndroidDirFinder,
+    private val system: AndroidDirFinder
 ) {
     fun create(listener: ExportDBTask.Listener) = ExportDBTask(context, system, listener)
 }

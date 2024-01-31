@@ -19,7 +19,7 @@
 
 package org.isoron.uhabits.sync.app
 
-import com.nhaarman.mockitokotlin2.mock
+import org.mockito.kotlin.mock
 import io.ktor.application.*
 import org.isoron.uhabits.sync.server.*
 

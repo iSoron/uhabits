@@ -18,23 +18,19 @@
  */
 package org.isoron.uhabits.core.models
 
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertNull
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
-import org.junit.Rule
+import org.junit.Assert.assertThrows
 import org.junit.Test
-import org.junit.rules.ExpectedException
 import java.io.IOException
 import java.io.StringWriter
-import java.util.ArrayList
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
 
 class HabitListTest : BaseUnitTest() {
-    @get:Rule
-    var thrown = ExpectedException.none()!!
     private lateinit var habitsArray: ArrayList<Habit>
     private lateinit var activeHabits: HabitList
     private lateinit var reminderHabits: HabitList
@@ -57,7 +53,7 @@ class HabitListTest : BaseUnitTest() {
         reminderHabits = habitList.getFiltered(
             HabitMatcher(
                 isArchivedAllowed = true,
-                isReminderRequired = true,
+                isReminderRequired = true
             )
         )
     }
@@ -173,8 +169,9 @@ class HabitListTest : BaseUnitTest() {
     fun testReorder_withInvalidArguments() {
         val h1 = habitsArray[0]
         val h2 = fixtures.createEmptyHabit()
-        thrown.expect(IllegalArgumentException::class.java)
-        habitList.reorder(h1, h2)
+        assertThrows(IllegalArgumentException::class.java) {
+            habitList.reorder(h1, h2)
+        }
     }
 
     @Test
@@ -183,7 +180,7 @@ class HabitListTest : BaseUnitTest() {
         val filteredList = habitList.getFiltered(
             HabitMatcher(
                 isArchivedAllowed = false,
-                isCompletedAllowed = false,
+                isCompletedAllowed = false
             )
         )
         assertEquals(filteredList.primaryOrder, HabitList.Order.BY_COLOR_ASC)
@@ -235,15 +232,17 @@ class HabitListTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun testAdd_withFilteredList() {
-        thrown.expect(IllegalStateException::class.java)
-        activeHabits.add(fixtures.createEmptyHabit())
+        assertThrows(IllegalStateException::class.java) {
+            activeHabits.add(fixtures.createEmptyHabit())
+        }
     }
 
     @Test
     @Throws(Exception::class)
     fun testRemove_onFilteredList() {
-        thrown.expect(IllegalStateException::class.java)
-        activeHabits.remove(fixtures.createEmptyHabit())
+        assertThrows(IllegalStateException::class.java) {
+            activeHabits.remove(fixtures.createEmptyHabit())
+        }
     }
 
     @Test
@@ -251,8 +250,9 @@ class HabitListTest : BaseUnitTest() {
     fun testReorder_onFilteredList() {
         val h1 = fixtures.createEmptyHabit()
         val h2 = fixtures.createEmptyHabit()
-        thrown.expect(IllegalStateException::class.java)
-        activeHabits.reorder(h1, h2)
+        assertThrows(IllegalStateException::class.java) {
+            activeHabits.reorder(h1, h2)
+        }
     }
 
     @Test
@@ -261,7 +261,8 @@ class HabitListTest : BaseUnitTest() {
         habitList.primaryOrder = HabitList.Order.BY_SCORE_DESC
         val h1 = habitsArray[1]
         val h2 = habitsArray[2]
-        thrown.expect(IllegalStateException::class.java)
-        habitList.reorder(h1, h2)
+        assertThrows(IllegalStateException::class.java) {
+            habitList.reorder(h1, h2)
+        }
     }
 }

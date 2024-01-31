@@ -12,13 +12,9 @@
 .idea
 .secret
 build
-build/
-captures
 local.properties
 node_modules
 *xcuserdata*
 *.sketch
-/design
-/releases
-/screenshots
 crowdin.yml
+kotlin-js-store

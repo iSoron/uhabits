@@ -86,7 +86,7 @@ class EntryListTest {
             Entry(today.minus(9), YES_MANUAL),
             Entry(today.minus(10), YES_MANUAL),
             Entry(today.minus(11), YES_AUTO),
-            Entry(today.minus(12), YES_AUTO),
+            Entry(today.minus(12), YES_AUTO)
         )
         assertEquals(expected, computed.getKnown())
 
@@ -110,7 +110,7 @@ class EntryListTest {
         val expected = listOf(
             Entry(today.minus(4), 100),
             Entry(today.minus(9), 200),
-            Entry(today.minus(10), 300),
+            Entry(today.minus(10), 300)
         )
         assertEquals(expected, computed.getKnown())
     }
@@ -144,7 +144,7 @@ class EntryListTest {
 
         val byMonth = entries.getKnown().groupedSum(
             truncateField = DateUtils.TruncateField.MONTH,
-            isNumerical = true,
+            isNumerical = true
         )
         assertThat(byMonth.size, equalTo(17))
         assertThat(byMonth[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 230)))
@@ -153,7 +153,7 @@ class EntryListTest {
 
         val byQuarter = entries.getKnown().groupedSum(
             truncateField = DateUtils.TruncateField.QUARTER,
-            isNumerical = true,
+            isNumerical = true
         )
         assertThat(byQuarter.size, equalTo(6))
         assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 3263)))
@@ -162,7 +162,7 @@ class EntryListTest {
 
         val byYear = entries.getKnown().groupedSum(
             truncateField = DateUtils.TruncateField.YEAR,
-            isNumerical = true,
+            isNumerical = true
         )
         assertThat(byYear.size, equalTo(2))
         assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 8227)))
@@ -188,7 +188,7 @@ class EntryListTest {
 
         val byMonth = entries.getKnown().groupedSum(
             truncateField = DateUtils.TruncateField.MONTH,
-            isNumerical = false,
+            isNumerical = false
         )
         assertThat(byMonth.size, equalTo(17))
         assertThat(byMonth[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 1_000)))
@@ -197,7 +197,7 @@ class EntryListTest {
 
         val byQuarter = entries.getKnown().groupedSum(
             truncateField = DateUtils.TruncateField.QUARTER,
-            isNumerical = false,
+            isNumerical = false
         )
         assertThat(byQuarter.size, equalTo(6))
         assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 15_000)))
@@ -206,7 +206,7 @@ class EntryListTest {
 
         val byYear = entries.getKnown().groupedSum(
             truncateField = DateUtils.TruncateField.YEAR,
-            isNumerical = false,
+            isNumerical = false
         )
         assertThat(byYear.size, equalTo(2))
         assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 34_000)))
@@ -221,12 +221,12 @@ class EntryListTest {
             Entry(day(4), NO),
             Entry(day(5), YES_MANUAL),
             Entry(day(10), YES_MANUAL),
-            Entry(day(11), NO),
+            Entry(day(11), NO)
         )
         val intervals = listOf(
             EntryList.Interval(day(2), day(2), day(1)),
             EntryList.Interval(day(6), day(5), day(4)),
-            EntryList.Interval(day(10), day(8), day(8)),
+            EntryList.Interval(day(10), day(8), day(8))
         )
         val expected = listOf(
             Entry(day(1), YES_MANUAL),
@@ -239,7 +239,7 @@ class EntryListTest {
             Entry(day(8), YES_AUTO),
             Entry(day(9), YES_AUTO),
             Entry(day(10), YES_MANUAL),
-            Entry(day(11), NO),
+            Entry(day(11), NO)
         )
         val actual = EntryList.buildEntriesFromInterval(entries, intervals)
         assertThat(actual, equalTo(expected))
@@ -251,13 +251,13 @@ class EntryListTest {
             EntryList.Interval(day(8), day(8), day(2)),
             EntryList.Interval(day(12), day(12), day(6)),
             EntryList.Interval(day(20), day(20), day(14)),
-            EntryList.Interval(day(27), day(27), day(21)),
+            EntryList.Interval(day(27), day(27), day(21))
         )
         val expected = arrayListOf(
             EntryList.Interval(day(8), day(8), day(2)),
             EntryList.Interval(day(15), day(12), day(9)),
             EntryList.Interval(day(22), day(20), day(16)),
-            EntryList.Interval(day(29), day(27), day(23)),
+            EntryList.Interval(day(29), day(27), day(23))
         )
         EntryList.snapIntervalsTogether(original)
         assertThat(original, equalTo(expected))
@@ -267,11 +267,11 @@ class EntryListTest {
     fun testSnapIntervalsTogether2() {
         val original = arrayListOf(
             EntryList.Interval(day(6), day(4), day(0)),
-            EntryList.Interval(day(11), day(8), day(5)),
+            EntryList.Interval(day(11), day(8), day(5))
         )
         val expected = arrayListOf(
             EntryList.Interval(day(6), day(4), day(0)),
-            EntryList.Interval(day(13), day(8), day(7)),
+            EntryList.Interval(day(13), day(8), day(7))
         )
         EntryList.snapIntervalsTogether(original)
         assertThat(original, equalTo(expected))
@@ -282,12 +282,12 @@ class EntryListTest {
         val entries = listOf(
             Entry(day(8), YES_MANUAL),
             Entry(day(18), YES_MANUAL),
-            Entry(day(23), YES_MANUAL),
+            Entry(day(23), YES_MANUAL)
         )
         val expected = listOf(
             EntryList.Interval(day(8), day(8), day(2)),
             EntryList.Interval(day(18), day(18), day(12)),
-            EntryList.Interval(day(23), day(23), day(17)),
+            EntryList.Interval(day(23), day(23), day(17))
         )
         val actual = EntryList.buildIntervals(Frequency.WEEKLY, entries)
         assertThat(actual, equalTo(expected))
@@ -298,12 +298,12 @@ class EntryListTest {
         val entries = listOf(
             Entry(day(8), YES_MANUAL),
             Entry(day(18), YES_MANUAL),
-            Entry(day(23), YES_MANUAL),
+            Entry(day(23), YES_MANUAL)
         )
         val expected = listOf(
             EntryList.Interval(day(8), day(8), day(8)),
             EntryList.Interval(day(18), day(18), day(18)),
-            EntryList.Interval(day(23), day(23), day(23)),
+            EntryList.Interval(day(23), day(23), day(23))
         )
         val actual = EntryList.buildIntervals(Frequency.DAILY, entries)
         assertThat(actual, equalTo(expected))
@@ -316,12 +316,12 @@ class EntryListTest {
             Entry(day(15), YES_MANUAL),
             Entry(day(18), YES_MANUAL),
             Entry(day(22), YES_MANUAL),
-            Entry(day(23), YES_MANUAL),
+            Entry(day(23), YES_MANUAL)
         )
         val expected = listOf(
             EntryList.Interval(day(18), day(15), day(12)),
             EntryList.Interval(day(22), day(18), day(16)),
-            EntryList.Interval(day(23), day(22), day(17)),
+            EntryList.Interval(day(23), day(22), day(17))
         )
         val actual = EntryList.buildIntervals(Frequency.TWO_TIMES_PER_WEEK, entries)
         assertThat(actual, equalTo(expected))
@@ -332,11 +332,11 @@ class EntryListTest {
         val entries = listOf(
             Entry(day(10), YES_MANUAL),
             Entry(day(20), Entry.SKIP),
-            Entry(day(30), YES_MANUAL),
+            Entry(day(30), YES_MANUAL)
         )
         val expected = listOf(
             EntryList.Interval(day(10), day(10), day(8)),
-            EntryList.Interval(day(30), day(30), day(28)),
+            EntryList.Interval(day(30), day(30), day(28))
         )
         val actual = EntryList.buildIntervals(Frequency(1, 3), entries)
         assertThat(actual, equalTo(expected))

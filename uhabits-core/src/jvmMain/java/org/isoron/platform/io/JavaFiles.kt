@@ -33,8 +33,11 @@ class JavaResourceFile(val path: String) : ResourceFile {
         get() {
             val mainPath = Paths.get("assets/main/$path")
             val testPath = Paths.get("assets/test/$path")
-            return if (Files.exists(mainPath)) mainPath
-            else testPath
+            return if (Files.exists(mainPath)) {
+                mainPath
+            } else {
+                testPath
+            }
         }
 
     override suspend fun exists(): Boolean {
@@ -79,8 +82,8 @@ class JavaUserFile(val path: Path) : UserFile {
 @Suppress("NewApi")
 class JavaFileOpener : FileOpener {
     override fun openUserFile(path: String): UserFile {
-        val path = Paths.get("/tmp/$path")
-        return JavaUserFile(path)
+        val resolvedPath = Paths.get("/tmp/$path")
+        return JavaUserFile(resolvedPath)
     }
 
     override fun openResourceFile(path: String): ResourceFile {

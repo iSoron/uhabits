@@ -53,7 +53,7 @@ class SubtitleCardViewTest : BaseViewTest() {
                 isNumerical = false,
                 question = "Did you meditate this morning?",
                 reminder = Reminder(8, 30, EVERY_DAY),
-                theme = LightTheme(),
+                theme = LightTheme()
             )
         )
         measureView(view, 800f, 200f)

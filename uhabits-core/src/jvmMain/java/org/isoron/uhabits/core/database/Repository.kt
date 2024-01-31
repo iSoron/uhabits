@@ -28,7 +28,7 @@ import java.util.LinkedList
 
 class Repository<T>(
     private val klass: Class<T>,
-    private val db: Database,
+    private val db: Database
 ) {
     /**
      * Returns the record that has the id provided. If no record is found, returns null.

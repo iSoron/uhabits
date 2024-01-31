@@ -116,6 +116,11 @@ class ReminderScheduler @Inject constructor(
     }
 
     @Synchronized
+    fun hasHabitsWithReminders(): Boolean {
+        return !habitList.getFiltered(HabitMatcher.WITH_ALARM).isEmpty
+    }
+
+    @Synchronized
     fun startListening() {
         commandRunner.addListener(this)
     }

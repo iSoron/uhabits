@@ -96,7 +96,6 @@ class AndroidNotificationTray
         timestamp: Timestamp,
         disableSound: Boolean = false
     ): Notification {
-
         val addRepetitionAction = Action(
             R.drawable.ic_action_check,
             context.getString(R.string.yes),
@@ -146,8 +145,9 @@ class AndroidNotificationTray
                 .addAction(removeRepetitionAction)
         }
 
-        if (!disableSound)
+        if (!disableSound) {
             builder.setSound(ringtoneManager.getURI())
+        }
 
         if (SDK_INT < Build.VERSION_CODES.S) {
             val snoozeAction = Action(
@@ -168,14 +168,12 @@ class AndroidNotificationTray
         fun createAndroidNotificationChannel(context: Context) {
             val notificationManager = context.getSystemService(Activity.NOTIFICATION_SERVICE)
                 as NotificationManager
-            if (SDK_INT >= Build.VERSION_CODES.O) {
-                val channel = NotificationChannel(
-                    REMINDERS_CHANNEL_ID,
-                    context.resources.getString(R.string.reminder),
-                    NotificationManager.IMPORTANCE_DEFAULT
-                )
-                notificationManager.createNotificationChannel(channel)
-            }
+            val channel = NotificationChannel(
+                REMINDERS_CHANNEL_ID,
+                context.resources.getString(R.string.reminder),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }

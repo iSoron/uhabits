@@ -27,7 +27,7 @@ import org.isoron.uhabits.utils.startActivitySafely
 class AboutScreen(
     private val activity: AboutActivity,
     private val intents: IntentFactory,
-    private val prefs: Preferences,
+    private val prefs: Preferences
 ) {
 
     private var developerCountdown = 5

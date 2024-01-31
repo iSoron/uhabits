@@ -34,7 +34,7 @@ data class TargetCardState(
     val values: List<Double> = listOf(),
     val targets: List<Double> = listOf(),
     val intervals: List<Int> = listOf(),
-    val theme: Theme,
+    val theme: Theme
 )
 
 class TargetCardPresenter {
@@ -42,7 +42,7 @@ class TargetCardPresenter {
         fun buildState(
             habit: Habit,
             firstWeekday: Int,
-            theme: Theme,
+            theme: Theme
         ): TargetCardState {
             val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
@@ -74,7 +74,7 @@ class TargetCardPresenter {
             ).firstOrNull()?.value ?: 0
 
             val skippedDaysThisMonth = entries.countSkippedDays(
-                truncateField = DateUtils.TruncateField.MONTH,
+                truncateField = DateUtils.TruncateField.MONTH
             ).firstOrNull()?.value ?: 0
 
             val valueThisQuarter = entries.groupedSum(
@@ -162,7 +162,7 @@ class TargetCardPresenter {
                 values = values,
                 targets = targets,
                 intervals = intervals,
-                theme = theme,
+                theme = theme
             )
         }
     }

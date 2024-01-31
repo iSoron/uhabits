@@ -31,7 +31,7 @@ enum class Font {
 
 data class ScreenLocation(
     val x: Double,
-    val y: Double,
+    val y: Double
 )
 
 interface Canvas {

@@ -51,7 +51,7 @@ class OverviewCardViewTest : BaseViewTest() {
                 scoreYearDiff = 0.74f,
                 totalCount = 44,
                 color = PaletteColor(7),
-                theme = LightTheme(),
+                theme = LightTheme()
             )
         )
         measureView(view, 800f, 300f)

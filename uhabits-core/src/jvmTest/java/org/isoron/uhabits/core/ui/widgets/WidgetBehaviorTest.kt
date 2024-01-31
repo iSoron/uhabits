@@ -18,11 +18,6 @@
  */
 package org.isoron.uhabits.core.ui.widgets
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.reset
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import com.nhaarman.mockitokotlin2.whenever
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
@@ -34,6 +29,11 @@ import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.reset
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
+import org.mockito.kotlin.whenever
 
 class WidgetBehaviorTest : BaseUnitTest() {
     private lateinit var notificationTray: NotificationTray
@@ -61,7 +61,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, Entry.YES_MANUAL, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 
     @Test
@@ -71,18 +71,18 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, Entry.NO, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 
     @Test
     fun testOnToggleRepetition() {
         for (skipEnabled in listOf(true, false)) for (
-            currentValue in listOf(
-                Entry.NO,
-                Entry.YES_MANUAL,
-                Entry.YES_AUTO,
-                Entry.SKIP,
-            )
+        currentValue in listOf(
+            Entry.NO,
+            Entry.YES_MANUAL,
+            Entry.YES_AUTO,
+            Entry.SKIP
+        )
         ) {
             whenever(preferences.isSkipEnabled).thenReturn(skipEnabled)
             val nextValue: Int = nextToggleValue(
@@ -113,7 +113,7 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, 600, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 
     @Test
@@ -126,6 +126,6 @@ class WidgetBehaviorTest : BaseUnitTest() {
             CreateRepetitionCommand(habitList, habit, today, 400, "")
         )
         verify(notificationTray).cancel(habit)
-        verifyZeroInteractions(preferences)
+        verifyNoInteractions(preferences)
     }
 }

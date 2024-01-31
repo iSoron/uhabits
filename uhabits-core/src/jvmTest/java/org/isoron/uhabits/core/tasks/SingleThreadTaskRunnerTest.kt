@@ -18,12 +18,12 @@
  */
 package org.isoron.uhabits.core.tasks
 
-import com.nhaarman.mockitokotlin2.inOrder
-import com.nhaarman.mockitokotlin2.mock
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
 
 @RunWith(JUnit4::class)
 class SingleThreadTaskRunnerTest : BaseUnitTest() {

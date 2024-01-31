@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.commands
 
-import junit.framework.Assert.assertEquals
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
@@ -26,11 +25,13 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class CreateRepetitionCommandTest : BaseUnitTest() {
     private lateinit var command: CreateRepetitionCommand
     private lateinit var habit: Habit
     private lateinit var today: Timestamp
+
     @Before
     @Throws(Exception::class)
     override fun setUp() {

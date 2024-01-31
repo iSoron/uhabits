@@ -27,7 +27,7 @@ import javax.inject.Inject
 class ImportDataTaskFactory
 @Inject constructor(
     private val importer: GenericImporter,
-    private val modelFactory: ModelFactory,
+    private val modelFactory: ModelFactory
 ) {
     fun create(file: File, listener: ImportDataTask.Listener) =
         ImportDataTask(importer, modelFactory, file, listener)

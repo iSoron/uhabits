@@ -61,8 +61,9 @@ class RingtoneManager
             "pref_ringtone_uri",
             defaultRingtoneUri.toString()
         )!!
-        if (prefRingtoneUri.isNotEmpty())
+        if (prefRingtoneUri.isNotEmpty()) {
             ringtoneUri = Uri.parse(prefRingtoneUri)
+        }
 
         return ringtoneUri
     }

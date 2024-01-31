@@ -31,12 +31,12 @@ data class ScoreCardState(
     val bucketSize: Int,
     val spinnerPosition: Int,
     val color: PaletteColor,
-    val theme: Theme,
+    val theme: Theme
 )
 
 class ScoreCardPresenter(
     val preferences: Preferences,
-    val screen: Screen,
+    val screen: Screen
 ) {
     companion object {
         val BUCKET_SIZES = intArrayOf(1, 7, 31, 92, 365)
@@ -55,7 +55,7 @@ class ScoreCardPresenter(
             habit: Habit,
             firstWeekday: Int,
             spinnerPosition: Int,
-            theme: Theme,
+            theme: Theme
         ): ScoreCardState {
             val bucketSize = BUCKET_SIZES[spinnerPosition]
             val today = DateUtils.getTodayWithOffset()
@@ -80,7 +80,7 @@ class ScoreCardPresenter(
                 scores = scores,
                 bucketSize = bucketSize,
                 spinnerPosition = spinnerPosition,
-                theme = theme,
+                theme = theme
             )
         }
     }

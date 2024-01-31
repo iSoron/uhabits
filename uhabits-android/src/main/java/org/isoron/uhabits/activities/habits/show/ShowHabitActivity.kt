@@ -88,7 +88,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             habit = habit,
             habitList = habitList,
             preferences = preferences,
-            screen = screen,
+            screen = screen
         )
 
         view = ShowHabitView(this)
@@ -99,13 +99,13 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             habitList = habitList,
             screen = screen,
             system = HabitsDirFinder(AndroidDirFinder(this)),
-            taskRunner = appComponent.taskRunner,
+            taskRunner = appComponent.taskRunner
         )
 
         menu = ShowHabitMenu(
             activity = this,
             presenter = menuPresenter,
-            preferences = preferences,
+            preferences = preferences
         )
 
         view.setListener(presenter)
@@ -150,7 +150,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                     ShowHabitPresenter.buildState(
                         habit = habit,
                         preferences = preferences,
-                        theme = themeSwitcher.currentTheme,
+                        theme = themeSwitcher.currentTheme
                     )
                 )
             }
@@ -214,6 +214,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 ShowHabitMenuPresenter.Message.COULD_NOT_EXPORT -> {
                     showMessage(resources.getString(R.string.could_not_export))
                 }
+                else -> {}
             }
         }
 

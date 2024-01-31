@@ -41,7 +41,7 @@ class JdbcDatabase(private val connection: Connection) : Database {
         tableName: String,
         values: Map<String, Any?>,
         where: String,
-        vararg params: String,
+        vararg params: String
     ): Int {
         return try {
             val fields = ArrayList<String?>()

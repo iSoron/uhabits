@@ -23,7 +23,7 @@ import kotlin.math.sqrt
 
 data class Score(
     val timestamp: Timestamp,
-    val value: Double,
+    val value: Double
 ) {
 
     companion object {
@@ -39,7 +39,7 @@ data class Score(
         fun compute(
             frequency: Double,
             previousScore: Double,
-            checkmarkValue: Double,
+            checkmarkValue: Double
         ): Double {
             val multiplier = 0.5.pow(sqrt(frequency) / 13.0)
             var score = previousScore * multiplier

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
@@ -17,23 +18,6 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:top="1dp"
-        android:left="1dp"
-        android:bottom="3dp"
-        android:right="3dp">
-        <ripple
-            android:color="#60ffffff">
-
-            <item android:id="@android:id/mask">
-                <shape android:shape="rectangle">
-                    <corners android:radius="12dp"/>
-                    <solid android:color="?android:colorPrimary"/>
-                </shape>
-                <color android:color="@color/white"/>
-            </item>
-        </ripple>
-    </item>
-
-</layer-list>
+<resources>
+    <color name="color_background">@color/grey_900</color>
+</resources>

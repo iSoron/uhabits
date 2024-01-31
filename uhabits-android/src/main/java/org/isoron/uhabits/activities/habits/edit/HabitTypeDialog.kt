@@ -40,13 +40,13 @@ class HabitTypeDialog : AppCompatDialogFragment() {
         val binding = SelectHabitTypeBinding.inflate(inflater, container, false)
 
         binding.buttonYesNo.setOnClickListener {
-            val intent = IntentFactory().startEditActivity(activity!!, HabitType.YES_NO.value)
+            val intent = IntentFactory().startEditActivity(requireActivity(), HabitType.YES_NO.value)
             startActivity(intent)
             dismiss()
         }
 
         binding.buttonMeasurable.setOnClickListener {
-            val intent = IntentFactory().startEditActivity(activity!!, HabitType.NUMERICAL.value)
+            val intent = IntentFactory().startEditActivity(requireActivity(), HabitType.NUMERICAL.value)
             startActivity(intent)
             dismiss()
         }

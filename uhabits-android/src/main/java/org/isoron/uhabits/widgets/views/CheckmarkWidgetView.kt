@@ -96,21 +96,23 @@ class CheckmarkWidgetView : HabitWidgetView {
     private val text: String
         get() = if (isNumerical) {
             (max(0, entryValue) / 1000.0).toShortString()
-        } else when (entryState) {
-            YES_MANUAL, YES_AUTO -> resources.getString(R.string.fa_check)
-            SKIP -> resources.getString(R.string.fa_skipped)
-            UNKNOWN -> {
-                run {
-                    if (preferences!!.areQuestionMarksEnabled) {
-                        return resources.getString(R.string.fa_question)
-                    } else {
-                        resources.getString(R.string.fa_times)
+        } else {
+            when (entryState) {
+                YES_MANUAL, YES_AUTO -> resources.getString(R.string.fa_check)
+                SKIP -> resources.getString(R.string.fa_skipped)
+                UNKNOWN -> {
+                    run {
+                        if (preferences!!.areQuestionMarksEnabled) {
+                            return resources.getString(R.string.fa_question)
+                        } else {
+                            resources.getString(R.string.fa_times)
+                        }
                     }
+                    resources.getString(R.string.fa_times)
                 }
-                resources.getString(R.string.fa_times)
+                NO -> resources.getString(R.string.fa_times)
+                else -> resources.getString(R.string.fa_times)
             }
-            NO -> resources.getString(R.string.fa_times)
-            else -> resources.getString(R.string.fa_times)
         }
 
     override val innerLayoutId: Int

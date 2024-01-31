@@ -30,14 +30,14 @@ class GenericImporter
     loopDBImporter: LoopDBImporter,
     rewireDBImporter: RewireDBImporter,
     tickmateDBImporter: TickmateDBImporter,
-    habitBullCSVImporter: HabitBullCSVImporter,
+    habitBullCSVImporter: HabitBullCSVImporter
 ) : AbstractImporter() {
 
     var importers: List<AbstractImporter> = listOf(
         loopDBImporter,
         rewireDBImporter,
         tickmateDBImporter,
-        habitBullCSVImporter,
+        habitBullCSVImporter
     )
 
     override fun canHandle(file: File): Boolean {

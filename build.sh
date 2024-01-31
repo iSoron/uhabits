@@ -85,10 +85,10 @@ android_setup() {
         $AVDMANAGER delete avd --name $AVDNAME
 
         log_info "Creating new Android virtual device (API $API)..."
-        (echo "y" | $SDKMANAGER --install "system-images;android-$API;default;x86_64") || return 1
+        (echo "y" | $SDKMANAGER --install "system-images;android-$API;google_apis;x86_64") || return 1
         $AVDMANAGER create avd \
                 --name $AVDNAME \
-                --package "system-images;android-$API;default;x86_64" \
+                --package "system-images;android-$API;google_apis;x86_64" \
                 --device "Nexus 4" || return 1
 
         flock -u 10
@@ -181,7 +181,7 @@ android_test() {
         OUT_INSTRUMENT=${ANDROID_OUTPUTS_DIR}/instrument-${API}.txt
         OUT_LOGCAT=${ANDROID_OUTPUTS_DIR}/logcat-${API}.txt
         FAILED_TESTS=""
-        for i in {1..5}; do
+        for i in {1..10}; do
             log_info "Running $size instrumented tests (attempt $i)..."
             $ADB shell am instrument \
                 -r -e coverage true -e size "$size" $FAILED_TESTS \

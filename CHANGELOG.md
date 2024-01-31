@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.0] -- 2024-01-30
+### Added
+- Add support for Android 14 (@iSoron, @hiqua)
+- Allow user to change app language (@leondzn)
+
+### Fixed
+- Implement workaround to make notifications non-dismissible in Android 14 (@iSoron, #1872)
+- Fix splash screen background color in dark mode (@SIKV, #1888)
+
 ## [2.1.3] -- 2023-08-28
 ### Fixed
 - Use text input on Samsung devices (@iSoron, #1719)

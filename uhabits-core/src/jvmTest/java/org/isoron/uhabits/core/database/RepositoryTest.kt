@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.database
 
-import junit.framework.Assert.assertNull
 import org.apache.commons.lang3.builder.EqualsBuilder
 import org.apache.commons.lang3.builder.HashCodeBuilder
 import org.apache.commons.lang3.builder.ToStringBuilder
@@ -27,6 +26,7 @@ import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertNull
 
 class RepositoryTest : BaseUnitTest() {
     private lateinit var repository: Repository<ThingRecord>

@@ -18,21 +18,18 @@
  */
 package org.isoron.uhabits.core.models
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertThat
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class HabitTest : BaseUnitTest() {
-    @get:Rule
-    val exception = ExpectedException.none()!!
 
     @Throws(Exception::class)
     override fun setUp() {
@@ -55,7 +52,7 @@ class HabitTest : BaseUnitTest() {
         model.reminder = Reminder(8, 30, WeekdayList(1))
         val habit = modelFactory.buildHabit()
         habit.copyFrom(model)
-        assertTrue(habit.isArchived == model.isArchived)
+        assertEquals(habit.isArchived, model.isArchived)
         assertThat(habit.isArchived, `is`(model.isArchived))
         assertThat(habit.color, `is`(model.color))
         assertThat(habit.frequency, equalTo(model.frequency))

@@ -48,7 +48,7 @@ class HabitBullCSVImporter
 @Inject constructor(
     private val habitList: HabitList,
     private val modelFactory: ModelFactory,
-    logging: Logging,
+    logging: Logging
 ) : AbstractImporter() {
 
     private val logger = logging.getLogger("HabitBullCSVImporter")
@@ -86,17 +86,19 @@ class HabitBullCSVImporter
                         logger.info("Found a value of $value, considering this habit as numerical.")
                         h.type = HabitType.NUMERICAL
                     }
-                    h.originalEntries.add(Entry(timestamp, value, notes))
+                    h.originalEntries.add(Entry(timestamp, value * 1000, notes))
                 }
             }
         }
+
+        map.forEach { (_, habit) -> habit.recompute() }
     }
 
     private fun parseTimestamp(rawValue: String): Timestamp {
         val formats = listOf(
             DateFormat.getDateInstance(DateFormat.SHORT),
             SimpleDateFormat("yyyy-MM-dd", Locale.US),
-            SimpleDateFormat("MM/dd/yyyy", Locale.US),
+            SimpleDateFormat("MM/dd/yyyy", Locale.US)
         )
         var parsedDate: Date? = null
         for (fmt in formats) {
@@ -114,7 +116,7 @@ class HabitBullCSVImporter
         return Timestamp.from(
             parsedCalendar[YEAR],
             parsedCalendar[MONTH],
-            parsedCalendar[DAY_OF_MONTH],
+            parsedCalendar[DAY_OF_MONTH]
         )
     }
 

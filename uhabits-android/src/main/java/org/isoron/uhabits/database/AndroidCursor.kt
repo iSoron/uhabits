@@ -27,22 +27,34 @@ class AndroidCursor(private val cursor: android.database.Cursor) : Cursor {
     override fun moveToNext() = cursor.moveToNext()
 
     override fun getInt(index: Int): Int? {
-        return if (cursor.isNull(index)) null
-        else cursor.getInt(index)
+        return if (cursor.isNull(index)) {
+            null
+        } else {
+            cursor.getInt(index)
+        }
     }
 
     override fun getLong(index: Int): Long? {
-        return if (cursor.isNull(index)) null
-        else cursor.getLong(index)
+        return if (cursor.isNull(index)) {
+            null
+        } else {
+            cursor.getLong(index)
+        }
     }
 
     override fun getDouble(index: Int): Double? {
-        return if (cursor.isNull(index)) null
-        else cursor.getDouble(index)
+        return if (cursor.isNull(index)) {
+            null
+        } else {
+            cursor.getDouble(index)
+        }
     }
 
     override fun getString(index: Int): String? {
-        return if (cursor.isNull(index)) null
-        else cursor.getString(index)
+        return if (cursor.isNull(index)) {
+            null
+        } else {
+            cursor.getString(index)
+        }
     }
 }

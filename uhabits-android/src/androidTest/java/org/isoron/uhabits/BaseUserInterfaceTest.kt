@@ -39,6 +39,7 @@ open class BaseUserInterfaceTest {
     private lateinit var prefs: Preferences
     private lateinit var fixtures: HabitFixtures
     private lateinit var cache: HabitCardListCache
+
     @Before
     @Throws(Exception::class)
     fun setUp() {

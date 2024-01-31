@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.io
 
-import junit.framework.Assert.assertTrue
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.isoron.uhabits.core.BaseUnitTest
@@ -29,8 +28,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.file.Files
-import java.util.LinkedList
+import java.util.*
 import java.util.zip.ZipFile
+import kotlin.test.assertTrue
 
 class HabitsCSVExporterTest : BaseUnitTest() {
     private lateinit var baseDir: File
@@ -102,9 +102,8 @@ class HabitsCSVExporterTest : BaseUnitTest() {
     private fun assertAbsolutePathExists(s: String) {
         val file = File(s)
         assertTrue(
-            String.format("File %s should exist", file.absolutePath),
-            file.exists()
-        )
+            String.format("File %s should exist", file.absolutePath)
+        ) { file.exists() }
     }
 
     private fun assertFileAndReferenceAreEqual(s: String) {

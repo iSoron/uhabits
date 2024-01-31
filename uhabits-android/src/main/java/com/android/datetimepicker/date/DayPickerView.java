@@ -22,7 +22,6 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -383,10 +382,6 @@ public abstract class DayPickerView extends ListView implements OnScrollListener
             if (child instanceof MonthView) {
                 final CalendarDay focus = ((MonthView) child).getAccessibilityFocus();
                 if (focus != null) {
-                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        // Clear focus to avoid ListView bug in Jelly Bean MR1.
-                        ((MonthView) child).clearAccessibilityFocus();
-                    }
                     return focus;
                 }
             }

@@ -22,8 +22,7 @@ import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.os.Build
-import android.os.Build.VERSION.SDK_INT
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -45,6 +44,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getLongWeekdayNames
 import org.isoron.uhabits.notifications.AndroidNotificationTray.Companion.createAndroidNotificationChannel
 import org.isoron.uhabits.notifications.RingtoneManager
 import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.startActivitySafely
 import org.isoron.uhabits.widgets.WidgetUpdater
 import java.util.Calendar
 
@@ -53,6 +53,8 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     private var ringtoneManager: RingtoneManager? = null
     private lateinit var prefs: Preferences
     private var widgetUpdater: WidgetUpdater? = null
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RINGTONE_REQUEST_CODE) {
             ringtoneManager!!.update(data)
@@ -65,7 +67,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
-        val appContext = context!!.applicationContext
+        val appContext = requireContext().applicationContext
         if (appContext is HabitsApplication) {
             prefs = appContext.component.preferences
             widgetUpdater = appContext.component.widgetUpdater
@@ -94,24 +96,31 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         val key = preference.key ?: return false
-        if (key == "reminderSound") {
-            showRingtonePicker()
-            return true
-        } else if (key == "reminderCustomize") {
-            if (SDK_INT < Build.VERSION_CODES.O) return true
-            createAndroidNotificationChannel(context!!)
-            val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context!!.packageName)
-            intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID)
-            startActivity(intent)
-            return true
+        when (key) {
+            "reminderSound" -> {
+                showRingtonePicker()
+                return true
+            }
+            "reminderCustomize" -> {
+                createAndroidNotificationChannel(requireContext())
+                val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+                intent.putExtra(Settings.EXTRA_CHANNEL_ID, NotificationTray.REMINDERS_CHANNEL_ID)
+                startActivity(intent)
+                return true
+            }
+            "rateApp" -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.playStoreURL)))
+                activity?.startActivitySafely(intent)
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }
 
     override fun onResume() {
         super.onResume()
-        ringtoneManager = RingtoneManager(activity!!)
+        ringtoneManager = RingtoneManager(requireActivity())
         sharedPrefs = preferenceManager.sharedPreferences
         sharedPrefs!!.registerOnSharedPreferenceChangeListener(this)
         if (!prefs.isDeveloper) {
@@ -120,11 +129,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         }
         updateWeekdayPreference()
 
-        if (SDK_INT < Build.VERSION_CODES.O)
-            findPreference("reminderCustomize").isVisible = false
-        else {
-            findPreference("reminderSound").isVisible = false
-        }
+        findPreference("reminderSound").isVisible = false
     }
 
     private fun updateWeekdayPreference() {
@@ -154,8 +159,8 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         val pref = findPreference(key)
         pref.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                activity!!.setResult(result)
-                activity!!.finish()
+                requireActivity().setResult(result)
+                requireActivity().finish()
                 true
             }
     }

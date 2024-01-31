@@ -38,7 +38,7 @@ class ShowHabitMenuPresenter(
     private val habitList: HabitList,
     private val screen: Screen,
     private val system: System,
-    private val taskRunner: TaskRunner,
+    private val taskRunner: TaskRunner
 ) {
     fun onEditHabit() {
         screen.showEditHabitScreen(habit)

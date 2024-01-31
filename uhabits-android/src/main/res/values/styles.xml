@@ -61,6 +61,7 @@
         <item name="widgetShadowAlpha">0.25</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="windowBackgroundColor">@color/grey_200</item>
+        <item name="android:colorBackground">@color/color_background</item>
         <item name="android:textColorAlertDialogListItem">@color/grey_800</item>
         <item name="singleLineTitle">false</item>
         <item name="dialogFormLabelColor">@color/white</item>

@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.activities.common.views
 
+import android.view.MotionEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
@@ -44,7 +45,7 @@ class ScoreChartTest : BaseViewTest() {
             habit = habit,
             firstWeekday = prefs.firstWeekdayInt,
             spinnerPosition = 0,
-            theme = LightTheme(),
+            theme = LightTheme()
         )
         view = ScoreChart(targetContext).apply {
             setScores(state.scores)
@@ -63,7 +64,8 @@ class ScoreChartTest : BaseViewTest() {
     @Test
     @Throws(Throwable::class)
     fun testRender_withDataOffset() {
-        view.onScroll(null, null, -dpToPixels(150), 0f)
+        val e = MotionEvent.obtain(0, 0, 0, 0f, 0f, 0)
+        view.onScroll(e, e, -dpToPixels(150), 0f)
         view.invalidate()
         assertRenders(view, BASE_PATH + "renderDataOffset.png")
     }

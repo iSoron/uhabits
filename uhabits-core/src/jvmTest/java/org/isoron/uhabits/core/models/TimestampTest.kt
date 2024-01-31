@@ -18,8 +18,6 @@
  */
 package org.isoron.uhabits.core.models
 
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
@@ -27,6 +25,8 @@ import org.hamcrest.Matchers.lessThan
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class TimestampTest : BaseUnitTest() {
     @Test

@@ -138,7 +138,7 @@ abstract class DateUtils {
                 (firstWeekday + 2) % 7 + 1,
                 (firstWeekday + 3) % 7 + 1,
                 (firstWeekday + 4) % 7 + 1,
-                (firstWeekday + 5) % 7 + 1,
+                (firstWeekday + 5) % 7 + 1
             )
         }
 
@@ -279,7 +279,6 @@ abstract class DateUtils {
             val cal = getCalendar(timestamp)
 
             return when (field) {
-
                 TruncateField.DAY -> { cal.timeInMillis }
 
                 TruncateField.MONTH -> {

@@ -22,7 +22,6 @@ import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.text.format.Time;
 import android.view.View;
 
@@ -43,17 +42,13 @@ public class Utils {
 
     static final String SHARED_PREFS_NAME = "com.android.calendar_preferences";
 
-    public static boolean isJellybeanOrLater() {
-      return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
-    }
-
     /**
      * Try to speak the specified text, for accessibility. Only available on JB or later.
      * @param text Text to announce.
      */
     @SuppressLint("NewApi")
     public static void tryAccessibilityAnnounce(View view, CharSequence text) {
-        if (isJellybeanOrLater() && view != null && text != null) {
+        if (view != null && text != null) {
             view.announceForAccessibility(text);
         }
     }

@@ -19,12 +19,17 @@
 
 package org.isoron.uhabits.activities.habits.list
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.checkSelfPermission
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.isoron.uhabits.BaseExceptionHandler
@@ -55,6 +60,16 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
     lateinit var prefs: Preferences
     lateinit var midnightTimer: MidnightTimer
     private val scope = CoroutineScope(Dispatchers.Main)
+
+    private var permissionAlreadyRequested = false
+    private val permissionLauncher =
+        registerForActivityResult(RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                scheduleReminders()
+            } else {
+                Log.i("ListHabitsActivity", "POST_NOTIFICATIONS denied")
+            }
+        }
 
     private lateinit var menu: ListHabitsMenu
 
@@ -101,7 +116,26 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
-        appComponent.reminderScheduler.scheduleAll()
+
+        if (appComponent.reminderScheduler.hasHabitsWithReminders()) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                scheduleReminders()
+            } else {
+                if (checkSelfPermission(this, POST_NOTIFICATIONS) == PERMISSION_GRANTED) {
+                    scheduleReminders()
+                } else {
+                    // If we have not requested the permission yet, request it. Otherwide do
+                    // nothing. This check is necessary to avoid an infinite onResume loop in case
+                    // the user denies the permission.
+                    if (!permissionAlreadyRequested) {
+                        Log.i("ListHabitsActivity", "Requestion permission: POST_NOTIFICATIONS")
+                        permissionLauncher.launch(POST_NOTIFICATIONS)
+                        permissionAlreadyRequested = true
+                    }
+                }
+            }
+        }
+
         taskRunner.run {
             try {
                 AutoBackup(this@ListHabitsActivity).run()
@@ -117,6 +151,10 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         super.onResume()
     }
 
+    private fun scheduleReminders() {
+        appComponent.reminderScheduler.scheduleAll()
+    }
+
     override fun onCreateOptionsMenu(m: Menu): Boolean {
         menu.onCreate(menuInflater, m)
         return true
@@ -127,6 +165,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         return menu.onItemSelected(item)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(request: Int, result: Int, data: Intent?) {
         super.onActivityResult(request, result, data)
         screen.onResult(request, result, data)

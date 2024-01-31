@@ -19,7 +19,6 @@
 
 package org.isoron.uhabits
 
-import com.nhaarman.mockitokotlin2.mock
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -35,6 +34,7 @@ import org.isoron.uhabits.inject.ActivityScope
 import org.isoron.uhabits.inject.HabitModule
 import org.isoron.uhabits.inject.HabitsActivityModule
 import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.mockito.kotlin.mock
 
 @Module
 class TestModule {

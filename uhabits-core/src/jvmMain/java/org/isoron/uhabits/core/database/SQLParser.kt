@@ -20,7 +20,7 @@ import java.io.InputStream
 import java.util.ArrayList
 
 internal class Tokenizer(
-    private val mStream: InputStream,
+    private val mStream: InputStream
 ) {
     private var mIsNext = false
     private var mCurrent = 0
@@ -45,14 +45,14 @@ internal class Tokenizer(
         if (s == null || s.isEmpty()) {
             return false
         }
-        if (s[0].toInt() != mCurrent) {
+        if (s[0].code != mCurrent) {
             return false
         }
         val len = s.length
         mStream.mark(len - 1)
         for (n in 1 until len) {
             val value = mStream.read()
-            if (value != s[n].toInt()) {
+            if (value != s[n].code) {
                 mStream.reset()
                 return false
             }
@@ -68,10 +68,9 @@ object SQLParser {
     private const val STATE_COMMENT_BLOCK = 3
 
     fun parse(stream: InputStream): List<String> {
-        val buffer = BufferedInputStream(stream)
         val commands: MutableList<String> = ArrayList()
         val sb = StringBuffer()
-        buffer.use { buffer ->
+        BufferedInputStream(stream).use { buffer ->
             val tokenizer = Tokenizer(buffer)
             var state = STATE_NONE
             while (tokenizer.hasNext()) {

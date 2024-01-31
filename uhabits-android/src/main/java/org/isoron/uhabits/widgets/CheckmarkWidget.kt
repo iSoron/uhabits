@@ -21,9 +21,7 @@ package org.isoron.uhabits.widgets
 
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
@@ -35,7 +33,7 @@ open class CheckmarkWidget(
     context: Context,
     widgetId: Int,
     protected val habit: Habit,
-    stacked: Boolean = false,
+    stacked: Boolean = false
 ) : BaseWidget(context, widgetId, stacked) {
 
     override val defaultHeight: Int = 125
@@ -49,7 +47,6 @@ open class CheckmarkWidget(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun refreshData(widgetView: View) {
         (widgetView as CheckmarkWidgetView).apply {
             val today = DateUtils.getTodayWithOffset()
