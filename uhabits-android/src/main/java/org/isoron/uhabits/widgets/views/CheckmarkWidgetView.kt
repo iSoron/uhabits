@@ -146,14 +146,14 @@ class CheckmarkWidgetView : HabitWidgetView {
         }
         ring.setThickness(0.03f * width)
         super.onMeasure(
-                MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
+            MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
         )
     }
 
     private fun init() {
         val appComponent: HabitsApplicationComponent =
-                (context.applicationContext as HabitsApplication).component
+            (context.applicationContext as HabitsApplication).component
         preferences = appComponent.preferences
         ring = findViewById<View>(R.id.scoreRing) as RingView
         label = findViewById<View>(R.id.label) as TextView

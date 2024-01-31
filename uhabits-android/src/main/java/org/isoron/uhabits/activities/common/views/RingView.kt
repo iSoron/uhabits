@@ -157,7 +157,7 @@ class RingView : View {
                 pRing!!.xfermode = XFERMODE_CLEAR
             } else {
                 pRing!!.color =
-                        backgroundColor!!
+                    backgroundColor!!
             }
             rect!!.inset(thickness, thickness)
             activeCanvas.drawArc(rect!!, 0f, 360f, true, pRing!!)
@@ -165,17 +165,17 @@ class RingView : View {
             pRing!!.color = color
             pRing!!.textSize = textSize
 
-            if (isStrokedTextEnabled){
+            if (isStrokedTextEnabled) {
                 pRing!!.style = Paint.Style.STROKE
                 pRing!!.strokeWidth = textSize / 15f
             }
 
             if (enableFontAwesome) pRing!!.typeface = getFontAwesome(context)
             activeCanvas.drawText(
-                    text!!,
-                    rect!!.centerX(),
-                    rect!!.centerY() + 0.4f * em,
-                    pRing!!
+                text!!,
+                rect!!.centerX(),
+                rect!!.centerY() + 0.4f * em,
+                pRing!!
             )
         }
         if (activeCanvas !== canvas) canvas.drawBitmap(internalDrawingCache!!, 0f, 0f, null)
