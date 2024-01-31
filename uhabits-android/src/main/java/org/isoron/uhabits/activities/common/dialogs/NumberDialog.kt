@@ -2,11 +2,13 @@ package org.isoron.uhabits.activities.common.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import android.provider.Settings
 import android.text.method.DigitsKeyListener
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -65,7 +67,7 @@ class NumberDialog : AppCompatDialogFragment() {
             save()
         }
         view.skipBtnNumber.setOnClickListener {
-            view.value.setText((Entry.SKIP.toDouble() / 1000).toString())
+            view.value.setText(DecimalFormat("#.###").format((Entry.SKIP.toDouble() / 1000)))
             save()
         }
         view.notes.setOnEditorActionListener { v, actionId, event ->
@@ -86,6 +88,15 @@ class NumberDialog : AppCompatDialogFragment() {
         // https://stackoverflow.com/a/34256139
         val separator = DecimalFormatSymbols.getInstance().decimalSeparator
         view.value.keyListener = DigitsKeyListener.getInstance("0123456789$separator")
+
+        // https://github.com/flutter/flutter/issues/61175
+        val currKeyboard = Settings.Secure.getString(
+            requireContext().contentResolver,
+            Settings.Secure.DEFAULT_INPUT_METHOD
+        )
+        if (currKeyboard.contains("swiftkey") || currKeyboard.contains("samsung")) {
+            view.value.inputType = EditorInfo.TYPE_CLASS_TEXT
+        }
     }
 
     fun save() {
