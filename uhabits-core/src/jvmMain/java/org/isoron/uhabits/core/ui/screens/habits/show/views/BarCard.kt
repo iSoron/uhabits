@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.countSkippedDays
 import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.views.Theme
@@ -33,6 +34,7 @@ data class BarCardState(
     val bucketSize: Int,
     val color: PaletteColor,
     val entries: List<Entry>,
+    val skippedEntries: List<Entry>,
     val isNumerical: Boolean,
     val numericalSpinnerPosition: Int
 )
@@ -64,9 +66,17 @@ class BarCardPresenter(
                 firstWeekday = firstWeekday,
                 isNumerical = habit.isNumerical
             )
+            // get all data from the oldest date till today, then count skipped days, and
+            // finally group days according to the truncate value (by weeks for example)
+            val skippedEntries = habit.computedEntries.getByInterval(oldest, today).countSkippedDays(
+                truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
+                firstWeekday = firstWeekday
+            )
+
             return BarCardState(
                 theme = theme,
                 entries = entries,
+                skippedEntries = skippedEntries,
                 bucketSize = bucketSize,
                 color = habit.color,
                 isNumerical = habit.isNumerical,
