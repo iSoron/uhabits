@@ -26,6 +26,7 @@ import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PointF
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.SystemClock
@@ -36,7 +37,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM
 import android.widget.RelativeLayout.ALIGN_PARENT_TOP
@@ -47,10 +47,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
-import nl.dionsegijn.konfetti.core.Party
-import nl.dionsegijn.konfetti.core.Position
-import nl.dionsegijn.konfetti.core.emitter.Emitter
-import nl.dionsegijn.konfetti.xml.KonfettiView
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
@@ -58,7 +54,6 @@ import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.views.Theme
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 fun RelativeLayout.addBelow(
     view: View,
@@ -83,9 +78,7 @@ fun RelativeLayout.addAtBottom(
     view.layoutParams = RelativeLayout.LayoutParams(width, height).apply {
         addRule(ALIGN_PARENT_BOTTOM)
     }
-    if (view.id == null) {
-        view.id = View.generateViewId()
-    }
+    view.id = View.generateViewId()
     this.addView(view)
 }
 
@@ -97,42 +90,13 @@ fun RelativeLayout.addAtTop(
     view.layoutParams = RelativeLayout.LayoutParams(width, height).apply {
         addRule(ALIGN_PARENT_TOP)
     }
-
-    if (view.id == null) {
-        view.id = View.generateViewId()
-    }
+    view.id = View.generateViewId()
     this.addView(view)
 }
 
 fun ViewGroup.buildToolbar(): Toolbar {
     val inflater = LayoutInflater.from(context)
     return inflater.inflate(R.layout.toolbar, null) as Toolbar
-}
-
-fun ViewGroup.buildKonfettiView(): View {
-    val inflater = LayoutInflater.from(context)
-    return inflater.inflate(R.layout.konfetti, null) as View
-}
-
-fun showConfetti(view: View) {
-    val viewId = R.id.konfetttiView
-    val linearLayout = view.findViewById<LinearLayout>(R.id.konfettiLayout)
-    val kv = view.findViewById<KonfettiView>(viewId)
-    if (linearLayout != null) {
-        linearLayout.bringToFront()
-    }
-    val party = Party(
-        speed = 0f,
-        maxSpeed = 32f,
-        damping = 0.9f,
-        spread = 360,
-        colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def, 0x818181, 0x81a48c),
-        position = Position.Relative(0.5, 0.3),
-        emitter = Emitter(duration = 300, TimeUnit.MILLISECONDS).max(300)
-    )
-    if (kv != null) {
-        kv.start(party)
-    }
 }
 
 fun View.showMessage(msg: String) {
@@ -172,7 +136,11 @@ fun Activity.startActivitySafely(intent: Intent) {
     }
 }
 
-fun Activity.showSendEmailScreen(@StringRes toId: Int, @StringRes subjectId: Int, content: String?) {
+fun Activity.showSendEmailScreen(
+    @StringRes toId: Int,
+    @StringRes subjectId: Int,
+    content: String?
+) {
     val to = this.getString(toId)
     val subject = this.getString(subjectId)
     this.startActivity(
@@ -268,4 +236,12 @@ fun View.requestFocusWithKeyboard() {
         dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, 0f, 0f, 0))
         dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_UP, 0f, 0f, 0))
     }, 250)
+}
+
+fun View.getCenter(): PointF {
+    val viewLocation = IntArray(2)
+    this.getLocationOnScreen(viewLocation)
+    viewLocation[0] += this.width / 2
+    viewLocation[1] -= this.height / 2
+    return PointF(viewLocation[0].toFloat(), viewLocation[1].toFloat())
 }

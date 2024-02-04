@@ -23,6 +23,7 @@ import android.content.Context
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
+import nl.dionsegijn.konfetti.xml.KonfettiView
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.ScrollableChart
 import org.isoron.uhabits.activities.common.views.TaskProgressBar
@@ -43,7 +44,6 @@ import org.isoron.uhabits.inject.ActivityScope
 import org.isoron.uhabits.utils.addAtBottom
 import org.isoron.uhabits.utils.addAtTop
 import org.isoron.uhabits.utils.addBelow
-import org.isoron.uhabits.utils.buildKonfettiView
 import org.isoron.uhabits.utils.buildToolbar
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dim
@@ -70,7 +70,9 @@ class ListHabitsRootView @Inject constructor(
     val listView: HabitCardListView = habitCardListViewFactory.create()
     val llEmpty = EmptyListView(context)
     val tbar = buildToolbar()
-    val konfettiView = buildKonfettiView()
+    val konfettiView = KonfettiView(context).apply {
+        translationZ = 10f
+    }
     val progressBar = TaskProgressBar(context, runner)
     val hintView: HintView
     val header = HeaderView(context, preferences, midnightTimer)

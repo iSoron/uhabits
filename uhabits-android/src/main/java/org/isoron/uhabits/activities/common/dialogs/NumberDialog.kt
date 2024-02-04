@@ -9,15 +9,14 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils
+import org.isoron.uhabits.utils.getCenter
 import org.isoron.uhabits.utils.requestFocusWithKeyboard
-import org.isoron.uhabits.utils.showConfetti
 import org.isoron.uhabits.utils.sres
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -26,7 +25,7 @@ import java.text.ParseException
 
 class NumberDialog : AppCompatDialogFragment() {
 
-    var onToggle: (Double, String) -> Unit = { _, _ -> }
+    var onToggle: (Double, String, Float, Float) -> Unit = { _, _, _, _ -> }
     var onDismiss: () -> Unit = {}
 
     private var originalNotes: String = ""
@@ -115,13 +114,8 @@ class NumberDialog : AppCompatDialogFragment() {
             // NOP
         }
         val notes = view.notes.text.toString()
-        onToggle(value, notes)
+        val location = view.saveBtn.getCenter()
+        onToggle(value, notes, location.x, location.y)
         requireDialog().dismiss()
-        val konfettiView = requireActivity().findViewById<LinearLayout>(R.id.konfettiLayout)
-
-        if (value > 0.0) {
-            // To motivate, show confetti even if some value is present
-            showConfetti(konfettiView)
-        }
     }
 }
