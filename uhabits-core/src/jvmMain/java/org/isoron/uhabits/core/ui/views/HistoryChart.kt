@@ -107,11 +107,9 @@ class HistoryChart(
         squareSize = round((height - 2 * padding) / 8.0)
         canvas.setFontSize(min(14.0, height * 0.06))
 
-        val weekdayColumnWidth = DayOfWeek.values().map { weekday ->
-            canvas.measureText(dateFormatter.shortWeekdayName(weekday)) + squareSize * 0.15
-        }.maxOrNull() ?: 0.0
+        val weekdayColumnWidth = calculateWeekdayColumnWidth(canvas)
 
-        nColumns = floor((width - 2 * padding - weekdayColumnWidth) / squareSize).toInt()
+        nColumns = calcNumOfColumns(weekdayColumnWidth)
         val firstWeekdayOffset = (
             today.dayOfWeek.daysSinceSunday -
                 firstWeekday.daysSinceSunday + 7
@@ -136,13 +134,43 @@ class HistoryChart(
             val date = topLeftDate.plus(row)
             canvas.setTextAlign(TextAlign.LEFT)
             canvas.drawText(
-                dateFormatter.shortWeekdayName(date),
-                padding + nColumns * squareSize + squareSize * 0.15,
+                weekdayDisplayName(date),
+                padding + nColumns * squareSize + 1.5,
                 padding + squareSize * (row + 1) + squareSize / 2
             )
         }
     }
 
+    private fun calcNumOfColumns(weekdayColumnWidth: Double) =
+        floor((width - 2 * padding - weekdayColumnWidth) / squareSize).toInt()
+
+    private fun weekdayDisplayName(weekday: DayOfWeek): String {
+        if (shouldUseNarrowWeekdayName()) {
+            return dateFormatter.narrowWeekdayName(weekday)
+        }
+        return dateFormatter.shortWeekdayName(weekday)
+    }
+
+    private fun weekdayDisplayName(localDate: LocalDate): String {
+        if (shouldUseNarrowWeekdayName()) {
+            return dateFormatter.narrowWeekdayName(localDate)
+        }
+        return dateFormatter.shortWeekdayName(localDate)
+    }
+
+    private fun calculateWeekdayColumnWidth(canvas: Canvas): Double {
+        if (shouldUseNarrowWeekdayName()) {
+            return 0.0
+        }
+        return DayOfWeek.values().map { weekday ->
+            canvas.measureText(weekdayDisplayName(weekday)) + 1.5
+        }.maxOrNull() ?: 0.0
+    }
+
+    private fun shouldUseNarrowWeekdayName(): Boolean {
+        // based off 80dp minWidth in widget_history_info.xml
+        return width < 80
+    }
     private fun drawColumn(
         canvas: Canvas,
         column: Int,
