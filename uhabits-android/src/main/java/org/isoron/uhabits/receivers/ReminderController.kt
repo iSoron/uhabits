@@ -37,10 +37,6 @@ class ReminderController @Inject constructor(
     private val notificationTray: NotificationTray,
     private val preferences: Preferences
 ) {
-    fun onBootCompleted() {
-        reminderScheduler.scheduleAll()
-    }
-
     fun onShowReminder(
         habit: Habit,
         timestamp: Timestamp,

@@ -72,9 +72,10 @@ class HabitsModule(dbFile: File) {
         taskRunner: TaskRunner,
         commandRunner: CommandRunner,
         preferences: Preferences,
-        screen: AndroidNotificationTray
+        screen: AndroidNotificationTray,
+        habitList: HabitList
     ): NotificationTray {
-        return NotificationTray(taskRunner, commandRunner, preferences, screen)
+        return NotificationTray(taskRunner, commandRunner, preferences, screen, habitList)
     }
 
     @Provides
