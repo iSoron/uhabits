@@ -186,7 +186,10 @@ abstract class HabitList : Iterable<Habit> {
             "Description",
             "NumRepetitions",
             "Interval",
-            "Color"
+            "Color",
+            "Unit",
+            "Target Type",
+            "Target Value"
         )
         val csv = CSVWriter(out)
         csv.writeNext(header, false)
@@ -199,7 +202,10 @@ abstract class HabitList : Iterable<Habit> {
                 habit.description,
                 numerator.toString(),
                 denominator.toString(),
-                habit.color.toCsvColor()
+                habit.color.toCsvColor(),
+                habit.unit,
+                habit.targetType.name,
+                habit.targetValue.toString()
             )
             csv.writeNext(cols, false)
         }
