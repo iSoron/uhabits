@@ -22,6 +22,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateFormats
@@ -95,7 +96,7 @@ class HabitsCSVExporter(
             File(exportDirName + habitDirName).mkdirs()
             generatedDirs.add(habitDirName)
             writeScores(habitDirName, h)
-            writeEntries(habitDirName, h.computedEntries)
+            writeEntries(habitDirName, h.computedEntries, h.type)
         }
         writeMultipleHabits()
     }
@@ -117,16 +118,63 @@ class HabitsCSVExporter(
         out.close()
     }
 
-    private fun writeEntries(habitDirName: String, entries: EntryList) {
+    private fun getEntryTypeNameFromValue(habitType: HabitType, value: Int): String {
+        // I mean the code below follows pattern
+        // If there is something in Kotlin that could do:
+        // if value <= 3: Entry.Companion.get(value).toString(), that would be nice
+        when (habitType) {
+            HabitType.NUMERICAL -> {
+                return when (value) {
+                    Entry.UNKNOWN -> { "UNKNOWN" }
+                    else -> { "" }
+                }
+            }
+            HabitType.YES_NO -> {
+                return when (value) {
+                    Entry.SKIP -> { "SKIP" }
+                    Entry.YES_AUTO -> { "YES_AUTO" }
+                    Entry.NO -> { "NO" }
+                    Entry.UNKNOWN -> { "UNKNOWN" }
+                    Entry.YES_MANUAL -> { "YES_MANUAL" }
+                    else -> { "" }
+                }
+            }
+        }
+    }
+
+    private fun writeEntries(habitDirName: String, entries: EntryList, habitType: HabitType) {
         val filename = habitDirName + "Checkmarks.csv"
         val out = FileWriter(exportDirName + filename)
         generatedFilenames.add(filename)
         val dateFormat = DateFormats.getCSVDateFormat()
         for ((timestamp, value) in entries.getKnown()) {
             val date = dateFormat.format(timestamp.toJavaDate())
-            out.write(String.format(Locale.US, "%s,%d\n", date, value))
+            out.write(String.format(Locale.US, "%s,%s\n", date, getEntryValueString(habitType, value)))
         }
         out.close()
+    }
+
+    private fun getEntryValueString(habitType: HabitType, value: Int): String {
+        when (habitType) {
+            HabitType.NUMERICAL -> {
+                val outputtedValue = getEntryTypeNameFromValue(habitType, value)
+                if (outputtedValue.isEmpty()) {
+                    // Not a stringable value
+                    return String.format(Locale.US, "%.3f", value.toDouble() / 1000.0)
+                }
+
+                return outputtedValue
+            }
+
+            HabitType.YES_NO -> {
+                val outputtedValue = getEntryTypeNameFromValue(habitType, value)
+                if (outputtedValue.isEmpty()) {
+                    throw IllegalStateException() // YES_NO habits should have named entries
+                }
+
+                return outputtedValue
+            }
+        }
     }
 
     /**
@@ -150,8 +198,9 @@ class HabitsCSVExporter(
         val timeframe = getTimeframe()
         val oldest = timeframe[0]
         val newest = DateUtils.getTodayWithOffset()
-        val checkmarks: MutableList<ArrayList<Entry>> = ArrayList()
-        val scores: MutableList<ArrayList<Score>> = ArrayList()
+        val checkmarks: ArrayList<ArrayList<Entry>> = ArrayList()
+        val scores: ArrayList<ArrayList<Score>> = ArrayList()
+
         for (habit in selectedHabits) {
             checkmarks.add(ArrayList(habit.computedEntries.getByInterval(oldest, newest)))
             scores.add(ArrayList(habit.scores.getByInterval(oldest, newest)))
@@ -167,7 +216,11 @@ class HabitsCSVExporter(
             checksWriter.write(sb.toString())
             scoresWriter.write(sb.toString())
             for (j in selectedHabits.indices) {
-                checksWriter.write(checkmarks[j][i].value.toString())
+                val check = String.format(
+                    "%s",
+                    getEntryValueString(selectedHabits[j].type, checkmarks[j][i].value)
+                )
+                checksWriter.write(check)
                 checksWriter.write(delimiter)
                 val score = String.format(Locale.US, "%.4f", scores[j][i].value)
                 scoresWriter.write(score)
