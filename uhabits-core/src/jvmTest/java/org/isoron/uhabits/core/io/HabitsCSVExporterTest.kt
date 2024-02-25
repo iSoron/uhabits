@@ -112,6 +112,9 @@ class HabitsCSVExporterTest : BaseUnitTest() {
         file.deleteOnExit()
         copyAssetToFile(assetFilename, file)
 
+        println(file.path)
+        println(assetFilename)
+
         assertTrue(
             FileUtils.contentEquals(
                 file,
