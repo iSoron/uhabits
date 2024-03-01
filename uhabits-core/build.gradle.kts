@@ -50,7 +50,7 @@ kotlin {
                 implementation("androidx.annotation:annotation:1.7.1")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
                 implementation("com.opencsv:opencsv:5.9")
-                implementation("commons-codec:commons-codec:1.16.0")
+                implementation("commons-codec:commons-codec:1.16.1")
                 implementation("org.apache.commons:commons-lang3:3.14.0")
             }
         }
