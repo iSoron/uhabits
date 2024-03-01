@@ -108,7 +108,7 @@ dependencies {
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
     androidTestImplementation("androidx.annotation:annotation:1.7.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     compileOnly("javax.annotation:jsr250-api:1.0")
