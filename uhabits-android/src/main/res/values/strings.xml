@@ -118,6 +118,9 @@
     <string name="developers">Developers</string>
     <string name="version_n">Version %s</string>
     <string name="frequency">Frequency</string>
+    <string name="widget_action">Widget Click Action</string>
+    <string name="widget_action_dialog">Open Dialog</string>
+    <string name="widget_action_increment">Increment</string>
     <string name="checkmark">Checkmark</string>
     <string name="checkmark_stack_widget" formatted="false">Checkmark Stack Widget</string>
     <string name="frequency_stack_widget" formatted="false">Frequency Stack Widget</string>
@@ -212,6 +215,7 @@
     <string name="yes_or_no_short_example">e.g. Exercise</string>
     <string name="color">Color</string>
     <string name="example_target">e.g. 15</string>
+    <string name="example_increment">e.g. 2.0</string>
     <string name="measurable_short_example">e.g. Run</string>
     <string name="measurable_question_example">e.g. How many miles did you run today?</string>
     <string name="measurable_units_example">e.g. miles</string>

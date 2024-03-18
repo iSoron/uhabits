@@ -208,6 +208,47 @@
                 </FrameLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/incrementOuterBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/widget_action" />
+                        <TextView
+                            style="@style/FormDropdown"
+                            android:id="@+id/widgetActionPicker"
+                            android:text="@string/widget_action_dialog"
+                            android:textColor="?attr/contrast100"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/incrementRightBox">
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/increment" />
+                        <EditText
+                            style="@style/FormInput"
+                            android:id="@+id/incrementInput"
+                            android:maxLines="1"
+                            android:inputType="numberDecimal"
+                            android:hint="@string/example_increment"/>
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/targetTypeOuterBox"
                 style="@style/FormOuterBox">

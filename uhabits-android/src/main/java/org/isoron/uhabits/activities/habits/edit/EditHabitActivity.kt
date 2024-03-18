@@ -85,6 +85,7 @@ class EditHabitActivity : AppCompatActivity() {
     var reminderMin = -1
     var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
     var targetType = NumericalHabitType.AT_LEAST
+    var increment = 0.0
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -105,6 +106,7 @@ class EditHabitActivity : AppCompatActivity() {
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
             targetType = habit.targetType
+            increment = habit.increment
             habit.reminder?.let {
                 reminderHour = it.hour
                 reminderMin = it.minute
@@ -115,6 +117,7 @@ class EditHabitActivity : AppCompatActivity() {
             binding.notesInput.setText(habit.description)
             binding.unitInput.setText(habit.unit)
             binding.targetInput.setText(habit.targetValue.toString())
+
         } else {
             habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
         }
@@ -128,6 +131,7 @@ class EditHabitActivity : AppCompatActivity() {
             reminderHour = state.getInt("reminderHour")
             reminderMin = state.getInt("reminderMin")
             reminderDays = WeekdayList(state.getInt("reminderDays"))
+            increment = state.getDouble("increment")
         }
 
         updateColors()
@@ -254,6 +258,23 @@ class EditHabitActivity : AppCompatActivity() {
         for (fragment in supportFragmentManager.fragments) {
             (fragment as DialogFragment).dismiss()
         }
+
+        populateWidgetAction()
+        binding.widgetActionPicker.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.select_dialog_item)
+            arrayAdapter.add(getString(R.string.widget_action_dialog))
+            arrayAdapter.add(getString(R.string.widget_action_increment))
+            builder.setAdapter(arrayAdapter) { dialog, which ->
+                increment = when (which) {
+                    1 -> 1.0
+                    else -> 0.0
+                }
+                populateWidgetAction()
+                dialog.dismiss()
+            }
+            builder.show()
+        }
     }
 
     private fun save() {
@@ -281,6 +302,7 @@ class EditHabitActivity : AppCompatActivity() {
             habit.targetValue = binding.targetInput.text.toString().toDouble()
             habit.targetType = targetType
             habit.unit = binding.unitInput.text.trim().toString()
+            habit.increment = binding.incrementInput.text.toString().toDouble()
         }
         habit.type = habitType
 
@@ -341,6 +363,19 @@ class EditHabitActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("StringFormatMatches")
+    private fun populateWidgetAction() {
+        binding.widgetActionPicker.text = when (increment){
+            0.0 -> getString(R.string.widget_action_dialog)
+            else -> getString(R.string.widget_action_increment)
+        }
+        binding.incrementInput.setText(increment.toString())
+        if (increment != 0.0)
+            binding.incrementRightBox.visibility = View.VISIBLE
+        else
+            binding.incrementRightBox.visibility = View.GONE
+    }
+
     private fun populateTargetType() {
         binding.targetTypePicker.text = when (targetType) {
             NumericalHabitType.AT_MOST -> getString(R.string.target_type_at_most)
@@ -375,6 +410,7 @@ class EditHabitActivity : AppCompatActivity() {
             putInt("reminderHour", reminderHour)
             putInt("reminderMin", reminderMin)
             putInt("reminderDays", reminderDays.toInteger())
+            putDouble("increment",increment)
         }
     }
 }
