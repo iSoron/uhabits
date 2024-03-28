@@ -99,6 +99,17 @@ class WidgetReceiver : BroadcastReceiver() {
                     widgetUpdater.updateWidgets()
                     widgetUpdater.scheduleStartDayWidgetUpdate()
                 }
+                ACTION_INCREMENT_NUMERICAL -> {
+                    Log.d(
+                        TAG,
+                        String.format(
+                            "onIncrementNumerical habit=%d timestamp=%d",
+                            data!!.habit.id,
+                            data.timestamp.unixTime
+                        )
+                    )
+                    controller.onIncrement(data.habit,data.timestamp,(data.habit.increment * 1000).toInt())
+                }
             }
         } catch (e: RuntimeException) {
             Log.e("WidgetReceiver", "could not process intent", e)
@@ -116,6 +127,7 @@ class WidgetReceiver : BroadcastReceiver() {
         const val ACTION_DISMISS_REMINDER = "org.isoron.uhabits.ACTION_DISMISS_REMINDER"
         const val ACTION_REMOVE_REPETITION = "org.isoron.uhabits.ACTION_REMOVE_REPETITION"
         const val ACTION_TOGGLE_REPETITION = "org.isoron.uhabits.ACTION_TOGGLE_REPETITION"
+        const val ACTION_INCREMENT_NUMERICAL = "org.isoron.uhabits.ACTION_INCREMENT_NUMERICAL"
         const val ACTION_UPDATE_WIDGETS_VALUE = "org.isoron.uhabits.ACTION_UPDATE_WIDGETS_VALUE"
         private const val TAG = "WidgetReceiver"
         var lastReceivedIntent: Intent? = null

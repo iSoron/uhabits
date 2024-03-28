@@ -88,6 +88,9 @@ class HabitRecord {
     @field:Column
     var uuid: String? = null
 
+    @field:Column
+    var increment: Double? = 0.0
+
     fun copyFrom(model: Habit) {
         id = model.id
         name = model.name
@@ -114,6 +117,7 @@ class HabitRecord {
             reminderMin = reminder!!.minute
             reminderDays = reminder.days.toInteger()
         }
+        increment = model.increment
     }
 
     fun copyTo(habit: Habit) {
@@ -137,5 +141,6 @@ class HabitRecord {
                 WeekdayList(reminderDays!!)
             )
         }
+        habit.increment = increment!!
     }
 }
