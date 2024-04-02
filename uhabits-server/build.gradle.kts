@@ -38,7 +38,7 @@ application {
 
 dependencies {
     val ktorVersion = "1.6.8"
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.23")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:1.4.14")
     implementation("io.ktor:ktor-server-core:$ktorVersion")
