@@ -15,6 +15,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils
+import org.isoron.uhabits.utils.getCenter
 import org.isoron.uhabits.utils.requestFocusWithKeyboard
 import org.isoron.uhabits.utils.sres
 import java.text.DecimalFormat
@@ -24,7 +25,7 @@ import java.text.ParseException
 
 class NumberDialog : AppCompatDialogFragment() {
 
-    var onToggle: (Double, String) -> Unit = { _, _ -> }
+    var onToggle: (Double, String, Float, Float) -> Unit = { _, _, _, _ -> }
     var onDismiss: () -> Unit = {}
 
     private var originalNotes: String = ""
@@ -113,7 +114,8 @@ class NumberDialog : AppCompatDialogFragment() {
             // NOP
         }
         val notes = view.notes.text.toString()
-        onToggle(value, notes)
+        val location = view.saveBtn.getCenter()
+        onToggle(value, notes, location.x, location.y)
         requireDialog().dismiss()
     }
 }
