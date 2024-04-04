@@ -108,7 +108,7 @@ class WidgetReceiver : BroadcastReceiver() {
                             data.timestamp.unixTime
                         )
                     )
-                    controller.onIncrement(data.habit,data.timestamp,(data.habit.increment * 1000).toInt())
+                    controller.onIncrement(data.habit, data.timestamp, (data.habit.increment * 1000).toInt())
                 }
             }
         } catch (e: RuntimeException) {

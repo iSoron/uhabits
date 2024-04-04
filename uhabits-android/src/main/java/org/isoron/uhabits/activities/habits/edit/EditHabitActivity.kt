@@ -117,7 +117,6 @@ class EditHabitActivity : AppCompatActivity() {
             binding.notesInput.setText(habit.description)
             binding.unitInput.setText(habit.unit)
             binding.targetInput.setText(habit.targetValue.toString())
-
         } else {
             habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
         }
@@ -366,15 +365,16 @@ class EditHabitActivity : AppCompatActivity() {
 
     @SuppressLint("StringFormatMatches")
     private fun populateWidgetAction() {
-        binding.widgetActionPicker.text = when (increment){
+        binding.widgetActionPicker.text = when (increment) {
             0.0 -> getString(R.string.widget_action_dialog)
             else -> getString(R.string.widget_action_increment)
         }
         binding.incrementInput.setText(increment.toString())
-        if (increment != 0.0)
+        if (increment != 0.0) {
             binding.incrementRightBox.visibility = View.VISIBLE
-        else
+        } else {
             binding.incrementRightBox.visibility = View.GONE
+        }
     }
 
     private fun populateTargetType() {
@@ -411,7 +411,7 @@ class EditHabitActivity : AppCompatActivity() {
             putInt("reminderHour", reminderHour)
             putInt("reminderMin", reminderMin)
             putInt("reminderDays", reminderDays.toInteger())
-            putDouble("increment",increment)
+            putDouble("increment", increment)
         }
     }
 }
