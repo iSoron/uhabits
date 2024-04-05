@@ -179,7 +179,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 putDouble("value", value)
                 putString("notes", notes)
             }
-            dialog.onToggle = { v, n -> callback.onNumberPicked(v, n) }
+            dialog.onToggle = { v, n, x, y -> callback.onNumberPicked(v, n, x, y) }
             dialog.dismissCurrentAndShow(supportFragmentManager, "numberDialog")
         }
 
@@ -196,7 +196,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
                 putInt("value", selectedValue)
                 putString("notes", notes)
             }
-            dialog.onToggle = { v, n -> callback.onNotesSaved(v, n) }
+            dialog.onToggle = { v, n, x, y -> callback.onNotesSaved(v, n, x, y) }
             dialog.dismissCurrentAndShow(supportFragmentManager, "checkmarkDialog")
         }
 

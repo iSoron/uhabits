@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import android.graphics.PointF
 import android.graphics.text.LineBreaker.BREAK_STRATEGY_BALANCED
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -154,7 +155,17 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value, notes ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp, value, notes) }
+                val location = getAbsoluteButtonLocation(timestamp)
+                habit?.let {
+                    behavior.onToggle(
+                        it,
+                        timestamp,
+                        value,
+                        notes,
+                        location.x,
+                        location.y
+                    )
+                }
             }
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
@@ -206,12 +217,27 @@ class HabitCardView(
     }
 
     fun triggerRipple(timestamp: Timestamp) {
+        val location = getRelativeButtonLocation(timestamp)
+        triggerRipple(location.x, location.y)
+    }
+
+    private fun getRelativeButtonLocation(timestamp: Timestamp): PointF {
         val today = DateUtils.getTodayWithOffset()
         val offset = timestamp.daysUntil(today) - dataOffset
         val button = checkmarkPanel.buttons[offset]
         val y = button.height / 2.0f
         val x = checkmarkPanel.x + button.x + (button.width / 2).toFloat()
-        triggerRipple(x, y)
+        return PointF(x, y)
+    }
+
+    private fun getAbsoluteButtonLocation(timestamp: Timestamp): PointF {
+        val containerLocation = IntArray(2)
+        this.getLocationOnScreen(containerLocation)
+        val relButtonLocation = getRelativeButtonLocation(timestamp)
+        return PointF(
+            containerLocation[0].toFloat() + relButtonLocation.x,
+            containerLocation[1].toFloat() - relButtonLocation.y
+        )
     }
 
     override fun onAttachedToWindow() {

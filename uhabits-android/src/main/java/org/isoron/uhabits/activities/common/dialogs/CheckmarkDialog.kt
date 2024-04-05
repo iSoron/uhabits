@@ -33,17 +33,19 @@ import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
+import org.isoron.uhabits.utils.getCenter
 import org.isoron.uhabits.utils.sres
 
 class CheckmarkDialog : AppCompatDialogFragment() {
-    var onToggle: (Int, String) -> Unit = { _, _ -> }
+    var onToggle: (Int, String, Float, Float) -> Unit = { _, _, _, _ -> }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val appComponent = (requireActivity().application as HabitsApplication).component
         val prefs = appComponent.preferences
         val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
+        val color = requireArguments().getInt("color")
         arrayOf(view.yesBtn, view.skipBtn).forEach {
-            it.setTextColor(requireArguments().getInt("color"))
+            it.setTextColor(color)
         }
         arrayOf(view.noBtn, view.unknownBtn).forEach {
             it.setTextColor(view.root.sres.getColor(R.attr.contrast60))
@@ -62,7 +64,8 @@ class CheckmarkDialog : AppCompatDialogFragment() {
         }
         fun onClick(v: Int) {
             val notes = view.notes.text.toString().trim()
-            onToggle(v, notes)
+            val location = view.yesBtn.getCenter()
+            onToggle(v, notes, location.x, location.y)
             requireDialog().dismiss()
         }
         view.yesBtn.setOnClickListener { onClick(YES_MANUAL) }

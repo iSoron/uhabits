@@ -26,6 +26,7 @@ import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PointF
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.SystemClock
@@ -135,7 +136,11 @@ fun Activity.startActivitySafely(intent: Intent) {
     }
 }
 
-fun Activity.showSendEmailScreen(@StringRes toId: Int, @StringRes subjectId: Int, content: String?) {
+fun Activity.showSendEmailScreen(
+    @StringRes toId: Int,
+    @StringRes subjectId: Int,
+    content: String?
+) {
     val to = this.getString(toId)
     val subject = this.getString(subjectId)
     this.startActivity(
@@ -231,4 +236,12 @@ fun View.requestFocusWithKeyboard() {
         dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_DOWN, 0f, 0f, 0))
         dispatchTouchEvent(MotionEvent.obtain(time, time, MotionEvent.ACTION_UP, 0f, 0f, 0))
     }, 250)
+}
+
+fun View.getCenter(): PointF {
+    val viewLocation = IntArray(2)
+    this.getLocationOnScreen(viewLocation)
+    viewLocation[0] += this.width / 2
+    viewLocation[1] -= this.height / 2
+    return PointF(viewLocation[0].toFloat(), viewLocation[1].toFloat())
 }

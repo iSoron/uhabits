@@ -91,10 +91,16 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+        disable += "GradleDependency"
+        warningsAsErrors = true
+    }
 }
 
 dependencies {
-    val daggerVersion = "2.50"
+    val daggerVersion = "2.51.1"
     val kotlinVersion = "1.9.22"
     val kxCoroutinesVersion = "1.7.3"
     val ktorVersion = "1.6.8"
@@ -116,7 +122,7 @@ dependencies {
     implementation("com.github.AppIntro:AppIntro:6.3.1")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
-    implementation("com.google.guava:guava:33.0.0-android")
+    implementation("com.google.guava:guava:33.1.0-android")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-jackson:$ktorVersion")
@@ -129,6 +135,7 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.opencsv:opencsv:5.9")
+    implementation("nl.dionsegijn:konfetti-xml:2.0.2")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
