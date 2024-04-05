@@ -227,7 +227,7 @@ abstract class DateUtils {
         fun getStartOfTodayWithOffset(): Long = getStartOfDayWithOffset(getLocalTime())
 
         @JvmStatic
-        fun millisecondsUntilTomorrowWithOffset(): Long = getStartOfTomorrowWithOffset() - getLocalTime()
+        fun millisecondsUntilTomorrowWithOffset(): Long = getStartOfTomorrowWithOffset() - applyTimezone(getLocalTime())
 
         @JvmStatic
         fun getStartOfTodayCalendar(): GregorianCalendar = getCalendar(getStartOfToday())

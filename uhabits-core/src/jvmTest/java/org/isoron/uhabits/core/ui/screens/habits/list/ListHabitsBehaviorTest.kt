@@ -84,7 +84,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
             eq(""),
             picker.capture()
         )
-        picker.lastValue.onNumberPicked(100.0, "")
+        picker.lastValue.onNumberPicked(100.0, "", 0f, 0f)
         val today = getTodayWithOffset()
         assertThat(habit2.computedEntries.get(today).value, equalTo(100000))
     }
@@ -168,7 +168,9 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
             habit = habit1,
             timestamp = getToday(),
             value = Entry.NO,
-            notes = ""
+            notes = "",
+            x = 0f,
+            y = 0f
         )
         assertFalse(habit1.isCompletedToday())
     }

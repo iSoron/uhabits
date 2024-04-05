@@ -125,4 +125,30 @@ class WidgetTheme : LightTheme() {
     override val highContrastTextColor = Color.WHITE
     override val mediumContrastTextColor = Color.WHITE.withAlpha(0.50)
     override val lowContrastTextColor = Color.WHITE.withAlpha(0.10)
+
+    override fun color(paletteIndex: Int): Color {
+        return when (paletteIndex) {
+            0 -> Color(0xD32F2F)
+            1 -> Color(0xE64A19)
+            2 -> Color(0xF57C00)
+            3 -> Color(0xFF8F00)
+            4 -> Color(0xF9A825)
+            5 -> Color(0xAFB42B)
+            6 -> Color(0x7CB342)
+            7 -> Color(0x388E3C)
+            8 -> Color(0x00897B)
+            9 -> Color(0x00ACC1)
+            10 -> Color(0x039BE5)
+            11 -> Color(0x1976D2)
+            12 -> Color(0x6275f0)
+            13 -> Color(0x5E35B1)
+            14 -> Color(0x8E24AA)
+            15 -> Color(0xD81B60)
+            16 -> Color(0x5D4037)
+            17 -> Color(0x757575)
+            18 -> Color(0x757575)
+            19 -> Color(0x9E9E9E)
+            else -> Color(0x000000)
+        }
+    }
 }

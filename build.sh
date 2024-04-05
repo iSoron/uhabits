@@ -182,7 +182,7 @@ android_test() {
         OUT_INSTRUMENT=${ANDROID_OUTPUTS_DIR}/instrument-${API}.txt
         OUT_LOGCAT=${ANDROID_OUTPUTS_DIR}/logcat-${API}.txt
         FAILED_TESTS=""
-        for i in {1..5}; do
+        for i in {1..10}; do
             log_info "Running $size instrumented tests (attempt $i)..."
             $ADB shell am instrument \
                 -r -e coverage true -e size "$size" $FAILED_TESTS \

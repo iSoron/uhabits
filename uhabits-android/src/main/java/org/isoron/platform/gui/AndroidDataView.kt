@@ -44,21 +44,21 @@ class AndroidDataView(
         addUpdateListener(this@AndroidDataView)
     }
 
-    override fun onTouchEvent(event: MotionEvent?) = detector.onTouchEvent(event)
-    override fun onDown(e: MotionEvent?) = true
-    override fun onShowPress(e: MotionEvent?) = Unit
+    override fun onTouchEvent(event: MotionEvent) = detector.onTouchEvent(event)
+    override fun onDown(e: MotionEvent) = true
+    override fun onShowPress(e: MotionEvent) = Unit
 
-    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+    override fun onSingleTapUp(e: MotionEvent): Boolean {
         return handleClick(e, true)
     }
 
-    override fun onLongPress(e: MotionEvent?) {
+    override fun onLongPress(e: MotionEvent) {
         handleClick(e)
     }
 
     override fun onScroll(
         e1: MotionEvent?,
-        e2: MotionEvent?,
+        e2: MotionEvent,
         dx: Float,
         dy: Float
     ): Boolean {
@@ -80,7 +80,7 @@ class AndroidDataView(
 
     override fun onFling(
         e1: MotionEvent?,
-        e2: MotionEvent?,
+        e2: MotionEvent,
         velocityX: Float,
         velocityY: Float
     ): Boolean {
@@ -100,7 +100,7 @@ class AndroidDataView(
         return false
     }
 
-    override fun onAnimationUpdate(animation: ValueAnimator?) {
+    override fun onAnimationUpdate(animation: ValueAnimator) {
         if (!scroller.isFinished) {
             scroller.computeScrollOffset()
             updateDataOffset()
@@ -127,11 +127,11 @@ class AndroidDataView(
         }
     }
 
-    private fun handleClick(e: MotionEvent?, isSingleTap: Boolean = false): Boolean {
+    private fun handleClick(e: MotionEvent, isSingleTap: Boolean = false): Boolean {
         val x: Float
         val y: Float
         try {
-            val pointerId = e!!.getPointerId(0)
+            val pointerId = e.getPointerId(0)
             x = e.getX(pointerId)
             y = e.getY(pointerId)
         } catch (ex: RuntimeException) {

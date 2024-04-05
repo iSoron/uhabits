@@ -25,6 +25,7 @@ import android.app.AlarmManager.RTC_WAKEUP
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
+import android.os.Build
 import android.util.Log
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
@@ -54,6 +55,10 @@ class IntentScheduler
                 "IntentScheduler",
                 "Ignoring attempt to schedule intent in the past."
             )
+            return SchedulerResult.IGNORED
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !manager.canScheduleExactAlarms()) {
+            Log.e("IntentScheduler", "No permission to schedule exact alarms")
             return SchedulerResult.IGNORED
         }
         manager.setExactAndAllowWhileIdle(alarmType, timestamp, intent)

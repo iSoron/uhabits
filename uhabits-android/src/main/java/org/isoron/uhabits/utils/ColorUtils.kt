@@ -36,6 +36,13 @@ object ColorUtils {
         return a or r or g or b
     }
 
+    fun changeHue(color: Int, delta: Float): Int {
+        val hsv = FloatArray(3)
+        Color.colorToHSV(color, hsv)
+        hsv[0] = (hsv[0] + delta).mod(360f)
+        return Color.HSVToColor(hsv)
+    }
+
     @JvmStatic
     fun setAlpha(color: Int, newAlpha: Float): Int {
         val intAlpha = (newAlpha * 255).toInt()

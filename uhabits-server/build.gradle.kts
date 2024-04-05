@@ -22,7 +22,11 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     application
     id("kotlin")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 
@@ -34,11 +38,9 @@ application {
 
 dependencies {
     val ktorVersion = "1.6.8"
-    val kotlinVersion = "1.7.21"
-    val logbackVersion = "1.4.5"
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-html-builder:$ktorVersion")
     implementation("io.ktor:ktor-jackson:$ktorVersion")
@@ -47,7 +49,7 @@ dependencies {
     implementation("io.prometheus:simpleclient_httpserver:0.16.0")
     implementation("io.prometheus:simpleclient_hotspot:0.16.0")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
 }
@@ -57,3 +59,4 @@ tasks.withType<ShadowJar> {
     archiveClassifier.set("")
     archiveVersion.set("")
 }
+

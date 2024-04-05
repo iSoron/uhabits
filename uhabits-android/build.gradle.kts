@@ -18,8 +18,8 @@
  */
 
 plugins {
-    id("com.github.triplet.play") version "3.7.0"
-    id("com.android.application") version "7.4.2"
+    id("com.github.triplet.play") version "3.8.6"
+    id("com.android.application") version "8.1.4"
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("org.jlleitschuh.gradle.ktlint")
@@ -29,15 +29,27 @@ tasks.compileLint {
     dependsOn("updateTranslators")
 }
 
+/*
+Added on top of kotlinOptions to work around this issue:
+https://youtrack.jetbrains.com/issue/KTIJ-24311/task-current-target-is-17-and-kaptGenerateStubsProductionDebugKotlin-task-current-target-is-1.8-jvm-target-compatibility-should#focus=Comments-27-6798448.0-0
+Updating gradle might fix this, so try again in the future to remove this and run:
+./gradlew --rerun-tasks :uhabits-android:kaptGenerateStubsReleaseKotlin
+If this doesn't produce any warning, try to remove it.
+ */
+kotlin {
+    jvmToolchain(11)
+}
+
 android {
 
-    compileSdk = 32
+    namespace = "org.isoron.uhabits"
+    compileSdk = 34
 
     defaultConfig {
         versionCode = 20200
         versionName = "2.2.0"
         minSdk = 28
-        targetSdk = 32
+        targetSdk = 34
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -69,8 +81,11 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        targetCompatibility(JavaVersion.VERSION_1_8)
-        sourceCompatibility(JavaVersion.VERSION_1_8)
+        targetCompatibility(JavaVersion.VERSION_11)
+        sourceCompatibility(JavaVersion.VERSION_11)
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     buildFeatures {
@@ -84,9 +99,9 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.46"
-    val kotlinVersion = "1.7.21"
-    val kxCoroutinesVersion = "1.6.4"
+    val daggerVersion = "2.51.1"
+    val kotlinVersion = "1.9.22"
+    val kxCoroutinesVersion = "1.7.3"
     val ktorVersion = "1.6.8"
     val espressoVersion = "3.5.1"
 
@@ -96,17 +111,17 @@ dependencies {
     androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
-    androidTestImplementation("androidx.annotation:annotation:1.5.0")
+    androidTestImplementation("androidx.annotation:annotation:1.7.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     compileOnly("javax.annotation:jsr250-api:1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
-    implementation("com.github.AppIntro:AppIntro:6.2.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("com.github.AppIntro:AppIntro:6.3.1")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
-    implementation("com.google.guava:guava:31.1-android")
+    implementation("com.google.guava:guava:33.1.0-android")
     implementation("io.ktor:ktor-client-android:$ktorVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-jackson:$ktorVersion")
@@ -114,17 +129,18 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kxCoroutinesVersion")
-    implementation("androidx.appcompat:appcompat:1.5.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.android.material:material:1.8.0")
-    implementation("com.opencsv:opencsv:5.7.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.opencsv:opencsv:5.9")
+    implementation("nl.dionsegijn:konfetti-xml:2.0.2")
     implementation(project(":uhabits-core"))
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("com.google.dagger:dagger:$daggerVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
 }
 
 kapt {

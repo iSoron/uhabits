@@ -17,3 +17,4 @@ node_modules
 *xcuserdata*
 *.sketch
 crowdin.yml
+kotlin-js-store

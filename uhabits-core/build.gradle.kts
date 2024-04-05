@@ -24,6 +24,7 @@ plugins {
 
 kotlin {
     jvm().withJava()
+    jvmToolchain(11)
 
     sourceSets {
         val commonMain by getting {
@@ -43,14 +44,14 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                compileOnly("com.google.dagger:dagger:2.46")
-                implementation("com.google.guava:guava:31.1-android")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-                implementation("androidx.annotation:annotation:1.5.0")
+                compileOnly("com.google.dagger:dagger:2.51.1")
+                implementation("com.google.guava:guava:33.1.0-android")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
+                implementation("androidx.annotation:annotation:1.7.1")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
-                implementation("com.opencsv:opencsv:5.7.1")
-                implementation("commons-codec:commons-codec:1.15")
-                implementation("org.apache.commons:commons-lang3:3.12.0")
+                implementation("com.opencsv:opencsv:5.9")
+                implementation("commons-codec:commons-codec:1.16.0")
+                implementation("org.apache.commons:commons-lang3:3.14.0")
             }
         }
 
@@ -58,11 +59,11 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
-                implementation("org.xerial:sqlite-jdbc:3.40.0.0")
+                implementation("org.xerial:sqlite-jdbc:3.45.1.0")
                 implementation("org.hamcrest:hamcrest:2.2")
                 implementation("org.apache.commons:commons-io:1.3.2")
-                implementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
-                implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+                implementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+                implementation("org.junit.jupiter:junit-jupiter:5.10.1")
             }
         }
     }
