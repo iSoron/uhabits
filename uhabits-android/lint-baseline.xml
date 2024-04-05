@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 7.4.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.4.2)" variant="all" version="7.4.2">
+<issues format="6" by="lint 8.1.4" type="baseline" client="gradle" dependencies="false" name="AGP (8.1.4)" variant="all" version="8.1.4">
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="            notificationManager.notify(notificationId, notification)"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/org/isoron/uhabits/notifications/AndroidNotificationTray.kt"
+            line="75"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingPermission"
+        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        errorLine1="            notificationManager.notify(notificationId, n)"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/org/isoron/uhabits/notifications/AndroidNotificationTray.kt"
+            line="88"
+            column="13"/>
+    </issue>
 
     <issue
         id="MissingPermission"
@@ -8,7 +30,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/isoron/uhabits/receivers/ReminderController.kt"
-            line="73"
+            line="79"
             column="17"/>
     </issue>
 
@@ -30,7 +52,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/android/datetimepicker/time/RadialPickerLayout.java"
-            line="199"
+            line="198"
             column="21"/>
     </issue>
 
@@ -41,7 +63,7 @@
         errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/android/datetimepicker/time/RadialPickerLayout.java"
-            line="199"
+            line="198"
             column="58"/>
     </issue>
 
@@ -52,7 +74,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/android/datetimepicker/time/RadialPickerLayout.java"
-            line="200"
+            line="199"
             column="34"/>
     </issue>
 
@@ -63,7 +85,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/android/datetimepicker/time/RadialPickerLayout.java"
-            line="201"
+            line="200"
             column="31"/>
     </issue>
 
@@ -123,13 +145,13 @@
     </issue>
 
     <issue
-        id="OldTargetApi"
-        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details."
-        errorLine1="        targetSdk = 32"
-        errorLine2="        ~~~~~~~~~~~~~~">
+        id="UnusedAttribute"
+        message="Attribute `localeConfig` is only used in API level 33 and higher (current min is 28)"
+        errorLine1="        android:localeConfig=&quot;@xml/locales_config&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="build.gradle.kts"
-            line="40"
+            file="src/main/AndroidManifest.xml"
+            line="33"
             column="9"/>
     </issue>
 
@@ -140,7 +162,7 @@
         errorLine2="                                 ~~~~~~~~~">
         <location
             file="src/main/java/org/isoron/uhabits/activities/settings/SettingsFragment.kt"
-            line="90"
+            line="92"
             column="34"/>
     </issue>
 
@@ -195,7 +217,7 @@
         errorLine2="                                              ~~~~">
         <location
             file="src/main/java/org/isoron/uhabits/utils/ViewExtensions.kt"
-            line="98"
+            line="99"
             column="47"/>
     </issue>
 
@@ -217,7 +239,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="50"
+            line="52"
             column="13"/>
     </issue>
 
@@ -245,57 +267,13 @@
 
     <issue
         id="GradleDependency"
-        message="A newer version of androidx.annotation:annotation than 1.5.0 is available: 1.6.0"
-        errorLine1="    androidTestImplementation(&quot;androidx.annotation:annotation:1.5.0&quot;)"
-        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="build.gradle.kts"
-            line="98"
-            column="32"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of org.mockito.kotlin:mockito-kotlin than 2.2.11 is available: 5.0.0"
-        errorLine1="    androidTestImplementation(&quot;org.mockito.kotlin:mockito-kotlin:2.2.11&quot;)"
-        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="build.gradle.kts"
-            line="102"
-            column="32"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.appcompat:appcompat than 1.5.1 is available: 1.6.1"
-        errorLine1="    implementation(&quot;androidx.appcompat:appcompat:1.5.1&quot;)"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        message="A newer version of androidx.test.uiautomator:uiautomator than 2.2.0 is available: 2.3.0"
+        errorLine1="    androidTestImplementation(&quot;androidx.test.uiautomator:uiautomator:2.2.0&quot;)"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="build.gradle.kts"
             line="116"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of com.google.android.material:material than 1.8.0 is available: 1.9.0"
-        errorLine1="    implementation(&quot;com.google.android.material:material:1.8.0&quot;)"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="build.gradle.kts"
-            line="119"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of org.mockito.kotlin:mockito-kotlin than 2.2.11 is available: 5.0.0"
-        errorLine1="    testImplementation(&quot;org.mockito.kotlin:mockito-kotlin:2.2.11&quot;)"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="build.gradle.kts"
-            line="126"
-            column="25"/>
+            column="32"/>
     </issue>
 
     <issue
@@ -434,12 +412,78 @@
 
     <issue
         id="MissingQuantity"
+        message="For locale &quot;ca&quot; (Catalan) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_changed&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-ca-rES/strings.xml"
+            line="31"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;es&quot; (Spanish) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_changed&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-es-rES/strings.xml"
+            line="31"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
         message="For locale &quot;fr&quot; (French) the following quantity should also be defined: `many` (e.g. &quot;1000000 de jours&quot;)"
         errorLine1="    &lt;plurals name=&quot;toast_habits_changed&quot;>"
         errorLine2="    ^">
         <location
             file="src/main/res/values-fr-rFR/strings.xml"
             line="31"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;it&quot; (Italian) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_changed&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-it-rIT/strings.xml"
+            line="31"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;pt&quot; (Portuguese) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_changed&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-pt-rBR/strings.xml"
+            line="31"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;ca&quot; (Catalan) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_unarchived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-ca-rES/strings.xml"
+            line="35"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;es&quot; (Spanish) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_deleted&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-es-rES/strings.xml"
+            line="35"
             column="5"/>
     </issue>
 
@@ -456,12 +500,78 @@
 
     <issue
         id="MissingQuantity"
+        message="For locale &quot;it&quot; (Italian) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_deleted&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-it-rIT/strings.xml"
+            line="35"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;pt&quot; (Portuguese) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_deleted&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-pt-rBR/strings.xml"
+            line="35"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;es&quot; (Spanish) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_archived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-es-rES/strings.xml"
+            line="39"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
         message="For locale &quot;fr&quot; (French) the following quantity should also be defined: `many` (e.g. &quot;1000000 de jours&quot;)"
         errorLine1="    &lt;plurals name=&quot;toast_habits_archived&quot;>"
         errorLine2="    ^">
         <location
             file="src/main/res/values-fr-rFR/strings.xml"
             line="39"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;it&quot; (Italian) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_archived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-it-rIT/strings.xml"
+            line="39"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;pt&quot; (Portuguese) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_archived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-pt-rBR/strings.xml"
+            line="39"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;es&quot; (Spanish) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_unarchived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-es-rES/strings.xml"
+            line="43"
             column="5"/>
     </issue>
 
@@ -478,6 +588,61 @@
 
     <issue
         id="MissingQuantity"
+        message="For locale &quot;it&quot; (Italian) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_unarchived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-it-rIT/strings.xml"
+            line="43"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;pt&quot; (Portuguese) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_unarchived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-pt-rBR/strings.xml"
+            line="43"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;ca&quot; (Catalan) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_title&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-ca-rES/strings.xml"
+            line="80"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;ca&quot; (Catalan) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_message&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-ca-rES/strings.xml"
+            line="84"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;es&quot; (Spanish) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_title&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-es-rES/strings.xml"
+            line="89"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
         message="For locale &quot;fr&quot; (French) the following quantity should also be defined: `many` (e.g. &quot;1000000 de jours&quot;)"
         errorLine1="    &lt;plurals name=&quot;delete_habits_title&quot;>"
         errorLine2="    ^">
@@ -489,11 +654,66 @@
 
     <issue
         id="MissingQuantity"
+        message="For locale &quot;it&quot; (Italian) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_title&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-it-rIT/strings.xml"
+            line="89"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;pt&quot; (Portuguese) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_title&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-pt-rBR/strings.xml"
+            line="89"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;es&quot; (Spanish) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_message&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-es-rES/strings.xml"
+            line="93"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
         message="For locale &quot;fr&quot; (French) the following quantity should also be defined: `many` (e.g. &quot;1000000 de jours&quot;)"
         errorLine1="    &lt;plurals name=&quot;delete_habits_message&quot;>"
         errorLine2="    ^">
         <location
             file="src/main/res/values-fr-rFR/strings.xml"
+            line="93"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;it&quot; (Italian) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_message&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-it-rIT/strings.xml"
+            line="93"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="MissingQuantity"
+        message="For locale &quot;pt&quot; (Portuguese) the following quantity should also be defined: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_message&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-pt-rBR/strings.xml"
             line="93"
             column="5"/>
     </issue>
@@ -1235,13 +1455,79 @@
     </issue>
 
     <issue
+        id="UnusedQuantity"
+        message="For language &quot;iw&quot; (Hebrew) the following quantities are not relevant: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_changed&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-iw-rIL/strings.xml"
+            line="31"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedQuantity"
+        message="For language &quot;iw&quot; (Hebrew) the following quantities are not relevant: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_deleted&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-iw-rIL/strings.xml"
+            line="37"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedQuantity"
+        message="For language &quot;iw&quot; (Hebrew) the following quantities are not relevant: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_archived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-iw-rIL/strings.xml"
+            line="43"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedQuantity"
+        message="For language &quot;iw&quot; (Hebrew) the following quantities are not relevant: `many`"
+        errorLine1="    &lt;plurals name=&quot;toast_habits_unarchived&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-iw-rIL/strings.xml"
+            line="49"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedQuantity"
+        message="For language &quot;iw&quot; (Hebrew) the following quantities are not relevant: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_title&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-iw-rIL/strings.xml"
+            line="97"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UnusedQuantity"
+        message="For language &quot;iw&quot; (Hebrew) the following quantities are not relevant: `many`"
+        errorLine1="    &lt;plurals name=&quot;delete_habits_message&quot;>"
+        errorLine2="    ^">
+        <location
+            file="src/main/res/values-iw-rIL/strings.xml"
+            line="103"
+            column="5"/>
+    </issue>
+
+    <issue
         id="ExportedReceiver"
         message="Exported receiver does not require permission"
         errorLine1="        &lt;receiver"
         errorLine2="         ~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="270"
+            line="272"
             column="10"/>
     </issue>
 
@@ -1252,7 +1538,7 @@
         errorLine2="                                ~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="221"
+            line="223"
             column="33"/>
     </issue>
 
@@ -1285,7 +1571,7 @@
         errorLine2="                                                    ~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/isoron/uhabits/activities/habits/list/ListHabitsScreen.kt"
-            line="131"
+            line="136"
             column="53"/>
     </issue>
 
@@ -4152,7 +4438,7 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="250"
+            line="251"
             column="12"/>
     </issue>
 
@@ -4163,7 +4449,7 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="254"
+            line="255"
             column="12"/>
     </issue>
 
@@ -4174,7 +4460,7 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="258"
+            line="259"
             column="12"/>
     </issue>
 
@@ -4185,7 +4471,7 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="369"
+            line="370"
             column="12"/>
     </issue>
 
@@ -4196,7 +4482,7 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="378"
+            line="379"
             column="12"/>
     </issue>
 
@@ -4207,7 +4493,7 @@
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/styles.xml"
-            line="416"
+            line="417"
             column="12"/>
     </issue>
 
@@ -4853,13 +5139,13 @@
         id="IconDipSize"
         message="The image `ic_launcher_monochrome.png` varies significantly in its density-independent (dip) size across the various density versions: mipmap-hdpi/ic_launcher_monochrome.png: 108x108 dp (162x162 px), mipmap-mdpi/ic_launcher_monochrome.png: 162x162 dp (162x162 px), mipmap-xhdpi/ic_launcher_monochrome.png: 108x108 dp (216x216 px), mipmap-xxhdpi/ic_launcher_monochrome.png: 108x108 dp (324x324 px), mipmap-xxxhdpi/ic_launcher_monochrome.png: 108x108 dp (432x432 px)">
         <location
-            file="src/main/res/mipmap-xxxhdpi/ic_launcher_monochrome.png"/>
+            file="src/main/res/mipmap-xxhdpi/ic_launcher_monochrome.png"/>
         <location
             file="src/main/res/mipmap-xhdpi/ic_launcher_monochrome.png"/>
         <location
-            file="src/main/res/mipmap-xxhdpi/ic_launcher_monochrome.png"/>
-        <location
             file="src/main/res/mipmap-hdpi/ic_launcher_monochrome.png"/>
+        <location
+            file="src/main/res/mipmap-xxxhdpi/ic_launcher_monochrome.png"/>
         <location
             file="src/main/res/mipmap-mdpi/ic_launcher_monochrome.png"/>
     </issue>
@@ -5110,7 +5396,7 @@
         errorLine2="      ~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/isoron/uhabits/activities/habits/list/views/HabitCardView.kt"
-            line="60"
+            line="61"
             column="7"/>
     </issue>
 
@@ -5143,7 +5429,7 @@
         errorLine2="      ~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/isoron/uhabits/activities/habits/list/ListHabitsRootView.kt"
-            line="59"
+            line="60"
             column="7"/>
     </issue>
 
@@ -5205,7 +5491,7 @@
     <issue
         id="ClickableViewAccessibility"
         message="Custom view `AndroidDataView` overrides `onTouchEvent` but not `performClick`"
-        errorLine1="    override fun onTouchEvent(event: MotionEvent?) = detector.onTouchEvent(event)"
+        errorLine1="    override fun onTouchEvent(event: MotionEvent) = detector.onTouchEvent(event)"
         errorLine2="                 ~~~~~~~~~~~~">
         <location
             file="src/main/java/org/isoron/platform/gui/AndroidDataView.kt"
@@ -5242,7 +5528,7 @@
         errorLine2="                               ^">
         <location
             file="src/main/java/org/isoron/uhabits/activities/habits/list/views/HabitCardView.kt"
-            line="184"
+            line="195"
             column="32"/>
     </issue>
 
@@ -7767,7 +8053,7 @@
 
     <issue
         id="RtlHardcoded"
-        message="Redundant attribute `paddingLeft`; already defining `paddingStart` with `targetSdkVersion` 32"
+        message="Redundant attribute `paddingLeft`; already defining `paddingStart` with `targetSdkVersion` 34"
         errorLine1="          android:paddingLeft=&quot;?android:attr/listPreferredItemPaddingLeft&quot;"
         errorLine2="          ~~~~~~~~~~~~~~~~~~~">
         <location
@@ -7778,7 +8064,7 @@
 
     <issue
         id="RtlHardcoded"
-        message="Redundant attribute `layout_alignParentRight`; already defining `layout_alignParentEnd` with `targetSdkVersion` 32"
+        message="Redundant attribute `layout_alignParentRight`; already defining `layout_alignParentEnd` with `targetSdkVersion` 34"
         errorLine1="            android:layout_alignParentRight=&quot;true&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -7789,7 +8075,7 @@
 
     <issue
         id="RtlHardcoded"
-        message="Redundant attribute `layout_alignParentRight`; already defining `layout_alignParentEnd` with `targetSdkVersion` 32"
+        message="Redundant attribute `layout_alignParentRight`; already defining `layout_alignParentEnd` with `targetSdkVersion` 34"
         errorLine1="            android:layout_alignParentRight=&quot;true&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -7800,7 +8086,7 @@
 
     <issue
         id="RtlHardcoded"
-        message="Redundant attribute `layout_alignParentLeft`; already defining `layout_alignParentStart` with `targetSdkVersion` 32"
+        message="Redundant attribute `layout_alignParentLeft`; already defining `layout_alignParentStart` with `targetSdkVersion` 34"
         errorLine1="            android:layout_alignParentLeft=&quot;true&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -7811,7 +8097,7 @@
 
     <issue
         id="RtlHardcoded"
-        message="Redundant attribute `layout_alignParentRight`; already defining `layout_alignParentEnd` with `targetSdkVersion` 32"
+        message="Redundant attribute `layout_alignParentRight`; already defining `layout_alignParentEnd` with `targetSdkVersion` 34"
         errorLine1="            android:layout_alignParentRight=&quot;true&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -7822,7 +8108,7 @@
 
     <issue
         id="RtlHardcoded"
-        message="Redundant attribute `layout_alignParentLeft`; already defining `layout_alignParentStart` with `targetSdkVersion` 32"
+        message="Redundant attribute `layout_alignParentLeft`; already defining `layout_alignParentStart` with `targetSdkVersion` 34"
         errorLine1="            android:layout_alignParentLeft=&quot;true&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
