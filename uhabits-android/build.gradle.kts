@@ -94,6 +94,7 @@ android {
 
     lint {
         baseline = file("lint-baseline.xml")
+        disable += "GradleDependency"
         warningsAsErrors = true
     }
 }
