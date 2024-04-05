@@ -120,11 +120,10 @@ class DateUtilsTest : BaseUnitTest() {
 
     @Test
     fun getWeekdaysInMonth() {
-        fun getCalendarUTC(year: Int, month: Int, dayOfMonth: Int): GregorianCalendar {
-            val gregCalendar = GregorianCalendar(year, month, dayOfMonth)
-            gregCalendar.timeZone = TimeZone.getTimeZone("UTC")
-            return gregCalendar
-        }
+        fun getCalendarUTC(year: Int, month: Int, dayOfMonth: Int) =
+            GregorianCalendar(year, month, dayOfMonth).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }
 
         val february = getCalendarUTC(2018, Calendar.FEBRUARY, 1)
         val leapFebruary = getCalendarUTC(2020, Calendar.FEBRUARY, 1)
