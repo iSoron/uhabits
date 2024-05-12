@@ -67,13 +67,45 @@ object CommonSteps : BaseUserInterfaceTest() {
         device.waitForIdle()
     }
 
+    fun longClickAndDragTo(start: String, target: String) {
+        val startObject = device.findObject(UiSelector().text(start))
+        val targetObject = device.findObject(UiSelector().text(target))
+
+        val startBounds = startObject.bounds
+        val targetBounds = targetObject.bounds
+
+        val startX = startBounds.centerX()
+        val startY = startBounds.centerY()
+        val endX = targetBounds.centerX()
+        val endY = targetBounds.centerY()
+
+        // High level API workaround to simulate a long press followed by a drag.
+        // We use device.swipe with an array of points.
+        // The first few segments stay at the exact same start position,
+        // which forces the device to hold the touch (long press).
+        val points = arrayOf(
+            android.graphics.Point(startX, startY),
+            android.graphics.Point(startX, startY),
+            android.graphics.Point(startX, startY),
+            android.graphics.Point(startX, startY),
+            android.graphics.Point(startX, startY), // multiple points to hold position
+            android.graphics.Point(endX, endY)
+        )
+
+        // 50 steps per segment means each segment takes ~250ms.
+        // 4 stationary segments = ~1000ms hold before moving, triggering the drag-and-drop state.
+        device.swipe(points, 50)
+
+        device.waitForIdle()
+    }
+
     fun pressHome() {
         device.pressHome()
         device.waitForIdle()
     }
 
     fun offsetHeaders() {
-        device.swipe(500, 160, 350, 160, 20)
+        device.swipe(500, withOffset(250), 350, withOffset(250), 20)
     }
 
     fun scrollToText(text: String?) {
@@ -100,6 +132,46 @@ object CommonSteps : BaseUserInterfaceTest() {
         verifyDisplaysView("ScoreCardView")
     }
 
+    fun verifyDisplaysMeasurableGraphs() {
+        verifyDisplaysView("TargetCardView")
+        verifyDisplaysView("BarCardView")
+        verifyDisplaysView("ScoreCardView")
+        verifyDisplaysView("FrequencyCardView")
+    }
+
+    fun verifyDisplaysYesNoGraphs() {
+        verifyDisplaysView("BarCardView")
+        verifyDisplaysView("ScoreCardView")
+        verifyDisplaysView("StreakCardView")
+        verifyDisplaysView("FrequencyCardView")
+    }
+
+    fun verifyDisplayAddButton(habitGroup: String? = null) {
+        var matcher = CoreMatchers.allOf(
+            ViewMatchers.withClassName(CoreMatchers.endsWith("AddButtonView")),
+            ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+        )
+        if (habitGroup != null) {
+            matcher = CoreMatchers.allOf(matcher, ViewMatchers.hasSibling(ViewMatchers.withText(habitGroup)))
+        }
+
+        Espresso.onView(matcher).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        device.waitForIdle()
+    }
+
+    fun verifyHiddenAddButton(habitGroup: String? = null) {
+        var matcher = CoreMatchers.allOf(
+            ViewMatchers.withClassName(CoreMatchers.endsWith("AddButtonView")),
+            ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)
+        )
+        if (habitGroup != null) {
+            matcher = CoreMatchers.allOf(matcher, ViewMatchers.hasSibling(ViewMatchers.withText(habitGroup)))
+        }
+
+        Espresso.onView(matcher).check(ViewAssertions.doesNotExist())
+        device.waitForIdle()
+    }
+
     fun verifyDisplaysText(text: String?) {
         scrollToText(text)
         Espresso.onView(ViewMatchers.withText(text))
@@ -123,6 +195,12 @@ object CommonSteps : BaseUserInterfaceTest() {
     private fun verifyDisplaysView(className: String) {
         Espresso.onView(ViewMatchers.withClassName(CoreMatchers.endsWith(className)))
             .check(ViewAssertions.matches(ViewMatchers.isEnabled()))
+        device.waitForIdle()
+    }
+
+    private fun verifyHiddenView(className: String) {
+        Espresso.onView(ViewMatchers.withClassName(CoreMatchers.endsWith(className)))
+            .check(ViewAssertions.doesNotExist())
         device.waitForIdle()
     }
 
@@ -152,7 +230,15 @@ object CommonSteps : BaseUserInterfaceTest() {
                 Espresso.onView(ViewMatchers.withId(R.id.subtitleCard))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
+            Screen.SHOW_HABIT_GROUP ->
+                Espresso.onView(ViewMatchers.withId(R.id.subtitleCard))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
             Screen.EDIT_HABIT ->
+                Espresso.onView(ViewMatchers.withId(R.id.questionInput))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
+            Screen.EDIT_HABIT_GROUP ->
                 Espresso.onView(ViewMatchers.withId(R.id.questionInput))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
@@ -200,6 +286,6 @@ object CommonSteps : BaseUserInterfaceTest() {
     }
 
     enum class Screen {
-        LIST_HABITS, SHOW_HABIT, EDIT_HABIT, SELECT_HABIT_TYPE
+        LIST_HABITS, SHOW_HABIT, SHOW_HABIT_GROUP, EDIT_HABIT, EDIT_HABIT_GROUP, SELECT_HABIT_TYPE
     }
 }

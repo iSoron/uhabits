@@ -23,16 +23,16 @@ import android.content.ContentUris.parseId
 import android.content.Intent
 import android.net.Uri
 import me.tatarka.inject.annotations.Inject
-import org.isoron.platform.time.LocalDate
-import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 
 @Inject
 @AppScope
 class IntentParser(
-    private val habits: HabitList
+    private val habits: HabitList,
+    private val habitGroups: HabitGroupList
 ) {
 
     fun parseCheckmarkIntent(intent: Intent): CheckmarkIntentData {
@@ -48,6 +48,7 @@ class IntentParser(
 
     private fun parseHabit(uri: Uri): Habit {
         return habits.getById(parseId(uri))
+            ?: habitGroups.getHabitByID(parseId(uri))
             ?: throw IllegalArgumentException("habit not found")
     }
 

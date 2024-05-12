@@ -38,15 +38,22 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
     private fun loadRecords() {
         if (loaded) return
         loaded = true
+        list.groupId = this.groupId
         list.removeAll()
-        val records = repository.findAll("order by position")
+
+        val whereClause = if (this.groupId == null) "where group_id is null" else "where group_id = ?"
+        val params = if (this.groupId == null) emptyArray<String>() else arrayOf(this.groupId.toString())
+        val records = repository.findAll("$whereClause order by position", *params)
+
         var shouldRebuildOrder = false
-        for ((expectedPosition, rec) in records.withIndex()) {
+        var expectedPosition = 0
+        for (rec in records) {
             if (rec.position != expectedPosition) shouldRebuildOrder = true
             val h = modelFactory.buildHabit()
             rec.copyTo(h)
             (h.originalEntries as SQLiteEntryList).habitId = h.id
             list.add(h)
+            expectedPosition++
         }
         if (shouldRebuildOrder) rebuildOrder()
     }
@@ -55,12 +62,58 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
     override fun add(habit: Habit) {
         loadRecords()
         habit.position = size()
+        habit.id = repository.getNextAvailableId("habitandgroup")
         val record = HabitRecord()
         record.copyFrom(habit)
         repository.save(record)
-        habit.id = record.id
         (habit.originalEntries as SQLiteEntryList).habitId = record.id
         list.add(habit)
+        observable.notifyListeners()
+    }
+
+    @Synchronized
+    private fun rebuildOrder() {
+        val whereClause = if (this.groupId == null) "where group_id is null" else "where group_id = ?"
+        val params = if (this.groupId == null) emptyArray<String>() else arrayOf(this.groupId.toString())
+        val records = repository.findAll("$whereClause order by position", *params)
+
+        repository.executeAsTransaction {
+            var expectedPosition = 0
+            for (r in records) {
+                if (r.position != expectedPosition) {
+                    r.position = expectedPosition
+                    repository.save(r)
+                }
+                expectedPosition++
+            }
+        }
+    }
+
+    @Synchronized
+    override fun add(position: Int, habit: Habit) {
+        loadRecords()
+
+        val groupId = this.groupId
+        val whereClause = if (groupId == null) "where group_id is null" else "where group_id = ?"
+        val params = if (groupId == null) emptyArray<Any>() else arrayOf<Any>(groupId as Any)
+
+        repository.executeAsTransaction {
+            // Shift subsequent habits
+            repository.execSQL(
+                "update habits set position = position + 1 $whereClause and position >= ?",
+                *params,
+                position
+            )
+
+            habit.position = position
+            habit.id = repository.getNextAvailableId("habitandgroup")
+            val record = HabitRecord()
+            record.copyFrom(habit)
+            repository.save(record)
+
+            (habit.originalEntries as SQLiteEntryList).habitId = record.id
+            list.add(position, habit)
+        }
         observable.notifyListeners()
     }
 
@@ -104,6 +157,12 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
             observable.notifyListeners()
         }
 
+    override var collapsed: Boolean = list.collapsed
+        set(value) {
+            field = value
+            list.collapsed = value
+        }
+
     @Synchronized
     override fun indexOf(h: Habit): Int {
         loadRecords()
@@ -114,19 +173,6 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
     override fun iterator(): Iterator<Habit> {
         loadRecords()
         return list.iterator()
-    }
-
-    @Synchronized
-    private fun rebuildOrder() {
-        val records = repository.findAll("order by position")
-        repository.executeAsTransaction {
-            for ((pos, r) in records.withIndex()) {
-                if (r.position != pos) {
-                    r.position = pos
-                    repository.save(r)
-                }
-            }
-        }
     }
 
     @Synchronized
@@ -145,10 +191,21 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
     }
 
     @Synchronized
+    override fun removeAt(position: Int) {
+        loadRecords()
+        list.removeAt(position)
+    }
+
+    @Synchronized
     override fun removeAll() {
         list.removeAll()
-        repository.execSQL("delete from habits")
-        repository.execSQL("delete from repetitions")
+        val whereClause = if (this.groupId == null) "where group_id is null" else "where group_id = ?"
+        val params = if (this.groupId == null) emptyArray<Any>() else arrayOf<Any>(this.groupId!!)
+
+        repository.executeAsTransaction {
+            repository.execSQL("delete from repetitions where habit in (select id from habits $whereClause)", *params)
+            repository.execSQL("delete from habits $whereClause", *params)
+        }
         observable.notifyListeners()
     }
 
@@ -156,31 +213,34 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
     override fun reorder(from: Habit, to: Habit) {
         loadRecords()
         list.reorder(from, to)
-        val fromRecord = repository.find(
-            from.id!!
-        )
-        val toRecord = repository.find(
-            to.id!!
-        )
-        if (fromRecord == null) throw RuntimeException("habit not in database")
-        if (toRecord == null) throw RuntimeException("habit not in database")
-        if (toRecord.position!! < fromRecord.position!!) {
-            repository.execSQL(
-                "update habits set position = position + 1 " +
-                    "where position >= ? and position < ?",
-                toRecord.position!!,
-                fromRecord.position!!
-            )
-        } else {
-            repository.execSQL(
-                "update habits set position = position - 1 " +
-                    "where position > ? and position <= ?",
-                fromRecord.position!!,
-                toRecord.position!!
-            )
+
+        repository.executeAsTransaction {
+            val fromRecord = repository.find(from.id!!)
+            val toRecord = repository.find(to.id!!)
+            if (fromRecord == null || toRecord == null) throw RuntimeException("habit not in database")
+
+            val groupId = this.groupId
+            val whereClause = if (groupId == null) "where group_id is null" else "where group_id = ?"
+            val params = if (groupId == null) emptyArray<Any>() else arrayOf<Any>(groupId as Any)
+
+            if (toRecord.position!! < fromRecord.position!!) {
+                repository.execSQL(
+                    "update habits set position = position + 1 $whereClause and position >= ? and position < ?",
+                    *params,
+                    toRecord.position!!,
+                    fromRecord.position!!
+                )
+            } else {
+                repository.execSQL(
+                    "update habits set position = position - 1 $whereClause and position > ? and position <= ?",
+                    *params,
+                    fromRecord.position!!,
+                    toRecord.position!!
+                )
+            }
+            fromRecord.position = toRecord.position
+            repository.save(fromRecord)
         }
-        fromRecord.position = toRecord.position
-        repository.save(fromRecord)
         observable.notifyListeners()
     }
 

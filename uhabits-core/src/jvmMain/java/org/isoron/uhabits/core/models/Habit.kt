@@ -41,12 +41,15 @@ data class Habit(
     val computedEntries: EntryList,
     val originalEntries: EntryList,
     val scores: ScoreList,
-    val streaks: StreakList
+    val streaks: StreakList,
+    var groupId: Long? = null,
+    var groupUUID: String? = null
 ) {
     init {
         if (uuid == null) this.uuid = Uuid.random().toHexString()
     }
 
+    var group: HabitGroup? = null
     var observable = ModelObservable()
 
     val isNumerical: Boolean
@@ -54,6 +57,10 @@ data class Habit(
 
     val uriString: String
         get() = "content://org.isoron.uhabits/habit/$id"
+
+    var collapsed = false
+
+    fun isSubHabit(): Boolean = (group != null) || (groupId != null) || (groupUUID != null)
 
     fun hasReminder(): Boolean = reminder != null
 
@@ -109,6 +116,10 @@ data class Habit(
         )
     }
 
+    fun firstEntryDate(): Timestamp {
+        return computedEntries.getKnown().lastOrNull()?.timestamp ?: DateUtils.getTodayWithOffset()
+    }
+
     fun copyFrom(other: Habit) {
         this.color = other.color
         this.description = other.description
@@ -124,6 +135,9 @@ data class Habit(
         this.type = other.type
         this.unit = other.unit
         this.uuid = other.uuid
+        this.group = other.group
+        this.groupId = other.groupId
+        this.groupUUID = other.groupUUID
     }
 
     override fun equals(other: Any?): Boolean {
@@ -144,6 +158,8 @@ data class Habit(
         if (type != other.type) return false
         if (unit != other.unit) return false
         if (uuid != other.uuid) return false
+        if (groupId != other.groupId) return false
+        if (groupUUID != other.groupUUID) return false
 
         return true
     }
@@ -163,6 +179,8 @@ data class Habit(
         result = 31 * result + type.value
         result = 31 * result + unit.hashCode()
         result = 31 * result + (uuid?.hashCode() ?: 0)
+        result = 31 * result + (groupId?.hashCode() ?: 0)
+        result = 31 * result + (groupUUID?.hashCode() ?: 0)
         return result
     }
 }

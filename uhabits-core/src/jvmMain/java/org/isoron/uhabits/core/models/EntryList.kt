@@ -29,6 +29,7 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import kotlin.collections.set
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 open class EntryList {
 
@@ -143,6 +144,22 @@ open class EntryList {
             }
         }
         return map
+    }
+
+    @Synchronized fun normalizeEntries(
+        isNumerical: Boolean,
+        frequency: Frequency,
+        targetValue: Double
+    ): EntryList {
+        val entries = getKnown()
+        val normalized = EntryList()
+        val dailyTarget = frequency.toDouble() * (if (isNumerical) targetValue * 1000 else 2.0)
+        for (entry in entries) {
+            if (!isNumerical && entry.value != YES_MANUAL) continue
+            val newValue = (entry.value.toDouble() / dailyTarget * 1000).roundToInt()
+            normalized.add(Entry(entry.timestamp, newValue))
+        }
+        return normalized
     }
 
     data class Interval(val begin: LocalDate, val center: LocalDate, val end: LocalDate) {
@@ -321,6 +338,16 @@ fun List<Entry>.groupedSum(
     }.sortedBy { (date, _) ->
         -date.daysSince2000
     }
+}
+
+fun List<Entry>.groupedSum(): List<Entry> {
+    return this
+        .groupBy { entry -> entry.date }
+        .entries.map { (date, entries) ->
+            Entry(date, entries.sumOf { it.value })
+        }.sortedBy { (date, _) ->
+            -date.daysSince2000
+        }
 }
 
 /**

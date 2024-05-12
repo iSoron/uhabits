@@ -19,13 +19,29 @@
 package org.isoron.uhabits.core.commands
 
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 
 data class DeleteHabitsCommand(
     val habitList: HabitList,
+    val habitGroupList: HabitGroupList,
     val selected: List<Habit>
 ) : Command {
     override fun run() {
-        for (h in selected) habitList.remove(h)
+        for (h in selected) {
+            if (!h.isSubHabit()) {
+                habitList.remove(h)
+            } else {
+                val group = h.group as HabitGroup
+                val originalGroup = group.parent ?: group
+
+                // Explicitly verify the parent group still exists in the master list!
+                // If another command already deleted the group, it will be null, and we safely skip.
+                val liveGroup = habitGroupList.getById(originalGroup.id!!)
+
+                liveGroup?.habitList?.remove(h)
+            }
+        }
     }
 }

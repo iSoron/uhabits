@@ -149,7 +149,7 @@ class ListHabitsRootView(
 
     private fun updateEmptyView() {
         if (listAdapter.itemCount == 0) {
-            if (listAdapter.hasNoHabit()) {
+            if (listAdapter.hasNoHabit() && listAdapter.hasNoHabitGroup()) {
                 llEmpty.showEmpty()
             } else {
                 llEmpty.showDone()

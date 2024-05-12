@@ -27,7 +27,7 @@
                     android:previewImage="@drawable/widget_preview_frequency"
                     android:resizeMode="vertical|horizontal"
                     android:updatePeriodMillis="3600000"
-                    android:configure="org.isoron.uhabits.widgets.activities.HabitPickerDialog"
+                    android:configure="org.isoron.uhabits.widgets.activities.HabitAndGroupPickerDialog"
                     android:widgetCategory="home_screen">
 
 </appwidget-provider>

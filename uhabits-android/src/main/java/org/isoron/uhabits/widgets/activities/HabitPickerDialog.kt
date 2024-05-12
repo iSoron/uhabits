@@ -25,7 +25,6 @@ import android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import org.isoron.uhabits.HabitsApplication
@@ -44,6 +43,10 @@ class NumericalHabitPickerDialog : HabitPickerDialog() {
     override fun getEmptyMessage() = R.string.no_numerical_habits
 }
 
+class HabitAndGroupPickerDialog : HabitPickerDialog() {
+    override fun shouldShowGroups(): Boolean = true
+}
+
 open class HabitPickerDialog : Activity() {
 
     private var widgetId = 0
@@ -52,6 +55,8 @@ open class HabitPickerDialog : Activity() {
 
     protected open fun shouldHideNumerical() = false
     protected open fun shouldHideBoolean() = false
+
+    protected open fun shouldShowGroups() = false
     protected open fun getEmptyMessage() = R.string.no_habits
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +64,7 @@ open class HabitPickerDialog : Activity() {
         val component = (applicationContext as HabitsApplication).component
         AndroidThemeSwitcher(this, component.preferences).apply()
         val habitList = component.habitList
+        val habitGroupList = component.habitGroupList
         widgetPreferences = component.widgetPreferences
         widgetUpdater = component.widgetUpdater
         widgetId = intent.extras?.getInt(EXTRA_APPWIDGET_ID, INVALID_APPWIDGET_ID) ?: 0
@@ -73,6 +79,21 @@ open class HabitPickerDialog : Activity() {
             habitNames.add(h.name)
         }
 
+        for (hgr in habitGroupList) {
+            if (hgr.isArchived) continue
+            if (shouldShowGroups()) {
+                habitIds.add(hgr.id!!)
+                habitNames.add(hgr.name)
+            }
+
+            for (h in hgr.habitList) {
+                if (h.isArchived) continue
+                if (!h.isNumerical and shouldHideBoolean()) continue
+                habitIds.add(h.id!!)
+                habitNames.add(h.name)
+            }
+        }
+
         if (habitNames.isEmpty()) {
             setContentView(R.layout.widget_empty_activity)
             findViewById<TextView>(R.id.message).setText(getEmptyMessage())
@@ -81,7 +102,6 @@ open class HabitPickerDialog : Activity() {
 
         setContentView(R.layout.widget_configure_activity)
         val listView = findViewById<ListView>(R.id.listView)
-        val saveButton = findViewById<Button>(R.id.buttonSave)
 
         with(listView) {
             adapter = ArrayAdapter(

@@ -25,6 +25,8 @@ import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.preferences.WidgetPreferences
@@ -35,6 +37,7 @@ import org.isoron.uhabits.core.utils.DateUtils
 class ReminderScheduler(
     private val commandRunner: CommandRunner,
     private val habitList: HabitList,
+    private val habitGroupList: HabitGroupList,
     private val sys: SystemScheduler,
     private val widgetPreferences: WidgetPreferences
 ) : CommandRunner.Listener {
@@ -72,6 +75,40 @@ class ReminderScheduler(
     }
 
     @Synchronized
+    fun schedule(habitGroup: HabitGroup) {
+        if (habitGroup.id == null) {
+            sys.log("ReminderScheduler", "Habit group has null id. Returning.")
+            return
+        }
+        if (!habitGroup.hasReminder()) {
+            sys.log("ReminderScheduler", "habit group=" + habitGroup.id + " has no reminder. Skipping.")
+            return
+        }
+        var reminderTime = Objects.requireNonNull(habitGroup.reminder)!!.timeInMillis
+        val snoozeReminderTime = widgetPreferences.getSnoozeTime(habitGroup.id!!)
+        if (snoozeReminderTime != 0L) {
+            val now = applyTimezone(getLocalTime())
+            sys.log(
+                "ReminderScheduler",
+                String.format(
+                    Locale.US,
+                    "Habit group %d has been snoozed until %d",
+                    habitGroup.id,
+                    snoozeReminderTime
+                )
+            )
+            if (snoozeReminderTime > now) {
+                sys.log("ReminderScheduler", "Snooze time is in the future. Accepting.")
+                reminderTime = snoozeReminderTime
+            } else {
+                sys.log("ReminderScheduler", "Snooze time is in the past. Discarding.")
+                widgetPreferences.removeSnoozeTime(habitGroup.id!!)
+            }
+        }
+        scheduleAtTime(habitGroup, reminderTime)
+    }
+
+    @Synchronized
     fun scheduleAtTime(habit: Habit, reminderTime: Long) {
         sys.log("ReminderScheduler", "Scheduling alarm for habit=" + habit.id)
         if (!habit.hasReminder()) {
@@ -88,15 +125,47 @@ class ReminderScheduler(
     }
 
     @Synchronized
+    fun scheduleAtTime(habitGroup: HabitGroup, reminderTime: Long) {
+        sys.log("ReminderScheduler", "Scheduling alarm for habit group=" + habitGroup.id)
+        if (!habitGroup.hasReminder()) {
+            sys.log("ReminderScheduler", "habit group=" + habitGroup.id + " has no reminder. Skipping.")
+            return
+        }
+        if (habitGroup.isArchived) {
+            sys.log("ReminderScheduler", "habit group=" + habitGroup.id + " is archived. Skipping.")
+            return
+        }
+        val timestamp = getStartOfDayWithOffset(removeTimezone(reminderTime))
+        sys.log(
+            "ReminderScheduler",
+            String.format(
+                Locale.US,
+                "reminderTime=%d removeTimezone=%d timestamp=%d",
+                reminderTime,
+                removeTimezone(reminderTime),
+                timestamp
+            )
+        )
+        sys.scheduleShowReminder(reminderTime, habitGroup, timestamp)
+    }
+
+    @Synchronized
     fun scheduleAll() {
         sys.log("ReminderScheduler", "Scheduling all alarms")
         val reminderHabits = habitList.getFiltered(HabitMatcher.WITH_ALARM)
+        val reminderSubHabits = habitGroupList.map { it.habitList.getFiltered(HabitMatcher.WITH_ALARM) }.flatten()
+        val reminderHabitGroups = habitGroupList.getFiltered(HabitMatcher.WITH_ALARM)
         for (habit in reminderHabits) schedule(habit)
+        for (habit in reminderSubHabits) schedule(habit)
+        for (hgr in reminderHabitGroups) schedule(hgr)
     }
 
     @Synchronized
     fun hasHabitsWithReminders(): Boolean {
-        return !habitList.getFiltered(HabitMatcher.WITH_ALARM).isEmpty
+        if (!habitList.getFiltered(HabitMatcher.WITH_ALARM).isEmpty) return true
+        if (habitGroupList.map { it.habitList.getFiltered(HabitMatcher.WITH_ALARM) }.flatten().isNotEmpty()) return true
+        if (!habitGroupList.getFiltered(HabitMatcher.WITH_ALARM).isEmpty) return true
+        return false
     }
 
     @Synchronized
@@ -117,10 +186,24 @@ class ReminderScheduler(
         schedule(habit)
     }
 
+    @Synchronized
+    fun snoozeReminder(habitGroup: HabitGroup, minutes: Long) {
+        val now = applyTimezone(getLocalTime())
+        val snoozedUntil = now + minutes * 60 * 1000
+        widgetPreferences.setSnoozeTime(habitGroup.id!!, snoozedUntil)
+        schedule(habitGroup)
+    }
+
     interface SystemScheduler {
         fun scheduleShowReminder(
             reminderTime: Long,
             habit: Habit,
+            timestamp: Long
+        ): SchedulerResult
+
+        fun scheduleShowReminder(
+            reminderTime: Long,
+            habitGroup: HabitGroup,
             timestamp: Long
         ): SchedulerResult
 

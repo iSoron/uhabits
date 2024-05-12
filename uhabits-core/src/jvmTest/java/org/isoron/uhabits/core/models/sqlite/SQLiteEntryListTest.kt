@@ -25,8 +25,10 @@ import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.mock
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -36,11 +38,12 @@ class SQLiteEntryListTest {
     private val repository = Repository(EntryRecord::class.java, database)
     private val entries = SQLiteEntryList(database)
     private val today = LocalDate(2015, 1, 25)
+    private val widgetPreferences: WidgetPreferences = mock()
 
     @Before
     fun setUp() {
         // Create a habit and add it to the database to satisfy foreign key requirements
-        val factory = SQLModelFactory(database)
+        val factory = SQLModelFactory(database, widgetPreferences)
         val habitList = factory.buildHabitList()
         val habit = factory.buildHabit()
         habitList.add(habit)

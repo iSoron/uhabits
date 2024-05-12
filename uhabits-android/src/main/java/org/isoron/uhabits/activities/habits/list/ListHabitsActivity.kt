@@ -177,11 +177,46 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
             val habitId = intent.extras?.getLong("habit")
             val timestampMillis = intent.extras?.getLong("timestamp")
             if (habitId != null && timestampMillis != null) {
-                val habit = appComponent.habitList.getById(habitId)!!
+                val habit = appComponent.habitList.getById(habitId) ?: appComponent.habitGroupList.getHabitByID(habitId)!!
                 val date = LocalDate.fromUnixTime(timestampMillis)
                 component.listHabitsBehavior.onEdit(habit, date, 0f, 0f)
             }
         }
+        intent.getLongExtra("CLEAR_NOTIFICATION_HABIT_ID", -1).takeIf { it != -1L }?.let { id ->
+            val dismissHabit = appComponent.habitList.getById(id) ?: appComponent.habitGroupList.getHabitByID(id)
+            if (dismissHabit != null) {
+                appComponent.reminderController.onDismiss(dismissHabit)
+            } else {
+                val dismissHabitGroup = appComponent.habitGroupList.getById(id)!!
+                appComponent.reminderController.onDismiss(dismissHabitGroup)
+            }
+        }
+        intent.getLongExtra("SCROLL_TO_HABIT_GROUP_ID", -1).takeIf { it != -1L }?.let { id ->
+            val habitGroup = appComponent.habitGroupList.getById(id)
+            if (habitGroup != null) {
+                val scrollAction = Runnable {
+                    for (i in 0 until adapter.itemCount) {
+                        if (adapter.getHabitGroup(i) == habitGroup) {
+                            rootView.listView.smoothScrollToPosition(i)
+                            break
+                        }
+                    }
+                }
+                if (adapter.itemCount > 0) {
+                    rootView.listView.post(scrollAction)
+                } else {
+                    adapter.observable.addListener(object : org.isoron.uhabits.core.models.ModelObservable.Listener {
+                        override fun onModelChange() {
+                            if (adapter.itemCount > 0) {
+                                rootView.listView.post(scrollAction)
+                                adapter.observable.removeListener(this)
+                            }
+                        }
+                    })
+                }
+            }
+        }
+
         intent = null
     }
 

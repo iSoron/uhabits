@@ -24,7 +24,6 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.SQLException
 import java.sql.Types
-import java.util.ArrayList
 
 class JdbcDatabase(private val connection: Connection) : Database {
     private var transactionSuccessful = false
@@ -51,6 +50,14 @@ class JdbcDatabase(private val connection: Connection) : Database {
                 valuesStr.add(value.toString())
             }
             valuesStr.addAll(listOf(*params))
+            if (tableName == "habits") {
+                val groupIdx = fields.indexOf("group_id=?")
+                if (valuesStr[groupIdx] == "null") {
+                    valuesStr.removeAt(groupIdx)
+                    fields.removeAt(groupIdx)
+                }
+            }
+
             val query = String.format(
                 "update %s set %s where %s",
                 tableName,

@@ -26,7 +26,7 @@ import org.isoron.uhabits.core.models.Entry
 /**
  * The SQLite database record corresponding to a [Entry].
  */
-@Table(name = "Repetitions")
+@Table(name = "repetitions")
 class EntryRecord {
     var habit: HabitRecord? = null
 

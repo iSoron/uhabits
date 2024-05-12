@@ -26,20 +26,23 @@ import org.isoron.uhabits.core.database.Cursor
 import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.MigrationHelper
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
+import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.core.test.HabitFixtures
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.mockito.kotlin.mock
 
 class Version22Test : BaseUnitTest() {
     private lateinit var db: Database
     private lateinit var helper: MigrationHelper
+    private val widgetPreferences: WidgetPreferences = mock()
 
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         db = openDatabaseResource("/databases/021.db")
         helper = MigrationHelper(db)
-        modelFactory = SQLModelFactory(db)
+        modelFactory = SQLModelFactory(db, widgetPreferences)
         habitList = (modelFactory as SQLModelFactory).buildHabitList()
         fixtures = HabitFixtures(modelFactory, habitList)
     }

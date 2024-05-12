@@ -19,6 +19,7 @@
 package org.isoron.uhabits.inject
 
 import android.content.Context
+import dagger.Provides
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 import org.isoron.uhabits.core.AppScope
@@ -27,6 +28,7 @@ import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.DatabaseOpener
 import org.isoron.uhabits.core.io.GenericImporter
 import org.isoron.uhabits.core.io.Logging
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
@@ -67,6 +69,7 @@ abstract class HabitsApplicationComponent(
     abstract val genericImporter: GenericImporter
     abstract val habitCardListCache: HabitCardListCache
     abstract val habitList: HabitList
+    abstract val habitGroupList: HabitGroupList
     abstract val intentFactory: IntentFactory
     abstract val intentParser: IntentParser
     abstract val logging: Logging
@@ -107,20 +110,28 @@ abstract class HabitsApplicationComponent(
     ): ReminderScheduler =
         ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
 
-    @AppScope
     @Provides
-    open fun notificationTray(
-        taskRunner: TaskRunner,
+    @AppScope
+    open fun reminderScheduler(
+        sys: IntentScheduler,
         commandRunner: CommandRunner,
-        preferences: Preferences,
-        screen: AndroidNotificationTray
-    ): NotificationTray =
-        NotificationTray(taskRunner, commandRunner, preferences, screen)
+        habitList: HabitList,
+        habitGroupList: HabitGroupList,
+        widgetPreferences: WidgetPreferences
+    ): ReminderScheduler {
+        return ReminderScheduler(commandRunner, habitList, habitGroupList, sys, widgetPreferences)
+    }
 
     @AppScope
     @Provides
     open fun widgetPreferences(storage: SharedPreferencesStorage): WidgetPreferences =
         WidgetPreferences(storage)
+
+    @Provides
+    @AppScope
+    fun modelFactory(widgetPreferences: WidgetPreferences): ModelFactory {
+        return SQLModelFactory(db, widgetPreferences)
+    }
 
     @AppScope
     @Provides

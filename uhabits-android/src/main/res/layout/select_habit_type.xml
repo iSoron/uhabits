@@ -67,6 +67,25 @@
             android:text="@string/measurable_example" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonHabitGroup"
+        style="@style/SelectHabitTypeButton">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SelectHabitTypeButtonTitle"
+            android:text="@string/habit_group" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SelectHabitTypeButtonBody"
+            android:text="@string/habit_group_example" />
+    </LinearLayout>
+
 <!--    <LinearLayout-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->

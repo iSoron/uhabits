@@ -181,6 +181,7 @@ class ImportTest : BaseUnitTest() {
         val importer = GenericImporter(
             LoopDBImporter(
                 habitList,
+                habitGroupList,
                 modelFactory,
                 databaseOpener,
                 commandRunner,

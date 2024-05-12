@@ -25,42 +25,62 @@ import android.view.View
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.activities.common.views.ScoreChart
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
 import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
-class ScoreWidget(
+class ScoreWidget private constructor(
     context: Context,
     id: Int,
-    private val habit: Habit,
-    stacked: Boolean = false
+    private val habit: Habit?,
+    private val habitGroup: HabitGroup?,
+    stacked: Boolean
 ) : BaseWidget(context, id, stacked) {
+    constructor(context: Context, id: Int, habit: Habit, stacked: Boolean = false) : this(context, id, habit, null, stacked)
+    constructor(context: Context, id: Int, habitGroup: HabitGroup, stacked: Boolean = false) : this(context, id, null, habitGroup, stacked)
+
     override val defaultHeight: Int = 300
     override val defaultWidth: Int = 300
 
-    override fun getOnClickPendingIntent(context: Context): PendingIntent =
-        pendingIntentFactory.showHabit(habit)
+    override fun getOnClickPendingIntent(context: Context): PendingIntent {
+        return if (habit != null) {
+            pendingIntentFactory.showHabit(habit)
+        } else {
+            pendingIntentFactory.showHabitGroup(habitGroup!!)
+        }
+    }
 
     override fun refreshData(view: View) {
-        val viewModel = ScoreCardPresenter.buildState(
-            habit = habit,
-            firstWeekday = prefs.firstWeekdayInt,
-            spinnerPosition = prefs.scoreCardSpinnerPosition,
-            theme = WidgetTheme()
-        )
+        val viewModel = if (habit != null) {
+            ScoreCardPresenter.buildState(
+                habit = habit,
+                firstWeekday = prefs.firstWeekdayInt,
+                spinnerPosition = prefs.scoreCardSpinnerPosition,
+                theme = WidgetTheme()
+            )
+        } else {
+            ScoreCardPresenter.buildState(
+                habitGroup = habitGroup!!,
+                firstWeekday = prefs.firstWeekdayInt,
+                spinnerPosition = prefs.scoreCardSpinnerPosition,
+                theme = WidgetTheme()
+            )
+        }
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
+        val color = habit?.color ?: habitGroup!!.color
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
             setBucketSize(viewModel.bucketSize)
-            setColor(WidgetTheme().color(habit.color).toInt())
+            setColor(WidgetTheme().color(color).toInt())
             setScores(viewModel.scores)
         }
     }
 
     override fun buildView() =
         GraphWidgetView(context, ScoreChart(context)).apply {
-            setTitle(habit.name)
+            setTitle(habit?.name ?: habitGroup!!.name)
         }
 }

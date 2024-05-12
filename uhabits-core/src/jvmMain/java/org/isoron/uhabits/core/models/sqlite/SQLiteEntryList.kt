@@ -81,12 +81,4 @@ class SQLiteEntryList(database: Database) : EntryList() {
     override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean) {
         throw UnsupportedOperationException()
     }
-
-    override fun clear() {
-        super.clear()
-        repository.execSQL(
-            "delete from repetitions where habit = ?",
-            habitId.toString()
-        )
-    }
 }

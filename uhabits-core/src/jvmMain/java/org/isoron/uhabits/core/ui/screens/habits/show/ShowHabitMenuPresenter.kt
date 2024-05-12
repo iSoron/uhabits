@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.tasks.ExportCSVTask
 import org.isoron.uhabits.core.tasks.TaskRunner
@@ -41,6 +42,7 @@ class ShowHabitMenuPresenter(
     private val commandRunner: CommandRunner,
     private val habit: Habit,
     private val habitList: HabitList,
+    private val habitGroupList: HabitGroupList,
     private val screen: Screen,
     private val system: System,
     private val taskRunner: TaskRunner
@@ -78,7 +80,7 @@ class ShowHabitMenuPresenter(
 
     fun onDeleteHabit() {
         screen.showDeleteConfirmationScreen {
-            commandRunner.run(DeleteHabitsCommand(habitList, listOf(habit)))
+            commandRunner.run(DeleteHabitsCommand(habitList, habitGroupList, listOf(habit)))
             screen.close()
         }
     }

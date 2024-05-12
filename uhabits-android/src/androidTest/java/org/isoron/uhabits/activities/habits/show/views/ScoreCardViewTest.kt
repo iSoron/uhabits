@@ -24,6 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter.Companion.buildState
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
@@ -35,6 +36,7 @@ import org.junit.runner.RunWith
 class ScoreCardViewTest : BaseViewTest() {
     val PATH = "habits/show/ScoreCard/"
     private lateinit var view: ScoreCardView
+    private lateinit var viewGroup: ScoreCardView
 
     @Before
     override fun setUp() {
@@ -53,10 +55,26 @@ class ScoreCardViewTest : BaseViewTest() {
             )
         )
         measureView(view, 800f, 600f)
+
+        val habitGroup = groupFixtures.createGroupWithLongHabits(color = PaletteColor(7))
+        viewGroup = LayoutInflater
+            .from(targetContext)
+            .inflate(R.layout.show_habit_group, null)
+            .findViewById<View>(R.id.scoreCard) as ScoreCardView
+        viewGroup.setState(
+            buildState(
+                habitGroup = habitGroup,
+                firstWeekday = 0,
+                spinnerPosition = 0,
+                theme = LightTheme()
+            )
+        )
+        measureView(viewGroup, 800f, 600f)
     }
 
     @Test
     fun testRender() {
         assertRenders(view, PATH + "render.png")
+        assertRenders(viewGroup, PATH + "render.png")
     }
 }

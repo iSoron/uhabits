@@ -33,6 +33,7 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.ui.views.DarkTheme
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.isoron.uhabits.receivers.ReminderController
@@ -41,6 +42,7 @@ import java.util.Calendar
 
 class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
     private var habit: Habit? = null
+    private var habitGroup: HabitGroup? = null
     private var reminderController: ReminderController? = null
     private var dialog: AlertDialog? = null
     private var androidColor: Int = 0
@@ -58,10 +60,13 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         if (data == null) {
             finish()
         } else {
-            habit = appComponent.habitList.getById(ContentUris.parseId(data))
+            val id = ContentUris.parseId(data)
+            habit = appComponent.habitList.getById(id) ?: appComponent.habitGroupList.getHabitByID(id)
+            habitGroup = appComponent.habitGroupList.getById(id)
         }
-        if (habit == null) finish()
-        androidColor = themeSwitcher.currentTheme.color(habit!!.color).toInt()
+        if (habit == null && habitGroup == null) finish()
+        val color = habit?.color ?: habitGroup!!.color
+        androidColor = themeSwitcher.currentTheme.color(color).toInt()
         reminderController = appComponent.reminderController
         dialog = AlertDialog.Builder(this)
             .setTitle(R.string.select_snooze_delay)
@@ -87,7 +92,11 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
         val calendar = Calendar.getInstance()
         val dialog = TimePickerDialog.newInstance(
             { view: RadialPickerLayout?, hour: Int, minute: Int ->
-                reminderController!!.onSnoozeTimePicked(habit, hour, minute)
+                if (habit != null) {
+                    reminderController!!.onSnoozeTimePicked(habit, hour, minute)
+                } else {
+                    reminderController!!.onSnoozeTimePicked(habitGroup, hour, minute)
+                }
                 finish()
             },
             calendar[Calendar.HOUR_OF_DAY],
@@ -101,7 +110,11 @@ class SnoozeDelayPickerActivity : FragmentActivity(), OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
         val snoozeValues = resources.getIntArray(R.array.snooze_picker_values)
         if (snoozeValues[position] >= 0) {
-            reminderController!!.onSnoozeDelayPicked(habit!!, snoozeValues[position])
+            if (habit != null) {
+                reminderController!!.onSnoozeDelayPicked(habit!!, snoozeValues[position])
+            } else {
+                reminderController!!.onSnoozeDelayPicked(habitGroup!!, snoozeValues[position])
+            }
             finish()
         } else {
             showTimePicker()

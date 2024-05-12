@@ -53,7 +53,7 @@ class HabitCardViewTest : BaseViewTest() {
             .getByInterval(today.minus(300), today)
             .map { it.value }.toIntArray()
 
-        view = component.getHabitCardViewFactory().create().apply {
+        view = component.getHabitCardViewFactory().createHabitCard().apply {
             habit = habit1
             values = entries
             score = habit1.scores[today].value
