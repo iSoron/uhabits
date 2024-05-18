@@ -81,6 +81,8 @@ class EditHabitActivity : AppCompatActivity() {
     var androidColor = 0
     var freqNum = 1
     var freqDen = 1
+    var isSkipDays = false
+    var listSkipDays: WeekdayList = WeekdayList.NO_DAY
     var reminderHour = -1
     var reminderMin = -1
     var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
@@ -104,6 +106,8 @@ class EditHabitActivity : AppCompatActivity() {
             color = habit.color
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
+            isSkipDays = habit.skipDays
+            listSkipDays = habit.skipDaysList
             targetType = habit.targetType
             habit.reminder?.let {
                 reminderHour = it.hour
@@ -125,6 +129,8 @@ class EditHabitActivity : AppCompatActivity() {
             color = PaletteColor(state.getInt("paletteColor"))
             freqNum = state.getInt("freqNum")
             freqDen = state.getInt("freqDen")
+            isSkipDays = state.getBoolean("isSkipDays", false)
+            listSkipDays = WeekdayList(state.getInt("listSkipDays", 0))
             reminderHour = state.getInt("reminderHour")
             reminderMin = state.getInt("reminderMin")
             reminderDays = WeekdayList(state.getInt("reminderDays"))
@@ -241,9 +247,28 @@ class EditHabitActivity : AppCompatActivity() {
             dialog.setListener { days: WeekdayList ->
                 reminderDays = days
                 if (reminderDays.isEmpty) reminderDays = WeekdayList.EVERY_DAY
+                if (isSkipDays) reminderDays = WeekdayList(reminderDays.toArray(),listSkipDays.toArray())
                 populateReminder()
             }
             dialog.setSelectedDays(reminderDays)
+            dialog.dismissCurrentAndShow(supportFragmentManager, "dayPicker")
+        }
+
+        populateSkipDays()
+        binding.skipDaysPicker.setOnClickListener {
+            val dialog = WeekdayPickerDialog()
+
+            dialog.setListener { days: WeekdayList ->
+                listSkipDays = days
+                if (listSkipDays.isEmpty) listSkipDays = WeekdayList.NO_DAY
+                isSkipDays = (listSkipDays != WeekdayList.NO_DAY)
+                if (reminderHour >= 0 && isSkipDays) {
+                    reminderDays = WeekdayList(reminderDays.toArray(),listSkipDays.toArray())
+                    populateReminder()
+                }
+                populateSkipDays()
+            }
+            dialog.setSelectedDays(listSkipDays)
             dialog.dismissCurrentAndShow(supportFragmentManager, "dayPicker")
         }
 
@@ -277,6 +302,8 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         habit.frequency = Frequency(freqNum, freqDen)
+        habit.skipDays = isSkipDays
+        habit.skipDaysList = listSkipDays
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = binding.targetInput.text.toString().toDouble()
             habit.targetType = targetType
@@ -330,6 +357,14 @@ class EditHabitActivity : AppCompatActivity() {
         }
     }
 
+    private fun populateSkipDays() {
+        if (isSkipDays) {
+            binding.skipDaysPicker.text = listSkipDays.toFormattedString(this)
+        } else {
+            binding.skipDaysPicker.text = getString(R.string.skip_days_off)
+        }
+    }
+
     @SuppressLint("StringFormatMatches")
     private fun populateFrequency() {
         binding.booleanFrequencyPicker.text = formatFrequency(freqNum, freqDen, resources)
@@ -372,6 +407,8 @@ class EditHabitActivity : AppCompatActivity() {
             putInt("androidColor", androidColor)
             putInt("freqNum", freqNum)
             putInt("freqDen", freqDen)
+            putBoolean("isSkipDays", isSkipDays)
+            putInt("listSkipDays", listSkipDays.toInteger())
             putInt("reminderHour", reminderHour)
             putInt("reminderMin", reminderMin)
             putInt("reminderDays", reminderDays.toInteger())

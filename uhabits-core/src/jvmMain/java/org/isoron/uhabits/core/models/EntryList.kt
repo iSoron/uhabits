@@ -38,11 +38,12 @@ open class EntryList {
 
     /**
      * Returns the entry corresponding to the given timestamp. If no entry with such timestamp
-     * has been previously added, returns Entry(timestamp, UNKNOWN).
+     * has been previously added, returns Entry(timestamp, UNKNOWN). or Entry(timestamp, SKIP) if
+     * skip days are enabled and that day is to be skipped
      */
     @Synchronized
-    open fun get(timestamp: Timestamp): Entry {
-        return entriesByTimestamp[timestamp] ?: Entry(timestamp, UNKNOWN)
+    open fun get(timestamp: Timestamp, skipDays: Boolean = false, skipDaysList: WeekdayList = WeekdayList.NO_DAY): Entry {
+        return entriesByTimestamp[timestamp] ?: if (skipDays && skipDaysList.isDayTrue(timestamp.weekday)) Entry(timestamp, SKIP) else Entry(timestamp, UNKNOWN)
     }
 
     /**
@@ -51,12 +52,12 @@ open class EntryList {
      * included.
      */
     @Synchronized
-    open fun getByInterval(from: Timestamp, to: Timestamp): List<Entry> {
+    open fun getByInterval(from: Timestamp, to: Timestamp, skipDays: Boolean = false, skipDaysList: WeekdayList = WeekdayList.NO_DAY): List<Entry> {
         val result = mutableListOf<Entry>()
         if (from.isNewerThan(to)) return result
         var current = to
         while (current >= from) {
-            result.add(get(current))
+            result.add(get(current, skipDays, skipDaysList))
             current = current.minus(1)
         }
         return result

@@ -56,7 +56,8 @@ open class ListHabitsBehavior @Inject constructor(
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
             screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String, x: Float, y: Float ->
-                val value = (newValue * 1000).roundToInt()
+                val value = if (habit.skipDays && habit.skipDaysList.isDayTrue(timestamp.weekday)) 3 else (newValue * 1000).roundToInt()
+
                 if (newValue != oldValue) {
                     if (
                         (habit.targetType == AT_LEAST && newValue >= habit.targetValue) ||

@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
 
 class SQLiteEntryList(database: Database) : EntryList() {
@@ -43,14 +44,13 @@ class SQLiteEntryList(database: Database) : EntryList() {
         isLoaded = true
     }
 
-    override fun get(timestamp: Timestamp): Entry {
+    override fun get(timestamp: Timestamp, skipDays: Boolean, skipDaysList: WeekdayList): Entry {
         loadRecords()
-        return super.get(timestamp)
+        return super.get(timestamp, skipDays, skipDaysList)
     }
-
-    override fun getByInterval(from: Timestamp, to: Timestamp): List<Entry> {
+    override fun getByInterval(from: Timestamp, to: Timestamp, skipDays: Boolean, skipDaysList: WeekdayList): List<Entry> {
         loadRecords()
-        return super.getByInterval(from, to)
+        return super.getByInterval(from, to, skipDays, skipDaysList)
     }
 
     override fun add(entry: Entry) {

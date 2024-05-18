@@ -49,6 +49,12 @@ class HabitRecord {
     @field:Column(name = "freq_den")
     var freqDen: Int? = null
 
+    @field:Column(name = "skip_days")
+    var skipDays: Int? = null
+
+    @field:Column(name = "skip_days_list")
+    var skipDaysList: Int? = null
+
     @field:Column
     var color: Int? = null
 
@@ -105,6 +111,8 @@ class HabitRecord {
         val (numerator, denominator) = model.frequency
         freqNum = numerator
         freqDen = denominator
+        skipDays = if (model.skipDays) 1 else 0
+        skipDaysList = model.skipDaysList.toInteger()
         reminderDays = 0
         reminderMin = null
         reminderHour = null
@@ -122,6 +130,8 @@ class HabitRecord {
         habit.description = description!!
         habit.question = question!!
         habit.frequency = Frequency(freqNum!!, freqDen!!)
+        habit.skipDays = (skipDays!! == 1)
+        habit.skipDaysList = WeekdayList(skipDaysList!!)
         habit.color = PaletteColor(color!!)
         habit.isArchived = archived != 0
         habit.type = HabitType.fromInt(type!!)
