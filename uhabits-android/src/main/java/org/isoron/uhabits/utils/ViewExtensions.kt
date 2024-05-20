@@ -251,7 +251,11 @@ fun View.getCenter(): PointF {
 fun View.applyRootViewInsets() {
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-        view.setPadding(systemBarsInsets.left, 0, systemBarsInsets.right, systemBarsInsets.bottom)
+        val displayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+        val left = maxOf(systemBarsInsets.left, displayCutoutInsets.left)
+        val right = maxOf(systemBarsInsets.right, displayCutoutInsets.right)
+        view.setPadding(left, 0, right, 0)
+        view.background = ColorDrawable(Color.BLACK)
         insets
     }
 }
@@ -259,7 +263,9 @@ fun View.applyRootViewInsets() {
 fun View.applyToolbarInsets() {
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-        view.setPadding(0, systemBarsInsets.top, 0, 0)
+        val displayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+        val top = maxOf(systemBarsInsets.top, displayCutoutInsets.top)
+        view.setPadding(0, top, 0, 0)
         insets
     }
 }
