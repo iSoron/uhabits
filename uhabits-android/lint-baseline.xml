@@ -266,17 +266,6 @@
     </issue>
 
     <issue
-        id="GradleDependency"
-        message="A newer version of androidx.test.uiautomator:uiautomator than 2.2.0 is available: 2.3.0"
-        errorLine1="    androidTestImplementation(&quot;androidx.test.uiautomator:uiautomator:2.2.0&quot;)"
-        errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="build.gradle.kts"
-            line="116"
-            column="32"/>
-    </issue>
-
-    <issue
         id="ExtraText"
         message="Unexpected text found in layout file: &quot;>&quot;"
         errorLine1=">"
@@ -1573,6 +1562,13 @@
             file="src/main/java/org/isoron/uhabits/activities/habits/list/ListHabitsScreen.kt"
             line="136"
             column="53"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        message="This folder configuration (`v21`) is unnecessary; `minSdkVersion` is 28. Merge all the resources in this folder into `drawable`.">
+        <location
+            file="src/main/res/drawable-v21"/>
     </issue>
 
     <issue
@@ -5139,13 +5135,13 @@
         id="IconDipSize"
         message="The image `ic_launcher_monochrome.png` varies significantly in its density-independent (dip) size across the various density versions: mipmap-hdpi/ic_launcher_monochrome.png: 108x108 dp (162x162 px), mipmap-mdpi/ic_launcher_monochrome.png: 162x162 dp (162x162 px), mipmap-xhdpi/ic_launcher_monochrome.png: 108x108 dp (216x216 px), mipmap-xxhdpi/ic_launcher_monochrome.png: 108x108 dp (324x324 px), mipmap-xxxhdpi/ic_launcher_monochrome.png: 108x108 dp (432x432 px)">
         <location
-            file="src/main/res/mipmap-xxhdpi/ic_launcher_monochrome.png"/>
+            file="src/main/res/mipmap-xxxhdpi/ic_launcher_monochrome.png"/>
         <location
             file="src/main/res/mipmap-xhdpi/ic_launcher_monochrome.png"/>
         <location
-            file="src/main/res/mipmap-hdpi/ic_launcher_monochrome.png"/>
+            file="src/main/res/mipmap-xxhdpi/ic_launcher_monochrome.png"/>
         <location
-            file="src/main/res/mipmap-xxxhdpi/ic_launcher_monochrome.png"/>
+            file="src/main/res/mipmap-hdpi/ic_launcher_monochrome.png"/>
         <location
             file="src/main/res/mipmap-mdpi/ic_launcher_monochrome.png"/>
     </issue>
