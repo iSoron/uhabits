@@ -355,7 +355,7 @@ fun List<Entry>.countSkippedDays(
     firstWeekday: Int = Calendar.SATURDAY,
     skipDays: SkipDays
 ): List<Entry> {
-    val thisIntervalStart =  DateUtils.getTodayWithOffset().truncate(truncateField, firstWeekday)
+    val thisIntervalStart = DateUtils.getTodayWithOffset().truncate(truncateField, firstWeekday)
     return this.map { (timestamp, value) ->
         if (value == SKIP || skipDays.isDaySkipped(timestamp)) {
             Entry(timestamp, 1)

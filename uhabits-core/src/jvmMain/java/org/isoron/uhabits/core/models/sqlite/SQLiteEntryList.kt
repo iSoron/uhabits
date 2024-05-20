@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.SkipDays
 import org.isoron.uhabits.core.models.Timestamp
-import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
 
 class SQLiteEntryList(database: Database) : EntryList() {

@@ -25,7 +25,7 @@ data class Habit(
     var color: PaletteColor = PaletteColor(8),
     var description: String = "",
     var frequency: Frequency = Frequency.DAILY,
-    var skipDays:  SkipDays = SkipDays.NONE,
+    var skipDays: SkipDays = SkipDays.NONE,
     var id: Long? = null,
     var isArchived: Boolean = false,
     var name: String = "",

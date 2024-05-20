@@ -248,7 +248,7 @@ class EditHabitActivity : AppCompatActivity() {
             dialog.setListener { days: WeekdayList ->
                 reminderDays = days
                 if (reminderDays.isEmpty) reminderDays = WeekdayList.EVERY_DAY
-                if (isSkipDays) reminderDays = WeekdayList(reminderDays.toArray(),listSkipDays.toArray())
+                if (isSkipDays) reminderDays = WeekdayList(reminderDays.toArray(), listSkipDays.toArray())
                 populateReminder()
             }
             dialog.setSelectedDays(reminderDays)
@@ -264,7 +264,7 @@ class EditHabitActivity : AppCompatActivity() {
                 if (listSkipDays.isEmpty) listSkipDays = WeekdayList.NO_DAY
                 isSkipDays = (listSkipDays != WeekdayList.NO_DAY)
                 if (reminderHour >= 0 && isSkipDays) {
-                    reminderDays = WeekdayList(reminderDays.toArray(),listSkipDays.toArray())
+                    reminderDays = WeekdayList(reminderDays.toArray(), listSkipDays.toArray())
                     populateReminder()
                 }
                 populateSkipDays()
