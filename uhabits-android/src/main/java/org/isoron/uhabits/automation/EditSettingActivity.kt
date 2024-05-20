@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.HabitMatcher
+import org.isoron.uhabits.utils.applyRootViewInsets
 
 class EditSettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +46,7 @@ class EditSettingActivity : AppCompatActivity() {
             onSave = controller::onSave,
             args = args
         )
+        view.applyRootViewInsets()
         setContentView(view)
     }
 }

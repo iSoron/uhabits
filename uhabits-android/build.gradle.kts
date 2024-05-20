@@ -44,12 +44,14 @@ android {
 
     namespace = "org.isoron.uhabits"
     compileSdk = 34
+    // compileSdkPreview = "VanillaIceCream"
 
     defaultConfig {
         versionCode = 20200
         versionName = "2.2.0"
         minSdk = 28
         targetSdk = 34
+        // targetSdkPreview = "VanillaIceCream"
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
