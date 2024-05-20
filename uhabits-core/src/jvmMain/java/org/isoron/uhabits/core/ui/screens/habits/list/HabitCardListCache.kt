@@ -312,8 +312,7 @@ class HabitCardListCache @Inject constructor(
                 val list: MutableList<Int> = ArrayList()
                 val notes: MutableList<String> = ArrayList()
                 val skipDays = habit.skipDays
-                val skipDaysList = habit.skipDaysList
-                for ((_, value, note) in habit.computedEntries.getByInterval(dateFrom, today, skipDays, skipDaysList)) {
+                for ((_, value, note) in habit.computedEntries.getByInterval(dateFrom, today, skipDays)) {
                     list.add(value)
                     notes.add(note)
                 }

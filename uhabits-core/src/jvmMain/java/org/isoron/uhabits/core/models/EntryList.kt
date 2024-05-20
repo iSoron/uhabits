@@ -42,8 +42,8 @@ open class EntryList {
      * skip days are enabled and that day is to be skipped
      */
     @Synchronized
-    open fun get(timestamp: Timestamp, skipDays: Boolean = false, skipDaysList: WeekdayList = WeekdayList.NO_DAY): Entry {
-        return entriesByTimestamp[timestamp] ?: if (skipDays && skipDaysList.isDayTrue(timestamp.weekday)) Entry(timestamp, SKIP) else Entry(timestamp, UNKNOWN)
+    open fun get(timestamp: Timestamp, skipDays: SkipDays = SkipDays.NONE): Entry {
+        return if (skipDays.isDaySkipped(timestamp)) Entry(timestamp, SKIP) else entriesByTimestamp[timestamp] ?: Entry(timestamp, UNKNOWN)
     }
 
     /**
@@ -52,12 +52,12 @@ open class EntryList {
      * included.
      */
     @Synchronized
-    open fun getByInterval(from: Timestamp, to: Timestamp, skipDays: Boolean = false, skipDaysList: WeekdayList = WeekdayList.NO_DAY): List<Entry> {
+    open fun getByInterval(from: Timestamp, to: Timestamp, skipDays: SkipDays = SkipDays.NONE): List<Entry> {
         val result = mutableListOf<Entry>()
         if (from.isNewerThan(to)) return result
         var current = to
         while (current >= from) {
-            result.add(get(current, skipDays, skipDaysList))
+            result.add(get(current, skipDays))
             current = current.minus(1)
         }
         return result
@@ -91,16 +91,18 @@ open class EntryList {
     open fun recomputeFrom(
         originalEntries: EntryList,
         frequency: Frequency,
-        isNumerical: Boolean
+        isNumerical: Boolean,
+        skipDays: SkipDays
     ) {
         clear()
         val original = originalEntries.getKnown()
         if (isNumerical) {
-            original.forEach { add(it) }
+            val computed = addEntriesWithSkipDays(original, skipDays)
+            computed.forEach { add(it) }
         } else {
             val intervals = buildIntervals(frequency, original)
             snapIntervalsTogether(intervals)
-            val computed = buildEntriesFromInterval(original, intervals)
+            val computed = buildEntriesFromInterval(original, intervals, skipDays)
             computed.filter { it.value != UNKNOWN || it.notes.isNotEmpty() }.forEach { add(it) }
         }
     }
@@ -129,10 +131,10 @@ open class EntryList {
     fun computeWeekdayFrequency(isNumerical: Boolean): HashMap<Timestamp, Array<Int>> {
         val entries = getKnown()
         val map = hashMapOf<Timestamp, Array<Int>>()
-        for ((originalTimestamp, value) in entries) {
-            val weekday = originalTimestamp.weekday
+        for ((computedTimestamp, value) in entries) {
+            val weekday = computedTimestamp.weekday
             val truncatedTimestamp = Timestamp(
-                originalTimestamp.toCalendar().apply {
+                computedTimestamp.toCalendar().apply {
                     set(Calendar.DAY_OF_MONTH, 1)
                 }.timeInMillis
             )
@@ -143,7 +145,7 @@ open class EntryList {
                 map[truncatedTimestamp] = list
             }
 
-            if (isNumerical) {
+            if (isNumerical && value != SKIP) {
                 list[weekday] += value
             } else if (value == YES_MANUAL) {
                 list[weekday] += 1
@@ -168,7 +170,8 @@ open class EntryList {
          */
         fun buildEntriesFromInterval(
             original: List<Entry>,
-            intervals: List<Interval>
+            intervals: List<Interval>,
+            skipDays: SkipDays
         ): List<Entry> {
             val result = arrayListOf<Entry>()
             if (original.isEmpty()) return result
@@ -197,15 +200,17 @@ open class EntryList {
                 current = interval.end
                 while (current >= interval.begin) {
                     val offset = current.daysUntil(to)
-                    result[offset] = Entry(current, YES_AUTO)
+                    result[offset] = if (skipDays.isDaySkipped(current)) Entry(current, SKIP) else Entry(current, YES_AUTO)
                     current = current.minus(1)
                 }
             }
 
-            // Copy original entries
+            // Copy original entries except for the skipped days
             original.forEach { entry ->
                 val offset = entry.timestamp.daysUntil(to)
-                val value = if (
+                val value = if (skipDays.isDaySkipped(entry)) {
+                    SKIP
+                } else if (
                     result[offset].value == UNKNOWN ||
                     entry.value == SKIP ||
                     entry.value == YES_MANUAL
@@ -272,6 +277,29 @@ open class EntryList {
             }
             return intervals
         }
+
+        fun addEntriesWithSkipDays(original: List<Entry>, skipDays: SkipDays): List<Entry> {
+            if (original.isEmpty()) return original
+            val earliest = original.last().timestamp
+            val today = DateUtils.getTodayWithOffset()
+            val computed = mutableListOf<Entry>()
+            var current = today
+            var offset = 0
+            while (current >= earliest) {
+                if (current == original[offset].timestamp) {
+                    if (!skipDays.isDaySkipped(current)) {
+                        computed.add(original[offset])
+                    } else {
+                        computed.add(Entry(current, SKIP))
+                    }
+                    offset++
+                } else if (skipDays.isDaySkipped(current)) {
+                    computed.add(Entry(current, SKIP))
+                }
+                current = current.minus(1)
+            }
+            return computed
+        }
     }
 }
 
@@ -324,10 +352,12 @@ fun List<Entry>.groupedSum(
  */
 fun List<Entry>.countSkippedDays(
     truncateField: DateUtils.TruncateField,
-    firstWeekday: Int = Calendar.SATURDAY
+    firstWeekday: Int = Calendar.SATURDAY,
+    skipDays: SkipDays
 ): List<Entry> {
+    val thisIntervalStart =  DateUtils.getTodayWithOffset().truncate(truncateField, firstWeekday)
     return this.map { (timestamp, value) ->
-        if (value == SKIP) {
+        if (value == SKIP || skipDays.isDaySkipped(timestamp)) {
             Entry(timestamp, 1)
         } else {
             Entry(timestamp, 0)
@@ -341,5 +371,5 @@ fun List<Entry>.countSkippedDays(
         Entry(timestamp, entries.sumOf { it.value })
     }.sortedBy { (timestamp, _) ->
         -timestamp.unixTime
-    }
+    }.filter { it.timestamp == thisIntervalStart }
 }

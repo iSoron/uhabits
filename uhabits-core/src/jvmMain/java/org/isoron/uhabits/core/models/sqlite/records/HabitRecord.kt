@@ -26,6 +26,7 @@ import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
+import org.isoron.uhabits.core.models.SkipDays
 import org.isoron.uhabits.core.models.WeekdayList
 import java.util.Objects.requireNonNull
 
@@ -111,8 +112,8 @@ class HabitRecord {
         val (numerator, denominator) = model.frequency
         freqNum = numerator
         freqDen = denominator
-        skipDays = if (model.skipDays) 1 else 0
-        skipDaysList = model.skipDaysList.toInteger()
+        skipDays = if (model.skipDays.isSkipDays) 1 else 0
+        skipDaysList = model.skipDays.days.toInteger()
         reminderDays = 0
         reminderMin = null
         reminderHour = null
@@ -130,8 +131,7 @@ class HabitRecord {
         habit.description = description!!
         habit.question = question!!
         habit.frequency = Frequency(freqNum!!, freqDen!!)
-        habit.skipDays = (skipDays!! == 1)
-        habit.skipDaysList = WeekdayList(skipDaysList!!)
+        habit.skipDays = SkipDays(skipDays!! == 1, WeekdayList(skipDaysList!!))
         habit.color = PaletteColor(color!!)
         habit.isArchived = archived != 0
         habit.type = HabitType.fromInt(type!!)

@@ -76,6 +76,17 @@
             android:text="@string/every_day"
             android:textColor="?attr/contrast60"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="@dimen/smallTextSize" />
+
+        <TextView
+            android:id="@+id/skipLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="1dp"
+            android:textColor="?attr/contrast60"
+            android:text=""
+            android:layout_marginStart="4dp"
             android:layout_marginEnd="16dp"
             android:textSize="@dimen/smallTextSize" />
 
@@ -95,6 +106,7 @@
             android:textColor="?attr/contrast60"
             android:text="8:00 AM"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
             android:textSize="@dimen/smallTextSize" />
 
     </LinearLayout>

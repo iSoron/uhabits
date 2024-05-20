@@ -5,8 +5,6 @@ create table Habits (
     description text,
     freq_den integer,
     freq_num integer,
-    skip_days integer,
-    skip_days_list integer,
     highlight integer,
     name text,
     position integer,

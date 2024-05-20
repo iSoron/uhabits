@@ -67,6 +67,7 @@ class HistoryCardPresenter(
     override fun onDateLongPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
+        if (habit.skipDays.isDaySkipped(timestamp)) return
         if (habit.isNumerical) {
             showNumberPopup(timestamp)
         } else {
@@ -81,6 +82,7 @@ class HistoryCardPresenter(
     override fun onDateShortPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
+        if (habit.skipDays.isDaySkipped(timestamp)) return
         if (habit.isNumerical) {
             showNumberPopup(timestamp)
         } else {
@@ -161,7 +163,7 @@ class HistoryCardPresenter(
         ): HistoryCardState {
             val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-            val entries = habit.computedEntries.getByInterval(oldest, today)
+            val entries = habit.computedEntries.getByInterval(oldest, today, habit.skipDays)
             val series = if (habit.isNumerical) {
                 entries.map {
                     when {

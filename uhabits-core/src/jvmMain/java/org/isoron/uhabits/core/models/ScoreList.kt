@@ -68,8 +68,7 @@ class ScoreList {
     fun recompute(
         frequency: Frequency,
         isNumerical: Boolean,
-        skipDays: Boolean,
-        skipDaysList: WeekdayList,
+        skipDays: SkipDays,
         numericalHabitType: NumericalHabitType,
         targetValue: Double,
         computedEntries: EntryList,
@@ -81,7 +80,7 @@ class ScoreList {
         var numerator = frequency.numerator
         var denominator = frequency.denominator
         val freq = frequency.toDouble()
-        val values = computedEntries.getByInterval(from, to, skipDays, skipDaysList).map { it.value }.toIntArray()
+        val values = computedEntries.getByInterval(from, to, skipDays).map { it.value }.toIntArray()
         val isAtMost = numericalHabitType == NumericalHabitType.AT_MOST
 
         // For non-daily boolean habits, we double the numerator and the denominator to smooth

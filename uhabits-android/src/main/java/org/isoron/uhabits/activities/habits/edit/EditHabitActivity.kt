@@ -51,6 +51,7 @@ import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
+import org.isoron.uhabits.core.models.SkipDays
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.databinding.ActivityEditHabitBinding
 import org.isoron.uhabits.utils.ColorUtils
@@ -106,8 +107,8 @@ class EditHabitActivity : AppCompatActivity() {
             color = habit.color
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
-            isSkipDays = habit.skipDays
-            listSkipDays = habit.skipDaysList
+            isSkipDays = habit.skipDays.isSkipDays
+            listSkipDays = habit.skipDays.days
             targetType = habit.targetType
             habit.reminder?.let {
                 reminderHour = it.hour
@@ -302,8 +303,7 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         habit.frequency = Frequency(freqNum, freqDen)
-        habit.skipDays = isSkipDays
-        habit.skipDaysList = listSkipDays
+        habit.skipDays = SkipDays(isSkipDays, listSkipDays)
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = binding.targetInput.text.toString().toDouble()
             habit.targetType = targetType
@@ -358,6 +358,12 @@ class EditHabitActivity : AppCompatActivity() {
     }
 
     private fun populateSkipDays() {
+        val preferences = (application as HabitsApplication).component.preferences
+        if (preferences.isSkipEnabled || isSkipDays) {
+            binding.skipDaysOuterBox.visibility = View.VISIBLE
+        } else {
+            binding.skipDaysOuterBox.visibility = View.GONE
+        }
         if (isSkipDays) {
             binding.skipDaysPicker.text = listSkipDays.toFormattedString(this)
         } else {

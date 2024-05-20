@@ -251,6 +251,7 @@
 
             <!-- Notes -->
             <FrameLayout
+                android:id="@+id/skipDaysOuterBox"
                 style="@style/FormOuterBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

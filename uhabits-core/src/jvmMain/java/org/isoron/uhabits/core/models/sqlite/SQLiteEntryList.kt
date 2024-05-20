@@ -24,6 +24,7 @@ import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Frequency
+import org.isoron.uhabits.core.models.SkipDays
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
@@ -44,13 +45,13 @@ class SQLiteEntryList(database: Database) : EntryList() {
         isLoaded = true
     }
 
-    override fun get(timestamp: Timestamp, skipDays: Boolean, skipDaysList: WeekdayList): Entry {
+    override fun get(timestamp: Timestamp, skipDays: SkipDays): Entry {
         loadRecords()
-        return super.get(timestamp, skipDays, skipDaysList)
+        return super.get(timestamp, skipDays)
     }
-    override fun getByInterval(from: Timestamp, to: Timestamp, skipDays: Boolean, skipDaysList: WeekdayList): List<Entry> {
+    override fun getByInterval(from: Timestamp, to: Timestamp, skipDays: SkipDays): List<Entry> {
         loadRecords()
-        return super.getByInterval(from, to, skipDays, skipDaysList)
+        return super.getByInterval(from, to, skipDays)
     }
 
     override fun add(entry: Entry) {
@@ -78,7 +79,7 @@ class SQLiteEntryList(database: Database) : EntryList() {
         return super.getKnown()
     }
 
-    override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean) {
+    override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean, skipDays: SkipDays) {
         throw UnsupportedOperationException()
     }
 

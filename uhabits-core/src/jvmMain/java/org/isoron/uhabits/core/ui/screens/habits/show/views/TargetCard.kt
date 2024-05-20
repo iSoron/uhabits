@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.countSkippedDays
 import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.ui.views.Theme
@@ -45,54 +46,61 @@ class TargetCardPresenter {
             theme: Theme
         ): TargetCardState {
             val today = DateUtils.getTodayWithOffset()
+            val (yearBegin, yearEnd) = getYearRange(firstWeekday)
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-            val entries = habit.computedEntries.getByInterval(oldest, today)
+            val entriesForSkip = habit.computedEntries.getByInterval(yearBegin, yearEnd, habit.skipDays)
+            val entriesForSum = habit.computedEntries.getByInterval(oldest, today)
 
-            val valueToday = entries.groupedSum(
+            val valueToday = entriesForSum.groupedSum(
                 truncateField = DateUtils.TruncateField.DAY,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDayToday = entries.countSkippedDays(
-                truncateField = DateUtils.TruncateField.DAY
+            val skippedDayToday = entriesForSkip.countSkippedDays(
+                truncateField = DateUtils.TruncateField.DAY,
+                skipDays = habit.skipDays,
             ).firstOrNull()?.value ?: 0
 
-            val valueThisWeek = entries.groupedSum(
+            val valueThisWeek = entriesForSum.groupedSum(
                 truncateField = DateUtils.TruncateField.WEEK_NUMBER,
                 firstWeekday = firstWeekday,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisWeek = entries.countSkippedDays(
+            val skippedDaysThisWeek = entriesForSkip.countSkippedDays(
                 truncateField = DateUtils.TruncateField.WEEK_NUMBER,
-                firstWeekday = firstWeekday
+                firstWeekday = firstWeekday,
+                skipDays = habit.skipDays,
             ).firstOrNull()?.value ?: 0
 
-            val valueThisMonth = entries.groupedSum(
+            val valueThisMonth = entriesForSum.groupedSum(
                 truncateField = DateUtils.TruncateField.MONTH,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisMonth = entries.countSkippedDays(
-                truncateField = DateUtils.TruncateField.MONTH
+            val skippedDaysThisMonth = entriesForSkip.countSkippedDays(
+                truncateField = DateUtils.TruncateField.MONTH,
+                skipDays = habit.skipDays,
             ).firstOrNull()?.value ?: 0
 
-            val valueThisQuarter = entries.groupedSum(
+            val valueThisQuarter = entriesForSum.groupedSum(
                 truncateField = DateUtils.TruncateField.QUARTER,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisQuarter = entries.countSkippedDays(
-                truncateField = DateUtils.TruncateField.QUARTER
+            val skippedDaysThisQuarter = entriesForSkip.countSkippedDays(
+                truncateField = DateUtils.TruncateField.QUARTER,
+                skipDays = habit.skipDays,
             ).firstOrNull()?.value ?: 0
 
-            val valueThisYear = entries.groupedSum(
+            val valueThisYear = entriesForSum.groupedSum(
                 truncateField = DateUtils.TruncateField.YEAR,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisYear = entries.countSkippedDays(
-                truncateField = DateUtils.TruncateField.YEAR
+            val skippedDaysThisYear = entriesForSkip.countSkippedDays(
+                truncateField = DateUtils.TruncateField.YEAR,
+                skipDays = habit.skipDays,
             ).firstOrNull()?.value ?: 0
 
             val cal = DateUtils.getStartOfTodayCalendarWithOffset()
@@ -164,6 +172,17 @@ class TargetCardPresenter {
                 intervals = intervals,
                 theme = theme
             )
+        }
+
+        private fun getYearRange(firstWeekday: Int): Pair<Timestamp, Timestamp> {
+            val today = DateUtils.getTodayWithOffset()
+            val yearBegin = today.truncate(DateUtils.TruncateField.YEAR, firstWeekday)
+            val cali = yearBegin.toCalendar()
+            cali.add(Calendar.YEAR, 1)
+            var newest = Timestamp(cali)
+            val thisWeek = today.truncate(DateUtils.TruncateField.WEEK_NUMBER, firstWeekday)
+            if (thisWeek.daysUntil(newest) < 7) newest = thisWeek.plus(7)
+            return Pair(yearBegin, newest)
         }
     }
 }

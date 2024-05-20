@@ -25,8 +25,7 @@ data class Habit(
     var color: PaletteColor = PaletteColor(8),
     var description: String = "",
     var frequency: Frequency = Frequency.DAILY,
-    var skipDays: Boolean = false,
-    var skipDaysList: WeekdayList =  WeekdayList.NO_DAY,
+    var skipDays:  SkipDays = SkipDays.NONE,
     var id: Long? = null,
     var isArchived: Boolean = false,
     var name: String = "",
@@ -80,7 +79,8 @@ data class Habit(
         computedEntries.recomputeFrom(
             originalEntries = originalEntries,
             frequency = frequency,
-            isNumerical = isNumerical
+            isNumerical = isNumerical,
+            skipDays = skipDays
         )
 
         val today = DateUtils.getTodayWithOffset()
@@ -93,7 +93,6 @@ data class Habit(
             frequency = frequency,
             isNumerical = isNumerical,
             skipDays = skipDays,
-            skipDaysList = skipDaysList,
             numericalHabitType = targetType,
             targetValue = targetValue,
             computedEntries = computedEntries,
@@ -113,7 +112,6 @@ data class Habit(
         this.description = other.description
         this.frequency = other.frequency
         this.skipDays = other.skipDays
-        this.skipDaysList = other.skipDaysList
         // this.id should not be copied
         this.isArchived = other.isArchived
         this.name = other.name
@@ -135,7 +133,6 @@ data class Habit(
         if (description != other.description) return false
         if (frequency != other.frequency) return false
         if (skipDays != other.skipDays) return false
-        if (skipDaysList != other.skipDaysList) return false
         if (id != other.id) return false
         if (isArchived != other.isArchived) return false
         if (name != other.name) return false
@@ -155,7 +152,7 @@ data class Habit(
         var result = color.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + frequency.hashCode()
-        result = 31 * result + skipDaysList.hashCode()
+        result = 31 * result + skipDays.hashCode()
         result = 31 * result + (id?.hashCode() ?: 0)
         result = 31 * result + isArchived.hashCode()
         result = 31 * result + name.hashCode()
