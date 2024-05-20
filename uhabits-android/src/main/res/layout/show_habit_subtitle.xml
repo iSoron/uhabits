@@ -80,17 +80,6 @@
             android:textSize="@dimen/smallTextSize" />
 
         <TextView
-            android:id="@+id/skipLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="1dp"
-            android:textColor="?attr/contrast60"
-            android:text=""
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="@dimen/smallTextSize" />
-
-        <TextView
             android:id="@+id/reminderIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,11 +92,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="1dp"
-            android:textColor="?attr/contrast60"
             android:text="8:00 AM"
+            android:layout_marginStart="4dp"
+            android:textSize="@dimen/smallTextSize" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/skipLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="1dp"
+            android:textColor="?attr/contrast60"
+            android:text=""
             android:layout_marginStart="4dp"
             android:layout_marginEnd="16dp"
             android:textSize="@dimen/smallTextSize" />
 
     </LinearLayout>
+
+
 </merge>
