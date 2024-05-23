@@ -107,6 +107,10 @@ data class Habit(
         )
     }
 
+    fun firstEntryDate(): Timestamp {
+        return computedEntries.getKnown().lastOrNull()?.timestamp ?: DateUtils.getTodayWithOffset()
+    }
+
     fun copyFrom(other: Habit) {
         this.color = other.color
         this.description = other.description
