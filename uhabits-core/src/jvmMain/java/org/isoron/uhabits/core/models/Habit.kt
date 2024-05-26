@@ -40,12 +40,15 @@ data class Habit(
     val computedEntries: EntryList,
     val originalEntries: EntryList,
     val scores: ScoreList,
-    val streaks: StreakList
+    val streaks: StreakList,
+    var parentID: Long? = null,
+    var parentUUID: String? = null
 ) {
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
     }
 
+    var parent: HabitGroup? = null
     var observable = ModelObservable()
 
     val isNumerical: Boolean
@@ -111,6 +114,14 @@ data class Habit(
         return computedEntries.getKnown().lastOrNull()?.timestamp ?: DateUtils.getTodayWithOffset()
     }
 
+    fun hierarchyLevel(): Int {
+        return if (parentID == null) {
+            0
+        } else {
+            1 + parent!!.hierarchyLevel()
+        }
+    }
+
     fun copyFrom(other: Habit) {
         this.color = other.color
         this.description = other.description
@@ -127,6 +138,8 @@ data class Habit(
         this.type = other.type
         this.unit = other.unit
         this.uuid = other.uuid
+        this.parentID = other.parentID
+        this.parentUUID = other.parentUUID
     }
 
     override fun equals(other: Any?): Boolean {
@@ -148,6 +161,8 @@ data class Habit(
         if (type != other.type) return false
         if (unit != other.unit) return false
         if (uuid != other.uuid) return false
+        if (parentID != other.parentID) return false
+        if (parentUUID != other.parentUUID) return false
 
         return true
     }
@@ -168,6 +183,8 @@ data class Habit(
         result = 31 * result + type.value
         result = 31 * result + unit.hashCode()
         result = 31 * result + (uuid?.hashCode() ?: 0)
+        result = 31 * result + (parentID?.hashCode() ?: 0)
+        result = 31 * result + (parentUUID?.hashCode() ?: 0)
         return result
     }
 }

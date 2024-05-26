@@ -12,17 +12,19 @@ data class HabitGroup(
     var position: Int = 0,
     var question: String = "",
     var reminder: Reminder? = null,
-    var unit: String = "",
     var uuid: String? = null,
     var habitList: HabitList,
     var habitGroupList: HabitGroupList,
     val scores: ScoreList,
-    val streaks: StreakList
+    val streaks: StreakList,
+    var parentID: Long? = null,
+    var parentUUID: String? = null
 ) {
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
     }
 
+    var parent: HabitGroup? = null
     var observable = ModelObservable()
 
     val uriString: String
@@ -76,7 +78,7 @@ data class HabitGroup(
         )
     }
 
-    fun copyFrom(other: Habit) {
+    fun copyFrom(other: HabitGroup) {
         this.color = other.color
         this.description = other.description
         // this.id should not be copied
@@ -85,8 +87,9 @@ data class HabitGroup(
         this.position = other.position
         this.question = other.question
         this.reminder = other.reminder
-        this.unit = other.unit
         this.uuid = other.uuid
+        this.parentID = other.parentID
+        this.parentUUID = other.parentUUID
     }
 
     override fun equals(other: Any?): Boolean {
@@ -101,8 +104,9 @@ data class HabitGroup(
         if (position != other.position) return false
         if (question != other.question) return false
         if (reminder != other.reminder) return false
-        if (unit != other.unit) return false
         if (uuid != other.uuid) return false
+        if (parentID != other.parentID) return false
+        if (parentUUID != other.parentUUID) return false
 
         return true
     }
@@ -116,8 +120,37 @@ data class HabitGroup(
         result = 31 * result + position
         result = 31 * result + question.hashCode()
         result = 31 * result + (reminder?.hashCode() ?: 0)
-        result = 31 * result + unit.hashCode()
         result = 31 * result + (uuid?.hashCode() ?: 0)
+        result = 31 * result + (parentID?.hashCode() ?: 0)
+        result = 31 * result + (parentUUID?.hashCode() ?: 0)
         return result
+    }
+
+    fun hierarchyLevel(): Int {
+        return if (parentID == null) {
+            0
+        } else {
+            1 + parent!!.hierarchyLevel()
+        }
+    }
+
+    fun getHabitByUUIDDeep(uuid: String?): Habit? {
+        val habit = habitList.getByUUID(uuid)
+        if (habit != null) return habit
+        for (hgr in habitGroupList) {
+            val found = hgr.getHabitByUUIDDeep(uuid)
+            if (found != null) return found
+        }
+        return null
+    }
+
+    fun getHabitGroupByUUIDDeep(uuid: String?): HabitGroup? {
+        val habitGroup = habitGroupList.getByUUID(uuid)
+        if (habitGroup != null) return habitGroup
+        for (hgr in habitGroupList) {
+            val found = hgr.getHabitGroupByUUIDDeep(uuid)
+            if (found != null) return found
+        }
+        return null
     }
 }

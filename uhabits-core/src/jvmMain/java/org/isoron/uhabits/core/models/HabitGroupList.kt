@@ -1,6 +1,7 @@
 package org.isoron.uhabits.core.models
 
 import com.opencsv.CSVWriter
+import org.isoron.uhabits.core.models.HabitList.Order
 import java.io.IOException
 import java.io.Writer
 import java.util.LinkedList
@@ -62,6 +63,30 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
      * @return the habit, or null if none exist
      */
     abstract fun getByUUID(uuid: String?): HabitGroup?
+
+    /**
+     *  Returns the habit with the specified UUID which is
+     *  present at any hierarchy within this list.
+     */
+    fun getHabitByUUIDDeep(uuid: String?): Habit? {
+        for (hgr in this) {
+            val habit = hgr.getHabitByUUIDDeep(uuid)
+            if (habit != null) {
+                return habit
+            }
+        }
+        return null
+    }
+
+    fun getHabitGroupByUUIDDeep(uuid: String?): HabitGroup? {
+        for (hgr in this) {
+            val habit = hgr.getHabitGroupByUUIDDeep(uuid)
+            if (habit != null) {
+                return habit
+            }
+        }
+        return null
+    }
 
     /**
      * Returns the habit that occupies a certain position.
@@ -150,6 +175,42 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
         update(listOf(habitGroup))
     }
 
+    fun populateGroupsWith(habitList: HabitList) {
+        val toRemove = mutableListOf<String?>()
+        for (habit in habitList) {
+            val hgr = getByUUID(habit.parentUUID)
+            if (hgr != null) {
+                hgr.habitList.add(habit)
+                habit.parent = hgr
+                toRemove.add(habit.uuid)
+            }
+        }
+        for (uuid in toRemove) {
+            val h = habitList.getByUUID(uuid)
+            if (h != null) {
+                habitList.remove(h)
+            }
+        }
+        toRemove.clear()
+        for (hgr1 in this) {
+            val hgr2 = getByUUID(hgr1.parentUUID)
+            if (hgr2 != null) {
+                hgr2.habitGroupList.add(hgr1)
+                toRemove.add(hgr1.uuid)
+                hgr1.parent = hgr2
+            }
+        }
+        for (uuid in toRemove) {
+            val h = getByUUID(uuid)
+            if (h != null) {
+                remove(h)
+            }
+        }
+        for (hgr in this) {
+            hgr.recompute()
+        }
+    }
+
     /**
      * Writes the list of habits to the given writer, in CSV format. There is
      * one line for each habit, containing the fields name, description,
@@ -186,15 +247,4 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     }
 
     abstract fun resort()
-    enum class Order {
-        BY_NAME_ASC,
-        BY_NAME_DESC,
-        BY_COLOR_ASC,
-        BY_COLOR_DESC,
-        BY_SCORE_ASC,
-        BY_SCORE_DESC,
-        BY_STATUS_ASC,
-        BY_STATUS_DESC,
-        BY_POSITION
-    }
 }

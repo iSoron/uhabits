@@ -95,6 +95,12 @@ class HabitRecord {
     @field:Column
     var uuid: String? = null
 
+    @field:Column(name = "parent_id")
+    var parentID: Long? = null
+
+    @field:Column(name = "parent_uuid")
+    var parentUUID: String? = null
+
     fun copyFrom(model: Habit) {
         id = model.id
         name = model.name
@@ -109,6 +115,8 @@ class HabitRecord {
         position = model.position
         question = model.question
         uuid = model.uuid
+        parentID = model.parentID
+        parentUUID = model.parentUUID
         val (numerator, denominator) = model.frequency
         freqNum = numerator
         freqDen = denominator
@@ -140,6 +148,8 @@ class HabitRecord {
         habit.unit = unit!!
         habit.position = position!!
         habit.uuid = uuid
+        habit.parentID = parentID
+        habit.parentUUID = parentUUID
         if (reminderHour != null && reminderMin != null) {
             habit.reminder = Reminder(
                 reminderHour!!,

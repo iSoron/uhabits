@@ -32,6 +32,14 @@ data class HabitMatcher(
         return true
     }
 
+    fun matches(habitGroup: HabitGroup): Boolean {
+        if (!isArchivedAllowed && habitGroup.isArchived) return false
+        if (isReminderRequired && !habitGroup.hasReminder()) return false
+        if (!isCompletedAllowed && habitGroup.isCompletedToday()) return false
+        if (!isEnteredAllowed && habitGroup.isEnteredToday()) return false
+        return true
+    }
+
     companion object {
         @JvmField
         val WITH_ALARM = HabitMatcher(

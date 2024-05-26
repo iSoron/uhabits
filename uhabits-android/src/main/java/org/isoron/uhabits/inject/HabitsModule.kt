@@ -26,9 +26,11 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.DatabaseOpener
 import org.isoron.uhabits.core.io.Logging
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
+import org.isoron.uhabits.core.models.sqlite.SQLiteHabitGroupList
 import org.isoron.uhabits.core.models.sqlite.SQLiteHabitList
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.preferences.WidgetPreferences
@@ -94,6 +96,12 @@ class HabitsModule(dbFile: File) {
     @Provides
     @AppScope
     fun getHabitList(list: SQLiteHabitList): HabitList {
+        return list
+    }
+
+    @Provides
+    @AppScope
+    fun getHabitGroupList(list: SQLiteHabitGroupList): HabitGroupList {
         return list
     }
 

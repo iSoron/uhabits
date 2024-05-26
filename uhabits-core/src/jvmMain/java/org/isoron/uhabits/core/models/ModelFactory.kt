@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.models
 
 import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.models.sqlite.records.HabitGroupRecord
 import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
 
 /**
@@ -38,11 +39,25 @@ interface ModelFactory {
             computedEntries = buildComputedEntries()
         )
     }
+    fun buildHabitGroup(): HabitGroup {
+        val habits = buildHabitList()
+        val groups = buildHabitGroupList()
+        val scores = buildScoreList()
+        val streaks = buildStreakList()
+        return HabitGroup(
+            habitList = habits,
+            habitGroupList = groups,
+            scores = scores,
+            streaks = streaks
+        )
+    }
     fun buildComputedEntries(): EntryList
     fun buildOriginalEntries(): EntryList
     fun buildHabitList(): HabitList
+    fun buildHabitGroupList(): HabitGroupList
     fun buildScoreList(): ScoreList
     fun buildStreakList(): StreakList
     fun buildHabitListRepository(): Repository<HabitRecord>
     fun buildRepetitionListRepository(): Repository<EntryRecord>
+    fun buildHabitGroupListRepository(): Repository<HabitGroupRecord>
 }
