@@ -51,6 +51,12 @@ class HabitTypeDialog : AppCompatDialogFragment() {
             dismiss()
         }
 
+        binding.buttonHabitGroup.setOnClickListener {
+            val intent = IntentFactory().startEditGroupActivity(requireActivity())
+            startActivity(intent)
+            dismiss()
+        }
+
         binding.background.setOnClickListener {
             dismiss()
         }

@@ -64,6 +64,8 @@
     <string name="skip_days_off">Off</string>
     <string name="create_habit">Create habit</string>
     <string name="edit_habit">Edit habit</string>
+    <string name="create_habit_group">Create habit group</string>
+    <string name="edit_habit_group">Edit habit group</string>
     <string name="check">Check</string>
     <string name="snooze">Later</string>
     <string name="intro_title_1">Welcome</string>
@@ -208,6 +210,8 @@
     <string name="yes_or_no_example">e.g. Did you wake up early today? Did you exercise? Did you play chess?</string>
     <string name="measurable">Measurable</string>
     <string name="measurable_example">e.g. How many miles did you run today? How many pages did you read?</string>
+    <string name="habit_group">Habit Group</string>
+    <string name="habit_group_example">A group to organize similar habits together. E.g. Exercise: Running, Cycling, Gym, etc.</string>
     <string name="x_times_per_week">%d times per week</string>
     <string name="x_times_per_month">%d times per month</string>
     <string name="x_times_per_y_days">%d times in %d days</string>
