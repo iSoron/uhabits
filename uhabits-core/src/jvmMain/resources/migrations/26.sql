@@ -15,7 +15,5 @@ create table HabitGroups (
     reminder_hour integer,
     reminder_min integer,
     question text not null default "",
-    uuid text,
-    parent_id integer,
-    parent_uuid integer
+    uuid text
 );

@@ -78,16 +78,6 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
         return null
     }
 
-    fun getHabitGroupByUUIDDeep(uuid: String?): HabitGroup? {
-        for (hgr in this) {
-            val habit = hgr.getHabitGroupByUUIDDeep(uuid)
-            if (habit != null) {
-                return habit
-            }
-        }
-        return null
-    }
-
     /**
      * Returns the habit that occupies a certain position.
      *
@@ -189,21 +179,6 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
             val h = habitList.getByUUID(uuid)
             if (h != null) {
                 habitList.remove(h)
-            }
-        }
-        toRemove.clear()
-        for (hgr1 in this) {
-            val hgr2 = getByUUID(hgr1.parentUUID)
-            if (hgr2 != null) {
-                hgr2.habitGroupList.add(hgr1)
-                toRemove.add(hgr1.uuid)
-                hgr1.parent = hgr2
-            }
-        }
-        for (uuid in toRemove) {
-            val h = getByUUID(uuid)
-            if (h != null) {
-                remove(h)
             }
         }
         for (hgr in this) {

@@ -71,7 +71,6 @@ class StreakList {
     @Synchronized
     fun combineFrom(
         habitList: HabitList,
-        habitGroupList: HabitGroupList,
         from: Timestamp,
         to: Timestamp
     ) {
@@ -79,9 +78,7 @@ class StreakList {
         var streakRunning = false
         var streakStart = from
         while (current <= to) {
-            if (habitList.all { it.streaks.isInStreaks(current) } &&
-                habitGroupList.all { it.streaks.isInStreaks(current) } &&
-                !streakRunning
+            if (habitList.all { it.streaks.isInStreaks(current) } && !streakRunning
             ) {
                 streakStart = current
                 streakRunning = true

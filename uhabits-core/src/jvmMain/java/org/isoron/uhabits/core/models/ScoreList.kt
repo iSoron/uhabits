@@ -141,15 +141,13 @@ class ScoreList {
     @Synchronized
     fun combineFrom(
         habitList: HabitList,
-        habitGroupList: HabitGroupList,
         from: Timestamp,
         to: Timestamp
     ) {
         var current = to
         while (current >= from) {
             val habitScores = habitList.map { it.scores[current].value }
-            val groupScores = habitGroupList.map { it.scores[current].value }
-            val averageScore = (habitScores + groupScores).average()
+            val averageScore = habitScores.average()
             map[current] = Score(current, averageScore)
             current = current.minus(1)
         }

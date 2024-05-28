@@ -49,12 +49,6 @@ class HabitGroupRecord {
     @field:Column
     var uuid: String? = null
 
-    @field:Column(name = "parent_id")
-    var parentID: Long? = null
-
-    @field:Column(name = "parent_uuid")
-    var parentUUID: String? = null
-
     fun copyFrom(model: HabitGroup) {
         id = model.id
         name = model.name
@@ -68,8 +62,6 @@ class HabitGroupRecord {
         reminderDays = 0
         reminderMin = null
         reminderHour = null
-        parentID = model.parentID
-        parentUUID = model.parentUUID
         if (model.hasReminder()) {
             val reminder = model.reminder
             reminderHour = requireNonNull(reminder)!!.hour
@@ -87,8 +79,6 @@ class HabitGroupRecord {
         habitGroup.isArchived = archived != 0
         habitGroup.position = position!!
         habitGroup.uuid = uuid
-        habitGroup.parentID = parentID
-        habitGroup.parentUUID = parentUUID
         if (reminderHour != null && reminderMin != null) {
             habitGroup.reminder = Reminder(
                 reminderHour!!,

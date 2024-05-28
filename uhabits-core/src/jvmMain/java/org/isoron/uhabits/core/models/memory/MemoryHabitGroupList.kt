@@ -205,10 +205,6 @@ class MemoryHabitGroupList : HabitGroupList {
             hgr.habitList.primaryOrder = primaryOrder
             hgr.habitList.secondaryOrder = secondaryOrder
             hgr.habitList.resort()
-
-            hgr.habitGroupList.primaryOrder = primaryOrder
-            hgr.habitGroupList.secondaryOrder = secondaryOrder
-            hgr.habitGroupList.resort()
         }
         if (comparator != null) list.sortWith(comparator!!)
         observable.notifyListeners()

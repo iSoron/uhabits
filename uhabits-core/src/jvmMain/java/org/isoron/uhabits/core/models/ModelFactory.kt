@@ -41,12 +41,10 @@ interface ModelFactory {
     }
     fun buildHabitGroup(): HabitGroup {
         val habits = buildHabitList()
-        val groups = buildHabitGroupList()
         val scores = buildScoreList()
         val streaks = buildStreakList()
         return HabitGroup(
             habitList = habits,
-            habitGroupList = groups,
             scores = scores,
             streaks = streaks
         )

@@ -14,7 +14,6 @@ data class HabitGroup(
     var reminder: Reminder? = null,
     var uuid: String? = null,
     var habitList: HabitList,
-    var habitGroupList: HabitGroupList,
     val scores: ScoreList,
     val streaks: StreakList,
     var parentID: Long? = null,
@@ -33,11 +32,11 @@ data class HabitGroup(
     fun hasReminder(): Boolean = reminder != null
 
     fun isCompletedToday(): Boolean {
-        return habitList.all { it.isCompletedToday() } && habitGroupList.all { it.isCompletedToday() }
+        return habitList.all { it.isCompletedToday() }
     }
 
     fun isEnteredToday(): Boolean {
-        return habitList.all { it.isEnteredToday() } && habitGroupList.all { it.isEnteredToday() }
+        return habitList.all { it.isEnteredToday() }
     }
 
     fun firstEntryDate(): Timestamp {
@@ -47,16 +46,11 @@ data class HabitGroup(
             val first = h.firstEntryDate()
             if (earliest.isNewerThan(first)) earliest = first
         }
-        for (hgr in habitGroupList) {
-            val first = hgr.firstEntryDate()
-            if (earliest.isNewerThan(first)) earliest = first
-        }
         return earliest
     }
 
     fun recompute() {
         for (h in habitList) h.recompute()
-        for (hgr in habitGroupList) hgr.recompute()
 
         val today = DateUtils.getTodayWithOffset()
         val to = today.plus(30)
@@ -65,14 +59,12 @@ data class HabitGroup(
 
         scores.combineFrom(
             habitList = habitList,
-            habitGroupList = habitGroupList,
             from = from,
             to = to
         )
 
         streaks.combineFrom(
             habitList = habitList,
-            habitGroupList = habitGroupList,
             from = from,
             to = to
         )
@@ -134,23 +126,6 @@ data class HabitGroup(
         }
     }
 
-    fun getHabitByUUIDDeep(uuid: String?): Habit? {
-        val habit = habitList.getByUUID(uuid)
-        if (habit != null) return habit
-        for (hgr in habitGroupList) {
-            val found = hgr.getHabitByUUIDDeep(uuid)
-            if (found != null) return found
-        }
-        return null
-    }
-
-    fun getHabitGroupByUUIDDeep(uuid: String?): HabitGroup? {
-        val habitGroup = habitGroupList.getByUUID(uuid)
-        if (habitGroup != null) return habitGroup
-        for (hgr in habitGroupList) {
-            val found = hgr.getHabitGroupByUUIDDeep(uuid)
-            if (found != null) return found
-        }
-        return null
-    }
+    fun getHabitByUUIDDeep(uuid: String?): Habit? =
+        habitList.getByUUID(uuid)
 }
