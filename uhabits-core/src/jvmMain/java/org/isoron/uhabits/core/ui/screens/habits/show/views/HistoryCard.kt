@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
+import org.isoron.uhabits.core.commands.BlockSkippedDayCommand
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
@@ -67,7 +68,10 @@ class HistoryCardPresenter(
     override fun onDateLongPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
-        if (habit.skipDays.isDaySkipped(timestamp)) return
+        if (habit.skipDays.isDaySkipped(timestamp)) {
+            commandRunner.run(BlockSkippedDayCommand())
+            return
+        }
         if (habit.isNumerical) {
             showNumberPopup(timestamp)
         } else {
@@ -82,7 +86,10 @@ class HistoryCardPresenter(
     override fun onDateShortPress(date: LocalDate) {
         val timestamp = Timestamp.fromLocalDate(date)
         screen.showFeedback()
-        if (habit.skipDays.isDaySkipped(timestamp)) return
+        if (habit.skipDays.isDaySkipped(timestamp)) {
+            commandRunner.run(BlockSkippedDayCommand())
+            return
+        }
         if (habit.isNumerical) {
             showNumberPopup(timestamp)
         } else {

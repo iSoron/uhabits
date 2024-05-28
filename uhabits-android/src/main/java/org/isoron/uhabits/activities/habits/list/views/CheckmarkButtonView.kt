@@ -89,12 +89,12 @@ class CheckmarkButtonView(
     }
 
     fun performToggle() {
-        value = Entry.nextToggleValue(
+        val next_value = Entry.nextToggleValue(
             value = value,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        onToggle(value, notes)
+        onToggle(next_value, notes)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
     }

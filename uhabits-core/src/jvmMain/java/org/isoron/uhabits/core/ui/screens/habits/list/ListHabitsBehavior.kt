@@ -137,10 +137,14 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String, x: Float, y: Float) {
-        commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
-        )
-        if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
+        if (habit.skipDays.isDaySkipped(timestamp)) {
+            commandRunner.run(BlockSkippedDayCommand())
+        } else {
+            commandRunner.run(
+                CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
+            )
+            if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
+        }
     }
 
     enum class Message {
