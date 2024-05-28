@@ -37,6 +37,7 @@ import org.isoron.uhabits.activities.common.dialogs.NumberDialog
 import org.isoron.uhabits.activities.habits.edit.HabitTypeDialog
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
+import org.isoron.uhabits.core.commands.BlockSkippedDayCommand
 import org.isoron.uhabits.core.commands.ChangeHabitColorCommand
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
@@ -320,6 +321,9 @@ class ListHabitsScreen
                     R.plurals.toast_habits_unarchived,
                     command.selected.size
                 )
+            }
+            is BlockSkippedDayCommand -> {
+                return activity.resources.getString(R.string.toast_day_auto_skip)
             }
             else -> return null
         }

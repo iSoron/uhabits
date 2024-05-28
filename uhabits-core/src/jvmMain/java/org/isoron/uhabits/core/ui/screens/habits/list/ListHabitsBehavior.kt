@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
+import org.isoron.uhabits.core.commands.BlockSkippedDayCommand
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry
@@ -54,7 +55,10 @@ open class ListHabitsBehavior @Inject constructor(
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
-        if (habit.skipDays.isDaySkipped(timestamp)) return
+        if (habit.skipDays.isDaySkipped(timestamp)) {
+            commandRunner.run(BlockSkippedDayCommand())
+            return
+        }
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
             screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String, x: Float, y: Float ->
