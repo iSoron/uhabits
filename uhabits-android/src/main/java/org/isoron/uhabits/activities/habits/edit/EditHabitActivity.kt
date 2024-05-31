@@ -303,6 +303,7 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         habit.frequency = Frequency(freqNum, freqDen)
+        if (freqDen != 1) isSkipDays = false
         habit.skipDays = SkipDays(isSkipDays, listSkipDays)
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = binding.targetInput.text.toString().toDouble()
@@ -379,6 +380,11 @@ class EditHabitActivity : AppCompatActivity() {
             7 -> getString(R.string.every_week)
             30 -> getString(R.string.every_month)
             else -> "$freqNum/$freqDen"
+        }
+        if (freqDen == 1) {
+            binding.skipDaysOuterBox.visibility = View.VISIBLE
+        } else {
+            binding.skipDaysOuterBox.visibility = View.GONE
         }
     }
 
