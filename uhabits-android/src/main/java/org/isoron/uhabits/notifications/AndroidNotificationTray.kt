@@ -66,10 +66,11 @@ class AndroidNotificationTray
         habit: Habit,
         notificationId: Int,
         timestamp: Timestamp,
-        reminderTime: Long
+        reminderTime: Long,
+        silent: Boolean
     ) {
         val notificationManager = NotificationManagerCompat.from(context)
-        val notification = buildNotification(habit, reminderTime, timestamp)
+        val notification = buildNotification(habit, reminderTime, timestamp, silent = silent)
         createAndroidNotificationChannel(context)
         try {
             notificationManager.notify(notificationId, notification)
@@ -83,7 +84,8 @@ class AndroidNotificationTray
                 habit,
                 reminderTime,
                 timestamp,
-                disableSound = true
+                disableSound = true,
+                silent = silent
             )
             notificationManager.notify(notificationId, n)
         }
@@ -94,7 +96,8 @@ class AndroidNotificationTray
         habit: Habit,
         reminderTime: Long,
         timestamp: Timestamp,
-        disableSound: Boolean = false
+        disableSound: Boolean = false,
+        silent: Boolean = false
     ): Notification {
         val addRepetitionAction = Action(
             R.drawable.ic_action_check,
@@ -131,6 +134,7 @@ class AndroidNotificationTray
             .setSound(null)
             .setWhen(reminderTime)
             .setShowWhen(true)
+            .setSilent(silent)
             .setOngoing(preferences.shouldMakeNotificationsSticky())
 
         if (habit.isNumerical) {

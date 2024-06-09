@@ -18,11 +18,18 @@
  */
 package org.isoron.uhabits.core.preferences
 
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.utils.StringUtils.Companion.joinLongs
 import org.isoron.platform.utils.StringUtils.Companion.splitLongs
+import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getFirstWeekdayNumberAccordingToLocale
 import java.util.LinkedList
@@ -134,6 +141,36 @@ open class Preferences(private val storage: Storage) {
         set(enabled) {
             storage.putBoolean("pref_short_toggle", enabled)
         }
+
+    internal open fun setActiveNotifications(activeNotifications: Map<Habit, NotificationTray.NotificationData>) {
+        val activeById = activeNotifications.mapKeys { it.key.id }
+        val serialized = Json.encodeToString(activeById)
+        storage.putString("pref_active_notifications", serialized)
+    }
+
+    internal open fun getActiveNotifications(habitList: HabitList): HashMap<Habit, NotificationTray.NotificationData> {
+        val serialized = storage.getString("pref_active_notifications", "")
+        return if (serialized == "") {
+            HashMap()
+        } else {
+            try {
+                val activeById = Json.decodeFromString(
+                    MapSerializer(
+                        Long.serializer(),
+                        NotificationTray.NotificationData.serializer()
+                    ),
+                    serialized
+                )
+                val activeByHabit =
+                    activeById.mapNotNull { (id, v) -> habitList.getById(id)?.let { it to v } }
+                activeByHabit.toMap(HashMap())
+            } catch (e: IllegalArgumentException) {
+                HashMap()
+            } catch (e: SerializationException) {
+                HashMap()
+            }
+        }
+    }
 
     fun removeListener(listener: Listener) {
         listeners.remove(listener)

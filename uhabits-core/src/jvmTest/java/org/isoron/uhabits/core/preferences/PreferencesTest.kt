@@ -21,8 +21,11 @@ package org.isoron.uhabits.core.preferences
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
+import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.Timestamp.Companion.ZERO
+import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.junit.Before
 import org.junit.Test
@@ -160,6 +163,31 @@ class PreferencesTest : BaseUnitTest() {
         prefs.showCompleted = false
         assertTrue(prefs.showArchived)
         assertFalse(prefs.showCompleted)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testActiveNotifications() {
+        repeat(5) { habitList.add(fixtures.createEmptyHabit()) }
+
+        // Initially no active notifications
+        assertThat(prefs.getActiveNotifications(habitList), equalTo(HashMap()))
+
+        // Example map of active notifications
+        val a = HashMap<Habit, NotificationTray.NotificationData>()
+        for (i in listOf(0, 1, 3)) {
+            val habit = habitList.getByPosition(i)
+            val data = NotificationTray.NotificationData(Timestamp(10000L * i), 200000L * i)
+            a[habit] = data
+        }
+
+        // Persist and retrieve active notifications
+        prefs.setActiveNotifications(a)
+        val b = prefs.getActiveNotifications(habitList)
+
+        // Assert that persisted and retrieved maps are teh same
+        assertThat(a.keys, equalTo(b.keys))
+        a.forEach { e -> assertThat(b[e.key], equalTo(e.value)) }
     }
 
     @Test
