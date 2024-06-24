@@ -63,6 +63,7 @@ class ScoreList {
 
     /**
      * Recomputes all scores between the provided [from] and [to] timestamps.
+     * Takes into account whether some days of the week are automatically skipped.
      */
     @Synchronized
     fun recompute(

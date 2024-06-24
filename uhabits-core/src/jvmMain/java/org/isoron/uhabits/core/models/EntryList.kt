@@ -48,7 +48,8 @@ open class EntryList {
     /**
      * Returns one entry for each day in the given interval. The first element corresponds to the
      * newest entry, and the last element corresponds to the oldest. The interval endpoints are
-     * included.
+     * included. Takes into account whether days are to be regularly skipped and returns SKIP
+     * accordingly.
      */
     @Synchronized
     open fun getByInterval(from: Timestamp, to: Timestamp, skipDays: SkipDays = SkipDays.NONE): List<Entry> {

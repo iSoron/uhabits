@@ -18,6 +18,12 @@
  */
 package org.isoron.uhabits.core.models
 
+/**
+ * If [isSkipDays] is enabled, then the selected [days] of the week are regularly skipped, and
+ * the score is automatically calculated based on that. For measurable weekly tasks and weekly
+ * boolean tasks with frequency < 1, the target is not changed but distributed over the rest of the
+ * days of the week.
+ */
 data class SkipDays(
     val isSkipDays: Boolean,
     val days: WeekdayList

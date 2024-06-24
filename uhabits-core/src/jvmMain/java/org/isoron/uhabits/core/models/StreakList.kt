@@ -46,6 +46,8 @@ class StreakList {
             .filter { it.value > 0 }
             .map { it.timestamp }
             .toTypedArray()
+
+        // gets all the values to make sure that streaks do no consist of just SKIP entries
         val values = computedEntries
             .getByInterval(from, to, skipDays)
             .filter { it.value > 0 }
