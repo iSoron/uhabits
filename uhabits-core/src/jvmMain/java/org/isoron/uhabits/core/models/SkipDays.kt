@@ -27,10 +27,6 @@ data class SkipDays(
         return isSkipDays && days.isDayTrue(day.weekday)
     }
 
-    fun isDaySkipped(entry: Entry): Boolean {
-        return isSkipDays && days.isDayTrue(entry.timestamp.weekday)
-    }
-
     fun numDaysSkipped(): Int {
         return if (isSkipDays) days.numDays() else 0
     }
