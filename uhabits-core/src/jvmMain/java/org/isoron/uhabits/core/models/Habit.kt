@@ -79,8 +79,7 @@ data class Habit(
         computedEntries.recomputeFrom(
             originalEntries = originalEntries,
             frequency = frequency,
-            isNumerical = isNumerical,
-            skipDays = skipDays
+            isNumerical = isNumerical
         )
 
         val today = DateUtils.getTodayWithOffset()
@@ -103,7 +102,8 @@ data class Habit(
         streaks.recompute(
             computedEntries,
             from,
-            to
+            to,
+            skipDays
         )
     }
 

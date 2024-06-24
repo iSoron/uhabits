@@ -38,10 +38,10 @@ class WeekdayList {
         this.weekdays = Arrays.copyOf(weekdays, 7)
     }
 
-    constructor(addDays: BooleanArray, removeDays: BooleanArray) {
+    constructor(days: BooleanArray, removeDays: BooleanArray) {
         weekdays = BooleanArray(7)
         for (i in 0..6) {
-            weekdays[i] = addDays[i] && !removeDays[i]
+            weekdays[i] = days[i] && !removeDays[i]
         }
     }
 
@@ -67,6 +67,10 @@ class WeekdayList {
 
     fun isDayTrue(dayNum: Int): Boolean {
         return weekdays[dayNum]
+    }
+
+    fun numDays(): Int {
+        return weekdays.count { it }
     }
 
     override fun equals(other: Any?): Boolean {

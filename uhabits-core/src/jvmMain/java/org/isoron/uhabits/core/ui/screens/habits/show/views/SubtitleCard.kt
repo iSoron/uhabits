@@ -31,7 +31,7 @@ data class SubtitleCardState(
     val color: PaletteColor,
     val frequency: Frequency,
     val isNumerical: Boolean,
-    val skipDays: SkipDays,
+    val skipDays: SkipDays = SkipDays.NONE,
     val question: String,
     val reminder: Reminder?,
     val targetValue: Double = 0.0,

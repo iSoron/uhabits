@@ -34,6 +34,10 @@ data class SkipDays(
         return isSkipDays && days.isDayTrue(entry.timestamp.weekday)
     }
 
+    fun numDaysSkipped(): Int {
+        return if (isSkipDays) days.numDays() else 0
+    }
+
     companion object {
         @JvmField
         val NONE = SkipDays(false, WeekdayList(0))

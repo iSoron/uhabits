@@ -24,7 +24,6 @@ import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.utils.DateUtils
-import java.util.ArrayList
 import java.util.Calendar
 import javax.annotation.concurrent.ThreadSafe
 import kotlin.collections.set
@@ -91,18 +90,16 @@ open class EntryList {
     open fun recomputeFrom(
         originalEntries: EntryList,
         frequency: Frequency,
-        isNumerical: Boolean,
-        skipDays: SkipDays
+        isNumerical: Boolean
     ) {
         clear()
         val original = originalEntries.getKnown()
         if (isNumerical) {
-            val computed = addEntriesWithSkipDays(original, skipDays)
-            computed.forEach { add(it) }
+            original.forEach { add(it) }
         } else {
             val intervals = buildIntervals(frequency, original)
             snapIntervalsTogether(intervals)
-            val computed = buildEntriesFromInterval(original, intervals, skipDays)
+            val computed = buildEntriesFromInterval(original, intervals)
             computed.filter { it.value != UNKNOWN || it.notes.isNotEmpty() }.forEach { add(it) }
         }
     }
@@ -170,8 +167,7 @@ open class EntryList {
          */
         fun buildEntriesFromInterval(
             original: List<Entry>,
-            intervals: List<Interval>,
-            skipDays: SkipDays
+            intervals: List<Interval>
         ): List<Entry> {
             val result = arrayListOf<Entry>()
             if (original.isEmpty()) return result
@@ -200,7 +196,7 @@ open class EntryList {
                 current = interval.end
                 while (current >= interval.begin) {
                     val offset = current.daysUntil(to)
-                    result[offset] = if (skipDays.isDaySkipped(current)) Entry(current, SKIP) else Entry(current, YES_AUTO)
+                    result[offset] = Entry(current, YES_AUTO)
                     current = current.minus(1)
                 }
             }
@@ -208,9 +204,7 @@ open class EntryList {
             // Copy original entries except for the skipped days
             original.forEach { entry ->
                 val offset = entry.timestamp.daysUntil(to)
-                val value = if (skipDays.isDaySkipped(entry)) {
-                    SKIP
-                } else if (
+                val value = if (
                     result[offset].value == UNKNOWN ||
                     entry.value == SKIP ||
                     entry.value == YES_MANUAL
@@ -277,29 +271,6 @@ open class EntryList {
             }
             return intervals
         }
-
-        fun addEntriesWithSkipDays(original: List<Entry>, skipDays: SkipDays): List<Entry> {
-            if (original.isEmpty()) return original
-            val earliest = original.last().timestamp
-            val today = DateUtils.getTodayWithOffset()
-            val computed = mutableListOf<Entry>()
-            var current = today
-            var offset = 0
-            while (current >= earliest) {
-                if (current == original[offset].timestamp) {
-                    if (!skipDays.isDaySkipped(current)) {
-                        computed.add(original[offset])
-                    } else {
-                        computed.add(Entry(current, SKIP))
-                    }
-                    offset++
-                } else if (skipDays.isDaySkipped(current)) {
-                    computed.add(Entry(current, SKIP))
-                }
-                current = current.minus(1)
-            }
-            return computed
-        }
     }
 }
 
@@ -352,12 +323,11 @@ fun List<Entry>.groupedSum(
  */
 fun List<Entry>.countSkippedDays(
     truncateField: DateUtils.TruncateField,
-    firstWeekday: Int = Calendar.SATURDAY,
-    skipDays: SkipDays
+    firstWeekday: Int = Calendar.SATURDAY
 ): List<Entry> {
     val thisIntervalStart = DateUtils.getTodayWithOffset().truncate(truncateField, firstWeekday)
     return this.map { (timestamp, value) ->
-        if (value == SKIP || skipDays.isDaySkipped(timestamp)) {
+        if (value == SKIP) {
             Entry(timestamp, 1)
         } else {
             Entry(timestamp, 0)

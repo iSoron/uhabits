@@ -303,7 +303,6 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         habit.frequency = Frequency(freqNum, freqDen)
-        if (freqDen != 1) isSkipDays = false
         habit.skipDays = SkipDays(isSkipDays, listSkipDays)
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = binding.targetInput.text.toString().toDouble()
@@ -360,9 +359,11 @@ class EditHabitActivity : AppCompatActivity() {
 
     private fun populateSkipDays() {
         val preferences = (application as HabitsApplication).component.preferences
-        if (preferences.isSkipEnabled || isSkipDays) {
+        if (preferences.isSkipEnabled && (freqDen == 1 || freqDen == 7)) {
             binding.skipDaysOuterBox.visibility = View.VISIBLE
         } else {
+            isSkipDays = false
+            listSkipDays = WeekdayList.NO_DAY
             binding.skipDaysOuterBox.visibility = View.GONE
         }
         if (isSkipDays) {
@@ -381,11 +382,7 @@ class EditHabitActivity : AppCompatActivity() {
             30 -> getString(R.string.every_month)
             else -> "$freqNum/$freqDen"
         }
-        if (freqDen == 1) {
-            binding.skipDaysOuterBox.visibility = View.VISIBLE
-        } else {
-            binding.skipDaysOuterBox.visibility = View.GONE
-        }
+        populateSkipDays()
     }
 
     private fun populateTargetType() {
