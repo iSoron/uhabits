@@ -53,10 +53,10 @@ class StreakList {
             .toTypedArray()
 
         if (timestamps.isEmpty()) return
-        var notSkipStreak = false
 
         var begin = timestamps[0]
         var end = timestamps[0]
+        var notSkipStreak = (values[0] != Entry.SKIP)
         for (i in 1 until timestamps.size) {
             val current = timestamps[i]
             if (current == begin.minus(1)) {

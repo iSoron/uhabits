@@ -97,9 +97,10 @@
             android:textSize="@dimen/smallTextSize" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="2dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -109,11 +110,11 @@
             android:id="@+id/skipLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="1dp"
-            android:textColor="?attr/contrast60"
-            android:text=""
             android:layout_marginStart="4dp"
             android:layout_marginEnd="16dp"
+            android:paddingTop="1dp"
+            android:text="Hello"
+            android:textColor="?attr/contrast60"
             android:textSize="@dimen/smallTextSize" />
 
     </LinearLayout>
