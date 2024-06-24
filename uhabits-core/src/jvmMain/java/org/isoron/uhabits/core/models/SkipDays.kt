@@ -22,9 +22,6 @@ data class SkipDays(
     val isSkipDays: Boolean,
     val days: WeekdayList
 ) {
-    fun isDaySkipped(day: Int): Boolean {
-        return isSkipDays && days.isDayTrue(day)
-    }
 
     fun isDaySkipped(day: Timestamp): Boolean {
         return isSkipDays && days.isDayTrue(day.weekday)
