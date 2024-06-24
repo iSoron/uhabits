@@ -46,6 +46,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
@@ -180,10 +182,10 @@ fun View.setupToolbar(
     } else {
         theme.color(color).toInt()
     }
-    val darkerColor = ColorUtils.mixColors(toolbarColor, Color.BLACK, 0.75f)
     toolbar.background = ColorDrawable(toolbarColor)
+    toolbar.applyToolbarInsets()
     val activity = context as AppCompatActivity
-    activity.window.statusBarColor = darkerColor
+    activity.window.statusBarColor = toolbarColor
     activity.setSupportActionBar(toolbar)
     activity.supportActionBar?.setDisplayHomeAsUpEnabled(displayHomeAsUpEnabled)
 }
@@ -244,4 +246,26 @@ fun View.getCenter(): PointF {
     viewLocation[0] += this.width / 2
     viewLocation[1] -= this.height / 2
     return PointF(viewLocation[0].toFloat(), viewLocation[1].toFloat())
+}
+
+fun View.applyRootViewInsets() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        val displayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+        val left = maxOf(systemBarsInsets.left, displayCutoutInsets.left)
+        val right = maxOf(systemBarsInsets.right, displayCutoutInsets.right)
+        view.setPadding(left, 0, right, 0)
+        view.background = ColorDrawable(Color.BLACK)
+        insets
+    }
+}
+
+fun View.applyToolbarInsets() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+        val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        val displayCutoutInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+        val top = maxOf(systemBarsInsets.top, displayCutoutInsets.top)
+        view.setPadding(0, top, 0, 0)
+        insets
+    }
 }

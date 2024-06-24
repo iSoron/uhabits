@@ -58,7 +58,10 @@
 
     <LinearLayout
         android:id="@+id/formPanel"
-        style="@style/dialogFormPanel">
+        style="@style/dialogFormPanel"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="?attr/contrast0">
 
         <FrameLayout style="@style/FormOuterBox">
             <LinearLayout style="@style/FormInnerBox">

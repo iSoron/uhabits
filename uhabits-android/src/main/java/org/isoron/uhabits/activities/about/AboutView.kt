@@ -26,6 +26,7 @@ import org.isoron.uhabits.BuildConfig
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.databinding.AboutBinding
+import org.isoron.uhabits.utils.applyRootViewInsets
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.setupToolbar
 
@@ -54,5 +55,6 @@ class AboutView(
         binding.tvTranslate.setOnClickListener { screen.showTranslationWebsite() }
         binding.tvVersion.setOnClickListener { screen.onPressDeveloperCountdown() }
         binding.tvVersion.text = String.format(version, BuildConfig.VERSION_NAME)
+        applyRootViewInsets()
     }
 }

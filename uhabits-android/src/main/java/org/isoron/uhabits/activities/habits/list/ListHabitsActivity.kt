@@ -45,6 +45,7 @@ import org.isoron.uhabits.inject.ActivityContextModule
 import org.isoron.uhabits.inject.DaggerHabitsActivityComponent
 import org.isoron.uhabits.inject.HabitsActivityComponent
 import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.isoron.uhabits.utils.applyRootViewInsets
 import org.isoron.uhabits.utils.dismissCurrentDialog
 import org.isoron.uhabits.utils.restartWithFade
 
@@ -100,6 +101,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         menu = component.listHabitsMenu
         Thread.setDefaultUncaughtExceptionHandler(BaseExceptionHandler(this))
         component.listHabitsBehavior.onStartup()
+        rootView.applyRootViewInsets()
         setContentView(rootView)
     }
 
