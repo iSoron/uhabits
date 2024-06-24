@@ -91,17 +91,24 @@ open class EntryList {
     open fun recomputeFrom(
         originalEntries: EntryList,
         frequency: Frequency,
-        isNumerical: Boolean
+        isNumerical: Boolean,
+        skipDays: SkipDays = SkipDays.NONE
     ) {
         clear()
         val original = originalEntries.getKnown()
         if (isNumerical) {
-            original.forEach { add(it) }
+            original.filter { !skipDays.isDaySkipped(it.timestamp) }.forEach { add(it) }
         } else {
             val intervals = buildIntervals(frequency, original)
             snapIntervalsTogether(intervals)
             val computed = buildEntriesFromInterval(original, intervals)
-            computed.filter { it.value != UNKNOWN || it.notes.isNotEmpty() }.forEach { add(it) }
+            computed
+                .filter {
+                    !skipDays.isDaySkipped(it.timestamp) &&
+                        it.value != UNKNOWN ||
+                        it.notes.isNotEmpty()
+                }
+                .forEach { add(it) }
         }
     }
 
