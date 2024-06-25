@@ -34,7 +34,7 @@ class WeekdayList {
         }
     }
 
-    constructor(weekdays: BooleanArray?) {
+    constructor(weekdays: BooleanArray) {
         this.weekdays = Arrays.copyOf(weekdays, 7)
     }
 
@@ -89,5 +89,6 @@ class WeekdayList {
     companion object {
         val EVERY_DAY = WeekdayList(127)
         val NO_DAY = WeekdayList(booleanArrayOf(false, false, false, false, false, false, false))
+        val WEEKENDS = WeekdayList(booleanArrayOf(true, true, false, false, false, false, false))
     }
 }
