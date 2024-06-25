@@ -38,7 +38,6 @@ import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.activities.common.dialogs.HistoryEditorDialog
 import org.isoron.uhabits.activities.common.dialogs.NumberDialog
-import org.isoron.uhabits.core.commands.BlockSkippedDayCommand
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
@@ -140,18 +139,7 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
     }
 
     override fun onCommandFinished(command: Command) {
-        val msg = getExecuteString(command)
-        if (msg != null) activity.showMessage(msg)
         screen.refresh()
-    }
-
-    private fun getExecuteString(command: Command): String? {
-        return when (command) {
-            is BlockSkippedDayCommand -> {
-                getString(R.string.toast_day_auto_skip)
-            }
-            else -> null
-        }
     }
 
     inner class Screen : ShowHabitMenuPresenter.Screen, ShowHabitPresenter.Screen {

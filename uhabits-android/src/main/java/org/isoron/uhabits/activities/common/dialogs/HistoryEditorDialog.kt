@@ -21,12 +21,14 @@ package org.isoron.uhabits.activities.common.dialogs
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.platform.gui.AndroidDataView
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
+import org.isoron.uhabits.core.commands.BlockSkippedDayCommand
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
@@ -36,6 +38,7 @@ import org.isoron.uhabits.core.ui.views.HistoryChart
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.isoron.uhabits.core.ui.views.OnDateClickedListener
 import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.utils.showMessage
 import java.util.Locale
 import kotlin.math.min
 
@@ -119,7 +122,18 @@ class HistoryEditorDialog : AppCompatDialogFragment(), CommandRunner.Listener {
     }
 
     override fun onCommandFinished(command: Command) {
+        val msg = getExecuteString(command)
+        if (msg != null) (dataView as View).showMessage(msg)
         refreshData()
+    }
+
+    private fun getExecuteString(command: Command): String? {
+        return when (command) {
+            is BlockSkippedDayCommand -> {
+                getString(R.string.toast_day_auto_skip)
+            }
+            else -> null
+        }
     }
 
     companion object {
