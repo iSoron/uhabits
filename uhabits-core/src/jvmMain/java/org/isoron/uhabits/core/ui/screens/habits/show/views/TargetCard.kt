@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.countSkippedDays
 import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
-import java.util.ArrayList
 import java.util.Calendar
 import kotlin.math.max
 
@@ -46,61 +45,54 @@ class TargetCardPresenter {
             theme: Theme
         ): TargetCardState {
             val today = DateUtils.getTodayWithOffset()
-            val (yearBegin, yearEnd) = getYearRange(firstWeekday)
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-            val entriesForSkip = habit.computedEntries.getByInterval(yearBegin, yearEnd, habit.skipDays)
-            val entriesForSum = habit.computedEntries.getByInterval(oldest, today)
+            val entries = habit.computedEntries.getByInterval(oldest, today)
 
-            val valueToday = entriesForSum.groupedSum(
+            val valueToday = entries.groupedSum(
                 truncateField = DateUtils.TruncateField.DAY,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDayToday = entriesForSkip.countSkippedDays(
-                truncateField = DateUtils.TruncateField.DAY,
-                skipDays = habit.skipDays
+            val skippedDayToday = entries.countSkippedDays(
+                truncateField = DateUtils.TruncateField.DAY
             ).firstOrNull()?.value ?: 0
 
-            val valueThisWeek = entriesForSum.groupedSum(
+            val valueThisWeek = entries.groupedSum(
                 truncateField = DateUtils.TruncateField.WEEK_NUMBER,
                 firstWeekday = firstWeekday,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisWeek = entriesForSkip.countSkippedDays(
+            val skippedDaysThisWeek = entries.countSkippedDays(
                 truncateField = DateUtils.TruncateField.WEEK_NUMBER,
-                firstWeekday = firstWeekday,
-                skipDays = habit.skipDays
+                firstWeekday = firstWeekday
             ).firstOrNull()?.value ?: 0
 
-            val valueThisMonth = entriesForSum.groupedSum(
+            val valueThisMonth = entries.groupedSum(
                 truncateField = DateUtils.TruncateField.MONTH,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisMonth = entriesForSkip.countSkippedDays(
-                truncateField = DateUtils.TruncateField.MONTH,
-                skipDays = habit.skipDays
+            val skippedDaysThisMonth = entries.countSkippedDays(
+                truncateField = DateUtils.TruncateField.MONTH
             ).firstOrNull()?.value ?: 0
 
-            val valueThisQuarter = entriesForSum.groupedSum(
+            val valueThisQuarter = entries.groupedSum(
                 truncateField = DateUtils.TruncateField.QUARTER,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisQuarter = entriesForSkip.countSkippedDays(
-                truncateField = DateUtils.TruncateField.QUARTER,
-                skipDays = habit.skipDays
+            val skippedDaysThisQuarter = entries.countSkippedDays(
+                truncateField = DateUtils.TruncateField.QUARTER
             ).firstOrNull()?.value ?: 0
 
-            val valueThisYear = entriesForSum.groupedSum(
+            val valueThisYear = entries.groupedSum(
                 truncateField = DateUtils.TruncateField.YEAR,
                 isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
-            val skippedDaysThisYear = entriesForSkip.countSkippedDays(
-                truncateField = DateUtils.TruncateField.YEAR,
-                skipDays = habit.skipDays
+            val skippedDaysThisYear = entries.countSkippedDays(
+                truncateField = DateUtils.TruncateField.YEAR
             ).firstOrNull()?.value ?: 0
 
             val cal = DateUtils.getStartOfTodayCalendarWithOffset()

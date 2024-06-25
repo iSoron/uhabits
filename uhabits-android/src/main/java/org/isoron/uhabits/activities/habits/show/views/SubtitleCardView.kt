@@ -33,7 +33,6 @@ import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
 import org.isoron.uhabits.databinding.ShowHabitSubtitleBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.formatTime
-import org.isoron.uhabits.utils.toFormattedString
 
 class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -78,12 +77,6 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         }
         if (state.question.isEmpty()) {
             binding.questionLabel.visibility = View.GONE
-        }
-        if (state.skipDays.isSkipDays) {
-            binding.skipLabel.visibility = View.VISIBLE
-            binding.skipLabel.text = context.getString(R.string.skip_day) + " " + state.skipDays.days.toFormattedString(context)
-        } else {
-            binding.skipLabel.visibility = View.GONE
         }
 
         postInvalidate()
