@@ -16,8 +16,6 @@ class SkipDaysTest : BaseUnitTest() {
     private lateinit var storage: PropertiesStorage
     private lateinit var today: Timestamp
     private lateinit var monday: Timestamp
-
-//    private val themeSwitcher: ThemeSwitcher = mock()
     private val theme = LightTheme()
 
     @Throws(Exception::class)
