@@ -342,6 +342,13 @@ class EditHabitActivity : AppCompatActivity() {
                 isValid = false
             }
         }
+        if (isSkipDays && freqDen == 7) {
+            if (7 - listSkipDays.numDays() < freqNum) {
+                binding.skipDaysPicker.text = getString(R.string.validation_too_many_skips)
+                binding.skipDaysPicker.error = getFormattedValidationError(R.string.validation_too_many_skips)
+                isValid = false
+            }
+        }
         return isValid
     }
 

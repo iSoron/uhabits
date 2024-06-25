@@ -34,8 +34,12 @@ class WeekdayList {
         }
     }
 
-    constructor(weekdays: BooleanArray) {
-        this.weekdays = Arrays.copyOf(weekdays, 7)
+    constructor(weekdays: BooleanArray?) {
+        this.weekdays = if (weekdays == null) {
+            BooleanArray(7)
+        } else {
+            Arrays.copyOf(weekdays, 7)
+        }
     }
 
     constructor(days: BooleanArray, removeDays: BooleanArray) {
