@@ -38,13 +38,6 @@ class WeekdayList {
         this.weekdays = Arrays.copyOf(weekdays, 7)
     }
 
-    constructor(addDays: BooleanArray, removeDays: BooleanArray) {
-        weekdays = BooleanArray(7)
-        for (i in 0..6) {
-            weekdays[i] = addDays[i] && !removeDays[i]
-        }
-    }
-
     val isEmpty: Boolean
         get() {
             for (d in weekdays) if (d) return false
@@ -65,10 +58,6 @@ class WeekdayList {
         return packedList
     }
 
-    fun isDayTrue(dayNum: Int): Boolean {
-        return weekdays[dayNum]
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -84,6 +73,5 @@ class WeekdayList {
 
     companion object {
         val EVERY_DAY = WeekdayList(127)
-        val NO_DAY = WeekdayList(booleanArrayOf(false, false, false, false, false, false, false))
     }
 }

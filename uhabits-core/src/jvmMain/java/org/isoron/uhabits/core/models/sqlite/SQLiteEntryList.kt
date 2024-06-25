@@ -24,7 +24,6 @@ import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Frequency
-import org.isoron.uhabits.core.models.SkipDays
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
 
@@ -44,13 +43,14 @@ class SQLiteEntryList(database: Database) : EntryList() {
         isLoaded = true
     }
 
-    override fun get(timestamp: Timestamp, skipDays: SkipDays): Entry {
+    override fun get(timestamp: Timestamp): Entry {
         loadRecords()
-        return super.get(timestamp, skipDays)
+        return super.get(timestamp)
     }
-    override fun getByInterval(from: Timestamp, to: Timestamp, skipDays: SkipDays): List<Entry> {
+
+    override fun getByInterval(from: Timestamp, to: Timestamp): List<Entry> {
         loadRecords()
-        return super.getByInterval(from, to, skipDays)
+        return super.getByInterval(from, to)
     }
 
     override fun add(entry: Entry) {
@@ -78,7 +78,7 @@ class SQLiteEntryList(database: Database) : EntryList() {
         return super.getKnown()
     }
 
-    override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean, skipDays: SkipDays) {
+    override fun recomputeFrom(originalEntries: EntryList, frequency: Frequency, isNumerical: Boolean) {
         throw UnsupportedOperationException()
     }
 

@@ -28,9 +28,9 @@ import org.isoron.platform.io.nextId
 class HabitRepository(var db: Database) {
 
     companion object {
-        const val SELECT_COLUMNS = "id, name, description, freq_num, freq_den, skip_days, skip_days_list, color, archived, position, unit, target_value, type"
-        const val SELECT_PLACEHOLDERS = "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
-        const val UPDATE_COLUMNS = "id=?, name=?, description=?, freq_num=?, freq_den=?, skip_days=?, skip_days_list=?, color=?, archived=?, position=?, unit=?, target_value=?, type=?"
+        const val SELECT_COLUMNS = "id, name, description, freq_num, freq_den, color, archived, position, unit, target_value, type"
+        const val SELECT_PLACEHOLDERS = "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+        const val UPDATE_COLUMNS = "id=?, name=?, description=?, freq_num=?, freq_den=?, color=?, archived=?, position=?, unit=?, target_value=?, type=?"
     }
 
     private val findAllStatement = db.prepareStatement("select $SELECT_COLUMNS from habits order by position")
@@ -60,7 +60,7 @@ class HabitRepository(var db: Database) {
 
     fun update(habit: Habit) {
         bindHabitToStatement(habit, updateStatement)
-        updateStatement.bindInt(13, habit.id)
+        updateStatement.bindInt(11, habit.id)
         updateStatement.step()
         updateStatement.reset()
     }
@@ -70,14 +70,12 @@ class HabitRepository(var db: Database) {
                      name = stmt.getText(1),
                      description = stmt.getText(2),
                      frequency = Frequency(stmt.getInt(3), stmt.getInt(4)),
-                     skipDays = (stmt.getInt(5) == 1),
-                     skipDaysList = WeekDayList(stmt.getInt(6)),
-                     color = PaletteColor(stmt.getInt(7)),
-                     isArchived = stmt.getInt(8) != 0,
-                     position = stmt.getInt(9),
-                     unit = stmt.getText(10),
-                     target = stmt.getReal(11),
-                     type = if (stmt.getInt(12) == 0) HabitType.BOOLEAN_HABIT else HabitType.NUMERICAL_HABIT)
+                     color = PaletteColor(stmt.getInt(5)),
+                     isArchived = stmt.getInt(6) != 0,
+                     position = stmt.getInt(7),
+                     unit = stmt.getText(8),
+                     target = stmt.getReal(9),
+                     type = if (stmt.getInt(10) == 0) HabitType.BOOLEAN_HABIT else HabitType.NUMERICAL_HABIT)
     }
 
     private fun bindHabitToStatement(habit: Habit, statement: PreparedStatement) {
@@ -86,14 +84,12 @@ class HabitRepository(var db: Database) {
         statement.bindText(2, habit.description)
         statement.bindInt(3, habit.frequency.numerator)
         statement.bindInt(4, habit.frequency.denominator)
-        statement.bindInt(5, if (habit.skipDays) 1 else 0)
-        statement.bindInt(6, habit.skipDaysList.toInteger())
-        statement.bindInt(7, habit.color.index)
-        statement.bindInt(8, if (habit.isArchived) 1 else 0)
-        statement.bindInt(9, habit.position)
-        statement.bindText(10, habit.unit)
-        statement.bindReal(11, habit.target)
-        statement.bindInt(12, habit.type.code)
+        statement.bindInt(5, habit.color.index)
+        statement.bindInt(6, if (habit.isArchived) 1 else 0)
+        statement.bindInt(7, habit.position)
+        statement.bindText(8, habit.unit)
+        statement.bindReal(9, habit.target)
+        statement.bindInt(10, habit.type.code)
     }
 
     fun delete(habit: Habit) {

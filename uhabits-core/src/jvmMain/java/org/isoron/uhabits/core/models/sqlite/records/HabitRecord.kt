@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
-import org.isoron.uhabits.core.models.SkipDays
 import org.isoron.uhabits.core.models.WeekdayList
 import java.util.Objects.requireNonNull
 
@@ -49,12 +48,6 @@ class HabitRecord {
 
     @field:Column(name = "freq_den")
     var freqDen: Int? = null
-
-    @field:Column(name = "skip_days")
-    var skipDays: Int? = null
-
-    @field:Column(name = "skip_days_list")
-    var skipDaysList: Int? = null
 
     @field:Column
     var color: Int? = null
@@ -95,12 +88,6 @@ class HabitRecord {
     @field:Column
     var uuid: String? = null
 
-    @field:Column(name = "parent_id")
-    var parentID: Long? = null
-
-    @field:Column(name = "parent_uuid")
-    var parentUUID: String? = null
-
     fun copyFrom(model: Habit) {
         id = model.id
         name = model.name
@@ -115,13 +102,9 @@ class HabitRecord {
         position = model.position
         question = model.question
         uuid = model.uuid
-        parentID = model.parentID
-        parentUUID = model.parentUUID
         val (numerator, denominator) = model.frequency
         freqNum = numerator
         freqDen = denominator
-        skipDays = if (model.skipDays.isSkipDays) 1 else 0
-        skipDaysList = model.skipDays.days.toInteger()
         reminderDays = 0
         reminderMin = null
         reminderHour = null
@@ -139,7 +122,6 @@ class HabitRecord {
         habit.description = description!!
         habit.question = question!!
         habit.frequency = Frequency(freqNum!!, freqDen!!)
-        habit.skipDays = SkipDays(skipDays!! == 1, WeekdayList(skipDaysList!!))
         habit.color = PaletteColor(color!!)
         habit.isArchived = archived != 0
         habit.type = HabitType.fromInt(type!!)
@@ -148,8 +130,6 @@ class HabitRecord {
         habit.unit = unit!!
         habit.position = position!!
         habit.uuid = uuid
-        habit.parentID = parentID
-        habit.parentUUID = parentUUID
         if (reminderHour != null && reminderMin != null) {
             habit.reminder = Reminder(
                 reminderHour!!,

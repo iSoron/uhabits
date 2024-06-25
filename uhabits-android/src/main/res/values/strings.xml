@@ -54,14 +54,12 @@
     <string name="history">History</string>
     <string name="clear">Clear</string>
     <string name="reminder">Reminder</string>
-    <string name="skip_days">Skip days</string>
     <string name="save">Save</string>
     <string name="streaks">Streaks</string>
     <string name="no_habits_found">You have no active habits</string>
     <string name="no_habits_left_to_do">You\'re all done for today!</string>
     <string name="long_press_to_toggle">Press-and-hold to check or uncheck</string>
     <string name="reminder_off">Off</string>
-    <string name="skip_days_off">Off</string>
     <string name="create_habit">Create habit</string>
     <string name="edit_habit">Edit habit</string>
     <string name="create_habit_group">Create habit group</string>

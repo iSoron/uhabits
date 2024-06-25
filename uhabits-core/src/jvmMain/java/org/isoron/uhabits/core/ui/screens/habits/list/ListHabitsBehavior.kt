@@ -20,7 +20,6 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
-import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
@@ -54,12 +53,10 @@ open class ListHabitsBehavior @Inject constructor(
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
-        if (habit.skipDays.isDaySkipped(timestamp)) return
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
             screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String, x: Float, y: Float ->
-                val value = if (habit.skipDays.isDaySkipped(timestamp)) Entry.SKIP else (newValue * 1000).roundToInt()
-
+                val value = (newValue * 1000).roundToInt()
                 if (newValue != oldValue) {
                     if (
                         (habit.targetType == AT_LEAST && newValue >= habit.targetValue) ||

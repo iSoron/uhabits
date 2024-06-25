@@ -25,7 +25,6 @@ data class Habit(
     var color: PaletteColor = PaletteColor(8),
     var description: String = "",
     var frequency: Frequency = Frequency.DAILY,
-    var skipDays: SkipDays = SkipDays.NONE,
     var id: Long? = null,
     var isArchived: Boolean = false,
     var name: String = "",
@@ -40,15 +39,12 @@ data class Habit(
     val computedEntries: EntryList,
     val originalEntries: EntryList,
     val scores: ScoreList,
-    val streaks: StreakList,
-    var parentID: Long? = null,
-    var parentUUID: String? = null
+    val streaks: StreakList
 ) {
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
     }
 
-    var parent: HabitGroup? = null
     var observable = ModelObservable()
 
     val isNumerical: Boolean
@@ -82,8 +78,7 @@ data class Habit(
         computedEntries.recomputeFrom(
             originalEntries = originalEntries,
             frequency = frequency,
-            isNumerical = isNumerical,
-            skipDays = skipDays
+            isNumerical = isNumerical
         )
 
         val today = DateUtils.getTodayWithOffset()
@@ -95,7 +90,6 @@ data class Habit(
         scores.recompute(
             frequency = frequency,
             isNumerical = isNumerical,
-            skipDays = skipDays,
             numericalHabitType = targetType,
             targetValue = targetValue,
             computedEntries = computedEntries,
@@ -110,23 +104,10 @@ data class Habit(
         )
     }
 
-    fun firstEntryDate(): Timestamp {
-        return computedEntries.getKnown().lastOrNull()?.timestamp ?: DateUtils.getTodayWithOffset()
-    }
-
-    fun hierarchyLevel(): Int {
-        return if (parentID == null) {
-            0
-        } else {
-            1 + parent!!.hierarchyLevel()
-        }
-    }
-
     fun copyFrom(other: Habit) {
         this.color = other.color
         this.description = other.description
         this.frequency = other.frequency
-        this.skipDays = other.skipDays
         // this.id should not be copied
         this.isArchived = other.isArchived
         this.name = other.name
@@ -138,8 +119,6 @@ data class Habit(
         this.type = other.type
         this.unit = other.unit
         this.uuid = other.uuid
-        this.parentID = other.parentID
-        this.parentUUID = other.parentUUID
     }
 
     override fun equals(other: Any?): Boolean {
@@ -149,7 +128,6 @@ data class Habit(
         if (color != other.color) return false
         if (description != other.description) return false
         if (frequency != other.frequency) return false
-        if (skipDays != other.skipDays) return false
         if (id != other.id) return false
         if (isArchived != other.isArchived) return false
         if (name != other.name) return false
@@ -161,8 +139,6 @@ data class Habit(
         if (type != other.type) return false
         if (unit != other.unit) return false
         if (uuid != other.uuid) return false
-        if (parentID != other.parentID) return false
-        if (parentUUID != other.parentUUID) return false
 
         return true
     }
@@ -171,7 +147,6 @@ data class Habit(
         var result = color.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + frequency.hashCode()
-        result = 31 * result + skipDays.hashCode()
         result = 31 * result + (id?.hashCode() ?: 0)
         result = 31 * result + isArchived.hashCode()
         result = 31 * result + name.hashCode()
@@ -183,8 +158,6 @@ data class Habit(
         result = 31 * result + type.value
         result = 31 * result + unit.hashCode()
         result = 31 * result + (uuid?.hashCode() ?: 0)
-        result = 31 * result + (parentID?.hashCode() ?: 0)
-        result = 31 * result + (parentUUID?.hashCode() ?: 0)
         return result
     }
 }
