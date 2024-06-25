@@ -48,7 +48,7 @@
         <item quantity="one">Habit unarchived</item>
         <item quantity="other">Habits unarchived</item>
     </plurals>
-    <string name="toast_day_auto_skip">Day regularly skipped</string>
+    <string name="toast_day_auto_skip">Day automatically skipped</string>
     <string name="title_activity_show_habit" translatable="false"/>
     <string name="overview">Overview</string>
     <string name="habit_strength">Habit strength</string>
