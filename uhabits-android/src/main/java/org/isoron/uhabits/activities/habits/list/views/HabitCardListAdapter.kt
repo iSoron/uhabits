@@ -38,7 +38,7 @@ import javax.inject.Inject
  * Provides data that backs a [HabitCardListView].
  *
  *
- * The data if fetched and cached by a [HabitCardListCache]. This adapter
+ * The data is fetched and cached by a [HabitCardListCache]. This adapter
  * also holds a list of items that have been selected.
  */
 @ActivityScope

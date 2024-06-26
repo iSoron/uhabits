@@ -15,15 +15,12 @@ data class HabitGroup(
     var uuid: String? = null,
     var habitList: HabitList,
     val scores: ScoreList,
-    val streaks: StreakList,
-    var parentID: Long? = null,
-    var parentUUID: String? = null
+    val streaks: StreakList
 ) {
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
     }
 
-    var parent: HabitGroup? = null
     var observable = ModelObservable()
 
     val uriString: String
@@ -80,8 +77,6 @@ data class HabitGroup(
         this.question = other.question
         this.reminder = other.reminder
         this.uuid = other.uuid
-        this.parentID = other.parentID
-        this.parentUUID = other.parentUUID
     }
 
     override fun equals(other: Any?): Boolean {
@@ -97,8 +92,6 @@ data class HabitGroup(
         if (question != other.question) return false
         if (reminder != other.reminder) return false
         if (uuid != other.uuid) return false
-        if (parentID != other.parentID) return false
-        if (parentUUID != other.parentUUID) return false
 
         return true
     }
@@ -113,19 +106,9 @@ data class HabitGroup(
         result = 31 * result + question.hashCode()
         result = 31 * result + (reminder?.hashCode() ?: 0)
         result = 31 * result + (uuid?.hashCode() ?: 0)
-        result = 31 * result + (parentID?.hashCode() ?: 0)
-        result = 31 * result + (parentUUID?.hashCode() ?: 0)
         return result
     }
 
-    fun hierarchyLevel(): Int {
-        return if (parentID == null) {
-            0
-        } else {
-            1 + parent!!.hierarchyLevel()
-        }
-    }
-
-    fun getHabitByUUIDDeep(uuid: String?): Habit? =
+    fun getHabitByUUID(uuid: String?): Habit? =
         habitList.getByUUID(uuid)
 }

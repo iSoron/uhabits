@@ -111,12 +111,8 @@ data class Habit(
         return computedEntries.getKnown().lastOrNull()?.timestamp ?: DateUtils.getTodayWithOffset()
     }
 
-    fun hierarchyLevel(): Int {
-        return if (parentID == null) {
-            0
-        } else {
-            1 + parent!!.hierarchyLevel()
-        }
+    fun isInGroup(): Boolean {
+        return (parentID != null)
     }
 
     fun copyFrom(other: Habit) {

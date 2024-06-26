@@ -18,10 +18,10 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     protected val filter: HabitMatcher
 
     /**
-     * Creates a new HabitList.
+     * Creates a new HabitGroupList.
      *
      * Depending on the implementation, this list can either be empty or be
-     * populated by some pre-existing habits, for example, from a certain
+     * populated by some pre-existing habitgroups, for example, from a certain
      * database.
      */
     constructor() {
@@ -35,12 +35,12 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     }
 
     /**
-     * Inserts a new habit in the list.
+     * Inserts a new habit group in the list.
      *
-     * If the id of the habit is null, the list will assign it a new id, which
+     * If the id of the habit group is null, the list will assign it a new id, which
      * is guaranteed to be unique in the scope of the list. If id is not null,
      * the caller should make sure that the list does not already contain
-     * another habit with same id, otherwise a RuntimeException will be thrown.
+     * another habit group with same id, otherwise a RuntimeException will be thrown.
      *
      * @param habitGroup the habit to be inserted
      * @throws IllegalArgumentException if the habit is already on the list.
@@ -49,28 +49,28 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     abstract fun add(habitGroup: HabitGroup)
 
     /**
-     * Returns the habit with specified id.
+     * Returns the habit group with specified id.
      *
-     * @param id the id of the habit
-     * @return the habit, or null if none exist
+     * @param id the id of the habit group
+     * @return the habit group, or null if none exist
      */
     abstract fun getById(id: Long): HabitGroup?
 
     /**
-     * Returns the habit with specified UUID.
+     * Returns the habit group with specified UUID.
      *
-     * @param uuid the UUID of the habit
-     * @return the habit, or null if none exist
+     * @param uuid the UUID of the habit group
+     * @return the habit group, or null if none exist
      */
     abstract fun getByUUID(uuid: String?): HabitGroup?
 
     /**
      *  Returns the habit with the specified UUID which is
-     *  present at any hierarchy within this list.
+     *  present in any of the habit groups within this habit group list.
      */
-    fun getHabitByUUIDDeep(uuid: String?): Habit? {
+    fun getHabitByUUID(uuid: String?): Habit? {
         for (hgr in this) {
-            val habit = hgr.getHabitByUUIDDeep(uuid)
+            val habit = hgr.getHabitByUUID(uuid)
             if (habit != null) {
                 return habit
             }
@@ -79,46 +79,46 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     }
 
     /**
-     * Returns the habit that occupies a certain position.
+     * Returns the habit group that occupies a certain position.
      *
-     * @param position the position of the desired habit
-     * @return the habit at that position
+     * @param position the position of the desired habit group
+     * @return the habit group at that position
      * @throws IndexOutOfBoundsException when the position is invalid
      */
     abstract fun getByPosition(position: Int): HabitGroup
 
     /**
-     * Returns the list of habits that match a given condition.
+     * Returns the list of habit groups that match a given condition.
      *
      * @param matcher the matcher that checks the condition
-     * @return the list of matching habits
+     * @return the list of matching habit groups
      */
     abstract fun getFiltered(matcher: HabitMatcher?): HabitGroupList
     abstract var primaryOrder: Order
     abstract var secondaryOrder: Order
 
     /**
-     * Returns the index of the given habit in the list, or -1 if the list does
-     * not contain the habit.
+     * Returns the index of the given habit group in the list, or -1 if the list does
+     * not contain the habit group.
      *
-     * @param h the habit
-     * @return the index of the habit, or -1 if not in the list
+     * @param h the habit group
+     * @return the index of the habit group, or -1 if not in the list
      */
     abstract fun indexOf(h: HabitGroup): Int
     val isEmpty: Boolean
         get() = size() == 0
 
     /**
-     * Removes the given habit from the list.
+     * Removes the given habit group from the list.
      *
-     * If the given habit is not in the list, does nothing.
+     * If the given habit group is not in the list, does nothing.
      *
-     * @param h the habit to be removed.
+     * @param h the habit group to be removed.
      */
     abstract fun remove(h: HabitGroup)
 
     /**
-     * Removes all the habits from the list.
+     * Removes all the habit groups from the list.
      */
     open fun removeAll() {
         val copy: MutableList<HabitGroup> = LinkedList()
@@ -128,43 +128,49 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     }
 
     /**
-     * Changes the position of a habit in the list.
+     * Changes the position of a habit group in the list.
      *
-     * @param from the habit that should be moved
-     * @param to   the habit that currently occupies the desired position
+     * @param from the habit group that should be moved
+     * @param to   the habit group that currently occupies the desired position
      */
     abstract fun reorder(from: HabitGroup, to: HabitGroup)
     open fun repair() {}
 
     /**
-     * Returns the number of habits in this list.
+     * Returns the number of habit groups in this list.
      *
-     * @return number of habits
+     * @return number of habit groups
      */
     abstract fun size(): Int
 
     /**
-     * Notifies the list that a certain list of habits has been modified.
+     * Notifies the list that a certain list of habit groups has been modified.
      *
      * Depending on the implementation, this operation might trigger a write to
-     * disk, or do nothing at all. To make sure that the habits get persisted,
+     * disk, or do nothing at all. To make sure that the habit groups get persisted,
      * this operation must be called.
      *
-     * @param habitGroups the list of habits that have been modified.
+     * @param habitGroups the list of habit groups that have been modified.
      */
     abstract fun update(habitGroups: List<HabitGroup>)
 
     /**
-     * Notifies the list that a certain habit has been modified.
+     * Notifies the list that a certain habit group has been modified.
      *
      * See [.update] for more details.
      *
-     * @param habitGroup the habit that has been modified.
+     * @param habitGroup the habit groups that has been modified.
      */
     fun update(habitGroup: HabitGroup) {
         update(listOf(habitGroup))
     }
 
+    /**
+     * For an empty Habit group list, and a given list of habits,
+     * populate the habit groups with their appropriate habits
+     *
+     * @param habitList list of habits to add to the groups
+     * */
     fun populateGroupsWith(habitList: HabitList) {
         val toRemove = mutableListOf<String?>()
         for (habit in habitList) {
@@ -187,10 +193,9 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     }
 
     /**
-     * Writes the list of habits to the given writer, in CSV format. There is
-     * one line for each habit, containing the fields name, description,
-     * frequency numerator, frequency denominator and color. The color is
-     * written in HTML format (#000000).
+     * Writes the list of habit groups to the given writer, in CSV format. There is
+     * one line for each habit group, containing the fields name, description,
+     * , and color. The color is written in HTML format (#000000).
      *
      * @param out the writer that will receive the result
      * @throws IOException if write operations fail
@@ -208,13 +213,13 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
         )
         val csv = CSVWriter(out)
         csv.writeNext(header, false)
-        for (habit in this) {
+        for (hgr in this) {
             val cols = arrayOf(
-                String.format("%03d", indexOf(habit) + 1),
-                habit.name,
-                habit.question,
-                habit.description,
-                habit.color.toCsvColor()
+                String.format("%03d", indexOf(hgr) + 1),
+                hgr.name,
+                hgr.question,
+                hgr.description,
+                hgr.color.toCsvColor()
             )
             csv.writeNext(cols, false)
         }
