@@ -63,8 +63,13 @@ class HabitCardListView(
         set(value) {
             field = value
             attachedHolders
-                .map { it.itemView as HabitCardView }
-                .forEach { it.dataOffset = value }
+                .forEach {
+                    if (it.itemView is HabitCardView) {
+                        (it.itemView as HabitCardView).dataOffset = value
+                    } else {
+                        (it.itemView as HabitGroupCardView).dataOffset = value
+                    }
+                }
         }
 
     private val attachedHolders = mutableListOf<HabitCardViewHolder>()

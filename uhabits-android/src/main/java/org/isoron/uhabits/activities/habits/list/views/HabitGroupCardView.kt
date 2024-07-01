@@ -30,6 +30,8 @@ class HabitGroupCardView(
 ) : FrameLayout(context),
     ModelObservable.Listener {
 
+    var dataOffset = 0
+
     var habitGroup: HabitGroup? = null
         set(newHabitGroup) {
             if (isAttachedToWindow) {
