@@ -82,7 +82,7 @@ class ListHabitsSelectionMenu @Inject constructor(
         itemArchive.isVisible = behavior.canArchive()
         itemUnarchive.isVisible = behavior.canUnarchive()
         itemNotify.isVisible = prefs.isDeveloper
-        activeActionMode?.title = listAdapter.selected.size.toString()
+        activeActionMode?.title = listAdapter.selectedHabits.size.toString()
         return true
     }
     override fun onDestroyActionMode(mode: ActionMode?) {
@@ -117,7 +117,7 @@ class ListHabitsSelectionMenu @Inject constructor(
             }
 
             R.id.action_notify -> {
-                for (h in listAdapter.selected)
+                for (h in listAdapter.selectedHabits)
                     notificationTray.show(h, DateUtils.getToday(), 0)
                 return true
             }

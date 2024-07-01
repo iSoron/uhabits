@@ -23,15 +23,6 @@ import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
-import javax.inject.Inject
-
-class HabitGroupCardViewFactory
-@Inject constructor(
-    @ActivityContext val context: Context,
-    private val behavior: ListHabitsBehavior
-) {
-    fun create() = HabitGroupCardView(context, behavior)
-}
 
 class HabitGroupCardView(
     @ActivityContext context: Context,
@@ -56,6 +47,7 @@ class HabitGroupCardView(
             scoreRing.setPrecision(1.0f / 16)
         }
 
+    var addButtonView: AddButtonView
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
@@ -83,6 +75,8 @@ class HabitGroupCardView(
             }
         }
 
+        addButtonView = AddButtonView(context)
+
         innerFrame = LinearLayout(context).apply {
             gravity = Gravity.CENTER_VERTICAL
             orientation = LinearLayout.HORIZONTAL
@@ -91,6 +85,7 @@ class HabitGroupCardView(
 
             addView(scoreRing)
             addView(label)
+            addView(addButtonView)
 
             setOnTouchListener { v, event ->
                 v.background.setHotspot(event.x, event.y)

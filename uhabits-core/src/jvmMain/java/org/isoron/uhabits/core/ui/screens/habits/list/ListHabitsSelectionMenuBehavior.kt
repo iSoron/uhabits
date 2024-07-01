@@ -24,6 +24,7 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
@@ -88,7 +89,9 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     interface Adapter {
         fun clearSelection()
         fun getSelected(): List<Habit>
+        fun getSelectedHabitGroups(): List<HabitGroup>
         fun performRemove(selected: List<Habit>)
+        fun performRemoveHabitGroup(selected: List<HabitGroup>)
     }
 
     interface Screen {

@@ -38,6 +38,7 @@ import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
@@ -55,7 +56,8 @@ class HabitCardViewFactory
     private val numberPanelFactory: NumberPanelViewFactory,
     private val behavior: ListHabitsBehavior
 ) {
-    fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
+    fun createHabitCard() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
+    fun createHabitGroupCard() = HabitGroupCardView(context, behavior)
 }
 
 class HabitCardView(
@@ -282,6 +284,32 @@ class HabitCardView(
                 true -> View.VISIBLE
                 false -> View.GONE
             }
+        }
+    }
+
+    private fun copyAttributesFrom(hgr: HabitGroup) {
+        fun getActiveColor(habitGroup: HabitGroup): Int {
+            return when (habitGroup.isArchived) {
+                true -> sres.getColor(R.attr.contrast60)
+                false -> currentTheme().color(habitGroup.color).toInt()
+            }
+        }
+
+        val c = getActiveColor(hgr)
+        label.apply {
+            text = hgr.name
+            setTextColor(c)
+        }
+        scoreRing.apply {
+            setColor(c)
+        }
+        checkmarkPanel.apply {
+            color = c
+            visibility = View.GONE
+        }
+        numberPanel.apply {
+            color = c
+            visibility = View.GONE
         }
     }
 

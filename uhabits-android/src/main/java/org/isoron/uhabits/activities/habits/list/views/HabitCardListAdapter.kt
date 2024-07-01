@@ -19,9 +19,10 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import org.isoron.uhabits.activities.habits.list.MAX_CHECKMARK_COUNT
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.models.ModelObservable
@@ -32,6 +33,7 @@ import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBeh
 import org.isoron.uhabits.core.utils.MidnightTimer
 import org.isoron.uhabits.inject.ActivityScope
 import java.util.LinkedList
+import java.util.UUID
 import javax.inject.Inject
 
 /**
@@ -46,14 +48,16 @@ class HabitCardListAdapter @Inject constructor(
     private val cache: HabitCardListCache,
     private val preferences: Preferences,
     private val midnightTimer: MidnightTimer
-) : RecyclerView.Adapter<HabitCardViewHolder?>(),
+) : Adapter<HabitCardViewHolder?>(),
     HabitCardListCache.Listener,
     MidnightTimer.MidnightListener,
     ListHabitsMenuBehavior.Adapter,
     ListHabitsSelectionMenuBehavior.Adapter {
     val observable: ModelObservable = ModelObservable()
     private var listView: HabitCardListView? = null
-    val selected: LinkedList<Habit> = LinkedList()
+    val selectedHabits: LinkedList<Habit> = LinkedList()
+    val selectedHabitGroups: LinkedList<HabitGroup> = LinkedList()
+
     override fun atMidnight() {
         cache.refreshAllHabits()
     }
@@ -66,17 +70,25 @@ class HabitCardListAdapter @Inject constructor(
         return cache.hasNoHabit()
     }
 
+    fun hasNoHabitGroup(): Boolean {
+        return cache.hasNoHabitGroup()
+    }
+
     /**
      * Sets all items as not selected.
      */
     override fun clearSelection() {
-        selected.clear()
+        selectedHabits.clear()
         notifyDataSetChanged()
         observable.notifyListeners()
     }
 
     override fun getSelected(): List<Habit> {
-        return ArrayList(selected)
+        return ArrayList(selectedHabits)
+    }
+
+    override fun getSelectedHabitGroups(): List<HabitGroup> {
+        return ArrayList(selectedHabitGroups)
     }
 
     /**
@@ -91,11 +103,38 @@ class HabitCardListAdapter @Inject constructor(
     }
 
     override fun getItemCount(): Int {
-        return cache.habitCount
+        return cache.itemCount
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position)!!.id!!
+        val uuidString = getItemUUID(position)
+        return if (uuidString != null) {
+            val formattedUUIDString = formatUUID(uuidString)
+            val uuid = UUID.fromString(formattedUUIDString)
+            uuid.mostSignificantBits and Long.MAX_VALUE
+        } else {
+            -1
+        }
+    }
+
+    fun getItemUUID(position: Int): String? {
+        val h = cache.getHabitByPosition(position)
+        val hgr = cache.getHabitGroupByPosition(position)
+        return if (h != null) {
+            h.uuid!!
+        } else if (hgr != null) {
+            hgr.uuid!!
+        } else {
+            null
+        }
+    }
+
+    private fun formatUUID(uuidString: String): String {
+        return uuidString.substring(0, 8) + "-" +
+            uuidString.substring(8, 12) + "-" +
+            uuidString.substring(12, 16) + "-" +
+            uuidString.substring(16, 20) + "-" +
+            uuidString.substring(20, 32)
     }
 
     /**
@@ -104,7 +143,7 @@ class HabitCardListAdapter @Inject constructor(
      * @return true if selection is empty, false otherwise
      */
     val isSelectionEmpty: Boolean
-        get() = selected.isEmpty()
+        get() = selectedHabits.isEmpty() && selectedHabitGroups.isEmpty()
     val isSortable: Boolean
         get() = cache.primaryOrder == HabitList.Order.BY_POSITION
 
@@ -122,11 +161,18 @@ class HabitCardListAdapter @Inject constructor(
     ) {
         if (listView == null) return
         val habit = cache.getHabitByPosition(position)
-        val score = cache.getScore(habit!!.id!!)
-        val checkmarks = cache.getCheckmarks(habit.id!!)
-        val notes = cache.getNotes(habit.id!!)
-        val selected = selected.contains(habit)
-        listView!!.bindCardView(holder, habit, score, checkmarks, notes, selected)
+        if (habit != null) {
+            val score = cache.getScore(habit.uuid!!)
+            val checkmarks = cache.getCheckmarks(habit.uuid!!)
+            val notes = cache.getNotes(habit.uuid!!)
+            val selected = selectedHabits.contains(habit)
+            listView!!.bindCardView(holder, habit, score, checkmarks, notes, selected)
+        } else {
+            val habitGroup = cache.getHabitGroupByPosition(position)
+            val score = cache.getScore(habitGroup!!.uuid!!)
+            val selected = selectedHabitGroups.contains(habitGroup)
+            listView!!.bindGroupCardView(holder, habitGroup, score, selected)
+        }
     }
 
     override fun onViewAttachedToWindow(holder: HabitCardViewHolder) {
@@ -141,8 +187,22 @@ class HabitCardListAdapter @Inject constructor(
         parent: ViewGroup,
         viewType: Int
     ): HabitCardViewHolder {
-        val view = listView!!.createHabitCardView()
-        return HabitCardViewHolder(view)
+        if (viewType == 0) {
+            val view = listView!!.createHabitCardView()
+            return HabitCardViewHolder(view, null)
+        } else {
+            val view = listView!!.createHabitGroupCardView()
+            return HabitCardViewHolder(null, view)
+        }
+    }
+
+    // function to override getItemViewType and return the type of the view. The view can either be a HabitCardView or a HabitGroupCardView
+    override fun getItemViewType(position: Int): Int {
+        return if (position < cache.habitCount) {
+            0
+        } else {
+            1
+        }
     }
 
     /**
@@ -190,7 +250,11 @@ class HabitCardListAdapter @Inject constructor(
      * @param selected list of habits to be removed
      */
     override fun performRemove(selected: List<Habit>) {
-        for (habit in selected) cache.remove(habit.id!!)
+        for (habit in selected) cache.remove(habit.uuid!!)
+    }
+
+    override fun performRemoveHabitGroup(selected: List<HabitGroup>) {
+        for (hgr in selected) cache.remove(hgr.uuid!!)
     }
 
     /**
@@ -250,10 +314,17 @@ class HabitCardListAdapter @Inject constructor(
      * @param position position of the item to be toggled
      */
     fun toggleSelection(position: Int) {
-        val h = getItem(position) ?: return
-        val k = selected.indexOf(h)
-        if (k < 0) selected.add(h) else selected.remove(h)
-        notifyDataSetChanged()
+        val h = cache.getHabitByPosition(position)
+        val hgr = cache.getHabitGroupByPosition(position)
+        if (h != null) {
+            val k = selectedHabits.indexOf(h)
+            if (k < 0) selectedHabits.add(h) else selectedHabits.remove(h)
+            notifyDataSetChanged()
+        } else if (hgr != null) {
+            val k = selectedHabitGroups.indexOf(hgr)
+            if (k < 0) selectedHabitGroups.add(hgr) else selectedHabitGroups.remove(hgr)
+            notifyDataSetChanged()
+        }
     }
 
     init {
