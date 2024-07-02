@@ -56,6 +56,8 @@ data class Habit(
     val uriString: String
         get() = "content://org.isoron.uhabits/habit/$id"
 
+    fun isSubHabit(): Boolean = parentUUID != null
+
     fun hasReminder(): Boolean = reminder != null
 
     fun isCompletedToday(): Boolean {

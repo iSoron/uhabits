@@ -1,6 +1,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.text.LineBreaker.BREAK_STRATEGY_BALANCED
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -75,6 +76,7 @@ class HabitGroupCardView(
             if (SDK_INT >= Build.VERSION_CODES.Q) {
                 breakStrategy = BREAK_STRATEGY_BALANCED
             }
+            setTypeface(typeface, Typeface.BOLD)
         }
 
         addButtonView = AddButtonView(context)

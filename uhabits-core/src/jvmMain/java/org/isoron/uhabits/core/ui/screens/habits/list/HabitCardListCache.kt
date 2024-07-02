@@ -472,6 +472,10 @@ class HabitCardListCache @Inject constructor(
             fromPosition: Int,
             toPosition: Int
         ) {
+            if (fromPosition < data.habits.size || fromPosition > data.habits.size + data.habitGroups.size) {
+                logger.error("performMove: $fromPosition for habit group is out of bounds")
+                return
+            }
             data.habitGroups.removeAt(fromPosition)
 
             // Workaround for https://github.com/iSoron/uhabits/issues/968
@@ -536,7 +540,7 @@ class HabitCardListCache @Inject constructor(
                 val habitGroup = newData.habitGroups[currentPosition - data.habits.size]
                 val uuid = habitGroup.uuid
                 val prevPosition = data.habitGroups.indexOf(habitGroup) + data.habits.size
-                if (prevPosition < 0) {
+                if (prevPosition < data.habits.size) {
                     performInsert(habitGroup, currentPosition)
                 } else {
                     if (prevPosition != currentPosition) {
