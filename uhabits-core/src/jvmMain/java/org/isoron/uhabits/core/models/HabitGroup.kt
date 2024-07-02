@@ -19,6 +19,7 @@ data class HabitGroup(
 ) {
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
+        habitList.groupUUID = this.uuid
     }
 
     var observable = ModelObservable()
@@ -77,6 +78,7 @@ data class HabitGroup(
         this.question = other.question
         this.reminder = other.reminder
         this.uuid = other.uuid
+        this.habitList.groupUUID = this.uuid
     }
 
     override fun equals(other: Any?): Boolean {

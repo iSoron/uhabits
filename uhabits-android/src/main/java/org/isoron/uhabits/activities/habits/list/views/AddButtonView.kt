@@ -8,17 +8,18 @@ import android.text.TextPaint
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.habits.list.ListHabitsActivity
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 
 class AddButtonView(
-    context: Context
+    context: Context,
+    var habitGroup: HabitGroup?
 ) : View(context),
     View.OnClickListener {
-
-    var onEdit: () -> Unit = { }
 
     private var drawer = Drawer()
 
@@ -27,7 +28,7 @@ class AddButtonView(
     }
 
     override fun onClick(v: View) {
-        onEdit()
+        (context as ListHabitsActivity).component.listHabitsMenu.behavior.onCreateHabit(habitGroup!!.uuid)
     }
 
     override fun onDraw(canvas: Canvas) {

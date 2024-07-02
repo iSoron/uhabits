@@ -164,8 +164,8 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
-    override fun showSelectHabitTypeDialog() {
-        val dialog = HabitTypeDialog()
+    override fun showSelectHabitTypeDialog(parentUUID: String?) {
+        val dialog = HabitTypeDialog(parentUUID)
         dialog.show(activity.supportFragmentManager, "habitType")
     }
 

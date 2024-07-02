@@ -132,6 +132,7 @@ data class Habit(
         this.type = other.type
         this.unit = other.unit
         this.uuid = other.uuid
+        this.parent = other.parent
         this.parentID = other.parentID
         this.parentUUID = other.parentUUID
     }

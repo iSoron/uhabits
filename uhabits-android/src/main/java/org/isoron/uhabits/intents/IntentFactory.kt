@@ -97,9 +97,12 @@ class IntentFactory
         return intent
     }
 
-    fun startEditActivity(context: Context, habitType: Int): Intent {
+    fun startEditActivity(context: Context, habitType: Int, parentUUID: String?): Intent {
         val intent = startEditActivity(context)
         intent.putExtra("habitType", habitType)
+        if (parentUUID != null) {
+            intent.putExtra("parentGroupUUID", parentUUID)
+        }
         return intent
     }
 

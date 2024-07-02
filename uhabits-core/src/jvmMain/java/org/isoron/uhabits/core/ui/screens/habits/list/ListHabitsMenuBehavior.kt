@@ -33,8 +33,8 @@ class ListHabitsMenuBehavior @Inject constructor(
     private var showCompleted: Boolean
     private var showArchived: Boolean
 
-    fun onCreateHabit() {
-        screen.showSelectHabitTypeDialog()
+    fun onCreateHabit(parentUUID: String? = null) {
+        screen.showSelectHabitTypeDialog(parentUUID)
     }
 
     fun onViewFAQ() {
@@ -132,7 +132,7 @@ class ListHabitsMenuBehavior @Inject constructor(
         fun showAboutScreen()
         fun showFAQScreen()
         fun showSettingsScreen()
-        fun showSelectHabitTypeDialog()
+        fun showSelectHabitTypeDialog(parentUUID: String? = null)
     }
 
     init {

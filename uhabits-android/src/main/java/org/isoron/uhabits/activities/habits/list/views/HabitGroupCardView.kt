@@ -41,6 +41,7 @@ class HabitGroupCardView(
             }
             field = newHabitGroup
             if (newHabitGroup != null) copyAttributesFrom(newHabitGroup)
+            addButtonView.habitGroup = newHabitGroup
         }
 
     var score
@@ -79,7 +80,7 @@ class HabitGroupCardView(
             setTypeface(typeface, Typeface.BOLD)
         }
 
-        addButtonView = AddButtonView(context)
+        addButtonView = AddButtonView(context, habitGroup)
 
         innerFrame = LinearLayout(context).apply {
             gravity = Gravity.CENTER_VERTICAL

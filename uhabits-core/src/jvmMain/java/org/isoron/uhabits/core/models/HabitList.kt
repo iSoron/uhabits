@@ -34,6 +34,8 @@ abstract class HabitList : Iterable<Habit> {
     @JvmField
     protected val filter: HabitMatcher
 
+    var groupUUID: String? = null
+
     /**
      * Creates a new HabitList.
      *

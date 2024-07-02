@@ -29,7 +29,7 @@ import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.databinding.SelectHabitTypeBinding
 import org.isoron.uhabits.intents.IntentFactory
 
-class HabitTypeDialog : AppCompatDialogFragment() {
+class HabitTypeDialog(val parentUUID: String? = null) : AppCompatDialogFragment() {
     override fun getTheme() = R.style.Translucent
 
     override fun onCreateView(
@@ -40,13 +40,13 @@ class HabitTypeDialog : AppCompatDialogFragment() {
         val binding = SelectHabitTypeBinding.inflate(inflater, container, false)
 
         binding.buttonYesNo.setOnClickListener {
-            val intent = IntentFactory().startEditActivity(requireActivity(), HabitType.YES_NO.value)
+            val intent = IntentFactory().startEditActivity(requireActivity(), HabitType.YES_NO.value, parentUUID)
             startActivity(intent)
             dismiss()
         }
 
         binding.buttonMeasurable.setOnClickListener {
-            val intent = IntentFactory().startEditActivity(requireActivity(), HabitType.NUMERICAL.value)
+            val intent = IntentFactory().startEditActivity(requireActivity(), HabitType.NUMERICAL.value, parentUUID)
             startActivity(intent)
             dismiss()
         }
@@ -55,6 +55,10 @@ class HabitTypeDialog : AppCompatDialogFragment() {
             val intent = IntentFactory().startEditGroupActivity(requireActivity())
             startActivity(intent)
             dismiss()
+        }
+
+        if (parentUUID != null) {
+            binding.buttonHabitGroup.visibility = View.GONE
         }
 
         binding.background.setOnClickListener {

@@ -476,7 +476,7 @@ class HabitCardListCache @Inject constructor(
                 logger.error("performMove: $fromPosition for habit group is out of bounds")
                 return
             }
-            data.habitGroups.removeAt(fromPosition)
+            data.habitGroups.removeAt(fromPosition - data.habits.size)
 
             // Workaround for https://github.com/iSoron/uhabits/issues/968
             val checkedToPosition = if (toPosition < data.habits.size) {

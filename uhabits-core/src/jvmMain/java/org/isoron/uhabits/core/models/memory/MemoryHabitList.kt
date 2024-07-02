@@ -22,8 +22,6 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
-import java.util.ArrayList
-import java.util.Comparator
 import java.util.LinkedList
 import java.util.Objects
 

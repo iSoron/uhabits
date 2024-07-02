@@ -47,6 +47,7 @@ import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
@@ -76,6 +77,7 @@ class EditHabitActivity : AppCompatActivity() {
 
     var habitId = -1L
     lateinit var habitType: HabitType
+    var parentGroup: HabitGroup? = null
     var unit = ""
     var color = PaletteColor(11)
     var androidColor = 0
@@ -110,6 +112,7 @@ class EditHabitActivity : AppCompatActivity() {
                 reminderMin = it.minute
                 reminderDays = it.days
             }
+            parentGroup = habit.parent
             binding.nameInput.setText(habit.name)
             binding.questionInput.setText(habit.question)
             binding.notesInput.setText(habit.description)
@@ -117,6 +120,10 @@ class EditHabitActivity : AppCompatActivity() {
             binding.targetInput.setText(habit.targetValue.toString())
         } else {
             habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
+            if (intent.hasExtra("parentGroupUUID")) {
+                val parentGroupUUID = intent.getStringExtra("parentGroupUUID")!!
+                parentGroup = component.habitGroupList.getByUUID(parentGroupUUID)
+            }
         }
 
         if (state != null) {
@@ -260,9 +267,15 @@ class EditHabitActivity : AppCompatActivity() {
         val component = (application as HabitsApplication).component
         val habit = component.modelFactory.buildHabit()
 
+        val habitList = if (parentGroup != null) {
+            parentGroup!!.habitList
+        } else {
+            component.habitList
+        }
+
         var original: Habit? = null
         if (habitId >= 0) {
-            original = component.habitList.getById(habitId)!!
+            original = habitList.getById(habitId)!!
             habit.copyFrom(original)
         }
 
@@ -283,17 +296,20 @@ class EditHabitActivity : AppCompatActivity() {
             habit.unit = binding.unitInput.text.trim().toString()
         }
         habit.type = habitType
+        habit.parent = parentGroup
+        habit.parentID = parentGroup?.id
+        habit.parentUUID = parentGroup?.uuid
 
         val command = if (habitId >= 0) {
             EditHabitCommand(
-                component.habitList,
+                habitList,
                 habitId,
                 habit
             )
         } else {
             CreateHabitCommand(
                 component.modelFactory,
-                component.habitList,
+                habitList,
                 habit
             )
         }

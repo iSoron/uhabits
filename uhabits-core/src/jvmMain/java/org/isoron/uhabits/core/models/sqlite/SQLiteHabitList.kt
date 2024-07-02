@@ -37,6 +37,7 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     private fun loadRecords() {
         if (loaded) return
         loaded = true
+        list.groupUUID = this.groupUUID
         list.removeAll()
         val records = repository.findAll("order by position")
         var shouldRebuildOrder = false
@@ -45,7 +46,7 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
             val h = modelFactory.buildHabit()
             rec.copyTo(h)
             (h.originalEntries as SQLiteEntryList).habitId = h.id
-            list.add(h)
+            if (h.parentUUID == list.groupUUID) list.add(h)
         }
         if (shouldRebuildOrder) rebuildOrder()
     }
