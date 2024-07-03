@@ -18,13 +18,17 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
+import org.isoron.uhabits.core.commands.ArchiveHabitGroupsCommand
 import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
 import org.isoron.uhabits.core.commands.ChangeHabitColorCommand
+import org.isoron.uhabits.core.commands.ChangeHabitGroupColorCommand
 import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.callbacks.OnColorPickedCallback
@@ -33,33 +37,55 @@ import javax.inject.Inject
 
 class ListHabitsSelectionMenuBehavior @Inject constructor(
     private val habitList: HabitList,
+    private val habitGroupList: HabitGroupList,
     private val screen: Screen,
     private val adapter: Adapter,
     var commandRunner: CommandRunner
 ) {
     fun canArchive(): Boolean {
-        for (habit in adapter.getSelected()) if (habit.isArchived) return false
+        for (habit in adapter.getSelectedHabits()) if (habit.isArchived) return false
+        for (hgr in adapter.getSelectedHabitGroups()) if (hgr.isArchived) return false
         return true
     }
 
     fun canEdit(): Boolean {
-        return adapter.getSelected().size == 1
+        return (adapter.getSelectedHabits().size + adapter.getSelectedHabitGroups().size == 1)
     }
 
     fun canUnarchive(): Boolean {
-        for (habit in adapter.getSelected()) if (!habit.isArchived) return false
+        for (habit in adapter.getSelectedHabits()) if (!habit.isArchived) return false
+        for (hgr in adapter.getSelectedHabitGroups()) if (!hgr.isArchived) return false
         return true
     }
 
     fun onArchiveHabits() {
-        commandRunner.run(ArchiveHabitsCommand(habitList, adapter.getSelected()))
+        commandRunner.run(ArchiveHabitsCommand(habitList, adapter.getSelectedHabits()))
+        commandRunner.run(ArchiveHabitGroupsCommand(habitGroupList, adapter.getSelectedHabitGroups()))
         adapter.clearSelection()
     }
 
     fun onChangeColor() {
-        val (color) = adapter.getSelected()[0]
+        val color = if (adapter.getSelectedHabits().isNotEmpty()) {
+            adapter.getSelectedHabits()[0].color
+        } else {
+            adapter.getSelectedHabitGroups()[0].color
+        }
+
         screen.showColorPicker(color) { selectedColor: PaletteColor ->
-            commandRunner.run(ChangeHabitColorCommand(habitList, adapter.getSelected(), selectedColor))
+            commandRunner.run(
+                ChangeHabitColorCommand(
+                    habitList,
+                    adapter.getSelectedHabits(),
+                    selectedColor
+                )
+            )
+            commandRunner.run(
+                ChangeHabitGroupColorCommand(
+                    habitGroupList,
+                    adapter.getSelectedHabitGroups(),
+                    selectedColor
+                )
+            )
             adapter.clearSelection()
         }
     }
@@ -67,28 +93,36 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     fun onDeleteHabits() {
         screen.showDeleteConfirmationScreen(
             {
-                adapter.performRemove(adapter.getSelected())
-                commandRunner.run(DeleteHabitsCommand(habitList, adapter.getSelected()))
+                adapter.performRemove(adapter.getSelectedHabits())
+                adapter.performRemoveHabitGroup(adapter.getSelectedHabitGroups())
+                commandRunner.run(DeleteHabitsCommand(habitList, adapter.getSelectedHabits()))
+                commandRunner.run(DeleteHabitGroupsCommand(habitGroupList, adapter.getSelectedHabitGroups()))
                 adapter.clearSelection()
             },
-            adapter.getSelected().size
+            adapter.getSelectedHabits().size + adapter.getSelectedHabitGroups().size
         )
     }
 
     fun onEditHabits() {
-        val selected = adapter.getSelected()
-        if (selected.isNotEmpty()) screen.showEditHabitsScreen(selected)
+        val selected = adapter.getSelectedHabits()
+        if (selected.isNotEmpty()) {
+            screen.showEditHabitsScreen(selected)
+        } else {
+            val selectedGroup = adapter.getSelectedHabitGroups()
+            screen.showEditHabitGroupScreen(selectedGroup)
+        }
+
         adapter.clearSelection()
     }
 
     fun onUnarchiveHabits() {
-        commandRunner.run(UnarchiveHabitsCommand(habitList, adapter.getSelected()))
+        commandRunner.run(UnarchiveHabitsCommand(habitList, adapter.getSelectedHabits()))
         adapter.clearSelection()
     }
 
     interface Adapter {
         fun clearSelection()
-        fun getSelected(): List<Habit>
+        fun getSelectedHabits(): List<Habit>
         fun getSelectedHabitGroups(): List<HabitGroup>
         fun performRemove(selected: List<Habit>)
         fun performRemoveHabitGroup(selected: List<HabitGroup>)
@@ -106,5 +140,7 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
         )
 
         fun showEditHabitsScreen(selected: List<Habit>)
+
+        fun showEditHabitGroupScreen(selected: List<HabitGroup>)
     }
 }

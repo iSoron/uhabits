@@ -4,7 +4,6 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitGroupList
-import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import java.io.File
 
@@ -12,15 +11,13 @@ class ShowHabitGroupMenuPresenter(
     private val commandRunner: CommandRunner,
     private val habitGroup: HabitGroup,
     private val habitGroupList: HabitGroupList,
-    private val screen: Screen,
-    private val system: System,
-    private val taskRunner: TaskRunner
+    private val screen: Screen
 ) {
-    fun onEditHabit() {
+    fun onEditHabitGroup() {
         screen.showEditHabitGroupScreen(habitGroup)
     }
 
-    fun onDeleteHabit() {
+    fun onDeleteHabitGroup() {
         screen.showDeleteConfirmationScreen {
             commandRunner.run(DeleteHabitGroupsCommand(habitGroupList, listOf(habitGroup)))
             screen.close()

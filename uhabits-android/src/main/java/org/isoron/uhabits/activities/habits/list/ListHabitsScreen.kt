@@ -41,6 +41,7 @@ import org.isoron.uhabits.core.commands.ChangeHabitColorCommand
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
+import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
@@ -179,6 +180,11 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
+    override fun showEditHabitGroupScreen(selected: List<HabitGroup>) {
+        val intent = intentFactory.startEditGroupActivity(activity, selected[0])
+        activity.startActivity(intent)
+    }
+
     override fun showFAQScreen() {
         val intent = intentFactory.viewFAQ(activity)
         activity.startActivity(intent)
@@ -313,6 +319,12 @@ class ListHabitsScreen
                 return activity.resources.getString(R.string.toast_habit_created)
             }
             is DeleteHabitsCommand -> {
+                return activity.resources.getQuantityString(
+                    R.plurals.toast_habits_deleted,
+                    command.selected.size
+                )
+            }
+            is DeleteHabitGroupsCommand -> {
                 return activity.resources.getQuantityString(
                     R.plurals.toast_habits_deleted,
                     command.selected.size

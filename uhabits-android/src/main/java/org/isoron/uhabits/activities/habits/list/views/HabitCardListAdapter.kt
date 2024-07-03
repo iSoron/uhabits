@@ -79,11 +79,12 @@ class HabitCardListAdapter @Inject constructor(
      */
     override fun clearSelection() {
         selectedHabits.clear()
+        selectedHabitGroups.clear()
         notifyDataSetChanged()
         observable.notifyListeners()
     }
 
-    override fun getSelected(): List<Habit> {
+    override fun getSelectedHabits(): List<Habit> {
         return ArrayList(selectedHabits)
     }
 

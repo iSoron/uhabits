@@ -8,11 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
-import org.isoron.uhabits.activities.HabitGroupsDirFinder
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
@@ -68,9 +66,7 @@ class ShowHabitGroupActivity : AppCompatActivity(), CommandRunner.Listener {
             commandRunner = commandRunner,
             habitGroup = habitGroup,
             habitGroupList = habitGroupList,
-            screen = screen,
-            system = HabitGroupsDirFinder(AndroidDirFinder(this)),
-            taskRunner = appComponent.taskRunner
+            screen = screen
         )
 
         menu = ShowHabitGroupMenu(

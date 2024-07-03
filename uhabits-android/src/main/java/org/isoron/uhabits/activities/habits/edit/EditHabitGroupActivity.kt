@@ -56,7 +56,7 @@ class EditHabitGroupActivity : AppCompatActivity() {
 
         if (intent.hasExtra("habitGroupId")) {
             binding.toolbar.title = getString(R.string.edit_habit_group)
-            habitGroupId = intent.getLongExtra("habitId", -1)
+            habitGroupId = intent.getLongExtra("habitGroupId", -1)
             val hgr = component.habitGroupList.getById(habitGroupId)!!
             color = hgr.color
             hgr.reminder?.let {

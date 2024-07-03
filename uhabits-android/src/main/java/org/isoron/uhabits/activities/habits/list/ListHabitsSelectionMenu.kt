@@ -82,7 +82,7 @@ class ListHabitsSelectionMenu @Inject constructor(
         itemArchive.isVisible = behavior.canArchive()
         itemUnarchive.isVisible = behavior.canUnarchive()
         itemNotify.isVisible = prefs.isDeveloper
-        activeActionMode?.title = listAdapter.selectedHabits.size.toString()
+        activeActionMode?.title = (listAdapter.selectedHabits.size + listAdapter.selectedHabitGroups.size).toString()
         return true
     }
     override fun onDestroyActionMode(mode: ActionMode?) {

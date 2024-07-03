@@ -52,27 +52,27 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
     @Test
     @Throws(Exception::class)
     fun canArchive() {
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1, habit2))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1, habit2))
         assertFalse(behavior.canArchive())
-        whenever(adapter.getSelected()).thenReturn(listOf(habit2, habit3))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit2, habit3))
         assertTrue(behavior.canArchive())
     }
 
     @Test
     @Throws(Exception::class)
     fun canEdit() {
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1))
         assertTrue(behavior.canEdit())
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1, habit2))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1, habit2))
         assertFalse(behavior.canEdit())
     }
 
     @Test
     @Throws(Exception::class)
     fun canUnarchive() {
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1, habit2))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1, habit2))
         assertFalse(behavior.canUnarchive())
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1))
         assertTrue(behavior.canUnarchive())
     }
 
@@ -80,7 +80,7 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
     @Throws(Exception::class)
     fun onArchiveHabits() {
         assertFalse(habit2.isArchived)
-        whenever(adapter.getSelected()).thenReturn(listOf(habit2))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit2))
         behavior.onArchiveHabits()
         assertTrue(habit2.isArchived)
     }
@@ -90,7 +90,7 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
     fun onChangeColor() {
         assertThat(habit1.color, equalTo(PaletteColor(8)))
         assertThat(habit2.color, equalTo(PaletteColor(8)))
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1, habit2))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1, habit2))
         behavior.onChangeColor()
         verify(screen)
             .showColorPicker(eq(PaletteColor(8)), colorPickerCallback.capture())
@@ -103,7 +103,7 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
     fun onDeleteHabits() {
         val id = habit1.id!!
         habitList.getById(id)!!
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1))
         behavior.onDeleteHabits()
         verify(screen).showDeleteConfirmationScreen(deleteCallback.capture(), eq(1))
         deleteCallback.lastValue.onConfirmed()
@@ -114,7 +114,7 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
     @Throws(Exception::class)
     fun onEditHabits() {
         val selected: List<Habit> = listOf(habit1, habit2)
-        whenever(adapter.getSelected()).thenReturn(selected)
+        whenever(adapter.getSelectedHabits()).thenReturn(selected)
         behavior.onEditHabits()
         verify(screen).showEditHabitsScreen(selected)
     }
@@ -123,7 +123,7 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
     @Throws(Exception::class)
     fun onUnarchiveHabits() {
         assertTrue(habit1.isArchived)
-        whenever(adapter.getSelected()).thenReturn(listOf(habit1))
+        whenever(adapter.getSelectedHabits()).thenReturn(listOf(habit1))
         behavior.onUnarchiveHabits()
         assertFalse(habit1.isArchived)
     }

@@ -19,11 +19,11 @@ class ShowHabitGroupMenu(
     fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_edit_habit_group -> {
-                presenter.onEditHabit()
+                presenter.onEditHabitGroup()
                 return true
             }
             R.id.action_delete -> {
-                presenter.onDeleteHabit()
+                presenter.onDeleteHabitGroup()
                 return true
             }
         }
