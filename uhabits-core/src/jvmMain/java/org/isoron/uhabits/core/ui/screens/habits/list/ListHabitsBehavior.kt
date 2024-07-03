@@ -22,6 +22,7 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
@@ -49,6 +50,10 @@ open class ListHabitsBehavior @Inject constructor(
 ) {
     fun onClickHabit(h: Habit) {
         screen.showHabitScreen(h)
+    }
+
+    fun onClickHabitGroup(hgr: HabitGroup) {
+        screen.showHabitGroupScreen(hgr)
     }
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
@@ -178,6 +183,7 @@ open class ListHabitsBehavior @Inject constructor(
 
     interface Screen {
         fun showHabitScreen(h: Habit)
+        fun showHabitGroupScreen(hgr: HabitGroup)
         fun showIntroScreen()
         fun showMessage(m: Message)
         fun showNumberPopup(

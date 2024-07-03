@@ -74,12 +74,12 @@ class StreakList {
         from: Timestamp,
         to: Timestamp
     ) {
+        if (habitList.isEmpty) return
         var current = from
         var streakRunning = false
         var streakStart = from
         while (current <= to) {
-            if (habitList.all { it.streaks.isInStreaks(current) } && !streakRunning
-            ) {
+            if (habitList.all { it.streaks.isInStreaks(current) } && !streakRunning) {
                 streakStart = current
                 streakRunning = true
             } else if (streakRunning) {

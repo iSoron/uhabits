@@ -27,6 +27,7 @@ import org.isoron.uhabits.activities.about.AboutActivity
 import org.isoron.uhabits.activities.habits.edit.EditHabitActivity
 import org.isoron.uhabits.activities.habits.edit.EditHabitGroupActivity
 import org.isoron.uhabits.activities.habits.show.ShowHabitActivity
+import org.isoron.uhabits.activities.habits.show.ShowHabitGroupActivity
 import org.isoron.uhabits.activities.intro.IntroActivity
 import org.isoron.uhabits.activities.settings.SettingsActivity
 import org.isoron.uhabits.core.models.Habit
@@ -65,6 +66,11 @@ class IntentFactory
     fun startShowHabitActivity(context: Context, habit: Habit) =
         Intent(context, ShowHabitActivity::class.java).apply {
             data = Uri.parse(habit.uriString)
+        }
+
+    fun startShowHabitGroupActivity(context: Context, habitGroup: HabitGroup) =
+        Intent(context, ShowHabitGroupActivity::class.java).apply {
+            data = Uri.parse(habitGroup.uriString)
         }
 
     fun viewFAQ(context: Context) =

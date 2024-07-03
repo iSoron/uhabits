@@ -45,6 +45,7 @@ import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
@@ -185,6 +186,11 @@ class ListHabitsScreen
 
     override fun showHabitScreen(h: Habit) {
         val intent = intentFactory.startShowHabitActivity(activity, h)
+        activity.startActivity(intent)
+    }
+
+    override fun showHabitGroupScreen(hgr: HabitGroup) {
+        val intent = intentFactory.startShowHabitGroupActivity(activity, hgr)
         activity.startActivity(intent)
     }
 

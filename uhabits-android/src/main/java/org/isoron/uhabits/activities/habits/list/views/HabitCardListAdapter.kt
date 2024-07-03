@@ -102,6 +102,14 @@ class HabitCardListAdapter @Inject constructor(
         return cache.getHabitByPosition(position)
     }
 
+    fun getHabit(position: Int): Habit? {
+        return cache.getHabitByPosition(position)
+    }
+
+    fun getHabitGroup(position: Int): HabitGroup? {
+        return cache.getHabitGroupByPosition(position)
+    }
+
     override fun getItemCount(): Int {
         return cache.itemCount
     }

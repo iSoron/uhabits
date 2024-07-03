@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 
 data class NotesCardState(
     val description: String
@@ -29,6 +30,10 @@ class NotesCardPresenter {
     companion object {
         fun buildState(habit: Habit) = NotesCardState(
             description = habit.description
+        )
+
+        fun buildState(habitGroup: HabitGroup) = NotesCardState(
+            description = habitGroup.description
         )
     }
 }

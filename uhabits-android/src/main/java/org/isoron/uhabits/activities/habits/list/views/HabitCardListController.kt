@@ -114,8 +114,15 @@ class HabitCardListController @Inject constructor(
      */
     internal inner class NormalMode : Mode {
         override fun onItemClick(position: Int) {
-            val habit = adapter.getItem(position) ?: return
-            behavior.onClickHabit(habit)
+            val habit = adapter.getHabit(position)
+            if (habit != null) {
+                behavior.onClickHabit(habit)
+            } else {
+                val hgr = adapter.getHabitGroup(position)
+                if (hgr != null) {
+                    behavior.onClickHabitGroup(hgr)
+                }
+            }
         }
 
         override fun onItemLongClick(position: Int): Boolean {
