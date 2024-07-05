@@ -65,6 +65,19 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     }
 
     @Synchronized
+    override fun add(position: Int, habit: Habit) {
+        loadRecords()
+        habit.position = size()
+        val record = HabitRecord()
+        record.copyFrom(habit)
+        repository.save(record)
+        habit.id = record.id
+        (habit.originalEntries as SQLiteEntryList).habitId = record.id
+        list.add(position, habit)
+        observable.notifyListeners()
+    }
+
+    @Synchronized
     override fun getById(id: Long): Habit? {
         loadRecords()
         return list.getById(id)

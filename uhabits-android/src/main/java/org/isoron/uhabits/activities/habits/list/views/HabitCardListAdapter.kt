@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.activities.habits.list.views
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import org.isoron.uhabits.activities.habits.list.MAX_CHECKMARK_COUNT
@@ -74,9 +75,14 @@ class HabitCardListAdapter @Inject constructor(
         return cache.hasNoHabitGroup()
     }
 
+    fun hasNoSubHabits(): Boolean {
+        return cache.hasNoSubHabits()
+    }
+
     /**
      * Sets all items as not selected.
      */
+    @SuppressLint("NotifyDataSetChanged")
     override fun clearSelection() {
         selectedHabits.clear()
         selectedHabitGroups.clear()
@@ -116,25 +122,13 @@ class HabitCardListAdapter @Inject constructor(
     }
 
     override fun getItemId(position: Int): Long {
-        val uuidString = getItemUUID(position)
+        val uuidString = cache.getUUIDByPosition(position)
         return if (uuidString != null) {
             val formattedUUIDString = formatUUID(uuidString)
             val uuid = UUID.fromString(formattedUUIDString)
             uuid.mostSignificantBits and Long.MAX_VALUE
         } else {
             -1
-        }
-    }
-
-    fun getItemUUID(position: Int): String? {
-        val h = cache.getHabitByPosition(position)
-        val hgr = cache.getHabitGroupByPosition(position)
-        return if (h != null) {
-            h.uuid!!
-        } else if (hgr != null) {
-            hgr.uuid!!
-        } else {
-            null
         }
     }
 
@@ -207,7 +201,7 @@ class HabitCardListAdapter @Inject constructor(
 
     // function to override getItemViewType and return the type of the view. The view can either be a HabitCardView or a HabitGroupCardView
     override fun getItemViewType(position: Int): Int {
-        return if (position < cache.habitCount) {
+        return if (cache.getHabitByPosition(position) != null) {
             0
         } else {
             1
@@ -322,6 +316,7 @@ class HabitCardListAdapter @Inject constructor(
      *
      * @param position position of the item to be toggled
      */
+    @SuppressLint("NotifyDataSetChanged")
     fun toggleSelection(position: Int) {
         val h = cache.getHabitByPosition(position)
         val hgr = cache.getHabitGroupByPosition(position)

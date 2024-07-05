@@ -140,6 +140,7 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
         habitList.add(habit3)
         behavior = ListHabitsSelectionMenuBehavior(
             habitList,
+            habitGroupList,
             screen,
             adapter,
             commandRunner

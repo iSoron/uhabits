@@ -195,7 +195,11 @@ class MemoryHabitGroupList : HabitGroupList {
     private fun loadFromParent() {
         checkNotNull(parent)
         list.clear()
-        for (h in parent!!) if (filter.matches(h)) list.add(h)
+        for (h in parent!!) {
+            if (filter.matches(h)) {
+                list.add(h)
+            }
+        }
         resort()
     }
 

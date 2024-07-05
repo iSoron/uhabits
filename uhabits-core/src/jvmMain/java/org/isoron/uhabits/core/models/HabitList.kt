@@ -68,6 +68,20 @@ abstract class HabitList : Iterable<Habit> {
     abstract fun add(habit: Habit)
 
     /**
+     * Inserts a new habit in the list at the given position.
+     *
+     * If the id of the habit is null, the list will assign it a new id, which
+     * is guaranteed to be unique in the scope of the list. If id is not null,
+     * the caller should make sure that the list does not already contain
+     * another habit with same id, otherwise a RuntimeException will be thrown.
+     *
+     * @param habit the habit to be inserted
+     * @throws IllegalArgumentException if the habit is already on the list.
+     */
+    @Throws(IllegalArgumentException::class)
+    abstract fun add(position: Int, habit: Habit)
+
+    /**
      * Returns the habit with specified id.
      *
      * @param id the id of the habit

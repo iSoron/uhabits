@@ -78,6 +78,17 @@ class MemoryHabitList : HabitList {
     }
 
     @Synchronized
+    @Throws(IllegalArgumentException::class)
+    override fun add(position: Int, habit: Habit) {
+        throwIfHasParent()
+        require(!list.contains(habit)) { "habit already added" }
+        val id = habit.id
+        if (id != null && getById(id) != null) throw RuntimeException("duplicate id")
+        if (id == null) habit.id = list.size.toLong()
+        list.add(position, habit)
+    }
+
+    @Synchronized
     override fun getById(id: Long): Habit? {
         for (h in list) {
             checkNotNull(h.id)

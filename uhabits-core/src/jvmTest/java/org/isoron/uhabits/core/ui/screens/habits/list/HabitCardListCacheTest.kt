@@ -43,7 +43,7 @@ class HabitCardListCacheTest : BaseUnitTest() {
         for (i in 0..9) {
             if (i == 3) habitList.add(fixtures.createLongHabit()) else habitList.add(fixtures.createShortHabit())
         }
-        cache = HabitCardListCache(habitList, commandRunner, taskRunner, mock())
+        cache = HabitCardListCache(habitList, habitGroupList, commandRunner, taskRunner, mock())
         cache.setCheckmarkCount(10)
         cache.refreshAllHabits()
         cache.onAttached()
@@ -82,8 +82,8 @@ class HabitCardListCacheTest : BaseUnitTest() {
         val h = habitList.getByPosition(3)
         val score = h.scores[today].value
         assertThat(cache.getHabitByPosition(3), equalTo(h))
-        assertThat(cache.getScore(h.id!!), equalTo(score))
-        val actualCheckmarks = cache.getCheckmarks(h.id!!)
+        assertThat(cache.getScore(h.uuid!!), equalTo(score))
+        val actualCheckmarks = cache.getCheckmarks(h.uuid!!)
 
         val expectedCheckmarks = h
             .computedEntries
