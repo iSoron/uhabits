@@ -63,10 +63,12 @@ class IntentFactory
     fun startSettingsActivity(context: Context) =
         Intent(context, SettingsActivity::class.java)
 
-    fun startShowHabitActivity(context: Context, habit: Habit) =
-        Intent(context, ShowHabitActivity::class.java).apply {
-            data = Uri.parse(habit.uriString)
-        }
+    fun startShowHabitActivity(context: Context, habit: Habit): Intent {
+        val intent = Intent(context, ShowHabitActivity::class.java)
+        intent.putExtra("habitUUID", habit.uuid)
+        intent.putExtra("parentUUID", habit.parentUUID)
+        return intent
+    }
 
     fun startShowHabitGroupActivity(context: Context, habitGroup: HabitGroup) =
         Intent(context, ShowHabitGroupActivity::class.java).apply {
