@@ -24,11 +24,11 @@ import org.isoron.uhabits.core.models.HabitNotFoundException
 
 data class EditHabitCommand(
     val habitList: HabitList,
-    val habitId: Long,
+    val habitUUID: String,
     val modified: Habit
 ) : Command {
     override fun run() {
-        val habit = habitList.getById(habitId) ?: throw HabitNotFoundException()
+        val habit = habitList.getByUUID(habitUUID) ?: throw HabitNotFoundException()
         habit.copyFrom(modified)
         habitList.update(habit)
         habit.observable.notifyListeners()

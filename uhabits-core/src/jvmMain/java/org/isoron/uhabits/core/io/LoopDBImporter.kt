@@ -89,7 +89,7 @@ class LoopDBImporter
                 val modified = modelFactory.buildHabit()
                 habitRecord.id = habit.id
                 habitRecord.copyTo(modified)
-                EditHabitCommand(habitList, habit.id!!, modified).run()
+                EditHabitCommand(habitList, habit.uuid!!, modified).run()
             }
 
             // Reload saved version of the habit

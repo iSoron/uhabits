@@ -75,7 +75,7 @@ class EditHabitActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditHabitBinding
     private lateinit var commandRunner: CommandRunner
 
-    var habitId = -1L
+    var habitUUID: String? = null
     lateinit var habitType: HabitType
     var parentGroup: HabitGroup? = null
     var unit = ""
@@ -98,10 +98,20 @@ class EditHabitActivity : AppCompatActivity() {
         binding = ActivityEditHabitBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (intent.hasExtra("habitId")) {
+        if (intent.hasExtra("parentGroupUUID")) {
+            val parentGroupUUID = intent.getStringExtra("parentGroupUUID")
+            parentGroup = component.habitGroupList.getByUUID(parentGroupUUID)
+        }
+
+        if (intent.hasExtra("habitUUID")) {
             binding.toolbar.title = getString(R.string.edit_habit)
-            habitId = intent.getLongExtra("habitId", -1)
-            val habit = component.habitList.getById(habitId)!!
+            habitUUID = intent.getStringExtra("habitUUID")!!
+            val habitList = if (parentGroup != null) {
+                parentGroup!!.habitList
+            } else {
+                component.habitList
+            }
+            val habit = habitList.getByUUID(habitUUID)!!
             habitType = habit.type
             color = habit.color
             freqNum = habit.frequency.numerator
@@ -112,7 +122,6 @@ class EditHabitActivity : AppCompatActivity() {
                 reminderMin = it.minute
                 reminderDays = it.days
             }
-            parentGroup = habit.parent
             binding.nameInput.setText(habit.name)
             binding.questionInput.setText(habit.question)
             binding.notesInput.setText(habit.description)
@@ -120,14 +129,10 @@ class EditHabitActivity : AppCompatActivity() {
             binding.targetInput.setText(habit.targetValue.toString())
         } else {
             habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
-            if (intent.hasExtra("parentGroupUUID")) {
-                val parentGroupUUID = intent.getStringExtra("parentGroupUUID")!!
-                parentGroup = component.habitGroupList.getByUUID(parentGroupUUID)
-            }
         }
 
         if (state != null) {
-            habitId = state.getLong("habitId")
+            habitUUID = state.getString("habitUUID")
             habitType = HabitType.fromInt(state.getInt("habitType"))
             color = PaletteColor(state.getInt("paletteColor"))
             freqNum = state.getInt("freqNum")
@@ -274,8 +279,8 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         var original: Habit? = null
-        if (habitId >= 0) {
-            original = habitList.getById(habitId)!!
+        if (habitUUID != null) {
+            original = habitList.getByUUID(habitUUID)!!
             habit.copyFrom(original)
         }
 
@@ -300,10 +305,10 @@ class EditHabitActivity : AppCompatActivity() {
         habit.parentID = parentGroup?.id
         habit.parentUUID = parentGroup?.uuid
 
-        val command = if (habitId >= 0) {
+        val command = if (habitUUID != null) {
             EditHabitCommand(
                 habitList,
-                habitId,
+                habitUUID!!,
                 habit
             )
         } else {
@@ -382,7 +387,7 @@ class EditHabitActivity : AppCompatActivity() {
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
         with(state) {
-            putLong("habitId", habitId)
+            putString("habitUUID", habitUUID)
             putInt("habitType", habitType.value)
             putInt("paletteColor", color.paletteIndex)
             putInt("androidColor", androidColor)

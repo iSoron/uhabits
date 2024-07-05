@@ -100,8 +100,9 @@ class IntentFactory
 
     fun startEditActivity(context: Context, habit: Habit): Intent {
         val intent = startEditActivity(context)
-        intent.putExtra("habitId", habit.id)
+        intent.putExtra("habitUUID", habit.uuid)
         intent.putExtra("habitType", habit.type)
+        intent.putExtra("parentGroupUUID", habit.parentUUID)
         return intent
     }
 
