@@ -166,31 +166,10 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     }
 
     /**
-     * For an empty Habit group list, and a given list of habits,
-     * populate the habit groups with their appropriate habits
-     *
-     * @param habitList list of habits to add to the groups
+     * For each habit group, point all the habits in it
+     * to the group it is contained in
      * */
-    fun populateGroupsWith(habitList: HabitList) {
-        val toRemove = mutableListOf<String?>()
-        for (habit in habitList) {
-            val hgr = getByUUID(habit.parentUUID)
-            if (hgr != null) {
-                hgr.habitList.add(habit)
-                habit.parent = hgr
-                toRemove.add(habit.uuid)
-            }
-        }
-        for (uuid in toRemove) {
-            val h = habitList.getByUUID(uuid)
-            if (h != null) {
-                habitList.remove(h)
-            }
-        }
-        for (hgr in this) {
-            hgr.recompute()
-        }
-    }
+    abstract fun attachHabitsToGroups()
 
     /**
      * Writes the list of habit groups to the given writer, in CSV format. There is

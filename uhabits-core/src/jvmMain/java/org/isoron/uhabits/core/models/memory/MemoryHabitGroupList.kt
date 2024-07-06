@@ -45,6 +45,9 @@ class MemoryHabitGroupList : HabitGroupList {
         primaryOrder = parent.primaryOrder
         secondaryOrder = parent.secondaryOrder
         parent.observable.addListener { loadFromParent() }
+        for (hgr in parent.list) {
+            hgr.habitList.observable.addListener { loadFromParent() }
+        }
         loadFromParent()
     }
 
@@ -184,6 +187,14 @@ class MemoryHabitGroupList : HabitGroupList {
         resort()
     }
 
+    override fun attachHabitsToGroups() {
+        for (hgr in list) {
+            for (h in hgr.habitList) {
+                h.parent = hgr
+            }
+        }
+    }
+
     private fun throwIfHasParent() {
         check(parent == null) {
             "Filtered lists cannot be modified directly. " +
@@ -195,9 +206,10 @@ class MemoryHabitGroupList : HabitGroupList {
     private fun loadFromParent() {
         checkNotNull(parent)
         list.clear()
-        for (h in parent!!) {
-            if (filter.matches(h)) {
-                list.add(h)
+        for (hgr in parent!!) {
+            if (filter.matches(hgr)) {
+                val filteredHgr = HabitGroup(hgr, filter)
+                list.add(filteredHgr)
             }
         }
         resort()

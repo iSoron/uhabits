@@ -60,6 +60,7 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
+        val list = if (habit.isSubHabit()) habit.parent!!.habitList else habitList
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
@@ -73,7 +74,7 @@ open class ListHabitsBehavior @Inject constructor(
                         screen.showConfetti(habit.color, x, y)
                     }
                 }
-                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
+                commandRunner.run(CreateRepetitionCommand(list, habit, timestamp, value, newNotes))
             }
         } else {
             screen.showCheckmarkPopup(
@@ -82,7 +83,7 @@ open class ListHabitsBehavior @Inject constructor(
                 habit.color
             ) { newValue: Int, newNotes: String, x: Float, y: Float ->
                 if (newValue != entry.value && newValue == YES_MANUAL) screen.showConfetti(habit.color, x, y)
-                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
+                commandRunner.run(CreateRepetitionCommand(list, habit, timestamp, newValue, newNotes))
             }
         }
     }
@@ -138,8 +139,9 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String, x: Float, y: Float) {
+        val list = if (habit.isSubHabit()) habit.parent!!.habitList else habitList
         commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
+            CreateRepetitionCommand(list, habit, timestamp, value, notes)
         )
         if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
     }

@@ -17,9 +17,27 @@ data class HabitGroup(
     val scores: ScoreList,
     val streaks: StreakList
 ) {
+
+    constructor(
+        parent: HabitGroup,
+        matcher: HabitMatcher
+    ) : this(
+        parent.color,
+        parent.description,
+        parent.id,
+        parent.isArchived,
+        parent.name,
+        parent.position,
+        parent.question,
+        parent.reminder,
+        parent.uuid,
+        parent.habitList.getFiltered(matcher),
+        parent.scores,
+        parent.streaks
+    )
+
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
-//        habitList.groupID = this.id
     }
 
     var observable = ModelObservable()

@@ -68,7 +68,6 @@ class HabitCardListCache @Inject constructor(
     private val data: CacheData
     private var filteredHabits: HabitList
     private var filteredHabitGroups: HabitGroupList
-    private var filteredSubHabits: MutableList<HabitList>
     private val taskRunner: TaskRunner
 
     @Synchronized
@@ -157,7 +156,6 @@ class HabitCardListCache @Inject constructor(
             habitGroups.primaryOrder = order
             filteredHabits.primaryOrder = order
             filteredHabitGroups.primaryOrder = order
-            filteredSubHabits.forEach { it.primaryOrder = order }
             refreshAllHabits()
         }
 
@@ -170,7 +168,6 @@ class HabitCardListCache @Inject constructor(
             habitGroups.secondaryOrder = order
             filteredHabits.secondaryOrder = order
             filteredHabitGroups.secondaryOrder = order
-            filteredSubHabits.forEach { it.secondaryOrder = order }
             refreshAllHabits()
         }
 
@@ -246,8 +243,9 @@ class HabitCardListCache @Inject constructor(
                 val hgrIdx = data.habitGroups.indexOf(hgr)
 
                 for (habit in data.subHabits[hgrIdx].reversed()) {
+                    val habitPos = data.uuidToPosition[habit.uuid]!!
                     data.removeWithUUID(habit.uuid)
-                    listener.onItemRemoved(data.uuidToPosition[habit.uuid]!!)
+                    listener.onItemRemoved(habitPos)
                 }
                 data.subHabits.removeAt(hgrIdx)
                 data.habitGroups.removeAt(hgrIdx)
@@ -279,10 +277,6 @@ class HabitCardListCache @Inject constructor(
     fun setFilter(matcher: HabitMatcher) {
         filteredHabits = habits.getFiltered(matcher)
         filteredHabitGroups = habitGroups.getFiltered(matcher)
-        filteredSubHabits.clear()
-        for (hgr in filteredHabitGroups) {
-            filteredSubHabits.add(hgr.habitList.getFiltered(matcher))
-        }
     }
 
     @Synchronized
@@ -369,11 +363,11 @@ class HabitCardListCache @Inject constructor(
                 habits.add(h)
             }
 
-            for ((index, hgr) in filteredHabitGroups.withIndex()) {
+            for (hgr in filteredHabitGroups) {
                 if (hgr.uuid == null) continue
                 habitGroups.add(hgr)
                 val habitList = LinkedList<Habit>()
-                for (h in filteredSubHabits[index]) {
+                for (h in hgr.habitList) {
                     habitList.add(h)
                 }
                 subHabits.add(habitList)
@@ -780,11 +774,6 @@ class HabitCardListCache @Inject constructor(
     init {
         filteredHabits = habits
         filteredHabitGroups = habitGroups
-        filteredSubHabits = LinkedList()
-        for (hgr in habitGroups) {
-            val subList = hgr.habitList
-            filteredSubHabits.add(subList)
-        }
 
         this.taskRunner = taskRunner
         listener = object : Listener {}

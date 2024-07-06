@@ -81,7 +81,7 @@ class HabitsApplication : Application() {
 
         val habitGroupList = component.habitGroupList
         for (hgr in habitGroupList) hgr.recompute()
-        habitGroupList.populateGroupsWith(habitList)
+        habitGroupList.attachHabitsToGroups()
 
         widgetUpdater = component.widgetUpdater.apply {
             startListening()

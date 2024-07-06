@@ -189,6 +189,10 @@ class SQLiteHabitGroupList @Inject constructor(private val modelFactory: ModelFa
         observable.notifyListeners()
     }
 
+    override fun attachHabitsToGroups() {
+        list.attachHabitsToGroups()
+    }
+
     override fun resort() {
         list.resort()
         observable.notifyListeners()
