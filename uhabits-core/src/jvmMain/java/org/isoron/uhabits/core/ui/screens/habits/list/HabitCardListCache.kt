@@ -146,7 +146,7 @@ class HabitCardListCache @Inject constructor(
 
     @get:Synchronized
     val subHabitCount: Int
-        get() = data.subHabits.sumOf { it.size() }
+        get() = data.subHabits.sumOf { it.size }
 
     @get:Synchronized
     @set:Synchronized
@@ -279,8 +279,9 @@ class HabitCardListCache @Inject constructor(
     fun setFilter(matcher: HabitMatcher) {
         filteredHabits = habits.getFiltered(matcher)
         filteredHabitGroups = habitGroups.getFiltered(matcher)
-        for (idx in filteredSubHabits.indices) {
-            filteredSubHabits[idx] = filteredSubHabits[idx].getFiltered(matcher)
+        filteredSubHabits.clear()
+        for (hgr in filteredHabitGroups) {
+            filteredSubHabits.add(hgr.habitList.getFiltered(matcher))
         }
     }
 
@@ -306,7 +307,7 @@ class HabitCardListCache @Inject constructor(
         val uuidToHabitGroup: HashMap<String?, HabitGroup> = HashMap()
         val habits: MutableList<Habit>
         val habitGroups: MutableList<HabitGroup>
-        val subHabits: MutableList<HabitList>
+        val subHabits: MutableList<MutableList<Habit>>
         val uuidToPosition: HashMap<String?, Int>
         val positionTypes: MutableList<Int>
         val positionToHabit: HashMap<Int, Habit>
@@ -368,15 +369,14 @@ class HabitCardListCache @Inject constructor(
                 habits.add(h)
             }
 
-            for (hgr in filteredHabitGroups) {
+            for ((index, hgr) in filteredHabitGroups.withIndex()) {
                 if (hgr.uuid == null) continue
                 habitGroups.add(hgr)
-                val habitList = hgr.habitList
-                subHabits.add(habitList)
-
-                for (h in habitList) {
-                    if (h.uuid == null) continue
+                val habitList = LinkedList<Habit>()
+                for (h in filteredSubHabits[index]) {
+                    habitList.add(h)
                 }
+                subHabits.add(habitList)
             }
         }
 
@@ -654,6 +654,10 @@ class HabitCardListCache @Inject constructor(
                 data.habits.add(position, habit)
                 data.positionTypes.add(position, STANDALONE_HABIT)
             } else {
+                val hgr = data.uuidToHabitGroup[habit.parentUUID]
+                val hgrIdx = data.habitGroups.indexOf(hgr)
+                val habitIndex = newData.subHabits[hgrIdx].indexOf(habit)
+                data.subHabits[hgrIdx].add(habitIndex, habit)
                 data.positionTypes.add(position, SUB_HABIT)
             }
             data.incrementPositions(position, data.positionTypes.size - 1)

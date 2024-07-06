@@ -1,8 +1,3 @@
-alter table Habits add column skip_days integer not null default 0;
-alter table Habits add column skip_days_list integer not null default 0;
-alter table Habits add column parent_id integer;
-alter table Habits add column parent_uuid text;
-
 create table HabitGroups (
     id integer primary key autoincrement,
     archived integer,
@@ -17,3 +12,6 @@ create table HabitGroups (
     question text not null default "",
     uuid text
 );
+
+alter table Habits add column parent_uuid text references habitgroups(uuid);
+alter table Habits add column parent_id integer references habitgroups(id);

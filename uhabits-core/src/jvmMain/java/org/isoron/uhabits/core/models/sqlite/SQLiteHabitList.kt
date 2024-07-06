@@ -37,18 +37,15 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     private fun loadRecords() {
         if (loaded) return
         loaded = true
-        list.groupUUID = this.groupUUID
+        list.groupID = this.groupID
         list.removeAll()
         val records = repository.findAll("order by position")
-        var shouldRebuildOrder = false
-        for ((expectedPosition, rec) in records.withIndex()) {
-            if (rec.position != expectedPosition) shouldRebuildOrder = true
+        for (rec in records) {
             val h = modelFactory.buildHabit()
             rec.copyTo(h)
             (h.originalEntries as SQLiteEntryList).habitId = h.id
-            if (h.parentUUID == list.groupUUID) list.add(h)
+            if (h.parentID == list.groupID) list.add(h)
         }
-        if (shouldRebuildOrder) rebuildOrder()
     }
 
     @Synchronized
@@ -130,19 +127,6 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     }
 
     @Synchronized
-    private fun rebuildOrder() {
-        val records = repository.findAll("order by position")
-        repository.executeAsTransaction {
-            for ((pos, r) in records.withIndex()) {
-                if (r.position != pos) {
-                    r.position = pos
-                    repository.save(r)
-                }
-            }
-        }
-    }
-
-    @Synchronized
     override fun remove(h: Habit) {
         loadRecords()
         list.remove(h)
@@ -153,7 +137,6 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
             h.originalEntries.clear()
             repository.remove(record)
         }
-        rebuildOrder()
         observable.notifyListeners()
     }
 
@@ -206,7 +189,6 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     @Synchronized
     override fun repair() {
         loadRecords()
-        rebuildOrder()
         observable.notifyListeners()
     }
 
