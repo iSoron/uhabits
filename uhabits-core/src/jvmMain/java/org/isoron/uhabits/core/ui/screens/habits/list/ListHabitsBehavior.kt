@@ -20,9 +20,11 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.commands.RefreshParentGroupCommand
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
@@ -41,6 +43,7 @@ import kotlin.math.roundToInt
 
 open class ListHabitsBehavior @Inject constructor(
     private val habitList: HabitList,
+    private val habitGroupList: HabitGroupList,
     private val dirFinder: DirFinder,
     private val taskRunner: TaskRunner,
     private val screen: Screen,
@@ -139,6 +142,12 @@ open class ListHabitsBehavior @Inject constructor(
             CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
         )
         if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
+    }
+
+    fun onChangeScore(habit: Habit) {
+        commandRunner.run(
+            RefreshParentGroupCommand(habit, habitGroupList)
+        )
     }
 
     enum class Message {

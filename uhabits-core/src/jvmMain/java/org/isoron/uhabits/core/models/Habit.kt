@@ -113,10 +113,6 @@ data class Habit(
         return computedEntries.getKnown().lastOrNull()?.timestamp ?: DateUtils.getTodayWithOffset()
     }
 
-    fun isInGroup(): Boolean {
-        return (parentID != null)
-    }
-
     fun copyFrom(other: Habit) {
         this.color = other.color
         this.description = other.description

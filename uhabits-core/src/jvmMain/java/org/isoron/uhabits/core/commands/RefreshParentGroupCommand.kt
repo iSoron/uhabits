@@ -19,20 +19,16 @@
 package org.isoron.uhabits.core.commands
 
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitGroupList
 
-data class DeleteHabitsCommand(
-    val habitList: HabitList,
-    val selected: List<Habit>
+data class RefreshParentGroupCommand(
+    val habit: Habit,
+    val habitGroupList: HabitGroupList
 ) : Command {
     override fun run() {
-        for (h in selected) {
-            if (!h.isSubHabit()) {
-                habitList.remove(h)
-            } else {
-                val list = h.parent!!.habitList
-                list.remove(h)
-            }
-        }
+        if (!habit.isSubHabit()) return
+        val hgr = habit.parent
+        hgr!!.recompute()
+        habitGroupList.resort()
     }
 }

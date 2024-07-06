@@ -95,8 +95,8 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
             {
                 adapter.performRemove(adapter.getSelectedHabits())
                 adapter.performRemoveHabitGroup(adapter.getSelectedHabitGroups())
-                commandRunner.run(DeleteHabitsCommand(habitList, adapter.getSelectedHabits()))
                 commandRunner.run(DeleteHabitGroupsCommand(habitGroupList, adapter.getSelectedHabitGroups()))
+                commandRunner.run(DeleteHabitsCommand(habitList, adapter.getSelectedHabits()))
                 adapter.clearSelection()
             },
             adapter.getSelectedHabits().size + adapter.getSelectedHabitGroups().size

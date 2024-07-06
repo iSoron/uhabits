@@ -97,6 +97,7 @@ class HabitCardView(
         set(value) {
             scoreRing.setPercentage(value.toFloat())
             scoreRing.setPrecision(1.0f / 16)
+            behavior.onChangeScore(habit!!)
         }
 
     var unit

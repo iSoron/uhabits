@@ -214,49 +214,46 @@ class HabitCardListCache @Inject constructor(
 
     @Synchronized
     fun remove(uuid: String) {
-        val type = data.positionTypes[data.uuidToPosition[uuid]!!]
+        val position = data.uuidToPosition[uuid] ?: return
+        val type = data.positionTypes[position]
         if (type == STANDALONE_HABIT) {
             val h = data.uuidToHabit[uuid]
             if (h != null) {
-                val position = data.habits.indexOf(h)
-                data.habits.removeAt(position)
-                data.checkmarks.remove(uuid)
-                data.notes.remove(uuid)
-                data.scores.remove(uuid)
-                data.decrementPositions(position + 1, data.positionTypes.size)
-                listener.onItemRemoved(position)
+                val pos = data.habits.indexOf(h)
+                data.habits.removeAt(pos)
+                data.removeWithUUID(uuid)
+                data.positionTypes.removeAt(pos)
+                data.decrementPositions(pos + 1, data.positionTypes.size)
+                listener.onItemRemoved(pos)
             }
         } else if (type == SUB_HABIT) {
             val h = data.uuidToHabit[uuid]
             if (h != null) {
-                val position = data.uuidToPosition[uuid]!!
+                val pos = data.uuidToPosition[uuid]!!
                 val hgrUUID = h.parentUUID
                 val hgr = data.uuidToHabitGroup[hgrUUID]
                 val hgrIdx = data.habitGroups.indexOf(hgr)
                 data.subHabits[hgrIdx].remove(h)
-                data.checkmarks.remove(uuid)
-                data.notes.remove(uuid)
-                data.scores.remove(uuid)
-                data.decrementPositions(position + 1, data.positionTypes.size)
-                listener.onItemRemoved(position)
+                data.removeWithUUID(uuid)
+                data.positionTypes.removeAt(pos)
+                data.decrementPositions(pos + 1, data.positionTypes.size)
+                listener.onItemRemoved(pos)
             }
         } else if (type == HABIT_GROUP) {
             val hgr = data.uuidToHabitGroup[uuid]
             if (hgr != null) {
-                val position = data.uuidToPosition[uuid]!!
+                val pos = data.uuidToPosition[uuid]!!
                 val hgrIdx = data.habitGroups.indexOf(hgr)
 
                 for (habit in data.subHabits[hgrIdx].reversed()) {
-                    data.checkmarks.remove(habit.uuid)
-                    data.notes.remove(habit.uuid)
-                    data.scores.remove(habit.uuid)
+                    data.removeWithUUID(habit.uuid)
                     listener.onItemRemoved(data.uuidToPosition[habit.uuid]!!)
                 }
                 data.subHabits.removeAt(hgrIdx)
                 data.habitGroups.removeAt(hgrIdx)
-                data.scores.remove(hgr.uuid)
+                data.removeWithUUID(hgr.uuid)
                 data.rebuildPositions()
-                listener.onItemRemoved(position)
+                listener.onItemRemoved(pos)
             }
         }
     }
@@ -466,7 +463,6 @@ class HabitCardListCache @Inject constructor(
 
         @Synchronized
         fun decrementPositions(fromPosition: Int, toPosition: Int) {
-            positionTypes.removeAt(fromPosition)
             for (pos in positionToHabit.keys.sortedBy { it }) {
                 if (pos in fromPosition..toPosition) {
                     positionToHabit[pos - 1] = positionToHabit[pos]!!
@@ -508,10 +504,11 @@ class HabitCardListCache @Inject constructor(
 
             if (type == STANDALONE_HABIT) {
                 habits.removeAt(fromPosition)
+                positionTypes.removeAt(fromPosition)
                 if (fromPosition < checkedToPosition) {
                     decrementPositions(fromPosition + 1, checkedToPosition)
                 } else {
-                    incrementPositions(toPosition, fromPosition - 1)
+                    incrementPositions(checkedToPosition, fromPosition - 1)
                 }
                 habits.add(checkedToPosition, habit)
                 positionTypes.add(checkedToPosition, STANDALONE_HABIT)
@@ -520,10 +517,11 @@ class HabitCardListCache @Inject constructor(
                 val hgrIdx = habitGroups.indexOf(hgr)
                 val h = positionToHabit[fromPosition]!!
                 subHabits[hgrIdx].remove(h)
+                positionTypes.removeAt(fromPosition)
                 if (fromPosition < checkedToPosition) {
                     decrementPositions(fromPosition + 1, checkedToPosition)
                 } else {
-                    incrementPositions(toPosition, fromPosition - 1)
+                    incrementPositions(checkedToPosition, fromPosition - 1)
                 }
                 subHabits[hgrIdx].add(checkedToPosition - uuidToPosition[hgr!!.uuid]!! - 1, habit)
                 positionTypes.add(checkedToPosition, SUB_HABIT)
@@ -554,6 +552,15 @@ class HabitCardListCache @Inject constructor(
 
             rebuildPositions()
             listener.onItemMoved(fromPosition, toPosition)
+        }
+
+        fun removeWithUUID(uuid: String?) {
+            uuidToPosition.remove(uuid)
+            uuidToHabit.remove(uuid)
+            uuidToHabitGroup.remove(uuid)
+            scores.remove(uuid)
+            notes.remove(uuid)
+            checkmarks.remove(uuid)
         }
 
         /**
@@ -654,10 +661,6 @@ class HabitCardListCache @Inject constructor(
                 data.habits.add(position, habit)
                 data.positionTypes.add(position, STANDALONE_HABIT)
             } else {
-//                val parent = data.uuidToHabitGroup[habit.parentUUID]
-//                val parentIdx = data.habitGroups.indexOf(parent)
-//                val parentPosition = data.uuidToPosition[habit.parentUUID]!!
-//                data.subHabits[parentIdx].add(position - parentPosition - 1, habit)
                 data.positionTypes.add(position, SUB_HABIT)
             }
             data.incrementPositions(position, data.positionTypes.size - 1)
