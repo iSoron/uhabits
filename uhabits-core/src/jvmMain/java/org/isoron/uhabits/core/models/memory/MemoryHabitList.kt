@@ -192,6 +192,13 @@ class MemoryHabitList : HabitList {
     }
 
     @Synchronized
+    override fun removeAt(position: Int) {
+        throwIfHasParent()
+        list.removeAt(position)
+        observable.notifyListeners()
+    }
+
+    @Synchronized
     override fun reorder(from: Habit, to: Habit) {
         throwIfHasParent()
         check(!(primaryOrder !== Order.BY_POSITION)) { "cannot reorder automatically sorted list" }

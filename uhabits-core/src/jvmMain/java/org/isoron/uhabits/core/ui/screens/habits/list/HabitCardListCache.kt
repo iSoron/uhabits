@@ -261,11 +261,6 @@ class HabitCardListCache @Inject constructor(
     @Synchronized
     fun reorder(from: Int, to: Int) {
         if (from == to) return
-        val uuid = if (data.positionTypes[from] == STANDALONE_HABIT) {
-            data.positionToHabit[from]!!.uuid
-        } else {
-            data.positionToHabitGroup[from]!!.uuid
-        }
         if (data.positionTypes[from] == STANDALONE_HABIT) {
             val habit = data.positionToHabit[from]!!
             data.performMove(habit, from, to)
@@ -423,10 +418,7 @@ class HabitCardListCache @Inject constructor(
             if (habit.parentUUID == null) {
                 return position <= habits.size
             } else {
-                val parent = uuidToHabitGroup[habit.parentUUID]
-                if (parent == null) {
-                    return false
-                }
+                val parent = uuidToHabitGroup[habit.parentUUID] ?: return false
                 val parentPosition = uuidToPosition[habit.parentUUID]!!
                 val parentIndex = habitGroups.indexOf(parent)
                 val nextGroup = habitGroups.getOrNull(parentIndex + 1)
@@ -494,7 +486,7 @@ class HabitCardListCache @Inject constructor(
             // Workaround for https://github.com/iSoron/uhabits/issues/968
             val checkedToPosition = if (toPosition > positionTypes.size) {
                 logger.error("performMove: $toPosition for habit is strictly higher than ${habits.size}")
-                positionTypes.size
+                positionTypes.size - 1
             } else {
                 toPosition
             }
@@ -515,15 +507,16 @@ class HabitCardListCache @Inject constructor(
             } else {
                 val hgr = uuidToHabitGroup[habit.parentUUID]
                 val hgrIdx = habitGroups.indexOf(hgr)
-                val h = positionToHabit[fromPosition]!!
-                subHabits[hgrIdx].remove(h)
+                val fromIdx = subHabits[hgrIdx].indexOf(habit)
+                subHabits[hgrIdx].removeAt(fromIdx)
                 positionTypes.removeAt(fromPosition)
                 if (fromPosition < checkedToPosition) {
                     decrementPositions(fromPosition + 1, checkedToPosition)
                 } else {
                     incrementPositions(checkedToPosition, fromPosition - 1)
                 }
-                subHabits[hgrIdx].add(checkedToPosition - uuidToPosition[hgr!!.uuid]!! - 1, habit)
+                val toIdx = checkedToPosition - uuidToPosition[hgr!!.uuid]!! - 1
+                subHabits[hgrIdx].add(toIdx, habit)
                 positionTypes.add(checkedToPosition, SUB_HABIT)
             }
 

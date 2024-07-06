@@ -158,6 +158,12 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     }
 
     @Synchronized
+    override fun removeAt(position: Int) {
+        loadRecords()
+        list.removeAt(position)
+    }
+
+    @Synchronized
     override fun removeAll() {
         list.removeAll()
         repository.execSQL("delete from habits")
