@@ -112,7 +112,10 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onReorderHabit(from: Habit, to: Habit) {
-        taskRunner.execute { habitList.reorder(from, to) }
+        if (from.parent == to.parent) {
+            val list = from.parent?.habitList ?: habitList
+            taskRunner.execute { list.reorder(from, to) }
+        }
     }
 
     fun onRepairDB() {

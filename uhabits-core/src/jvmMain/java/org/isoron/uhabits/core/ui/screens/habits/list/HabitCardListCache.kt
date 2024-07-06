@@ -259,10 +259,11 @@ class HabitCardListCache @Inject constructor(
     @Synchronized
     fun reorder(from: Int, to: Int) {
         if (from == to) return
-        if (data.positionTypes[from] == STANDALONE_HABIT) {
+        val type = data.positionTypes[from]
+        if (type == STANDALONE_HABIT || type == SUB_HABIT) {
             val habit = data.positionToHabit[from]!!
             data.performMove(habit, from, to)
-        } else if (data.positionTypes[from] == HABIT_GROUP) {
+        } else {
             val habitGroup = data.positionToHabitGroup[from]!!
             data.performMove(habitGroup, from, to)
         }
