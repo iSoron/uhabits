@@ -50,12 +50,20 @@ class HabitCardListController @Inject constructor(
         if (from == to) return
         cancelSelection()
 
-        val habitFrom = adapter.getItem(from)
-        val habitTo = adapter.getItem(to)
-        if (habitFrom == null || habitTo == null) return
+        val habitFrom = adapter.getHabit(from)
+        val habitTo = adapter.getHabit(to)
+        if (habitFrom != null && habitTo != null) {
+            adapter.performReorder(from, to)
+            behavior.onReorderHabit(habitFrom, habitTo)
+            return
+        }
 
-        adapter.performReorder(from, to)
-        behavior.onReorderHabit(habitFrom, habitTo)
+        val hgrFrom = adapter.getHabitGroup(from)
+        val hgrTo = adapter.getHabitGroup(to)
+        if (hgrFrom != null && hgrTo != null) {
+            adapter.performReorder(from, to)
+            behavior.onReorderHabitGroup(hgrFrom, hgrTo)
+        }
     }
 
     override fun onItemClick(position: Int) {

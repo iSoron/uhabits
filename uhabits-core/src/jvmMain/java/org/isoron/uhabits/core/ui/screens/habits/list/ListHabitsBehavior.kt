@@ -118,6 +118,10 @@ open class ListHabitsBehavior @Inject constructor(
         }
     }
 
+    fun onReorderHabitGroup(from: HabitGroup, to: HabitGroup) {
+        taskRunner.execute { habitGroupList.reorder(from, to) }
+    }
+
     fun onRepairDB() {
         taskRunner.execute {
             habitList.repair()
