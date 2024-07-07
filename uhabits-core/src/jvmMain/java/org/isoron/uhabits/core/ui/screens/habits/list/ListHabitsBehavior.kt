@@ -75,6 +75,7 @@ open class ListHabitsBehavior @Inject constructor(
                     }
                 }
                 commandRunner.run(CreateRepetitionCommand(list, habit, timestamp, value, newNotes))
+                commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
             }
         } else {
             screen.showCheckmarkPopup(
@@ -84,6 +85,7 @@ open class ListHabitsBehavior @Inject constructor(
             ) { newValue: Int, newNotes: String, x: Float, y: Float ->
                 if (newValue != entry.value && newValue == YES_MANUAL) screen.showConfetti(habit.color, x, y)
                 commandRunner.run(CreateRepetitionCommand(list, habit, timestamp, newValue, newNotes))
+                commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
             }
         }
     }
@@ -149,6 +151,9 @@ open class ListHabitsBehavior @Inject constructor(
         val list = if (habit.isSubHabit()) habit.parent!!.habitList else habitList
         commandRunner.run(
             CreateRepetitionCommand(list, habit, timestamp, value, notes)
+        )
+        commandRunner.run(
+            RefreshParentGroupCommand(habit, habitGroupList)
         )
         if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
     }
