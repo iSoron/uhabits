@@ -79,6 +79,20 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
     }
 
     /**
+     *  Returns the habit with the specified UUID which is
+     *  present in any of the habit groups within this habit group list.
+     */
+    fun getHabitByID(id: Long): Habit? {
+        for (hgr in this) {
+            val habit = hgr.habitList.getById(id)
+            if (habit != null) {
+                return habit
+            }
+        }
+        return null
+    }
+
+    /**
      * Returns the habit group that occupies a certain position.
      *
      * @param position the position of the desired habit group

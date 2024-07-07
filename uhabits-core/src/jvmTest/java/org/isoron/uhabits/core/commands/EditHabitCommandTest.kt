@@ -52,7 +52,7 @@ class EditHabitCommandTest : BaseUnitTest() {
 
     @Test
     fun testExecute() {
-        command = EditHabitCommand(habitList, habit.id!!, modified)
+        command = EditHabitCommand(habitList, habit.uuid!!, modified)
         val originalScore = habit.scores[today].value
         assertThat(habit.name, equalTo("original"))
         command.run()

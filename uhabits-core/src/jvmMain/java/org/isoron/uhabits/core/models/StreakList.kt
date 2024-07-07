@@ -79,8 +79,9 @@ class StreakList {
         var current = from
         var streakRunning = false
         var streakStart = from
+        val notArchivedHabits = habitList.filter { !it.isArchived }
         while (current <= to) {
-            if (habitList.all { it.streaks.isInStreaks(current) }) {
+            if (notArchivedHabits.all { it.streaks.isInStreaks(current) }) {
                 if (!streakRunning) {
                     streakStart = current
                     streakRunning = true

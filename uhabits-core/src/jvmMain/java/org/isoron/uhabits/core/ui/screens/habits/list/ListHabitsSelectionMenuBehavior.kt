@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.commands.ChangeHabitGroupColorCommand
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
+import org.isoron.uhabits.core.commands.RefreshParentGroupCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
@@ -61,6 +62,9 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
     fun onArchiveHabits() {
         commandRunner.run(ArchiveHabitsCommand(habitList, adapter.getSelectedHabits()))
         commandRunner.run(ArchiveHabitGroupsCommand(habitGroupList, adapter.getSelectedHabitGroups()))
+        for (habit in adapter.getSelectedHabits()) {
+            commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
+        }
         adapter.clearSelection()
     }
 
@@ -97,6 +101,9 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
                 adapter.performRemoveHabitGroup(adapter.getSelectedHabitGroups())
                 commandRunner.run(DeleteHabitGroupsCommand(habitGroupList, adapter.getSelectedHabitGroups()))
                 commandRunner.run(DeleteHabitsCommand(habitList, adapter.getSelectedHabits()))
+                for (habit in adapter.getSelectedHabits()) {
+                    commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
+                }
                 adapter.clearSelection()
             },
             adapter.getSelectedHabits().size + adapter.getSelectedHabitGroups().size
@@ -117,6 +124,9 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
 
     fun onUnarchiveHabits() {
         commandRunner.run(UnarchiveHabitsCommand(habitList, adapter.getSelectedHabits()))
+        for (habit in adapter.getSelectedHabits()) {
+            commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
+        }
         adapter.clearSelection()
     }
 

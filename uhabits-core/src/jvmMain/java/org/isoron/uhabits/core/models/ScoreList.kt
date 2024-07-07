@@ -145,7 +145,9 @@ class ScoreList {
     ) {
         var current = to
         while (current >= from) {
-            val habitScores = habitList.map { it.scores[current].value }
+            val habitScores = habitList
+                .filter { !it.isArchived }
+                .map { it.scores[current].value }
             val averageScore = if (habitScores.isNotEmpty()) habitScores.average() else 0.0
             map[current] = Score(current, averageScore)
             current = current.minus(1)

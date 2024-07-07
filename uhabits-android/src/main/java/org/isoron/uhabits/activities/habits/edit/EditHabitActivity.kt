@@ -45,6 +45,7 @@ import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
+import org.isoron.uhabits.core.commands.RefreshParentGroupCommand
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
@@ -319,6 +320,13 @@ class EditHabitActivity : AppCompatActivity() {
             )
         }
         component.commandRunner.run(command)
+
+        if (habit.parentID != null) {
+            val habitGroupList = component.habitGroupList
+            val refreshCommand = RefreshParentGroupCommand(habit, habitGroupList)
+            component.commandRunner.run(refreshCommand)
+        }
+
         finish()
     }
 

@@ -67,6 +67,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
         clearInvocations(habitList)
         behavior = ListHabitsBehavior(
             habitList,
+            habitGroupList,
             dirFinder,
             taskRunner,
             screen,
