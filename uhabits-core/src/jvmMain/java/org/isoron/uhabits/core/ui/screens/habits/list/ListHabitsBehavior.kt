@@ -158,12 +158,6 @@ open class ListHabitsBehavior @Inject constructor(
         if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
     }
 
-    fun onChangeScore(habit: Habit) {
-        commandRunner.run(
-            RefreshParentGroupCommand(habit, habitGroupList)
-        )
-    }
-
     enum class Message {
         COULD_NOT_EXPORT,
         IMPORT_SUCCESSFUL,

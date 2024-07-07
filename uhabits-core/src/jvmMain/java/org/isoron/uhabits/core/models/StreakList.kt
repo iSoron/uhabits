@@ -74,18 +74,23 @@ class StreakList {
         from: Timestamp,
         to: Timestamp
     ) {
+        list.clear()
         if (habitList.isEmpty) return
         var current = from
         var streakRunning = false
         var streakStart = from
         while (current <= to) {
-            if (habitList.all { it.streaks.isInStreaks(current) } && !streakRunning) {
-                streakStart = current
-                streakRunning = true
-            } else if (streakRunning) {
-                val streakEnd = current.minus(1)
-                list.add(Streak(streakStart, streakEnd))
-                streakRunning = false
+            if (habitList.all { it.streaks.isInStreaks(current) }) {
+                if (!streakRunning) {
+                    streakStart = current
+                    streakRunning = true
+                }
+            } else {
+                if (streakRunning) {
+                    val streakEnd = current.minus(1)
+                    list.add(Streak(streakStart, streakEnd))
+                    streakRunning = false
+                }
             }
             current = current.plus(1)
         }
