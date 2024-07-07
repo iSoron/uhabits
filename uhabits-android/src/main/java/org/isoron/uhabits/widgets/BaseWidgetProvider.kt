@@ -27,15 +27,16 @@ import android.widget.RemoteViews
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitNotFoundException
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
-import java.util.ArrayList
 
 abstract class BaseWidgetProvider : AppWidgetProvider() {
     private lateinit var habits: HabitList
+    private lateinit var habitGroups: HabitGroupList
     lateinit var preferences: Preferences
         private set
     private lateinit var widgetPrefs: WidgetPreferences
@@ -112,7 +113,8 @@ abstract class BaseWidgetProvider : AppWidgetProvider() {
         val selectedIds = widgetPrefs.getHabitIdsFromWidgetId(widgetId)
         val selectedHabits = ArrayList<Habit>(selectedIds.size)
         for (id in selectedIds) {
-            val h = habits.getById(id) ?: throw HabitNotFoundException()
+            val h = habits.getById(id) ?: habitGroups.getHabitByID(id)
+                ?: throw HabitNotFoundException()
             selectedHabits.add(h)
         }
         return selectedHabits
@@ -159,6 +161,7 @@ abstract class BaseWidgetProvider : AppWidgetProvider() {
     private fun updateDependencies(context: Context) {
         val app = context.applicationContext as HabitsApplication
         habits = app.component.habitList
+        habitGroups = app.component.habitGroupList
         preferences = app.component.preferences
         widgetPrefs = app.component.widgetPreferences
     }

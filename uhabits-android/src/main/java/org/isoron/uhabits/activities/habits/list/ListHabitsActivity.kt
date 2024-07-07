@@ -177,7 +177,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
             val habitId = intent.extras?.getLong("habit")
             val timestamp = intent.extras?.getLong("timestamp")
             if (habitId != null && timestamp != null) {
-                val habit = appComponent.habitList.getById(habitId)!!
+                val habit = appComponent.habitList.getById(habitId) ?: appComponent.habitGroupList.getHabitByID(habitId)!!
                 component.listHabitsBehavior.onEdit(habit, Timestamp(timestamp))
             }
         }

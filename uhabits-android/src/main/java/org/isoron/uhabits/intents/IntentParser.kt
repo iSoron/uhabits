@@ -24,6 +24,7 @@ import android.content.Intent
 import android.net.Uri
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils
@@ -31,7 +32,10 @@ import javax.inject.Inject
 
 @AppScope
 class IntentParser
-@Inject constructor(private val habits: HabitList) {
+@Inject constructor(
+    private val habits: HabitList,
+    private val habitGroups: HabitGroupList
+) {
 
     fun parseCheckmarkIntent(intent: Intent): CheckmarkIntentData {
         val uri = intent.data ?: throw IllegalArgumentException("uri is null")
@@ -45,6 +49,7 @@ class IntentParser
 
     private fun parseHabit(uri: Uri): Habit {
         return habits.getById(parseId(uri))
+            ?: habitGroups.getHabitByID(parseId(uri))
             ?: throw IllegalArgumentException("habit not found")
     }
 
