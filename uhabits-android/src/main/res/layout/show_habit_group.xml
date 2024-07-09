@@ -57,13 +57,42 @@
                 style="@style/Card"
                 android:paddingTop="12dp"/>
 
+            <FrameLayout
+                android:id="@+id/noSubHabitsCard"
+                style="@style/Card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="12dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_sub_habits" />
+            </FrameLayout>
+
+            <org.isoron.uhabits.activities.habits.show.views.TargetCardView
+                android:id="@+id/targetCard"
+                style="@style/Card"
+                android:paddingTop="12dp"/>
+
             <org.isoron.uhabits.activities.habits.show.views.ScoreCardView
                 android:id="@+id/scoreCard"
                 style="@style/Card"
                 android:gravity="center"/>
 
+            <org.isoron.uhabits.activities.habits.show.views.BarCardView
+                android:id="@+id/barCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
             <org.isoron.uhabits.activities.habits.show.views.StreakCardView
                 android:id="@+id/streakCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.show.views.FrequencyCardView
+                android:id="@+id/frequencyCard"
                 style="@style/Card"/>
 
         </LinearLayout>

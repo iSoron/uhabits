@@ -25,8 +25,29 @@ class ShowHabitGroupView(context: Context) : FrameLayout(context) {
         binding.subtitleCard.setState(data.subtitle)
         binding.overviewCard.setState(data.overview)
         binding.notesCard.setState(data.notes)
+        binding.targetCard.setState(data.target)
         binding.streakCard.setState(data.streaks)
         binding.scoreCard.setState(data.scores)
+        binding.barCard.setState(data.bar)
+        binding.frequencyCard.setState(data.frequency)
+        if (!data.isBoolean) {
+            binding.streakCard.visibility = GONE
+            if (!data.isNumerical) {
+                binding.barCard.visibility = GONE
+            }
+        }
+        if (!data.isNumerical) {
+            binding.targetCard.visibility = GONE
+        }
+        if (data.isEmpty) {
+            binding.targetCard.visibility = GONE
+            binding.barCard.visibility = GONE
+            binding.streakCard.visibility = GONE
+            binding.overviewCard.visibility = GONE
+            binding.scoreCard.visibility = GONE
+            binding.frequencyCard.visibility = GONE
+            binding.noSubHabitsCard.visibility = VISIBLE
+        }
     }
 
     fun setListener(presenter: ShowHabitGroupPresenter) {
