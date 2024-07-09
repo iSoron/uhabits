@@ -36,10 +36,10 @@ class SQLiteHabitGroupList @Inject constructor(private val modelFactory: ModelFa
     override fun add(habitGroup: HabitGroup) {
         loadRecords()
         habitGroup.position = size()
+        habitGroup.id = repository.getNextAvailableId("habitandgroup")
         val record = HabitGroupRecord()
         record.copyFrom(habitGroup)
         repository.save(record)
-        habitGroup.id = record.id
         habitGroup.habitList.groupID = record.id
         list.add(habitGroup)
         observable.notifyListeners()
