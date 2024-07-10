@@ -43,7 +43,7 @@ data class HabitGroup(
     var observable = ModelObservable()
 
     val uriString: String
-        get() = "content://org.isoron.uhabits/habit/$id"
+        get() = "content://org.isoron.uhabits/habitgroup/$id"
 
     fun hasReminder(): Boolean = reminder != null
 

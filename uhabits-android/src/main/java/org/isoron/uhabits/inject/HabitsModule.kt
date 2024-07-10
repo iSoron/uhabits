@@ -63,9 +63,10 @@ class HabitsModule(dbFile: File) {
         sys: IntentScheduler,
         commandRunner: CommandRunner,
         habitList: HabitList,
+        habitGroupList: HabitGroupList,
         widgetPreferences: WidgetPreferences
     ): ReminderScheduler {
-        return ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
+        return ReminderScheduler(commandRunner, habitList, habitGroupList, sys, widgetPreferences)
     }
 
     @Provides

@@ -27,6 +27,7 @@ import android.os.Build.VERSION.SDK_INT
 import android.util.Log
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayWithOffset
 
@@ -44,52 +45,81 @@ class ReminderReceiver : BroadcastReceiver() {
         val app = context.applicationContext as HabitsApplication
         val appComponent = app.component
         val habits = appComponent.habitList
+        val habitGroups = appComponent.habitGroupList
         val reminderController = appComponent.reminderController
         Log.i(TAG, String.format("Received intent: %s", intent.toString()))
         var habit: Habit? = null
+        var habitGroup: HabitGroup? = null
+        var id: Long? = null
+        var type: String? = null
         val today: Long = getStartOfTodayWithOffset()
         val data = intent.data
-        if (data != null) habit = habits.getById(ContentUris.parseId(data))
+        if (data != null) {
+            type = data.pathSegments[0]
+            id = ContentUris.parseId(data)
+            when (type) {
+                "habit" -> habit = habits.getById(id) ?: habitGroups.getHabitByID(id)
+                "habitgroup" -> habitGroup = habitGroups.getById(id)
+            }
+        }
         val timestamp = intent.getLongExtra("timestamp", today)
         val reminderTime = intent.getLongExtra("reminderTime", today)
         try {
             when (intent.action) {
                 ACTION_SHOW_REMINDER -> {
-                    if (habit == null) return
+                    if (id == null) return
                     Log.d(
                         "ReminderReceiver",
                         String.format(
-                            "onShowReminder habit=%d timestamp=%d reminderTime=%d",
-                            habit.id,
+                            "onShowReminder %s=%d timestamp=%d reminderTime=%d",
+                            type,
+                            id,
                             timestamp,
                             reminderTime
                         )
                     )
-                    reminderController.onShowReminder(
-                        habit,
-                        Timestamp(timestamp),
-                        reminderTime
-                    )
+                    if (habit != null) {
+                        reminderController.onShowReminder(
+                            habit,
+                            Timestamp(timestamp),
+                            reminderTime
+                        )
+                    } else {
+                        reminderController.onShowReminder(
+                            habitGroup!!,
+                            Timestamp(timestamp),
+                            reminderTime
+                        )
+                    }
                 }
                 ACTION_DISMISS_REMINDER -> {
-                    if (habit == null) return
-                    Log.d("ReminderReceiver", String.format("onDismiss habit=%d", habit.id))
-                    reminderController.onDismiss(habit)
+                    if (id == null) return
+                    Log.d("ReminderReceiver", String.format("onDismiss %s=%d", type, id))
+                    if (habit != null) {
+                        reminderController.onDismiss(habit)
+                    } else {
+                        reminderController.onDismiss(habitGroup!!)
+                    }
                 }
                 ACTION_SNOOZE_REMINDER -> {
-                    if (habit == null) return
+                    if (id == null) return
                     if (SDK_INT < Build.VERSION_CODES.S) {
                         Log.d(
                             "ReminderReceiver",
-                            String.format("onSnoozePressed habit=%d", habit.id)
+                            String.format("onSnoozePressed %s=%d", type, id)
                         )
-                        reminderController.onSnoozePressed(habit, context)
+                        if (habit != null) {
+                            reminderController.onSnoozePressed(habit, context)
+                        } else {
+                            reminderController.onSnoozePressed(habitGroup!!, context)
+                        }
                     } else {
                         Log.w(
                             "ReminderReceiver",
                             String.format(
-                                "onSnoozePressed habit=%d, should be deactivated in recent versions.",
-                                habit.id
+                                "onSnoozePressed %s=%d, should be deactivated in recent versions.",
+                                type,
+                                id
                             )
                         )
                     }

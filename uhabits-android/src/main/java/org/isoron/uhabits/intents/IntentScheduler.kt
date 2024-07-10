@@ -29,6 +29,7 @@ import android.os.Build
 import android.util.Log
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.reminders.ReminderScheduler.SchedulerResult
 import org.isoron.uhabits.core.reminders.ReminderScheduler.SystemScheduler
 import org.isoron.uhabits.core.utils.DateFormats
@@ -75,6 +76,16 @@ class IntentScheduler
         return schedule(reminderTime, intent, RTC_WAKEUP)
     }
 
+    override fun scheduleShowReminder(
+        reminderTime: Long,
+        habitGroup: HabitGroup,
+        timestamp: Long
+    ): SchedulerResult {
+        val intent = pendingIntents.showReminder(habitGroup, reminderTime, timestamp)
+        logReminderScheduled(habitGroup, reminderTime)
+        return schedule(reminderTime, intent, RTC_WAKEUP)
+    }
+
     override fun scheduleWidgetUpdate(updateTime: Long): SchedulerResult {
         val intent = pendingIntents.updateWidgets()
         return schedule(updateTime, intent, RTC)
@@ -87,6 +98,17 @@ class IntentScheduler
     private fun logReminderScheduled(habit: Habit, reminderTime: Long) {
         val min = min(5, habit.name.length)
         val name = habit.name.substring(0, min)
+        val df = DateFormats.getBackupDateFormat()
+        val time = df.format(Date(reminderTime))
+        Log.i(
+            "ReminderHelper",
+            String.format("Setting alarm (%s): %s", time, name)
+        )
+    }
+
+    private fun logReminderScheduled(habitGroup: HabitGroup, reminderTime: Long) {
+        val min = min(5, habitGroup.name.length)
+        val name = habitGroup.name.substring(0, min)
         val df = DateFormats.getBackupDateFormat()
         val time = df.format(Date(reminderTime))
         Log.i(
