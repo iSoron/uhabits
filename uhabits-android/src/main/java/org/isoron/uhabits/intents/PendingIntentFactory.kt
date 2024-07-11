@@ -31,6 +31,7 @@ import android.net.Uri
 import android.os.Build
 import org.isoron.uhabits.activities.habits.list.ListHabitsActivity
 import org.isoron.uhabits.activities.habits.show.ShowHabitActivity
+import org.isoron.uhabits.activities.habits.show.ShowHabitGroupActivity
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
@@ -120,6 +121,15 @@ class PendingIntentFactory
             context,
             0,
             Intent(context, ShowHabitActivity::class.java),
+            getIntentTemplateFlags()
+        )
+    }
+
+    fun showHabitGroupTemplate(): PendingIntent {
+        return getActivity(
+            context,
+            0,
+            Intent(context, ShowHabitGroupActivity::class.java),
             getIntentTemplateFlags()
         )
     }

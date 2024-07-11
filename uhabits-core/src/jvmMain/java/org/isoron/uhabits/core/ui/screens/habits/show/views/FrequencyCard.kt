@@ -54,14 +54,7 @@ class FrequencyCardPresenter {
             firstWeekday: Int,
             theme: Theme
         ): FrequencyCardState {
-            val normalizedEntries = habitGroup.habitList.map {
-                it.computedEntries.normalizeEntries(it.isNumerical, it.frequency, it.targetValue)
-            }
-            val frequencies = normalizedEntries.map {
-                it.computeWeekdayFrequency(isNumerical = true)
-            }.reduce { acc, hashMap ->
-                mergeMaps(acc, hashMap) { value1, value2 -> addArray(value1, value2) }
-            }
+            val frequencies = getFrequenciesFromHabitGroup(habitGroup)
 
             return FrequencyCardState(
                 color = habitGroup.color,
@@ -70,6 +63,18 @@ class FrequencyCardPresenter {
                 firstWeekday = firstWeekday,
                 theme = theme
             )
+        }
+
+        fun getFrequenciesFromHabitGroup(habitGroup: HabitGroup): HashMap<Timestamp, Array<Int>> {
+            val normalizedEntries = habitGroup.habitList.map {
+                it.computedEntries.normalizeEntries(it.isNumerical, it.frequency, it.targetValue)
+            }
+            val frequencies = normalizedEntries.map {
+                it.computeWeekdayFrequency(isNumerical = true)
+            }.reduce { acc, hashMap ->
+                mergeMaps(acc, hashMap) { value1, value2 -> addArray(value1, value2) }
+            }
+            return frequencies
         }
 
         private fun <K, V> mergeMaps(map1: HashMap<K, V>, map2: HashMap<K, V>, mergeFunction: (V, V) -> V): HashMap<K, V> {

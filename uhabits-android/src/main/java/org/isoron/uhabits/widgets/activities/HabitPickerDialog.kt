@@ -43,6 +43,10 @@ class NumericalHabitPickerDialog : HabitPickerDialog() {
     override fun getEmptyMessage() = R.string.no_numerical_habits
 }
 
+class HabitAndGroupPickerDialog : HabitPickerDialog() {
+    override fun shouldShowGroups(): Boolean = true
+}
+
 open class HabitPickerDialog : Activity() {
 
     private var widgetId = 0
@@ -51,6 +55,8 @@ open class HabitPickerDialog : Activity() {
 
     protected open fun shouldHideNumerical() = false
     protected open fun shouldHideBoolean() = false
+
+    protected open fun shouldShowGroups() = false
     protected open fun getEmptyMessage() = R.string.no_habits
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +81,10 @@ open class HabitPickerDialog : Activity() {
 
         for (hgr in habitGroupList) {
             if (hgr.isArchived) continue
+            if (shouldShowGroups()) {
+                habitIds.add(hgr.id!!)
+                habitNames.add(hgr.name)
+            }
 
             for (h in hgr.habitList) {
                 if (h.isArchived) continue

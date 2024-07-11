@@ -27,6 +27,7 @@ import android.widget.RemoteViews
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitNotFoundException
@@ -114,10 +115,23 @@ abstract class BaseWidgetProvider : AppWidgetProvider() {
         val selectedHabits = ArrayList<Habit>(selectedIds.size)
         for (id in selectedIds) {
             val h = habits.getById(id) ?: habitGroups.getHabitByID(id)
-                ?: throw HabitNotFoundException()
-            selectedHabits.add(h)
+            if (h != null) {
+                selectedHabits.add(h)
+            }
         }
         return selectedHabits
+    }
+
+    protected fun getHabitGroupsFromWidgetId(widgetId: Int): List<HabitGroup> {
+        val selectedIds = widgetPrefs.getHabitIdsFromWidgetId(widgetId)
+        val selectedHabitGroups = ArrayList<HabitGroup>(selectedIds.size)
+        for (id in selectedIds) {
+            val hgr = habitGroups.getById(id)
+            if (hgr != null) {
+                selectedHabitGroups.add(hgr)
+            }
+        }
+        return selectedHabitGroups
     }
 
     protected abstract fun getWidgetFromId(

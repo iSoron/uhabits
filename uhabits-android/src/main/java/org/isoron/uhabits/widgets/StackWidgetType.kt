@@ -24,7 +24,6 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.intents.PendingIntentFactory
-import java.lang.IllegalStateException
 
 enum class StackWidgetType(val value: Int) {
     CHECKMARK(0), FREQUENCY(1), SCORE(2), // habit strength widget
@@ -92,6 +91,17 @@ enum class StackWidgetType(val value: Int) {
                     factory.toggleCheckmarkTemplate()
                 }
                 FREQUENCY, SCORE, HISTORY, STREAKS, TARGET -> factory.showHabitTemplate()
+            }
+        }
+
+        fun getPendingIntentTemplate(
+            factory: PendingIntentFactory,
+            widgetType: StackWidgetType,
+            isHabitGroups: Boolean
+        ): PendingIntent {
+            return when (widgetType) {
+                CHECKMARK, HISTORY, STREAKS, TARGET -> throw RuntimeException()
+                FREQUENCY, SCORE -> factory.showHabitGroupTemplate()
             }
         }
 
