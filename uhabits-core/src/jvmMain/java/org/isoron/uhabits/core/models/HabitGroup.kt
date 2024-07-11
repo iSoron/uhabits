@@ -96,7 +96,7 @@ data class HabitGroup(
         this.question = other.question
         this.reminder = other.reminder
         this.uuid = other.uuid
-        this.habitList.groupID = this.id
+        this.habitList.groupId = this.id
     }
 
     override fun equals(other: Any?): Boolean {

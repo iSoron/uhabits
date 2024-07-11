@@ -49,5 +49,5 @@ create table HabitGroups (
     uuid text
 );
 
-alter table Habits add column parent_uuid text references habitgroups(uuid);
-alter table Habits add column parent_id integer references habitgroups(id);
+alter table Habits add column group_uuid text references habitgroups(uuid);
+alter table Habits add column group_id integer references habitgroups(id);

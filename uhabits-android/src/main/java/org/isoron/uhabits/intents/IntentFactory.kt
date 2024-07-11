@@ -65,8 +65,8 @@ class IntentFactory
 
     fun startShowHabitActivity(context: Context, habit: Habit): Intent {
         val intent = Intent(context, ShowHabitActivity::class.java)
-        intent.putExtra("habitUUID", habit.uuid)
-        intent.putExtra("parentUUID", habit.parentUUID)
+        intent.putExtra("habitId", habit.id)
+        intent.putExtra("groupId", habit.groupId)
         return intent
     }
 
@@ -100,17 +100,17 @@ class IntentFactory
 
     fun startEditActivity(context: Context, habit: Habit): Intent {
         val intent = startEditActivity(context)
-        intent.putExtra("habitUUID", habit.uuid)
+        intent.putExtra("habitId", habit.id)
         intent.putExtra("habitType", habit.type)
-        intent.putExtra("parentGroupUUID", habit.parentUUID)
+        intent.putExtra("groupId", habit.groupId)
         return intent
     }
 
-    fun startEditActivity(context: Context, habitType: Int, parentUUID: String?): Intent {
+    fun startEditActivity(context: Context, habitType: Int, groupId: Long?): Intent {
         val intent = startEditActivity(context)
         intent.putExtra("habitType", habitType)
-        if (parentUUID != null) {
-            intent.putExtra("parentGroupUUID", parentUUID)
+        if (groupId != null) {
+            intent.putExtra("groupId", groupId)
         }
         return intent
     }

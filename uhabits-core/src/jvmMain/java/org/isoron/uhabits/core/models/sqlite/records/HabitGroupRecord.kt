@@ -79,7 +79,7 @@ class HabitGroupRecord {
         habitGroup.isArchived = archived != 0
         habitGroup.position = position!!
         habitGroup.uuid = uuid
-        habitGroup.habitList.groupID = id
+        habitGroup.habitList.groupId = id
         if (reminderHour != null && reminderMin != null) {
             habitGroup.reminder = Reminder(
                 reminderHour!!,

@@ -28,7 +28,7 @@ class AddButtonView(
     }
 
     override fun onClick(v: View) {
-        (context as ListHabitsActivity).component.listHabitsMenu.behavior.onCreateHabit(habitGroup!!.uuid)
+        (context as ListHabitsActivity).component.listHabitsMenu.behavior.onCreateHabit(habitGroup!!.id)
     }
 
     override fun onDraw(canvas: Canvas) {

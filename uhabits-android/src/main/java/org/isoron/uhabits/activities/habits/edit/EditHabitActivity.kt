@@ -47,7 +47,6 @@ import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.commands.RefreshParentGroupCommand
 import org.isoron.uhabits.core.models.Frequency
-import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType
@@ -76,7 +75,7 @@ class EditHabitActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditHabitBinding
     private lateinit var commandRunner: CommandRunner
 
-    var habitUUID: String? = null
+    var habitId = -1L
     lateinit var habitType: HabitType
     var parentGroup: HabitGroup? = null
     var unit = ""
@@ -99,20 +98,20 @@ class EditHabitActivity : AppCompatActivity() {
         binding = ActivityEditHabitBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (intent.hasExtra("parentGroupUUID")) {
-            val parentGroupUUID = intent.getStringExtra("parentGroupUUID")
-            parentGroup = component.habitGroupList.getByUUID(parentGroupUUID)
+        if (intent.hasExtra("groupId")) {
+            val groupId = intent.getLongExtra("groupId", -1L)
+            parentGroup = component.habitGroupList.getById(groupId)
         }
 
-        if (intent.hasExtra("habitUUID")) {
+        if (intent.hasExtra("habitId")) {
             binding.toolbar.title = getString(R.string.edit_habit)
-            habitUUID = intent.getStringExtra("habitUUID")!!
+            habitId = intent.getLongExtra("habitId", -1L)
             val habitList = if (parentGroup != null) {
                 parentGroup!!.habitList
             } else {
                 component.habitList
             }
-            val habit = habitList.getByUUID(habitUUID)!!
+            val habit = habitList.getById(habitId)!!
             habitType = habit.type
             color = habit.color
             freqNum = habit.frequency.numerator
@@ -133,7 +132,7 @@ class EditHabitActivity : AppCompatActivity() {
         }
 
         if (state != null) {
-            habitUUID = state.getString("habitUUID")
+            habitId = state.getLong("habitId")
             habitType = HabitType.fromInt(state.getInt("habitType"))
             color = PaletteColor(state.getInt("paletteColor"))
             freqNum = state.getInt("freqNum")
@@ -279,9 +278,8 @@ class EditHabitActivity : AppCompatActivity() {
             component.habitList
         }
 
-        var original: Habit? = null
-        if (habitUUID != null) {
-            original = habitList.getByUUID(habitUUID)!!
+        if (habitId > 0) {
+            val original = habitList.getById(habitId)!!
             habit.copyFrom(original)
         }
 
@@ -303,13 +301,13 @@ class EditHabitActivity : AppCompatActivity() {
         }
         habit.type = habitType
         habit.parent = parentGroup
-        habit.parentID = parentGroup?.id
-        habit.parentUUID = parentGroup?.uuid
+        habit.groupId = parentGroup?.id
+        habit.groupUUID = parentGroup?.uuid
 
-        val command = if (habitUUID != null) {
+        val command = if (habitId > 0) {
             EditHabitCommand(
                 habitList,
-                habitUUID!!,
+                habitId,
                 habit
             )
         } else {
@@ -321,7 +319,7 @@ class EditHabitActivity : AppCompatActivity() {
         }
         component.commandRunner.run(command)
 
-        if (habit.parentID != null) {
+        if (habit.groupId != null) {
             val habitGroupList = component.habitGroupList
             val refreshCommand = RefreshParentGroupCommand(habit, habitGroupList)
             component.commandRunner.run(refreshCommand)
@@ -395,7 +393,7 @@ class EditHabitActivity : AppCompatActivity() {
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state)
         with(state) {
-            putString("habitUUID", habitUUID)
+            putLong("habitId", habitId)
             putInt("habitType", habitType.value)
             putInt("paletteColor", color.paletteIndex)
             putInt("androidColor", androidColor)

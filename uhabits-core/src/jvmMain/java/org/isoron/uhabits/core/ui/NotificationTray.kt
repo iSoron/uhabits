@@ -124,6 +124,12 @@ class NotificationTray @Inject constructor(
         }
     }
 
+    fun reshow(habitGroup: HabitGroup) {
+        activeHabitGroups[habitGroup]?.let {
+            taskRunner.execute(ShowNotificationTask(habitGroup, it))
+        }
+    }
+
     interface SystemTray {
         fun removeNotification(notificationId: Int)
         fun showNotification(

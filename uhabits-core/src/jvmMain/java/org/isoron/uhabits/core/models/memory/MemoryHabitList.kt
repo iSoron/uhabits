@@ -59,6 +59,7 @@ class MemoryHabitList : HabitList {
     ) : super(matcher) {
         this.parent = parent
         this.comparator = comparator
+        this.groupId = parent.groupId
         primaryOrder = parent.primaryOrder
         secondaryOrder = parent.secondaryOrder
         parent.observable.addListener { loadFromParent() }

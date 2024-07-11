@@ -34,7 +34,6 @@ import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBeh
 import org.isoron.uhabits.core.utils.MidnightTimer
 import org.isoron.uhabits.inject.ActivityScope
 import java.util.LinkedList
-import java.util.UUID
 import javax.inject.Inject
 
 /**
@@ -73,10 +72,6 @@ class HabitCardListAdapter @Inject constructor(
 
     fun hasNoHabitGroup(): Boolean {
         return cache.hasNoHabitGroup()
-    }
-
-    fun hasNoSubHabits(): Boolean {
-        return cache.hasNoSubHabits()
     }
 
     /**
@@ -122,22 +117,7 @@ class HabitCardListAdapter @Inject constructor(
     }
 
     override fun getItemId(position: Int): Long {
-        val uuidString = cache.getUUIDByPosition(position)
-        return if (uuidString != null) {
-            val formattedUUIDString = formatUUID(uuidString)
-            val uuid = UUID.fromString(formattedUUIDString)
-            uuid.mostSignificantBits and Long.MAX_VALUE
-        } else {
-            -1
-        }
-    }
-
-    private fun formatUUID(uuidString: String): String {
-        return uuidString.substring(0, 8) + "-" +
-            uuidString.substring(8, 12) + "-" +
-            uuidString.substring(12, 16) + "-" +
-            uuidString.substring(16, 20) + "-" +
-            uuidString.substring(20, 32)
+        return cache.getIdByPosition(position)!!
     }
 
     /**
@@ -165,14 +145,14 @@ class HabitCardListAdapter @Inject constructor(
         if (listView == null) return
         val habit = cache.getHabitByPosition(position)
         if (habit != null) {
-            val score = cache.getScore(habit.uuid!!)
-            val checkmarks = cache.getCheckmarks(habit.uuid!!)
-            val notes = cache.getNotes(habit.uuid!!)
+            val score = cache.getScore(habit.id!!)
+            val checkmarks = cache.getCheckmarks(habit.id!!)
+            val notes = cache.getNotes(habit.id!!)
             val selected = selectedHabits.contains(habit)
             listView!!.bindCardView(holder, habit, score, checkmarks, notes, selected)
         } else {
             val habitGroup = cache.getHabitGroupByPosition(position)
-            val score = cache.getScore(habitGroup!!.uuid!!)
+            val score = cache.getScore(habitGroup!!.id!!)
             val selected = selectedHabitGroups.contains(habitGroup)
             listView!!.bindGroupCardView(holder, habitGroup, score, selected)
         }
@@ -253,11 +233,11 @@ class HabitCardListAdapter @Inject constructor(
      * @param selected list of habits to be removed
      */
     override fun performRemove(selected: List<Habit>) {
-        for (habit in selected) cache.remove(habit.uuid!!)
+        for (habit in selected) cache.remove(habit.id!!)
     }
 
     override fun performRemoveHabitGroup(selected: List<HabitGroup>) {
-        for (hgr in selected) cache.remove(hgr.uuid!!)
+        for (hgr in selected) cache.remove(hgr.id!!)
     }
 
     /**

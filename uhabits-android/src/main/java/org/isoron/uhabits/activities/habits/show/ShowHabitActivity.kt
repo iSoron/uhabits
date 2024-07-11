@@ -74,14 +74,14 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
 
         val appComponent = (applicationContext as HabitsApplication).component
         val habitGroupList = appComponent.habitGroupList
-        val parentUUID = intent.getStringExtra("parentUUID")
-        val habitList = if (parentUUID == null) {
-            appComponent.habitList
+        val groupId = intent.getLongExtra("groupId", -1L)
+        val habitList = if (groupId > 0) {
+            habitGroupList.getById(groupId)!!.habitList
         } else {
-            habitGroupList.getByUUID(parentUUID)!!.habitList
+            appComponent.habitList
         }
-        val uuid = intent.getStringExtra("habitUUID")!!
-        habit = habitList.getByUUID(uuid)!!
+        val id = intent.getLongExtra("habitId", -1L)
+        habit = habitList.getById(id)!!
         preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
         widgetUpdater = appComponent.widgetUpdater

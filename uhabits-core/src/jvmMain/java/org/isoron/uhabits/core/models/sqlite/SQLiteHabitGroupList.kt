@@ -40,7 +40,7 @@ class SQLiteHabitGroupList @Inject constructor(private val modelFactory: ModelFa
         val record = HabitGroupRecord()
         record.copyFrom(habitGroup)
         repository.save(record)
-        habitGroup.habitList.groupID = record.id
+        habitGroup.habitList.groupId = record.id
         list.add(habitGroup)
         observable.notifyListeners()
     }

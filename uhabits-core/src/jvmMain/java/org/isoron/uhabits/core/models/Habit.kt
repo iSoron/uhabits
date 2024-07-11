@@ -40,8 +40,8 @@ data class Habit(
     val originalEntries: EntryList,
     val scores: ScoreList,
     val streaks: StreakList,
-    var parentID: Long? = null,
-    var parentUUID: String? = null
+    var groupId: Long? = null,
+    var groupUUID: String? = null
 ) {
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
@@ -56,7 +56,7 @@ data class Habit(
     val uriString: String
         get() = "content://org.isoron.uhabits/habit/$id"
 
-    fun isSubHabit(): Boolean = parentUUID != null
+    fun isSubHabit(): Boolean = groupUUID != null
 
     fun hasReminder(): Boolean = reminder != null
 
@@ -129,8 +129,8 @@ data class Habit(
         this.unit = other.unit
         this.uuid = other.uuid
         this.parent = other.parent
-        this.parentID = other.parentID
-        this.parentUUID = other.parentUUID
+        this.groupId = other.groupId
+        this.groupUUID = other.groupUUID
     }
 
     override fun equals(other: Any?): Boolean {
@@ -151,8 +151,8 @@ data class Habit(
         if (type != other.type) return false
         if (unit != other.unit) return false
         if (uuid != other.uuid) return false
-        if (parentID != other.parentID) return false
-        if (parentUUID != other.parentUUID) return false
+        if (groupId != other.groupId) return false
+        if (groupUUID != other.groupUUID) return false
 
         return true
     }
@@ -172,8 +172,8 @@ data class Habit(
         result = 31 * result + type.value
         result = 31 * result + unit.hashCode()
         result = 31 * result + (uuid?.hashCode() ?: 0)
-        result = 31 * result + (parentID?.hashCode() ?: 0)
-        result = 31 * result + (parentUUID?.hashCode() ?: 0)
+        result = 31 * result + (groupId?.hashCode() ?: 0)
+        result = 31 * result + (groupUUID?.hashCode() ?: 0)
         return result
     }
 }

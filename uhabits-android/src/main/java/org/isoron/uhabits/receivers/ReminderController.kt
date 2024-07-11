@@ -101,7 +101,13 @@ class ReminderController @Inject constructor(
     }
 
     fun onDismiss(habitGroup: HabitGroup) {
-        notificationTray.cancel(habitGroup)
+        if (preferences.shouldMakeNotificationsSticky()) {
+            // This is a workaround to keep sticky notifications non-dismissible in Android 14+.
+            // If the notification is dismissed, we immediately reshow it.
+            notificationTray.reshow(habitGroup)
+        } else {
+            notificationTray.cancel(habitGroup)
+        }
     }
 
     private fun showSnoozeDelayPicker(habit: Habit, context: Context) {
