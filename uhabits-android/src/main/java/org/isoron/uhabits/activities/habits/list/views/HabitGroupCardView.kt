@@ -42,6 +42,7 @@ class HabitGroupCardView(
             field = newHabitGroup
             if (newHabitGroup != null) copyAttributesFrom(newHabitGroup)
             addButtonView.habitGroup = newHabitGroup
+            collapseButtonView.habitGroup = newHabitGroup
         }
 
     var score
@@ -52,6 +53,7 @@ class HabitGroupCardView(
         }
 
     var addButtonView: AddButtonView
+    var collapseButtonView: CollapseButtonView
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
@@ -81,6 +83,7 @@ class HabitGroupCardView(
         }
 
         addButtonView = AddButtonView(context, habitGroup)
+        collapseButtonView = CollapseButtonView(context, habitGroup)
 
         innerFrame = LinearLayout(context).apply {
             gravity = Gravity.CENTER_VERTICAL
@@ -91,6 +94,7 @@ class HabitGroupCardView(
             addView(scoreRing)
             addView(label)
             addView(addButtonView)
+            addView(collapseButtonView)
 
             setOnTouchListener { v, event ->
                 v.background.setHotspot(event.x, event.y)
@@ -141,6 +145,12 @@ class HabitGroupCardView(
         }
         scoreRing.apply {
             setColor(c)
+        }
+
+        if (collapseButtonView.collapsed) {
+            addButtonView.visibility = GONE
+        } else {
+            addButtonView.visibility = VISIBLE
         }
     }
 

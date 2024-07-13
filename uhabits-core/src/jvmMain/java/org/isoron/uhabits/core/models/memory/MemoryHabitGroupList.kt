@@ -47,6 +47,7 @@ class MemoryHabitGroupList : HabitGroupList {
         parent.observable.addListener { loadFromParent() }
         for (hgr in parent.list) {
             hgr.habitList.observable.addListener { loadFromParent() }
+            hgr.observable.notifyListeners()
         }
         loadFromParent()
     }

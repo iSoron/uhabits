@@ -25,6 +25,8 @@
 	<string translatable="false" name="fa_check">&#xf00c;</string>
 	<string translatable="false" name="fa_times">&#xf00d;</string>
 	<string translatable="false" name="fa_plus">&#xf067;</string>
+	<string translatable="false" name="fa_angle_left">&#xf053;</string>
+	<string translatable="false" name="fa_angle_down">&#xf078;</string>
 	<string translatable="false" name="fa_skipped">&#xf068;</string>
     <string translatable="false" name="fa_bell_o">&#xf0f3;</string>
 	<string translatable="false" name="fa_calendar">&#xf073;</string>

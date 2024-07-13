@@ -45,6 +45,14 @@ data class HabitGroup(
     val uriString: String
         get() = "content://org.isoron.uhabits/habitgroup/$id"
 
+    var collapsed = false
+        set(value) {
+            if (value != field) {
+                field = value
+                habitList.forEach { it.collapsed = value }
+            }
+        }
+
     fun hasReminder(): Boolean = reminder != null
 
     fun isCompletedToday(): Boolean {
