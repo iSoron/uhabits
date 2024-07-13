@@ -82,8 +82,8 @@ class HabitCardListCacheTest : BaseUnitTest() {
         val h = habitList.getByPosition(3)
         val score = h.scores[today].value
         assertThat(cache.getHabitByPosition(3), equalTo(h))
-        assertThat(cache.getScore(h.uuid!!), equalTo(score))
-        val actualCheckmarks = cache.getCheckmarks(h.uuid!!)
+        assertThat(cache.getScore(h.id!!), equalTo(score))
+        val actualCheckmarks = cache.getCheckmarks(h.id!!)
 
         val expectedCheckmarks = h
             .computedEntries
