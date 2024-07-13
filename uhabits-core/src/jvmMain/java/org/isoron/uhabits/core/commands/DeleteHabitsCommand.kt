@@ -31,7 +31,7 @@ data class DeleteHabitsCommand(
             if (!h.isSubHabit()) {
                 habitList.remove(h)
             } else {
-                val list = (h.parent as HabitGroup).habitList
+                val list = (h.group as HabitGroup).habitList
                 list.remove(h)
             }
         }

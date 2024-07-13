@@ -60,7 +60,7 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
-        val list = if (habit.isSubHabit()) habit.parent!!.habitList else habitList
+        val list = if (habit.isSubHabit()) habit.group!!.habitList else habitList
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
@@ -114,8 +114,8 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onReorderHabit(from: Habit, to: Habit) {
-        if (from.parent == to.parent) {
-            val list = from.parent?.habitList ?: habitList
+        if (from.group == to.group) {
+            val list = from.group?.habitList ?: habitList
             taskRunner.execute { list.reorder(from, to) }
         }
     }
@@ -148,7 +148,7 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String, x: Float, y: Float) {
-        val list = if (habit.isSubHabit()) habit.parent!!.habitList else habitList
+        val list = if (habit.isSubHabit()) habit.group!!.habitList else habitList
         commandRunner.run(
             CreateRepetitionCommand(list, habit, timestamp, value, notes)
         )

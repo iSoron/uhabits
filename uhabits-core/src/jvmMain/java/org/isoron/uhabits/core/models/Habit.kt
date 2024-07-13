@@ -47,7 +47,7 @@ data class Habit(
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
     }
 
-    var parent: HabitGroup? = null
+    var group: HabitGroup? = null
     var observable = ModelObservable()
 
     val isNumerical: Boolean
@@ -128,7 +128,7 @@ data class Habit(
         this.type = other.type
         this.unit = other.unit
         this.uuid = other.uuid
-        this.parent = other.parent
+        this.group = other.group
         this.groupId = other.groupId
         this.groupUUID = other.groupUUID
     }

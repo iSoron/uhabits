@@ -190,7 +190,7 @@ class MemoryHabitGroupList : HabitGroupList {
     override fun attachHabitsToGroups() {
         for (hgr in list) {
             for (h in hgr.habitList) {
-                h.parent = hgr
+                h.group = hgr
             }
         }
     }

@@ -300,7 +300,7 @@ class EditHabitActivity : AppCompatActivity() {
             habit.unit = binding.unitInput.text.trim().toString()
         }
         habit.type = habitType
-        habit.parent = parentGroup
+        habit.group = parentGroup
         habit.groupId = parentGroup?.id
         habit.groupUUID = parentGroup?.uuid
 
