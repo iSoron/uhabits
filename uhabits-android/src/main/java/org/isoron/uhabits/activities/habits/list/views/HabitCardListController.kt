@@ -52,18 +52,18 @@ class HabitCardListController @Inject constructor(
 
         val habitFrom = adapter.getHabit(from)
         val habitTo = adapter.getHabit(to)
-        if (habitFrom != null && habitTo != null) {
-            adapter.performReorder(from, to)
-            behavior.onReorderHabit(habitFrom, habitTo)
+        if (habitFrom != null) {
+            if (habitTo != null) {
+                adapter.performReorder(from, to)
+                behavior.onReorderHabit(habitFrom, habitTo)
+            }
             return
         }
 
-        val hgrFrom = adapter.getHabitGroup(from)
-        val hgrTo = adapter.getHabitGroup(to)
-        if (hgrFrom != null && hgrTo != null) {
-            adapter.performReorder(from, to)
-            behavior.onReorderHabitGroup(hgrFrom, hgrTo)
-        }
+        val hgrFrom = adapter.getHabitGroup(from)!!
+        val hgrTo = adapter.getHabitGroup(to) ?: return
+        adapter.performReorder(from, to)
+        behavior.onReorderHabitGroup(hgrFrom, hgrTo)
     }
 
     override fun onItemClick(position: Int) {

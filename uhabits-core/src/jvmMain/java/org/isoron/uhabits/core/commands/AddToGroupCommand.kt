@@ -28,13 +28,15 @@ data class AddToGroupCommand(
     val selected: List<Habit>
 ) : Command {
     override fun run() {
-        for (h in selected) {
-            val oldGroup = h.group
-            (oldGroup?.habitList ?: habitList).remove(h)
-            h.groupId = hgr.id
-            h.groupUUID = hgr.uuid
-            h.group = hgr
-            hgr.habitList.add(h)
+        for (habit in selected) {
+            val entries = habit.originalEntries.getKnown()
+            val oldGroup = habit.group
+            (oldGroup?.habitList ?: habitList).remove(habit)
+            habit.groupId = hgr.id
+            habit.groupUUID = hgr.uuid
+            habit.group = hgr
+            hgr.habitList.add(habit)
+            entries.forEach { habit.originalEntries.add(it) }
         }
     }
 }

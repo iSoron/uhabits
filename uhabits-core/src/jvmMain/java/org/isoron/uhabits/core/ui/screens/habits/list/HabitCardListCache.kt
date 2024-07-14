@@ -534,7 +534,7 @@ class HabitCardListCache @Inject constructor(
             if (!isValidInsert(habitGroup, toPosition)) return
             val fromIdx = positionIndices[fromPosition]
             val habitList = subHabits[fromIdx]
-            val toIdx = habitGroups.indexOf(positionToHabitGroup[toPosition]) - (if (fromPosition < toPosition) 1 else 0)
+            val toIdx = habitGroups.indexOf(positionToHabitGroup[toPosition])
 
             habitGroups.removeAt(fromIdx)
             subHabits.removeAt(fromIdx)
