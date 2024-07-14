@@ -73,9 +73,9 @@ class ScoreList {
         values: IntArray,
         firstIndexCurrentInterval: Int,
         lastIndexCurrentInterval: Int,
-        numberOfSkipsIntermediate: Int = 0
+        nbSkipsIntermedSol: Int = 0
     ): Int {
-        if (lastIndexCurrentInterval < firstIndexCurrentInterval) return numberOfSkipsIntermediate
+        if (lastIndexCurrentInterval < firstIndexCurrentInterval) return nbSkipsIntermedSol
         var nbOfSkips = 0
         var nextLastIndex = lastIndexCurrentInterval
         for (i in firstIndexCurrentInterval..lastIndexCurrentInterval) {
@@ -84,7 +84,7 @@ class ScoreList {
                 if (lastIndexCurrentInterval + nbOfSkips < values.size) nextLastIndex++
             }
         }
-        return getNumberOfSkipsByInterval(values, lastIndexCurrentInterval + 1, nextLastIndex, nbOfSkips)
+        return getNumberOfSkipsByInterval(values, lastIndexCurrentInterval + 1, nextLastIndex, nbSkipsIntermedSol + nbOfSkips)
     }
 
     /**
