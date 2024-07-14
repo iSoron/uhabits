@@ -54,7 +54,11 @@ class FrequencyCardPresenter {
             firstWeekday: Int,
             theme: Theme
         ): FrequencyCardState {
-            val frequencies = getFrequenciesFromHabitGroup(habitGroup)
+            val frequencies = if (habitGroup.habitList.isEmpty) {
+                hashMapOf<Timestamp, Array<Int>>()
+            } else {
+                getFrequenciesFromHabitGroup(habitGroup)
+            }
 
             return FrequencyCardState(
                 color = habitGroup.color,
