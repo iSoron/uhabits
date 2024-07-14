@@ -37,6 +37,7 @@ data class AddToGroupCommand(
             habit.group = hgr
             hgr.habitList.add(habit)
             entries.forEach { habit.originalEntries.add(it) }
+            habit.observable.notifyListeners()
         }
     }
 }

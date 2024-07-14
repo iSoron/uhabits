@@ -35,6 +35,7 @@ data class RemoveFromGroupCommand(
             habit.groupUUID = null
             habitList.add(habit)
             entries.forEach { habit.originalEntries.add(it) }
+            habit.observable.notifyListeners()
         }
     }
 }
