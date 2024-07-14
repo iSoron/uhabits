@@ -69,12 +69,13 @@ class ScoreList {
      * and repeats this process for the expanded part until no skips are found in an expanded part.
      */
     @Synchronized
-    fun getNumberOfSkipsByInterval(
+    tailrec fun getNumberOfSkipsByInterval(
         values: IntArray,
         firstIndexCurrentInterval: Int,
-        lastIndexCurrentInterval: Int
+        lastIndexCurrentInterval: Int,
+        numberOfSkipsIntermediate: Int = 0
     ): Int {
-        if (lastIndexCurrentInterval < firstIndexCurrentInterval) return 0
+        if (lastIndexCurrentInterval < firstIndexCurrentInterval) return numberOfSkipsIntermediate
         var nbOfSkips = 0
         var nextLastIndex = lastIndexCurrentInterval
         for (i in firstIndexCurrentInterval..lastIndexCurrentInterval) {
@@ -83,7 +84,7 @@ class ScoreList {
                 if (lastIndexCurrentInterval + nbOfSkips < values.size) nextLastIndex++
             }
         }
-        return nbOfSkips + getNumberOfSkipsByInterval(values, lastIndexCurrentInterval + 1, nextLastIndex)
+        return getNumberOfSkipsByInterval(values, lastIndexCurrentInterval + 1, nextLastIndex, nbOfSkips)
     }
 
     /**
