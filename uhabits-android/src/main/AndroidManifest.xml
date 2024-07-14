@@ -43,6 +43,14 @@
         </activity>
 
         <activity
+            android:name=".activities.habits.list.HabitGroupPickerDialog"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.habits.list.ListHabitsActivity" />
+        </activity>
+
+        <activity
             android:name=".activities.habits.edit.EditHabitGroupActivity"
             android:exported="true">
             <meta-data

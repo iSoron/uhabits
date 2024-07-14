@@ -65,6 +65,10 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
         return (adapter.getSelectedHabits().all { it.isSubHabit() })
     }
 
+    fun areHabits(): Boolean {
+        return adapter.getSelectedHabitGroups().isEmpty()
+    }
+
     fun onArchiveHabits() {
         commandRunner.run(ArchiveHabitsCommand(habitList, adapter.getSelectedHabits()))
         commandRunner.run(ArchiveHabitGroupsCommand(habitGroupList, adapter.getSelectedHabitGroups()))
@@ -142,6 +146,12 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
         adapter.clearSelection()
     }
 
+    fun onAddToGroup() {
+        adapter.performRemove(adapter.getSelectedHabits())
+        screen.showHabitGroupPickerDialog(adapter.getSelectedHabits())
+        adapter.clearSelection()
+    }
+
     interface Adapter {
         fun clearSelection()
         fun getSelectedHabits(): List<Habit>
@@ -164,5 +174,6 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
         fun showEditHabitsScreen(selected: List<Habit>)
 
         fun showEditHabitGroupScreen(selected: List<HabitGroup>)
+        fun showHabitGroupPickerDialog(selected: List<Habit>)
     }
 }

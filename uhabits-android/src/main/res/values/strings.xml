@@ -30,6 +30,7 @@
     <string name="archive">Archive</string>
     <string name="unarchive">Unarchive</string>
     <string name="remove_from_group">Remove from group</string>
+    <string name="add_to_group">Add to group</string>
     <string name="add_habit">Add habit</string>
     <string name="color_picker_default_title">Change color</string>
     <string name="toast_habit_created">Habit created</string>
@@ -239,4 +240,5 @@
     <string name="pref_midnight_delay_title">Extend day a few hours past midnight</string>
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
     <string name="no_sub_habits">Group contains no habits.</string>
+    <string name="no_habit_groups">No habit groups</string>
 </resources>

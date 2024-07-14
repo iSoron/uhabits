@@ -76,6 +76,7 @@ class ListHabitsSelectionMenu @Inject constructor(
         val itemArchive = menu.findItem(R.id.action_archive_habit)
         val itemUnarchive = menu.findItem(R.id.action_unarchive_habit)
         val itemRemoveFromGroup = menu.findItem(R.id.action_remove_from_group)
+        val itemAddToGroup = menu.findItem(R.id.action_add_to_group)
         val itemNotify = menu.findItem(R.id.action_notify)
 
         itemColor.isVisible = true
@@ -83,6 +84,7 @@ class ListHabitsSelectionMenu @Inject constructor(
         itemArchive.isVisible = behavior.canArchive()
         itemUnarchive.isVisible = behavior.canUnarchive()
         itemRemoveFromGroup.isVisible = behavior.areSubHabits()
+        itemAddToGroup.isVisible = behavior.areHabits()
         itemNotify.isVisible = prefs.isDeveloper
         activeActionMode?.title = (listAdapter.selectedHabits.size + listAdapter.selectedHabitGroups.size).toString()
         return true
@@ -110,6 +112,11 @@ class ListHabitsSelectionMenu @Inject constructor(
 
             R.id.action_remove_from_group -> {
                 behavior.onRemoveFromGroup()
+                return true
+            }
+
+            R.id.action_add_to_group -> {
+                behavior.onAddToGroup()
                 return true
             }
 

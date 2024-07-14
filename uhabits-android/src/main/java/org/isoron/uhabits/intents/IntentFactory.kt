@@ -26,6 +26,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.about.AboutActivity
 import org.isoron.uhabits.activities.habits.edit.EditHabitActivity
 import org.isoron.uhabits.activities.habits.edit.EditHabitGroupActivity
+import org.isoron.uhabits.activities.habits.list.HabitGroupPickerDialog
 import org.isoron.uhabits.activities.habits.show.ShowHabitActivity
 import org.isoron.uhabits.activities.habits.show.ShowHabitGroupActivity
 import org.isoron.uhabits.activities.intro.IntroActivity
@@ -122,6 +123,13 @@ class IntentFactory
     fun startEditGroupActivity(context: Context, habitGroup: HabitGroup): Intent {
         val intent = startEditGroupActivity(context)
         intent.putExtra("habitGroupId", habitGroup.id)
+        return intent
+    }
+
+    fun startHabitGroupPickerActivity(context: Context, selected: List<Habit>): Intent {
+        val intent = Intent(context, HabitGroupPickerDialog::class.java)
+        val ids = selected.map { it.id!! }.toLongArray()
+        intent.putExtra("selected", ids)
         return intent
     }
 }

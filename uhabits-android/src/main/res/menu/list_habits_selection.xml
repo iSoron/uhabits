@@ -42,6 +42,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_add_to_group"
+        android:title="@string/add_to_group"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_remove_from_group"
         android:title="@string/remove_from_group"
         app:showAsAction="never"/>

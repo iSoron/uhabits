@@ -185,6 +185,11 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
+    override fun showHabitGroupPickerDialog(selected: List<Habit>) {
+        val intent = intentFactory.startHabitGroupPickerActivity(activity, selected)
+        activity.startActivity(intent)
+    }
+
     override fun showFAQScreen() {
         val intent = intentFactory.viewFAQ(activity)
         activity.startActivity(intent)
