@@ -18,5 +18,6 @@ allprojects {
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
         maven(url = "https://jitpack.io")
+        maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers/") // Repository for kotlin-css-jvm old versions, now that the Gradle Plugin Portal no longer brings these in by mirroring JCenter
     }
 }
