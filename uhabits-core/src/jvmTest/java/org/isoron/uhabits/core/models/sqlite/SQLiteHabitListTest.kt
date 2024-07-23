@@ -48,7 +48,7 @@ class SQLiteHabitListTest : BaseUnitTest() {
     override fun setUp() {
         super.setUp()
         val db: Database = buildMemoryDatabase()
-        db.execute("PRAGMA foreign_keys = ON;")
+        db.execute("PRAGMA foreign_keys = OFF;")
         modelFactory = SQLModelFactory(db)
         habitList = SQLiteHabitList(modelFactory)
         fixtures = HabitFixtures(modelFactory, habitList)

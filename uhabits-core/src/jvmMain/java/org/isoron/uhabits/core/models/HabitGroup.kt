@@ -34,7 +34,10 @@ data class HabitGroup(
         parent.habitList.getFiltered(matcher),
         parent.scores,
         parent.streaks
-    )
+    ) {
+        this.collapsed = parent.collapsed
+        this.parent = parent
+    }
 
     init {
         if (uuid == null) this.uuid = UUID.randomUUID().toString().replace("-", "")
@@ -42,24 +45,27 @@ data class HabitGroup(
 
     var observable = ModelObservable()
 
+    var parent: HabitGroup? = null
+
     val uriString: String
         get() = "content://org.isoron.uhabits/habitgroup/$id"
 
     var collapsed = false
         set(value) {
-            if (value != field) {
-                field = value
-                habitList.forEach { it.collapsed = value }
-            }
+            field = value
+            habitList.collapsed = value
+            if (parent != null) parent!!.collapsed = value
         }
 
     fun hasReminder(): Boolean = reminder != null
 
     fun isCompletedToday(): Boolean {
+        if (habitList.isEmpty) return false
         return habitList.all { it.isCompletedToday() }
     }
 
     fun isEnteredToday(): Boolean {
+        if (habitList.isEmpty) return false
         return habitList.all { it.isEnteredToday() }
     }
 

@@ -38,7 +38,6 @@ import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
@@ -267,16 +266,15 @@ class HabitCardView(
         }
         scoreRing.apply {
             setColor(c)
-            if (h.isSubHabit()) {
-                val rightMargin = dp(8f).toInt()
-                val ringSize = dp(15f).toInt()
-                val leftMargin =
-                    if (habit?.isSubHabit() == true) dp(30f).toInt() else dp(8f).toInt()
-                layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
-                    setMargins(leftMargin, 0, rightMargin, 0)
-                    gravity = Gravity.CENTER
-                }
+//            if (h.isSubHabit()) {
+            val rightMargin = dp(8f).toInt()
+            val ringSize = dp(15f).toInt()
+            val leftMargin = if (h.isSubHabit() == true) dp(30f).toInt() else dp(8f).toInt()
+            layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
+                setMargins(leftMargin, 0, rightMargin, 0)
+                gravity = Gravity.CENTER
             }
+//            }
         }
         checkmarkPanel.apply {
             color = c
@@ -294,32 +292,6 @@ class HabitCardView(
                 true -> View.VISIBLE
                 false -> View.GONE
             }
-        }
-    }
-
-    private fun copyAttributesFrom(hgr: HabitGroup) {
-        fun getActiveColor(habitGroup: HabitGroup): Int {
-            return when (habitGroup.isArchived) {
-                true -> sres.getColor(R.attr.contrast60)
-                false -> currentTheme().color(habitGroup.color).toInt()
-            }
-        }
-
-        val c = getActiveColor(hgr)
-        label.apply {
-            text = hgr.name
-            setTextColor(c)
-        }
-        scoreRing.apply {
-            setColor(c)
-        }
-        checkmarkPanel.apply {
-            color = c
-            visibility = View.GONE
-        }
-        numberPanel.apply {
-            color = c
-            visibility = View.GONE
         }
     }
 

@@ -25,6 +25,11 @@ class CollapseButtonView(
     private var drawer = Drawer()
 
     var collapsed = false
+        set(value) {
+            field = value
+            drawer.rotate()
+            invalidate()
+        }
 
     init {
         setOnClickListener(this)
@@ -33,9 +38,8 @@ class CollapseButtonView(
     override fun onClick(v: View) {
         collapsed = !collapsed
         habitGroup!!.collapsed = collapsed
-        drawer.rotate()
-        invalidate()
         (context as ListHabitsActivity).component.listHabitsMenu.behavior.onPreferencesChanged()
+        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -66,7 +70,7 @@ class CollapseButtonView(
         }
 
         fun rotate() {
-            if (rotationAngle == 0f) {
+            if (collapsed) {
                 rotationAngle = 90f
                 offset_y = 0f
                 offset_x = -0.4f

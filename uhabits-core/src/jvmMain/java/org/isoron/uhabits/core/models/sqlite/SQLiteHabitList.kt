@@ -144,6 +144,12 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
             observable.notifyListeners()
         }
 
+    override var collapsed: Boolean = list.collapsed
+        set(value) {
+            field = value
+            list.collapsed = value
+        }
+
     @Synchronized
     override fun indexOf(h: Habit): Int {
         loadRecords()

@@ -51,6 +51,13 @@ class MemoryHabitList : HabitList {
         getComposedComparatorByOrder(primaryOrder, secondaryOrder)
     private var parent: MemoryHabitList? = null
 
+    override var collapsed: Boolean = false
+        set(value) {
+            field = value
+            val habits = parent?.list ?: list
+            habits.forEach { it.collapsed = value }
+        }
+
     constructor() : super()
     constructor(
         matcher: HabitMatcher,

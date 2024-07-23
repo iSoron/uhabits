@@ -34,6 +34,8 @@ abstract class HabitList : Iterable<Habit> {
     @JvmField
     protected val filter: HabitMatcher
 
+    abstract var collapsed: Boolean
+
     var groupId: Long? = null
 
     /**
@@ -140,10 +142,6 @@ abstract class HabitList : Iterable<Habit> {
      * Removes the reference to the habit from the list at the given position.
      *
      * Does not affect the repository or records
-     *
-     * If the given habit is not in the list, does nothing.
-     *
-     * @param h the habit to be removed.
      */
     abstract fun removeAt(position: Int)
 

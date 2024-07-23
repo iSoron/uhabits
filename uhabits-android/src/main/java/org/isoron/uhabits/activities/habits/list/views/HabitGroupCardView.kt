@@ -147,6 +147,8 @@ class HabitGroupCardView(
             setColor(c)
         }
 
+        collapseButtonView.collapsed = hgr.collapsed
+
         if (collapseButtonView.collapsed) {
             addButtonView.visibility = GONE
         } else {
