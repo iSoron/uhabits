@@ -101,6 +101,7 @@ class EditHabitActivity : AppCompatActivity() {
         if (intent.hasExtra("groupId")) {
             val groupId = intent.getLongExtra("groupId", -1L)
             parentGroup = component.habitGroupList.getById(groupId)
+            color = parentGroup!!.color
         }
 
         if (intent.hasExtra("habitId")) {
