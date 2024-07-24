@@ -31,6 +31,7 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.memory.MemoryModelFactory
 import org.isoron.uhabits.core.tasks.SingleThreadTaskRunner
 import org.isoron.uhabits.core.test.HabitFixtures
+import org.isoron.uhabits.core.test.HabitGroupFixtures
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import org.isoron.uhabits.core.utils.DateUtils.Companion.setFixedLocalTime
 import org.isoron.uhabits.core.utils.DateUtils.Companion.setStartDayOffset
@@ -55,6 +56,7 @@ open class BaseUnitTest {
     protected open lateinit var habitList: HabitList
     protected open lateinit var habitGroupList: HabitGroupList
     protected lateinit var fixtures: HabitFixtures
+    protected lateinit var groupFixtures: HabitGroupFixtures
     protected lateinit var modelFactory: ModelFactory
     protected lateinit var taskRunner: SingleThreadTaskRunner
     protected open lateinit var commandRunner: CommandRunner
@@ -84,6 +86,7 @@ open class BaseUnitTest {
         habitList = spy(memoryModelFactory.buildHabitList())
         habitGroupList = spy(memoryModelFactory.buildHabitGroupList())
         fixtures = HabitFixtures(memoryModelFactory, habitList)
+        groupFixtures = HabitGroupFixtures(memoryModelFactory, habitList, habitGroupList)
         modelFactory = memoryModelFactory
         taskRunner = SingleThreadTaskRunner()
         commandRunner = CommandRunner(taskRunner)
