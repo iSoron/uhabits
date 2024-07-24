@@ -103,7 +103,7 @@ class IntentFactory
         val intent = startEditActivity(context)
         intent.putExtra("habitId", habit.id)
         intent.putExtra("habitType", habit.type)
-        intent.putExtra("groupId", habit.groupId)
+        if (habit.groupId != null) intent.putExtra("groupId", habit.groupId)
         return intent
     }
 
