@@ -121,4 +121,31 @@ class HabitGroupTest : BaseUnitTest() {
         assertThat(hgr.id, equalTo(0L))
         assertThat(hgr.uriString, equalTo("content://org.isoron.uhabits/habitgroup/0"))
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun testScores() {
+        val hgr = groupFixtures.createGroupWithNumericalHabits(numHabits = 2)
+        hgr.recompute()
+        val today = getToday()
+        val expectedScore = hgr.habitList.map { it.scores[today].value }.average()
+        assertEquals(expectedScore, hgr.scores[today].value)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testStreaks() {
+        val hgr = groupFixtures.createGroupWithNumericalHabits(numHabits = 2)
+        hgr.recompute()
+        assertEquals(hgr.habitList.getByPosition(0).streaks.getBest(1), hgr.streaks.getBest(1))
+
+        val hgr2 = groupFixtures.createGroupWithEmptyHabits(numHabits = 2)
+        val h = hgr2.habitList.getByPosition(0)
+        h.originalEntries.add(Entry(getToday(), 2))
+        h.originalEntries.add(Entry(getToday().minus(1), 2))
+        val h2 = hgr2.habitList.getByPosition(1)
+        h2.originalEntries.add(Entry(getToday().minus(2), 2))
+        hgr2.recompute()
+        assertEquals(0, hgr2.streaks.getBest(1).size)
+    }
 }

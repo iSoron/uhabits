@@ -45,10 +45,6 @@ class MemoryHabitGroupList : HabitGroupList {
         primaryOrder = parent.primaryOrder
         secondaryOrder = parent.secondaryOrder
         parent.observable.addListener { loadFromParent() }
-        for (hgr in parent.list) {
-            hgr.habitList.observable.addListener { loadFromParent() }
-            hgr.observable.notifyListeners()
-        }
         loadFromParent()
     }
 
@@ -213,7 +209,8 @@ class MemoryHabitGroupList : HabitGroupList {
                 list.add(filteredHgr)
             }
         }
-        resort()
+        primaryOrder = parent!!.primaryOrder
+        secondaryOrder = parent!!.secondaryOrder
     }
 
     @Synchronized
@@ -221,7 +218,6 @@ class MemoryHabitGroupList : HabitGroupList {
         for (hgr in list) {
             hgr.habitList.primaryOrder = primaryOrder
             hgr.habitList.secondaryOrder = secondaryOrder
-            hgr.habitList.resort()
         }
         if (comparator != null) list.sortWith(comparator!!)
         observable.notifyListeners()

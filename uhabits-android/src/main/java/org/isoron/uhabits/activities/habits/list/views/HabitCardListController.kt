@@ -60,8 +60,10 @@ class HabitCardListController @Inject constructor(
             return
         }
 
-        val hgrFrom = adapter.getHabitGroup(from)!!
-        val hgrTo = adapter.getHabitGroup(to) ?: return
+        var hgrFrom = adapter.getHabitGroup(from)!!
+        if (hgrFrom.parent != null) hgrFrom = hgrFrom.parent!!
+        var hgrTo = adapter.getHabitGroup(to) ?: return
+        if (hgrTo.parent != null) hgrTo = hgrTo.parent!!
         adapter.performReorder(from, to)
         behavior.onReorderHabitGroup(hgrFrom, hgrTo)
     }

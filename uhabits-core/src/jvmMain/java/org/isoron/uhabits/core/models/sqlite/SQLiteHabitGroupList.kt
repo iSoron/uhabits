@@ -146,14 +146,14 @@ class SQLiteHabitGroupList @Inject constructor(private val modelFactory: ModelFa
         if (toRecord == null) throw RuntimeException("habit not in database")
         if (toRecord.position!! < fromRecord.position!!) {
             repository.execSQL(
-                "update habits set position = position + 1 " +
+                "update habitgroups set position = position + 1 " +
                     "where position >= ? and position < ?",
                 toRecord.position!!,
                 fromRecord.position!!
             )
         } else {
             repository.execSQL(
-                "update habits set position = position - 1 " +
+                "update habitgroups set position = position - 1 " +
                     "where position > ? and position <= ?",
                 fromRecord.position!!,
                 toRecord.position!!

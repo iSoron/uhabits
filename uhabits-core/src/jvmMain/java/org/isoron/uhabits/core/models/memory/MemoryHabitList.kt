@@ -242,6 +242,8 @@ class MemoryHabitList : HabitList {
         checkNotNull(parent)
         list.clear()
         for (h in parent!!) if (filter.matches(h)) list.add(h)
+        primaryOrder = parent!!.primaryOrder
+        secondaryOrder = parent!!.secondaryOrder
         resort()
     }
 

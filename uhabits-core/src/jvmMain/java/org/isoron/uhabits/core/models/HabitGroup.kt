@@ -115,7 +115,7 @@ data class HabitGroup(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is Habit) return false
+        if (other !is HabitGroup) return false
 
         if (color != other.color) return false
         if (description != other.description) return false

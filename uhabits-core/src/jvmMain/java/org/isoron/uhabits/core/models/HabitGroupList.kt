@@ -200,8 +200,6 @@ abstract class HabitGroupList : Iterable<HabitGroup> {
             "Name",
             "Question",
             "Description",
-            "NumRepetitions",
-            "Interval",
             "Color"
         )
         val csv = CSVWriter(out)
