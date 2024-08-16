@@ -27,6 +27,7 @@ import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.RefreshParentGroupCommand
 import org.isoron.uhabits.core.commands.RemoveFromGroupCommand
+import org.isoron.uhabits.core.commands.UnarchiveHabitGroupsCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
@@ -134,6 +135,7 @@ class ListHabitsSelectionMenuBehavior @Inject constructor(
 
     fun onUnarchiveHabits() {
         commandRunner.run(UnarchiveHabitsCommand(habitList, adapter.getSelectedHabits()))
+        commandRunner.run(UnarchiveHabitGroupsCommand(habitGroupList, adapter.getSelectedHabitGroups()))
         for (habit in adapter.getSelectedHabits()) {
             commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
         }

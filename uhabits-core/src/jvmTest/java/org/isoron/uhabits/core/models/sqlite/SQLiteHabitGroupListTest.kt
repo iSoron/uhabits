@@ -31,6 +31,8 @@ import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.models.sqlite.records.HabitGroupRecord
+import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
+import org.isoron.uhabits.core.test.HabitFixtures
 import org.isoron.uhabits.core.test.HabitGroupFixtures
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -40,6 +42,7 @@ import kotlin.test.assertNull
 
 class SQLiteHabitGroupListTest : BaseUnitTest() {
     private lateinit var repository: Repository<HabitGroupRecord>
+    private lateinit var habitRepository: Repository<HabitRecord>
     private var listener: ModelObservable.Listener = mock()
     private lateinit var habitGroupsArray: ArrayList<HabitGroup>
     private lateinit var activeHabitGroups: HabitGroupList
@@ -52,7 +55,9 @@ class SQLiteHabitGroupListTest : BaseUnitTest() {
         modelFactory = SQLModelFactory(db)
         habitGroupList = SQLiteHabitGroupList(modelFactory)
         groupFixtures = HabitGroupFixtures(modelFactory, habitList, habitGroupList)
+        fixtures = HabitFixtures(modelFactory, habitList)
         repository = Repository(HabitGroupRecord::class.java, db)
+        habitRepository = Repository(HabitRecord::class.java, db)
         habitGroupsArray = ArrayList()
         for (i in 0..9) {
             val hgr = groupFixtures.createEmptyHabitGroup()
@@ -184,5 +189,27 @@ class SQLiteHabitGroupListTest : BaseUnitTest() {
         assertThat(record3.position, equalTo(3))
         val record4 = repository.find(4L)!!
         assertThat(record4.position, equalTo(2))
+    }
+
+    @Test
+    fun testAdd_Habit() {
+        val habit = fixtures.createEmptyHabit()
+        val hgr = habitGroupList.getById(1)!!
+        hgr.habitList.add(habit)
+        assertThat(habit.id!!, equalTo(11L))
+        val record = habitRepository.find(11L)
+        assertThat(record!!.name, equalTo(habit.name))
+    }
+
+    @Test
+    fun testRemoveHabit() {
+        val habit = fixtures.createEmptyHabit()
+        val hgr = habitGroupList.getById(1)!!
+        hgr.habitList.add(habit)
+        hgr.habitList.remove(habit)
+
+        assertThat(hgr.habitList.indexOf(habit), equalTo(-1))
+        val record = habitRepository.find(11L)
+        assertNull(record)
     }
 }

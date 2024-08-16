@@ -43,7 +43,7 @@ create table Habits (
     uuid text,
     group_id integer,
     group_uuid text,
-    foreign key(group_id)
+    foreign key (group_id)
         references HabitGroups(id)
             on update cascade
             on delete cascade

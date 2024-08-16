@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.test
 
+import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
@@ -32,10 +33,12 @@ class HabitGroupFixtures(private val modelFactory: ModelFactory, private val hab
     fun createEmptyHabitGroup(
         name: String = "Exercise",
         color: PaletteColor = PaletteColor(3),
-        position: Int = 0
+        position: Int = 0,
+        id: Long = 0L
     ): HabitGroup {
         val hgr = modelFactory.buildHabitGroup()
         hgr.name = name
+        hgr.id = id
         hgr.question = "Did you exercise today?"
         hgr.color = color
         hgr.position = position
@@ -47,11 +50,15 @@ class HabitGroupFixtures(private val modelFactory: ModelFactory, private val hab
         name: String = "Exercise",
         color: PaletteColor = PaletteColor(3),
         position: Int = 0,
-        numHabits: Int = 1
+        numHabits: Int = 1,
+        id: Long = 0L
     ): HabitGroup {
-        val hgr = createEmptyHabitGroup(name, color, position)
+        val hgr = createEmptyHabitGroup(name, color, position, id)
         for (i in 1..numHabits) {
-            hgr.habitList.add(habitFixtures.createEmptyHabit())
+            val h = habitFixtures.createEmptyHabit()
+            h.id = id + i
+            addGroupId(h, hgr)
+            hgr.habitList.add(h)
         }
         saveIfSQLite(hgr)
         return hgr
@@ -62,11 +69,15 @@ class HabitGroupFixtures(private val modelFactory: ModelFactory, private val hab
         color: PaletteColor = PaletteColor(3),
         position: Int = 0,
         targetType: NumericalHabitType = NumericalHabitType.AT_LEAST,
-        numHabits: Int = 1
+        numHabits: Int = 1,
+        id: Long = 0L
     ): HabitGroup {
-        val hgr = createEmptyHabitGroup(name, color, position)
+        val hgr = createEmptyHabitGroup(name, color, position, id)
         for (i in 1..numHabits) {
-            hgr.habitList.add(habitFixtures.createEmptyNumericalHabit(targetType))
+            val h = habitFixtures.createEmptyNumericalHabit(targetType)
+            h.id = id + i
+            addGroupId(h, hgr)
+            hgr.habitList.add(h)
         }
         saveIfSQLite(hgr)
         return hgr
@@ -76,11 +87,15 @@ class HabitGroupFixtures(private val modelFactory: ModelFactory, private val hab
         name: String = "Exercise",
         color: PaletteColor = PaletteColor(3),
         position: Int = 0,
-        numHabits: Int = 1
+        numHabits: Int = 1,
+        id: Long = 0L
     ): HabitGroup {
-        val hgr = createEmptyHabitGroup(name, color, position)
+        val hgr = createEmptyHabitGroup(name, color, position, id)
         for (i in 1..numHabits) {
-            hgr.habitList.add(habitFixtures.createNumericalHabit())
+            val h = habitFixtures.createNumericalHabit()
+            h.id = id + i
+            addGroupId(h, hgr)
+            hgr.habitList.add(h)
         }
         saveIfSQLite(hgr)
         return hgr
@@ -90,11 +105,15 @@ class HabitGroupFixtures(private val modelFactory: ModelFactory, private val hab
         name: String = "Exercise",
         color: PaletteColor = PaletteColor(3),
         position: Int = 0,
-        numHabits: Int = 1
+        numHabits: Int = 1,
+        id: Long = 0L
     ): HabitGroup {
-        val hgr = createEmptyHabitGroup(name, color, position)
+        val hgr = createEmptyHabitGroup(name, color, position, id)
         for (i in 1..numHabits) {
-            hgr.habitList.add(habitFixtures.createLongHabit())
+            val h = habitFixtures.createLongHabit()
+            h.id = id + i
+            addGroupId(h, hgr)
+            hgr.habitList.add(h)
         }
         saveIfSQLite(hgr)
         return hgr
@@ -104,11 +123,15 @@ class HabitGroupFixtures(private val modelFactory: ModelFactory, private val hab
         name: String = "Exercise",
         color: PaletteColor = PaletteColor(3),
         position: Int = 0,
-        numHabits: Int = 1
+        numHabits: Int = 1,
+        id: Long = 0L
     ): HabitGroup {
-        val hgr = createEmptyHabitGroup(name, color, position)
+        val hgr = createEmptyHabitGroup(name, color, position, id)
         for (i in 1..numHabits) {
-            hgr.habitList.add(habitFixtures.createShortHabit())
+            val h = habitFixtures.createShortHabit()
+            h.id = id + i
+            addGroupId(h, hgr)
+            hgr.habitList.add(h)
         }
         saveIfSQLite(hgr)
         return hgr
@@ -117,5 +140,11 @@ class HabitGroupFixtures(private val modelFactory: ModelFactory, private val hab
     private fun saveIfSQLite(hgr: HabitGroup) {
         if (hgr.habitList !is SQLiteHabitList) return
         habitGroupList.add(hgr)
+    }
+
+    private fun addGroupId(h: Habit, hgr: HabitGroup) {
+        h.groupId = hgr.id
+        h.group = hgr
+        h.groupUUID = hgr.uuid
     }
 }

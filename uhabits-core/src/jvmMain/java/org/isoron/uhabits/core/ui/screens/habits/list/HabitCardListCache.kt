@@ -481,7 +481,7 @@ class HabitCardListCache @Inject constructor(
             if (type == HABIT_GROUP) return
 
             // Workaround for https://github.com/iSoron/uhabits/issues/968
-            val checkedToPosition = if (toPosition > positionTypes.size) {
+            val checkedToPosition = if (toPosition >= positionTypes.size) {
                 logger.error("performMove: $toPosition for habit is strictly higher than ${habits.size}")
                 positionTypes.size - 1
             } else {
@@ -684,14 +684,14 @@ class HabitCardListCache @Inject constructor(
             val id = habitGroup.id
             val prevIdx = newData.positionIndices[position]
             val habitList = newData.subHabits[prevIdx]
-            val idx = if (data.positionIndices.size > position) {
+            val idx = if (position < data.positionIndices.size) {
                 data.positionIndices[position]
             } else {
                 data.habitGroups.size
             }
 
             data.habitGroups.add(idx, habitGroup)
-            data.subHabits.add(prevIdx, habitList)
+            data.subHabits.add(idx, habitList)
             data.scores[id] = newData.scores[id]!!
             for (h in habitList) {
                 data.scores[h.id] = newData.scores[h.id]!!
