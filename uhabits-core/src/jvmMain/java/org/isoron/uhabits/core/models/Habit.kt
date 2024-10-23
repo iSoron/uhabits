@@ -100,7 +100,10 @@ data class Habit(
         streaks.recompute(
             computedEntries,
             from,
-            to
+            to,
+            isNumerical,
+            targetValue,
+            targetType
         )
     }
 
