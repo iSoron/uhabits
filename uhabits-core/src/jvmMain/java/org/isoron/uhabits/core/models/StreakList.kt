@@ -37,12 +37,25 @@ class StreakList {
     fun recompute(
         computedEntries: EntryList,
         from: Timestamp,
-        to: Timestamp
+        to: Timestamp,
+        isNumerical: Boolean,
+        targetValue: Double,
+        targetType: NumericalHabitType
     ) {
         list.clear()
         val timestamps = computedEntries
             .getByInterval(from, to)
-            .filter { it.value > 0 }
+            .filter {
+                val value = it.value
+                if (isNumerical) {
+                    when (targetType) {
+                        NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
+                        NumericalHabitType.AT_MOST -> value != Entry.UNKNOWN && value / 1000.0 <= targetValue
+                    }
+                } else {
+                    value > 0
+                }
+            }
             .map { it.timestamp }
             .toTypedArray()
 
