@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.io
 
-import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
@@ -30,6 +29,7 @@ import java.io.IOException
 import java.nio.file.Files
 import java.util.*
 import java.util.zip.ZipFile
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class HabitsCSVExporterTest : BaseUnitTest() {
@@ -112,11 +112,14 @@ class HabitsCSVExporterTest : BaseUnitTest() {
         file.deleteOnExit()
         copyAssetToFile(assetFilename, file)
 
-        assertTrue(
-            FileUtils.contentEquals(
-                file,
-                File(String.format("%s/%s", baseDir.absolutePath, s))
-            )
-        )
+        val fileContent = normalizeLineEndings(file.readText())
+        val referenceFile = File(String.format("%s/%s", baseDir.absolutePath, s))
+        val referenceFileContent = normalizeLineEndings(referenceFile.readText())
+
+        assertEquals(fileContent, referenceFileContent)
+    }
+
+    private fun normalizeLineEndings(content: String): String {
+        return content.replace("\r\n", "\n")
     }
 }
