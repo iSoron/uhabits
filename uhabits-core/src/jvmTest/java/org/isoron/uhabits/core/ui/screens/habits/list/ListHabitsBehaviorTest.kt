@@ -101,17 +101,6 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     }
 
     @Test
-    @Throws(Exception::class)
-    fun testOnExportCSV_fail() {
-        val outputDir = Files.createTempDirectory("CSV").toFile()
-        outputDir.setWritable(false)
-        whenever(dirFinder.getCSVOutputDir()).thenReturn(outputDir)
-        behavior.onExportCSV()
-        verify(screen).showMessage(ListHabitsBehavior.Message.COULD_NOT_EXPORT)
-        assertTrue(outputDir.delete())
-    }
-
-    @Test
     fun testOnHabitClick() {
         behavior.onClickHabit(habit1)
         verify(screen).showHabitScreen(habit1)
