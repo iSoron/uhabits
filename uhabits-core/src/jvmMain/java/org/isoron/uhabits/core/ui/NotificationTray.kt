@@ -24,6 +24,7 @@ import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.Task
@@ -120,7 +121,7 @@ class NotificationTray @Inject constructor(
 
         override fun onPostExecute() {
             systemTray.log("Showing notification for habit=" + habit.id)
-            if (isCompleted) {
+            if (isCompleted && habit.targetType != NumericalHabitType.AT_MOST) {
                 systemTray.log(
                     String.format(
                         Locale.US,
