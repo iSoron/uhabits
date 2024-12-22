@@ -57,13 +57,33 @@ data class Habit(
 
     fun isCompletedToday(): Boolean {
         val today = DateUtils.getTodayWithOffset()
+        val startOfWeek = today.truncate(
+            DateUtils.TruncateField.WEEK_NUMBER,
+            DateUtils.getFirstWeekdayNumberAccordingToLocale()
+        )
+        var totalCompletedValue = 0
+        val entriesThisWeek = computedEntries.getByInterval(startOfWeek, today)
+
+        for(entry in entriesThisWeek){
+            totalCompletedValue += entry.value
+        }
+
         val value = computedEntries.get(today).value
-        return if (isNumerical) {
+        return if (isNumerical && frequency != Frequency.DAILY) {
+            when (targetType) {
+                NumericalHabitType.AT_LEAST -> totalCompletedValue / 1000.0 >= targetValue
+                NumericalHabitType.AT_MOST -> totalCompletedValue != Entry.UNKNOWN
+                        && value / 1000.0 <= targetValue
+            }
+        }
+        else if(isNumerical && frequency == Frequency.DAILY) {
             when (targetType) {
                 NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
-                NumericalHabitType.AT_MOST -> value != Entry.UNKNOWN && value / 1000.0 <= targetValue
+                NumericalHabitType.AT_MOST -> value != Entry.UNKNOWN
+                        && value / 1000.0 <= targetValue
             }
-        } else {
+        }
+        else {
             value != Entry.NO && value != Entry.UNKNOWN
         }
     }
