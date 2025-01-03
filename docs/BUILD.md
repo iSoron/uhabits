@@ -57,7 +57,7 @@ sudo apt-get install -y git openjdk-8-jdk-headless
 
 The Android SDK tools contains many necessary tools for developing and debugging Android applications. It can be obtained as part of Android Studio, but, for simple command line usage, it can also be downloaded individually.
 
-1. Download the file `sdk-tools-linux-4333796.zip` (or a newer version) from https://developer.android.com/studio/#downloads, and extract it somewhere. In this guide, we assume that it was extracted to `/opt/android-sdk/tools`; that is, the script `/opt/android-sdk/tools/bin/sdkmanager` should exist.
+1. Download the file `sdk-tools-linux-4333796.zip` (or a newer version) from <https://developer.android.com/studio/#downloads>, and extract it somewhere. In this guide, we assume that it was extracted to `/opt/android-sdk/tools`; that is, the script `/opt/android-sdk/tools/bin/sdkmanager` should exist.
 
 2. Append the following lines to `~/.profile`, so that other tools can locate your Android SDK installation. It is necessary to restart your terminal for these changes to take effect.
 ```
