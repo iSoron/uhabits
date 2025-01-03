@@ -1,13 +1,13 @@
 <h1 align="center">Loop Habit Tracker</h1>
 <p align="center">
   <a href="https://github.com/iSoron/uhabits/actions?query=workflow%3A%22Build+%26+Test%22">
-    <img src="https://github.com/iSoron/uhabits/workflows/Build%20&%20Test/badge.svg" />
+    <img alt="Build & Test" src="https://github.com/iSoron/uhabits/workflows/Build%20&%20Test/badge.svg" />
   </a>
   <a href="https://github.com/iSoron/uhabits/releases/latest">
-    <img src="https://img.shields.io/github/v/release/iSoron/uhabits" />
+    <img alt="release" src="https://img.shields.io/github/v/release/iSoron/uhabits" />
   </a>
   <a href="https://github.com/iSoron/uhabits/discussions">
-    <img src="https://img.shields.io/badge/GitHub-Discussions-%23fc4ebc" />
+    <img alt="GitHub" src="https://img.shields.io/badge/GitHub-Discussions-%23fc4ebc" />
   </a>
 </p>
 
@@ -85,7 +85,7 @@ contribute, even if you are not a software developer.
 
 ## License
 
-<img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
+<img align="right" alt="GPL v3" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
   Copyright (C) 2016-2021 Álinson Santos Xavier <isoron@gmail.com>
 
