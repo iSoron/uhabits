@@ -60,7 +60,7 @@ The Android SDK tools contains many necessary tools for developing and debugging
 1. Download the file `sdk-tools-linux-4333796.zip` (or a newer version) from <https://developer.android.com/studio/#downloads>, and extract it somewhere. In this guide, we assume that it was extracted to `/opt/android-sdk/tools`; that is, the script `/opt/android-sdk/tools/bin/sdkmanager` should exist.
 
 2. Append the following lines to `~/.profile`, so that other tools can locate your Android SDK installation. It is necessary to restart your terminal for these changes to take effect.
-```
+```bash
 export PATH="$PATH:/opt/android-sdk/tools/bin"
 export PATH="$PATH:/opt/android-sdk/platform-tools"
 export ANDROID_HOME="/opt/android-sdk"
