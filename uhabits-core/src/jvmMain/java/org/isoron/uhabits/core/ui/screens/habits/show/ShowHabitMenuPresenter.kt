@@ -64,6 +64,12 @@ class ShowHabitMenuPresenter(
         }
     }
 
+    fun onClearEntries() {
+        habit.originalEntries.clear()
+        habit.recompute()
+        screen.refresh()
+    }
+
     fun onRandomize() {
         val random = Random()
         habit.originalEntries.clear()

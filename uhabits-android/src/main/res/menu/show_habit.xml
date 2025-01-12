@@ -43,4 +43,9 @@
         android:visible="false"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_clearEntries"
+        android:title="@string/clear_entries"
+         app:showAsAction="never"/>
+
 </menu>

@@ -56,6 +56,10 @@ class ShowHabitMenu(
                 presenter.onExportCSV()
                 return true
             }
+            R.id.action_clearEntries -> {
+                presenter.onClearEntries()
+                return true
+            }
         }
         return false
     }
