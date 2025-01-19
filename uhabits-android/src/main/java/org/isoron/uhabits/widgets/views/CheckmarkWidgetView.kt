@@ -67,20 +67,45 @@ class CheckmarkWidgetView : HabitWidgetView {
         val bgColor: Int
         val fgColor: Int
         setShadowAlpha(0x4f)
-        when (entryState) {
-            YES_MANUAL, SKIP, YES_AUTO -> {
-                bgColor = activeColor
-                fgColor = res.getColor(R.attr.contrast0)
-                backgroundPaint!!.color = bgColor
-                frame!!.setBackgroundDrawable(background)
+        if (preferences!!.isCheckmarkWidgetColorInverted) {
+            when (entryState) {
+                YES_MANUAL, SKIP, YES_AUTO -> {
+                    bgColor = res.getColor(R.attr.cardBgColor)
+                    fgColor = res.getColor(R.attr.contrast60)
+                }
+
+                NO, UNKNOWN -> {
+                    bgColor = activeColor
+                    fgColor = res.getColor(R.attr.contrast0)
+                    backgroundPaint!!.color = bgColor
+                    frame!!.setBackgroundDrawable(background)
+                }
+
+                else -> {
+                    bgColor = activeColor
+                    fgColor = res.getColor(R.attr.contrast0)
+                    backgroundPaint!!.color = bgColor
+                    frame!!.setBackgroundDrawable(background)
+                }
             }
-            NO, UNKNOWN -> {
-                bgColor = res.getColor(R.attr.cardBgColor)
-                fgColor = res.getColor(R.attr.contrast60)
-            }
-            else -> {
-                bgColor = res.getColor(R.attr.cardBgColor)
-                fgColor = res.getColor(R.attr.contrast60)
+        } else {
+            when (entryState) {
+                YES_MANUAL, SKIP, YES_AUTO -> {
+                    bgColor = activeColor
+                    fgColor = res.getColor(R.attr.contrast0)
+                    backgroundPaint!!.color = bgColor
+                    frame!!.setBackgroundDrawable(background)
+                }
+
+                NO, UNKNOWN -> {
+                    bgColor = res.getColor(R.attr.cardBgColor)
+                    fgColor = res.getColor(R.attr.contrast60)
+                }
+
+                else -> {
+                    bgColor = res.getColor(R.attr.cardBgColor)
+                    fgColor = res.getColor(R.attr.contrast60)
+                }
             }
         }
         ring.setPercentage(percentage)

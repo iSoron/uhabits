@@ -81,6 +81,13 @@
                 android:title="@string/first_day_of_the_week"
                 app:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_inverse_checkmark_colors"
+            android:summary="@string/pref_inverse_checkmark_colors_description"
+            android:title="@string/pref_inverse_checkmark_colors_title"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

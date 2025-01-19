@@ -205,6 +205,13 @@ open class Preferences(private val storage: Storage) {
             for (l in listeners) l.onQuestionMarksChanged()
         }
 
+    var isCheckmarkWidgetColorInverted: Boolean
+        get() = storage.getBoolean("pref_inverse_checkmark_colors", false)
+        set(value) {
+            storage.putBoolean("pref_inverse_checkmark_colors", value)
+            for (l in listeners) l.onCheckmarkColorsChanged()
+        }
+
     /**
      * @return An integer representing the first day of the week. Sunday
      * corresponds to 1, Monday to 2, and so on, until Saturday, which is
@@ -237,6 +244,7 @@ open class Preferences(private val storage: Storage) {
         fun onCheckmarkSequenceChanged() {}
         fun onNotificationsChanged() {}
         fun onQuestionMarksChanged() {}
+        fun onCheckmarkColorsChanged() {}
     }
 
     interface Storage {

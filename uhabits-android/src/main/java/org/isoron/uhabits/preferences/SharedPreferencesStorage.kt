@@ -93,6 +93,8 @@ class SharedPreferencesStorage
             "pref_unknown_enabled" -> {
                 preferences.areQuestionMarksEnabled = getBoolean(key, false)
             }
+            "pref_inverse_checkmark_colors" ->
+                preferences.isCheckmarkWidgetColorInverted = getBoolean(key, false)
         }
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
