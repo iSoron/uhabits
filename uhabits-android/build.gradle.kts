@@ -53,7 +53,7 @@ android {
         targetSdk = 34
         // targetSdkPreview = "VanillaIceCream"
         applicationId = "org.isoron.uhabits"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.kaspersky.kaspresso.runner.KaspressoRunner"
     }
 
     signingConfigs {
@@ -117,6 +117,9 @@ dependencies {
     androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    androidTestImplementation("com.kaspersky.android-components:kaspresso:1.5.1")
+    androidTestImplementation("com.kaspersky.android-components:kaspresso-allure-support:1.5.1")
+    androidTestImplementation("com.kaspersky.android-components:kaspresso-compose-support:1.5.1")
     compileOnly("javax.annotation:jsr250-api:1.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("com.github.AppIntro:AppIntro:6.3.1")
