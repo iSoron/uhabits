@@ -22,7 +22,10 @@ class EspressoNewHabbitTests {
     @get:Rule
     val activityRule = ActivityScenarioRule(EditHabitActivity::class.java)
 
-
+    private fun checkAndTypeText(viewId: Int, text: String) { //чек элемента, инпут, чек инпута
+        onView(withId(viewId)).check(matches(isDisplayed())).perform(typeText(text))
+        onView(withId(viewId)).check(matches(withText(text)))
+    }
 
     @Test
     fun testCheckElemntsOnCreateHabbit() {
@@ -50,18 +53,12 @@ class EspressoNewHabbitTests {
         }
     }
 
-    private fun checkAndTypeText(viewId: Int, text: String) { //чек элемента, инпут, чек инпута
-        onView(withId(viewId)).check(matches(isDisplayed())).perform(typeText(text))
-        onView(withId(viewId)).check(matches(withText(text)))
-    }
 
     @Test
     fun testCheckInputCreateHabbit() {
        try {
             checkAndTypeText(R.id.nameInput, "Run")
-            onView(withId(R.id.nameInput)).check(matches(withText("Run")))
             checkAndTypeText(R.id.questionInput,"No")
-            onView(withId(R.id.questionInput)).check(matches(withText("No")))
             onView(withId(R.id.text_frequency_picker)).check(matches(withText("Frequency")))
             onView(withId(R.id.boolean_frequency_picker)).check(matches(isDisplayed())).perform(click())
             onView(withText("Every day")).check(matches(isDisplayed()))
@@ -87,9 +84,7 @@ class EspressoNewHabbitTests {
             onView(withId(R.id.done_button)).check(matches(isDisplayed())).perform(click())
             onView(withId(R.id.reminderTimePicker)).check(matches(withText("8:00 AM")))
             onView(withId(R.id.reminderDatePicker)).check(matches(withText("Any day of the week")))
-            onView(withId(R.id.notesInput)).check(matches(isDisplayed()))
-                .perform(typeText("Some notes")).check(matches(withText("Some notes")))
-            onView(withId(R.id.notesInput)).check(matches(withText("Some notes")))
+            checkAndTypeText(R.id.notesInput,"Some notes")
         } catch (e: Exception) {
             Log.e(
                 "Тест инпутов на экране создания привычки не пройден",
