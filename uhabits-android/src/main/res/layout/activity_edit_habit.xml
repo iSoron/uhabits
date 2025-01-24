@@ -146,6 +146,7 @@
                 <LinearLayout style="@style/FormInnerBox">
                     <TextView
                         style="@style/FormLabel"
+                        android:id="@+id/text_frequency_picker"
                         android:text="@string/frequency" />
                     <TextView
                         style="@style/FormDropdown"
