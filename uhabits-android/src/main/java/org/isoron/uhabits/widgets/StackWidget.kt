@@ -28,14 +28,20 @@ import android.view.View
 import android.widget.RemoteViews
 import org.isoron.platform.utils.StringUtils
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 
-class StackWidget(
+class StackWidget private constructor(
     context: Context,
     widgetId: Int,
     private val widgetType: StackWidgetType,
-    private val habits: List<Habit>,
-    stacked: Boolean = true
+    private val habits: List<Habit>?,
+    private val habitGroups: List<HabitGroup>?,
+    stacked: Boolean
 ) : BaseWidget(context, widgetId, stacked) {
+
+    constructor(context: Context, widgetId: Int, widgetType: StackWidgetType, habits: List<Habit>, stacked: Boolean = true) : this(context, widgetId, widgetType, habits, null, stacked)
+    constructor(context: Context, widgetId: Int, widgetType: StackWidgetType, habitGroups: List<HabitGroup>, stacked: Boolean = true, isHabitGroups: Boolean = false) : this(context, widgetId, widgetType, null, habitGroups, stacked)
+
     override val defaultHeight: Int = 0
     override val defaultWidth: Int = 0
 
@@ -55,7 +61,11 @@ class StackWidget(
         val remoteViews =
             RemoteViews(context.packageName, StackWidgetType.getStackWidgetLayoutId(widgetType))
         val serviceIntent = Intent(context, StackWidgetService::class.java)
-        val habitIds = StringUtils.joinLongs(habits.map { it.id!! }.toLongArray())
+        val habitIds = if (habits != null) {
+            StringUtils.joinLongs(habits.map { it.id!! }.toLongArray())
+        } else {
+            StringUtils.joinLongs(habitGroups!!.map { it.id!! }.toLongArray())
+        }
 
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
         serviceIntent.putExtra(StackWidgetService.WIDGET_TYPE, widgetType.value)
@@ -73,9 +83,14 @@ class StackWidget(
             StackWidgetType.getStackWidgetAdapterViewId(widgetType),
             StackWidgetType.getStackWidgetEmptyViewId(widgetType)
         )
+        val pendingIntentTemplate = if (habits != null) {
+            StackWidgetType.getPendingIntentTemplate(pendingIntentFactory, widgetType, habits)
+        } else {
+            StackWidgetType.getPendingIntentTemplate(pendingIntentFactory, widgetType, true)
+        }
         remoteViews.setPendingIntentTemplate(
             StackWidgetType.getStackWidgetAdapterViewId(widgetType),
-            StackWidgetType.getPendingIntentTemplate(pendingIntentFactory, widgetType, habits)
+            pendingIntentTemplate
         )
         return remoteViews
     }

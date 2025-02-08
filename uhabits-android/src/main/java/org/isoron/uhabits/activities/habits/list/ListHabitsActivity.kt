@@ -179,10 +179,20 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
             val habitId = intent.extras?.getLong("habit")
             val timestamp = intent.extras?.getLong("timestamp")
             if (habitId != null && timestamp != null) {
-                val habit = appComponent.habitList.getById(habitId)!!
+                val habit = appComponent.habitList.getById(habitId) ?: appComponent.habitGroupList.getHabitByID(habitId)!!
                 component.listHabitsBehavior.onEdit(habit, Timestamp(timestamp))
             }
         }
+        intent.getLongExtra("CLEAR_NOTIFICATION_HABIT_ID", -1).takeIf { it != -1L }?.let { id ->
+            val dismissHabit = appComponent.habitList.getById(id) ?: appComponent.habitGroupList.getHabitByID(id)
+            if (dismissHabit != null) {
+                appComponent.reminderController.onDismiss(dismissHabit)
+            } else {
+                val dismissHabitGroup = appComponent.habitGroupList.getById(id)!!
+                appComponent.reminderController.onDismiss(dismissHabitGroup)
+            }
+        }
+
         intent = null
     }
 

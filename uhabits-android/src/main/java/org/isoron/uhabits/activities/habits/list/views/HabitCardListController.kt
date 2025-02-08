@@ -50,12 +50,22 @@ class HabitCardListController @Inject constructor(
         if (from == to) return
         cancelSelection()
 
-        val habitFrom = adapter.getItem(from)
-        val habitTo = adapter.getItem(to)
-        if (habitFrom == null || habitTo == null) return
+        val habitFrom = adapter.getHabit(from)
+        val habitTo = adapter.getHabit(to)
+        if (habitFrom != null) {
+            if (habitTo != null) {
+                adapter.performReorder(from, to)
+                behavior.onReorderHabit(habitFrom, habitTo)
+            }
+            return
+        }
 
+        var hgrFrom = adapter.getHabitGroup(from)!!
+        if (hgrFrom.parent != null) hgrFrom = hgrFrom.parent!!
+        var hgrTo = adapter.getHabitGroup(to) ?: return
+        if (hgrTo.parent != null) hgrTo = hgrTo.parent!!
         adapter.performReorder(from, to)
-        behavior.onReorderHabit(habitFrom, habitTo)
+        behavior.onReorderHabitGroup(hgrFrom, hgrTo)
     }
 
     override fun onItemClick(position: Int) {
@@ -114,8 +124,15 @@ class HabitCardListController @Inject constructor(
      */
     internal inner class NormalMode : Mode {
         override fun onItemClick(position: Int) {
-            val habit = adapter.getItem(position) ?: return
-            behavior.onClickHabit(habit)
+            val habit = adapter.getHabit(position)
+            if (habit != null) {
+                behavior.onClickHabit(habit)
+            } else {
+                val hgr = adapter.getHabitGroup(position)
+                if (hgr != null) {
+                    behavior.onClickHabitGroup(hgr)
+                }
+            }
         }
 
         override fun onItemLongClick(position: Int): Boolean {

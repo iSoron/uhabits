@@ -55,7 +55,8 @@ class HabitCardViewFactory
     private val numberPanelFactory: NumberPanelViewFactory,
     private val behavior: ListHabitsBehavior
 ) {
-    fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
+    fun createHabitCard() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
+    fun createHabitGroupCard() = HabitGroupCardView(context, behavior)
 }
 
 class HabitCardView(
@@ -265,6 +266,15 @@ class HabitCardView(
         }
         scoreRing.apply {
             setColor(c)
+//            if (h.isSubHabit()) {
+            val rightMargin = dp(8f).toInt()
+            val ringSize = dp(15f).toInt()
+            val leftMargin = if (h.isSubHabit() == true) dp(30f).toInt() else dp(8f).toInt()
+            layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
+                setMargins(leftMargin, 0, rightMargin, 0)
+                gravity = Gravity.CENTER
+            }
+//            }
         }
         checkmarkPanel.apply {
             color = c

@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.preferences.Preferences
@@ -77,6 +78,45 @@ class ScoreCardPresenter(
 
             return ScoreCardState(
                 color = habit.color,
+                scores = scores,
+                bucketSize = bucketSize,
+                spinnerPosition = spinnerPosition,
+                theme = theme
+            )
+        }
+
+        fun buildState(
+            habitGroup: HabitGroup,
+            firstWeekday: Int,
+            spinnerPosition: Int,
+            theme: Theme
+        ): ScoreCardState {
+            val bucketSize = BUCKET_SIZES[spinnerPosition]
+            val today = DateUtils.getTodayWithOffset()
+            val oldest = if (habitGroup.habitList.isEmpty) {
+                today
+            } else {
+                habitGroup.habitList.minOf {
+                    it.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+                }
+            }
+
+            val field = getTruncateField(bucketSize)
+            val scores = habitGroup.scores.getByInterval(oldest, today).groupBy {
+                DateUtils.truncate(field, it.timestamp, firstWeekday)
+            }.map { (timestamp, scores) ->
+                Score(
+                    timestamp,
+                    scores.map {
+                        it.value
+                    }.average()
+                )
+            }.sortedBy {
+                it.timestamp
+            }.reversed()
+
+            return ScoreCardState(
+                color = habitGroup.color,
                 scores = scores,
                 bucketSize = bucketSize,
                 spinnerPosition = spinnerPosition,

@@ -35,6 +35,7 @@ import androidx.core.app.NotificationManagerCompat
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.NotificationTray
@@ -81,6 +82,34 @@ class AndroidNotificationTray
             )
             val n = buildNotification(
                 habit,
+                reminderTime,
+                timestamp,
+                disableSound = true
+            )
+            notificationManager.notify(notificationId, n)
+        }
+        active.add(notificationId)
+    }
+
+    override fun showNotification(
+        habitGroup: HabitGroup,
+        notificationId: Int,
+        timestamp: Timestamp,
+        reminderTime: Long
+    ) {
+        val notificationManager = NotificationManagerCompat.from(context)
+        val notification = buildNotification(habitGroup, reminderTime, timestamp)
+        createAndroidNotificationChannel(context)
+        try {
+            notificationManager.notify(notificationId, notification)
+        } catch (e: RuntimeException) {
+            // Some Xiaomi phones produce a RuntimeException if custom notification sounds are used.
+            Log.i(
+                "AndroidNotificationTray",
+                "Failed to show notification. Retrying without sound."
+            )
+            val n = buildNotification(
+                habitGroup,
                 reminderTime,
                 timestamp,
                 disableSound = true
@@ -154,6 +183,58 @@ class AndroidNotificationTray
                 R.drawable.ic_action_snooze,
                 context.getString(R.string.snooze),
                 pendingIntents.snoozeNotification(habit)
+            )
+            wearableExtender.addAction(snoozeAction)
+            builder.addAction(snoozeAction)
+        }
+
+        builder.extend(wearableExtender)
+        return builder.build()
+    }
+
+    fun buildNotification(
+        habitGroup: HabitGroup,
+        reminderTime: Long,
+        timestamp: Timestamp,
+        disableSound: Boolean = false
+    ): Notification {
+        val enterAction = Action(
+            R.drawable.ic_action_check,
+            context.getString(R.string.enter),
+            pendingIntents.showHabitListWithNotificationClear(habitGroup.id!!)
+        )
+
+        val wearableBg = decodeResource(context.resources, R.drawable.stripe)
+
+        // Even though the set of actions is the same on the phone and
+        // on the watch, Pebble requires us to add them to the
+        // WearableExtender.
+        val wearableExtender = WearableExtender().setBackground(wearableBg)
+
+        val defaultText = context.getString(R.string.default_reminder_question)
+        val builder = Builder(context, REMINDERS_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(habitGroup.name)
+            .setContentText(if (habitGroup.question.isBlank()) defaultText else habitGroup.question)
+            .setContentIntent(pendingIntents.showHabitGroup(habitGroup))
+            .setDeleteIntent(pendingIntents.dismissNotification(habitGroup))
+            .setSound(null)
+            .setWhen(reminderTime)
+            .setShowWhen(true)
+            .setOngoing(preferences.shouldMakeNotificationsSticky())
+
+        wearableExtender.addAction(enterAction)
+        builder.addAction(enterAction)
+
+        if (!disableSound) {
+            builder.setSound(ringtoneManager.getURI())
+        }
+
+        if (SDK_INT < Build.VERSION_CODES.S) {
+            val snoozeAction = Action(
+                R.drawable.ic_action_snooze,
+                context.getString(R.string.snooze),
+                pendingIntents.snoozeNotification(habitGroup)
             )
             wearableExtender.addAction(snoozeAction)
             builder.addAction(snoozeAction)

@@ -24,6 +24,7 @@ import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.io.GenericImporter
 import org.isoron.uhabits.core.io.Logging
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.preferences.Preferences
@@ -50,6 +51,7 @@ interface HabitsApplicationComponent {
     val genericImporter: GenericImporter
     val habitCardListCache: HabitCardListCache
     val habitList: HabitList
+    val habitGroupList: HabitGroupList
     val intentFactory: IntentFactory
     val intentParser: IntentParser
     val logging: Logging

@@ -27,8 +27,10 @@ class MemoryModelFactory : ModelFactory {
     override fun buildComputedEntries() = EntryList()
     override fun buildOriginalEntries() = EntryList()
     override fun buildHabitList() = MemoryHabitList()
+    override fun buildHabitGroupList() = MemoryHabitGroupList()
     override fun buildScoreList() = ScoreList()
     override fun buildStreakList() = StreakList()
     override fun buildHabitListRepository() = throw NotImplementedError()
     override fun buildRepetitionListRepository() = throw NotImplementedError()
+    override fun buildHabitGroupListRepository() = throw NotImplementedError()
 }

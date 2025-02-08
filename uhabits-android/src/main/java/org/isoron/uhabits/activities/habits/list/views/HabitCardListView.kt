@@ -36,6 +36,7 @@ import dagger.Lazy
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.BundleSavedState
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.inject.ActivityContext
 import javax.inject.Inject
 
@@ -62,8 +63,13 @@ class HabitCardListView(
         set(value) {
             field = value
             attachedHolders
-                .map { it.itemView as HabitCardView }
-                .forEach { it.dataOffset = value }
+                .forEach {
+                    if (it.itemView is HabitCardView) {
+                        (it.itemView as HabitCardView).dataOffset = value
+                    } else {
+                        (it.itemView as HabitGroupCardView).dataOffset = value
+                    }
+                }
         }
 
     private val attachedHolders = mutableListOf<HabitCardViewHolder>()
@@ -79,7 +85,11 @@ class HabitCardListView(
     }
 
     fun createHabitCardView(): HabitCardView {
-        return cardViewFactory.create()
+        return cardViewFactory.createHabitCard()
+    }
+
+    fun createHabitGroupCardView(): HabitGroupCardView {
+        return cardViewFactory.createHabitGroupCard()
     }
 
     fun bindCardView(
@@ -110,8 +120,28 @@ class HabitCardListView(
         return cardView
     }
 
+    fun bindGroupCardView(
+        holder: HabitCardViewHolder,
+        habitGroup: HabitGroup,
+        score: Double,
+        selected: Boolean
+    ): View {
+        val cardView = holder.itemView as HabitGroupCardView
+        cardView.habitGroup = habitGroup
+        cardView.isSelected = selected
+        cardView.score = score
+
+        val detector = GestureDetector(context, CardViewGestureDetector(holder))
+        cardView.setOnTouchListener { _, ev ->
+            detector.onTouchEvent(ev)
+            true
+        }
+
+        return cardView
+    }
+
     fun attachCardView(holder: HabitCardViewHolder) {
-        (holder.itemView as HabitCardView).dataOffset = dataOffset
+        (holder.itemView as? HabitCardView)?.dataOffset = dataOffset
         attachedHolders.add(holder)
     }
 

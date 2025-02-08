@@ -31,8 +31,10 @@ import android.net.Uri
 import android.os.Build
 import org.isoron.uhabits.activities.habits.list.ListHabitsActivity
 import org.isoron.uhabits.activities.habits.show.ShowHabitActivity
+import org.isoron.uhabits.activities.habits.show.ShowHabitGroupActivity
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.inject.AppContext
 import org.isoron.uhabits.receivers.ReminderReceiver
@@ -69,6 +71,17 @@ class PendingIntentFactory
             FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
+    fun dismissNotification(habitGroup: HabitGroup): PendingIntent =
+        getBroadcast(
+            context,
+            0,
+            Intent(context, ReminderReceiver::class.java).apply {
+                action = WidgetReceiver.ACTION_DISMISS_REMINDER
+                data = Uri.parse(habitGroup.uriString)
+            },
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
+
     fun removeRepetition(habit: Habit, timestamp: Timestamp?): PendingIntent =
         getBroadcast(
             context,
@@ -92,11 +105,31 @@ class PendingIntentFactory
             )
             .getPendingIntent(0, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)!!
 
+    fun showHabitGroup(habitGroup: HabitGroup): PendingIntent =
+        androidx.core.app.TaskStackBuilder
+            .create(context)
+            .addNextIntentWithParentStack(
+                intentFactory.startShowHabitGroupActivity(
+                    context,
+                    habitGroup
+                )
+            )
+            .getPendingIntent(0, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)!!
+
     fun showHabitTemplate(): PendingIntent {
         return getActivity(
             context,
             0,
             Intent(context, ShowHabitActivity::class.java),
+            getIntentTemplateFlags()
+        )
+    }
+
+    fun showHabitGroupTemplate(): PendingIntent {
+        return getActivity(
+            context,
+            0,
+            Intent(context, ShowHabitGroupActivity::class.java),
             getIntentTemplateFlags()
         )
     }
@@ -123,12 +156,40 @@ class PendingIntentFactory
             FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
         )
 
+    fun showReminder(
+        habitGroup: HabitGroup,
+        reminderTime: Long?,
+        timestamp: Long
+    ): PendingIntent =
+        getBroadcast(
+            context,
+            (habitGroup.id!! % Integer.MAX_VALUE).toInt() + 1,
+            Intent(context, ReminderReceiver::class.java).apply {
+                action = ReminderReceiver.ACTION_SHOW_REMINDER
+                data = Uri.parse(habitGroup.uriString)
+                putExtra("timestamp", timestamp)
+                putExtra("reminderTime", reminderTime)
+            },
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
+
     fun snoozeNotification(habit: Habit): PendingIntent =
         getBroadcast(
             context,
             0,
             Intent(context, ReminderReceiver::class.java).apply {
                 data = Uri.parse(habit.uriString)
+                action = ReminderReceiver.ACTION_SNOOZE_REMINDER
+            },
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
+
+    fun snoozeNotification(habitGroup: HabitGroup): PendingIntent =
+        getBroadcast(
+            context,
+            0,
+            Intent(context, ReminderReceiver::class.java).apply {
+                data = Uri.parse(habitGroup.uriString)
                 action = ReminderReceiver.ACTION_SNOOZE_REMINDER
             },
             FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
@@ -183,6 +244,26 @@ class PendingIntentFactory
     fun showNumberPickerFillIn(habit: Habit, timestamp: Timestamp) = Intent().apply {
         putExtra("habit", habit.id)
         putExtra("timestamp", timestamp.unixTime)
+    }
+
+    fun showHabitList(): PendingIntent {
+        return getActivity(
+            context,
+            1,
+            Intent(context, ListHabitsActivity::class.java),
+            getIntentTemplateFlags()
+        )
+    }
+
+    fun showHabitListWithNotificationClear(id: Long): PendingIntent {
+        return getActivity(
+            context,
+            0,
+            Intent(context, ListHabitsActivity::class.java).apply {
+                putExtra("CLEAR_NOTIFICATION_HABIT_ID", id)
+            },
+            getIntentTemplateFlags()
+        )
     }
 
     private fun getIntentTemplateFlags(): Int {

@@ -29,6 +29,15 @@ data class HabitMatcher(
         if (isReminderRequired && !habit.hasReminder()) return false
         if (!isCompletedAllowed && habit.isCompletedToday()) return false
         if (!isEnteredAllowed && habit.isEnteredToday()) return false
+        if (habit.collapsed) return false
+        return true
+    }
+
+    fun matches(habitGroup: HabitGroup): Boolean {
+        if (!isArchivedAllowed && habitGroup.isArchived) return false
+        if (isReminderRequired && !habitGroup.hasReminder()) return false
+        if (!isCompletedAllowed && habitGroup.isCompletedToday()) return false
+        if (!isEnteredAllowed && habitGroup.isEnteredToday()) return false
         return true
     }
 

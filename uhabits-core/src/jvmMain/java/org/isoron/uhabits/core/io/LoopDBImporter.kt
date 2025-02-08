@@ -22,15 +22,19 @@ import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.DATABASE_VERSION
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
+import org.isoron.uhabits.core.commands.CreateHabitGroupCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
+import org.isoron.uhabits.core.commands.EditHabitGroupCommand
 import org.isoron.uhabits.core.database.DatabaseOpener
 import org.isoron.uhabits.core.database.MigrationHelper
 import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.models.sqlite.records.HabitGroupRecord
 import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
 import org.isoron.uhabits.core.utils.isSQLite3File
 import java.io.File
@@ -42,6 +46,7 @@ import javax.inject.Inject
 class LoopDBImporter
 @Inject constructor(
     @AppScope val habitList: HabitList,
+    @AppScope val habitGroupList: HabitGroupList,
     @AppScope val modelFactory: ModelFactory,
     @AppScope val opener: DatabaseOpener,
     @AppScope val runner: CommandRunner,
@@ -74,26 +79,66 @@ class LoopDBImporter
         helper.migrateTo(DATABASE_VERSION)
 
         val habitsRepository = Repository(HabitRecord::class.java, db)
+        val habitGroupsRepository = Repository(HabitGroupRecord::class.java, db)
         val entryRepository = Repository(EntryRecord::class.java, db)
 
+        for (groupRecord in habitGroupsRepository.findAll("order by position")) {
+            var hgr = habitGroupList.getByUUID(groupRecord.uuid)
+
+            if (hgr == null) {
+                hgr = modelFactory.buildHabitGroup()
+                groupRecord.id = null
+                groupRecord.copyTo(hgr)
+                CreateHabitGroupCommand(modelFactory, habitGroupList, hgr).run()
+            } else {
+                val modified = modelFactory.buildHabitGroup()
+                groupRecord.id = hgr.id
+                groupRecord.copyTo(modified)
+                EditHabitGroupCommand(habitGroupList, hgr.id!!, modified).run()
+            }
+        }
+
         for (habitRecord in habitsRepository.findAll("order by position")) {
-            var habit = habitList.getByUUID(habitRecord.uuid)
+            var habit = habitList.getByUUID(habitRecord.uuid) ?: habitGroupList.getHabitByUUID(habitRecord.uuid)
             val entryRecords = entryRepository.findAll("where habit = ?", habitRecord.id.toString())
 
             if (habit == null) {
                 habit = modelFactory.buildHabit()
                 habitRecord.id = null
                 habitRecord.copyTo(habit)
-                CreateHabitCommand(modelFactory, habitList, habit).run()
+                val list = if (habit.groupId != null) {
+                    val hgr = habitGroupList.getByUUID(habit.groupUUID)
+                    if (hgr != null) {
+                        habit.group = hgr
+                        habit.groupId = hgr.id
+                        hgr.habitList
+                    } else {
+                        habit.group = null
+                        habit.groupId = null
+                        habit.groupUUID = null
+                        habitList
+                    }
+                } else {
+                    habitList
+                }
+                CreateHabitCommand(modelFactory, list, habit).run()
             } else {
                 val modified = modelFactory.buildHabit()
                 habitRecord.id = habit.id
                 habitRecord.copyTo(modified)
-                EditHabitCommand(habitList, habit.id!!, modified).run()
+                val list = if (habit.group != null) {
+                    modified.group = habit.group
+                    modified.groupId = habit.groupId
+                    modified.groupUUID = habit.groupUUID
+                    habit.group!!.habitList
+                } else {
+                    habitList
+                }
+                EditHabitCommand(list, habit.id!!, modified).run()
             }
 
             // Reload saved version of the habit
-            habit = habitList.getByUUID(habitRecord.uuid)!!
+            habit = habitList.getByUUID(habitRecord.uuid) ?: habitGroupList.getHabitByUUID(habitRecord.uuid)!!
             val entries = habit.originalEntries
 
             // Import entries
@@ -106,6 +151,9 @@ class LoopDBImporter
             }
             habit.recompute()
         }
+
+        habitGroupList.forEach { it.recompute() }
+        habitGroupList.resort()
         habitList.resort()
         db.close()
     }

@@ -20,8 +20,11 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.commands.RefreshParentGroupCommand
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
@@ -40,6 +43,7 @@ import kotlin.math.roundToInt
 
 open class ListHabitsBehavior @Inject constructor(
     private val habitList: HabitList,
+    private val habitGroupList: HabitGroupList,
     private val dirFinder: DirFinder,
     private val taskRunner: TaskRunner,
     private val screen: Screen,
@@ -51,7 +55,12 @@ open class ListHabitsBehavior @Inject constructor(
         screen.showHabitScreen(h)
     }
 
+    fun onClickHabitGroup(hgr: HabitGroup) {
+        screen.showHabitGroupScreen(hgr)
+    }
+
     fun onEdit(habit: Habit, timestamp: Timestamp?) {
+        val list = if (habit.isSubHabit()) habit.group!!.habitList else habitList
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
@@ -65,7 +74,8 @@ open class ListHabitsBehavior @Inject constructor(
                         screen.showConfetti(habit.color, x, y)
                     }
                 }
-                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
+                commandRunner.run(CreateRepetitionCommand(list, habit, timestamp, value, newNotes))
+                commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
             }
         } else {
             screen.showCheckmarkPopup(
@@ -74,7 +84,8 @@ open class ListHabitsBehavior @Inject constructor(
                 habit.color
             ) { newValue: Int, newNotes: String, x: Float, y: Float ->
                 if (newValue != entry.value && newValue == YES_MANUAL) screen.showConfetti(habit.color, x, y)
-                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
+                commandRunner.run(CreateRepetitionCommand(list, habit, timestamp, newValue, newNotes))
+                commandRunner.run(RefreshParentGroupCommand(habit, habitGroupList))
             }
         }
     }
@@ -103,7 +114,14 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onReorderHabit(from: Habit, to: Habit) {
-        taskRunner.execute { habitList.reorder(from, to) }
+        if (from.group == to.group) {
+            val list = from.group?.habitList ?: habitList
+            taskRunner.execute { list.reorder(from, to) }
+        }
+    }
+
+    fun onReorderHabitGroup(from: HabitGroup, to: HabitGroup) {
+        taskRunner.execute { habitGroupList.reorder(from, to) }
     }
 
     fun onRepairDB() {
@@ -130,8 +148,12 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String, x: Float, y: Float) {
+        val list = if (habit.isSubHabit()) habit.group!!.habitList else habitList
         commandRunner.run(
-            CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
+            CreateRepetitionCommand(list, habit, timestamp, value, notes)
+        )
+        commandRunner.run(
+            RefreshParentGroupCommand(habit, habitGroupList)
         )
         if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
     }
@@ -178,6 +200,7 @@ open class ListHabitsBehavior @Inject constructor(
 
     interface Screen {
         fun showHabitScreen(h: Habit)
+        fun showHabitGroupScreen(hgr: HabitGroup)
         fun showIntroScreen()
         fun showMessage(m: Message)
         fun showNumberPopup(

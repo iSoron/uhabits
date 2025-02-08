@@ -56,7 +56,7 @@ class ReminderSchedulerTest : BaseUnitTest() {
         habit = fixtures.createEmptyHabit()
         habit.id = habitId
         reminderScheduler =
-            ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
+            ReminderScheduler(commandRunner, habitList, habitGroupList, sys, widgetPreferences)
         setFixedTimeZone(TimeZone.getTimeZone("GMT-4"))
     }
 

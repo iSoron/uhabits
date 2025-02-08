@@ -79,6 +79,10 @@ class HabitsApplication : Application() {
         val habitList = component.habitList
         for (h in habitList) h.recompute()
 
+        val habitGroupList = component.habitGroupList
+        for (hgr in habitGroupList) hgr.recompute()
+        habitGroupList.attachHabitsToGroups()
+
         widgetUpdater = component.widgetUpdater.apply {
             startListening()
             scheduleStartDayWidgetUpdate()

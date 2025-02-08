@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.ScoreList
 import org.isoron.uhabits.core.models.StreakList
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.models.sqlite.records.HabitGroupRecord
 import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
 import javax.inject.Inject
 
@@ -38,6 +39,8 @@ class SQLModelFactory
     override fun buildOriginalEntries() = SQLiteEntryList(database)
     override fun buildComputedEntries() = EntryList()
     override fun buildHabitList() = SQLiteHabitList(this)
+    override fun buildHabitGroupList() = SQLiteHabitGroupList(this)
+
     override fun buildScoreList() = ScoreList()
     override fun buildStreakList() = StreakList()
 
@@ -46,4 +49,7 @@ class SQLModelFactory
 
     override fun buildRepetitionListRepository() =
         Repository(EntryRecord::class.java, database)
+
+    override fun buildHabitGroupListRepository() =
+        Repository(HabitGroupRecord::class.java, database)
 }

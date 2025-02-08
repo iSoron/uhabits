@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.activities.habits.show
 
-import android.content.ContentUris
 import android.os.Bundle
 import android.view.HapticFeedbackConstants
 import android.view.Menu
@@ -75,8 +74,15 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         super.onCreate(savedInstanceState)
 
         val appComponent = (applicationContext as HabitsApplication).component
-        val habitList = appComponent.habitList
-        habit = habitList.getById(ContentUris.parseId(intent.data!!))!!
+        val habitGroupList = appComponent.habitGroupList
+        val groupId = intent.getLongExtra("groupId", -1L)
+        val habitList = if (groupId > 0) {
+            habitGroupList.getById(groupId)!!.habitList
+        } else {
+            appComponent.habitList
+        }
+        val id = intent.getLongExtra("habitId", -1L)
+        habit = habitList.getById(id)!!
         preferences = appComponent.preferences
         commandRunner = appComponent.commandRunner
         widgetUpdater = appComponent.widgetUpdater

@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
@@ -52,6 +53,18 @@ class SubtitleCardPresenter {
             targetValue = habit.targetValue,
             targetType = habit.targetType,
             unit = habit.unit,
+            theme = theme
+        )
+
+        fun buildState(
+            habitGroup: HabitGroup,
+            theme: Theme
+        ): SubtitleCardState = SubtitleCardState(
+            color = habitGroup.color,
+            frequency = Frequency.DAILY,
+            isNumerical = false,
+            question = habitGroup.question,
+            reminder = habitGroup.reminder,
             theme = theme
         )
     }

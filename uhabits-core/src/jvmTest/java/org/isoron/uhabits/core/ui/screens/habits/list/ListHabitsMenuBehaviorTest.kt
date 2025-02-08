@@ -176,4 +176,10 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         verify(themeSwitcher).toggleNightMode()
         verify(screen).applyTheme()
     }
+
+    @Test
+    fun testOnCreateSubHabit() {
+        behavior.onCreateHabit(0L)
+        verify(screen).showSelectHabitTypeDialog(0L)
+    }
 }

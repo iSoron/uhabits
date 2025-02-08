@@ -25,32 +25,51 @@ import android.view.View
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.activities.common.views.FrequencyChart
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
+import org.isoron.uhabits.core.ui.screens.habits.show.views.FrequencyCardPresenter
 import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
-class FrequencyWidget(
+class FrequencyWidget private constructor(
     context: Context,
     widgetId: Int,
-    private val habit: Habit,
+    private val habit: Habit?,
+    private val habitGroup: HabitGroup?,
     private val firstWeekday: Int,
-    stacked: Boolean = false
+    stacked: Boolean
 ) : BaseWidget(context, widgetId, stacked) {
+
+    constructor(context: Context, widgetId: Int, habit: Habit, firstWeekday: Int, stacked: Boolean = false) : this(context, widgetId, habit, null, firstWeekday, stacked)
+    constructor(context: Context, widgetId: Int, habitGroup: HabitGroup, firstWeekday: Int, stacked: Boolean = false) : this(context, widgetId, null, habitGroup, firstWeekday, stacked)
+
     override val defaultHeight: Int = 200
     override val defaultWidth: Int = 200
 
-    override fun getOnClickPendingIntent(context: Context): PendingIntent =
-        pendingIntentFactory.showHabit(habit)
+    override fun getOnClickPendingIntent(context: Context): PendingIntent {
+        return if (habit != null) {
+            pendingIntentFactory.showHabit(habit)
+        } else {
+            pendingIntentFactory.showHabitGroup(habitGroup!!)
+        }
+    }
 
     override fun refreshData(v: View) {
         val widgetView = v as GraphWidgetView
-        widgetView.setTitle(habit.name)
+        widgetView.setTitle(habit?.name ?: habitGroup!!.name)
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
+        val color = habit?.color ?: habitGroup!!.color
+        val isNumerical = habit?.isNumerical ?: true
+        val frequency = if (habit != null) {
+            habit.originalEntries.computeWeekdayFrequency(habit.isNumerical)
+        } else {
+            FrequencyCardPresenter.getFrequenciesFromHabitGroup(habitGroup!!)
+        }
         (widgetView.dataView as FrequencyChart).apply {
             setFirstWeekday(firstWeekday)
-            setColor(WidgetTheme().color(habit.color).toInt())
-            setIsNumerical(habit.isNumerical)
-            setFrequency(habit.originalEntries.computeWeekdayFrequency(habit.isNumerical))
+            setColor(WidgetTheme().color(color).toInt())
+            setIsNumerical(isNumerical)
+            setFrequency(frequency)
         }
     }
 

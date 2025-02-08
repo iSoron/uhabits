@@ -22,13 +22,14 @@ import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.Task
 import org.isoron.uhabits.core.tasks.TaskRunner
-import java.util.HashMap
 import java.util.Locale
 import java.util.Objects
 import javax.inject.Inject
@@ -40,11 +41,18 @@ class NotificationTray @Inject constructor(
     private val preferences: Preferences,
     private val systemTray: SystemTray
 ) : CommandRunner.Listener, Preferences.Listener {
-    private val active: HashMap<Habit, NotificationData> = HashMap()
+    private val activeHabits: HashMap<Habit, NotificationData> = HashMap()
+    private val activeHabitGroups: HashMap<HabitGroup, NotificationData> = HashMap()
     fun cancel(habit: Habit) {
         val notificationId = getNotificationId(habit)
         systemTray.removeNotification(notificationId)
-        active.remove(habit)
+        activeHabits.remove(habit)
+    }
+
+    fun cancel(habitGroup: HabitGroup) {
+        val notificationId = getNotificationId(habitGroup)
+        systemTray.removeNotification(notificationId)
+        activeHabitGroups.remove(habitGroup)
     }
 
     override fun onCommandFinished(command: Command) {
@@ -56,6 +64,13 @@ class NotificationTray @Inject constructor(
             val (_, deleted) = command
             for (habit in deleted) cancel(habit)
         }
+        if (command is DeleteHabitGroupsCommand) {
+            val (_, deletedGroups) = command
+            for (hgr in deletedGroups) {
+                for (h in hgr.habitList) cancel(h)
+                cancel(hgr)
+            }
+        }
     }
 
     override fun onNotificationsChanged() {
@@ -64,8 +79,14 @@ class NotificationTray @Inject constructor(
 
     fun show(habit: Habit, timestamp: Timestamp, reminderTime: Long) {
         val data = NotificationData(timestamp, reminderTime)
-        active[habit] = data
+        activeHabits[habit] = data
         taskRunner.execute(ShowNotificationTask(habit, data))
+    }
+
+    fun show(habitGroup: HabitGroup, timestamp: Timestamp, reminderTime: Long) {
+        val data = NotificationData(timestamp, reminderTime)
+        activeHabitGroups[habitGroup] = data
+        taskRunner.execute(ShowNotificationTask(habitGroup, data))
     }
 
     fun startListening() {
@@ -83,15 +104,29 @@ class NotificationTray @Inject constructor(
         return (id % Int.MAX_VALUE).toInt()
     }
 
+    private fun getNotificationId(habitGroup: HabitGroup): Int {
+        val id = habitGroup.id ?: return 0
+        return (id % Int.MAX_VALUE).toInt()
+    }
+
     private fun reshowAll() {
-        for ((habit, data) in active.entries) {
+        for ((habit, data) in activeHabits.entries) {
             taskRunner.execute(ShowNotificationTask(habit, data))
+        }
+        for ((habitGroup, data) in activeHabitGroups.entries) {
+            taskRunner.execute(ShowNotificationTask(habitGroup, data))
         }
     }
 
     fun reshow(habit: Habit) {
-        active[habit]?.let {
+        activeHabits[habit]?.let {
             taskRunner.execute(ShowNotificationTask(habit, it))
+        }
+    }
+
+    fun reshow(habitGroup: HabitGroup) {
+        activeHabitGroups[habitGroup]?.let {
+            taskRunner.execute(ShowNotificationTask(habitGroup, it))
         }
     }
 
@@ -104,48 +139,79 @@ class NotificationTray @Inject constructor(
             reminderTime: Long
         )
 
+        fun showNotification(
+            habitGroup: HabitGroup,
+            notificationId: Int,
+            timestamp: Timestamp,
+            reminderTime: Long
+        )
+
         fun log(msg: String)
     }
 
     internal class NotificationData(val timestamp: Timestamp, val reminderTime: Long)
-    private inner class ShowNotificationTask(private val habit: Habit, data: NotificationData) :
-        Task {
+    private inner class ShowNotificationTask private constructor(
+        private val habit: Habit? = null,
+        private val habitGroup: HabitGroup? = null,
+        data: NotificationData
+    ) : Task {
+        // Secondary constructor for Habit
+        constructor(habit: Habit, data: NotificationData) : this(habit, null, data)
+
+        // Secondary constructor for HabitGroup
+        constructor(habitGroup: HabitGroup, data: NotificationData) : this(null, habitGroup, data)
+
         var isCompleted = false
         private val timestamp: Timestamp = data.timestamp
         private val reminderTime: Long = data.reminderTime
 
+        private val type = if (habit != null) "habit" else "habitgroup"
+        private val id = habit?.id ?: habitGroup?.id
+        private val hasReminder = habit?.hasReminder() ?: habitGroup!!.hasReminder()
+        private val isArchived = habit?.isArchived ?: habitGroup!!.isArchived
+
         override fun doInBackground() {
-            isCompleted = habit.isCompletedToday()
+            isCompleted = habit?.isCompletedToday() ?: habitGroup!!.isCompletedToday()
         }
 
         override fun onPostExecute() {
-            systemTray.log("Showing notification for habit=" + habit.id)
+            systemTray.log(
+                String.format(
+                    Locale.US,
+                    "Showing notification for %s=%d",
+                    type,
+                    id
+                )
+            )
             if (isCompleted) {
                 systemTray.log(
                     String.format(
                         Locale.US,
-                        "Habit %d already checked. Skipping.",
-                        habit.id
+                        "%s %d already checked. Skipping.",
+                        type,
+                        id
                     )
                 )
                 return
             }
-            if (!habit.hasReminder()) {
+            if (!hasReminder) {
                 systemTray.log(
                     String.format(
                         Locale.US,
-                        "Habit %d does not have a reminder. Skipping.",
-                        habit.id
+                        "%s %d does not have a reminder. Skipping.",
+                        type,
+                        id
                     )
                 )
                 return
             }
-            if (habit.isArchived) {
+            if (isArchived) {
                 systemTray.log(
                     String.format(
                         Locale.US,
-                        "Habit %d is archived. Skipping.",
-                        habit.id
+                        "%s %d is archived. Skipping.",
+                        type,
+                        id
                     )
                 )
                 return
@@ -154,23 +220,33 @@ class NotificationTray @Inject constructor(
                 systemTray.log(
                     String.format(
                         Locale.US,
-                        "Habit %d not supposed to run today. Skipping.",
-                        habit.id
+                        "%s %d not supposed to run today. Skipping.",
+                        type,
+                        id
                     )
                 )
                 return
             }
-            systemTray.showNotification(
-                habit,
-                getNotificationId(habit),
-                timestamp,
-                reminderTime
-            )
+            if (habit != null) {
+                systemTray.showNotification(
+                    habit,
+                    getNotificationId(habit),
+                    timestamp,
+                    reminderTime
+                )
+            } else {
+                systemTray.showNotification(
+                    habitGroup!!,
+                    getNotificationId(habitGroup),
+                    timestamp,
+                    reminderTime
+                )
+            }
         }
 
         private fun shouldShowReminderToday(): Boolean {
-            if (!habit.hasReminder()) return false
-            val reminder = habit.reminder
+            if (!hasReminder) return false
+            val reminder = habit?.reminder ?: habitGroup!!.reminder
             val reminderDays = Objects.requireNonNull(reminder)!!.days.toArray()
             val weekday = timestamp.weekday
             return reminderDays[weekday]

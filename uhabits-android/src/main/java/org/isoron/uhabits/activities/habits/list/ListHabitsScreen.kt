@@ -41,10 +41,12 @@ import org.isoron.uhabits.core.commands.ChangeHabitColorCommand
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
+import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
@@ -164,8 +166,8 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
-    override fun showSelectHabitTypeDialog() {
-        val dialog = HabitTypeDialog()
+    override fun showSelectHabitTypeDialog(groupId: Long?) {
+        val dialog = HabitTypeDialog(groupId)
         dialog.show(activity.supportFragmentManager, "habitType")
     }
 
@@ -178,6 +180,16 @@ class ListHabitsScreen
         activity.startActivity(intent)
     }
 
+    override fun showEditHabitGroupScreen(selected: List<HabitGroup>) {
+        val intent = intentFactory.startEditGroupActivity(activity, selected[0])
+        activity.startActivity(intent)
+    }
+
+    override fun showHabitGroupPickerDialog(selected: List<Habit>) {
+        val intent = intentFactory.startHabitGroupPickerActivity(activity, selected)
+        activity.startActivity(intent)
+    }
+
     override fun showFAQScreen() {
         val intent = intentFactory.viewFAQ(activity)
         activity.startActivity(intent)
@@ -185,6 +197,11 @@ class ListHabitsScreen
 
     override fun showHabitScreen(h: Habit) {
         val intent = intentFactory.startShowHabitActivity(activity, h)
+        activity.startActivity(intent)
+    }
+
+    override fun showHabitGroupScreen(hgr: HabitGroup) {
+        val intent = intentFactory.startShowHabitGroupActivity(activity, hgr)
         activity.startActivity(intent)
     }
 
@@ -307,6 +324,12 @@ class ListHabitsScreen
                 return activity.resources.getString(R.string.toast_habit_created)
             }
             is DeleteHabitsCommand -> {
+                return activity.resources.getQuantityString(
+                    R.plurals.toast_habits_deleted,
+                    command.selected.size
+                )
+            }
+            is DeleteHabitGroupsCommand -> {
                 return activity.resources.getQuantityString(
                     R.plurals.toast_habits_deleted,
                     command.selected.size

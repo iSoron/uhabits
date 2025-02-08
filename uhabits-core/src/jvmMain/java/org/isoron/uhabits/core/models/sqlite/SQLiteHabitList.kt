@@ -37,15 +37,23 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     private fun loadRecords() {
         if (loaded) return
         loaded = true
+        list.groupId = this.groupId
         list.removeAll()
-        val records = repository.findAll("order by position")
+        val records = repository.findAll("order by group_id, position")
         var shouldRebuildOrder = false
-        for ((expectedPosition, rec) in records.withIndex()) {
+        var currentGroup: Long? = null
+        var expectedPosition = 0
+        for (rec in records) {
+            if (currentGroup != rec.groupId) {
+                currentGroup = rec.groupId
+                expectedPosition = 0
+            }
             if (rec.position != expectedPosition) shouldRebuildOrder = true
             val h = modelFactory.buildHabit()
             rec.copyTo(h)
             (h.originalEntries as SQLiteEntryList).habitId = h.id
-            list.add(h)
+            if (h.groupId == list.groupId) list.add(h)
+            expectedPosition++
         }
         if (shouldRebuildOrder) rebuildOrder()
     }
@@ -54,12 +62,45 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     override fun add(habit: Habit) {
         loadRecords()
         habit.position = size()
+        habit.id = repository.getNextAvailableId("habitandgroup")
+        val record = HabitRecord()
+        record.copyFrom(habit)
+        repository.save(record)
+        (habit.originalEntries as SQLiteEntryList).habitId = record.id
+        list.add(habit)
+        observable.notifyListeners()
+    }
+
+    @Synchronized
+    private fun rebuildOrder() {
+        val records = repository.findAll("order by group_id, position")
+        repository.executeAsTransaction {
+            var currentGroup: Long? = null
+            var expectedPosition = 0
+            for (r in records) {
+                if (currentGroup != r.groupId) {
+                    currentGroup = r.groupId
+                    expectedPosition = 0
+                }
+                if (r.position != expectedPosition) {
+                    r.position = expectedPosition
+                    repository.save(r)
+                }
+                expectedPosition++
+            }
+        }
+    }
+
+    @Synchronized
+    override fun add(position: Int, habit: Habit) {
+        loadRecords()
+        habit.position = size()
         val record = HabitRecord()
         record.copyFrom(habit)
         repository.save(record)
         habit.id = record.id
         (habit.originalEntries as SQLiteEntryList).habitId = record.id
-        list.add(habit)
+        list.add(position, habit)
         observable.notifyListeners()
     }
 
@@ -103,6 +144,12 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
             observable.notifyListeners()
         }
 
+    override var collapsed: Boolean = list.collapsed
+        set(value) {
+            field = value
+            list.collapsed = value
+        }
+
     @Synchronized
     override fun indexOf(h: Habit): Int {
         loadRecords()
@@ -113,19 +160,6 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
     override fun iterator(): Iterator<Habit> {
         loadRecords()
         return list.iterator()
-    }
-
-    @Synchronized
-    private fun rebuildOrder() {
-        val records = repository.findAll("order by position")
-        repository.executeAsTransaction {
-            for ((pos, r) in records.withIndex()) {
-                if (r.position != pos) {
-                    r.position = pos
-                    repository.save(r)
-                }
-            }
-        }
     }
 
     @Synchronized
@@ -141,6 +175,12 @@ class SQLiteHabitList @Inject constructor(private val modelFactory: ModelFactory
         }
         rebuildOrder()
         observable.notifyListeners()
+    }
+
+    @Synchronized
+    override fun removeAt(position: Int) {
+        loadRecords()
+        list.removeAt(position)
     }
 
     @Synchronized

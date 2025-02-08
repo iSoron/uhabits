@@ -24,6 +24,8 @@ import org.hamcrest.core.IsEqual.equalTo
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
@@ -51,8 +53,11 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     private val screen: ListHabitsBehavior.Screen = mock()
     private lateinit var habit1: Habit
     private lateinit var habit2: Habit
+    private lateinit var hgr1: HabitGroup
+    private lateinit var hgr2: HabitGroup
 
     var picker: KArgumentCaptor<ListHabitsBehavior.NumberPickerCallback> = argumentCaptor()
+    var picker2: KArgumentCaptor<ListHabitsBehavior.CheckMarkDialogCallback> = argumentCaptor()
 
     private val bugReporter: ListHabitsBehavior.BugReporter = mock()
 
@@ -62,11 +67,17 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
         super.setUp()
         habit1 = fixtures.createShortHabit()
         habit2 = fixtures.createNumericalHabit()
+        hgr1 = groupFixtures.createGroupWithShortHabits(id = 2L)
+        hgr2 = groupFixtures.createGroupWithNumericalHabits(id = 4L)
         habitList.add(habit1)
         habitList.add(habit2)
+        habitGroupList.add(hgr1)
+        habitGroupList.add(hgr2)
         clearInvocations(habitList)
+        clearInvocations(habitGroupList)
         behavior = ListHabitsBehavior(
             habitList,
+            habitGroupList,
             dirFinder,
             taskRunner,
             screen,
@@ -87,6 +98,20 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
         picker.lastValue.onNumberPicked(100.0, "", 0f, 0f)
         val today = getTodayWithOffset()
         assertThat(habit2.computedEntries.get(today).value, equalTo(100000))
+    }
+
+    @Test
+    fun testOnEditBoolean() {
+        behavior.onEdit(habit1, getToday())
+        verify(screen).showCheckmarkPopup(
+            eq(2),
+            eq(""),
+            eq(PaletteColor(8)),
+            picker2.capture()
+        )
+        picker2.lastValue.onNotesSaved(2, "", 0f, 0f)
+        val today = getTodayWithOffset()
+        assertThat(habit1.computedEntries.get(today).value, equalTo(2))
     }
 
     @Test
@@ -118,11 +143,25 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     }
 
     @Test
+    fun testOnHabitGroupClick() {
+        behavior.onClickHabitGroup(hgr1)
+        verify(screen).showHabitGroupScreen(hgr1)
+    }
+
+    @Test
     fun testOnHabitReorder() {
         val from = habit1
         val to = habit2
         behavior.onReorderHabit(from, to)
         verify(habitList).reorder(from, to)
+    }
+
+    @Test
+    fun testOnHabitGroupReorder() {
+        val from = hgr1
+        val to = hgr2
+        behavior.onReorderHabitGroup(from, to)
+        verify(habitGroupList).reorder(from, to)
     }
 
     @Test

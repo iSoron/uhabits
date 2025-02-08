@@ -25,10 +25,14 @@ import android.net.Uri
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.about.AboutActivity
 import org.isoron.uhabits.activities.habits.edit.EditHabitActivity
+import org.isoron.uhabits.activities.habits.edit.EditHabitGroupActivity
+import org.isoron.uhabits.activities.habits.list.HabitGroupPickerDialog
 import org.isoron.uhabits.activities.habits.show.ShowHabitActivity
+import org.isoron.uhabits.activities.habits.show.ShowHabitGroupActivity
 import org.isoron.uhabits.activities.intro.IntroActivity
 import org.isoron.uhabits.activities.settings.SettingsActivity
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import javax.inject.Inject
 
 class IntentFactory
@@ -60,9 +64,16 @@ class IntentFactory
     fun startSettingsActivity(context: Context) =
         Intent(context, SettingsActivity::class.java)
 
-    fun startShowHabitActivity(context: Context, habit: Habit) =
-        Intent(context, ShowHabitActivity::class.java).apply {
-            data = Uri.parse(habit.uriString)
+    fun startShowHabitActivity(context: Context, habit: Habit): Intent {
+        val intent = Intent(context, ShowHabitActivity::class.java)
+        intent.putExtra("habitId", habit.id)
+        intent.putExtra("groupId", habit.groupId)
+        return intent
+    }
+
+    fun startShowHabitGroupActivity(context: Context, habitGroup: HabitGroup) =
+        Intent(context, ShowHabitGroupActivity::class.java).apply {
+            data = Uri.parse(habitGroup.uriString)
         }
 
     fun viewFAQ(context: Context) =
@@ -92,12 +103,33 @@ class IntentFactory
         val intent = startEditActivity(context)
         intent.putExtra("habitId", habit.id)
         intent.putExtra("habitType", habit.type)
+        if (habit.groupId != null) intent.putExtra("groupId", habit.groupId)
         return intent
     }
 
-    fun startEditActivity(context: Context, habitType: Int): Intent {
+    fun startEditActivity(context: Context, habitType: Int, groupId: Long?): Intent {
         val intent = startEditActivity(context)
         intent.putExtra("habitType", habitType)
+        if (groupId != null) {
+            intent.putExtra("groupId", groupId)
+        }
+        return intent
+    }
+
+    fun startEditGroupActivity(context: Context): Intent {
+        return Intent(context, EditHabitGroupActivity::class.java)
+    }
+
+    fun startEditGroupActivity(context: Context, habitGroup: HabitGroup): Intent {
+        val intent = startEditGroupActivity(context)
+        intent.putExtra("habitGroupId", habitGroup.id)
+        return intent
+    }
+
+    fun startHabitGroupPickerActivity(context: Context, selected: List<Habit>): Intent {
+        val intent = Intent(context, HabitGroupPickerDialog::class.java)
+        val ids = selected.map { it.id!! }.toLongArray()
+        intent.putExtra("selected", ids)
         return intent
     }
 }

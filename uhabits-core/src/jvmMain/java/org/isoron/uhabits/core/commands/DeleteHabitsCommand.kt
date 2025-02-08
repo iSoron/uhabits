@@ -19,6 +19,7 @@
 package org.isoron.uhabits.core.commands
 
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitList
 
 data class DeleteHabitsCommand(
@@ -26,6 +27,13 @@ data class DeleteHabitsCommand(
     val selected: List<Habit>
 ) : Command {
     override fun run() {
-        for (h in selected) habitList.remove(h)
+        for (h in selected) {
+            if (!h.isSubHabit()) {
+                habitList.remove(h)
+            } else {
+                val list = (h.group as HabitGroup).habitList
+                list.remove(h)
+            }
+        }
     }
 }

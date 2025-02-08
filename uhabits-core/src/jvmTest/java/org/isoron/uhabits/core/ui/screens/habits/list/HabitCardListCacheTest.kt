@@ -22,29 +22,45 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.reset
+import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoMoreInteractions
 
 class HabitCardListCacheTest : BaseUnitTest() {
     private lateinit var cache: HabitCardListCache
     private lateinit var listener: HabitCardListCache.Listener
-    var today = getToday()
+    lateinit var today: Timestamp
 
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
+        today = getToday()
         habitList.removeAll()
         for (i in 0..9) {
             if (i == 3) habitList.add(fixtures.createLongHabit()) else habitList.add(fixtures.createShortHabit())
         }
-        cache = HabitCardListCache(habitList, commandRunner, taskRunner, mock())
+        habitGroupList.removeAll()
+        for (i in 0..2) {
+            habitGroupList.add(groupFixtures.createEmptyHabitGroup(id = 10L + i.toLong()))
+        }
+        cache = HabitCardListCache(habitList, habitGroupList, commandRunner, taskRunner, mock())
         cache.setCheckmarkCount(10)
+        cache.refreshAllHabits()
+        val hgr = habitGroupList.getByPosition(2)
+        val h = fixtures.createShortHabit()
+        hgr.habitList.add(h)
+        h.id = 13L
+        h.groupId = hgr.id
+        h.group = hgr
+        h.groupUUID = hgr.uuid
         cache.refreshAllHabits()
         cache.onAttached()
         listener = mock()
@@ -56,7 +72,7 @@ class HabitCardListCacheTest : BaseUnitTest() {
     }
 
     @Test
-    fun testCommandListener_all() {
+    fun testCommandListener_delete_habit() {
         assertThat(cache.habitCount, equalTo(10))
         val h = habitList.getByPosition(0)
         commandRunner.run(
@@ -68,10 +84,44 @@ class HabitCardListCacheTest : BaseUnitTest() {
     }
 
     @Test
+    fun testCommandListener_delete_hgr() {
+        assertThat(cache.habitGroupCount, equalTo(3))
+        assertThat(cache.subHabitCount, equalTo(1))
+        val hgr = habitGroupList.getByPosition(0)
+        commandRunner.run(
+            DeleteHabitGroupsCommand(habitGroupList, listOf(hgr))
+        )
+        verify(listener).onItemRemoved(10)
+        verify(listener).onRefreshFinished()
+        assertThat(cache.habitGroupCount, equalTo(2))
+        assertThat(cache.subHabitCount, equalTo(1))
+
+        val hgr2 = habitGroupList.getByPosition(1)
+        commandRunner.run(
+            DeleteHabitGroupsCommand(habitGroupList, listOf(hgr2))
+        )
+        verify(listener).onItemRemoved(11)
+        verify(listener).onItemRemoved(12)
+        verify(listener, times(2)).onRefreshFinished()
+        assertThat(cache.habitGroupCount, equalTo(1))
+        assertThat(cache.subHabitCount, equalTo(0))
+    }
+
+    @Test
     fun testCommandListener_single() {
         val h2 = habitList.getByPosition(2)
         commandRunner.run(CreateRepetitionCommand(habitList, h2, today, Entry.NO, ""))
         verify(listener).onItemChanged(2)
+        verify(listener).onRefreshFinished()
+        verifyNoMoreInteractions(listener)
+    }
+
+    @Test
+    fun testCommandListener_single_sub_habit() {
+        val hgr2 = habitGroupList.getByPosition(2)
+        val h2 = hgr2.habitList.getByPosition(0)
+        commandRunner.run(CreateRepetitionCommand(hgr2.habitList, h2, today, Entry.NO, ""))
+        verify(listener).onItemChanged(13)
         verify(listener).onRefreshFinished()
         verifyNoMoreInteractions(listener)
     }
@@ -93,14 +143,38 @@ class HabitCardListCacheTest : BaseUnitTest() {
     }
 
     @Test
+    fun testGetGroup() {
+        assertThat(cache.habitGroupCount, equalTo(3))
+        val hgr = habitGroupList.getByPosition(2)
+        val score = hgr.scores[today].value
+        assertThat(cache.getHabitGroupByPosition(12), equalTo(hgr))
+        assertThat(cache.getScore(hgr.id!!), equalTo(score))
+
+        val h = hgr.habitList.getByPosition(0)
+        val score2 = h.scores[today].value
+        assertThat(cache.getHabitByPosition(13), equalTo(h))
+        assertThat(cache.getScore(h.id!!), equalTo(score2))
+        val actualCheckmarks = cache.getCheckmarks(h.id!!)
+
+        val expectedCheckmarks = h
+            .computedEntries
+            .getByInterval(today.minus(9), today)
+            .map { it.value }.toIntArray()
+        assertThat(actualCheckmarks, equalTo(expectedCheckmarks))
+    }
+
+    @Test
     fun testRemoval() {
         removeHabitAt(0)
         removeHabitAt(3)
+        removeHabitGroupAt(0)
         cache.refreshAllHabits()
         verify(listener).onItemRemoved(0)
         verify(listener).onItemRemoved(3)
+        verify(listener).onItemRemoved(8)
         verify(listener).onRefreshFinished()
         assertThat(cache.habitCount, equalTo(8))
+        assertThat(cache.habitGroupCount, equalTo(2))
     }
 
     @Test
@@ -120,6 +194,21 @@ class HabitCardListCacheTest : BaseUnitTest() {
         assertThat(cache.getHabitByPosition(7), equalTo(h2))
         assertThat(cache.getHabitByPosition(6), equalTo(h7))
         verify(listener).onItemMoved(2, 7)
+        verifyNoMoreInteractions(listener)
+    }
+
+    @Test
+    fun testReorder_onCache_Groups() {
+        val hgr10 = cache.getHabitGroupByPosition(10)
+        val hgr11 = cache.getHabitGroupByPosition(11)
+        val hgr12 = cache.getHabitGroupByPosition(12)
+        val h13 = cache.getHabitByPosition(13)
+        cache.reorder(10, 12)
+        assertThat(cache.getHabitGroupByPosition(10), equalTo(hgr11))
+        assertThat(cache.getHabitGroupByPosition(11), equalTo(hgr12))
+        assertThat(cache.getHabitGroupByPosition(13), equalTo(hgr10))
+        assertThat(cache.getHabitByPosition(12), equalTo(h13))
+        verify(listener).onItemMoved(10, 12)
         verifyNoMoreInteractions(listener)
     }
 
@@ -145,8 +234,34 @@ class HabitCardListCacheTest : BaseUnitTest() {
         verifyNoMoreInteractions(listener)
     }
 
+    @Test
+    fun testReorder_onList_Groups() {
+        val hgr10 = habitGroupList.getByPosition(0)
+        val hgr11 = habitGroupList.getByPosition(1)
+        val hgr12 = habitGroupList.getByPosition(2)
+        val h13 = hgr12.habitList.getByPosition(0)
+        assertThat(cache.getHabitGroupByPosition(10), equalTo(hgr10))
+        assertThat(cache.getHabitGroupByPosition(12), equalTo(hgr12))
+        reset(listener)
+        habitGroupList.reorder(hgr10, hgr12)
+        cache.refreshAllHabits()
+        assertThat(cache.getHabitGroupByPosition(10), equalTo(hgr11))
+        assertThat(cache.getHabitGroupByPosition(11), equalTo(hgr12))
+        assertThat(cache.getHabitByPosition(12), equalTo(h13))
+        assertThat(cache.getHabitGroupByPosition(13), equalTo(hgr10))
+        verify(listener).onItemMoved(11, 10)
+        verify(listener).onItemMoved(12, 11)
+        verify(listener).onRefreshFinished()
+        verifyNoMoreInteractions(listener)
+    }
+
     private fun removeHabitAt(position: Int) {
         val h = habitList.getByPosition(position)
         habitList.remove(h)
+    }
+
+    private fun removeHabitGroupAt(position: Int) {
+        val hgr = habitGroupList.getByPosition(position)
+        habitGroupList.remove(hgr)
     }
 }

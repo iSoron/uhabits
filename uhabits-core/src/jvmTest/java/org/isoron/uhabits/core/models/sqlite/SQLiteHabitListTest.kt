@@ -35,7 +35,6 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
-import java.util.ArrayList
 import kotlin.test.assertNull
 
 class SQLiteHabitListTest : BaseUnitTest() {
@@ -98,8 +97,8 @@ class SQLiteHabitListTest : BaseUnitTest() {
         habit.name = "Hello world with id"
         habit.id = 12300L
         habitList.add(habit)
-        assertThat(habit.id, equalTo(12300L))
-        val record = repository.find(12300L)
+        assertThat(habit.id, equalTo(11L))
+        val record = repository.find(11L)
         assertThat(record!!.name, equalTo(habit.name))
     }
 
