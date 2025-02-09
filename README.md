@@ -1,13 +1,13 @@
 <h1 align="center">Loop Habit Tracker</h1>
 <p align="center">
   <a href="https://github.com/iSoron/uhabits/actions?query=workflow%3A%22Build+%26+Test%22">
-    <img src="https://github.com/iSoron/uhabits/workflows/Build%20&%20Test/badge.svg" />
+    <img alt="Build & Test" src="https://github.com/iSoron/uhabits/workflows/Build%20&%20Test/badge.svg" />
   </a>
   <a href="https://github.com/iSoron/uhabits/releases/latest">
-    <img src="https://img.shields.io/github/v/release/iSoron/uhabits" />
+    <img alt="release" src="https://img.shields.io/github/v/release/iSoron/uhabits" />
   </a>
   <a href="https://github.com/iSoron/uhabits/discussions">
-    <img src="https://img.shields.io/badge/GitHub-Discussions-%23fc4ebc" />
+    <img alt="GitHub" src="https://img.shields.io/badge/GitHub-Discussions-%23fc4ebc" />
   </a>
 </p>
 
@@ -32,32 +32,23 @@ source.
 
 ## Features
 
-* <b>Beautiful, minimalistic and lightweight interface.</b>
-Loop has an elegant and minimalistic interface that is very easy to use, even for first-time users. Highly optimized for speed, the app works well even on older phones.
+* **Beautiful, minimalistic and lightweight interface.** Loop has an elegant and minimalistic interface that is very easy to use, even for first-time users. Highly optimized for speed, the app works well even on older phones.
 
-* <b>Habit score.</b>
-Loop has an advanced formula for calculating the strength of your habits. Every repetition makes your habit stronger and every missed day makes it weaker. A few missed days after a long streak, however, will not completely destroy your progress, unlike many other don't-break-the-chain apps.
+* **Habit score.** Loop has an advanced formula for calculating the strength of your habits. Every repetition makes your habit stronger and every missed day makes it weaker. A few missed days after a long streak, however, will not completely destroy your progress, unlike many other don't-break-the-chain apps.
 
-* <b>Flexible schedules.</b>
-In addition to daily habits, Loop supports habits with more complex schedules, such as 3 times per week or every other day.
+* **Flexible schedules.** In addition to daily habits, Loop supports habits with more complex schedules, such as 3 times per week or every other day.
 
-* <b>Reminders.</b>
-Schedule notifications to remind you of your habits. Each habit can have its own reminder, at a chosen time of the day. Easily check or dismiss your habit directly from the notification.
+* **Reminders.** Schedule notifications to remind you of your habits. Each habit can have its own reminder, at a chosen time of the day. Easily check or dismiss your habit directly from the notification.
 
-* <b>Widgets.</b>
-Be reminded of your habits whenever you unlock your phone. Colorful widgets allow you to track your habits directly from your home screen, without even opening the app.
+* **Widgets.** Be reminded of your habits whenever you unlock your phone. Colorful widgets allow you to track your habits directly from your home screen, without even opening the app.
 
-* <b>Take control of your data.</b>
-If you want to further analyze your data, or move it to another service, Loop allows you to export it to spreadsheets (CSV) or to a database file (SQLite). For power users, checkmarks can be added through other apps, such as Tasker.
+* **Take control of your data.** If you want to further analyze your data, or move it to another service, Loop allows you to export it to spreadsheets (CSV) or to a database file (SQLite). For power users, checkmarks can be added through other apps, such as Tasker.
 
-* <b>No limitations.</b>
-Track as many habits as you wish. Loop imposes no artificial limits on how many habits you can have. All features are available to all users. There are no in-app purchases.
+* **No limitations.** Track as many habits as you wish. Loop imposes no artificial limits on how many habits you can have. All features are available to all users. There are no in-app purchases.
 
-* <b>Completely ad-free and open source.</b>
-There are no advertisements, annoying notifications or intrusive permissions in this app, and there will never be. The app is completely open-source (GPLv3).
+* **Completely ad-free and open source.** There are no advertisements, annoying notifications or intrusive permissions in this app, and there will never be. The app is completely open-source (GPLv3).
 
-* <b>Works offline and respects your privacy.</b>
-Loop doesn't require an Internet connection or online account registration. Your confidential data is never sent to anyone. Neither the developers nor any third-parties have access to it.
+* **Works offline and respects your privacy.** Loop doesn't require an Internet connection or online account registration. Your confidential data is never sent to anyone. Neither the developers nor any third-parties have access to it.
 
 ## Installing
 
@@ -94,7 +85,7 @@ contribute, even if you are not a software developer.
 
 ## License
 
-<img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
+<img align="right" alt="GPL v3" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
   Copyright (C) 2016-2021 Álinson Santos Xavier <isoron@gmail.com>
 
