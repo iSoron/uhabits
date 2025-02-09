@@ -27,6 +27,7 @@ import java.util.Calendar.LONG
 import java.util.Calendar.MILLISECOND
 import java.util.Calendar.MINUTE
 import java.util.Calendar.MONTH
+import java.util.Calendar.NARROW_FORMAT
 import java.util.Calendar.SECOND
 import java.util.Calendar.SHORT
 import java.util.Calendar.YEAR
@@ -66,6 +67,17 @@ class JavaLocalDateFormatter(private val locale: Locale) : LocalDateFormatter {
     override fun shortWeekdayName(date: LocalDate): String {
         val cal = date.toGregorianCalendar()
         return cal.getDisplayName(DAY_OF_WEEK, SHORT, locale)
+    }
+
+    override fun narrowWeekdayName(weekday: DayOfWeek): String {
+        val cal = GregorianCalendar()
+        cal.set(DAY_OF_WEEK, weekday.daysSinceSunday - 1)
+        return shortWeekdayName(LocalDate(cal.get(YEAR), cal.get(MONTH) + 1, cal.get(DAY_OF_MONTH)))
+    }
+
+    override fun narrowWeekdayName(date: LocalDate): String {
+        val cal = date.toGregorianCalendar()
+        return cal.getDisplayName(DAY_OF_WEEK, NARROW_FORMAT, locale)
     }
 
     fun longFormat(date: LocalDate): String {

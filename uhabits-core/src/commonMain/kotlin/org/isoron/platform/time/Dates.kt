@@ -136,6 +136,8 @@ data class LocalDate(val daysSince2000: Int) {
 }
 
 interface LocalDateFormatter {
+    fun narrowWeekdayName(weekday: DayOfWeek): String
+    fun narrowWeekdayName(date: LocalDate): String
     fun shortWeekdayName(weekday: DayOfWeek): String
     fun shortWeekdayName(date: LocalDate): String
     fun shortMonthName(date: LocalDate): String
