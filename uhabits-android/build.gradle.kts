@@ -19,7 +19,7 @@
 
 plugins {
     id("com.github.triplet.play") version "3.8.6"
-    id("com.android.application") version "8.4.0"
+    id("com.android.application") version "8.8.0"
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
     id("org.jlleitschuh.gradle.ktlint")
