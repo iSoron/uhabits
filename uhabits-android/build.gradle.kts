@@ -18,7 +18,6 @@
  */
 
 plugins {
-    id("com.github.triplet.play") version "3.8.6"
     id("com.android.application") version "8.8.0"
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
@@ -100,10 +99,10 @@ android {
 
 dependencies {
     val daggerVersion = "2.51.1"
-    val kotlinVersion = "1.9.22"
-    val kxCoroutinesVersion = "1.7.3"
+    val kotlinVersion = "2.1.10"
+    val kxCoroutinesVersion = "1.10.1"
     val ktorVersion = "1.6.8"
-    val espressoVersion = "3.5.1"
+    val espressoVersion = "3.6.1"
 
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
@@ -112,12 +111,12 @@ dependencies {
     androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
     androidTestImplementation("androidx.annotation:annotation:1.7.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
-    androidTestImplementation("androidx.test:rules:1.5.0")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
+    androidTestImplementation("androidx.test:rules:1.6.1")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
     compileOnly("javax.annotation:jsr250-api:1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("com.github.AppIntro:AppIntro:6.3.1")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.google.dagger:dagger:$daggerVersion")
@@ -129,10 +128,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kxCoroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kxCoroutinesVersion")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.legacy:legacy-preference-v14:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("com.opencsv:opencsv:5.9")
     implementation("nl.dionsegijn:konfetti-xml:2.0.2")
     implementation(project(":uhabits-core"))
@@ -140,14 +139,9 @@ dependencies {
     kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
     testImplementation("com.google.dagger:dagger:$daggerVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 
 kapt {
     correctErrorTypes = true
-}
-
-play {
-    serviceAccountCredentials.set(file("../.secret/gcp-key.json"))
-    track.set("alpha")
 }
