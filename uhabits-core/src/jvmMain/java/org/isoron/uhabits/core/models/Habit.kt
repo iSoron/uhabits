@@ -72,7 +72,7 @@ data class Habit(
         val periodFirstDay = this.minus(frequency.denominator - 1)
 
         return computedEntries.getByInterval(periodFirstDay, this)
-            .filter { entry -> entry.value !=  Entry.UNKNOWN}
+            .filter { entry -> entry.value != Entry.UNKNOWN }
             .sumOf { entry -> entry.value }
     }
 
