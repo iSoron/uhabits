@@ -18,10 +18,10 @@
  */
 
 plugins {
-    id("com.android.application") version "8.8.0"
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt")
-    id("org.jlleitschuh.gradle.ktlint")
+    alias(libs.plugins.agp)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ktlint.plugin)
 }
 
 tasks.compileLint {
@@ -40,7 +40,6 @@ kotlin {
 }
 
 android {
-
     namespace = "org.isoron.uhabits"
     compileSdk = 35
     // compileSdkPreview = "VanillaIceCream"
@@ -66,7 +65,7 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
             if (signingConfigs.findByName("release") != null) {
@@ -74,8 +73,8 @@ android {
             }
         }
 
-        getByName("debug") {
-            isTestCoverageEnabled = true
+        debug {
+            enableUnitTestCoverage = true
         }
     }
 
@@ -84,64 +83,38 @@ android {
         targetCompatibility(JavaVersion.VERSION_11)
         sourceCompatibility(JavaVersion.VERSION_11)
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
 
-    buildFeatures {
-        viewBinding = true
-    }
-
-    lint {
-        abortOnError = false
-    }
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+    buildFeatures.viewBinding = true
+    lint.abortOnError = false
 }
+
+kapt.correctErrorTypes = true
 
 dependencies {
-    val daggerVersion = "2.51.1"
-    val kotlinVersion = "2.1.10"
-    val kxCoroutinesVersion = "1.10.1"
-    val ktorVersion = "1.6.8"
-    val espressoVersion = "3.6.1"
-
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
-    androidTestImplementation("com.google.dagger:dagger:$daggerVersion")
-    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.3")
-    androidTestImplementation("io.ktor:ktor-client-mock:$ktorVersion")
-    androidTestImplementation("io.ktor:ktor-jackson:$ktorVersion")
-    androidTestImplementation("androidx.annotation:annotation:1.7.1")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
-    androidTestImplementation("androidx.test:rules:1.6.1")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
-    compileOnly("javax.annotation:jsr250-api:1.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
-    implementation("com.github.AppIntro:AppIntro:6.3.1")
-    implementation("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("com.google.dagger:dagger:$daggerVersion")
-    implementation("com.google.guava:guava:33.1.0-android")
-    implementation("io.ktor:ktor-client-android:$ktorVersion")
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-jackson:$ktorVersion")
-    implementation("io.ktor:ktor-client-json:$ktorVersion")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kxCoroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kxCoroutinesVersion")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.legacy:legacy-preference-v14:1.0.0")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("com.opencsv:opencsv:5.9")
-    implementation("nl.dionsegijn:konfetti-xml:2.0.2")
+    compileOnly(libs.jsr250.api)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.appIntro)
+    implementation(libs.jsr305)
+    implementation(libs.dagger)
+    implementation(libs.guava)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.jackson)
+    implementation(libs.ktor.client.json)
+    implementation(libs.kotlin.stdlib.jdk8)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.appcompat)
+    implementation(libs.legacy.preference.v14)
+    implementation(libs.legacy.support.v4)
+    implementation(libs.material)
+    implementation(libs.opencsv)
+    implementation(libs.konfetti.xml)
     implementation(project(":uhabits-core"))
-    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
-    kaptAndroidTest("com.google.dagger:dagger-compiler:$daggerVersion")
-    testImplementation("com.google.dagger:dagger:$daggerVersion")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
-}
+    kapt(libs.dagger.compiler)
+    kaptAndroidTest(libs.dagger.compiler)
 
-kapt {
-    correctErrorTypes = true
+    androidTestImplementation(libs.bundles.androidTest)
+    testImplementation(libs.bundles.test)
 }

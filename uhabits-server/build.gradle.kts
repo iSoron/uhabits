@@ -22,7 +22,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     application
     id("kotlin")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.shadow)
 }
 
 kotlin {
@@ -36,27 +36,25 @@ application {
     mainClass.set("io.ktor.server.netty.EngineMain")
 }
 
-dependencies {
-    val ktorVersion = "1.6.8"
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
-    implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:1.4.14")
-    implementation("io.ktor:ktor-server-core:$ktorVersion")
-    implementation("io.ktor:ktor-html-builder:$ktorVersion")
-    implementation("io.ktor:ktor-jackson:$ktorVersion")
-    implementation("org.jetbrains:kotlin-css-jvm:1.0.0-pre.148-kotlin-1.4.30")
-    implementation("io.prometheus:simpleclient:0.16.0")
-    implementation("io.prometheus:simpleclient_httpserver:0.16.0")
-    implementation("io.prometheus:simpleclient_hotspot:0.16.0")
-    testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
-    testImplementation(kotlin("test"))
-    testImplementation(kotlin("test-junit"))
-}
-
 tasks.withType<ShadowJar> {
     archiveBaseName.set("uhabits-server")
     archiveClassifier.set("")
     archiveVersion.set("")
 }
 
+dependencies {
+    implementation(libs.kotlin.stdlib.jdk8)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.logback.classic)
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.html.builder)
+    implementation(libs.ktor.jackson)
+    implementation(libs.kotlin.css.jvm)
+    implementation(libs.simpleclient)
+    implementation(libs.simpleclient.httpserver)
+    implementation(libs.simpleclient.hotspot)
+    testImplementation(libs.ktor.server.tests)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
+}
