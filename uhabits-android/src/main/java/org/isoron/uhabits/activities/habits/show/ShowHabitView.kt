@@ -54,7 +54,6 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.barCard.setState(data.bar)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
-            binding.streakCard.visibility = GONE
         } else {
             binding.targetCard.visibility = GONE
         }

@@ -46,7 +46,7 @@ kotlin {
                 implementation(kotlin("stdlib-jdk8"))
                 compileOnly("com.google.dagger:dagger:2.51.1")
                 implementation("com.google.guava:guava:33.1.0-android")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.1")
                 implementation("androidx.annotation:annotation:1.7.1")
                 implementation("com.google.code.findbugs:jsr305:3.0.2")
                 implementation("com.opencsv:opencsv:5.9")
@@ -62,7 +62,7 @@ kotlin {
                 implementation("org.xerial:sqlite-jdbc:3.45.1.0")
                 implementation("org.hamcrest:hamcrest:2.2")
                 implementation("org.apache.commons:commons-io:1.3.2")
-                implementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+                implementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
                 implementation("org.junit.jupiter:junit-jupiter:5.10.1")
             }
         }

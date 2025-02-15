@@ -19,6 +19,7 @@
 package org.isoron.uhabits.activities.common.dialogs
 
 import android.content.Context
+import com.android.colorpicker.ColorPickerDialog.SIZE_SMALL
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
@@ -39,7 +40,7 @@ class ColorPickerDialogFactory @Inject constructor(@param:ActivityContext privat
             res.getPalette(),
             androidColor,
             4,
-            com.android.colorpicker.ColorPickerDialog.SIZE_SMALL
+            SIZE_SMALL
         )
         return dialog
     }

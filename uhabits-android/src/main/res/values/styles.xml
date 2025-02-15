@@ -226,6 +226,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>
+        <item name="android:textAlignment">viewStart</item>
     </style>
 
     <style name="About.Item.Language">
@@ -233,6 +234,7 @@
         <item name="android:textSize">@dimen/smallTextSize</item>
         <item name="android:gravity">center</item>
         <item name="android:background">?attr/contrast20</item>
+        <item name="android:textAlignment">viewStart</item>
     </style>
 
     <style name="About.Item.Clickable">
