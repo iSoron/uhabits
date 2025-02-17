@@ -20,7 +20,7 @@
 plugins {
     alias(libs.plugins.agp)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint.plugin)
 }
 
@@ -89,8 +89,6 @@ android {
     lint.abortOnError = false
 }
 
-kapt.correctErrorTypes = true
-
 dependencies {
     compileOnly(libs.jsr250.api)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
@@ -112,8 +110,7 @@ dependencies {
     implementation(libs.opencsv)
     implementation(libs.konfetti.xml)
     implementation(project(":uhabits-core"))
-    kapt(libs.dagger.compiler)
-    kaptAndroidTest(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
 
     androidTestImplementation(libs.bundles.androidTest)
     testImplementation(libs.bundles.test)

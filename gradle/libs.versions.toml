@@ -1,5 +1,5 @@
 [versions]
-agp = "8.6.1"
+agp = "8.8.0"
 annotation = "1.9.1"
 appcompat = "1.7.0"
 appintro = "6.3.1"
@@ -21,6 +21,7 @@ konfetti-xml = "2.0.2"
 kotlin = "2.1.10"
 kotlin-css-jvm = "1.0.0-pre.148-kotlin-1.4.30"
 kotlinxCoroutinesCoreCommon = "1.3.8"
+ksp = "2.1.10-1.0.30"
 ktlint-plugin = "11.6.1"
 ktor = "1.6.8"
 ktxCoroutine = "1.10.1"
@@ -87,17 +88,17 @@ uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", versi
 
 [bundles]
 androidTest = [
-    "espresso-contrib",
-    "espresso-core",
+    "annotation",
     "dagger",
     "dexmaker-mockito",
+    "espresso-contrib",
+    "espresso-core",
+    "junit",
     "ktor-client-mock",
     "ktor-jackson",
-    "annotation",
-    "junit",
-    "uiautomator",
-    "rules",
     "mockito-kotlin",
+    "rules",
+    "uiautomator"
 ]
 test = [
     "dagger",
@@ -108,6 +109,6 @@ test = [
 [plugins]
 agp = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlint-plugin = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-plugin" }
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
