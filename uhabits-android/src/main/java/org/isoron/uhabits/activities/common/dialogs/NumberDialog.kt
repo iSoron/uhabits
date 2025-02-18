@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.getCenter
@@ -36,16 +37,17 @@ class NumberDialog : AppCompatDialogFragment() {
         val appComponent = (requireActivity().application as HabitsApplication).component
         val prefs = appComponent.preferences
         view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
-        arrayOf(view.yesBtn, view.skipBtn).forEach {
+        arrayOf(view.yesBtn).forEach {
             it.setTextColor(requireArguments().getInt("color"))
         }
-        arrayOf(view.noBtn, view.unknownBtn).forEach {
+        arrayOf(view.noBtn, view.unknownBtnNumber).forEach {
             it.setTextColor(view.root.sres.getColor(R.attr.contrast60))
         }
-        arrayOf(view.yesBtn, view.noBtn, view.skipBtn, view.unknownBtn).forEach {
+        arrayOf(view.yesBtn, view.noBtn, view.unknownBtnNumber).forEach {
             it.typeface = InterfaceUtils.getFontAwesome(requireContext())
         }
         if (!prefs.isSkipEnabled) view.skipBtnNumber.visibility = View.GONE
+        if (!prefs.areQuestionMarksEnabled) view.unknownBtnNumber.visibility = View.GONE 
         view.numberButtons.visibility = View.VISIBLE
         fixDecimalSeparator(view)
         originalNotes = requireArguments().getString("notes")!!
@@ -71,6 +73,12 @@ class NumberDialog : AppCompatDialogFragment() {
             view.value.setText(DecimalFormat("#.###").format((Entry.SKIP.toDouble() / 1000)))
             save()
         }
+
+        view.unknownBtnNumber.setOnClickListener {
+            view.value.setText(DecimalFormat("#.###").format((Entry.UNKNOWN.toDouble() / 1000)))
+            save()
+        }
+
         view.notes.setOnEditorActionListener { v, actionId, event ->
             save()
             true

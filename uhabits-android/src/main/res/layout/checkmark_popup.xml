@@ -99,6 +99,11 @@
             android:text="@string/skip_day" />
 
         <TextView
+            android:id="@+id/unknownBtnNumber"
+            style="@style/CheckmarkPopupBtn"
+            android:text="@string/fa_question" />
+
+        <TextView
             android:id="@+id/saveBtn"
             style="@style/NumericalPopupBtn"
             android:text="@string/save" />
