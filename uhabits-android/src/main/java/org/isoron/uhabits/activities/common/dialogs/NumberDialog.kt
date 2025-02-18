@@ -47,7 +47,7 @@ class NumberDialog : AppCompatDialogFragment() {
             it.typeface = InterfaceUtils.getFontAwesome(requireContext())
         }
         if (!prefs.isSkipEnabled) view.skipBtnNumber.visibility = View.GONE
-        if (!prefs.areQuestionMarksEnabled) view.unknownBtnNumber.visibility = View.GONE 
+        if (!prefs.areQuestionMarksEnabled) view.unknownBtnNumber.visibility = View.GONE
         view.numberButtons.visibility = View.VISIBLE
         fixDecimalSeparator(view)
         originalNotes = requireArguments().getString("notes")!!
@@ -100,8 +100,7 @@ class NumberDialog : AppCompatDialogFragment() {
 
         // https://github.com/flutter/flutter/issues/61175
         val currKeyboard = Settings.Secure.getString(
-            requireContext().contentResolver,
-            Settings.Secure.DEFAULT_INPUT_METHOD
+            requireContext().contentResolver, Settings.Secure.DEFAULT_INPUT_METHOD
         )
         if (currKeyboard.contains("swiftkey") || currKeyboard.contains("samsung")) {
             view.value.inputType = EditorInfo.TYPE_CLASS_TEXT
