@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
-import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.getCenter
@@ -100,7 +99,8 @@ class NumberDialog : AppCompatDialogFragment() {
 
         // https://github.com/flutter/flutter/issues/61175
         val currKeyboard = Settings.Secure.getString(
-            requireContext().contentResolver, Settings.Secure.DEFAULT_INPUT_METHOD
+            requireContext().contentResolver,
+            Settings.Secure.DEFAULT_INPUT_METHOD
         )
         if (currKeyboard.contains("swiftkey") || currKeyboard.contains("samsung")) {
             view.value.inputType = EditorInfo.TYPE_CLASS_TEXT
