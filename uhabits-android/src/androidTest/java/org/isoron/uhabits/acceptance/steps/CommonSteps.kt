@@ -191,35 +191,11 @@ object CommonSteps : BaseUserInterfaceTest() {
     }
 
     fun changeFrequencyToMonthly(habitName: String) {
-        var startTime: Long
-        var endTime: Long
-
-        startTime = System.nanoTime()
         clickText(habitName)
-        endTime = System.nanoTime()
-        println("clickText() took ${(endTime - startTime)/1000000} milliseconds")
-
-        startTime = System.nanoTime()
         Espresso.onView(ViewMatchers.withId(R.id.action_edit_habit)).perform(ViewActions.click())
-        endTime = System.nanoTime()
-        println("onView() took ${(endTime - startTime)/1000000} milliseconds")
-
-        startTime = System.nanoTime()
         EditHabitSteps.pickMonthFrequency()
-        endTime = System.nanoTime()
-        println("pickMonthFrequency() took ${(endTime - startTime)/1000000} milliseconds")
-
-        startTime = System.nanoTime()
         EditHabitSteps.clickSave()
-        endTime = System.nanoTime()
-        println("clickSave() took ${(endTime - startTime)/1000000} milliseconds")
-
-        startTime = System.nanoTime()
         pressBack()
-        endTime = System.nanoTime()
-        println("pressBack() took ${(endTime - startTime)/1000000} milliseconds")
-
-
     }
 
     enum class Screen {

@@ -101,7 +101,7 @@ open class BaseUserInterfaceTest {
         device.setOrientationNatural()
     }
 
-    protected fun addHabitToList(name: String){
+    protected fun addHabitToList(name: String) {
         val h1 = fixtures.createEmptyHabit()
         h1.name = name
         habitList.update(h1)
