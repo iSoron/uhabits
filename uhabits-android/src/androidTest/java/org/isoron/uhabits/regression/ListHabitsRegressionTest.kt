@@ -83,7 +83,7 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
         longPressCheckmarks("Wake up early", count = 1)
         verifyShowsScreen(LIST_HABITS)
         verifyDisplaysCheckmarks("Wake up early", listOf(YES_MANUAL, UNKNOWN, UNKNOWN, UNKNOWN))
-        for (i in 1..10) createHabit("Habit $i")
+        for (i in 1..10) addHabitToList("Habit $i")
         createHabit("Last Habit")
         scrollToText("Last Habit")
         offsetHeaders()

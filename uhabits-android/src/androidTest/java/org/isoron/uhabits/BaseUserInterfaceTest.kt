@@ -101,6 +101,12 @@ open class BaseUserInterfaceTest {
         device.setOrientationNatural()
     }
 
+    protected fun addHabitToList(name: String){
+        val h1 = fixtures.createEmptyHabit()
+        h1.name = name
+        habitList.update(h1)
+    }
+
     companion object {
         private const val PKG = "org.isoron.uhabits"
         const val EMPTY_DESCRIPTION_HABIT_NAME = "Read books"
