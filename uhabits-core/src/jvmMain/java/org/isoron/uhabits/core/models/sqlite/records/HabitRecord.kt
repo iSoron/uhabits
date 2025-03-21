@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.models.sqlite.records
 
 import org.isoron.uhabits.core.database.Column
 import org.isoron.uhabits.core.database.Table
+import org.isoron.uhabits.core.models.AggregationType
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitType
@@ -48,6 +49,9 @@ class HabitRecord {
 
     @field:Column(name = "freq_den")
     var freqDen: Int? = null
+
+    @field:Column(name = "aggregation_type")
+    var aggregationType: Int? = null
 
     @field:Column
     var color: Int? = null
@@ -93,6 +97,7 @@ class HabitRecord {
         name = model.name
         description = model.description
         highlight = 0
+        aggregationType = model.aggregationType.value
         color = model.color.paletteIndex
         archived = if (model.isArchived) 1 else 0
         type = model.type.value
@@ -122,6 +127,7 @@ class HabitRecord {
         habit.description = description!!
         habit.question = question!!
         habit.frequency = Frequency(freqNum!!, freqDen!!)
+        habit.aggregationType = AggregationType.fromInt(aggregationType!!)
         habit.color = PaletteColor(color!!)
         habit.isArchived = archived != 0
         habit.type = HabitType.fromInt(type!!)

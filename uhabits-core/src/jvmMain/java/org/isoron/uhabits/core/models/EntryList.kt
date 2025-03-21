@@ -30,6 +30,7 @@ import javax.annotation.concurrent.ThreadSafe
 import kotlin.collections.set
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 @ThreadSafe
 open class EntryList {
@@ -285,20 +286,28 @@ open class EntryList {
  *
  * SKIP values are converted to zero (if they weren't, each SKIP day would count as 0.003).
  *
+ * If average aggregation is used, we do not convert any values. Instead we filter out special
+ * values like SKIP and UNKNOWN, because they should not contribute to the average calculated,
+ * but if the user explicitly enters a 0, it SHOULD count towards the average.
+ * Because we filter out entries, we must also be careful not to divide by zero.
+ *
  * The returned list is sorted by timestamp, with the newest entry coming first and the oldest entry
  * coming last. If the original list has gaps in it (for example, weeks or months without any
  * entries), then the list produced by this method will also have gaps.
  *
  * The argument [firstWeekday] is only relevant when truncating by week.
  */
-fun List<Entry>.groupedSum(
+fun List<Entry>.groupedAggregate(
     truncateField: DateUtils.TruncateField,
     firstWeekday: Int = Calendar.SATURDAY,
-    isNumerical: Boolean
+    isNumerical: Boolean,
+    aggregationType: AggregationType
 ): List<Entry> {
     return this.map { (timestamp, value) ->
         if (isNumerical) {
-            if (value == SKIP) {
+            if (aggregationType == AggregationType.AVERAGE) {
+                Entry(timestamp, value)
+            } else if (value == SKIP) {
                 Entry(timestamp, 0)
             } else {
                 Entry(timestamp, max(0, value))
@@ -312,7 +321,17 @@ fun List<Entry>.groupedSum(
             firstWeekday
         )
     }.entries.map { (timestamp, entries) ->
-        Entry(timestamp, entries.sumOf { it.value })
+        if (isNumerical && aggregationType == AggregationType.AVERAGE) {
+            val filteredEntries = entries.filter { it.value == 0 || it.value >= 1000 }
+            if (filteredEntries.size == 0) {
+                Entry(timestamp, 0)
+            } else {
+                val value = filteredEntries.sumOf { it.value }.toFloat() / filteredEntries.size
+                Entry(timestamp, value.roundToInt() )
+            }
+        } else {
+            Entry(timestamp, entries.sumOf { it.value })
+        }
     }.sortedBy { (timestamp, _) ->
         -timestamp.unixTime
     }

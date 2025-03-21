@@ -19,10 +19,12 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
+import org.isoron.uhabits.core.models.AggregationType
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.countSkippedDays
-import org.isoron.uhabits.core.models.groupedSum
+import org.isoron.uhabits.core.models.groupedAggregate
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 import java.util.ArrayList
@@ -48,19 +50,72 @@ class TargetCardPresenter {
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
             val entries = habit.computedEntries.getByInterval(oldest, today)
 
-            val valueToday = entries.groupedSum(
+            val valueToday = entries.groupedAggregate(
                 truncateField = DateUtils.TruncateField.DAY,
-                isNumerical = habit.isNumerical
+                isNumerical = habit.isNumerical,
+                aggregationType = habit.aggregationType
             ).firstOrNull()?.value ?: 0
 
-            val skippedDayToday = entries.countSkippedDays(
-                truncateField = DateUtils.TruncateField.DAY
-            ).firstOrNull()?.value ?: 0
-
-            val valueThisWeek = entries.groupedSum(
+            val valueThisWeek = entries.groupedAggregate(
                 truncateField = DateUtils.TruncateField.WEEK_NUMBER,
                 firstWeekday = firstWeekday,
-                isNumerical = habit.isNumerical
+                isNumerical = habit.isNumerical,
+                aggregationType = habit.aggregationType
+            ).firstOrNull()?.value ?: 0
+
+            val valueThisMonth = entries.groupedAggregate(
+                truncateField = DateUtils.TruncateField.MONTH,
+                isNumerical = habit.isNumerical,
+                aggregationType = habit.aggregationType
+            ).firstOrNull()?.value ?: 0
+
+            val valueThisQuarter = entries.groupedAggregate(
+                truncateField = DateUtils.TruncateField.QUARTER,
+                isNumerical = habit.isNumerical,
+                aggregationType = habit.aggregationType
+            ).firstOrNull()?.value ?: 0
+
+            val valueThisYear = entries.groupedAggregate(
+                truncateField = DateUtils.TruncateField.YEAR,
+                isNumerical = habit.isNumerical,
+                aggregationType = habit.aggregationType
+            ).firstOrNull()?.value ?: 0
+
+            val values = ArrayList<Double>()
+            if (habit.frequency.denominator <= 1) values.add(valueToday / 1e3)
+            if (habit.frequency.denominator <= 7) values.add(valueThisWeek / 1e3)
+            values.add(valueThisMonth / 1e3)
+            values.add(valueThisQuarter / 1e3)
+            values.add(valueThisYear / 1e3)
+
+            val targets = when(habit.aggregationType) {
+                AggregationType.SUM -> getTargetsSum(habit, firstWeekday, entries)
+                AggregationType.AVERAGE -> getTargetsAvg(habit)
+            }
+
+            val intervals = ArrayList<Int>()
+            if (habit.frequency.denominator <= 1) intervals.add(1)
+            if (habit.frequency.denominator <= 7) intervals.add(7)
+            intervals.add(30)
+            intervals.add(91)
+            intervals.add(365)
+
+            return TargetCardState(
+                color = habit.color,
+                values = values,
+                targets = targets,
+                intervals = intervals,
+                theme = theme
+            )
+        }
+
+        private fun getTargetsSum(
+            habit: Habit,
+            firstWeekday: Int,
+            entries: List<Entry>
+        ): ArrayList<Double> {
+            val skippedDayToday = entries.countSkippedDays(
+                truncateField = DateUtils.TruncateField.DAY
             ).firstOrNull()?.value ?: 0
 
             val skippedDaysThisWeek = entries.countSkippedDays(
@@ -68,27 +123,12 @@ class TargetCardPresenter {
                 firstWeekday = firstWeekday
             ).firstOrNull()?.value ?: 0
 
-            val valueThisMonth = entries.groupedSum(
-                truncateField = DateUtils.TruncateField.MONTH,
-                isNumerical = habit.isNumerical
-            ).firstOrNull()?.value ?: 0
-
             val skippedDaysThisMonth = entries.countSkippedDays(
                 truncateField = DateUtils.TruncateField.MONTH
             ).firstOrNull()?.value ?: 0
 
-            val valueThisQuarter = entries.groupedSum(
-                truncateField = DateUtils.TruncateField.QUARTER,
-                isNumerical = habit.isNumerical
-            ).firstOrNull()?.value ?: 0
-
             val skippedDaysThisQuarter = entries.countSkippedDays(
                 truncateField = DateUtils.TruncateField.QUARTER
-            ).firstOrNull()?.value ?: 0
-
-            val valueThisYear = entries.groupedSum(
-                truncateField = DateUtils.TruncateField.YEAR,
-                isNumerical = habit.isNumerical
             ).firstOrNull()?.value ?: 0
 
             val skippedDaysThisYear = entries.countSkippedDays(
@@ -136,13 +176,6 @@ class TargetCardPresenter {
             targetThisQuarter = max(0.0, targetThisQuarter - dailyTarget * skippedDaysThisQuarter)
             targetThisYear = max(0.0, targetThisYear - dailyTarget * skippedDaysThisYear)
 
-            val values = ArrayList<Double>()
-            if (habit.frequency.denominator <= 1) values.add(valueToday / 1e3)
-            if (habit.frequency.denominator <= 7) values.add(valueThisWeek / 1e3)
-            values.add(valueThisMonth / 1e3)
-            values.add(valueThisQuarter / 1e3)
-            values.add(valueThisYear / 1e3)
-
             val targets = ArrayList<Double>()
             if (habit.frequency.denominator <= 1) targets.add(targetToday)
             if (habit.frequency.denominator <= 7) targets.add(targetThisWeek)
@@ -150,20 +183,17 @@ class TargetCardPresenter {
             targets.add(targetThisQuarter)
             targets.add(targetThisYear)
 
-            val intervals = ArrayList<Int>()
-            if (habit.frequency.denominator <= 1) intervals.add(1)
-            if (habit.frequency.denominator <= 7) intervals.add(7)
-            intervals.add(30)
-            intervals.add(91)
-            intervals.add(365)
+            return targets
+        }
 
-            return TargetCardState(
-                color = habit.color,
-                values = values,
-                targets = targets,
-                intervals = intervals,
-                theme = theme
-            )
+        private fun getTargetsAvg(habit: Habit): ArrayList<Double> {
+            val targets = ArrayList<Double>()
+            if (habit.frequency.denominator <= 1) targets.add(habit.targetValue)
+            if (habit.frequency.denominator <= 7) targets.add(habit.targetValue)
+            targets.add(habit.targetValue)
+            targets.add(habit.targetValue)
+            targets.add(habit.targetValue)
+            return targets
         }
     }
 }

@@ -142,31 +142,91 @@ class EntryListTest {
             entries.add(Entry(reference.minus(offsets[it]), values[it]))
         }
 
-        val byMonth = entries.getKnown().groupedSum(
+        val byMonth = entries.getKnown().groupedAggregate(
             truncateField = DateUtils.TruncateField.MONTH,
-            isNumerical = true
+            isNumerical = true,
+            aggregationType = AggregationType.SUM
         )
         assertThat(byMonth.size, equalTo(17))
         assertThat(byMonth[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 230)))
         assertThat(byMonth[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 1988)))
         assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 1271)))
 
-        val byQuarter = entries.getKnown().groupedSum(
+        val byQuarter = entries.getKnown().groupedAggregate(
             truncateField = DateUtils.TruncateField.QUARTER,
-            isNumerical = true
+            isNumerical = true,
+            aggregationType = AggregationType.SUM
         )
         assertThat(byQuarter.size, equalTo(6))
         assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 3263)))
         assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 3838)))
         assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 4975)))
 
-        val byYear = entries.getKnown().groupedSum(
+        val byYear = entries.getKnown().groupedAggregate(
             truncateField = DateUtils.TruncateField.YEAR,
-            isNumerical = true
+            isNumerical = true,
+            aggregationType = AggregationType.SUM
         )
         assertThat(byYear.size, equalTo(2))
         assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 8227)))
         assertThat(byYear[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 16172)))
+    }
+
+    @Test
+    fun testGroupByNumericalAverage() {
+        val offsets = intArrayOf(
+            0, 5, 9, 15, 17, 21, 23, 27, 28, 35, 41, 45, 47, 53, 56, 62, 70, 73, 78,
+            83, 86, 94, 101, 106, 113, 114, 120, 126, 130, 133, 141, 143, 148, 151, 157, 164,
+            166, 171, 173, 176, 179, 183, 191, 259, 264, 268, 270, 275, 282, 284, 289, 295,
+            302, 306, 310, 315, 323, 325, 328, 335, 343, 349, 351, 353, 357, 359, 360, 367,
+            372, 376, 380, 385, 393, 400, 404, 412, 415, 418, 422, 425, 433, 437, 444, 449,
+            455, 460, 462, 465, 470, 471, 479, 481, 485, 489, 494, 495, 500, 501, 503, 507
+        )
+
+        val values = intArrayOf(
+            230, 306, 148, 281, 134, 285, 104, 158, 325, 236, 303, 210, 118, 124,
+            301, 201, 156, 376, 347, 367, 396, 134, 160, 381, 155, 354, 231, 134, 164, 354,
+            236, 398, 199, 221, 208, 397, 253, 276, 214, 341, 299, 221, 353, 250, 341, 168,
+            374, 205, 182, 217, 297, 321, 104, 237, 294, 110, 136, 229, 102, 271, 250, 294,
+            158, 319, 379, 126, 282, 155, 288, 159, 215, 247, 207, 226, 244, 158, 371, 219,
+            272, 228, 350, 153, 356, 279, 394, 202, 213, 214, 112, 248, 139, 245, 165, 256,
+            370, 187, 208, 231, 341, 312
+        )
+
+        val reference = Timestamp.from(2014, Calendar.JUNE, 1)
+        val entries = EntryList()
+        offsets.indices.forEach {
+            entries.add(Entry(reference.minus(offsets[it]), values[it]))
+        }
+
+        val byMonthAvg = entries.getKnown().groupedAggregate(
+            truncateField = DateUtils.TruncateField.MONTH,
+            isNumerical = true,
+            aggregationType = AggregationType.AVERAGE
+        )
+        assertThat(byMonthAvg.size, equalTo(17))
+        assertThat(byMonthAvg[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 230)))
+        assertThat(byMonthAvg[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 284)))
+        assertThat(byMonthAvg[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 212)))
+
+        val byQuarterAvg = entries.getKnown().groupedAggregate(
+            truncateField = DateUtils.TruncateField.QUARTER,
+            isNumerical = true,
+            aggregationType = AggregationType.AVERAGE
+        )
+        assertThat(byQuarterAvg.size, equalTo(6))
+        assertThat(byQuarterAvg[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 218)))
+        assertThat(byQuarterAvg[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 226)))
+        assertThat(byQuarterAvg[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 249)))
+
+        val byYearAvg = entries.getKnown().groupedAggregate(
+            truncateField = DateUtils.TruncateField.YEAR,
+            isNumerical = true,
+            aggregationType = AggregationType.AVERAGE
+        )
+        assertThat(byYearAvg.size, equalTo(2))
+        assertThat(byYearAvg[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 242)))
+        assertThat(byYearAvg[1], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 245)))
     }
 
     @Test
@@ -186,27 +246,30 @@ class EntryListTest {
             entries.add(Entry(reference.minus(offsets[it]), YES_MANUAL))
         }
 
-        val byMonth = entries.getKnown().groupedSum(
+        val byMonth = entries.getKnown().groupedAggregate(
             truncateField = DateUtils.TruncateField.MONTH,
-            isNumerical = false
+            isNumerical = false,
+            aggregationType = AggregationType.SUM
         )
         assertThat(byMonth.size, equalTo(17))
         assertThat(byMonth[0], equalTo(Entry(Timestamp.from(2014, Calendar.JUNE, 1), 1_000)))
         assertThat(byMonth[6], equalTo(Entry(Timestamp.from(2013, Calendar.DECEMBER, 1), 7_000)))
         assertThat(byMonth[12], equalTo(Entry(Timestamp.from(2013, Calendar.MAY, 1), 6_000)))
 
-        val byQuarter = entries.getKnown().groupedSum(
+        val byQuarter = entries.getKnown().groupedAggregate(
             truncateField = DateUtils.TruncateField.QUARTER,
-            isNumerical = false
+            isNumerical = false,
+            aggregationType = AggregationType.SUM
         )
         assertThat(byQuarter.size, equalTo(6))
         assertThat(byQuarter[0], equalTo(Entry(Timestamp.from(2014, Calendar.APRIL, 1), 15_000)))
         assertThat(byQuarter[3], equalTo(Entry(Timestamp.from(2013, Calendar.JULY, 1), 17_000)))
         assertThat(byQuarter[5], equalTo(Entry(Timestamp.from(2013, Calendar.JANUARY, 1), 20_000)))
 
-        val byYear = entries.getKnown().groupedSum(
+        val byYear = entries.getKnown().groupedAggregate(
             truncateField = DateUtils.TruncateField.YEAR,
-            isNumerical = false
+            isNumerical = false,
+            aggregationType = AggregationType.SUM
         )
         assertThat(byYear.size, equalTo(2))
         assertThat(byYear[0], equalTo(Entry(Timestamp.from(2014, Calendar.JANUARY, 1), 34_000)))

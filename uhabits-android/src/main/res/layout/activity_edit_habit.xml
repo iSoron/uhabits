@@ -211,20 +211,51 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/targetTypeOuterBox"
-                style="@style/FormOuterBox">
-                <LinearLayout style="@style/FormInnerBox">
-                    <TextView
-                        style="@style/FormLabel"
-                        android:text="@string/target_type" />
-                    <TextView
-                        style="@style/FormDropdown"
-                        android:id="@+id/targetTypePicker"
-                        android:textColor="?attr/contrast100"
-                        />
-                </LinearLayout>
-            </FrameLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout style="@style/FormInnerBox">
+
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/target_type" />
+
+                        <TextView
+                            android:id="@+id/targetTypePicker"
+                            style="@style/FormDropdown"
+                            android:textColor="?attr/contrast100" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <LinearLayout style="@style/FormInnerBox">
+
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/aggregation_type" />
+
+                        <TextView
+                            android:id="@+id/aggregationTypePicker"
+                            style="@style/FormDropdown"
+                            android:textColor="?attr/contrast100" />
+                    </LinearLayout>
+                </FrameLayout>
+
+            </LinearLayout>
 
 
             <!-- Reminder -->

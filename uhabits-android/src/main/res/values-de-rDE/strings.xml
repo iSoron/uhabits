@@ -218,4 +218,7 @@
     <string name="activity_not_found">Für diese Aktion wurde keine App gefunden.</string>
     <string name="pref_midnight_delay_title">Verlängere den Tag um ein paar Stunden nach Mitternacht</string>
     <string name="pref_midnight_delay_description">Bis 3:00 Uhr warten, bevor ein neuer Tag angezeigt wird. Nützlich, wenn du normalerweise nach Mitternacht schlafen gehst. Benötigt einen Neustart der App.</string>
+    <string name="aggregation_type">Aggregation</string>
+    <string name="aggregation_type_sum">Summe</string>
+    <string name="aggregation_type_average">Mittelwert</string>
 </resources>

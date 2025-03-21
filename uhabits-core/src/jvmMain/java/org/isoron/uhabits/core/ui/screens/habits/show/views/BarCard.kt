@@ -22,7 +22,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.models.groupedSum
+import org.isoron.uhabits.core.models.groupedAggregate
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
@@ -59,10 +59,11 @@ class BarCardPresenter(
             }
             val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-            val entries = habit.computedEntries.getByInterval(oldest, today).groupedSum(
+            val entries = habit.computedEntries.getByInterval(oldest, today).groupedAggregate(
                 truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
                 firstWeekday = firstWeekday,
-                isNumerical = habit.isNumerical
+                isNumerical = habit.isNumerical,
+                aggregationType =  habit.aggregationType,
             )
             return BarCardState(
                 theme = theme,

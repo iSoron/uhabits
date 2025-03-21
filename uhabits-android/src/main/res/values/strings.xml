@@ -233,4 +233,7 @@
     <string name="activity_not_found">No app was found to support this action</string>
     <string name="pref_midnight_delay_title">Extend day a few hours past midnight</string>
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
+    <string name="aggregation_type">Aggregation</string>
+    <string name="aggregation_type_sum">Sum</string>
+    <string name="aggregation_type_average">Average</string>
 </resources>

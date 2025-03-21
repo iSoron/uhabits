@@ -44,6 +44,7 @@ import org.isoron.uhabits.activities.common.dialogs.WeekdayPickerDialog
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateHabitCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
+import org.isoron.uhabits.core.models.AggregationType
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitType
@@ -85,6 +86,7 @@ class EditHabitActivity : AppCompatActivity() {
     var reminderMin = -1
     var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
     var targetType = NumericalHabitType.AT_LEAST
+    var aggregationType = AggregationType.SUM
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -107,6 +109,7 @@ class EditHabitActivity : AppCompatActivity() {
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
             targetType = habit.targetType
+            aggregationType = habit.aggregationType
             habit.reminder?.let {
                 reminderHour = it.hour
                 reminderMin = it.minute
@@ -185,6 +188,24 @@ class EditHabitActivity : AppCompatActivity() {
                     else -> NumericalHabitType.AT_MOST
                 }
                 populateTargetType()
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.dismissCurrentAndShow()
+        }
+
+        populateAggregationType()
+        binding.aggregationTypePicker.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.select_dialog_item)
+            arrayAdapter.add(getString(R.string.aggregation_type_sum))
+            arrayAdapter.add(getString(R.string.aggregation_type_average))
+            builder.setAdapter(arrayAdapter) { dialog, which ->
+                aggregationType = when (which) {
+                    0 -> AggregationType.SUM
+                    else -> AggregationType.AVERAGE
+                }
+                populateAggregationType()
                 dialog.dismiss()
             }
             val dialog = builder.create()
@@ -282,6 +303,7 @@ class EditHabitActivity : AppCompatActivity() {
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = binding.targetInput.text.toString().toDouble()
             habit.targetType = targetType
+            habit.aggregationType = aggregationType
             habit.unit = binding.unitInput.text.trim().toString()
         }
         habit.type = habitType
@@ -347,6 +369,13 @@ class EditHabitActivity : AppCompatActivity() {
         binding.targetTypePicker.text = when (targetType) {
             NumericalHabitType.AT_MOST -> getString(R.string.target_type_at_most)
             else -> getString(R.string.target_type_at_least)
+        }
+    }
+
+    private fun populateAggregationType() {
+        binding.aggregationTypePicker.text = when(aggregationType) {
+            AggregationType.SUM -> getString(R.string.aggregation_type_sum)
+            AggregationType.AVERAGE -> getString(R.string.aggregation_type_average)
         }
     }
 
