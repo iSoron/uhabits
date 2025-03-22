@@ -86,12 +86,17 @@
             android:id="@+id/value"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:background="@color/transparent"
             android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
             android:textAlignment="center"
             android:textSize="@dimen/smallTextSize" />
+
+        <TextView
+            android:id="@+id/saveBtn"
+            style="@style/NumericalPopupBtn"
+            android:text="@string/save" />
 
         <TextView
             android:id="@+id/skipBtnNumber"
@@ -102,10 +107,5 @@
             android:id="@+id/unknownBtnNumber"
             style="@style/CheckmarkPopupBtn"
             android:text="@string/fa_question" />
-
-        <TextView
-            android:id="@+id/saveBtn"
-            style="@style/NumericalPopupBtn"
-            android:text="@string/save" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>
