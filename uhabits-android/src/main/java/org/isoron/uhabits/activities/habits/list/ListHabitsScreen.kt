@@ -224,6 +224,7 @@ class ListHabitsScreen
     }
 
     override fun showConfetti(color: PaletteColor, x: Float, y: Float) {
+        if (preferences.isConfettiAnimationDisabled) return
         val baseColor = themeSwitcher.currentTheme!!.color(color).toInt()
         rootView.get().konfettiView.start(
             Party(

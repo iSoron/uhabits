@@ -67,6 +67,13 @@
                 android:title="@string/use_pure_black"
                 app:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_disable_animation"
+            android:summary="@string/pref_animations_description"
+            android:title="@string/pref_animations_title"
+            app:iconSpaceReserved="false" />
+
         <ListPreference
                 android:defaultValue="255"
                 android:entries="@array/widget_opacity_entries"
