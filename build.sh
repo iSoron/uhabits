@@ -222,6 +222,7 @@ android_test_parallel() {
     for API in $*; do
         (
             LOG=build/android-test-$API.log
+	    mkdir -p build
             log_info "API $API: Running tests..."
             android_test $API 1>$LOG 2>&1
             ret_code=$?
