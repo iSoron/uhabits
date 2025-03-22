@@ -21,7 +21,7 @@ ADB="${ANDROID_HOME}/platform-tools/adb"
 ANDROID_OUTPUTS_DIR="uhabits-android/build/outputs"
 AVDMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/avdmanager"
 AVD_PREFIX="uhabitsTest"
-EMULATOR="${ANDROID_HOME}/tools/emulator"
+EMULATOR="${ANDROID_HOME}/emulator/emulator"
 GRADLE="./gradlew --stacktrace --quiet"
 PACKAGE_NAME=org.isoron.uhabits
 SDKMANAGER="${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
@@ -36,6 +36,11 @@ fi
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then
     echo "Error: ANDROID_HOME is not set correctly; ${ANDROID_HOME}/platform-tools/adb not found"
     exit 1
+fi
+
+if [ ! -f "$EMULATOR" ]; then
+  echo "Error: Not found: $EMULATOR"
+  exit 1
 fi
 
 # Logging
