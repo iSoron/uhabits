@@ -28,6 +28,21 @@
     <string name="add_habit">Dodaj naviku</string>
     <string name="color_picker_default_title">Promijeni boju</string>
     <string name="toast_habit_created">Navika je stvorena</string>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Navika je obrisana</item>
+        <item quantity="few">Navike su izbrisane</item>
+        <item quantity="other">Navike su izbrisane </item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Navika je arhivirana</item>
+        <item quantity="few">Navike su arhivirane</item>
+        <item quantity="other">Navike su arhivirane</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Navika je dearhivitana</item>
+        <item quantity="few">Navike su dearhivirane</item>
+        <item quantity="other">Navike su dearhivirane</item>
+    </plurals>
     <string name="overview">Pregled</string>
     <string name="habit_strength">Snaga navike</string>
     <string name="history">Povijest</string>
@@ -36,6 +51,7 @@
     <string name="save">Spremi</string>
     <string name="streaks">Niz</string>
     <string name="no_habits_found">Nemate aktivnih navika</string>
+    <string name="no_habits_left_to_do">Navike za danas su završene</string>
     <string name="long_press_to_toggle">Pritisnite i držite za označavanje ili odznačavanje.</string>
     <string name="reminder_off">Isključen</string>
     <string name="create_habit">Stvori naviku</string>
@@ -55,6 +71,8 @@
     <string name="interval_4_hour">4 sata</string>
     <string name="interval_8_hour">8 sati</string>
     <string name="interval_24_hour">24 sata</string>
+    <string name="interval_always_ask">Uvijek pitaj</string>
+    <string name="interval_custom">Prilagođeno …</string>
     <string name="pref_toggle_title">Označi ponavljanja sa kratkim pritisk.</string>
     <string name="pref_rate_this_app">Ocijeni ovu aplikaciju na Google Playu</string>
     <string name="pref_send_feedback">Pošalji povratne informacije raz. programeru</string>
@@ -62,6 +80,7 @@
     <string name="links">Poveznice</string>
     <string name="name">Naziv</string>
     <string name="settings">Postavke</string>
+    <string name="select_snooze_delay">Odaberi vrijeme odgode</string>
     <string name="hint_title">Jeste li znali?</string>
     <string name="hint_drag">Za razmještanje unosa, pritisnite i držite naziv navike, pa ih premjestite na točno mjesto.</string>
     <string name="hint_landscape">Možete vidjeti više dana prebacivanjem uređaja u vodoravnu orijentaciju.</string>
@@ -110,6 +129,7 @@
     <string name="quarter">Četvrtina</string>
     <string name="year">Godina</string>
     <string name="total">Ukupno</string>
+    <string name="yes_or_no">Da ili Ne</string>
     <string name="every_x_days">Svaka %d dana</string>
     <string name="every_x_weeks">Svaka %d tjedna</string>
     <string name="score">Rezultat</string>
@@ -117,9 +137,12 @@
     <string name="none">Nijedan</string>
     <string name="filter">Filtar</string>
     <string name="hide_completed">Sakrij završeno</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Sakrij unesene</string>
     <string name="hide_archived">Sakrij arhivirano</string>
     <string name="sticky_notifications">Učini obavijesti trajnima</string>
     <string name="sticky_notifications_description">Spriječava da se obavijesti zanemare.</string>
+    <string name="led_notifications">Svjetlo obavijesti</string>
+    <string name="led_notifications_description">Pali bljeskalicu za podsjetnike. Dostupno samo na uređajima s LED svjetlosnim obavijestima.</string>
     <string name="repair_database">Popravi bazu podataka</string>
     <string name="database_repaired">Baza podataka je popravljena.</string>
     <string name="uncheck">Odznači</string>
@@ -131,6 +154,48 @@
     <string name="by_name">Po nazivu</string>
     <string name="by_color">Po boji</string>
     <string name="by_score">Po rezultatu</string>
+    <string name="by_status">Po statusu</string>
     <string name="export">Izvezi</string>
+    <string name="long_press_to_edit">Pritisni i zadrži za promjenu vrijednosti</string>
+    <string name="value">Vrijednost</string>
+    <string name="calendar">Kalendar</string>
+    <string name="unit">Jedinica</string>
+    <string name="target_type">Vrsta cilja</string>
+    <string name="target_type_at_least">Najmanje</string>
+    <string name="target_type_at_most">Najviše</string>
+    <string name="example_question_boolean">npr. Jesi li vježbao/la danas?</string>
+    <string name="question">Pitanje</string>
+    <string name="target">Cilj</string>
+    <string name="yes">Da</string>
+    <string name="no">Ne</string>
+    <string name="customize_notification_summary">Postavi zvuk, vibraciju, svjetlo i druge postavke obavijesti</string>
+    <string name="customize_notification">Prilagodi obavijesti</string>
+    <string name="pref_view_privacy">Prikaži pravila o privatnosti</string>
+    <string name="view_all_contributors">Pregledaj sve suradnike&#8230;</string>
+    <string name="database">Baza podataka</string>
+    <string name="widget_opacity_title">Prozirnost widgeta</string>
+    <string name="widget_opacity_description">Povećava ili smanjuje prozirnost widgeta na početnom zaslonu.</string>
+    <string name="first_day_of_the_week">Prvi dan u tjednu</string>
+    <string name="default_reminder_question">Jesi li ispunio/la ovu naviku danas?</string>
+    <string name="notes">Bilješke</string>
+    <string name="example_notes">(Neobvezno)</string>
+    <string name="yes_or_no_example">npr. Jesi li se danas rano probudio/la? Jesi li vježbao/la? Jesi li igrao/la šah?</string>
+    <string name="measurable">Mjerljivo</string>
+    <string name="measurable_example">npr. Koliko si kilometara danas istrčao/la? Koliko si stranica pročitao/la?</string>
+    <string name="x_times_per_week">%d puta tjedno</string>
+    <string name="x_times_per_month">%d puta mjesečno</string>
     <string name="x_times_per_y_days">%d puta u %d dani</string>
+    <string name="yes_or_no_short_example">npr. Vježbaj</string>
+    <string name="color">Boja</string>
+    <string name="example_target">npr. 15</string>
+    <string name="measurable_short_example">npr. Trči</string>
+    <string name="measurable_question_example">npr. Koliko si kilometara danas trčao/la?</string>
+    <string name="measurable_units_example">npr. kilometri</string>
+    <string name="every_month">Svaki mjesec</string>
+    <string name="validation_cannot_be_blank">Ne može ostati prazno</string>
+    <string name="today">Danas</string>
+    <string name="enter">Unesi</string>
+    <string name="no_habits">Navike nisu pronađene</string>
+    <string name="no_numerical_habits">Mjerljive navike nisu pronađene</string>
+    <string name="no_boolean_habits">Da/Ne navike nisu pronađene</string>
 </resources>

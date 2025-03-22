@@ -83,6 +83,7 @@
     <string name="interval_always_ask">Завжди запитувати</string>
     <string name="interval_custom">Налаштувати...</string>
     <string name="pref_toggle_title">Відзначати коротким натисканням</string>
+    <string name="pref_toggle_description_2">Встановлюйте відмітки одним натисканням замість натискання й утримування.</string>
     <string name="pref_rate_this_app">Оцінити цю програму в Google Play</string>
     <string name="pref_send_feedback">Надіслати відгук розробникові</string>
     <string name="pref_view_source_code">Подивитися вихідний код на GitHub</string>
@@ -167,6 +168,7 @@
     <string name="none">Немає</string>
     <string name="filter">Фільтр</string>
     <string name="hide_completed">Приховати завершені</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Приховати введені</string>
     <string name="hide_archived">Приховати архівовані</string>
     <string name="sticky_notifications">Закріпити сповіщення</string>
     <string name="sticky_notifications_description">Запобігає прихованню сповіщень.</string>
@@ -189,6 +191,9 @@
     <string name="value">Значення</string>
     <string name="calendar">Календар</string>
     <string name="unit">Одиниця</string>
+    <string name="target_type">Тип цілі</string>
+    <string name="target_type_at_least">Щонайменше</string>
+    <string name="target_type_at_most">Щонайбільше</string>
     <string name="example_question_boolean">напр.: Ви робили сьогодні вправи?</string>
     <string name="question">Запитання</string>
     <string name="target">Мета</string>

@@ -34,6 +34,24 @@
         <item quantity="many">Návykov zmenených</item>
         <item quantity="other">Návykov zmenených</item>
     </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">Návyk zmazaný</item>
+        <item quantity="few">Návyky zmazané</item>
+        <item quantity="many">Návykov zmazaných</item>
+        <item quantity="other">Návykov zmazaných</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">Návyk dosiahnutý</item>
+        <item quantity="few">Návyky dosiahnuté</item>
+        <item quantity="many">Návykov dosiahnutých</item>
+        <item quantity="other">Návykov dosiahnutých</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Návyk nedosiahnutý</item>
+        <item quantity="few">Návyky nedosiahnuté</item>
+        <item quantity="many">Návykov nedosiahnutých</item>
+        <item quantity="other">Návykov nedosiahnutých</item>
+    </plurals>
     <string name="overview">Prehľad</string>
     <string name="habit_strength">Sila návyku</string>
     <string name="history">História</string>
@@ -65,6 +83,7 @@
     <string name="interval_always_ask">Vždy sa spýtať</string>
     <string name="interval_custom">Vlastné ...</string>
     <string name="pref_toggle_title">Prepnúť krátkym stlačením</string>
+    <string name="pref_toggle_description_2">Začiarknite jediným klepnutím namiesto stlačenia a podržania.</string>
     <string name="pref_rate_this_app">Ohodnoťte túto aplikáciu na Google Play</string>
     <string name="pref_send_feedback">Odošlite spätnú väzbu vývojárovi</string>
     <string name="pref_view_source_code">Zobraziť zdrojový kód na stránke GitHub</string>
@@ -75,6 +94,18 @@
     <string name="hint_title">Vedeli ste?</string>
     <string name="hint_drag">Pre zmenu usporiadania záznamov, stlačte a podržte názov návyku a potom ho presuňte na správne miesto.</string>
     <string name="hint_landscape">Môžete vidieť viac dní otočením telefónu do režimu na šírku.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Odstrániť návyk?</item>
+        <item quantity="few">Odstrániť návyky?</item>
+        <item quantity="many">Odstrániť návyky?</item>
+        <item quantity="other">Odstrániť návyky?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Návyk bude natrvalo odstránený. Tento krok nie je možné vrátiť späť.</item>
+        <item quantity="few">Návyky budú natrvalo odstránené. Tento krok nie je možné vrátiť späť.</item>
+        <item quantity="many">Návyky budú natrvalo odstránené. Tento krok nie je možné vrátiť späť.</item>
+        <item quantity="other">Návyky budú natrvalo odstránené. Tento krok nie je možné vrátiť späť.</item>
+    </plurals>
     <string name="habit_not_found">Návyk bol odstránený / nenájdený</string>
     <string name="weekends">Víkendy</string>
     <string name="any_weekday">Od pondelka do piatku</string>
@@ -128,6 +159,7 @@
     <string name="none">Žiadny</string>
     <string name="filter">Filter</string>
     <string name="hide_completed">Skryť dokončené</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Skryť vyplnené</string>
     <string name="hide_archived">Skryť archivované</string>
     <string name="sticky_notifications">Pripnúť oznámenia</string>
     <string name="sticky_notifications_description">Zabráni odstráneniu notifikácií odsunutím.</string>
@@ -147,8 +179,12 @@
     <string name="by_status">Podľa stavu</string>
     <string name="export">Exportovať</string>
     <string name="long_press_to_edit">Stlačením a podržaním zmeníte hodnotu</string>
+    <string name="value">Hodnota</string>
     <string name="calendar">Kalendár</string>
     <string name="unit">Jednotka</string>
+    <string name="target_type">Typ cieľa:</string>
+    <string name="target_type_at_least">Aspoň</string>
+    <string name="target_type_at_most">Najviac</string>
     <string name="example_question_boolean">napr. Cvičili ste dnes?</string>
     <string name="question">Otázka</string>
     <string name="target">Cieľ</string>
@@ -170,6 +206,7 @@
     <string name="measurable_example">napr. Koľko kilometrov ste dnes nabehali? Koľko strán ste prečítali?</string>
     <string name="x_times_per_week">%d krát týždenne</string>
     <string name="x_times_per_month">%d krát za mesiac</string>
+    <string name="x_times_per_y_days">%d krát za %d dní</string>
     <string name="yes_or_no_short_example">napr. Cvičenie</string>
     <string name="color">Farba</string>
     <string name="example_target">napr. 15</string>
@@ -183,6 +220,8 @@
     <string name="no_habits">Nenašli sa žiadne návyky</string>
     <string name="no_numerical_habits">Nenašli sa žiadne merateľné návyky</string>
     <string name="no_boolean_habits">Nenašli sa žiadne áno-alebo-nie návyky</string>
+    <string name="increment">Navýšiť</string>
+    <string name="decrement">Znížiť</string>
     <string name="pref_skip_title">Povoliť preskočenie dní</string>
     <string name="pref_skip_description">Dvojitým prepnutím pridáte namiesto začiarknutia preskočenie. Preskočenia udržia vaše skóre nezmenené a neprerušia vašu sériu.</string>
     <string name="pref_unknown_title">Zobraziť otázniky pre chýbajúce údaje</string>

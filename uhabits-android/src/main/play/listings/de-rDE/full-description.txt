@@ -1,6 +1,6 @@
-Loop Habit Tracker hilft dir dabei gute Gewohnheiten zu erlangen und sie ein Leben lang zu pflegen. Detaillierte Diagramme und Statistiken geben Aufschluss darüber, wie sich die Gewohnheiten über die Zeit verändern und verbessern. Die App ist werbefrei, open source und respektiert die Privatsphäre.
+Loop Habit Tracker hilft dir dabei, positive Gewohnheiten in dein Leben zu integrieren und sie dauerhaft zu verfolgen. Detaillierte Diagramme und Statistiken geben Aufschluss darüber, wie sich die Gewohnheiten über die Zeit verändern und verbessern. Die App ist werbefrei, open source und respektiert die Privatsphäre.
 
-<b>Schöne, minimalistisch und übersichtliche Benutzeroberfläche</b>
+<b>Schöne, minimalistische und übersichtliche Benutzeroberfläche</b>
 Loop hat eine elegante und minimalistische Benutzeroberfläche, die selbst für Erstnutzer eine einfache Verwendung möglich macht. Dank vieler Geschwindigkeitsoptimierungen funktioniert die App auch auf älteren Geräten einwandfrei.
 
 <b>Gewohnheitserfolge</b>
@@ -10,20 +10,20 @@ Loop berechnet mit einer ausgereiften Berechnungsart die Stärke der Gewohnheite
 Zusätzlich zu täglichen Gewohnheiten bietet Loop auch eine komplexere Zeitplanung an, wie zum Beispiel drei mal pro Woche oder jeden zweiten Tag.
 
 <b>Erinnerungen</b>
-Benachrichtigungen können zeitlich konfiguriert und als Erinnerung verwendet werden. Für jede Gewohnheit kann eine individuelle Erinnerungen zu einer einstellbaren Tageszeit aktiviert werden. Die Gewohnheiten können dann einfach über die Benachrichtigung überprüft oder verworfen werden.
+Benachrichtigungen können zeitlich konfiguriert und als Erinnerung verwendet werden. Für jede Gewohnheit kann eine individuelle Erinnerung zu einer einstellbaren Tageszeit aktiviert werden. Die Gewohnheit kann dann einfach über die Benachrichtigung abgehakt oder verworfen werden.
 
 <b>Widgets</b>
-Denken Sie immer an Erinnerungen, Sie ihr Telefon entsperren. Mit farbenfrohen Widgets behalten Sie Ihre Gewohnheiten immer im Überblick, direkt auf dem Homescreen ihn die App zu öffnen.
+Lassen Sie sich an Ihre Gewohnheiten erinnern, wenn Sie Ihr Telefon entsperren. Farbenfrohe Widgets ermöglichen es Ihnen, Ihre Gewohnheiten direkt von Ihrem Startbildschirm aus zu verfolgen, ohne die App zu öffnen.
 
 <b>Behalten Sie die Kontrolle über Ihre Daten</b>
-Daten können zur weiteren Analyse, oder auch zum Verschieben zu einem weiteren Anbieter, als Tabelle (CSV) oder Datenbank (SQLite) exportiert werden. Power User können Häkchen durch andere Apps hinzufügen, wie zum Beispiel Tasker.
+Wenn Sie Ihre Daten weiter analysieren oder zu einem anderen Dienst verschieben möchten, können Sie sie mit Loop als Tabelle (CSV) oder Datenbankdatei (SQLite) exportieren. Power-User können Häkchen durch andere Apps hinzufügen, wie zum Beispiel Tasker.
 
 <b>Keine Einschränkungen</b>
 Erstellen Sie so viele Gewohnheiten, wie Sie möchten. Loop setzt keinerlei Einschränkungen was die Anzahl der erstellbaren Gewohnheiten betrifft. Alle Funktionen sind für alle User verfügbar. Es gibt keine In-App-Käufe.
 
 <b>Komplett werbefrei und open source</b>
-Loop beinhaltet keine Werbung, lästige Benachrichtigungen oder unnötige Berechtigungen - und wir so wird es auch immer bleiben. Die App ist komplett open source (GPLv3).
+Es gibt keinerlei Werbung, lästige Benachrichtigungen oder aufdringliche Berechtigungen in dieser App – und das wird auch immer so bleiben. Die App ist komplett open source (GPLv3).
 
 <b>Funktioniert offline und respektiert Ihre Privatsphäre</b>
-Loop benötigt keine Internetverbindung oder Online-Registrierung. Ihre privaten Daten werden nie an Dritte weitergegeben. Weder die Entwickler, noch Dritte haben Zugriff darauf.
+Loop benötigt keine Internetverbindung oder Online-Registrierung. Ihre privaten Daten werden nie an Dritte weitergegeben. Weder die Entwickler noch Dritte haben darauf Zugriff.
 

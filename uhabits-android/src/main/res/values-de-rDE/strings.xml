@@ -105,8 +105,8 @@
     <string name="select_hours">Stunden auswählen</string>
     <string name="select_minutes">Minuten auswählen</string>
     <string name="about">Über Loop</string>
-    <string name="translators">Übersetzer und Übersetzerinnen</string>
-    <string name="developers">Entwickler und Entwicklerinnen</string>
+    <string name="translators">Übersetzer</string>
+    <string name="developers">Entwickler</string>
     <string name="version_n">Version %s</string>
     <string name="frequency">Häufigkeit</string>
     <string name="checkmark">Häkchen</string>
@@ -120,7 +120,7 @@
     <string name="habits_imported">Gewohnheiten erfolgreich importiert.</string>
     <string name="import_data">Daten importieren</string>
     <string name="export_full_backup">Vollständige Sicherung exportieren</string>
-    <string name="import_data_summary">Unterstützt vollständige Sicherungen dieser App, als auch von Tickmate, HabitBull und Rewire. Siehe FAQ für weitere Informationen.</string>
+    <string name="import_data_summary">Unterstützt vollständige Sicherungen dieser App, sowie von Tickmate, HabitBull und Rewire erzeugte Sicherungen. Siehe FAQ für weitere Informationen.</string>
     <string name="export_as_csv_summary">Erstellt Dateien, die von Tabellenkalkulationsprogrammen wie Microsoft Excel oder LibreOffice Calc geöffnet werden können. Diese Dateien können nicht wieder importiert werden.</string>
     <string name="export_full_backup_summary">Erstellt eine Datei, die alle deine Daten enthält. Diese Datei kann wieder importiert werden.</string>
     <string name="bug_report_failed">Fehler beim Erstellen eines Fehlerberichts.</string>
@@ -172,7 +172,7 @@
     <string name="unit">Einheit</string>
     <string name="target_type">Zieltyp</string>
     <string name="target_type_at_least">Mindestens</string>
-    <string name="target_type_at_most">Höchtens</string>
+    <string name="target_type_at_most">Höchstens</string>
     <string name="example_question_boolean">z.B. Hast du heute trainiert?</string>
     <string name="question">Frage</string>
     <string name="target">Ziel</string>

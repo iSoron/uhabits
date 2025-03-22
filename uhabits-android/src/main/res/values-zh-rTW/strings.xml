@@ -71,6 +71,7 @@
     <string name="interval_always_ask">每次都詢問</string>
     <string name="interval_custom">自訂</string>
     <string name="pref_toggle_title">換成輕碰來記錄習慣</string>
+    <string name="pref_toggle_description_2">輕碰即可打勾，不需要長按</string>
     <string name="pref_rate_this_app">在 Google Play 上評價這個 App</string>
     <string name="pref_send_feedback">傳送改進意見給開發者</string>
     <string name="pref_view_source_code">在 GitHub 上查看原始碼</string>
@@ -144,6 +145,7 @@
     <string name="none">無</string>
     <string name="filter">篩選</string>
     <string name="hide_completed">隱藏已完成的習慣</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">隱藏已記錄的習慣</string>
     <string name="hide_archived">隱藏已封存習慣</string>
     <string name="sticky_notifications">使提醒保持常駐</string>
     <string name="sticky_notifications_description">防止提醒被滑動移除</string>
@@ -163,8 +165,12 @@
     <string name="by_status">依據狀態</string>
     <string name="export">匯出</string>
     <string name="long_press_to_edit">持續按住來改換數值</string>
+    <string name="value">值</string>
     <string name="calendar">日曆</string>
     <string name="unit">單位</string>
+    <string name="target_type">目標標準</string>
+    <string name="target_type_at_least">以上</string>
+    <string name="target_type_at_most">以下</string>
     <string name="example_question_boolean">例如：你今天運動了嗎？</string>
     <string name="question">提示問題</string>
     <string name="target">目標</string>

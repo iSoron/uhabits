@@ -1,0 +1,29 @@
+Loop Habit Tracker auttaa kehittämään ja ylläpitämään pitkäkestoisia hyviä rutiineja. Yksityiskohtaiset kaaviot ja tilastot antavat selkeän kuvan siitä, miten rutiinisi ovat parantuneet ajan kuluessa. Sovellus on mainokseton, sen lähdekoodi on avoin, ja sovellus kunnioittaa yksityisyyttäsi.
+
+<b>Kaunis, minimalistinen ja kevyt käyttöliittymä</b>
+Loopin käyttöliittymä on tyylikäs ja minimalistinen. Se on helppokäyttöinen jopa uusille käyttäjille. Sovellus on optimoitu nopeaksi ja toimii hyvin myös vanhoissa puhelimissa.
+
+<b>Rutiinipisteet</b>
+Loopilla on kehittynyt laskentakaava joka mittaa rutiiniesi vahvuutta. Jokainen toisto tekee rutiinistasi vahvemman ja jokainen ohitettu päivä tekee siitä heikomman. Muutama ohitettu päivä pitkän putken jälkeen ei kuitenkaan täysin tuhoa edistystäsi, toisin kuin monissa muissa älä-riko-putkea-sovelluksissa.
+
+<b>Joustavat aikataulut</b>
+Päivittäisten rutiinien lisäksi Loop tukee rutiineja joilla on monimutkaisempi aikataulu, esimerkiksi kolmesti viikossa tai joka toinen päivä.
+
+<b>Muistutukset</b>
+Ajasta ilmoituksia muistuttamaan sinua rutiineistasi. Jokaisella rutiinilla on oma muistutuksensa, valittuna päivän hetkenä. Kuittaa rutiinisi tehdyksi tai merkitse se hylätyksi helposti ilmoituksesta.
+
+<b>Widgetit</b>
+Näe muistutuksia rutiineistasi aina kun avaat puhelimesi. Värikkäät widgetit auttavat sinua seuraamaan rutiinejasi suoraan kotinäkymästäsi, ilman että avaat sovellusta.
+
+<b>Hallitse tietojasi</b>
+Jos haluat analysoida tietojasi, tai siirtää ne toiseen palveluun, Loop antaa sinun viedä ne laskentataulukoihin (CSV) tai tietokantatiedostoon (SQLite). Tehokäyttäjät voivat lisätä merkintöjä muiden sovellusten, kuten Taskerin, kautta.
+
+<b>Ei rajoituksia</b>
+Seuraa niin montaa rutiinia kuin haluat. Loop ei aseta keinotekoisia rajoituksia rutiiniesi määrälle. Kaikki toiminnot ovat kaikkien käytettävissä. Sovelluksen sisäisiä ostoja ei ole.
+
+<b>Täysin mainokseton ja avointa lähdekoodia</b>
+Sovelluksessa ei ole mainoksia, häiritseviä ilmoituksia tai turhia käyttöoikeusvaatimuksia, eikä tule koskaan olemaan. Sovellus on täysin avointa lähdekoodia (GPLv3).
+
+<b>Toimii offline-tilassa ja kunnioittaa yksityisyyttäsi</b>
+Loop ei vaadi Internet-yhteyttä tai online-tilin rekisteröintiä. Luottamuksellisia tietojasi ei koskaan lähetetä kenellekään. Kehittäjillä ja kolmansilla osapuolilla ei ole pääsyä niihin.
+

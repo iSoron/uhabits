@@ -1,0 +1,29 @@
+உங்கள் வாழ்க்கையில் நீண்டகால நேர்மறையான பழக்கங்களை உருவாக்கவும் பராமரிக்கவும் லூப் ஹாபிட் டிராக்கர் உதவுகிறது. உங்களின் பழக்கவழக்கங்கள், காலப்போக்கில் எவ்வாறு முன்னேறியுள்ளன என்பதை விரிவான அட்டவணைகளும் புள்ளிவிவரங்களும் தெளிவாக காண்பிக்கும் இந்தப் பயன்பாடானது முற்றிலும் விளம்பரங்களற்றது, திறந்த மூலம் மற்றும் உங்களின் தனியுரிமையை மதிக்கும்.
+
+<b>அழகான, குறைந்தபட்சமான மற்றும் இலகுரக இடைமுகம்</b>
+Loop இலகுவாகப் பயன்படுத்தக்கூடிய, முதல் முறையிலேயே பயன்படுத்துவோருக்கும் எளிதான, நேர்த்தியான மற்றும் குறைந்தபட்சமான இடைமுகத்தைக் கொண்டுள்ளது. வேகத்திற்காக மிகவும் திறமையாகக் கட்டமைக்கப்பட்ட, இந்தப் பயன்பாடு பழைய தொலைபேசிகளில் கூட நன்கு செயல்படுகிறது.
+
+பழக்க மதிப்பெண்
+Loop உங்களின் பழக்கங்களின் வலிமையை கணக்கிடுவதற்கு மேம்பட்ட சூத்திரத்தைக் கொண்டுள்ளது. ஒவ்வொரு மீளுருவாக்கமும் உங்கள் பழக்கத்தை வலுவாக்குகிறது, மேலும் ஒவ்வொரு தவறிய நாளும் அதைப் பலவீனப்படுத்துகிறது. A few missed days after a long streak, however, will not completely destroy your progress, unlike many other don't-break-the-chain apps.
+
+மாற்றியமைக்கக்கூடிய  நாள்காட்டி
+In addition to daily habits, Loop supports habits with more complex schedules, such as 3 times per week or every other day.
+
+நினைவூட்டல்கள்
+உங்கள் பழக்கங்களை நினைவூட்ட உதவிக்கான அறிவிப்புகளைத் திட்டமிடவும் ஒவ்வொரு பழக்கத்திற்கும், நாளில் தேர்ந்தெடுக்கப்பட்ட நேரத்தில் தனித்துவமான நினைவூட்டலைக் கொடுக்கலாம் அறிவிப்பிலிருந்து உங்கள் பழக்கத்தை எளிதாக முடிக்கவும் அல்லது மறுக்கவும்.
+
+<b>Widgets</b>
+Be reminded of your habits whenever you unlock your phone. Colorful widgets allow you to track your habits directly from your home screen, without even opening the app.
+
+உங்கள் தரவு உங்கள் கட்டுப்பாட்டில்
+If you want to further analyze your data, or move it to another service, Loop allows you to export it to spreadsheets (CSV) or to a database file (SQLite). For power users, checkmarks can be added through other apps, such as Tasker.
+
+எந்த வரம்புகளும் இல்லை
+Track as many habits as you wish. Loop imposes no artificial limits on how many habits you can have. All features are available to all users. There are no in-app purchases.
+
+<b>Completely ad-free and open source</b>
+இந்தச் செயலியில் விளம்பரங்கள், சிரமமான அறிவிப்புகள் அல்லது அடி முறைகளைப் பொருந்தும் அனுமதிகள் எதுவும் இல்லை, மற்றும் எப்போது இல்லை. இந்தச் செயலி முழுமையாகத் திறந்த மூல குறியீட்டுடன் (GPLv3) உள்ளது.
+
+<b>Works offline and respects your privacy</b>
+Loop doesn't require an Internet connection or online account registration. Your confidential data is never sent to anyone. Neither the developers nor any third-parties have access to it.
+

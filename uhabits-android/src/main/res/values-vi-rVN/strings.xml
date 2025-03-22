@@ -141,7 +141,7 @@
     <string name="none">Không có</string>
     <string name="filter">Lọc</string>
     <string name="hide_completed">Ẩn mục đã hoàn thành</string>
-    <string name="hide_entered">Ẩn đã nhập</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Ẩn đã nhập</string>
     <string name="hide_archived">Ẩn mục đã lưu trữ</string>
     <string name="sticky_notifications">Gửi thông báo cố định</string>
     <string name="sticky_notifications_description">Không cho các thông báo bị vuốt ngang mất.</string>

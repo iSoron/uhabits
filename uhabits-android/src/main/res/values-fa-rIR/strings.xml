@@ -147,7 +147,7 @@
     <string name="none">هیچ‌کدام</string>
     <string name="filter">فیلتر</string>
     <string name="hide_completed">مخفی کردن کامل‌شده‌ها</string>
-    <string name="hide_entered">پنهان کردن مقادیر</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">پنهان کردن مقادیر</string>
     <string name="hide_archived">مخفی کردن بایگانی‌شده‌ها</string>
     <string name="sticky_notifications">چسبناک کردن اعلان‌ها</string>
     <string name="sticky_notifications_description">از رد کردن اعلان با کشیدن جلوگیری می‌کند.</string>

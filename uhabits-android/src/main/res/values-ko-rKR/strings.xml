@@ -69,11 +69,12 @@
     <string name="interval_8_hour">8시간</string>
     <string name="interval_24_hour">24시간</string>
     <string name="interval_always_ask">항상 묻기</string>
-    <string name="interval_custom">사용자 지정.</string>
+    <string name="interval_custom">사용자 지정...</string>
     <string name="pref_toggle_title">짧게 눌러서 전환하기</string>
+    <string name="pref_toggle_description_2">길게 누르는 대신 탭 한 번으로 확인 표시를 합니다.</string>
     <string name="pref_rate_this_app">Google Play에서 평가</string>
     <string name="pref_send_feedback">개발자에게 피드백 보내기</string>
-    <string name="pref_view_source_code">Github에서 소스보기</string>
+    <string name="pref_view_source_code">Github에서 소스 보기</string>
     <string name="links">링크</string>
     <string name="name">제목</string>
     <string name="settings">설정</string>
@@ -98,7 +99,7 @@
     <string name="select_hours">시간 선택</string>
     <string name="select_minutes">분 선택</string>
     <string name="about">정보</string>
-    <string name="translators">번역자</string>
+    <string name="translators">번역한 사람들</string>
     <string name="developers">개발자</string>
     <string name="version_n">버전 %s</string>
     <string name="frequency">빈도</string>
@@ -106,7 +107,7 @@
     <string name="best_streaks">최고 연속 기록</string>
     <string name="every_day">매일</string>
     <string name="every_week">매주</string>
-    <string name="help">도움&amp; FAQ</string>
+    <string name="help">도움 &amp; FAQ</string>
     <string name="could_not_export">데이터 내보내기에 실패했습니다.</string>
     <string name="could_not_import">데이터 가져오기에 실패했습니다.</string>
     <string name="file_not_recognized">파일을 인식할 수 없습니다.</string>
@@ -140,6 +141,7 @@
     <string name="none">무음</string>
     <string name="filter">필터</string>
     <string name="hide_completed">완료된 항목 숨기기</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">입력한 항목을 숨기기</string>
     <string name="hide_archived">보관된 항목 숨기기</string>
     <string name="sticky_notifications">알림 고정하기</string>
     <string name="sticky_notifications_description">알림을 스와이프해서 제거하는 것을 방지합니다.</string>
@@ -159,8 +161,12 @@
     <string name="by_status">상태별로</string>
     <string name="export">내보내기</string>
     <string name="long_press_to_edit">길게 누르면 값이 변경됩니다.</string>
+    <string name="value">값</string>
     <string name="calendar">캘린더</string>
     <string name="unit">단위</string>
+    <string name="target_type">목표 유형</string>
+    <string name="target_type_at_least">적어도</string>
+    <string name="target_type_at_most">최대</string>
     <string name="example_question_boolean">예 : 오늘 운동을 했습니까?</string>
     <string name="question">질문</string>
     <string name="target">목표</string>
@@ -186,6 +192,24 @@
     <string name="yes_or_no_short_example">예) 운동</string>
     <string name="color">색</string>
     <string name="example_target">예) 15</string>
+    <string name="measurable_short_example">예) 달리기</string>
+    <string name="measurable_question_example">예) 오늘 몇 km를 달렸나요?</string>
+    <string name="measurable_units_example">예) km</string>
     <string name="every_month">매월</string>
+    <string name="validation_cannot_be_blank">비워 둘 수 없습니다</string>
     <string name="today">오늘</string>
+    <string name="enter">입력</string>
+    <string name="no_habits">설정한 습관이 없습니다</string>
+    <string name="no_numerical_habits">수치형 습관 목표가 없습니다</string>
+    <string name="no_boolean_habits">단답형 습관 목표가 없습니다</string>
+    <string name="increment">증가</string>
+    <string name="decrement">감소</string>
+    <string name="pref_skip_title">날짜 스킵 허용</string>
+    <string name="pref_skip_description">두번 토글하면, 확인 표시 대신에 해당 일자의 기록을 제외합니다. 제외된 날은 점수에 반영되지 않고, 연속 기록도 유지됩니다.</string>
+    <string name="pref_unknown_title">기록이 없는 날에 물음표 표시</string>
+    <string name="pref_unknown_description">데이터가 없는 날과 넘겼다고 실제로 기록한 날에 차이를 둡니다. 넘겼다고 기록하려면 두 번 누르세요. </string>
+    <string name="you_are_now_a_developer">당신은 이제 개발자입니다.</string>
+    <string name="activity_not_found">이 작업을 지원하는 앱을 찾을 수 없습니다.</string>
+    <string name="pref_midnight_delay_title">하루를 자정 이후까지 연장합니다.</string>
+    <string name="pref_midnight_delay_description">오전 3시를 기점으로 하루가 변경됩니다. 자정 이후 잠드는 경우 유용합니다. 변경시 앱 재시작 후 적용됩니다.</string>
 </resources>

@@ -1,0 +1,29 @@
+Loop Habit Tracker te ajută să creezi și să menții obiceiuri pozitive pe termen lung în viața ta. Detailed charts and statistics give you a clear picture of how your habits have improved over time. The app is completely ad-free, open source and it respects your privacy.
+
+<b>Beautiful, minimalistic and lightweight interface</b>
+Loop are o interfață elegantă și minimalistă, care este foarte ușor de utilizat, chiar și pentru utilizatorii începători. Foarte optimizată pentru viteză, aplicația funcționează bine chiar și pe telefoanele mai vechi.
+
+<b>Scorul obiceiului</b>
+Loop has an advanced formula for calculating the strength of your habits. Every repetition makes your habit stronger and every missed day makes it weaker. A few missed days after a long streak, however, will not completely destroy your progress, unlike many other don't-break-the-chain apps.
+
+<b>Flexible schedules</b>
+Pe lângă obiceiurile zilnice, Loop susține obiceiuri cu programe mai complexe, cum ar fi, de 3 ori pe săptămână sau din două în două zile.
+
+<b>Reminders</b>
+Programează notificări pentru a-ți aminti de obiceiurile tale. Each habit can have its own reminder, at a chosen time of the day. Easily check or dismiss your habit directly from the notification.
+
+<b>Widgets</b>
+Be reminded of your habits whenever you unlock your phone. Colorful widgets allow you to track your habits directly from your home screen, without even opening the app.
+
+<b>Preia controlul asupra datelor tale</b>
+If you want to further analyze your data, or move it to another service, Loop allows you to export it to spreadsheets (CSV) or to a database file (SQLite). For power users, checkmarks can be added through other apps, such as Tasker.
+
+<b>Fără limitări</b>
+Track as many habits as you wish. Loop nu impune limite artificiale asupra numărului de obiceiuri pe care le poți avea. Toate funcțiile sunt disponibile pentru toți utilizatorii. There are no in-app purchases.
+
+<b>Complet fără reclame și open-source</b>
+Nu există reclame, notificări enervante sau permisiuni intruzive în această aplicație și nu vor exista niciodată. Aplicația este complet open-source (GPLv3).
+
+<b>Funcționează offline și respectă confidențialitatea ta</b>
+Loop nu necesită o conexiune la internet sau înregistrarea unui cont online. Datele tale confidențiale nu au fost trimise nimănui. Neither the developers nor any third-parties have access to it.
+

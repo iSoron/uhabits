@@ -28,36 +28,38 @@
     <string name="add_habit">आदत जोड़ें</string>
     <string name="color_picker_default_title">रंग बदलें</string>
     <string name="toast_habit_created">आदत बनायी गई</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Habit changed</item>
+        <item quantity="other">Habits changed</item>
+    </plurals>
     <plurals name="toast_habits_deleted">
-        <item quantity="one">आदत हटाई गई</item>
-        <item quantity="other">आदतें हटाई गई</item>
+        <item quantity="one">Habit deleted</item>
+        <item quantity="other">Habits deleted</item>
     </plurals>
     <plurals name="toast_habits_archived">
-        <item quantity="one">आदत संग्रहित की गई</item>
-        <item quantity="other">आदतें संग्रहीत की गई</item>
+        <item quantity="one">Habit archived</item>
+        <item quantity="other">Habits archived</item>
     </plurals>
     <plurals name="toast_habits_unarchived">
-        <item quantity="one">आदत असंग्रहीत की गई</item>
+        <item quantity="one">आदतें असंग्रहीत की गई</item>
         <item quantity="other">आदतें असंग्रहीत की गई</item>
     </plurals>
     <string name="overview">अवलोकन</string>
-    <string name="habit_strength">आदत शक्ति</string>
-    <string name="history">पूर्वलेख</string>
-    <string name="clear">साफ करें</string>
-    <string name="reminder">अनुस्मारक</string>
-    <string name="save">सहेजें</string>
-    <string name="streaks">प्रवर्ति</string>
-    <string name="no_habits_found">\"आपकी कोई सक्रिय आदत नही है
-\"</string>
-    <string name="no_habits_left_to_do">आप के आज के सभी कार्य समाप्त होते हैं </string>
-    <string name="long_press_to_toggle">चेक या अनचेक करने के लिए दबाएँ व दबाएँ रखें </string>
-    <string name="reminder_off">बंद</string>
+    <string name="habit_strength">आदत की मजबूती</string>
+    <string name="history">पुराना आदत </string>
+    <string name="clear">खाली करें</string>
+    <string name="reminder">याद दिलाए </string>
+    <string name="save">सेव करें</string>
+    <string name="streaks">सिलसीला </string>
+    <string name="no_habits_found">आपकी कोई सक्रिय आदत नहीं है</string>
+    <string name="no_habits_left_to_do">आप के आज के लिए काम तमाम !</string>
+    <string name="long_press_to_toggle">चेक या अनचेक करने के लिए दबाएँ या दबा के रखे</string>
+    <string name="reminder_off">बंद करे </string>
     <string name="create_habit">नयी आदत बनाएं </string>
     <string name="edit_habit">आदत में बद्लाव करें </string>
-    <string name="check">अंकित करें</string>
+    <string name="check">जाञ्च करें</string>
     <string name="snooze">बाद में</string>
-    <string name="intro_title_1">\"
-स्वागत हे\"</string>
+    <string name="intro_title_1">स्वागत है</string>
     <string name="intro_description_1">लूप हैबिट ट्रैकर नई और अच्छी आदतों को बनाए रखने मे मदद करता है ।</string>
     <string name="intro_title_2">कुछ नई अच्छी आदतें बनाएँ</string>
     <string name="intro_description_2">हर दिन, अपनी आदत के प्रदर्शन के बाद, ऐप पर एक सही का निशान डालें</string>
@@ -75,6 +77,7 @@
     <string name="interval_always_ask">हमेशा पूछें</string>
     <string name="interval_custom">अपने तरीके से बनाएं</string>
     <string name="pref_toggle_title">टॉगल पुनरावृत्ति  हल्का दबाने से</string>
+    <string name="pref_toggle_description_2">प्रेस-एंड-होल्ड के बजाय एक टैप से चेकमार्क लगाएं।</string>
     <string name="pref_rate_this_app">\"
 गूगले प्ले पर इस ऐप्लिकेशन को रेट करें\"</string>
     <string name="pref_send_feedback">डेवेलपर को प्रतिक्रिया भेजें </string>
@@ -99,8 +102,7 @@
     <string name="habit_not_found">आदत हटाई गई / नहीं मिली</string>
     <string name="weekends">\"
 सप्ताहांत\"</string>
-    <string name="any_weekday">\"
-सोमवार से शुक्रवार\"</string>
+    <string name="any_weekday">सोमवार से शुक्रवार</string>
     <string name="any_day">\"
 सप्ताह का कोई भी दिन\"</string>
     <string name="select_weekdays">दिन चुनें</string>
@@ -172,6 +174,7 @@
 कोई आवाज नहीं\"</string>
     <string name="filter">फिल्टर</string>
     <string name="hide_completed">पूर्ण छुपाएं</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">गुप्त प्रवेश</string>
     <string name="hide_archived">संग्रहीत छुपाएं</string>
     <string name="sticky_notifications">सुचनाए स्थयी रखे</string>
     <string name="sticky_notifications_description">नोटिफिकेशन को स्वाइप करने से रोकता है!</string>
@@ -191,8 +194,12 @@
     <string name="by_status">स्थिति से</string>
     <string name="export">एक्सपोर्ट करे</string>
     <string name="long_press_to_edit">बदलने के लिए दबाकर रखें</string>
+    <string name="value">मान</string>
     <string name="calendar">कैलेंडर</string>
     <string name="unit">इकाई</string>
+    <string name="target_type">लक्ष्य प्रकार</string>
+    <string name="target_type_at_least">कम से कम</string>
+    <string name="target_type_at_most">ज्यादा से ज्यादा</string>
     <string name="example_question_boolean">जैसे आपने आज व्यायाम किया?</string>
     <string name="question">प्रश्न</string>
     <string name="target">लक्ष्य</string>
