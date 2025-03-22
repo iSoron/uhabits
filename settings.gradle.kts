@@ -10,4 +10,4 @@ pluginManagement {
     }
 }
 
-include(":uhabits-android", ":uhabits-core", ":uhabits-server")
+include(":uhabits-android", ":uhabits-core")
