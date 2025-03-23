@@ -98,7 +98,7 @@ class HistoryCardPresenter(
             entry.value,
             entry.notes,
             habit.color
-        ) { newValue, newNotes, _: Float, _: Float ->
+        ) { newValue, newNotes ->
             commandRunner.run(
                 CreateRepetitionCommand(
                     habitList,
@@ -135,7 +135,7 @@ class HistoryCardPresenter(
         screen.showNumberPopup(
             value = oldValue / 1000.0,
             notes = entry.notes
-        ) { newValue: Double, newNotes: String, _: Float, _: Float ->
+        ) { newValue: Double, newNotes: String ->
             val thousands = (newValue * 1000).roundToInt()
             commandRunner.run(
                 CreateRepetitionCommand(

@@ -224,6 +224,7 @@ class ListHabitsScreen
     }
 
     override fun showConfetti(color: PaletteColor, x: Float, y: Float) {
+        if (x == 0f && y == 0f) return
         if (preferences.isConfettiAnimationDisabled) return
         val baseColor = themeSwitcher.currentTheme!!.color(color).toInt()
         rootView.get().konfettiView.start(
@@ -268,7 +269,7 @@ class ListHabitsScreen
             putDouble("value", value)
             putString("notes", notes)
         }
-        dialog.onToggle = { v, n, x, y -> callback.onNumberPicked(v, n, x, y) }
+        dialog.onToggle = { v, n -> callback.onNumberPicked(v, n) }
         dialog.dismissCurrentAndShow(fm, "numberDialog")
     }
 
@@ -286,7 +287,7 @@ class ListHabitsScreen
             putInt("value", selectedValue)
             putString("notes", notes)
         }
-        dialog.onToggle = { v, n, x, y -> callback.onNotesSaved(v, n, x, y) }
+        dialog.onToggle = { v, n -> callback.onNotesSaved(v, n) }
         dialog.dismissCurrentAndShow(fm, "checkmarkDialog")
     }
 

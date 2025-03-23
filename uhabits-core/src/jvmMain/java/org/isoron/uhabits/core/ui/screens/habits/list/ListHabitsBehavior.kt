@@ -51,11 +51,11 @@ open class ListHabitsBehavior @Inject constructor(
         screen.showHabitScreen(h)
     }
 
-    fun onEdit(habit: Habit, timestamp: Timestamp?) {
+    fun onEdit(habit: Habit, timestamp: Timestamp?, x: Float, y: Float) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
-            screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String, x: Float, y: Float ->
+            screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
                 if (newValue != oldValue) {
                     if (
@@ -72,7 +72,7 @@ open class ListHabitsBehavior @Inject constructor(
                 entry.value,
                 entry.notes,
                 habit.color
-            ) { newValue: Int, newNotes: String, x: Float, y: Float ->
+            ) { newValue: Int, newNotes: String ->
                 if (newValue != entry.value && newValue == YES_MANUAL) screen.showConfetti(habit.color, x, y)
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
@@ -159,9 +159,7 @@ open class ListHabitsBehavior @Inject constructor(
     fun interface NumberPickerCallback {
         fun onNumberPicked(
             newValue: Double,
-            notes: String,
-            x: Float,
-            y: Float
+            notes: String
         )
         fun onNumberPickerDismissed() {}
     }
@@ -169,9 +167,7 @@ open class ListHabitsBehavior @Inject constructor(
     fun interface CheckMarkDialogCallback {
         fun onNotesSaved(
             value: Int,
-            notes: String,
-            x: Float,
-            y: Float
+            notes: String
         )
         fun onNotesDismissed() {}
     }

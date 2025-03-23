@@ -169,7 +169,8 @@ class HabitCardView(
             }
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onEdit(it, timestamp) }
+                val location = getAbsoluteButtonLocation(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp, location.x, location.y) }
             }
         }
 
@@ -177,7 +178,8 @@ class HabitCardView(
             visibility = GONE
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onEdit(it, timestamp) }
+                val location = getAbsoluteButtonLocation(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp, location.x, location.y) }
             }
         }
 
@@ -224,9 +226,13 @@ class HabitCardView(
     private fun getRelativeButtonLocation(timestamp: Timestamp): PointF {
         val today = DateUtils.getTodayWithOffset()
         val offset = timestamp.daysUntil(today) - dataOffset
-        val button = checkmarkPanel.buttons[offset]
+        val panel = when (habit!!.isNumerical) {
+            true -> numberPanel
+            false -> checkmarkPanel
+        }
+        val button = panel.buttons[offset]
         val y = button.height / 2.0f
-        val x = checkmarkPanel.x + button.x + (button.width / 2).toFloat()
+        val x = panel.x + button.x + (button.width / 2).toFloat()
         return PointF(x, y)
     }
 

@@ -25,7 +25,7 @@ import java.text.ParseException
 
 class NumberDialog : AppCompatDialogFragment() {
 
-    var onToggle: (Double, String, Float, Float) -> Unit = { _, _, _, _ -> }
+    var onToggle: (Double, String) -> Unit = { _, _ -> }
     var onDismiss: () -> Unit = {}
 
     private var originalNotes: String = ""
@@ -122,7 +122,7 @@ class NumberDialog : AppCompatDialogFragment() {
         }
         val notes = view.notes.text.toString()
         val location = view.saveBtn.getCenter()
-        onToggle(value, notes, location.x, location.y)
+        onToggle(value, notes)
         requireDialog().dismiss()
     }
 }
