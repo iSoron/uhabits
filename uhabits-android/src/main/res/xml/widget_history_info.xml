@@ -19,10 +19,10 @@
   -->
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:minHeight="80dp"
-                    android:minWidth="80dp"
-                    android:minResizeWidth="80dp"
-                    android:minResizeHeight="80dp"
+                    android:minHeight="100dp"
+                    android:minWidth="100dp"
+                    android:minResizeWidth="100dp"
+                    android:minResizeHeight="100dp"
                     android:initialLayout="@layout/widget_graph"
                     android:previewImage="@drawable/widget_preview_history"
                     android:resizeMode="vertical|horizontal"
