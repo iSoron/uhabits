@@ -122,9 +122,13 @@ class HabitsCSVExporter(
         val out = FileWriter(exportDirName + filename)
         generatedFilenames.add(filename)
         val dateFormat = DateFormats.getCSVDateFormat()
-        for ((timestamp, value) in entries.getKnown()) {
+        for ((timestamp, value, notes) in entries.getKnown()) {
             val date = dateFormat.format(timestamp.toJavaDate())
-            out.write(String.format(Locale.US, "%s,%d\n", date, value))
+            if (notes.isEmpty()) {
+                out.write(String.format(Locale.US, "%s,%d,\n", date, value))
+            } else {
+                out.write(String.format(Locale.US, "%s,%d,\"%s\"\n", date, value, notes.replace("\"", "”")))
+            }
         }
         out.close()
     }
