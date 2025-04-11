@@ -204,7 +204,7 @@ class RingView : View {
         val res = StyledResources(context)
         if (backgroundColor == null) backgroundColor = res.getColor(R.attr.cardBgColor)
         if (inactiveColor == null) inactiveColor = res.getColor(R.attr.contrast100)
-        inactiveColor = setAlpha(inactiveColor!!, 0.1f)
+        inactiveColor = setAlpha(inactiveColor!!, 0.15f)
         rect = RectF()
     }
 
