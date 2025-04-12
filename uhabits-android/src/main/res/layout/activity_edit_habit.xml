@@ -94,8 +94,9 @@
                         <EditText
                             android:id="@+id/nameInput"
                             style="@style/FormInput"
-                            android:maxLines="1"
-                            android:inputType="textCapSentences"
+                            android:maxLines="2"
+                            android:maxLength="50"
+                            android:inputType="textCapSentences|textMultiLine"
                             android:hint="@string/yes_or_no_short_example"
                             />
                     </LinearLayout>
