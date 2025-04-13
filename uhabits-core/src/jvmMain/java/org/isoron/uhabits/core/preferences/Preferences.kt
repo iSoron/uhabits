@@ -128,6 +128,7 @@ open class Preferences(private val storage: Storage) {
         get() = storage.getBoolean("pref_pure_black", false)
         set(enabled) {
             storage.putBoolean("pref_pure_black", enabled)
+            for (l in listeners) l.onPureBlackChanged()
         }
     var isShortToggleEnabled: Boolean
         get() = storage.getBoolean("pref_short_toggle", false)
@@ -243,6 +244,7 @@ open class Preferences(private val storage: Storage) {
         fun onCheckmarkSequenceChanged() {}
         fun onNotificationsChanged() {}
         fun onQuestionMarksChanged() {}
+        fun onPureBlackChanged() {}
     }
 
     interface Storage {

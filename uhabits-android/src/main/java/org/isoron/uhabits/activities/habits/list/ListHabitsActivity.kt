@@ -79,6 +79,10 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         menu.behavior.onPreferencesChanged()
     }
 
+    override fun onPureBlackChanged() {
+        screen.applyTheme()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
