@@ -101,6 +101,11 @@ open class Preferences(private val storage: Storage) {
         set(showCompleted) {
             storage.putBoolean("pref_show_completed", showCompleted)
         }
+    var greyCompleted: Boolean
+        get() = storage.getBoolean("pref_grey_completed", false)
+        set(greyCompleted) {
+            storage.putBoolean("pref_grey_completed", greyCompleted)
+        }
 
     var theme: Int
         get() = storage.getInt("pref_theme", ThemeSwitcher.THEME_AUTOMATIC)

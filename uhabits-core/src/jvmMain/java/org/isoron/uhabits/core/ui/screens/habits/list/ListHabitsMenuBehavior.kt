@@ -31,6 +31,7 @@ class ListHabitsMenuBehavior @Inject constructor(
     private val themeSwitcher: ThemeSwitcher
 ) {
     private var showCompleted: Boolean
+    private var greyCompleted: Boolean
     private var showArchived: Boolean
 
     fun onCreateHabit() {
@@ -58,6 +59,12 @@ class ListHabitsMenuBehavior @Inject constructor(
     fun onToggleShowCompleted() {
         showCompleted = !showCompleted
         preferences.showCompleted = showCompleted
+        updateAdapterFilter()
+    }
+
+    fun onToggleGreyCompleted() {
+        greyCompleted = !greyCompleted
+        preferences.greyCompleted = greyCompleted
         updateAdapterFilter()
     }
 
@@ -137,6 +144,7 @@ class ListHabitsMenuBehavior @Inject constructor(
 
     init {
         showCompleted = preferences.showCompleted
+        greyCompleted = preferences.greyCompleted
         showArchived = preferences.showArchived
         updateAdapterFilter()
     }

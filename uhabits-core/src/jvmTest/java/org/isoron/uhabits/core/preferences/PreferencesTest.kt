@@ -156,10 +156,13 @@ class PreferencesTest : BaseUnitTest() {
     fun testFiltering() {
         assertFalse(prefs.showArchived)
         assertTrue(prefs.showCompleted)
+        assertFalse(prefs.greyCompleted)
         prefs.showArchived = true
         prefs.showCompleted = false
+        prefs.greyCompleted = true
         assertTrue(prefs.showArchived)
         assertFalse(prefs.showCompleted)
+        assertTrue(prefs.greyCompleted)
     }
 
     @Test
