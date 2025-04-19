@@ -151,6 +151,10 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
             Log.d("SettingsFragment", "updating widgets")
             widgetUpdater!!.updateWidgets()
         }
+        if (key == "pref_task_view_checkmark_scale_factor" && widgetUpdater != null) {
+            Log.d("SettingsFragment", "updating widgets")
+            widgetUpdater!!.updateWidgets()
+        }
         BackupManager.dataChanged("org.isoron.uhabits")
         updateWeekdayPreference()
     }

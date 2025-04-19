@@ -179,6 +179,8 @@ class CheckmarkButtonView(
                 paint.style = Paint.Style.FILL
             }
 
+            paint.textSize *= preferences.taskViewCheckmarkScaleFactor
+
             val label = resources.getString(id)
             val em = paint.measureText("m")
 

@@ -94,4 +94,20 @@
         <item>51</item>
         <item>0</item>
     </string-array>
+
+    <string-array name="checkmark_scale_entries">
+        <item>5x</item>
+        <item>4x</item>
+        <item>3x</item>
+        <item>2x</item>
+        <item>1x</item>
+    </string-array>
+
+    <string-array name="checkmark_scale_values">
+        <item>5</item>
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
 </resources>

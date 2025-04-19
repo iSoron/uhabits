@@ -205,6 +205,11 @@ open class Preferences(private val storage: Storage) {
             for (l in listeners) l.onQuestionMarksChanged()
         }
 
+    var taskViewCheckmarkScaleFactor: Int
+        get() = storage.getString("pref_task_view_checkmark_scale_factor", "1").toInt()
+        set(value) {
+            storage.putString("pref_task_view_checkmark_scale_factor", value.toString())
+        }
     /**
      * @return An integer representing the first day of the week. Sunday
      * corresponds to 1, Monday to 2, and so on, until Saturday, which is

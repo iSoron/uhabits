@@ -81,6 +81,15 @@
                 android:title="@string/first_day_of_the_week"
                 app:iconSpaceReserved="false" />
 
+        <ListPreference
+            android:defaultValue="255"
+            android:entries="@array/checkmark_scale_entries"
+            android:entryValues="@array/checkmark_scale_values"
+            android:key="pref_task_view_checkmark_scale_factor"
+            android:summary="@string/pref_task_view_checkmark_scale_factor"
+            android:title="@string/pref_task_view_checkmark_scale_factor"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
