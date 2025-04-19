@@ -10,7 +10,7 @@ Loop, alışkanlıklarınızın kalıcılığını hesaplamak için gelişmiş b
 Loop, günlük alışkanlıkların yanında, daha karmaşık programları da (örneğin haftada 3 kez veya gün aşırı gibi) destekler.
 
 <b>Hatırlatmalar</b>
-Alışkanlıklarınızı size hatırlatması için bildirimler ayarlayabilirsiniz. Her alışkanlık için özel bir bildirim ayarlayabilirsiniz, belirlediğiniz zamanda hatırlatmak üzere. Alışkanlığınızı doğrudan bildirimlerden kolayca işaretleyin veya erteleyin.
+Alışkanlıklarınızı size hatırlatması için bildirimler ayarlayabilirsiniz. Her bir alışkanlık için gün içinde seçilecek bir zamanda ayrı ayrı bildirim ayarlayabilirsiniz,  Alışkanlığınızı doğrudan bildirimlerden kolayca işaretleyin veya erteleyin.
 
 <b>Widget'lar</b>
 Telefonunuzun kilidini her açtığınızda alışkanlıklarınız size hatırlatılır. Renkli widget'lar, uygulamayı açmadan bile alışkanlıklarınızı doğrudan ana ekranınızdan izlemenizi sağlar.

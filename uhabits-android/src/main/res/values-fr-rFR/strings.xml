@@ -75,7 +75,7 @@
     <string name="interval_always_ask">Toujours demander</string>
     <string name="interval_custom">Personnaliser...</string>
     <string name="pref_toggle_title">Valider l\'habitude avec un appui court</string>
-    <string name="pref_toggle_description_2">Cochez les cases d\'un simple appuie au lieu de les maintenir</string>
+    <string name="pref_toggle_description_2">Cochez les cases d\'un simple appui au lieu de les maintenir</string>
     <string name="pref_rate_this_app">Notez cette app sur le Google Play Store</string>
     <string name="pref_send_feedback">Envoyez un avis au développeur</string>
     <string name="pref_view_source_code">Voir le code source sur GitHub</string>
@@ -147,7 +147,7 @@
     <string name="none">Aucun</string>
     <string name="filter">Filtre</string>
     <string name="hide_completed">Cacher les habitudes complétées</string>
-    <string name="hide_entered">Cacher les entrées</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Cacher les entrées</string>
     <string name="hide_archived">Cacher les habitudes archivées</string>
     <string name="sticky_notifications">Rendre les notifications persistantes</string>
     <string name="sticky_notifications_description">Évite que les notifications ne soient enlevées.</string>

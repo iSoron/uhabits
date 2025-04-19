@@ -44,9 +44,9 @@
         <item quantity="other">Навике архивиране</item>
     </plurals>
     <plurals name="toast_habits_unarchived">
-        <item quantity="one">Навика деархивирана</item>
-        <item quantity="few">Навике деархивиране</item>
-        <item quantity="other">Навике деархивиране</item>
+        <item quantity="one">Навика враћена из архиве</item>
+        <item quantity="few">Навике враћене из архиве</item>
+        <item quantity="other">Навике враћене из архиве</item>
     </plurals>
     <string name="overview">Преглед</string>
     <string name="habit_strength">Моћ навике</string>
@@ -54,7 +54,7 @@
     <string name="clear">Очисти</string>
     <string name="reminder">Подсетник</string>
     <string name="save">Сачувај</string>
-    <string name="streaks">Низови</string>
+    <string name="streaks">Рекорди</string>
     <string name="no_habits_found">Немате активних навика</string>
     <string name="no_habits_left_to_do">Завршили сте за данас!</string>
     <string name="long_press_to_toggle">Дуг притисак за мењање стања</string>
@@ -79,6 +79,7 @@
     <string name="interval_always_ask">Увек питај</string>
     <string name="interval_custom">Прилагођено...</string>
     <string name="pref_toggle_title">Мењај стање додиром</string>
+    <string name="pref_toggle_description_2">Ставите квачице једним додиром уместо притискањем и држањем.</string>
     <string name="pref_rate_this_app">Оцени апликацију</string>
     <string name="pref_send_feedback">Повратне информације</string>
     <string name="pref_view_source_code">Изворни кôд на Гитхабу</string>
@@ -152,6 +153,7 @@
     <string name="none">без звука</string>
     <string name="filter">Филтер</string>
     <string name="hide_completed">Сакриј завршено</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Сакриј унесене</string>
     <string name="hide_archived">Сакриј архивирано</string>
     <string name="sticky_notifications">Учини обавештења трајним</string>
     <string name="sticky_notifications_description">Спречава уклањање обавештења.</string>
@@ -171,8 +173,12 @@
     <string name="by_status">по стању</string>
     <string name="export">Извоз</string>
     <string name="long_press_to_edit">Дуг притисак за промену вредности</string>
+    <string name="value">Вредност</string>
     <string name="calendar">Календар</string>
     <string name="unit">Јединица</string>
+    <string name="target_type">Врста циља</string>
+    <string name="target_type_at_least">најмање</string>
+    <string name="target_type_at_most">највише</string>
     <string name="example_question_boolean">нпр. Да ли сте вежбали данас?</string>
     <string name="question">Питање</string>
     <string name="target">Циљ</string>

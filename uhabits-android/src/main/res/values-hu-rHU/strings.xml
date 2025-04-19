@@ -75,6 +75,7 @@
     <string name="interval_always_ask">Mindig rákérdez</string>
     <string name="interval_custom">Egyedi...</string>
     <string name="pref_toggle_title">Bejelölés rövid koppintással</string>
+    <string name="pref_toggle_description_2">Nyomva tartás helyett koppintással tudja a napokat kipipálni.</string>
     <string name="pref_rate_this_app">Értékeld az alkalmazást a Google Play-en</string>
     <string name="pref_send_feedback">Visszajelzés küldése a fejlesztőnek</string>
     <string name="pref_view_source_code">Forráskód megtekintése a GitHub-on</string>
@@ -151,6 +152,7 @@
     <string name="none">Nem ismétlődik</string>
     <string name="filter">Szűrő</string>
     <string name="hide_completed">Elvégzettek elrejtése</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Ha bekapcsolta a kérdőjelek megjelenítését, akkor az \"Elvégzettek elrejtése\" helyett a \"Beírtak elrejtése\" fog megjelenni. Ez a beállítás elrejti az összes olyan szokást, amelyhez adat lett megadva, nem csak az elvégzetteket. Így el tudja rejteni azokat a szokásokat is, amelyekkel a nap elején kudarcot vallott.</string>
     <string name="hide_archived">Archiváltak elrejtése</string>
     <string name="sticky_notifications">Az értesítések legyenek ragadósak</string>
     <string name="sticky_notifications_description">Megakadályozza az értesítések eltávolítását</string>
@@ -170,8 +172,12 @@
     <string name="by_status">Állapot szerint</string>
     <string name="export">Exportálás</string>
     <string name="long_press_to_edit">Az érték módosításához tartsd lenyomva</string>
+    <string name="value">Érték</string>
     <string name="calendar">Naptár</string>
     <string name="unit">Egység</string>
+    <string name="target_type">Célkitűzés típusa</string>
+    <string name="target_type_at_least">Legalább</string>
+    <string name="target_type_at_most">Legfeljebb</string>
     <string name="example_question_boolean">pl. Edzettél ma?</string>
     <string name="question">Kérdés</string>
     <string name="target">Cél</string>

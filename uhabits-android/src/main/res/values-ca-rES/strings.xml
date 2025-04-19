@@ -67,6 +67,7 @@
     <string name="interval_always_ask">Pregunta sempre</string>
     <string name="interval_custom">Personalitza...</string>
     <string name="pref_toggle_title">Activar/desactivar repeticions prement curt</string>
+    <string name="pref_toggle_description_2">Posa les marques de verificació amb un sol toc en lloc de prémer</string>
     <string name="pref_rate_this_app">Valora aquesta app a Google Play</string>
     <string name="pref_send_feedback">Enviar resposta al desenvolupador</string>
     <string name="pref_view_source_code">Veure codi font a Github</string>
@@ -127,7 +128,7 @@
     <string name="day">Dia</string>
     <string name="week">Setmana</string>
     <string name="month">Mes</string>
-    <string name="quarter">Quatrimestre</string>
+    <string name="quarter">Trimestre</string>
     <string name="year">Any</string>
     <string name="total">Total</string>
     <string name="yes_or_no">Sí o No</string>
@@ -138,6 +139,7 @@
     <string name="none">Cap</string>
     <string name="filter">Filtre</string>
     <string name="hide_completed">Amaga completat</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Amagar introduït</string>
     <string name="hide_archived">Amaga arxivades</string>
     <string name="sticky_notifications">Fer les notificacions enganxós</string>
     <string name="sticky_notifications_description">Evita les notificacions de ser pispat lluny.</string>
@@ -157,8 +159,11 @@
     <string name="by_status">Per estat</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Prémer i mantenir per a canviar el valor</string>
+    <string name="value">Valor</string>
     <string name="calendar">Calendari</string>
     <string name="unit">Unitat</string>
+    <string name="target_type">Tipus objectiu</string>
+    <string name="target_type_at_least">Al menys</string>
     <string name="example_question_boolean">p.e. Has fet exercici avui?</string>
     <string name="question">Pregunta</string>
     <string name="target">Objectiu</string>

@@ -135,6 +135,12 @@ open class Preferences(private val storage: Storage) {
             storage.putBoolean("pref_short_toggle", enabled)
         }
 
+    var isConfettiAnimationDisabled: Boolean
+        get() = storage.getBoolean("pref_disable_animation", false)
+        set(enabled) {
+            storage.putBoolean("pref_disable_animation", enabled)
+        }
+
     fun removeListener(listener: Listener) {
         listeners.remove(listener)
     }

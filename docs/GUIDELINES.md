@@ -12,17 +12,6 @@
 
 Please see `docs/BUILD.md` and `docs/TEST.md`
 
-## Directory Layout
-
-* `docs` Documentation for developers.
-* `landing` Source code for our [landing page](http://loophabits.org/).
-* `uhabits-android` Android-specific code.
-* `uhabits-core` Common code used by all platforms (Android, iOS).
-* `uhabits-core-legacy` Proof-of-concept module, developed to evaluate the feasibility of using Kotlin multiplatform for the app; not currently used, and it will be removed soon, once all useful code is ported to the other modules.
-* `uhabits-ios` Experimental iOS port of Loop. Not currently used in production.
-* `uhabits-server` Source code for any server-side components the app (for example, device sync).
-* `uhabits-web` Experimental web port of Loop. Not currently used in production.
-
 ## Branching Policy
 
 This repository uses the [git-flow branching model](https://nvie.com/posts/a-successful-git-branching-model/). Basically, there are two main branches, `dev` and `master`. All the development takes place in the `dev` branch. After the new features have been implemented and tested, they are merged into the `master` branch and a new version of the app is released. Please submit your pull requests against the `dev` branch.

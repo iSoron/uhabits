@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="main_activity_title">Venjur</string>
+    <string name="action_settings">Stillingar</string>
+    <string name="edit">Breyta</string>
+    <string name="delete">Eyða</string>
+    <string name="archive">Setja í geymslu</string>
+    <string name="unarchive">Taka úr geymslu</string>
+    <string name="add_habit">Ný venja</string>
+    <string name="color_picker_default_title">Breyta lit</string>
+    <string name="toast_habit_created">Venja sköpuð</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Venju breytt</item>
+        <item quantity="other">Venjur breyttar</item>
+    </plurals>
+    <string name="overview">Yfirlit</string>
+    <string name="history">Ferill</string>
+    <string name="clear">Hreinsa</string>
+    <string name="reminder">Áminning</string>
+    <string name="save">Vista</string>
+    <string name="no_habits_left_to_do">Þú ert búin(n) í dag!</string>
+    <string name="reminder_off">Af</string>
+    <string name="create_habit">Búa til venju</string>
+    <string name="edit_habit">Breyta venju</string>
+    <string name="check">Merkja</string>
+    <string name="snooze">Seinna</string>
+    <string name="intro_title_1">Velkomin(n)</string>
+    <string name="intro_title_4">Fylgstu með framförum þínum</string>
+    <string name="interval_15_minutes">15 mínútur</string>
+    <string name="interval_30_minutes">30 mínútur</string>
+    <string name="interval_1_hour">1 klukkustund</string>
+    <string name="interval_2_hour">2 Klukkustundir</string>
+    <string name="interval_4_hour">4 klukkustundir</string>
+    <string name="interval_8_hour">8 klukkustundir</string>
+    <string name="interval_24_hour">Sólarhring</string>
+    <string name="interval_always_ask">Alltaf spyrja</string>
+    <string name="interval_custom">Sérsniðið…</string>
+    <string name="pref_rate_this_app">Gefa forriti einkunn á Google Play</string>
+    <string name="pref_send_feedback">Senda athugasemdir til höfunda</string>
+    <string name="pref_view_source_code">Skoða frumkóðann á GitHub</string>
+    <string name="links">Tenglar</string>
+    <string name="name">Heiti</string>
+    <string name="settings">Stillingar</string>
+    <string name="select_snooze_delay">Stilla töf á blundi</string>
+    <string name="hint_title">Vissir þú?</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Eyða venju?</item>
+        <item quantity="other">Eyða venjum?</item>
+    </plurals>
+    <string name="weekends">Helgar</string>
+    <string name="any_weekday">Virka daga</string>
+    <string name="any_day">Alla daga</string>
+    <string name="select_weekdays">Veldu daga</string>
+    <string name="export_to_csv">Flytja út sem CSV</string>
+    <string name="done_label">Í lagi</string>
+    <string name="clear_label">Hreinsa</string>
+    <string name="select_hours">Veldu klukkustundir</string>
+    <string name="select_minutes">Veldu mínútur</string>
+    <string name="about">Um</string>
+    <string name="translators">Þýðendur</string>
+    <string name="developers">Hönnuðir</string>
+    <string name="version_n">Útgáfa %s</string>
+    <string name="frequency">Tíðni</string>
+    <string name="checkmark">Gátmerki</string>
+    <string name="every_day">Daglega</string>
+    <string name="every_week">Vikulega</string>
+    <string name="help">Aðstoð og algengar spurningar</string>
+    <string name="could_not_export">Mistókst að flytja gögn út.</string>
+    <string name="could_not_import">Mistókst að flytja inn gögn.</string>
+    <string name="file_not_recognized">Skrá ekki þekkt.</string>
+    <string name="habits_imported">Venjur fluttar inn.</string>
+    <string name="import_data">Flytja inn gögn</string>
+    <string name="export_full_backup">Flytja út fullt öryggisafrit</string>
+    <string name="bug_report_failed">Mistókst að búa til villuskýrslu.</string>
+    <string name="generate_bug_report">Búa til villuskýrslu</string>
+    <string name="troubleshooting">Leysa vandamál</string>
+    <string name="help_translate">Hjálpa til við að þýða</string>
+    <string name="night_mode">Dökkt þema</string>
+    <string name="use_pure_black">Nota kolsvarta þemu</string>
+    <string name="interface_preferences">Viðmót</string>
+    <string name="day">Dagur</string>
+    <string name="week">Vika</string>
+    <string name="month">Mánuður</string>
+    <string name="quarter">3 mánuðir</string>
+    <string name="year">Ár</string>
+    <string name="total">Samtals</string>
+    <string name="yes_or_no">Já eða nei</string>
+    <string name="every_x_days">Á %d daga fresti</string>
+    <string name="every_x_weeks">Á %d vikna fresti</string>
+    <string name="score">Árangur</string>
+    <string name="reminder_sound">Tilkynningarhljóð</string>
+    <string name="none">Ekkert</string>
+    <string name="filter">Sía</string>
+    <string name="hide_completed">Fela lokuð</string>
+    <string name="hide_archived">Fela í geymslu</string>
+    <string name="led_notifications">Tilkynningaljós</string>
+    <string name="repair_database">Lagfæra gagnagrunn</string>
+    <string name="database_repaired">Gagnagrunnur lagfærður.</string>
+    <string name="uncheck">Afmerkja</string>
+    <string name="toggle">Víxla</string>
+    <string name="action">Aðgerð</string>
+    <string name="habit">Venja</string>
+    <string name="sort">Raða</string>
+    <string name="manually">Handvirkt</string>
+    <string name="by_name">Eftir heiti</string>
+    <string name="by_color">Eftir lit</string>
+    <string name="by_score">Eftir árangri</string>
+    <string name="by_status">Eftir stöðu</string>
+    <string name="export">Flytja út</string>
+    <string name="long_press_to_edit">Haltu inni til að breyta gildi</string>
+    <string name="value">Gildi</string>
+    <string name="calendar">Dagatal</string>
+    <string name="unit">Mælieining</string>
+    <string name="target_type">Tegund markmiðs</string>
+    <string name="target_type_at_least">Að minnsta kosti</string>
+    <string name="target_type_at_most">Í mesta lagi</string>
+    <string name="example_question_boolean">t.d., Æfðir þú þig í dag?</string>
+    <string name="question">Spurning</string>
+    <string name="target">Markmið</string>
+    <string name="yes">Já</string>
+    <string name="no">Nei</string>
+    <string name="customize_notification_summary">Breyta hljóði, titringi, ljósi og öðrum tilkynningastillingum</string>
+    <string name="customize_notification">Sérsníða tilkynningar</string>
+    <string name="pref_view_privacy">Skoða persónuverndarstefnu</string>
+    <string name="view_all_contributors">Skoða alla þátttakendur&#8230;</string>
+    <string name="database">Gagnagrunnur</string>
+    <string name="widget_opacity_title">Ógegnsæi græju</string>
+    <string name="first_day_of_the_week">Fyrsti dagur vikunar</string>
+    <string name="default_reminder_question">Hefurðu gert þetta í dag?</string>
+    <string name="notes">Minnispunktur</string>
+    <string name="example_notes">(Valfrjálst)</string>
+    <string name="yes_or_no_example">t.d., Vaknaðir þú snemma í dag? Æfðir þú þig? Tefldir þú skák?</string>
+    <string name="measurable">Mælanlegt</string>
+    <string name="measurable_example">t.d., Hversu marga kílómetra hljópstu í dag? Hvað lasstu margar blaðsíður?</string>
+    <string name="x_times_per_week">%d sinnum í viku</string>
+    <string name="x_times_per_month">%d sinnum á mánuði</string>
+    <string name="x_times_per_y_days">%d sinnum á %d dögum</string>
+    <string name="yes_or_no_short_example">t.d., Æfa sig</string>
+    <string name="color">Litur</string>
+    <string name="example_target">t.d., 15</string>
+    <string name="measurable_short_example">t.d., Hlaupa</string>
+    <string name="measurable_question_example">t.d., Hversu marga kílómetra hljópstu í dag?</string>
+    <string name="measurable_units_example">t.d., kílómetra</string>
+    <string name="every_month">Hvern mánuð</string>
+    <string name="validation_cannot_be_blank">Má ekki vera autt</string>
+    <string name="today">Í dag</string>
+    <string name="enter">Setja inn</string>
+    <string name="no_habits">Engar venjur fundust</string>
+    <string name="no_numerical_habits">Engar mælanlegar venjur fundust</string>
+    <string name="no_boolean_habits">Engar já/nei venjur fundust</string>
+    <string name="increment">Hækka</string>
+    <string name="decrement">Lækka</string>
+    <string name="pref_midnight_delay_title">Lengja daginn nokkrar klukkustundir yfir miðnætti</string>
+    <string name="pref_midnight_delay_description">Bíða til klukkan 03:00 til að sýna nýjan dag. Gagnlegt ef þú ferð að sofa eftir miðnætti. Krefst endurræsingar forritsins.</string>
+</resources>

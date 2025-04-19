@@ -53,7 +53,7 @@
     <string name="reminder_off">关闭</string>
     <string name="create_habit">新建习惯</string>
     <string name="edit_habit">编辑习惯</string>
-    <string name="check">标记</string>
+    <string name="check">打卡</string>
     <string name="snooze">稍后提醒</string>
     <string name="intro_title_1">欢迎</string>
     <string name="intro_description_1">Loop 习惯记录能帮你养成和保持好习惯。</string>
@@ -71,14 +71,14 @@
     <string name="interval_always_ask">总是询问</string>
     <string name="interval_custom">自定义</string>
     <string name="pref_toggle_title">短按切换</string>
-    <string name="pref_toggle_description_2">只需轻按一下即可放置复选标记，而不是按住。</string>
+    <string name="pref_toggle_description_2">只需点击一下即可打卡，而不是长按。</string>
     <string name="pref_rate_this_app">去 Play 商店评价此应用</string>
     <string name="pref_send_feedback">发送反馈给开发者</string>
     <string name="pref_view_source_code">在 GitHub 上查看源代码</string>
     <string name="links">链接</string>
     <string name="name">习惯标题</string>
     <string name="settings">设置</string>
-    <string name="select_snooze_delay">设定延后提醒间隔时间</string>
+    <string name="select_snooze_delay">设定稍后提醒的时间间隔</string>
     <string name="hint_title">你知道吗？</string>
     <string name="hint_drag">如果要重新排列习惯，按住习惯的名字拖到想要的位置</string>
     <string name="hint_landscape">转至横屏查看更多日期</string>
@@ -126,8 +126,8 @@
     <string name="pure_black_description">以纯黑色背景代替深色主题中的灰色背景。
 这可以降低 AMOLED 屏幕手机的耗电量。</string>
     <string name="interface_preferences">界面</string>
-    <string name="reverse_days">逆序显示日子</string>
-    <string name="reverse_days_description">在主界面以相反的顺序显示日子</string>
+    <string name="reverse_days">逆序显示日期</string>
+    <string name="reverse_days_description">在主界面以相反的顺序显示日期。</string>
     <string name="day">天</string>
     <string name="week">周</string>
     <string name="month">月</string>
@@ -142,7 +142,7 @@
     <string name="none">无</string>
     <string name="filter">筛选</string>
     <string name="hide_completed">隐藏已完成</string>
-    <string name="hide_entered">隐藏已输入</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">隐藏已输入</string>
     <string name="hide_archived">隐藏已存档</string>
     <string name="sticky_notifications">使通知持久</string>
     <string name="sticky_notifications_description">防止通知被滑掉。</string>
@@ -171,15 +171,15 @@
     <string name="example_question_boolean">例如：你今天锻炼了吗？</string>
     <string name="question">问题</string>
     <string name="target">目标</string>
-    <string name="yes">是</string>
-    <string name="no">否</string>
+    <string name="yes">完成了</string>
+    <string name="no">未完成</string>
     <string name="customize_notification_summary">更改声音、振动、指示灯（呼吸灯）和其他通知设置</string>
     <string name="customize_notification">自定义通知</string>
     <string name="pref_view_privacy">查看隐私政策</string>
     <string name="view_all_contributors">查看所有贡献者</string>
     <string name="database">数据库</string>
     <string name="widget_opacity_title">微件不透明度</string>
-    <string name="widget_opacity_description">调整主屏幕上微件的不透明度。</string>
+    <string name="widget_opacity_description">调整主屏幕上小部件的不透明度。</string>
     <string name="first_day_of_the_week">一周的第一天</string>
     <string name="default_reminder_question">你今天完成这个习惯了吗？</string>
     <string name="notes">备注</string>
@@ -205,10 +205,10 @@
     <string name="no_boolean_habits">找不到“是或不是”类的习惯</string>
     <string name="increment">增加（+1）</string>
     <string name="decrement">减少（-1）</string>
-    <string name="pref_skip_title">启用跳过天数</string>
+    <string name="pref_skip_title">启用跳过天数功能</string>
     <string name="pref_skip_description">切换两次以添加跳过而不是复选标记。跳过将保持您的得分不变，且不会打破你的连续纪录</string>
     <string name="pref_unknown_title">对丢失的数据显示问号</string>
-    <string name="pref_unknown_description">区分没有数据和实际犯错的日子。要输一个过失，请切换两次。</string>
+    <string name="pref_unknown_description">区分无数据和未完成习惯的日期。要输入一个习惯未完成，请切换两次。</string>
     <string name="you_are_now_a_developer">你现在是一个开发者！</string>
     <string name="activity_not_found">找不到支持此操作的应用</string>
     <string name="pref_midnight_delay_title">将一天延长到午夜后的几个小时</string>

@@ -233,5 +233,7 @@
     <string name="activity_not_found">No app was found to support this action</string>
     <string name="pref_midnight_delay_title">Extend day a few hours past midnight</string>
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
+    <string name="pref_animations_title">Disable animations</string>
+    <string name="pref_animations_description">Disable confetti animation after adding a checkmark.</string>
     <string name="pref_task_view_checkmark_scale_factor">Task View Checkmark scale factor</string>
 </resources>
