@@ -314,6 +314,10 @@ class EditHabitActivity : AppCompatActivity() {
                 binding.targetInput.error = getString(R.string.validation_cannot_be_blank)
                 isValid = false
             }
+            if (binding.unitInput.text.length > resources.getInteger(R.integer.unit_name_max_length)) {
+                binding.unitInput.error = getString(R.string.validation_unit_too_long)
+                isValid = false
+            }
         }
         return isValid
     }

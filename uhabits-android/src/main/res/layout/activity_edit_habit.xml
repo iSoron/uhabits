@@ -167,6 +167,7 @@
                         android:id="@+id/unitInput"
                         android:maxLines="1"
                         android:ems="10"
+                        android:maxLength="@integer/unit_name_max_length"
                         android:hint="@string/measurable_units_example"/>
                 </LinearLayout>
             </FrameLayout>

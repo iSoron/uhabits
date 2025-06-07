@@ -28,6 +28,9 @@
     <string name="bugReportTo">dev@loophabits.org</string>
     <string name="bugReportSubject">Bug Report - Loop Habit Tracker</string>
     <string name="syncBaseURL" formatted="false">https://sync.loophabits.org</string>
+    
+    <!-- Maximum length for unit names in numerical habits -->
+    <integer name="unit_name_max_length">7</integer>
 
     <string-array name="snooze_picker_names">
         <item>@string/interval_15_minutes</item>
