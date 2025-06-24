@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.3.0] -- 2025-06-23
+### Added
+- Add support for Android 15 and 16 (@iSoron)
+- Show confetti animation (@gokulk16, @iSoron, #1743)
+- Show streaks for measurable habits (@teckwarz, #2059)
+- Allow user to unset measurable habits (@leontodd, @kalina559, #1899, #2109)
+
+### Changed
+- Change background widget color for habits with implicit checks (@wobbba, #1915)
+
+### Fixed
+- Fix notification when goal type is set to maximum (@manish99verma, #1931)
+- Never mark "at most" habits as completed for the day (@kalina559, #2077)
+- Increase minimum widget size (@iSoron, #2118)
+- Improve Gradle configuration (@jimlyas, #2108)
+
 ## [2.2.0] -- 2024-01-30
 ### Added
 - Add support for Android 14 (@iSoron, @hiqua)
