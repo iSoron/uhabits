@@ -22,7 +22,6 @@ package org.isoron.uhabits.activities.habits.list.views
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
