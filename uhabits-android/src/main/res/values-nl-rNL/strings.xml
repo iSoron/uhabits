@@ -40,6 +40,10 @@
         <item quantity="one">Gewoontes gearchiveerd</item>
         <item quantity="other">Gewoontes gearchiveerd</item>
     </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Gewoonte niet gearchiveerd</item>
+        <item quantity="other">Gewoontes hersteld uit archief</item>
+    </plurals>
     <string name="overview">Overzicht</string>
     <string name="habit_strength">Gewoonte-sterkte</string>
     <string name="history">Geschiedenis</string>
@@ -82,6 +86,14 @@
     <string name="hint_title">Wist je dat?</string>
     <string name="hint_drag">Om de rijen te ordenen, houdt de gewoonte ingedrukt en sleep het naar de gewenste plek.</string>
     <string name="hint_landscape">Je kunt meer dagen zien door de telefoon in landschapsmodus te zetten.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">Verwijder gewoontes</item>
+        <item quantity="other">Gewoontes verwijderen?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">De gewoonte zal permanent verwijderd worden. Deze actie kan niet ongedaan gemaakt worden.</item>
+        <item quantity="other">De gewoontes zullen permanent verwijderd worden. Deze actie kan niet ongedaan gemaakt worden.</item>
+    </plurals>
     <string name="habit_not_found">Gewoonte verwijderd / niet gevonden</string>
     <string name="weekends">Weekends</string>
     <string name="any_weekday">Maandag tot vrijdag</string>

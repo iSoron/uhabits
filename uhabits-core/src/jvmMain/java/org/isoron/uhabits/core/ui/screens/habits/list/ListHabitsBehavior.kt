@@ -20,9 +20,12 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
+import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
@@ -48,12 +51,20 @@ open class ListHabitsBehavior @Inject constructor(
         screen.showHabitScreen(h)
     }
 
-    fun onEdit(habit: Habit, timestamp: Timestamp?) {
+    fun onEdit(habit: Habit, timestamp: Timestamp?, x: Float, y: Float) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
             screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
+                if (newValue != oldValue) {
+                    if (
+                        (habit.targetType == AT_LEAST && newValue >= habit.targetValue) ||
+                        (habit.targetType == AT_MOST && newValue <= habit.targetValue)
+                    ) {
+                        screen.showConfetti(habit.color, x, y)
+                    }
+                }
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
         } else {
@@ -61,7 +72,8 @@ open class ListHabitsBehavior @Inject constructor(
                 entry.value,
                 entry.notes,
                 habit.color
-            ) { newValue, newNotes ->
+            ) { newValue: Int, newNotes: String ->
+                if (newValue != entry.value && newValue == YES_MANUAL) screen.showConfetti(habit.color, x, y)
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
         }
@@ -117,10 +129,11 @@ open class ListHabitsBehavior @Inject constructor(
         if (prefs.isFirstRun) onFirstRun()
     }
 
-    fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String) {
+    fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String, x: Float, y: Float) {
         commandRunner.run(
             CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
         )
+        if (value == YES_MANUAL) screen.showConfetti(habit.color, x, y)
     }
 
     enum class Message {
@@ -144,12 +157,18 @@ open class ListHabitsBehavior @Inject constructor(
     }
 
     fun interface NumberPickerCallback {
-        fun onNumberPicked(newValue: Double, notes: String)
+        fun onNumberPicked(
+            newValue: Double,
+            notes: String
+        )
         fun onNumberPickerDismissed() {}
     }
 
     fun interface CheckMarkDialogCallback {
-        fun onNotesSaved(value: Int, notes: String)
+        fun onNotesSaved(
+            value: Int,
+            notes: String
+        )
         fun onNotesDismissed() {}
     }
 
@@ -170,5 +189,6 @@ open class ListHabitsBehavior @Inject constructor(
         )
         fun showSendBugReportToDeveloperScreen(log: String)
         fun showSendFileScreen(filename: String)
+        fun showConfetti(color: PaletteColor, x: Float, y: Float)
     }
 }

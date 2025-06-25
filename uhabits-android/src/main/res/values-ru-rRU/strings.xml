@@ -83,7 +83,7 @@
     <string name="interval_always_ask">Всегда спрашивать</string>
     <string name="interval_custom">Настроить...</string>
     <string name="pref_toggle_title">Отмечать коротким нажатием</string>
-    <string name="pref_toggle_description_2">Ставить галочки одним касанием вместо нажатия и удерживания.</string>
+    <string name="pref_toggle_description_2">Галочки в одно касание вместо нажатия и удержания</string>
     <string name="pref_rate_this_app">Оценить приложение в Google Play</string>
     <string name="pref_send_feedback">Отправить сообщение разработчику</string>
     <string name="pref_view_source_code">Посмотреть исходный код на GitHub</string>
@@ -159,7 +159,7 @@
     <string name="none">Без звука</string>
     <string name="filter">Фильтр</string>
     <string name="hide_completed">Скрыть завершённые</string>
-    <string name="hide_entered">Скрыть введённые</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Скрыть введённые</string>
     <string name="hide_archived">Скрыть архивированные</string>
     <string name="sticky_notifications">Сделать уведомления \"липкими\"</string>
     <string name="sticky_notifications_description">Предотвращает смахивание уведомлений.</string>

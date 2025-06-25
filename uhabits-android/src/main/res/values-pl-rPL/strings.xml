@@ -211,10 +211,10 @@
     <string name="color">Kolor</string>
     <string name="example_target">np. 15</string>
     <string name="measurable_short_example">np. Bieg</string>
-    <string name="measurable_question_example">np. Ile km przebiegłeś dzisiaj?</string>
+    <string name="measurable_question_example">np. Ile kilometrów dzisiaj przebiegłeś?</string>
     <string name="measurable_units_example">np. kilometry</string>
-    <string name="every_month">Co miesiąc</string>
-    <string name="validation_cannot_be_blank">Nie może być puste</string>
+    <string name="every_month">Każdego miesiąca</string>
+    <string name="validation_cannot_be_blank">Pole nie może być puste</string>
     <string name="today">Dzisiaj</string>
     <string name="enter">Wprowadź</string>
     <string name="no_habits">Nie znaleziono nawyków</string>

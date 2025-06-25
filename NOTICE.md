@@ -1,6 +1,6 @@
 # Copyright Notices
 
-### ActiveAndroid
+## ActiveAndroid
 
 <https://github.com/pardom/ActiveAndroid>
 
@@ -18,7 +18,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
-### Android Open Source Project
+## Android Open Source Project
 
 <https://source.android.com/>
 
@@ -36,7 +36,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
-### FontAwesome
+## FontAwesome
 
 <http://fontawesome.io>
 
@@ -59,7 +59,7 @@ under the SIL OFL 1.1.
     requirement for fonts to remain under this license does not apply
     to any document created using the fonts or their derivatives.
 
-### Material Design Icons
+## Material Design Icons
 
 <https://github.com/google/material-design-icons>
 
@@ -67,7 +67,7 @@ Material design icons are the official icon set from Google that are designed
 under the material design guidelines. Available under the Creative Common
 Attribution 4.0 International License (CC-BY 4.0).
 
-### Android Flow Layout
+## Android Flow Layout
 
 <https://github.com/ApmeM/android-flowlayout>
 
@@ -87,7 +87,7 @@ Extended linear layout that wrap its content when there is no place in the curre
     License for the specific language governing permissions and limitations
     under the License.
 
-### Dagger 2
+## Dagger 2
 
 <https://github.com/google/dagger>
 
@@ -108,7 +108,7 @@ A fast dependency injector for Android and Java.
        See the License for the specific language governing permissions and
        limitations under the License.
 
-### AutoFactory
+## AutoFactory
 
 <https://github.com/google/auto/tree/master/factory>
 
@@ -128,7 +128,7 @@ A source code generator for JSR-330-compatible factories.
        See the License for the specific language governing permissions and
        limitations under the License.
 
-### Retrolambda
+## Retrolambda
 
 <https://github.com/orfjackal/retrolambda>
 
@@ -138,7 +138,7 @@ Backport of Java 8's lambda expressions to Java 7, 6 and 5
     This software is released under the Apache License 2.0.
     The license text is at http://www.apache.org/licenses/LICENSE-2.0
 
-### PebbleKit SDK
+## PebbleKit SDK
 
 <https://github.com/pebble/pebble-android-sdk/>
 
@@ -147,7 +147,7 @@ Android PebbleKit SDK to talk to the Pebble via Bluetooth
     The MIT License (MIT)
     Copyright (c) 2014 - 2015 Pebble Technology
 
-### AppIntro
+## AppIntro
 
 <https://github.com/PaoloRotolo/AppIntro>
 
@@ -168,7 +168,7 @@ Make a cool intro for your Android app.
 	See the License for the specific language governing permissions and
 	limitations under the License.
 
-### ButterKnife
+## ButterKnife
 
 <https://github.com/JakeWharton/butterknife>
 
@@ -188,7 +188,7 @@ Bind Android views and callbacks to fields and methods
 	See the License for the specific language governing permissions and
 	limitations under the License.
 
-### opencsv
+## opencsv
 
 <http://opencsv.sourceforge.net/>
 

@@ -75,7 +75,8 @@ class HistoryWidget(
                     firstWeekday = prefs.firstWeekday,
                     series = listOf(),
                     defaultSquare = HistoryChart.Square.OFF,
-                    notesIndicators = listOf()
+                    notesIndicators = listOf(),
+                    padding = 2.5
                 )
             }
         ).apply {

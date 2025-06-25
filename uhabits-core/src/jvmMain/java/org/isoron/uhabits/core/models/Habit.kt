@@ -61,7 +61,7 @@ data class Habit(
         return if (isNumerical) {
             when (targetType) {
                 NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
-                NumericalHabitType.AT_MOST -> value / 1000.0 <= targetValue
+                NumericalHabitType.AT_MOST -> false
             }
         } else {
             value != Entry.NO && value != Entry.UNKNOWN
@@ -100,7 +100,10 @@ data class Habit(
         streaks.recompute(
             computedEntries,
             from,
-            to
+            to,
+            isNumerical,
+            targetValue,
+            targetType
         )
     }
 

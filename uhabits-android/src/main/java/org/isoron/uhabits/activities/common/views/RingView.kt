@@ -58,6 +58,7 @@ class RingView : View {
     private var em = 0f
     private var text: String?
     private var textSize: Float
+    private var isStrokedTextEnabled: Boolean = false
     private var enableFontAwesome = false
     private var internalDrawingCache: Bitmap? = null
     private var cacheCanvas: Canvas? = null
@@ -131,6 +132,10 @@ class RingView : View {
         invalidate()
     }
 
+    fun setIsStrokedTextEnabled(isStroked: Boolean) {
+        this.isStrokedTextEnabled = isStroked
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val activeCanvas: Canvas?
@@ -159,6 +164,12 @@ class RingView : View {
             pRing!!.xfermode = null
             pRing!!.color = color
             pRing!!.textSize = textSize
+
+            if (isStrokedTextEnabled) {
+                pRing!!.style = Paint.Style.STROKE
+                pRing!!.strokeWidth = textSize / 15f
+            }
+
             if (enableFontAwesome) pRing!!.typeface = getFontAwesome(context)
             activeCanvas.drawText(
                 text!!,

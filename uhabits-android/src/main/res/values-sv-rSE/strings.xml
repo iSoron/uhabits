@@ -75,6 +75,7 @@
     <string name="interval_always_ask">Fråga alltid</string>
     <string name="interval_custom">Anpassad...</string>
     <string name="pref_toggle_title">Växla med snabb tryckning</string>
+    <string name="pref_toggle_description_2">Sätt bockar med en enkel tryckning i stället för att trycka och hålla nere.</string>
     <string name="pref_rate_this_app">Betygsätt oss på Google Play</string>
     <string name="pref_send_feedback">Skicka feedback till utvecklarna</string>
     <string name="pref_view_source_code">Visa källkod på GitHub</string>
@@ -155,6 +156,7 @@
     <string name="none">Inget</string>
     <string name="filter">Filtrera</string>
     <string name="hide_completed">Dölj slutförda</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Dölj inmatade</string>
     <string name="hide_archived">Dölj arkiverade</string>
     <string name="sticky_notifications">Gör notifikationer permanenta</string>
     <string name="sticky_notifications_description">Förhindrar att notifikationer stängs.</string>
@@ -174,8 +176,12 @@
     <string name="by_status">Efter status</string>
     <string name="export">Exportera</string>
     <string name="long_press_to_edit">Tryck och håll ned för att ändra värdet</string>
+    <string name="value">Värde</string>
     <string name="calendar">Kalender</string>
     <string name="unit">Enhet</string>
+    <string name="target_type">Måltyp</string>
+    <string name="target_type_at_least">Minst</string>
+    <string name="target_type_at_most">Högst</string>
     <string name="example_question_boolean">t.ex. Tränade du idag?</string>
     <string name="question">Fråga</string>
     <string name="target">Mål</string>
@@ -197,7 +203,7 @@
     <string name="measurable_example">t.ex. Hur många kilometer sprang du idag? Hur många sidor läste du?</string>
     <string name="x_times_per_week">%d gånger per vecka</string>
     <string name="x_times_per_month">%d gånger per månad</string>
-    <string name="x_times_per_y_days">%d gånger i %d dagar</string>
+    <string name="x_times_per_y_days">%d gånger per %d dag(ar)</string>
     <string name="yes_or_no_short_example">t.ex. Träna</string>
     <string name="color">Färg</string>
     <string name="example_target">t.ex. 15</string>

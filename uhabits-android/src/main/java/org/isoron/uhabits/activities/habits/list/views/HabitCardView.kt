@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import android.graphics.PointF
 import android.graphics.text.LineBreaker.BREAK_STRATEGY_BALANCED
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -154,11 +155,22 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value, notes ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp, value, notes) }
+                val location = getAbsoluteButtonLocation(timestamp)
+                habit?.let {
+                    behavior.onToggle(
+                        it,
+                        timestamp,
+                        value,
+                        notes,
+                        location.x,
+                        location.y
+                    )
+                }
             }
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onEdit(it, timestamp) }
+                val location = getAbsoluteButtonLocation(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp, location.x, location.y) }
             }
         }
 
@@ -166,7 +178,8 @@ class HabitCardView(
             visibility = GONE
             onEdit = { timestamp ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onEdit(it, timestamp) }
+                val location = getAbsoluteButtonLocation(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp, location.x, location.y) }
             }
         }
 
@@ -206,12 +219,37 @@ class HabitCardView(
     }
 
     fun triggerRipple(timestamp: Timestamp) {
+        val location = getRelativeButtonLocation(timestamp)
+        triggerRipple(location.x, location.y)
+    }
+
+    private fun getRelativeButtonLocation(timestamp: Timestamp): PointF {
         val today = DateUtils.getTodayWithOffset()
         val offset = timestamp.daysUntil(today) - dataOffset
-        val button = checkmarkPanel.buttons[offset]
+        val panel = when (habit!!.isNumerical) {
+            true -> numberPanel
+            false -> checkmarkPanel
+        }
+        val button = panel.buttons[offset]
         val y = button.height / 2.0f
-        val x = checkmarkPanel.x + button.x + (button.width / 2).toFloat()
-        triggerRipple(x, y)
+        val x = panel.x + button.x + (button.width / 2).toFloat()
+        return PointF(x, y)
+    }
+
+    private fun getAbsoluteButtonLocation(timestamp: Timestamp): PointF {
+        val containerLocation = IntArray(2)
+        this.getLocationOnScreen(containerLocation)
+        val relButtonLocation = getRelativeButtonLocation(timestamp)
+        val windowInsets = rootWindowInsets
+        val statusBarHeight = if (SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            windowInsets?.systemWindowInsetTop ?: 0
+        } else {
+            0
+        }
+        return PointF(
+            containerLocation[0].toFloat() + relButtonLocation.x,
+            containerLocation[1].toFloat() + relButtonLocation.y - statusBarHeight
+        )
     }
 
     override fun onAttachedToWindow() {

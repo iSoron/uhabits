@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">ലൂപ്പ് ഹാബിറ്റ് ട്രാക്കർ</string>
+    <string name="main_activity_title">ശീലങ്ങൾ</string>
+    <string name="action_settings">ക്രമീകരണങ്ങൾ</string>
+    <string name="edit">തിരുത്തുക</string>
+    <string name="delete">ഇല്ലാതാക്കുക</string>
+    <string name="archive">ആർക്കൈവ്</string>
+    <string name="unarchive">അൺ ആർക്കൈവ് ചെയ്യുക</string>
+    <string name="add_habit">ശീലം ചേർക്കുക</string>
+    <string name="color_picker_default_title">നിറം മാറ്റുക</string>
+    <string name="toast_habit_created">ശീലം സൃഷ്ടിച്ചു</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">ശീലം മാറി</item>
+        <item quantity="other">ശീലങ്ങൾ മാറി</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">ശീലം ഇല്ലാതാക്കി</item>
+        <item quantity="other">ശീലങ്ങൾ ഇല്ലാതാക്കി</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">ശീലം ആർക്കൈവ് ചെയ്തു</item>
+        <item quantity="other">ശീലങ്ങൾ ആർക്കൈവ് ചെയ്തു</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">ശീലം ആർക്കൈവ് ചെയ്‌തിട്ടില്ല</item>
+        <item quantity="other">ശീലങ്ങൾ ആർക്കൈവ് ചെയ്‌തിട്ടില്ല</item>
+    </plurals>
+    <string name="overview">അവലോകനം</string>
+    <string name="habit_strength">ശീലത്തിന്റെ ശക്തി</string>
+    <string name="history">ചരിത്രം</string>
+    <string name="clear">ക്ലിയർ</string>
+    <string name="reminder">ഓർമ്മപ്പെടുത്തൽ</string>
+    <string name="save">സംരക്ഷിക്കുക</string>
+    <string name="streaks">സ്ട്രീക്ക്</string>
+    <string name="no_habits_found">നിങ്ങൾക്ക് സജീവമായ ശീലങ്ങളൊന്നും ആഡ് ചെയ്തിട്ടില്ല </string>
+    <string name="no_habits_left_to_do">ഇന്നത്തെ ശീലങ്ങൾ എല്ലാം നിങ്ങൾ പൂർത്തിയാക്കി!</string>
+    <string name="long_press_to_toggle">ആഡ് ചെയ്യുന്നതിനോ റിമൂവ് ചെയ്യുന്നതിനോ അമർത്തിപ്പിടിക്കുക</string>
+    <string name="reminder_off">ഓഫ്</string>
+    <string name="create_habit">ശീലം ആഡ് ചെയ്യുക</string>
+    <string name="edit_habit">എഡിറ്റ് ശീലം</string>
+    <string name="check">ചെക്ക്</string>
+    <string name="snooze">പിന്നീട്</string>
+    <string name="intro_title_1">സ്വാഗതം</string>
+    <string name="intro_description_1">നല്ല ശീലങ്ങൾ സൃഷ്ടിക്കാനും നിലനിർത്താനും ലൂപ്പ് ഹാബിറ്റ് ട്രാക്കർ നിങ്ങളെ സഹായിക്കുന്നു.</string>
+    <string name="intro_title_2">പുതിയ ചില ശീലങ്ങൾ ഉണ്ടാക്കുക</string>
+    <string name="intro_description_2">എല്ലാ ദിവസവും, നിങ്ങളുടെ ശീലം നടപ്പിലാക്കിയ ശേഷം, ആപ്പിൽ ഒരു ചെക്ക്മാർക്ക് ഇടുക.</string>
+    <string name="intro_title_4">നിങ്ങളുടെ പുരോഗതി ട്രാക്ക് ചെയ്യുക</string>
+    <string name="intro_description_4">കാലക്രമേണ നിങ്ങളുടെ ശീലങ്ങൾ എങ്ങനെ മെച്ചപ്പെട്ടുവെന്ന് വിശദമായ ഗ്രാഫുകൾ കാണിക്കുന്നു.</string>
+    <string name="interval_15_minutes">15 മിനിറ്റ്</string>
+    <string name="interval_30_minutes">30 മിനിറ്റ്</string>
+    <string name="interval_1_hour">1 മണിക്കൂർ</string>
+    <string name="interval_2_hour">2 മണിക്കൂർ</string>
+    <string name="interval_4_hour">4 മണിക്കൂർ</string>
+    <string name="interval_8_hour">8 മണിക്കൂർ</string>
+    <string name="interval_24_hour">24 മണിക്കൂർ</string>
+    <string name="interval_always_ask">എപ്പോഴും ചോദിക്കുക</string>
+    <string name="interval_custom">കസ്റ്റം...</string>
+    <string name="pref_toggle_title">ഷോർട്ട് പ്രസ്സ് ഉപയോഗിച്ച് ടോഗിൾ ചെയ്യുക</string>
+    <string name="pref_toggle_description_2">അമർത്തിപ്പിടിക്കുക എന്നതിനുപകരം ഒരൊറ്റ ടാപ്പിലൂടെ ചെക്ക്മാർക്കുകൾ ഇടുക.</string>
+    <string name="pref_rate_this_app">ഗൂഗിൾ പ്ലേയിൽ ഈ ആപ്പ് റേറ്റു ചെയ്യുക</string>
+    <string name="pref_send_feedback">ഡെവലപ്പർക്ക് ഫീഡ്ബാക്ക് അയയ്ക്കുക</string>
+    <string name="pref_view_source_code">GitHub-ൽ സോഴ്സ് കോഡ് കാണുക</string>
+    <string name="links">ലിങ്കുകൾ</string>
+    <string name="name">പേര്</string>
+    <string name="settings">ക്രമീകരണങ്ങൾ</string>
+    <string name="select_snooze_delay">സ്‌നൂസ് കാലതാമസം തിരഞ്ഞെടുക്കുക</string>
+    <string name="hint_title">നിനക്കറിയാമോ?</string>
+    <string name="hint_drag">എൻട്രികൾ പുനഃക്രമീകരിക്കാൻ, ശീലത്തിന്റെ പേരിൽ അമർത്തിപ്പിടിക്കുക, തുടർന്ന് അത് ശരിയായ സ്ഥലത്തേക്ക് വലിച്ചിടുക.</string>
+    <string name="hint_landscape">നിങ്ങളുടെ ഫോൺ ലാൻഡ്‌സ്‌കേപ്പ് മോഡിൽ വെച്ചാൽ നിങ്ങൾക്ക് കൂടുതൽ ദിവസം കാണാൻ കഴിയും.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">ശീലം ഇല്ലാതാക്കണോ?</item>
+        <item quantity="other">ശീലങ്ങൾ ഇല്ലാതാക്കണോ?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">ശീലം ശാശ്വതമായി ഇല്ലാതാക്കപ്പെടും.  ഈ പ്രവർത്തനം പഴയപടിയാക്കാനാകില്ല.</item>
+        <item quantity="other">ശീലങ്ങൾ ശാശ്വതമായി ഇല്ലാതാക്കപ്പെടും.  ഈ പ്രവർത്തനം പഴയപടിയാക്കാനാകില്ല.</item>
+    </plurals>
+    <string name="habit_not_found">ശീലം ഇല്ലാതാക്കി / കണ്ടെത്തിയില്ല</string>
+    <string name="weekends">വാരാന്ത്യങ്ങൾ</string>
+    <string name="any_weekday">തിങ്കൾ മുതൽ വെള്ളി വരെ</string>
+    <string name="any_day">ആഴ്ചയിലെ ഏത് ദിവസവും</string>
+    <string name="select_weekdays">ദിവസങ്ങൾ തിരഞ്ഞെടുക്കുക</string>
+    <string name="export_to_csv">CSV ആയി കയറ്റുമതി ചെയ്യുക</string>
+    <string name="done_label">ചെയ്തു</string>
+    <string name="clear_label">ക്ലിയർ</string>
+    <string name="select_hours">മണിക്കൂർ തിരഞ്ഞെടുക്കുക</string>
+    <string name="select_minutes">മിനിറ്റ് തിരഞ്ഞെടുക്കുക</string>
+    <string name="about">കുറിച്ച്</string>
+    <string name="translators">പരിഭാഷകർ</string>
+    <string name="developers">ഡെവലപ്പർമാർ</string>
+    <string name="version_n">പതിപ്പുകൾ</string>
+    <string name="frequency">ആവൃത്തി</string>
+    <string name="checkmark">ചെക്ക്മാർക്ക്</string>
+    <string name="best_streaks">മികച്ച വരകൾ</string>
+    <string name="every_day">എല്ലാ ദിവസവും</string>
+    <string name="every_week">എല്ലാ ആഴ്ചയും</string>
+    <string name="help">സഹായം &amp;  പതിവുചോദ്യങ്ങൾ</string>
+    <string name="could_not_export">ഡാറ്റ കയറ്റുമതി ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</string>
+    <string name="could_not_import">ഡാറ്റ ഇറക്കുമതി ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.</string>
+    <string name="file_not_recognized">ഫയൽ തിരിച്ചറിഞ്ഞില്ല.</string>
+    <string name="habits_imported">ശീലങ്ങൾ വിജയകരമായി ഇറക്കുമതി ചെയ്തു.</string>
+    <string name="import_data">ഡാറ്റ ഇറക്കുമതി ചെയ്യുക</string>
+    <string name="export_full_backup">പൂർണ്ണ ബാക്കപ്പ് കയറ്റുമതി ചെയ്യുക</string>
+    <string name="import_data_summary">ഈ ആപ്പ് എക്‌സ്‌പോർട്ടുചെയ്‌ത മുഴുവൻ ബാക്കപ്പുകളും ടിക്ക്‌മേറ്റ്, ഹാബിറ്റ്‌ബുൾ അല്ലെങ്കിൽ റിവയർ സൃഷ്‌ടിച്ച ഫയലുകളും പിന്തുണയ്ക്കുന്നു.  കൂടുതൽ വിവരങ്ങൾക്ക് പതിവ് ചോദ്യങ്ങൾ കാണുക.</string>
+    <string name="export_as_csv_summary">മൈക്രോസോഫ്റ്റ് എക്സൽ അല്ലെങ്കിൽ ഓപ്പൺ ഓഫീസ് കാൽക്ക് പോലുള്ള സ്‌പ്രെഡ്‌ഷീറ്റ് സോഫ്‌റ്റ്‌വെയർ ഉപയോഗിച്ച് തുറക്കാൻ കഴിയുന്ന ഫയലുകൾ ജനറേറ്റുചെയ്യുന്നു.  ഈ ഫയൽ തിരികെ ഇറക്കുമതി ചെയ്യാൻ കഴിയില്ല.</string>
+    <string name="export_full_backup_summary">നിങ്ങളുടെ എല്ലാ ഡാറ്റയും അടങ്ങുന്ന ഒരു ഫയൽ സൃഷ്ടിക്കുന്നു.  ഈ ഫയൽ തിരികെ ഇറക്കുമതി ചെയ്യാൻ കഴിയും.</string>
+    <string name="bug_report_failed">ബഗ് റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിൽ പരാജയപ്പെട്ടു.</string>
+    <string name="generate_bug_report">ബഗ് റിപ്പോർട്ട് സൃഷ്ടിക്കുക</string>
+    <string name="troubleshooting">ട്രബിൾഷൂട്ടിംഗ്</string>
+    <string name="help_translate">ഈ ആപ്പ് വിവർത്തനം ചെയ്യാൻ സഹായിക്കുക</string>
+    <string name="night_mode">ഇരുണ്ട തീം</string>
+    <string name="use_pure_black">ഇരുണ്ട തീമിൽ ശുദ്ധമായ കറുപ്പ് ഉപയോഗിക്കുക</string>
+    <string name="pure_black_description">ഇരുണ്ട തീമിൽ ചാരനിറത്തിലുള്ള പശ്ചാത്തലം ശുദ്ധമായ കറുപ്പ് ഉപയോഗിച്ച് മാറ്റിസ്ഥാപിക്കുക.  അമോൾഡ് ഡിസ്പ്ലേ ഉള്ള ഫോണുകളിൽ ബാറ്ററി ഉപയോഗം കുറയ്ക്കുക.</string>
+    <string name="interface_preferences">ഇന്റർഫേസ്</string>
+    <string name="reverse_days">ദിവസങ്ങളുടെ വിപരീത ക്രമം</string>
+    <string name="reverse_days_description">പ്രധാന സ്ക്രീനിൽ വിപരീത ക്രമത്തിൽ ദിവസങ്ങൾ കാണിക്കുക.</string>
+    <string name="day">ദിവസം</string>
+    <string name="week">ആഴ്ച</string>
+    <string name="month">മാസം</string>
+    <string name="quarter">ക്വാർട്ടർ</string>
+    <string name="year">വർഷം</string>
+    <string name="total">ആകെ</string>
+    <string name="yes_or_no">ഉവ്വോ ഇല്ലയോ</string>
+    <string name="every_x_days">ഓരോ %d ദിവസത്തിലും</string>
+    <string name="every_x_weeks">ഓരോ %d ആഴ്ചയിലും</string>
+    <string name="score">സ്കോർ</string>
+    <string name="reminder_sound">ഓർമ്മപ്പെടുത്തൽ ശബ്ദം</string>
+    <string name="none">ഒന്നുമില്ല</string>
+    <string name="filter">ഫിൽട്ടർ ചെയ്യുക</string>
+    <string name="hide_completed">മറയ്ക്കൽ പൂർത്തിയായി</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day."> പ്രവേശിച്ചത് മറയ്ക്കുക</string>
+    <string name="hide_archived">ആർക്കൈവുചെയ്‌തത് മറയ്‌ക്കുക</string>
+    <string name="sticky_notifications">അറിയിപ്പുകൾ സ്റ്റിക്കി ആക്കുക</string>
+    <string name="sticky_notifications_description">അറിയിപ്പുകൾ സ്വൈപ്പ് ചെയ്യുന്നതിൽ നിന്ന് തടയുന്നു.</string>
+    <string name="led_notifications">അറിയിപ്പ് ലൈറ്റ്</string>
+    <string name="led_notifications_description">ഓർമ്മപ്പെടുത്തലുകൾക്കായി മിന്നുന്ന പ്രകാശം കാണിക്കുന്നു.  LED നോട്ടിഫിക്കേഷൻ ലൈറ്റുകൾ ഉള്ള ഫോണുകളിൽ മാത്രമേ ലഭ്യമാകൂ.</string>
+    <string name="repair_database">റിപ്പയർ ഡാറ്റാബേസ്</string>
+    <string name="database_repaired">ഡാറ്റാബേസ് നന്നാക്കി.</string>
+    <string name="uncheck">അൺചെക്ക് ചെയ്യുക</string>
+    <string name="toggle">ടോഗിൾ ചെയ്യുക</string>
+    <string name="action">ആക്ഷൻ</string>
+    <string name="habit">ശീലം</string>
+    <string name="sort">അടുക്കുക</string>
+    <string name="manually">സ്വമേധയാ</string>
+    <string name="by_name">പേരു കൊണ്ട്</string>
+    <string name="by_color">നിറം പ്രകാരം</string>
+    <string name="by_score">സ്കോർ പ്രകാരം</string>
+    <string name="by_status">സ്റ്റാറ്റസ് പ്രകാരം</string>
+    <string name="export">കയറ്റുമതി</string>
+    <string name="long_press_to_edit">മൂല്യം മാറ്റാൻ അമർത്തിപ്പിടിക്കുക</string>
+    <string name="value">മൂല്യം</string>
+    <string name="calendar">കലണ്ടർ</string>
+    <string name="unit">യൂണിറ്റ്</string>
+    <string name="target_type">ടാർഗെറ്റ് തരം</string>
+    <string name="target_type_at_least">ഇത്രയെങ്കിലും</string>
+    <string name="target_type_at_most">പരമാവധി</string>
+    <string name="example_question_boolean">ഉദാ.  നിങ്ങൾ ഇന്ന് വ്യായാമം ചെയ്തോ?</string>
+    <string name="question">ചോദ്യം</string>
+    <string name="target">ലക്ഷ്യം</string>
+    <string name="yes">അതെ</string>
+    <string name="no">ഇല്ല</string>
+    <string name="customize_notification_summary">ശബ്ദം, വൈബ്രേഷൻ, വെളിച്ചം, മറ്റ് അറിയിപ്പ് ക്രമീകരണങ്ങൾ എന്നിവ മാറ്റുക</string>
+    <string name="customize_notification">അറിയിപ്പുകൾ ഇഷ്ടാനുസൃതമാക്കുക</string>
+    <string name="pref_view_privacy">സ്വകാര്യതാ നയം കാണുക</string>
+    <string name="view_all_contributors">എല്ലാ സംഭാവകരെയും കാണുക...</string>
+    <string name="database">ഡാറ്റാബേസ്</string>
+    <string name="widget_opacity_title">വിജറ്റ് അതാര്യത</string>
+    <string name="widget_opacity_description">നിങ്ങളുടെ ഹോം സ്ക്രീനിൽ വിജറ്റുകളെ കൂടുതൽ സുതാര്യമോ അതാര്യമോ ആക്കുന്നു.</string>
+    <string name="first_day_of_the_week">ആഴ്ചയിലെ ആദ്യ ദിവസം</string>
+    <string name="default_reminder_question">നിങ്ങൾ ഇന്ന് ഈ ശീലം പൂർത്തിയാക്കിയിട്ടുണ്ടോ?</string>
+    <string name="notes">കുറിപ്പുകൾ</string>
+    <string name="example_notes">(ഓപ്ഷണൽ)</string>
+    <string name="yes_or_no_example">ഉദാ.  ഇന്ന് നേരത്തെ ഉണർന്നോ?  നിങ്ങൾ വ്യായാമം ചെയ്തോ?  നിങ്ങൾ ചെസ്സ് കളിച്ചോ?</string>
+    <string name="measurable">അളക്കാവുന്നത്</string>
+    <string name="measurable_example">ഉദാ.  ഇന്ന് നിങ്ങൾ എത്ര മൈൽ ഓടി?  നിങ്ങൾ എത്ര പേജുകൾ വായിച്ചു?</string>
+    <string name="x_times_per_week">ആഴ്ചയിൽ %d തവണ</string>
+    <string name="x_times_per_month">പ്രതിമാസം %d തവണ</string>
+    <string name="x_times_per_y_days">%d ദിവസത്തിനുള്ളിൽ %d തവണ</string>
+    <string name="yes_or_no_short_example">ഉദാ.  വ്യായാമം ചെയ്യുക</string>
+    <string name="color">നിറം</string>
+    <string name="example_target">ഉദാ.  15</string>
+    <string name="measurable_short_example">ഉദാ.  ഓടുക</string>
+    <string name="measurable_question_example">ഉദാ.  ഇന്ന് നിങ്ങൾ എത്ര മൈൽ ഓടി?</string>
+    <string name="measurable_units_example">ഉദാ.  മൈലുകൾ</string>
+    <string name="every_month">എല്ലാ മാസവും</string>
+    <string name="validation_cannot_be_blank">ശൂന്യമാക്കാൻ കഴിയില്ല</string>
+    <string name="today">ഇന്ന്</string>
+    <string name="enter">നൽകുക</string>
+    <string name="no_habits">ശീലങ്ങളൊന്നും കണ്ടെത്തിയില്ല</string>
+    <string name="no_numerical_habits">അളക്കാവുന്ന ശീലങ്ങളൊന്നും കണ്ടെത്തിയില്ല</string>
+    <string name="no_boolean_habits">അതെ അല്ലെങ്കിൽ ഇല്ല എന്ന ശീലങ്ങളൊന്നും കണ്ടെത്തിയില്ല</string>
+    <string name="increment">വർദ്ധനവ്</string>
+    <string name="decrement">കുറയ്ക്കൽ</string>
+    <string name="pref_skip_title">ദിവസങ്ങൾ ഒഴിവാക്കുന്നത് പ്രവർത്തനക്ഷമമാക്കുക</string>
+    <string name="pref_skip_description">ഒരു ചെക്ക്മാർക്കിന് പകരം ഒരു ഒഴിവാക്കൽ ചേർക്കാൻ രണ്ടുതവണ ടോഗിൾ ചെയ്യുക.  സ്കിപ്പുകൾ നിങ്ങളുടെ സ്കോർ മാറ്റമില്ലാതെ നിലനിർത്തുകയും നിങ്ങളുടെ സ്ട്രീക്ക് തകർക്കുകയുമില്ല</string>
+    <string name="pref_unknown_title">നഷ്ടപ്പെട്ട ഡാറ്റയ്ക്കുള്ള ചോദ്യചിഹ്നങ്ങൾ കാണിക്കുക</string>
+    <string name="pref_unknown_description">യഥാർത്ഥ വീഴ്ചകളിൽ നിന്ന് ഡാറ്റ ഇല്ലാതെ ദിവസങ്ങൾ വേർതിരിക്കുക.  ഒരു ലാപ്‌സ് നൽകുന്നതിന്, രണ്ടുതവണ ടോഗിൾ ചെയ്യുക.</string>
+    <string name="you_are_now_a_developer">നിങ്ങൾ ഇപ്പോൾ ഒരു ഡെവലപ്പറാണ്</string>
+    <string name="activity_not_found">ഈ പ്രവർത്തനത്തെ പിന്തുണയ്ക്കുന്ന ഒരു ആപ്പും കണ്ടെത്തിയില്ല</string>
+    <string name="pref_midnight_delay_title">അർദ്ധരാത്രി കഴിഞ്ഞ് കുറച്ച് മണിക്കൂറുകൾ പകൽ നീട്ടുക</string>
+    <string name="pref_midnight_delay_description">ഒരു പുതിയ ദിവസം കാണിക്കാൻ 3:00 AM വരെ കാത്തിരിക്കുക.  നിങ്ങൾ സാധാരണയായി അർദ്ധരാത്രിക്ക് ശേഷം ഉറങ്ങാൻ പോകുകയാണെങ്കിൽ ഉപയോഗപ്രദമാണ്.  ആപ്പ് പുനരാരംഭിക്കേണ്ടതുണ്ട്.</string>
+</resources>

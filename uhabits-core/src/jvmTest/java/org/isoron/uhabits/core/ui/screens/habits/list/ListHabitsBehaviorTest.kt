@@ -78,7 +78,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
 
     @Test
     fun testOnEdit() {
-        behavior.onEdit(habit2, getToday())
+        behavior.onEdit(habit2, getToday(), 0f, 0f)
         verify(screen).showNumberPopup(
             eq(0.1),
             eq(""),
@@ -168,7 +168,9 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
             habit = habit1,
             timestamp = getToday(),
             value = Entry.NO,
-            notes = ""
+            notes = "",
+            x = 0f,
+            y = 0f
         )
         assertFalse(habit1.isCompletedToday())
     }

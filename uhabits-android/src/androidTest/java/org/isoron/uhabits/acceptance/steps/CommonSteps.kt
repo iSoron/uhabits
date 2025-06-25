@@ -132,7 +132,7 @@ object CommonSteps : BaseUserInterfaceTest() {
     }
 
     @Throws(Exception::class)
-    fun verifyOpensWebsite(url: String?) {
+    fun verifyOpensWebsite(url: String) {
         var browserPkg = "org.chromium.webview_shell"
         if (SDK_INT <= Build.VERSION_CODES.M) {
             browserPkg = "com.android.browser"

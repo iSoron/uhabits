@@ -1,0 +1,29 @@
+Loop Habit Tracker vam pomaga ustvariti in ohraniti dolgoročne pozitivne navade v vašem življenju. Podrobni grafikoni in statistični podatki vam dajejo jasno sliko o tem, kako so se vaše navade sčasoma izboljšale. Aplikacija je popolnoma brez oglasov, odprtokodna in spoštuje vašo zasebnost.
+
+<b>Lep, minimalističen in lahek vmesnik</b>
+Loop ima eleganten in minimalističen vmesnik, ki je zelo enostaven za uporabo, tudi za začetnike. Aplikacija je zelo optimizirana za hitrost, dobro deluje tudi na starejših telefonih.
+
+<b>Ocena navade</b>
+Loop ima napredno formulo za izračun moči vaših navad. Vsako ponavljanje naredi vašo navado močnejšo in vsak zamujeni dan jo oslabi. Nekaj zamujenih dni po dolgem nizu pa ne bo popolnoma uničilo vašega napredka, za razliko od mnogih drugih aplikacij, ki ne prekinjajo verige.
+
+<b>Prilagodljivi urniki</b>
+Poleg dnevnih navad Loop podpira navade z bolj zapletenimi urniki, na primer 3-krat na teden ali vsak drugi dan.
+
+<b>Opomniki</b>
+Načrtujte obvestila, ki vas bodo spomnila na vaše navade. Vsaka navada ima lahko svoj opomnik, ob izbrani uri dneva. Preprosto preverite ali opustite svojo navado neposredno iz obvestila.
+
+<b>Pripomočki</b>
+Ko odklenete telefon, se opomnite na svoje navade. Pisani pripomočki vam omogočajo, da spremljate svoje navade neposredno z začetnega zaslona, ne da bi sploh odprli aplikacijo.
+
+<b>Prevzemite nadzor nad svojimi podatki</b>
+Če želite svoje podatke dodatno analizirati ali jih premakniti v drugo storitev, vam Loop omogoča, da jih izvozite v preglednice (CSV) ali v datoteko zbirke podatkov (SQLite). Za napredne uporabnike lahko kljukice dodate prek drugih aplikacij, kot je Tasker.
+
+<b>Brez omejitev</b>
+Spremljajte toliko navad, kot želite. Loop ne postavlja nobenih umetnih omejitev glede števila navad, ki jih lahko imate. Vse funkcije so na voljo vsem uporabnikom. Nakupov v aplikaciji ni.
+
+<b>Popolnoma brez oglasov in odprtokoden</b>
+V tej aplikaciji ni oglasov, nadležnih obvestil ali vsiljivih dovoljenj in jih nikoli ne bo. Aplikacija je popolnoma odprtokodna (GPLv3).
+
+<b>Deluje brez povezave in spoštuje vašo zasebnost</b>
+Loop ne zahteva internetne povezave ali spletne registracije računa. Vaši zaupni podatki niso nikoli nikomur poslani. Niti razvijalci niti katere koli tretje osebe nimajo dostopa do njega.
+

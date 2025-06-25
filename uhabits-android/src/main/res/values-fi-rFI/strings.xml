@@ -147,7 +147,7 @@
     <string name="none">Ei mitään</string>
     <string name="filter">Suodata</string>
     <string name="hide_completed">Piilota suoritetut</string>
-    <string name="hide_entered">Piilota syötetty</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Piilota syötetty</string>
     <string name="hide_archived">Piilota arkistoidut</string>
     <string name="sticky_notifications">Tee ilmoituksesta kiinnitettyjä</string>
     <string name="sticky_notifications_description">Estää ilmoitusten pois pyyhkäisemisen.</string>

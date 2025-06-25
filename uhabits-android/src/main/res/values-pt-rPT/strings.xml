@@ -137,8 +137,10 @@
     <string name="by_name">Por nome</string>
     <string name="by_color">Por cor</string>
     <string name="by_score">Por pontuação</string>
+    <string name="by_status">Por estado</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Pressione e segure para alterar o valor</string>
+    <string name="value">Valor</string>
     <string name="calendar">Calendário</string>
     <string name="unit">Unidade</string>
     <string name="example_question_boolean">ex.: Você se exercitou hoje?</string>
@@ -171,4 +173,9 @@
     <string name="every_month">Todos os meses</string>
     <string name="validation_cannot_be_blank">Não pode ficar em branco</string>
     <string name="today">Hoje</string>
+    <string name="enter">Registar</string>
+    <string name="increment">Acrescentar</string>
+    <string name="decrement">Decrementar</string>
+    <string name="you_are_now_a_developer">Agora é um programador!</string>
+    <string name="activity_not_found">Nenhuma aplicação foi encontrada para oferecer suporte a esta ação</string>
 </resources>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Loop — ჩვევების ტრეკერი</string>
+    <string name="main_activity_title">ჩვევები</string>
+    <string name="action_settings">პარამეტრები</string>
+    <string name="edit">რედაქტირება</string>
+    <string name="delete">წაშლა</string>
+    <string name="archive">დაარქივება</string>
+    <string name="unarchive">არქივიდან გამოტანა</string>
+    <string name="add_habit">ჩვევის დამატება</string>
+    <string name="color_picker_default_title">ფერის შეცვლა</string>
+    <string name="toast_habit_created">ჩვევა შეიქმნა</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">ჩვევა დარედაქტირდა</item>
+        <item quantity="other">ჩვევები დარედაქტირდა</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">ჩვევა წაიშალა</item>
+        <item quantity="other">ჩვევები წაიშალა</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">ჩვევა დაარქივდა</item>
+        <item quantity="other">ჩვევები დაარქივდა</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">ჩვევა აღდგა არქივიდან</item>
+        <item quantity="other">ჩვევები აღდგა არქივიდან</item>
+    </plurals>
+    <string name="overview">მიმოხილვა</string>
+    <string name="habit_strength">ჩვევის გაჯდომის დონე</string>
+    <string name="history">ისტორია</string>
+    <string name="clear">წაშლა</string>
+    <string name="reminder">შეხსენება</string>
+    <string name="save">შენახვა</string>
+    <string name="streaks">სერიები</string>
+    <string name="no_habits_found">არ გაქვს მოქმედი ჩვევები</string>
+    <string name="no_habits_left_to_do">დღეისთვის სულ ეს იყო, ყველაფერი შეასრულე!</string>
+    <string name="long_press_to_toggle">დააჭირე ხანგრძლივად თოლიის (✓) ჩასანიშნად / მოსახსნელად</string>
+    <string name="reminder_off">გამორთული</string>
+    <string name="create_habit">ჩვევის შექმნა</string>
+    <string name="edit_habit">ჩვევის დარედაქტირება</string>
+    <string name="check">ჩანიშვნა</string>
+    <string name="snooze">მოგვიანებით</string>
+    <string name="intro_title_1">მოგესალმები</string>
+    <string name="intro_description_1">Loop — ჩვევების ტრეკერი: ხელშემწყობი კარგი ჩვევების გამომუშავებასა და შენარჩუნებისათვის.</string>
+    <string name="intro_title_2">გამოიმუშავე ახალი ჩვევები</string>
+    <string name="intro_description_2">ყოველდღიურად, როგორც კი ჩვევას შეასრულებ, ეს აპლიკაციაში ჩაინიშნე.</string>
+    <string name="intro_title_4">თვალი ადევნე შენს პროგრესს</string>
+    <string name="intro_description_4">დეტალური გრაფიკებით შეგიძლია დროთა განმავლობაში იხილო თუ როგორ ყალიბდება შენი ჩვევა.</string>
+    <string name="interval_15_minutes">15 წუთი</string>
+    <string name="interval_30_minutes">30 წუთი</string>
+    <string name="interval_1_hour">1 საათი</string>
+    <string name="interval_2_hour">2 საათი</string>
+    <string name="interval_4_hour">4 საათი</string>
+    <string name="interval_8_hour">8 საათი</string>
+    <string name="interval_24_hour">24 საათი</string>
+    <string name="interval_always_ask">ყოველთვის მკითხე</string>
+    <string name="interval_custom">პერსონალიზებული…</string>
+    <string name="pref_toggle_title">გადართვა ხანმოკლე შეხებით</string>
+    <string name="pref_toggle_description_2">ხანგრძლივი დაჭერის მაგივრად თოლიების (✓) ხანმოკლე შეხებით ჩანიშვნა.</string>
+    <string name="pref_rate_this_app">აპლიკაციის შეფასება Google Play-ზე</string>
+    <string name="pref_send_feedback">გამოეხმაურე დეველოპერს</string>
+    <string name="pref_view_source_code">საწყისი კოდის ნახვა GitHub-ზე</string>
+    <string name="links">ბმულები</string>
+    <string name="name">სათაური</string>
+    <string name="settings">პარამეტრები</string>
+    <string name="select_snooze_delay">გადადების დროის არჩევა</string>
+    <string name="hint_title">იცოდი?</string>
+    <string name="hint_drag">ჩვევის ადგილის გადასანაცვლებლად სახელს ხანგრძლივად დააჭირე და სასურველ ადგილას დასვი.</string>
+    <string name="hint_landscape">ტელეფონს ჰორიზონტალურად თუ დაიჭერ მეტი დღის ნახვას შეძლებ.</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">ჩვევა წაიშალოს?</item>
+        <item quantity="other">ჩვევები წაიშალოს?</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">ჩვევა სამუდამოდ წაიშლება. ამ მოქმედების შედეგის გაუქმება შეუძლებელია.</item>
+        <item quantity="other">ჩვევები სამუდამოდ წაიშლება. ამ მოქმედების შედეგის გაუქმება შეუძლებელია.</item>
+    </plurals>
+    <string name="habit_not_found">ჩვევა წაშლილია / ვერ მოიძებნა</string>
+    <string name="weekends">შაბათ-კვირაობით</string>
+    <string name="any_weekday">ორშაბათიდან პარასკევის ჩათვლით</string>
+    <string name="any_day">კვირის ყოველ დღეს</string>
+    <string name="select_weekdays">დღეების მონიშვნა</string>
+    <string name="export_to_csv">ექსპორტი CSV-ფაილად</string>
+    <string name="done_label">მზადაა</string>
+    <string name="clear_label">წაშლა</string>
+    <string name="select_hours">საათების მონიშვნა</string>
+    <string name="select_minutes">წუთების მონიშვნა</string>
+    <string name="about">Loop-ის შესახებ</string>
+    <string name="translators">მთარგმნელები</string>
+    <string name="developers">დეველოპერები</string>
+    <string name="version_n">ვერსია: %s</string>
+    <string name="frequency">სიხშირე</string>
+    <string name="checkmark">თოლია</string>
+    <string name="best_streaks">საუკეთესო სერიები</string>
+    <string name="every_day">ყოველდღე</string>
+    <string name="every_week">ყოველკვირა</string>
+    <string name="help">დახმარება და ხდკ</string>
+    <string name="could_not_export">მონაცემების ექსპორტი ვერ მოხერხდა.</string>
+    <string name="could_not_import">მონაცემების იმპორტირება ვერ მოხერხდა.</string>
+    <string name="file_not_recognized">ფაილის ამოცნობა ვერ მოხერხდა.</string>
+    <string name="habits_imported">ჩვევების იმპორტირება წარმატებით განხორციელდა.</string>
+    <string name="import_data">მონაცემების იმპორტი</string>
+    <string name="export_full_backup">სრული სარეზერვო ასლის ექსპორტი</string>
+    <string name="import_data_summary">მხარდაჭერილია ამ აპლიკაციით შექმნილი სარეზერვო ასლები, ასევე ფაილები, რომლებიც შექმნილია Tickmate-ით, HabitBull-ითა და Rewire-ით. მეტი ინფორმაციისათვის იხილე ხშირად დასმული კითხვები.</string>
+    <string name="export_as_csv_summary">ქმნის ფაილებს, რომელთა გახსნა შესაძლებელია ელექტრონული ცხრილის პროგრამებით, როგორებიცაა Microsoft Excel და OpenOffice Calc. ამ ფაილის უკან დაიმპორტირება შეუძლებელია.</string>
+    <string name="export_full_backup_summary">ქმნის ფაილს, რომელიც შენს ყველა მონაცემებს შეიცავს. ამ ფაილის უკან დაიმპორტირება შეუძლებელია.</string>
+    <string name="bug_report_failed">ხარვეზების ანგარიში ვერ შეიქმნა.</string>
+    <string name="generate_bug_report">ხარვეზების ანგარიშის შექმნა</string>
+    <string name="troubleshooting">უწესივრობათა დიაგნოსტიკა და აღმოფხვრა</string>
+    <string name="help_translate">მოგვეხმარე აპლიკაციის გადათარგმნაში</string>
+    <string name="night_mode">მუქი რეჟიმი</string>
+    <string name="use_pure_black">მუქ რეჟიმში სუფთა შავის გამოყენება</string>
+    <string name="pure_black_description">მუქ რეჟიმში რუხი ფონები სუფთა შავით ჩანაცვლდება. AMOLED-ეკრანიან ტელეფონებში ეს ელემენტის ენერგიას ზოგავს.</string>
+    <string name="interface_preferences">ინტერფეისი</string>
+    <string name="reverse_days">დღეების თანმიმდევრობის შებრუნება</string>
+    <string name="reverse_days_description">დღეების თანმიმდევრობის შემობრუნება მთავარ ეკრანზე.</string>
+    <string name="day">დღე</string>
+    <string name="week">კვირა</string>
+    <string name="month">თვე</string>
+    <string name="quarter">კვარტალი</string>
+    <string name="year">წელი</string>
+    <string name="total">ჯამში</string>
+    <string name="yes_or_no">კი თუ არა</string>
+    <string name="every_x_days">ყოველ %d დღეს</string>
+    <string name="every_x_weeks">ყოველ %d კვირას</string>
+    <string name="score">შეფასება</string>
+    <string name="reminder_sound">შემახსენებელი შეტყობინების ხმა</string>
+    <string name="none">არცერთი</string>
+    <string name="filter">ფილტრი</string>
+    <string name="hide_completed">შესრულებული ჩვევების დამალვა</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">მონაცემებშეტანილი ჩვევების დამალვა</string>
+    <string name="hide_archived">დაარქივებული ჩვევების დამალვა</string>
+    <string name="sticky_notifications">შეტყობინებების დამაგრება</string>
+    <string name="sticky_notifications_description">ხელს უშლის შეტყობინებების თითის გასმით წაშლას.</string>
+    <string name="led_notifications">შეტყობინების ციმციმა</string>
+    <string name="led_notifications_description">ციმციმას რთავს შემახსენებელი შეტყობინებებისთვის. ხელმისაწვდომია მხოლოდ ისეთი მოწყობილობებისთვის, რომლებსაც შეტყობინების LED აქვთ.</string>
+    <string name="repair_database">მონაცემთა ბაზის შეკეთება</string>
+    <string name="database_repaired">მონაცემთა ბაზა შეკეთდა.</string>
+    <string name="uncheck">თოლიის (✓) მოხსნა</string>
+    <string name="toggle">გადართვა</string>
+    <string name="action">მოქმედება</string>
+    <string name="habit">ჩვევა</string>
+    <string name="sort">დალაგება</string>
+    <string name="manually">ხელით</string>
+    <string name="by_name">სათაურის მიხედვით</string>
+    <string name="by_color">ფერის მიხედვით</string>
+    <string name="by_score">შეფასების მიხედვით</string>
+    <string name="by_status">სტატუსის მიხედვით</string>
+    <string name="export">ექსპორტი</string>
+    <string name="long_press_to_edit">მნიშვნელობის შესაცვლელად დააჭირე ხანგრძლივად</string>
+    <string name="value">მნიშვნელობა</string>
+    <string name="calendar">კალენდარი</string>
+    <string name="unit">ერთეული</string>
+    <string name="target_type">მიზნის ტიპი</string>
+    <string name="target_type_at_least">მინიმუმ</string>
+    <string name="target_type_at_most">მაქსიმუმ</string>
+    <string name="example_question_boolean">მაგ. დღეს ივარჯიშე?</string>
+    <string name="question">კითხვა</string>
+    <string name="target">მიზანი</string>
+    <string name="yes">კი</string>
+    <string name="no">არა</string>
+    <string name="customize_notification_summary">ხმის, ვიბრაციის, სინათლისა და შეტყობინებების სხვა პარამეტრების შეცვლა.</string>
+    <string name="customize_notification">შეტყობინებების მორგება</string>
+    <string name="pref_view_privacy">კონფიდენციალურობის პოლიტიკა</string>
+    <string name="view_all_contributors">ყველა წვლილის შემტანის ნახვა&#8230;</string>
+    <string name="database">მონაცემთა ბაზა</string>
+    <string name="widget_opacity_title">ვიჯეტის გამჭვირვალობა</string>
+    <string name="widget_opacity_description">ცვლის საწყისი ეკრანის ვიჯეტების გამჭვირვალობას.</string>
+    <string name="first_day_of_the_week">კვირის პირველი დღე</string>
+    <string name="default_reminder_question">დღეს ეს ჩვევა შეასრულე?</string>
+    <string name="notes">ჩანაწერები</string>
+    <string name="example_notes">(სურვილისამებრ)</string>
+    <string name="yes_or_no_example">მაგ. დღეს ადრე გაიღვიძე? ივარჯიშე? ჭადრაკი ითამაშე?</string>
+    <string name="measurable">გაზომვადი</string>
+    <string name="measurable_example">მაგ. დღეს რამდენი კილომეტრი გაირბინე? რამდენი გვერდი წაიკითხე?</string>
+    <string name="x_times_per_week">კვირაში %d-ჯერ</string>
+    <string name="x_times_per_month">თვეში %d-ჯერ</string>
+    <string name="x_times_per_y_days">%d-ჯერ %d დღის განმავლობაში</string>
+    <string name="yes_or_no_short_example">მაგ. ვარჯიში</string>
+    <string name="color">ფერი</string>
+    <string name="example_target">მაგ. 15</string>
+    <string name="measurable_short_example">მაგ. რბენა</string>
+    <string name="measurable_question_example">მაგ. დღეს რამდენი კილომეტრი დაფარე?</string>
+    <string name="measurable_units_example">მაგ. კილომეტრი</string>
+    <string name="every_month">ყოველთვე</string>
+    <string name="validation_cannot_be_blank">ცარიელი ვერ იქნება</string>
+    <string name="today">დღეს</string>
+    <string name="enter">შეყვანა</string>
+    <string name="no_habits">ჩვევები ვერ მოიძებნა</string>
+    <string name="no_numerical_habits">გამზომვადი ჩვევები ვერ მოიძებნა</string>
+    <string name="no_boolean_habits">„კი თუ არა“ ტიპის ჩვევები ვერ მოიძებნა</string>
+    <string name="increment">გაზრდა</string>
+    <string name="decrement">შემცირება</string>
+    <string name="pref_skip_title">დღეების გამოტოვების ჩართვა</string>
+    <string name="pref_skip_description">ორჯერ გადართე, რათა გამოტოვება ჩაამატო თოლიის (✓) მაგივრად. გამოტოვებების მეშვეობით შეფასება უცვლელი დარჩება, ხოლო სერია შენარჩუნდება.</string>
+    <string name="pref_unknown_title">კითხვის ნიშნის ჩვენება მონაცემთა არარსებობის შემთხვევაში</string>
+    <string name="pref_unknown_description">უმონაცემო დღეებისა და გაცდენების განსხვავებულად განხილვა. გაცდენის შესატანად ორჯერ გადართე.</string>
+    <string name="you_are_now_a_developer">ახლა დეველოპერი ხარ</string>
+    <string name="activity_not_found">ვერ მოიძებნა აპლიკაცია ამ ოპერაციის განსახორციელებლად</string>
+    <string name="pref_midnight_delay_title">ახალი დღის დასაწყისის გადატანა ნაშუაღამევის რამდენიმე საათისთვის</string>
+    <string name="pref_midnight_delay_description">ახალი დღის 03:00 საათზე დაწყება. ხელსაყრელია თუ ზოგადად შუაღამის შემდეგ იძინებ. საჭიროებს აპლიკაციის გადატვირთვას.</string>
+</resources>

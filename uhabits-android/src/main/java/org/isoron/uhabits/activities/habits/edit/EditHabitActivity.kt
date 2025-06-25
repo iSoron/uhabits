@@ -22,7 +22,6 @@ package org.isoron.uhabits.activities.habits.edit
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
@@ -53,7 +52,8 @@ import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.databinding.ActivityEditHabitBinding
-import org.isoron.uhabits.utils.ColorUtils
+import org.isoron.uhabits.utils.applyRootViewInsets
+import org.isoron.uhabits.utils.applyToolbarInsets
 import org.isoron.uhabits.utils.dismissCurrentAndShow
 import org.isoron.uhabits.utils.formatTime
 import org.isoron.uhabits.utils.toFormattedString
@@ -94,6 +94,8 @@ class EditHabitActivity : AppCompatActivity() {
         themeSwitcher.apply()
 
         binding = ActivityEditHabitBinding.inflate(layoutInflater)
+        binding.root.applyRootViewInsets()
+        binding.toolbar.applyToolbarInsets()
         setContentView(binding.root)
 
         if (intent.hasExtra("habitId")) {
@@ -352,8 +354,7 @@ class EditHabitActivity : AppCompatActivity() {
         androidColor = themeSwitcher.currentTheme.color(color).toInt()
         binding.colorButton.backgroundTintList = ColorStateList.valueOf(androidColor)
         if (!themeSwitcher.isNightMode) {
-            val darkerAndroidColor = ColorUtils.mixColors(Color.BLACK, androidColor, 0.15f)
-            window.statusBarColor = darkerAndroidColor
+            window.statusBarColor = androidColor
             binding.toolbar.setBackgroundColor(androidColor)
         }
     }

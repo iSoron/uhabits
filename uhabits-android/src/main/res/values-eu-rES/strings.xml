@@ -40,6 +40,10 @@
         <item quantity="one">Ohitura artxibatu da</item>
         <item quantity="other">Ohiturak artxibatu dira</item>
     </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">Ohitura desartxibatu da</item>
+        <item quantity="other">Ohiturak desartxibatu dira</item>
+    </plurals>
     <string name="overview">Ikuspegi orokorra</string>
     <string name="habit_strength">Ohituraren indarra</string>
     <string name="history">Historia</string>
@@ -71,6 +75,7 @@
     <string name="interval_always_ask">Galdetu beti</string>
     <string name="interval_custom">Pertsonalizatua...</string>
     <string name="pref_toggle_title">Ukitze laburrarekin markatu</string>
+    <string name="pref_toggle_description_2">Jarri kontrol-markak ukitu bakar batekin sakatu eta eutsi beharrean.</string>
     <string name="pref_rate_this_app">Aplikazio hau Google Playen puntuatu</string>
     <string name="pref_send_feedback">Zure iritzia garatzaileari bidali</string>
     <string name="pref_view_source_code">Iturburu kodea GitHuben ikusi</string>
@@ -84,6 +89,10 @@
     <plurals name="delete_habits_title">
         <item quantity="one">Ohiturak ezabatu</item>
         <item quantity="other">Ohiturak ezabatu</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">Ohitura betirako ezabatuko da. Ekintza hau ezin da desegin.</item>
+        <item quantity="other">Ohiturak betirako ezabatuko dira. Ekintza hau ezin da desegin.</item>
     </plurals>
     <string name="habit_not_found">Ohitura ezabatua / ez aurkitua</string>
     <string name="weekends">Asteburuak</string>
@@ -138,6 +147,7 @@
     <string name="none">Bat ere ez</string>
     <string name="filter">Iragazkia</string>
     <string name="hide_completed">Ezkutatu lortutakoak</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">Ezkutatu betetakoak</string>
     <string name="hide_archived">Ezkutatu artxibatutakoak</string>
     <string name="sticky_notifications">Jakinarazpenak itsaskorrak bihurtu</string>
     <string name="sticky_notifications_description">Jakinarazpenak keinu batez ezabatzea sahiesten du.</string>
@@ -160,6 +170,7 @@
     <string name="value">Balioa</string>
     <string name="calendar">Egutegia</string>
     <string name="unit">Unitatea</string>
+    <string name="target_type">Helburu mota</string>
     <string name="target_type_at_least">Gutxienez</string>
     <string name="target_type_at_most">Gehienez</string>
     <string name="example_question_boolean">adib. ariketa egin al duzu gaur?</string>
@@ -180,6 +191,7 @@
     <string name="example_notes">(Aukerazkoa)</string>
     <string name="yes_or_no_example">adib. Gaur goiz esnatu zara? Ariketa fisikoa egin al duzu? Xakean jolastu al duzu?</string>
     <string name="measurable">Neurgarria</string>
+    <string name="measurable_example">Adib. Zenbat kilometro egin dituzu gaur? Zenbat orrialde irakurri dituzu?</string>
     <string name="x_times_per_week">Astean %d aldiz</string>
     <string name="x_times_per_month">Hilean %d aldiz</string>
     <string name="x_times_per_y_days">%d aldiz %d egunetan</string>
@@ -196,8 +208,12 @@
     <string name="no_habits">Ez da ohiturarik aurkitu</string>
     <string name="no_numerical_habits">Ez da aurkitu ohitura neurgarririk</string>
     <string name="no_boolean_habits">Ez da bai-ala-ez ohiturarik aurkitu</string>
+    <string name="pref_skip_title">Gaitu atseden egunak</string>
+    <string name="pref_skip_description">Sakatu bi aldiz kontrol-markaren ordez atseden bat gehitzeko. Atsedenek zure puntuazioa aldatu gabe mantentzen dute eta ez dute segida hausten.</string>
     <string name="pref_unknown_title">Adierazi galdera ikurra falta diren datuetan</string>
+    <string name="pref_unknown_description">Bereizi daturik gabeko egunak benetako hutsegiteetatik. Hutsegite bat sartzeko, sakatu bi aldiz.</string>
     <string name="you_are_now_a_developer">Garatzailea zara!</string>
     <string name="activity_not_found">Ez da aurkitu akzio hau gauzatu dezakeen aplikaziorik</string>
+    <string name="pref_midnight_delay_title">Luzatu eguna gauerdia osteko ordu batzuetara</string>
     <string name="pref_midnight_delay_description">Itxaron goizeko 3:00ak arte egun berri bat erakusteko. Erabilgarria normalean gauerdia pasata lotara joaten bazara. Aplikazioa berrabiarazi behar da.</string>
 </resources>

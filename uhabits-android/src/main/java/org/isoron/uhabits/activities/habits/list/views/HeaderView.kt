@@ -141,7 +141,7 @@ class HeaderView(
 
                 val y1 = rect.centerY() - 0.25 * em
                 val y2 = rect.centerY() + 1.25 * em
-                val lines = DateUtils.formatHeaderDate(day).toUpperCase().split("\n")
+                val lines = DateUtils.formatHeaderDate(day).uppercase().split("\n")
                 canvas.drawText(lines[0], rect.centerX(), y1.toFloat(), paint)
                 canvas.drawText(lines[1], rect.centerX(), y2.toFloat(), paint)
                 day.add(GregorianCalendar.DAY_OF_MONTH, -1)

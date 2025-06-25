@@ -1,13 +1,32 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        google()
-    }
-    resolutionStrategy.eachPlugin {
-        if (requested.id.id == "com.android.application") {
-            useModule("com.android.tools.build:gradle:${requested.version}")
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
         }
     }
 }
 
-include(":uhabits-android", ":uhabits-core", ":uhabits-server")
+include(":uhabits-android", ":uhabits-core")
+dependencyResolutionManagement {
+    @Suppress("UnstableApiUsage")
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        maven(url = "https://plugins.gradle.org/m2/")
+        maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
+        maven(url = "https://jitpack.io")
+    }
+}
+
+include(":uhabits-android", ":uhabits-core")

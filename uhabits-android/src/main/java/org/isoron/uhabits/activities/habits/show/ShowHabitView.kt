@@ -25,12 +25,14 @@ import android.widget.FrameLayout
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitState
 import org.isoron.uhabits.databinding.ShowHabitBinding
+import org.isoron.uhabits.utils.applyToolbarInsets
 import org.isoron.uhabits.utils.setupToolbar
 
 class ShowHabitView(context: Context) : FrameLayout(context) {
     private val binding = ShowHabitBinding.inflate(LayoutInflater.from(context))
 
     init {
+        binding.toolbar.applyToolbarInsets()
         addView(binding.root)
     }
 
@@ -52,7 +54,6 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         binding.barCard.setState(data.bar)
         if (data.isNumerical) {
             binding.overviewCard.visibility = GONE
-            binding.streakCard.visibility = GONE
         } else {
             binding.targetCard.visibility = GONE
         }

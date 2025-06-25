@@ -16,7 +16,7 @@ Programa notificaciones para recordarte tus hábitos. Cada hábito puede tener s
 Recuerde sus hábitos cada vez que desbloquee su teléfono. Los widgets de colores te permiten rastrear tus hábitos directamente desde tu pantalla de inicio, sin siquiera abrir la aplicación.
 
 <b>Toma el control de tus datos</b>
-Si deseas analizar más sus datos o moverlos a otro servicio, Loop te permite exportarlos a hojas de cálculo (CSV) o a un archivo de base de datos (SQLite). Para usuarios avanzados, se pueden marcar hábitos a través de otras aplicaciones, como Tasker.
+Si quieres analizar más a fondo tus datos o moverlos a otro servicio, Loop te permite exportarlos a hojas de cálculo (CSV) o a un archivo de base de datos (SQLite). Para usuarios avanzados, se pueden marcar hábitos a través de otras aplicaciones, como Tasker.
 
 <b>Sin limitaciones</b>
 Rastrea tantos hábitos como desees. Loop no impone límites artificiales sobre cuántos hábitos puedes tener. Todas las características están disponibles para todos los usuarios. No hay compras dentro de la aplicación.
