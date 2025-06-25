@@ -35,23 +35,20 @@ class EmptyListViewTest : BaseViewTest() {
     }
 
     private val path = "habits/list/EmptyListView"
-    private val view: EmptyListView = EmptyListView(targetContext)
-
-    @Before
-    override fun setUp() {
-        super.setUp()
-        measureView(view, dpToPixels(200), dpToPixels(200))
-    }
 
     @Test
     fun testRender_done() {
+        val view = EmptyListView(targetContext)
         view.showDone()
+        measureView(view, dpToPixels(200), dpToPixels(200))
         assertRenders(view, "$path/done.png")
     }
 
     @Test
     fun testRender_empty() {
+        val view = EmptyListView(targetContext)
         view.showEmpty()
+        measureView(view, dpToPixels(200), dpToPixels(200))
         assertRenders(view, "$path/empty.png")
     }
 }
