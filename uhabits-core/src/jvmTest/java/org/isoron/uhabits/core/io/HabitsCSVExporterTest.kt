@@ -108,12 +108,12 @@ class HabitsCSVExporterTest : BaseUnitTest() {
 
     private fun assertFileAndReferenceAreEqual(s: String) {
         val assetFilename = String.format("csv_export/%s", s)
-        val expectedFile = File(String.format("%s/%s", baseDir.absolutePath, s))
-        val actualFile = File.createTempFile("asset", "")
-        actualFile.deleteOnExit()
-        copyAssetToFile(assetFilename, actualFile)
-        val expectedContents = expectedFile.readText()
+        val actualFile = File(String.format("%s/%s", baseDir.absolutePath, s))
+        val expectedFile = File.createTempFile("asset", "")
+        expectedFile.deleteOnExit()
+        copyAssetToFile(assetFilename, expectedFile)
         val actualContents = actualFile.readText()
+        val expectedContents = expectedFile.readText()
         assertEquals(expectedContents, actualContents, "content mismatch for $s")
     }
 }

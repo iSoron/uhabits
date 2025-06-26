@@ -35,6 +35,10 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
         true, false, false, true, true, true, false, false, true, true
     )
 
+    private var NON_DAILY_HABIT_NOTES = arrayOf(
+        "", "Sick", "Forgot to do it, really", "", "", "", "\"Vacation\"", "", "", ""
+    )
+
     fun createEmptyHabit(
         name: String = "Meditate",
         color: PaletteColor = PaletteColor(3),
@@ -141,10 +145,10 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
         habit.frequency = Frequency(2, 3)
         saveIfSQLite(habit)
         var timestamp = getToday()
-        for (c in NON_DAILY_HABIT_CHECKS) {
+        for (i in NON_DAILY_HABIT_CHECKS.indices) {
             var value = Entry.NO
-            if (c) value = Entry.YES_MANUAL
-            habit.originalEntries.add(Entry(timestamp, value))
+            if (NON_DAILY_HABIT_CHECKS[i]) value = Entry.YES_MANUAL
+            habit.originalEntries.add(Entry(timestamp, value, NON_DAILY_HABIT_NOTES[i]))
             timestamp = timestamp.minus(1)
         }
         habit.recompute()

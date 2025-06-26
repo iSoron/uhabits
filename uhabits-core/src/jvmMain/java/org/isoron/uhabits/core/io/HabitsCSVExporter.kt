@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.io
 
+import com.opencsv.CSVWriter
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.EntryList
 import org.isoron.uhabits.core.models.Habit
@@ -32,7 +33,6 @@ import java.io.FileOutputStream
 import java.io.FileWriter
 import java.io.IOException
 import java.io.Writer
-import java.util.ArrayList
 import java.util.LinkedList
 import java.util.Locale
 import java.util.zip.ZipEntry
@@ -109,11 +109,14 @@ class HabitsCSVExporter(
         var oldest = today
         val known = habit.computedEntries.getKnown()
         if (known.isNotEmpty()) oldest = known[known.size - 1].timestamp
+        val csv = CSVWriter(out)
+        csv.writeNext(arrayOf("Date", "Score"), false)
         for ((timestamp1, value) in habit.scores.getByInterval(oldest, today)) {
             val timestamp = dateFormat.format(timestamp1.unixTime)
             val score = String.format(Locale.US, "%.4f", value)
-            out.write(String.format("%s,%s\n", timestamp, score))
+            csv.writeNext(arrayOf(timestamp, score), false)
         }
+        csv.close()
         out.close()
     }
 
@@ -122,10 +125,20 @@ class HabitsCSVExporter(
         val out = FileWriter(exportDirName + filename)
         generatedFilenames.add(filename)
         val dateFormat = DateFormats.getCSVDateFormat()
-        for ((timestamp, value) in entries.getKnown()) {
-            val date = dateFormat.format(timestamp.toJavaDate())
-            out.write(String.format(Locale.US, "%s,%d\n", date, value))
+        val csv = CSVWriter(out)
+        csv.writeNext(arrayOf("Date", "Value", "Notes"), false)
+        for (entry in entries.getKnown()) {
+            val date = dateFormat.format(entry.timestamp.toJavaDate())
+            csv.writeNext(
+                arrayOf(
+                    date,
+                    entry.formattedValue,
+                    entry.notes
+                ),
+                false
+            )
         }
+        csv.close()
         out.close()
     }
 
@@ -167,7 +180,7 @@ class HabitsCSVExporter(
             checksWriter.write(sb.toString())
             scoresWriter.write(sb.toString())
             for (j in selectedHabits.indices) {
-                checksWriter.write(checkmarks[j][i].value.toString())
+                checksWriter.write(checkmarks[j][i].formattedValue)
                 checksWriter.write(delimiter)
                 val score = String.format(Locale.US, "%.4f", scores[j][i].value)
                 scoresWriter.write(score)
