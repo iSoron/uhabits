@@ -192,7 +192,7 @@ abstract class HabitList : Iterable<Habit> {
             "Unit",
             "Target Type",
             "Target Value",
-            "Archived?",
+            "Archived?"
         )
         val csv = CSVWriter(out)
         csv.writeNext(header, false)
@@ -210,7 +210,7 @@ abstract class HabitList : Iterable<Habit> {
                 if (habit.isNumerical) habit.unit else "",
                 if (habit.isNumerical) habit.targetType.name else "",
                 if (habit.isNumerical) habit.targetValue.toString() else "",
-                habit.isArchived.toString(),
+                habit.isArchived.toString()
             )
             csv.writeNext(cols, false)
         }
