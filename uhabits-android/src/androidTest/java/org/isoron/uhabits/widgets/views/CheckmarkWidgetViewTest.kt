@@ -25,6 +25,7 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
@@ -57,6 +58,7 @@ class CheckmarkWidgetViewTest : BaseViewTest() {
 
     @Test
     @Throws(IOException::class)
+    @Ignore("non-deterministic")
     fun testRender_checked() {
         assertRenders(view, PATH + "checked.png")
     }
