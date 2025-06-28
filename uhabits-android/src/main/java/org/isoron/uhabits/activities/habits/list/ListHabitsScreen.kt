@@ -232,7 +232,9 @@ class ListHabitsScreen
                 Settings.Global.ANIMATOR_DURATION_SCALE,
                 1f
             ) == 0f
-        ) return
+        ) {
+            return
+        }
         val baseColor = themeSwitcher.currentTheme!!.color(color).toInt()
         rootView.get().konfettiView.start(
             Party(
