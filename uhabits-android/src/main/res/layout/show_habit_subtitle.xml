@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -32,8 +31,7 @@
         android:layout_marginBottom="8dp"
         android:textColor="?attr/contrast60"
         android:textSize="@dimen/regularTextSize"
-        tools:text="Have you worked out today?"
-        />
+        tools:text="Have you worked out today?" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,12 +52,14 @@
             android:id="@+id/targetText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="8.5k"
+            android:text=""
             android:textColor="?attr/contrast60"
             android:textSize="@dimen/smallTextSize"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="16dp"
-            />
+            android:maxEms="7"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <TextView
             android:id="@+id/frequencyIcon"
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="1dp"
             android:textColor="?attr/contrast60"
-            android:text="8:00 AM"
+            android:text=""
             android:layout_marginStart="4dp"
             android:textSize="@dimen/smallTextSize" />
 
