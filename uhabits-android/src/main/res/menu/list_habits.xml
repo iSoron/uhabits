@@ -48,6 +48,12 @@
                 android:enabled="true"
                 android:title="@string/hide_completed"/>
 
+            <item
+                android:id="@+id/actionGreyCompleted"
+                android:checkable="true"
+                android:enabled="true"
+                android:title="@string/grey_completed"/>
+
             <item android:title="@string/sort">
                 <menu>
                     <item

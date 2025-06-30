@@ -49,13 +49,17 @@ class ListHabitsMenu @Inject constructor(
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
         val hideArchivedItem = menu.findItem(R.id.actionHideArchived)
         val hideCompletedItem = menu.findItem(R.id.actionHideCompleted)
+        val greyCompletedItem = menu.findItem(R.id.actionGreyCompleted)
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
+        greyCompletedItem.isChecked = preferences.greyCompleted
         if (preferences.areQuestionMarksEnabled || preferences.isSkipEnabled) {
             hideCompletedItem.title = activity.resources.getString(R.string.hide_entered)
+            greyCompletedItem.title = activity.resources.getString(R.string.grey_entered)
         } else {
             hideCompletedItem.title = activity.resources.getString(R.string.hide_completed)
+            greyCompletedItem.title = activity.resources.getString(R.string.grey_completed)
         }
         updateArrows(menu)
     }
@@ -117,6 +121,12 @@ class ListHabitsMenu @Inject constructor(
 
             R.id.actionHideCompleted -> {
                 behavior.onToggleShowCompleted()
+                activity.invalidateOptionsMenu()
+                return true
+            }
+
+            R.id.actionGreyCompleted -> {
+                behavior.onToggleGreyCompleted()
                 activity.invalidateOptionsMenu()
                 return true
             }
