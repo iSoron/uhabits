@@ -249,12 +249,14 @@ open class EntryList {
             entries: List<Entry>
         ): ArrayList<Interval> {
             val filtered = entries.filter { it.value == YES_MANUAL }
+            val skips = entries.filter { it.value == SKIP }
             val num = freq.numerator
             val den = freq.denominator
             val intervals = arrayListOf<Interval>()
             for (i in num - 1 until filtered.size) {
                 val (begin, _) = filtered[i]
                 val (center, _) = filtered[i - num + 1]
+                val skipCounts = skips.filter { it.timestamp in begin..center }.size
                 var size = den
                 if (den == 30 || den == 31) {
                     val beginDate = begin.toLocalDate()
@@ -264,8 +266,8 @@ open class EntryList {
                         beginDate.monthLength
                     }
                 }
-                if (begin.daysUntil(center) < size) {
-                    val end = begin.plus(size - 1)
+                if (begin.daysUntil(center) - skipCounts < size) {
+                    val end = begin.plus(size - 1 + skipCounts)
                     intervals.add(Interval(begin, center, end))
                 }
             }
