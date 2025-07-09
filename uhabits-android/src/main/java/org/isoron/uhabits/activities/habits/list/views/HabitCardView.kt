@@ -35,14 +35,17 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import org.isoron.platform.gui.toInt
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.inject.HabitsApplicationComponent
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
@@ -123,7 +126,12 @@ class HabitCardView(
             numberPanel.notes = values
         }
 
+    private val appComponent: HabitsApplicationComponent =
+        (context.applicationContext as HabitsApplication).component
+    private val prefs: Preferences = appComponent.preferences
+
     var checkmarkPanel: CheckmarkPanelView
+
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
     private var label: TextView
@@ -265,10 +273,19 @@ class HabitCardView(
 
     private fun copyAttributesFrom(h: Habit) {
         fun getActiveColor(habit: Habit): Int {
-            return when (habit.isArchived) {
-                true -> sres.getColor(R.attr.contrast60)
-                false -> currentTheme().color(habit.color).toInt()
+            var retCol: Int = currentTheme().color(habit.color).toInt()
+
+            if (habit.isArchived) {
+                retCol = sres.getColor(R.attr.contrast60)
+            } else if (prefs.greyCompleted) {
+                if (prefs.areQuestionMarksEnabled && habit.isEnteredToday()) {
+                    retCol = sres.getColor(R.attr.contrast40)
+                } else if (!prefs.areQuestionMarksEnabled && habit.isCompletedToday()) {
+                    retCol = sres.getColor(R.attr.contrast40)
+                }
             }
+
+            return retCol
         }
 
         val c = getActiveColor(h)
