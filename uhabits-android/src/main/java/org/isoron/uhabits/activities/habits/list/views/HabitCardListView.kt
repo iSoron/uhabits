@@ -60,6 +60,7 @@ class HabitCardListView(
 ) : RecyclerView(context, null, R.attr.scrollableRecyclerViewStyle) {
 
     var checkmarkCount: Int = 0
+    private var insetDecorationsAdded: Boolean = false
 
     var dataOffset: Int = 0
         set(value) {
@@ -84,6 +85,8 @@ class HabitCardListView(
 
     private fun applyBottomInset() {
         ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+            if (insetDecorationsAdded) return@setOnApplyWindowInsetsListener insets
+            insetDecorationsAdded = true
             val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             addItemDecoration(object : ItemDecoration() {
                 override fun getItemOffsets(
