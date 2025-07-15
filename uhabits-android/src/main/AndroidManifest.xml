@@ -113,6 +113,15 @@
         </activity>
 
         <activity
+            android:name=".widgets.activities.HabitPickerDialogMultiple"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".activities.about.AboutActivity"
             android:label="@string/about">
             <meta-data
@@ -156,6 +165,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_history_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.HabitListWidgetProvider"
+            android:exported="true"
+            android:label="@string/main_activity_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_habits_list_info" />
         </receiver>
 
         <receiver
