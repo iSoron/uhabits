@@ -28,7 +28,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.TextView
 import org.isoron.uhabits.activities.common.views.HabitListChart
 import org.isoron.uhabits.core.ui.screens.habits.show.views.HabitListCardPresenter
-import org.isoron.uhabits.core.ui.views.WidgetTheme
+import org.isoron.uhabits.core.ui.views.DarkTheme
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 
@@ -49,7 +49,7 @@ class HabitListWidget(
         val maxDays = 10
         val data = HabitListCardPresenter.buildState(
             habits = habits,
-            theme = WidgetTheme(),
+            theme = DarkTheme(),
             maxDays = maxDays
         )
         val widgetView = view as GraphWidgetView

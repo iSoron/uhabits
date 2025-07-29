@@ -22,7 +22,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Path
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.text.Layout
@@ -30,31 +29,22 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import org.isoron.uhabits.R
 import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
-import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.StyledResources
 import kotlin.math.max
 import androidx.core.graphics.withTranslation
 import org.isoron.uhabits.HabitsApplication
-import org.isoron.uhabits.activities.habits.list.views.toShortString
-import org.isoron.uhabits.core.models.Entry.Companion.NO
-import org.isoron.uhabits.core.models.Entry.Companion.SKIP
-import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.NumericalHabitType
-import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
-import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
-import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.ui.screens.habits.show.views.IndividualHabitListState
 import org.isoron.uhabits.utils.dim
 import kotlin.math.min
 import org.isoron.platform.gui.toInt
+import org.isoron.uhabits.activities.habits.list.views.CheckmarkButtonView
+import org.isoron.uhabits.activities.habits.list.views.NumberButtonView
+import org.isoron.uhabits.utils.dp
 
-private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
-private val NORMAL_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.NORMAL)
 
 
 class HabitListChart : View {
@@ -66,15 +56,17 @@ class HabitListChart : View {
     private var numCheckMarks = 0
 
     private var habitRowSize = 0
-    private var checkMarkSize = 18.dpToPx()
-    private var textBoxSize = checkMarkSize * 2
     private var padding = dpToPixels(context, 4f)
-    private var scaleFactor = 25f
+    private var checkMarkSize =  dim(R.dimen.checkmarkWidth) * .85f
+    private var ringSize = 18.dpToPx()
+    private val minTextBoxWidth = dim(R.dimen.checkmarkWidth)
+    private var textBoxSize = minTextBoxWidth
 
     private val rect = RectF()
     private val barRect = RectF()
 
     private var backGroundPaint: Paint? = null
+    private var backGroundColor = 0
     private var lowContrastTextColor = 0 // contrast20
     private var mediumContrastTextColor = 0 // contrast40
     private var highContrastTextColor = 0 // contrast60
@@ -93,27 +85,6 @@ class HabitListChart : View {
     private val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 12.spToPx()
         color = Color.WHITE
-    }
-
-    private val pText: TextPaint = TextPaint().apply {
-        textSize = (dim(R.dimen.regularTextSize) * 1.5).toFloat()
-        typeface = BOLD_TYPEFACE
-        textAlign = Paint.Align.CENTER
-        isAntiAlias = true
-    }
-
-    private val pNumber: TextPaint = TextPaint().apply {
-        textSize = dim(R.dimen.smallTextSize)
-        typeface = BOLD_TYPEFACE
-        isAntiAlias = true
-        textAlign = Paint.Align.CENTER
-    }
-
-    private val pUnit: TextPaint = TextPaint().apply {
-        textSize = getDimension(context, R.dimen.smallerTextSize)
-        typeface = NORMAL_TYPEFACE
-        isAntiAlias = true
-        textAlign = Paint.Align.CENTER
     }
 
     override fun onMeasure(widthSpec: Int, heightSpec: Int) {
@@ -151,27 +122,22 @@ class HabitListChart : View {
 
 
         // Amount of Checkmarks and the size of the habit text
-        val firstCheckMarkWithPadding = checkMarkSize + (padding * 4)
-        val otherCheckMarkWithPadding = checkMarkSize + (padding * 8)
-        fun getCheckMarkWithPadding(i: Int) = firstCheckMarkWithPadding + i * otherCheckMarkWithPadding
-        val ringSizeWithPadding = checkMarkSize + (padding * 1.5)
-        val rowPadding = padding * 2
-        val minTextBoxSize = checkMarkSize * 2 + padding
+        val ringSizeWithPadding = ringSize + (padding * 2.5)
+        val widthLeftOver = width - ringSizeWithPadding
 
-        if (width < 150.dpToPx()) {
-            Log.e("JMO", "1")
-
+        if ((widthLeftOver - checkMarkSize - padding) < minTextBoxWidth) {
             numCheckMarks = 1
-            textBoxSize = (width -  (rowPadding) - ( firstCheckMarkWithPadding ) - padding  - (ringSizeWithPadding)).toFloat()
+            textBoxSize = (width - checkMarkSize - padding - ringSizeWithPadding).toFloat()
         }
-        else  {
-            Log.e("JMO", "2")
-            numCheckMarks = ((((width + (padding * 4) - (rowPadding)) * 0.62) / otherCheckMarkWithPadding)).toInt()
-            textBoxSize = (width -  (rowPadding) - ( getCheckMarkWithPadding(numCheckMarks - 1) )- padding  - (ringSizeWithPadding)).toFloat()
-            if (textBoxSize - otherCheckMarkWithPadding >= minTextBoxSize){
-                numCheckMarks++
-                textBoxSize -= otherCheckMarkWithPadding
-            }
+        numCheckMarks = ((((width ) * 0.64) / checkMarkSize)).toInt()
+        textBoxSize = (widthLeftOver - (checkMarkSize * numCheckMarks)).toFloat()
+        if (textBoxSize < minTextBoxWidth && numCheckMarks > 1) {
+            numCheckMarks--
+            textBoxSize += checkMarkSize
+        }
+        else if (textBoxSize - checkMarkSize >= minTextBoxWidth * 1.5){
+            numCheckMarks++
+            textBoxSize -= checkMarkSize
         }
         if (numCheckMarks > maxCheckMarks)
             numCheckMarks = maxCheckMarks
@@ -179,10 +145,14 @@ class HabitListChart : View {
     }
 
     private fun init() {
+        val res = StyledResources(context)
+
         backGroundPaint = Paint()
         backGroundPaint!!.textAlign = Paint.Align.CENTER
         backGroundPaint!!.isAntiAlias = true
-        val res = StyledResources(context)
+        backGroundPaint!!.color = res.getColor(R.attr.cardBgColor)
+
+        backGroundColor = res.getColor(R.attr.cardBgColor)
         lowContrastTextColor = res.getColor(R.attr.contrast20)
         mediumContrastTextColor = res.getColor(R.attr.contrast40)
         highContrastTextColor = res.getColor(R.attr.contrast60)
@@ -225,13 +195,12 @@ class HabitListChart : View {
         }
 
         val em = paint.measureText("m")
-        val checkMarkCenterX = ((padding * 4) + checkMarkSize/2)
         val checkMarkCenterY = rect.centerY()
 
         // Draw dates
         repeat(numCheckMarks) { index ->
 
-            val centerX = rect.right - (checkMarkCenterX * (index + 1) + (padding * 4) * (index))
+            val centerX = rect.right - ((checkMarkSize * (index + 1)) - (checkMarkSize / 2f) + padding)
 
             val y1 = checkMarkCenterY - 0.25 * em
             val y2 = checkMarkCenterY + 1.25 * em
@@ -256,7 +225,7 @@ class HabitListChart : View {
         canvas.drawRoundRect(barRect, round, round, backGroundPaint!!)
 
         // ScoreRing
-        val ringSize  = checkMarkSize.toInt()
+        val ringSize  = ringSize.toInt()
         val ringCenterX = (rect.left + (padding * 1.5) + ringSize/2).toFloat()
         val ringCenterY = rect.centerY()
         drawRingView(
@@ -268,7 +237,6 @@ class HabitListChart : View {
         )
 
         // CheckMarks
-        val checkMarkCenterX = ((padding * 4) + checkMarkSize/2)
         val checkMarkCenterY = rect.centerY()
 
         for (index in 1..numCheckMarks) { // 1 , 2, 3 if  numCheckMarks == 3
@@ -279,13 +247,13 @@ class HabitListChart : View {
             }
 
             // Checkbox Rectangle
-            val centerX = rect.right - ((checkMarkCenterX * index) + (padding * 4) * (index - 1))
+            val centerX = rect.right - ((checkMarkSize * index) - (checkMarkSize / 2f) + padding)
             val centerY = checkMarkCenterY
             val checkRect = RectF()
             checkRect.set(
-                centerX - checkMarkSize / 2f,
+                centerX - (checkMarkSize / 2f), // + padding * 3),
                 centerY - checkMarkSize / 2f,
-                centerX + checkMarkSize / 2f,
+                centerX + (checkMarkSize / 2f), // + padding * 3),
                 centerY + checkMarkSize / 2f
             )
 
@@ -320,10 +288,11 @@ class HabitListChart : View {
         }
 
         // Draw habit name
+        textPaint.color = habit.color.toInt() // Add color to name
         drawAdaptiveText(
             canvas = canvas,
             text = habit.name,
-            x = ringCenterX + ringSize/2 + padding,
+            x = (ringCenterX + ringSize/2 + padding),
             y = rect.top,
             width= textBoxSize.toInt(), // textAreaWidth,
             height = habitRowSize,
@@ -340,36 +309,23 @@ class HabitListChart : View {
         percentage: Float,
         color: Int
     ) {
-        val thickness = checkMarkSize * 0.22f
+        canvas.withTranslation(centerX, centerY) {
+            val ringSize = dp(16f).toInt()
+            val scoreRing = RingView(context).apply {
+                setThickness(dp(3.5f))
+                setColor(color)
+                setPercentage(percentage)
+                setIsTransparencyEnabled(true)
+            }
 
-        val bgPaint = Paint().apply {
-            this.color = Color.argb(25, Color.red(color), Color.green(color), Color.blue(color))
-            style = Paint.Style.STROKE
-            strokeWidth = thickness
-            isAntiAlias = true
-        }
+            scoreRing.measure(
+                MeasureSpec.makeMeasureSpec(ringSize, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(ringSize, MeasureSpec.EXACTLY)
+            )
+            scoreRing.layout(0, 0, ringSize, ringSize)
 
-        val fgPaint = Paint().apply {
-            this.color = color
-            style = Paint.Style.STROKE
-            strokeWidth = thickness
-            strokeCap = Paint.Cap.BUTT
-            isAntiAlias = true
-        }
-
-        val rect = RectF(
-            centerX - checkMarkSize / 2 + thickness / 2,
-            centerY - checkMarkSize / 2 + thickness / 2,
-            centerX - checkMarkSize / 2 + checkMarkSize - thickness / 2,
-            centerY - checkMarkSize / 2 + checkMarkSize - thickness / 2
-        )
-
-        // Draw background
-        canvas.drawArc(rect, 0f, 360f, false, bgPaint)
-
-        // Draw progress
-        if (percentage > 0) {
-            canvas.drawArc(rect, -90f, 360f * percentage, false, fgPaint)
+            canvas.translate(-ringSize/2f, -ringSize/2f)
+            scoreRing.draw(canvas)
         }
     }
 
@@ -413,52 +369,20 @@ class HabitListChart : View {
         targetType : NumericalHabitType,
         paint : Paint
     ) {
-        // Color
-        val activeColor = when {
-            value == SKIP.toDouble() / 1000 -> paint.color
-            value < 0.0 -> mediumContrastTextColor
-            (targetType == AT_LEAST) && (value >= threshold) -> paint.color
-            (targetType == AT_MOST) && (value <= threshold) -> paint.color
-            else -> highContrastTextColor
-        }
-        paint.color = activeColor
+        val button = NumberButtonView(context, preferences)
 
-        // Prepare text
-        val numberText = if (value >= 0) value.toShortString() else "0"
+        button.value = value
+        button.notes = ""
+        button.color = paint.color
+        button.targetType = targetType
+        button.threshold = threshold
+        button.units = units.substring(0, min(units.length, 7))
 
-        pNumber.color = activeColor
-        pUnit.color = activeColor
+        val buttonWidth = (checkMarkSize * 1.1f ).toInt()
+        button.layout(0, 0, buttonWidth, habitRowSize)
 
-        // Draw
-        val em = pNumber.measureText("m")
-        var questionMarkScale = 1.0
-        val verticalSpacing = em * 0.3f
-
-        if (units.isNotBlank()){  // if have units
-            questionMarkScale = 0.8
-            checkRect.offset(0f, - verticalSpacing)
-        }
-
-        // Draw Number
-        when {
-            value == SKIP.toDouble() / 1000 -> {
-                drawSkipLine(canvas, checkRect, paint)
-            }
-            value >= 0 -> {
-                canvas.drawText(numberText,checkRect.centerX(),checkRect.centerY() + em / 3, pNumber)
-            }
-            preferences.areQuestionMarksEnabled -> {
-                drawSimpleText(canvas, checkRect, pNumber, "?", questionMarkScale)
-            }
-            else -> {
-                canvas.drawText(numberText,checkRect.centerX(),checkRect.centerY() + em / 3, pNumber)
-            }
-        }
-        // Draw Units
-        if (units.isNotBlank()) {  // if have units
-            val unitsSub = units.substring(0, min(units.length, 7))
-            checkRect.offset(0f, +verticalSpacing + em)
-            canvas.drawText(unitsSub, checkRect.centerX(), checkRect.centerY() + em / 3, pUnit)
+        canvas.withTranslation(checkRect.centerX() - button.width / 2f, checkRect.centerY() - button.height / 2f) {
+            button.draw(canvas)
         }
 
     }
@@ -469,138 +393,17 @@ class HabitListChart : View {
         value: Int,
         paint: Paint)
     {
-        // Color
-        paint.color = when (value) {
-            YES_MANUAL, YES_AUTO, SKIP -> paint.color
-            NO -> {
-                if (preferences.areQuestionMarksEnabled) {
-                    highContrastTextColor
-                } else {
-                    mediumContrastTextColor
-                }
-            }
-            else -> mediumContrastTextColor
-        }
 
         // Which CheckMark
-        when (value) {
-            SKIP -> drawSkipLine(canvas, checkRect, paint)
-            NO -> drawXMark(canvas, checkRect, paint)
-            UNKNOWN -> {
-                if (preferences.areQuestionMarksEnabled) {
-                    drawSimpleText(canvas, checkRect, paint, "?")
-                } else {
-                    drawXMark(canvas, checkRect, paint)
-                }
-            }
-            YES_AUTO -> {
-                drawCheckMark(canvas, checkRect, paint, false)
-                drawCheckMark(canvas, checkRect, paint, true)
-            }
-            else -> drawCheckMark(canvas, checkRect, paint)
+        val button = CheckmarkButtonView(context, preferences)
+        button.value = value
+        button.notes = ""
+        button.color = paint.color
+
+        canvas.withTranslation(checkRect.centerX() , checkRect.centerY()) {
+            button.draw(canvas)
         }
     }
-
-    private fun drawCheckMark(
-        canvas: Canvas,
-        checkRect: RectF,
-        paint: Paint,
-        isAuto: Boolean = false
-    ) {
-        val scale = checkMarkSize / scaleFactor
-        canvas.withTranslation(checkRect.left , checkRect.top) {
-            scale(scale, scale)
-
-            // Draw Checkmark
-            val path = Path().apply {
-                moveTo(9f, 16.17f)
-                lineTo(4.83f, 12f)
-                lineTo(3.41f, 13.41f)
-                lineTo(9f, 19f)
-                lineTo(21f, 7f)
-                lineTo(19.59f, 5.59f)
-                close()
-            }
-
-            if (isAuto) {
-                // First draw: outline
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = paint.strokeWidth  // scale the stroke width
-                drawPath(path, paint)
-
-                // Second draw: inner fill
-                paint.style = Paint.Style.FILL
-                paint.color = mediumContrastTextColor  // your background color
-                drawPath(path, paint)
-
-            } else {
-                // Regular checkmark
-                paint.style = Paint.Style.STROKE
-                drawPath(path, paint)
-            }
-        }
-    }
-
-    private fun drawSimpleText(
-        canvas: Canvas,
-        checkRect: RectF,
-        paint: Paint,
-        text: String,
-        scale: Double = 1.0
-    ) {
-        pText.textSize = (dim(R.dimen.regularTextSize) * 1.5 * scale).toFloat()
-        pText.color = paint.color
-        val em = pText.measureText("m")
-
-        canvas.drawText(
-            text,
-            checkRect.centerX(),
-            checkRect.centerY() + em / 2,
-            pText
-        )
-    }
-
-    private fun drawSkipLine(
-        canvas: Canvas,
-        checkRect: RectF,
-        paint: Paint,
-    ) {
-        val scale = checkMarkSize / scaleFactor
-        canvas.withTranslation(checkRect.left, checkRect.top) {
-            canvas.scale(scale, scale)
-
-            val lineWidth = 12f
-            val startX = 12f - lineWidth / 2
-            val endX = 12f + lineWidth / 2
-            val y = 12f
-
-            drawLine(startX, y, endX, y, paint)
-        }
-
-    }
-
-    private fun drawXMark(
-        canvas: Canvas,
-        checkRect: RectF,
-        paint: Paint,
-    ) {
-        val scale = checkMarkSize / scaleFactor
-        canvas.withTranslation(checkRect.left, checkRect.top) {
-            canvas.scale(scale, scale)
-
-            // Create the X path
-            val path = Path().apply {
-                moveTo(6f, 6f)
-                lineTo(18f, 18f)
-
-                moveTo(6f, 18f)
-                lineTo(18f, 6f)
-            }
-            canvas.drawPath(path, paint)
-        }
-
-    }
-
 
     fun setHabits(habits: List<IndividualHabitListState>) {
         this.habits = habits
