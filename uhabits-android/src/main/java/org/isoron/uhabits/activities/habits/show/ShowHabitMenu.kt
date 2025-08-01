@@ -35,6 +35,9 @@ class ShowHabitMenu(
         if (preferences.isDeveloper) {
             menu.findItem(R.id.action_randomize).isVisible = true
         }
+        menu.findItem(R.id.action_archive_habit).isVisible = presenter.canArchive()
+        menu.findItem(R.id.action_unarchive_habit).isVisible = presenter.canUnarchive()
+
         return true
     }
 
@@ -42,6 +45,15 @@ class ShowHabitMenu(
         when (item.itemId) {
             R.id.action_edit_habit -> {
                 presenter.onEditHabit()
+                return true
+            }
+            R.id.action_archive_habit -> {
+                presenter.onArchiveHabits()
+                return true
+            }
+
+            R.id.action_unarchive_habit -> {
+                presenter.onUnarchiveHabits()
                 return true
             }
             R.id.action_delete -> {
