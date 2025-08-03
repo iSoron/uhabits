@@ -176,8 +176,10 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
             callback: ListHabitsBehavior.NumberPickerCallback,
             habit: Habit?
         ) {
+            val theme = view.currentTheme()
             val dialog = NumberDialog()
             dialog.arguments = Bundle().apply {
+                habit?.color?.let { putInt("color", theme.color(it).toInt()) }
                 putDouble("value", value)
                 putString("notes", notes)
                 putLong("habitId", habit?.id ?: -1)

@@ -53,6 +53,7 @@ class CheckmarkDialog : AppCompatDialogFragment() {
                 if (description.isNotEmpty()) {
                     view.habitDescription.text = description
                     view.habitDescription.visibility = VISIBLE
+                    view.habitDescription.setTextColor(color)
                 } else {
                     view.habitDescription.visibility = GONE
                 }

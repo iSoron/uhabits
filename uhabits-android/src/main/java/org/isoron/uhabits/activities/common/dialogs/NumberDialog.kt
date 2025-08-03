@@ -36,6 +36,7 @@ class NumberDialog : AppCompatDialogFragment() {
         val appComponent = (requireActivity().application as HabitsApplication).component
         val prefs = appComponent.preferences
         view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
+        val color = requireArguments().getInt("color")
 
         // Get the habit ID and load description
         val habitId = requireArguments().getLong("habitId", -1)
@@ -46,6 +47,7 @@ class NumberDialog : AppCompatDialogFragment() {
                 if (description.isNotEmpty()) {
                     view.habitDescription.text = description
                     view.habitDescription.visibility = View.VISIBLE
+                    view.habitDescription.setTextColor(color)
                 } else {
                     view.habitDescription.visibility = View.GONE
                 }
@@ -55,7 +57,7 @@ class NumberDialog : AppCompatDialogFragment() {
         }
 
         arrayOf(view.yesBtn).forEach {
-            it.setTextColor(requireArguments().getInt("color"))
+            it.setTextColor(color)
         }
         arrayOf(view.noBtn, view.unknownBtnNumber).forEach {
             it.setTextColor(view.root.sres.getColor(R.attr.contrast60))

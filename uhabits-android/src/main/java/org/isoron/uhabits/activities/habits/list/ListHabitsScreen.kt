@@ -273,9 +273,11 @@ class ListHabitsScreen
         callback: ListHabitsBehavior.NumberPickerCallback,
         habit: Habit?
     ) {
+        val theme = rootView.get().currentTheme()
         val fm = (context as AppCompatActivity).supportFragmentManager
         val dialog = NumberDialog()
         dialog.arguments = Bundle().apply {
+            habit?.color?.let { putInt("color", theme.color(it).toInt()) }
             putDouble("value", value)
             putString("notes", notes)
             habit?.id?.let { putLong("habitId", it) }
