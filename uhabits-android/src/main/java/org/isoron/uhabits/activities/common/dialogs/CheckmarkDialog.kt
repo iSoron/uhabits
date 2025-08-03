@@ -43,6 +43,24 @@ class CheckmarkDialog : AppCompatDialogFragment() {
         val prefs = appComponent.preferences
         val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
         val color = requireArguments().getInt("color")
+
+        // Get the habit ID and load description
+        val habitId = requireArguments().getLong("habitId", -1)
+        if (habitId != -1L) {
+            val habit = appComponent.habitList.getById(habitId)
+            habit?.let {
+                val description = it.question.trim()
+                if (description.isNotEmpty()) {
+                    view.habitDescription.text = description
+                    view.habitDescription.visibility = VISIBLE
+                } else {
+                    view.habitDescription.visibility = GONE
+                }
+            }
+        } else {
+            view.habitDescription.visibility = GONE
+        }
+
         arrayOf(view.yesBtn, view.skipBtn).forEach {
             it.setTextColor(color)
         }

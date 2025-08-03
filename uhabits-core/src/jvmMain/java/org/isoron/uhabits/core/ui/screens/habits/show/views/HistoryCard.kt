@@ -97,18 +97,20 @@ class HistoryCardPresenter(
         screen.showCheckmarkPopup(
             entry.value,
             entry.notes,
-            habit.color
-        ) { newValue, newNotes ->
-            commandRunner.run(
-                CreateRepetitionCommand(
-                    habitList,
-                    habit,
-                    timestamp,
-                    newValue,
-                    newNotes
+            habit.color,
+            { newValue, newNotes ->
+                commandRunner.run(
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        newValue,
+                        newNotes
+                    )
                 )
-            )
-        }
+            },
+            habit
+        )
     }
 
     private fun toggle(timestamp: Timestamp) {
@@ -134,19 +136,21 @@ class HistoryCardPresenter(
         val oldValue = entry.value
         screen.showNumberPopup(
             value = oldValue / 1000.0,
-            notes = entry.notes
-        ) { newValue: Double, newNotes: String ->
-            val thousands = (newValue * 1000).roundToInt()
-            commandRunner.run(
-                CreateRepetitionCommand(
-                    habitList,
-                    habit,
-                    timestamp,
-                    thousands,
-                    newNotes
+            notes = entry.notes,
+            { newValue: Double, newNotes: String ->
+                val thousands = (newValue * 1000).roundToInt()
+                commandRunner.run(
+                    CreateRepetitionCommand(
+                        habitList,
+                        habit,
+                        timestamp,
+                        thousands,
+                        newNotes
+                    )
                 )
-            )
-        }
+            },
+            habit
+        )
     }
 
     fun onClickEditButton() {
@@ -207,13 +211,15 @@ class HistoryCardPresenter(
         fun showNumberPopup(
             value: Double,
             notes: String,
-            callback: ListHabitsBehavior.NumberPickerCallback
+            callback: ListHabitsBehavior.NumberPickerCallback,
+            habit: Habit? = null
         )
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
             color: PaletteColor,
-            callback: ListHabitsBehavior.CheckMarkDialogCallback
+            callback: ListHabitsBehavior.CheckMarkDialogCallback,
+            habit: Habit? = null
         )
     }
 }

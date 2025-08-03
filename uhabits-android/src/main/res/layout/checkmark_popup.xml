@@ -29,6 +29,17 @@
     android:orientation="vertical"
     app:divider="@drawable/checkmark_dialog_divider"
     app:showDividers="middle">
+    
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/habitDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:padding="4dp"
+        android:textStyle="italic"
+        android:textSize="@dimen/smallTextSize" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/notes"

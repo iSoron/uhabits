@@ -55,7 +55,7 @@ open class ListHabitsBehavior @Inject constructor(
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
-            screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String ->
+            screen.showNumberPopup(oldValue, entry.notes, { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
                 if (newValue != oldValue) {
                     if (
@@ -66,16 +66,18 @@ open class ListHabitsBehavior @Inject constructor(
                     }
                 }
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
-            }
+            }, habit)
         } else {
             screen.showCheckmarkPopup(
                 entry.value,
                 entry.notes,
-                habit.color
-            ) { newValue: Int, newNotes: String ->
-                if (newValue != entry.value && newValue == YES_MANUAL) screen.showConfetti(habit.color, x, y)
-                commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
-            }
+                habit.color,
+                { newValue: Int, newNotes: String ->
+                    if (newValue != entry.value && newValue == YES_MANUAL) screen.showConfetti(habit.color, x, y)
+                    commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
+                },
+                habit
+            )
         }
     }
 
@@ -179,13 +181,15 @@ open class ListHabitsBehavior @Inject constructor(
         fun showNumberPopup(
             value: Double,
             notes: String,
-            callback: NumberPickerCallback
+            callback: NumberPickerCallback,
+            habit: Habit? = null
         )
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
             color: PaletteColor,
-            callback: CheckMarkDialogCallback
+            callback: CheckMarkDialogCallback,
+            habit: Habit? = null
         )
         fun showSendBugReportToDeveloperScreen(log: String)
         fun showSendFileScreen(filename: String)

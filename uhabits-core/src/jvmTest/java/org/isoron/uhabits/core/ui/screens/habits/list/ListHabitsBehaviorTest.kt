@@ -82,7 +82,8 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
         verify(screen).showNumberPopup(
             eq(0.1),
             eq(""),
-            picker.capture()
+            picker.capture(),
+            eq(habit2)
         )
         picker.lastValue.onNumberPicked(100.0, "")
         val today = getTodayWithOffset()
