@@ -97,7 +97,6 @@ class HistoryCardPresenter(
         screen.showCheckmarkPopup(
             entry.value,
             entry.notes,
-            habit.color,
             { newValue, newNotes ->
                 commandRunner.run(
                     CreateRepetitionCommand(
@@ -217,7 +216,6 @@ class HistoryCardPresenter(
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
-            color: PaletteColor,
             callback: ListHabitsBehavior.CheckMarkDialogCallback,
             habit: Habit? = null
         )
