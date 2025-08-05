@@ -91,7 +91,7 @@ class IndividualHabitListCardPresenter {
                 theme = theme
             )
             val color = theme.color(habit.color)
-            val score = state.scoreMonthDiff
+            val score = state.scoreToday
             val isNumerical = habit.isNumerical
             val today = DateUtils.getTodayWithOffset()
             val values = ArrayList<Int>()
