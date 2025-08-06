@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "tools": {
+    "android": {
+      "version": "34.0.0"
+    },
+    "java": {
+      "version": "17"
+    }
+  },
+  "build": {
+    "builder": "gradle",
+    "tasks": ["assembleDebug"]
+  }
+}
