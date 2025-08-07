@@ -25,6 +25,7 @@ import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.preference.PreferenceManager
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry.Companion.NO
@@ -53,8 +54,12 @@ class CheckmarkDialog : AppCompatDialogFragment() {
             it.typeface = getFontAwesome(requireContext())
         }
         view.notes.setText(requireArguments().getString("notes")!!)
-        if (!prefs.isSkipEnabled) view.skipBtn.visibility = GONE
-        if (!prefs.areQuestionMarksEnabled) view.unknownBtn.visibility = GONE
+        if (!prefs.isSkipEnabled)
+            view.skipBtn.visibility = GONE
+
+        if (!prefs.areQuestionMarksEnabled)
+            view.unknownBtn.visibility = GONE
+
         view.booleanButtons.visibility = VISIBLE
         val dialog = Dialog(requireContext())
         dialog.setContentView(view.root)
