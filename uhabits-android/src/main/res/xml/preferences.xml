@@ -61,6 +61,14 @@
 
 
         <SwitchPreferenceCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="pref_checkmark_reverse_cancel_confirm"
+            android:summary="@string/reverse_cancel_confirm_action_description"
+            android:title="@string/reverse_cancel_confirm_action"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
                 android:defaultValue="false"
                 android:key="pref_pure_black"
                 android:summary="@string/pure_black_description"
