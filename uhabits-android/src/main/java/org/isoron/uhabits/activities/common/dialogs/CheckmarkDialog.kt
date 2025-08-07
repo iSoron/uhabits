@@ -35,37 +35,76 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.databinding.CheckmarkPopupBinding
 import org.isoron.uhabits.utils.InterfaceUtils.getFontAwesome
 import org.isoron.uhabits.utils.sres
+import androidx.core.view.isVisible
 
 class CheckmarkDialog : AppCompatDialogFragment() {
     var onToggle: (Int, String) -> Unit = { _, _ -> }
+
+    private fun shouldReverseButtons(): Boolean {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        return sharedPreferences.getBoolean("pref_checkmark_reverse_cancel_confirm", false)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val appComponent = (requireActivity().application as HabitsApplication).component
         val prefs = appComponent.preferences
         val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
         val color = requireArguments().getInt("color")
-        arrayOf(view.yesBtn, view.skipBtn).forEach {
+
+        val yesButton = view.yesBtn
+        val noButton = view.noBtn
+        val skipButton = view.skipBtn
+        val unknownButton = view.unknownBtn
+        val buttonContainer = view.booleanButtons
+
+        arrayOf(yesButton, skipButton, unknownButton).forEach {
             it.setTextColor(color)
         }
-        arrayOf(view.noBtn, view.unknownBtn).forEach {
+
+        arrayOf(noButton, unknownButton).forEach {
             it.setTextColor(view.root.sres.getColor(R.attr.contrast60))
         }
-        arrayOf(view.yesBtn, view.noBtn, view.skipBtn, view.unknownBtn).forEach {
+
+        arrayOf(yesButton, noButton, skipButton, unknownButton).forEach {
             it.typeface = getFontAwesome(requireContext())
         }
+
         view.notes.setText(requireArguments().getString("notes")!!)
+
         if (!prefs.isSkipEnabled)
             view.skipBtn.visibility = GONE
 
         if (!prefs.areQuestionMarksEnabled)
             view.unknownBtn.visibility = GONE
 
+        if (shouldReverseButtons()) {
+            buttonContainer.removeView(yesButton)
+            buttonContainer.removeView(noButton)
+            buttonContainer.removeAllViews()
+
+            buttonContainer.addView(yesButton)
+
+            if (view.skipBtn.isVisible) {
+                buttonContainer.addView(skipButton)
+            }
+
+            buttonContainer.addView(noButton)
+
+            if (view.unknownBtn.isVisible) {
+                buttonContainer.addView(unknownButton)
+            }
+        }
+
         view.booleanButtons.visibility = VISIBLE
+
         val dialog = Dialog(requireContext())
+
         dialog.setContentView(view.root)
+
         dialog.window?.apply {
             setBackgroundDrawableResource(android.R.color.transparent)
         }
+
         fun onClick(v: Int) {
             val notes = view.notes.text.toString().trim()
             onToggle(v, notes)
@@ -75,6 +114,7 @@ class CheckmarkDialog : AppCompatDialogFragment() {
         view.noBtn.setOnClickListener { onClick(NO) }
         view.skipBtn.setOnClickListener { onClick(SKIP) }
         view.unknownBtn.setOnClickListener { onClick(UNKNOWN) }
+
         view.notes.setOnEditorActionListener { v, actionId, event ->
             onClick(requireArguments().getInt("value"))
             true
