@@ -189,16 +189,19 @@ class NumberButtonView(
                     textSize = dim(R.dimen.smallTextSize)
                     typeface = getFontAwesome()
                 }
+
                 value >= 0 -> {
                     label = value.toShortString()
                     typeface = BOLD_TYPEFACE
                     textSize = dim(R.dimen.smallTextSize)
                 }
+
                 preferences.areQuestionMarksEnabled -> {
                     label = resources.getString(R.string.fa_question)
                     typeface = getFontAwesome()
                     textSize = dim(R.dimen.smallerTextSize)
                 }
+
                 else -> {
                     label = "0"
                     typeface = BOLD_TYPEFACE
@@ -212,14 +215,23 @@ class NumberButtonView(
             pUnit.color = activeColor
 
             if (units.isBlank()) {
+                // Draw number without units
                 rect.set(0f, 0f, width.toFloat(), height.toFloat())
                 rect.offset(0f, 0.5f * em)
                 canvas.drawText(label, rect.centerX(), rect.centerY(), pNumber)
             } else {
+                // Draw number
                 rect.set(0f, 0f, width.toFloat(), height.toFloat())
                 canvas.drawText(label, rect.centerX(), rect.centerY(), pNumber)
+
+                // Draw units
+                val maxUnitsWidth = width * 0.9f
+                var trimmedUnits = units
+                while (trimmedUnits.length > 2 && pUnit.measureText(trimmedUnits) > maxUnitsWidth) {
+                    trimmedUnits = trimmedUnits.dropLast(2) + "…"
+                }
                 rect.offset(0f, 1.3f * em)
-                canvas.drawText(units, rect.centerX(), rect.centerY(), pUnit)
+                canvas.drawText(trimmedUnits, rect.centerX(), rect.centerY(), pUnit)
             }
 
             drawNotesIndicator(canvas, color, em, notes)

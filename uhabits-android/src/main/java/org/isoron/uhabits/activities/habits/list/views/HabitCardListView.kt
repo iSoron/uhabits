@@ -20,11 +20,14 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.DOWN
 import androidx.recyclerview.widget.ItemTouchHelper.END
@@ -57,6 +60,7 @@ class HabitCardListView(
 ) : RecyclerView(context, null, R.attr.scrollableRecyclerViewStyle) {
 
     var checkmarkCount: Int = 0
+    private var insetDecorationsAdded: Boolean = false
 
     var dataOffset: Int = 0
         set(value) {
@@ -75,7 +79,30 @@ class HabitCardListView(
         setHasFixedSize(true)
         isLongClickable = true
         layoutManager = LinearLayoutManager(context)
+        applyBottomInset()
         super.setAdapter(adapter)
+    }
+
+    private fun applyBottomInset() {
+        ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+            if (insetDecorationsAdded) return@setOnApplyWindowInsetsListener insets
+            insetDecorationsAdded = true
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            addItemDecoration(object : ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: State
+                ) {
+                    val itemCount = parent.adapter?.itemCount
+                    if (parent.getChildAdapterPosition(view) == itemCount?.minus(1)) {
+                        outRect.bottom = systemBarsInsets.bottom
+                    }
+                }
+            })
+            insets
+        }
     }
 
     fun createHabitCardView(): HabitCardView {

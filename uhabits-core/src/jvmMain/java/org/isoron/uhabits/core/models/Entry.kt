@@ -23,6 +23,16 @@ data class Entry(
     val value: Int,
     val notes: String = ""
 ) {
+    val formattedValue: String
+        get() = when (value) {
+            YES_MANUAL -> "YES_MANUAL"
+            YES_AUTO -> "YES_AUTO"
+            NO -> "NO"
+            SKIP -> "SKIP"
+            UNKNOWN -> "UNKNOWN"
+            else -> value.toString()
+        }
+
     companion object {
         /**
          * Value indicating that the habit is not applicable for this timestamp.

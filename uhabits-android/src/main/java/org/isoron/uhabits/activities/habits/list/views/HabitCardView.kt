@@ -238,17 +238,18 @@ class HabitCardView(
 
     private fun getAbsoluteButtonLocation(timestamp: Timestamp): PointF {
         val containerLocation = IntArray(2)
-        this.getLocationOnScreen(containerLocation)
+        this.getLocationInWindow(containerLocation)
         val relButtonLocation = getRelativeButtonLocation(timestamp)
         val windowInsets = rootWindowInsets
-        val statusBarHeight = if (SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+        val xInset = windowInsets?.displayCutout?.safeInsetLeft ?: 0
+        val yInset = if (SDK_INT <= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             windowInsets?.systemWindowInsetTop ?: 0
         } else {
             0
         }
         return PointF(
-            containerLocation[0].toFloat() + relButtonLocation.x,
-            containerLocation[1].toFloat() + relButtonLocation.y - statusBarHeight
+            containerLocation[0].toFloat() + relButtonLocation.x - xInset,
+            containerLocation[1].toFloat() + relButtonLocation.y - yInset
         )
     }
 

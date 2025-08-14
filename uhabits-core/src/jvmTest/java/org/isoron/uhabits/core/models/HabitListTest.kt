@@ -202,13 +202,16 @@ class HabitListTest : BaseUnitTest() {
         h2.description = ""
         h2.frequency = Frequency(2, 3)
         h2.color = PaletteColor(5)
+        val h3 = fixtures.createNumericalHabit()
         list.add(h1)
         list.add(h2)
+        list.add(h3)
         val expectedCSV =
             """
-            Position,Name,Question,Description,NumRepetitions,Interval,Color
-            001,Meditate,Did you meditate this morning?,this is a test description,1,1,#FF8F00
-            002,Wake up early,Did you wake up before 6am?,,2,3,#AFB42B
+            Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,Color,Unit,Target Type,Target Value,Archived?
+            001,Meditate,YES_NO,Did you meditate this morning?,this is a test description,1,1,#FF8F00,,,,false
+            002,Run,NUMERICAL,How many miles did you run today?,,1,1,#E64A19,miles,AT_LEAST,2.0,false
+            003,Wake up early,YES_NO,Did you wake up before 6am?,,2,3,#AFB42B,,,,false
             
             """.trimIndent()
         val writer = StringWriter()

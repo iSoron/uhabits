@@ -18,7 +18,6 @@
  */
 package org.isoron.uhabits.core.io
 
-import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
@@ -30,6 +29,7 @@ import java.io.IOException
 import java.nio.file.Files
 import java.util.*
 import java.util.zip.ZipFile
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class HabitsCSVExporterTest : BaseUnitTest() {
@@ -108,15 +108,12 @@ class HabitsCSVExporterTest : BaseUnitTest() {
 
     private fun assertFileAndReferenceAreEqual(s: String) {
         val assetFilename = String.format("csv_export/%s", s)
-        val file = File.createTempFile("asset", "")
-        file.deleteOnExit()
-        copyAssetToFile(assetFilename, file)
-
-        assertTrue(
-            FileUtils.contentEquals(
-                file,
-                File(String.format("%s/%s", baseDir.absolutePath, s))
-            )
-        )
+        val actualFile = File(String.format("%s/%s", baseDir.absolutePath, s))
+        val expectedFile = File.createTempFile("asset", "")
+        expectedFile.deleteOnExit()
+        copyAssetToFile(assetFilename, expectedFile)
+        val actualContents = actualFile.readText()
+        val expectedContents = expectedFile.readText()
+        assertEquals(expectedContents, actualContents, "content mismatch for $s")
     }
 }

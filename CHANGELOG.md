@@ -1,32 +1,54 @@
 # Changelog
 
+## [2.3.1] -- 2025-08-13
+
+### Changed
+
+- Add notes to exported CSV files (@iSoron)
+
+### Fixed
+
+- Prevent some views from being obscured by system UI (@iSoron, #2171)
+- Disable confetti if animations are disabled globally (@iSoron, #2170)
+- Make symbols easier to distinguish in "pure black" dark mode (powerjungle, #2136)
+- Trim unit labels when necessary (@hiqua, @iSoron, #2158)
+
 ## [2.3.0] -- 2025-06-23
+
 ### Added
+
 - Add support for Android 15 and 16 (@iSoron)
 - Show confetti animation (@gokulk16, @iSoron, #1743)
 - Show streaks for measurable habits (@teckwarz, #2059)
 - Allow user to unset measurable habits (@leontodd, @kalina559, #1899, #2109)
 
 ### Changed
+
 - Change background widget color for habits with implicit checks (@wobbba, #1915)
 
 ### Fixed
+
 - Fix notification when goal type is set to maximum (@manish99verma, #1931)
 - Never mark "at most" habits as completed for the day (@kalina559, #2077)
 - Increase minimum widget size (@iSoron, #2118)
 - Improve Gradle configuration (@jimlyas, #2108)
 
 ## [2.2.0] -- 2024-01-30
+
 ### Added
+
 - Add support for Android 14 (@iSoron, @hiqua)
 - Allow user to change app language (@leondzn)
 
 ### Fixed
+
 - Implement workaround to make notifications non-dismissible in Android 14 (@iSoron, #1872)
 - Fix splash screen background color in dark mode (@SIKV, #1888)
 
 ## [2.1.3] -- 2023-08-28
+
 ### Fixed
+
 - Use text input on Samsung devices (@iSoron, #1719)
 - Prevent crash if alarm permission is revoked (@iSoron)
 - Adjust widget colors (@iSoron)
@@ -34,7 +56,9 @@
 - Fix skip button in locales that use comma instead of dot (@iSoron, #1721)
 
 ## [2.1.2] -- 2023-05-26
+
 ### Fixed
+
 - Fix bug that caused widget to enter checkmark on wrong date (@iSoron, #1541)
 - Fix widget corners on Android 12 (@iSoron)
 - Fix bug that caused notes to be lost when editing a checkmark (@iSoron, #1566)
@@ -42,18 +66,23 @@
 - Accept comma (instead of dot) in certain locales (@iSoron)
 
 ### Changed
+
 - Remove update delay after entering a checkmark (@iSoron)
 
 ### Removed
+
 - Remove stack widgets (@iSoron)
 
-
 ## [2.1.1] -- 2022-09-24
+
 ### Fixed
+
 - Fix Tasker plugin (@iSoron, #1503)
 
 ## [2.1.0] -- 2022-09-10
+
 ### Added
+
 - Allow user to add notes to specific dates (@vbh, #1103)
 - Allow user to track "at most" numerical habits (@KristianTashkov, #1101)
 - Allow user to add skips to measurable habits (@kalina559, #1319)
@@ -64,10 +93,12 @@
 - Add support for Android 13 themed icons (@cheeeeer, #1497)
 
 ### Removed
+
 - Hide snooze button Android 12 notifications (@hiqua, #1226)
 - Remove preference to set LED lights (@iSoron)
 
 ### Changed
+
 - Hide failed habits along with completed ones (@hiqua, #1052)
 - Cycle through all checkmark states when toggling (@iSoron)
 - Add delay after toggling a habit (@hiqua, @kalina559, #1147)
@@ -76,6 +107,7 @@
 - Increase target SDK to 31 (@hiqua)
 
 ### Fixed
+
 - Fix small dialog buttons (@kalina559, #1096)
 - Fix invalid CSV files (@hiqua, #1177)
 - Fix small issues in calendar chart (@kalina559, #1314)
@@ -84,13 +116,16 @@
 - Fix widgets not working correctly on API 33 (@iSoron, #1488)
 
 ### Refactoring & Testing
+
 - Replace raster icons by vector assets (@kalina559)
 - Remove JVM dependencies from uhabits-core module (@sgallese)
 - Add various missing tests (@sgallese)
 - Upgrade project dependencies (@hiqua, @sgallese)
 
 ## [2.0.3] - 2021-08-21
+
 ### Fixed
+
 - Improve automatic checkmarks for monthly habits (@iSoron, #947)
 - Fix small theme issues (@iSoron)
 - Fix ANR on some Samsung phones (@iSoron, #962)
@@ -102,9 +137,11 @@
 ## [2.0.2] - 2021-05-23
 
 ### Changed
+
 - Make checkmark widget resizable
 
 ### Fixed
+
 - Fix crash caused by numerical habits with zero target (@iSoron, #903)
 - Fix small issues with font size (@iSoron)
 - Allow fractional target values (@sumanabhi, #911)
@@ -115,18 +152,22 @@
 ## [2.0.1] - 2021-05-09
 
 ### Added
+
 - Make midnight delay optional and disabled by default (@hiqua)
-- Add arrows to sort menu (@iSoron) 
+- Add arrows to sort menu (@iSoron)
 
 ### Removed
+
 - Temporarily remove experimental device sync functionality. This feature will be re-added in
   Loop 2.1.
 
 ### Changed
+
 - Make implicit checkmarks easier to read (@iSoron)
 - Update and improve list of translators (@hiqua, @iSoron)
 
 ### Fixed
+
 - Disable transparency for stacked widgets (@hiqua)
 - Fix various color issues on the dark theme (@hiqua, @iSoron)
 - Fix "customize notifications" on older devices (@hiqua)
@@ -135,6 +176,7 @@
 - Fix checkmark widget not rendering properly on some Samsung phones (@iSoron)
 
 ### Refactoring & Testing
+
 - Finish conversion of the entire project to Kotlin (@hiqua, @iSoron, @MarKco)
 - Automatically run large tests on GitHub Actions (@iSoron)
 - Remove unused v21 resources (@hiqua)
@@ -142,6 +184,7 @@
 ## [2.0.0-alpha] - 2020-11-29
 
 ### Added
+
 - Track numeric habits (@iSoron, @namnl)
 - Skip days without breaking streak (@KristianTashkov)
 - Sort habits by status (@hiqua)
@@ -152,15 +195,18 @@
 - Export backups daily (@iSoron)
 
 ### Removed
+
 - Drop support to devices older than Android 6.0 (API 23)
 
 ### Fixed
+
 - Reset chart offset when switching scale (@alxmjo)
 - Don't show reminders from archived habits (@KristianTashkov)
 - Lapses on non-daily habits decrease the score too much (@iSoron)
 - Update widgets at midnight (@KristianTashkov)
 
 ### Refactoring
+
 - Convert files to Kotlin (@olegivo)
 
 ## [1.8.12] - 2021-01-30
@@ -185,13 +231,15 @@
 
 ## [1.8.8] - 2020-06-21
 
-- Make small changes to the habit scheduling algorithm, so that "1 time every x days" habits work more predictably.
+- Make small changes to the habit scheduling algorithm, so that "1 time every x days" habits work
+  more predictably.
 - Fix crash when saving habit
 
 ## [1.8.0] - 2020-01-01
 
 - New bar chart showing number of repetitions performed in each week, month, quarter or year.
-- Improved calculation of streaks for non-daily habits: performing habits on irregular weekdays will no longer break your streak.
+- Improved calculation of streaks for non-daily habits: performing habits on irregular weekdays will
+  no longer break your streak.
 - Many more colors to choose from (now 20 in total).
 - Ability to customize how transparent the widgets are on your home screen.
 - Ability to customize the first day of the week.

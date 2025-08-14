@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -19,16 +18,16 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:background="?windowBackgroundColor"
-            android:fillViewport="true">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?windowBackgroundColor"
+    android:fillViewport="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         app:popupTheme="?toolbarPopupTheme"
-        style="@style/Toolbar"/>
+        style="@style/Toolbar" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -37,6 +36,7 @@
         android:layout_below="@id/toolbar">
 
         <LinearLayout
+            android:id="@+id/outerLinearLayout"
             style="@style/CardList">
 
             <LinearLayout
@@ -47,7 +47,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_margin="6dp"
-                    android:src="@drawable/intro_icon_1"/>
+                    android:src="@drawable/intro_icon_1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,14 +57,14 @@
                     android:textSize="16sp"
                     android:layout_margin="6dp"
                     android:textColor="?aboutScreenColor"
-                    android:text="@string/app_name"/>
+                    android:text="@string/app_name" />
 
                 <TextView
                     android:id="@+id/tvVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text=""/>
+                    android:text="" />
 
             </LinearLayout>
 
@@ -75,32 +75,32 @@
                 <TextView
                     style="@style/CardHeader"
                     android:text="@string/links"
-                    android:textColor="?aboutScreenColor"/>
+                    android:textColor="?aboutScreenColor" />
 
                 <TextView
                     android:id="@+id/tvRate"
                     style="@style/About.Item.Clickable"
-                    android:text="@string/pref_rate_this_app"/>
+                    android:text="@string/pref_rate_this_app" />
 
                 <TextView
                     android:id="@+id/tvFeedback"
                     style="@style/About.Item.Clickable"
-                    android:text="@string/pref_send_feedback"/>
+                    android:text="@string/pref_send_feedback" />
 
                 <TextView
                     android:id="@+id/tvTranslate"
                     style="@style/About.Item.Clickable"
-                    android:text="@string/help_translate"/>
+                    android:text="@string/help_translate" />
 
                 <TextView
                     android:id="@+id/tvSource"
                     style="@style/About.Item.Clickable"
-                    android:text="@string/pref_view_source_code"/>
+                    android:text="@string/pref_view_source_code" />
 
                 <TextView
-                        android:id="@+id/tvPrivacy"
-                        style="@style/About.Item.Clickable"
-                        android:text="@string/pref_view_privacy"/>
+                    android:id="@+id/tvPrivacy"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/pref_view_privacy" />
 
             </LinearLayout>
 
@@ -111,7 +111,7 @@
                 <TextView
                     style="@style/CardHeader"
                     android:text="@string/developers"
-                    android:textColor="?aboutScreenColor"/>
+                    android:textColor="?aboutScreenColor" />
 
                 <!--
                 This file lists developers who contributed with at least 100 lines
@@ -120,31 +120,76 @@
                 linked at the bottom of the list. If you qualify, please feel free to
                 submit a pull request adding yourself here.
                 -->
-                <TextView style="@style/About.Item" android:text="Álinson S. Xavier (@iSoron)"/>
-                <TextView style="@style/About.Item" android:text="Quentin Hibon (@hiqua)"/>
-                <TextView style="@style/About.Item" android:text="Oleg Ivashchenko (@olegivo)"/>
-                <TextView style="@style/About.Item" android:text="Kristian Tashkov (@KristianTashkov)"/>
-                <TextView style="@style/About.Item" android:text="Jakub Kalinowski (@kalina559)"/>
-                <TextView style="@style/About.Item" android:text="Rechee Jozil (@recheej)"/>
-                <TextView style="@style/About.Item" android:text="Sebastian Gallese (@sgallese)"/>
-                <TextView style="@style/About.Item" android:text="Luboš Luňák (@llunak)"/>
-                <TextView style="@style/About.Item" android:text="Bindu (@vbh)"/>
-                <TextView style="@style/About.Item" android:text="Victor Yu (@vyu1)"/>
-                <TextView style="@style/About.Item" android:text="Christoph Hennemann (@chennemann)"/>
-                <TextView style="@style/About.Item" android:text="Денис (@sciamano)"/>
-                <TextView style="@style/About.Item" android:text="Joseph Tran (@JotraN)"/>
-                <TextView style="@style/About.Item" android:text="Nikhil (@regularcoder)"/>
-                <TextView style="@style/About.Item" android:text="JanetQC"/>
                 <TextView
-                        android:id="@+id/tvContributors"
-                        style="@style/About.Item.Clickable"
-                        android:text="@string/view_all_contributors"/>
+                    style="@style/About.Item"
+                    android:text="Álinson S. Xavier (@iSoron)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Quentin Hibon (@hiqua)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Oleg Ivashchenko (@olegivo)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Kristian Tashkov (@KristianTashkov)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Jakub Kalinowski (@kalina559)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Rechee Jozil (@recheej)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Sebastian Gallese (@sgallese)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Luboš Luňák (@llunak)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Bindu (@vbh)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Victor Yu (@vyu1)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Christoph Hennemann (@chennemann)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Денис (@sciamano)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Joseph Tran (@JotraN)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="Nikhil (@regularcoder)" />
+
+                <TextView
+                    style="@style/About.Item"
+                    android:text="JanetQC" />
+
+                <TextView
+                    android:id="@+id/tvContributors"
+                    style="@style/About.Item.Clickable"
+                    android:text="@string/view_all_contributors" />
 
             </LinearLayout>
 
-            <include layout="@layout/about_translators"/>
+            <include layout="@layout/about_translators" />
 
->
+            >
         </LinearLayout>
     </ScrollView>
 

@@ -22,6 +22,7 @@ import com.opencsv.CSVWriter
 import java.io.IOException
 import java.io.Writer
 import java.util.LinkedList
+import java.util.Locale
 import javax.annotation.concurrent.ThreadSafe
 
 /**
@@ -182,24 +183,34 @@ abstract class HabitList : Iterable<Habit> {
         val header = arrayOf(
             "Position",
             "Name",
+            "Type",
             "Question",
             "Description",
-            "NumRepetitions",
-            "Interval",
-            "Color"
+            "FrequencyNumerator",
+            "FrequencyDenominator",
+            "Color",
+            "Unit",
+            "Target Type",
+            "Target Value",
+            "Archived?"
         )
         val csv = CSVWriter(out)
         csv.writeNext(header, false)
         for (habit in this) {
             val (numerator, denominator) = habit.frequency
             val cols = arrayOf(
-                String.format("%03d", indexOf(habit) + 1),
+                String.format(Locale.US, "%03d", indexOf(habit) + 1),
                 habit.name,
+                habit.type.name,
                 habit.question,
                 habit.description,
                 numerator.toString(),
                 denominator.toString(),
-                habit.color.toCsvColor()
+                habit.color.toCsvColor(),
+                if (habit.isNumerical) habit.unit else "",
+                if (habit.isNumerical) habit.targetType.name else "",
+                if (habit.isNumerical) habit.targetValue.toString() else "",
+                habit.isArchived.toString()
             )
             csv.writeNext(cols, false)
         }

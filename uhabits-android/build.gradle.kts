@@ -36,7 +36,7 @@ Updating gradle might fix this, so try again in the future to remove this and ru
 If this doesn't produce any warning, try to remove it.
  */
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 
 android {
@@ -44,8 +44,8 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        versionCode = 20300
-        versionName = "2.3.0"
+        versionCode = 20301
+        versionName = "2.3.1"
         minSdk = 28
         targetSdk = 36
         applicationId = "org.isoron.uhabits"
@@ -79,11 +79,11 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        targetCompatibility(JavaVersion.VERSION_11)
-        sourceCompatibility(JavaVersion.VERSION_11)
+        targetCompatibility(JavaVersion.VERSION_17)
+        sourceCompatibility(JavaVersion.VERSION_17)
     }
 
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
     buildFeatures.viewBinding = true
     lint.abortOnError = false
 }

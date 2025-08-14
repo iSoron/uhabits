@@ -23,6 +23,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
 import nl.dionsegijn.konfetti.core.Party
@@ -226,6 +227,14 @@ class ListHabitsScreen
     override fun showConfetti(color: PaletteColor, x: Float, y: Float) {
         if (x == 0f && y == 0f) return
         if (preferences.isConfettiAnimationDisabled) return
+        if (Settings.Global.getFloat(
+                activity.contentResolver,
+                Settings.Global.ANIMATOR_DURATION_SCALE,
+                1f
+            ) == 0f
+        ) {
+            return
+        }
         val baseColor = themeSwitcher.currentTheme!!.color(color).toInt()
         rootView.get().konfettiView.start(
             Party(
@@ -299,30 +308,36 @@ class ListHabitsScreen
                     command.selected.size
                 )
             }
+
             is ChangeHabitColorCommand -> {
                 return activity.resources.getQuantityString(
                     R.plurals.toast_habits_changed,
                     command.selected.size
                 )
             }
+
             is CreateHabitCommand -> {
                 return activity.resources.getString(R.string.toast_habit_created)
             }
+
             is DeleteHabitsCommand -> {
                 return activity.resources.getQuantityString(
                     R.plurals.toast_habits_deleted,
                     command.selected.size
                 )
             }
+
             is EditHabitCommand -> {
                 return activity.resources.getQuantityString(R.plurals.toast_habits_changed, 1)
             }
+
             is UnarchiveHabitsCommand -> {
                 return activity.resources.getQuantityString(
                     R.plurals.toast_habits_unarchived,
                     command.selected.size
                 )
             }
+
             else -> return null
         }
     }
@@ -335,9 +350,11 @@ class ListHabitsScreen
                         adapter.refresh()
                         activity.showMessage(activity.resources.getString(R.string.habits_imported))
                     }
+
                     ImportDataTask.NOT_RECOGNIZED -> {
                         activity.showMessage(activity.resources.getString(R.string.file_not_recognized))
                     }
+
                     else -> {
                         activity.showMessage(activity.resources.getString(R.string.could_not_import))
                     }

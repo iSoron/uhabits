@@ -25,6 +25,7 @@ import android.widget.FrameLayout
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitPresenter
 import org.isoron.uhabits.core.ui.screens.habits.show.ShowHabitState
 import org.isoron.uhabits.databinding.ShowHabitBinding
+import org.isoron.uhabits.utils.applyBottomInset
 import org.isoron.uhabits.utils.applyToolbarInsets
 import org.isoron.uhabits.utils.setupToolbar
 
@@ -57,6 +58,7 @@ class ShowHabitView(context: Context) : FrameLayout(context) {
         } else {
             binding.targetCard.visibility = GONE
         }
+        binding.linearLayout.applyBottomInset()
     }
 
     fun setListener(presenter: ShowHabitPresenter) {
