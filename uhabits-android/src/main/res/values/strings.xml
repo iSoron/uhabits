@@ -147,6 +147,8 @@
     <string name="interface_preferences">Interface</string>
     <string name="reverse_days">Reverse order of days</string>
     <string name="reverse_days_description">Show days in reverse order on the main screen.</string>
+    <string name="reverse_cancel_confirm_action">Reverse cancel / confirm action</string>
+    <string name="reverse_cancel_confirm_action_description">Reverse order of buttons when confirming or cancelling entry on a habit.</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>

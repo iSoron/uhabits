@@ -53,9 +53,9 @@
         app:showDividers="middle">
 
         <TextView
-            android:id="@+id/yesBtn"
+            android:id="@+id/noBtn"
             style="@style/CheckmarkPopupBtn"
-            android:text="@string/fa_check" />
+            android:text="@string/fa_times" />
 
         <TextView
             android:id="@+id/skipBtn"
@@ -63,9 +63,9 @@
             android:text="@string/fa_skipped" />
 
         <TextView
-            android:id="@+id/noBtn"
+            android:id="@+id/yesBtn"
             style="@style/CheckmarkPopupBtn"
-            android:text="@string/fa_times" />
+            android:text="@string/fa_check" />
 
         <TextView
             android:id="@+id/unknownBtn"
