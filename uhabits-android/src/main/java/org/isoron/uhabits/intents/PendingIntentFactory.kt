@@ -207,4 +207,15 @@ class PendingIntentFactory
         data = Uri.parse(habit.uriString)
         putExtra("timestamp", timestamp.unixTime)
     }
+
+    fun showListHabitsActivity(): PendingIntent {
+        return getActivity(
+            context,
+            0,
+            Intent(context, ListHabitsActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            },
+            FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+        )
+    }
 }
