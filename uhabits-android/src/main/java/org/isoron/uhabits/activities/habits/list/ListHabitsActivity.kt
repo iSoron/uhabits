@@ -75,8 +75,12 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
     private lateinit var menu: ListHabitsMenu
 
     override fun onQuestionMarksChanged() {
-        invalidateOptionsMenu()
-        menu.behavior.onPreferencesChanged()
+        if (prefs.greyCompleted) {
+            restartWithFade(this::class.java)
+        } else {
+            invalidateOptionsMenu()
+            menu.behavior.onPreferencesChanged()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
