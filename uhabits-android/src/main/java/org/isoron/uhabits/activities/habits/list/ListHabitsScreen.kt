@@ -270,13 +270,17 @@ class ListHabitsScreen
     override fun showNumberPopup(
         value: Double,
         notes: String,
-        callback: ListHabitsBehavior.NumberPickerCallback
+        callback: ListHabitsBehavior.NumberPickerCallback,
+        habit: Habit?
     ) {
+        val theme = rootView.get().currentTheme()
         val fm = (context as AppCompatActivity).supportFragmentManager
         val dialog = NumberDialog()
         dialog.arguments = Bundle().apply {
+            habit?.color?.let { putInt("color", theme.color(it).toInt()) }
             putDouble("value", value)
             putString("notes", notes)
+            habit?.id?.let { putLong("habitId", it) }
         }
         dialog.onToggle = { v, n -> callback.onNumberPicked(v, n) }
         dialog.dismissCurrentAndShow(fm, "numberDialog")
@@ -285,16 +289,17 @@ class ListHabitsScreen
     override fun showCheckmarkPopup(
         selectedValue: Int,
         notes: String,
-        color: PaletteColor,
-        callback: ListHabitsBehavior.CheckMarkDialogCallback
+        callback: ListHabitsBehavior.CheckMarkDialogCallback,
+        habit: Habit?
     ) {
         val theme = rootView.get().currentTheme()
         val fm = (context as AppCompatActivity).supportFragmentManager
         val dialog = CheckmarkDialog()
         dialog.arguments = Bundle().apply {
-            putInt("color", theme.color(color).toInt())
+            habit?.color?.let { putInt("color", theme.color(it).toInt()) }
             putInt("value", selectedValue)
             putString("notes", notes)
+            habit?.id?.let { putLong("habitId", it) }
         }
         dialog.onToggle = { v, n -> callback.onNotesSaved(v, n) }
         dialog.dismissCurrentAndShow(fm, "checkmarkDialog")

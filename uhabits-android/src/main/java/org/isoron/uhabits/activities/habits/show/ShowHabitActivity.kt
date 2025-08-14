@@ -41,7 +41,6 @@ import org.isoron.uhabits.activities.common.dialogs.NumberDialog
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
@@ -174,12 +173,16 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         override fun showNumberPopup(
             value: Double,
             notes: String,
-            callback: ListHabitsBehavior.NumberPickerCallback
+            callback: ListHabitsBehavior.NumberPickerCallback,
+            habit: Habit?
         ) {
+            val theme = view.currentTheme()
             val dialog = NumberDialog()
             dialog.arguments = Bundle().apply {
+                habit?.color?.let { putInt("color", theme.color(it).toInt()) }
                 putDouble("value", value)
                 putString("notes", notes)
+                putLong("habitId", habit?.id ?: -1)
             }
             dialog.onToggle = { v, n -> callback.onNumberPicked(v, n) }
             dialog.dismissCurrentAndShow(supportFragmentManager, "numberDialog")
@@ -188,15 +191,16 @@ class ShowHabitActivity : AppCompatActivity(), CommandRunner.Listener {
         override fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
-            color: PaletteColor,
-            callback: ListHabitsBehavior.CheckMarkDialogCallback
+            callback: ListHabitsBehavior.CheckMarkDialogCallback,
+            habit: Habit?
         ) {
             val theme = view.currentTheme()
             val dialog = CheckmarkDialog()
             dialog.arguments = Bundle().apply {
-                putInt("color", theme.color(color).toInt())
+                habit?.color?.let { putInt("color", theme.color(it).toInt()) }
                 putInt("value", selectedValue)
                 putString("notes", notes)
+                putLong("habitId", habit?.id ?: -1)
             }
             dialog.onToggle = { v, n -> callback.onNotesSaved(v, n) }
             dialog.dismissCurrentAndShow(supportFragmentManager, "checkmarkDialog")
