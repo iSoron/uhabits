@@ -19,6 +19,8 @@
 package org.isoron.uhabits.core.ui.screens.habits.show
 
 import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
+import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
@@ -40,8 +42,21 @@ class ShowHabitMenuPresenter(
     private val system: System,
     private val taskRunner: TaskRunner
 ) {
+
+    fun canArchive(): Boolean {
+        return !(habit.isArchived)
+    }
+
+    fun canUnarchive(): Boolean {
+        return habit.isArchived
+    }
+
     fun onEditHabit() {
         screen.showEditHabitScreen(habit)
+    }
+
+    fun onArchiveHabits() {
+        commandRunner.run(ArchiveHabitsCommand(habitList,listOf(habit)))
     }
 
     fun onExportCSV() {
@@ -62,6 +77,10 @@ class ShowHabitMenuPresenter(
             commandRunner.run(DeleteHabitsCommand(habitList, listOf(habit)))
             screen.close()
         }
+    }
+
+    fun onUnarchiveHabits() {
+        commandRunner.run(UnarchiveHabitsCommand(habitList,listOf(habit)))
     }
 
     fun onRandomize() {

@@ -27,6 +27,16 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_archive_habit"
+        android:title="@string/archive"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_unarchive_habit"
+        android:title="@string/unarchive"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_delete"
         android:title="@string/delete"
         app:showAsAction="never"/>
