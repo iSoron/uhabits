@@ -36,6 +36,7 @@ class BarChart(
 
     // Data
     var series = mutableListOf<List<Double>>()
+    var skippedSeries = mutableListOf<List<Double>>()
     var colors = mutableListOf<Color>()
     var axis = listOf<LocalDate>()
     override var dataOffset = 0
@@ -83,28 +84,64 @@ class BarChart(
                 dataColumn < 0 || dataColumn >= series[s].size -> 0.0
                 else -> series[s][dataColumn]
             }
-            if (value <= 0) return
+            val skippedValue = when {
+                dataColumn < 0 || dataColumn >= series[s].size -> 0.0
+                else -> skippedSeries[s][dataColumn]
+            }
+
+            if (value <= 0 && skippedValue <= 0.0) return // no value to be drawn
             val perc = value / maxValue
+            val skipPerc = skippedValue / maxValue
             val barHeight = round(maxBarHeight * perc)
+            val skipBarHeight = round(maxBarHeight * skipPerc)
             val x = barOffset(c, s)
             val y = height - footerHeight - barHeight
+            val skipY = y - skipBarHeight
             canvas.setColor(colors[s])
             val r = round(barWidth * 0.15)
             if (2 * r < barHeight) {
+                // draw the main column
                 canvas.fillRect(x, y + r, barWidth, barHeight - r)
-                canvas.fillRect(x + r, y, barWidth - 2 * r, r + 1)
-                canvas.fillCircle(x + r, y + r, r)
-                canvas.fillCircle(x + barWidth - r, y + r, r)
             } else {
                 canvas.fillRect(x, y, barWidth, barHeight)
             }
+
+            // draw the skipped part
+            if (skippedValue > 0) {
+                // make the skipped day square color lighter by the half
+                canvas.setColor(colors[s].blendWith(theme.cardBackgroundColor, 0.5))
+                // if only skipped days are drawn, no separation (r) space is needed anymore
+                val h = if (value <= 0) skipBarHeight - r
+                else skipBarHeight
+                canvas.fillRect(x, skipY + r, barWidth, h)
+            }
+
+            // draw a small (rect) on top of the column
+            // draw this before the skipped part to draw the grid above
+            val rectY: Double
+            if (skippedValue > 0) {
+                rectY = skipY
+                canvas.setColor(colors[s].blendWith(theme.cardBackgroundColor, 0.5))
+            } else {
+                rectY = y
+                canvas.setColor(colors[s])
+            }
+            canvas.fillRect(x + r, rectY, barWidth - 2 * r, r + 1)
+            // draw two circles to make the column top rounded on both sides
+            canvas.fillCircle(x + r, rectY + r, r)
+            canvas.fillCircle(x + barWidth - r, rectY + r, r)
+
+            // draw the number above the column
             canvas.setFontSize(theme.smallTextSize)
             canvas.setTextAlign(TextAlign.CENTER)
             canvas.setColor(colors[s])
+            val textY: Double = if (skippedValue > 0) skipY
+            else y
+            val textValue = value + skippedValue
             canvas.drawText(
-                value.toShortString(),
+                textValue.toShortString(),
                 x + barWidth / 2,
-                y - theme.smallTextSize * 0.80
+                textY - theme.smallTextSize * 0.80
             )
         }
 
