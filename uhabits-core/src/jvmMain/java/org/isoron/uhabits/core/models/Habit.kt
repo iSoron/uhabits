@@ -57,15 +57,23 @@ data class Habit(
 
     fun isCompletedToday(): Boolean {
         val today = DateUtils.getTodayWithOffset()
-        val value = computedEntries.get(today).value
         return if (isNumerical) {
             when (targetType) {
-                NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
+                NumericalHabitType.AT_LEAST -> today.getScoreForPeriod() / 1000.0 >= targetValue
                 NumericalHabitType.AT_MOST -> false
             }
         } else {
+            val value = computedEntries.get(today).value
             value != Entry.NO && value != Entry.UNKNOWN
         }
+    }
+
+    private fun Timestamp.getScoreForPeriod(): Int {
+        val periodFirstDay = this.minus(frequency.denominator - 1)
+
+        return computedEntries.getByInterval(periodFirstDay, this)
+            .filter { entry -> entry.value != Entry.UNKNOWN }
+            .sumOf { entry -> entry.value }
     }
 
     fun isEnteredToday(): Boolean {
