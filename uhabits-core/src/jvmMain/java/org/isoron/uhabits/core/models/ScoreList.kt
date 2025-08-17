@@ -62,6 +62,32 @@ class ScoreList {
     }
 
     /**
+     * Returns the number of skips after the offset in the interval used to calculate
+     * the percentage of completed days.
+     *
+     * If skips are found in the interval, it expands the interval by the number of skips found
+     * and repeats this process for the expanded part until no skips are found in an expanded part.
+     */
+    @Synchronized
+    tailrec fun getNumberOfSkipsByInterval(
+        values: IntArray,
+        firstIndexCurrentInterval: Int,
+        lastIndexCurrentInterval: Int,
+        nbSkipsIntermedSol: Int = 0
+    ): Int {
+        if (lastIndexCurrentInterval < firstIndexCurrentInterval) return nbSkipsIntermedSol
+        var nbOfSkips = 0
+        var nextLastIndex = lastIndexCurrentInterval
+        for (i in firstIndexCurrentInterval..lastIndexCurrentInterval) {
+            if (values[i] == Entry.SKIP) {
+                nbOfSkips++
+                if (lastIndexCurrentInterval + nbOfSkips < values.size) nextLastIndex++
+            }
+        }
+        return getNumberOfSkipsByInterval(values, lastIndexCurrentInterval + 1, nextLastIndex, nbSkipsIntermedSol + nbOfSkips)
+    }
+
+    /**
      * Recomputes all scores between the provided [from] and [to] timestamps.
      */
     @Synchronized
@@ -125,8 +151,13 @@ class ScoreList {
                     rollingSum += 1.0
                 }
                 if (offset + denominator < values.size) {
-                    if (values[offset + denominator] == Entry.YES_MANUAL) {
-                        rollingSum -= 1.0
+                    val nbOfSkips =
+                        getNumberOfSkipsByInterval(values, offset, offset + denominator)
+                    val lastIndexForRollingSum = offset + denominator + nbOfSkips
+                    if (lastIndexForRollingSum < values.size) {
+                        if (values[lastIndexForRollingSum] == Entry.YES_MANUAL) {
+                            if (values[offset] != Entry.SKIP) rollingSum -= 1.0
+                        }
                     }
                 }
                 if (values[offset] != Entry.SKIP) {
