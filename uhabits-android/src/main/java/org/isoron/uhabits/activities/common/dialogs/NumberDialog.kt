@@ -30,6 +30,7 @@ class NumberDialog : AppCompatDialogFragment() {
 
     private var originalNotes: String = ""
     private var originalValue: Double = 0.0
+    private var wasSaved = false
     private lateinit var view: CheckmarkPopupBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -60,26 +61,26 @@ class NumberDialog : AppCompatDialogFragment() {
         )
         view.value.setOnKeyListener { _, keyCode, event ->
             if (event.action == MotionEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                save()
+                saveAndDismiss()
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
         }
         view.saveBtn.setOnClickListener {
-            save()
+            saveAndDismiss()
         }
         view.skipBtnNumber.setOnClickListener {
             view.value.setText(DecimalFormat("#.###").format((Entry.SKIP.toDouble() / 1000)))
-            save()
+            saveAndDismiss()
         }
 
         view.unknownBtnNumber.setOnClickListener {
             view.value.setText(DecimalFormat("#.###").format((Entry.UNKNOWN.toDouble() / 1000)))
-            save()
+            saveAndDismiss()
         }
 
         view.notes.setOnEditorActionListener { v, actionId, event ->
-            save()
+            saveAndDismiss()
             true
         }
         view.value.requestFocusWithKeyboard()
@@ -90,6 +91,13 @@ class NumberDialog : AppCompatDialogFragment() {
         }
         dialog.setOnDismissListener { onDismiss() }
         return dialog
+    }
+
+    override fun onDestroyView() {
+        if (!wasSaved) {
+            save()
+        }
+        super.onDestroyView()
     }
 
     private fun fixDecimalSeparator(view: CheckmarkPopupBinding) {
@@ -105,6 +113,11 @@ class NumberDialog : AppCompatDialogFragment() {
         if (currKeyboard.contains("swiftkey") || currKeyboard.contains("samsung")) {
             view.value.inputType = EditorInfo.TYPE_CLASS_TEXT
         }
+    }
+
+    fun saveAndDismiss() {
+        save()
+        requireDialog().dismiss()
     }
 
     fun save() {
@@ -123,6 +136,6 @@ class NumberDialog : AppCompatDialogFragment() {
         val notes = view.notes.text.toString()
         val location = view.saveBtn.getCenter()
         onToggle(value, notes)
-        requireDialog().dismiss()
+        wasSaved = true
     }
 }

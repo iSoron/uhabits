@@ -38,10 +38,13 @@ import org.isoron.uhabits.utils.sres
 class CheckmarkDialog : AppCompatDialogFragment() {
     var onToggle: (Int, String) -> Unit = { _, _ -> }
 
+    private var wasSaved = false
+    private lateinit var view: CheckmarkPopupBinding
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val appComponent = (requireActivity().application as HabitsApplication).component
         val prefs = appComponent.preferences
-        val view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
+        view = CheckmarkPopupBinding.inflate(LayoutInflater.from(context))
         val color = requireArguments().getInt("color")
         arrayOf(view.yesBtn, view.skipBtn).forEach {
             it.setTextColor(color)
@@ -62,8 +65,7 @@ class CheckmarkDialog : AppCompatDialogFragment() {
             setBackgroundDrawableResource(android.R.color.transparent)
         }
         fun onClick(v: Int) {
-            val notes = view.notes.text.toString().trim()
-            onToggle(v, notes)
+            save(v)
             requireDialog().dismiss()
         }
         view.yesBtn.setOnClickListener { onClick(YES_MANUAL) }
@@ -76,5 +78,18 @@ class CheckmarkDialog : AppCompatDialogFragment() {
         }
 
         return dialog
+    }
+
+    override fun onDestroyView() {
+        if (!wasSaved) {
+            save(requireArguments().getInt("value"))
+        }
+        super.onDestroyView()
+    }
+
+    fun save(v: Int) {
+        val notes = view.notes.text.toString().trim()
+        onToggle(v, notes)
+        wasSaved = true
     }
 }
