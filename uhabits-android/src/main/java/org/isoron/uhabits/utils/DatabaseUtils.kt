@@ -58,10 +58,14 @@ object DatabaseUtils {
 
     @JvmStatic
     @Throws(IOException::class)
-    fun saveDatabaseCopy(context: Context, dir: File): String {
+    fun saveDatabaseCopy(context: Context, dir: File, add_date: Boolean = true): String {
         val dateFormat: SimpleDateFormat = getBackupDateFormat()
-        val date = dateFormat.format(getLocalTime())
-        val filename = "${dir.absolutePath}/Loop Habits Backup $date.db"
+        val filename = if (add_date) {
+            val date = dateFormat.format(getLocalTime())
+            "${dir.absolutePath}/Loop Habits Backup $date.db"
+        } else {
+            "${dir.absolutePath}/Loop Habits Backup.db"
+        }
         Log.i("DatabaseUtils", "Writing: $filename")
         val db = getDatabaseFile(context)
         val dbCopy = File(filename)

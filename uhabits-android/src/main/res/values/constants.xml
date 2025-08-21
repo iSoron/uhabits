@@ -94,4 +94,24 @@
         <item>51</item>
         <item>0</item>
     </string-array>
+
+    <string-array name="public_backup_frequency_entries">
+        <item>@string/public_backup_frequency_15m</item>
+        <item>@string/public_backup_frequency_1h</item>
+        <item>@string/public_backup_frequency_1d</item>
+        <item>@string/public_backup_frequency_3d</item>
+        <item>@string/public_backup_frequency_7d</item>
+        <item>@string/public_backup_frequency_14d</item>
+        <item>@string/public_backup_frequency_1m</item>
+    </string-array>
+
+    <string-array name="public_backup_frequency_values" translatable="false">
+        <item>15</item>
+        <item>60</item>
+        <item>1440</item>
+        <item>4320</item>
+        <item>10080</item>
+        <item>20160</item>
+        <item>43200</item>
+    </string-array>
 </resources>

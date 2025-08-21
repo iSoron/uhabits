@@ -108,6 +108,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.opencsv)
     implementation(libs.konfetti.xml)
+    implementation(libs.work.runtime.ktx)
     implementation(project(":uhabits-core"))
     ksp(libs.dagger.compiler)
 

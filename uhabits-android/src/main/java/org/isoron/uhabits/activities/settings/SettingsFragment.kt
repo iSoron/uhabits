@@ -27,10 +27,16 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.RESULT_BUG_REPORT
@@ -41,18 +47,32 @@ import org.isoron.uhabits.activities.habits.list.RESULT_REPAIR_DB
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.NotificationTray
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getLongWeekdayNames
+import org.isoron.uhabits.database.PublicBackupWorker
 import org.isoron.uhabits.notifications.AndroidNotificationTray.Companion.createAndroidNotificationChannel
 import org.isoron.uhabits.notifications.RingtoneManager
 import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.UriUtils
 import org.isoron.uhabits.utils.startActivitySafely
 import org.isoron.uhabits.widgets.WidgetUpdater
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeListener {
     private var sharedPrefs: SharedPreferences? = null
     private var ringtoneManager: RingtoneManager? = null
     private lateinit var prefs: Preferences
     private var widgetUpdater: WidgetUpdater? = null
+    private val selectFolderLauncher =
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+            if (uri != null) {
+                val flags =
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                requireContext().contentResolver.takePersistableUriPermission(uri, flags)
+                prefs.publicBackupUri = uri.toString()
+                val pref = findPreference("publicBackupFolder")
+                pref?.summary = UriUtils.getPathFromTreeUri(requireContext(), uri)
+            }
+        }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,6 +134,10 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
                 activity?.startActivitySafely(intent)
                 return true
             }
+            "publicBackupFolder" -> {
+                selectFolderLauncher.launch(null)
+                return true
+            }
         }
         return super.onPreferenceTreeClick(preference)
     }
@@ -130,6 +154,17 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         updateWeekdayPreference()
 
         findPreference("reminderSound").isVisible = false
+
+        val folderPref = findPreference("publicBackupFolder")
+        val uriStr = prefs.publicBackupUri
+        folderPref?.summary =
+            if (uriStr == null) {
+                getString(R.string.pref_public_backup_folder_summary)
+            } else {
+                UriUtils.getPathFromTreeUri(requireContext(), Uri.parse(uriStr))
+            }
+
+        scheduleAutoBackup(prefs.isPublicAutoBackupEnabled)
     }
 
     private fun updateWeekdayPreference() {
@@ -150,6 +185,24 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         if (key == "pref_widget_opacity" && widgetUpdater != null) {
             Log.d("SettingsFragment", "updating widgets")
             widgetUpdater!!.updateWidgets()
+        }
+        if (key == "pref_public_auto_backup") {
+            val enabled = sharedPreferences.getBoolean("pref_public_auto_backup", false)
+            if (enabled && prefs.publicBackupUri == null) {
+                val pref = findPreference("pref_public_auto_backup") as SwitchPreferenceCompat?
+                pref?.isChecked = false
+                Toast.makeText(
+                    context,
+                    getString(R.string.pref_public_backup_folder_summary),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+            scheduleAutoBackup(enabled)
+        }
+        if (key == "pref_public_backup_frequency") {
+            val enabled = sharedPreferences.getBoolean("pref_public_auto_backup", false)
+            scheduleAutoBackup(enabled)
         }
         BackupManager.dataChanged("org.isoron.uhabits")
         updateWeekdayPreference()
@@ -190,6 +243,22 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         val ringtoneName = ringtoneManager!!.getName() ?: return
         val ringtonePreference = findPreference("reminderSound")
         ringtonePreference.summary = ringtoneName
+    }
+
+    private fun scheduleAutoBackup(enabled: Boolean) {
+        val wm = WorkManager.getInstance(requireContext())
+        if (enabled) {
+            val interval = prefs.publicAutoBackupFrequency
+            val request =
+                PeriodicWorkRequestBuilder<PublicBackupWorker>(interval, TimeUnit.MINUTES).build()
+            wm.enqueueUniquePeriodicWork(
+                "public_auto_backup",
+                ExistingPeriodicWorkPolicy.UPDATE,
+                request
+            )
+        } else {
+            wm.cancelUniqueWork("public_auto_backup")
+        }
     }
 
     companion object {

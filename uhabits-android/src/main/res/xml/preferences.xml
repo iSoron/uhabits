@@ -136,6 +136,42 @@
                 android:title="@string/import_data"
                 app:iconSpaceReserved="false" />
 
+        <PreferenceCategory
+                android:key="automaticBackupCategory"
+                android:title="@string/automatic_backup">
+
+            <SwitchPreferenceCompat
+                    android:defaultValue="false"
+                    android:key="pref_public_auto_backup"
+                    android:title="@string/pref_public_auto_backup_title"
+                    android:summary="@string/pref_public_auto_backup_summary"
+                    app:iconSpaceReserved="false" />
+
+            <Preference
+                    android:key="publicBackupFolder"
+                    android:title="@string/pref_public_backup_folder_title"
+                    android:summary="@string/pref_public_backup_folder_summary"
+                    app:iconSpaceReserved="false" />
+
+            <SwitchPreferenceCompat
+                    android:defaultValue="true"
+                    android:key="pref_public_backup_add_date"
+                    android:title="@string/pref_public_backup_add_date_title"
+                    android:summary="@string/pref_public_backup_add_date_summary"
+                    app:iconSpaceReserved="false" />
+
+            <ListPreference
+                    android:key="pref_public_backup_frequency"
+                    android:title="@string/pref_public_backup_frequency_title"
+                    android:entries="@array/public_backup_frequency_entries"
+                    android:entryValues="@array/public_backup_frequency_values"
+                    android:defaultValue="15"
+                    android:summary="%s"
+                    android:dependency="pref_public_auto_backup"
+                    app:iconSpaceReserved="false" />
+
+        </PreferenceCategory>
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -169,4 +169,26 @@ class PreferencesTest : BaseUnitTest() {
         prefs.isMidnightDelayEnabled = true
         assertTrue(prefs.isMidnightDelayEnabled)
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun testPublicBackupPreferences() {
+        assertNull(prefs.publicBackupUri)
+        prefs.publicBackupUri = "content://test"
+        assertThat(prefs.publicBackupUri, equalTo("content://test"))
+        prefs.publicBackupUri = null
+        assertNull(prefs.publicBackupUri)
+
+        assertFalse(prefs.isPublicAutoBackupEnabled)
+        prefs.isPublicAutoBackupEnabled = true
+        assertTrue(prefs.isPublicAutoBackupEnabled)
+
+        assertTrue(prefs.isPublicBackupAddDateEnabled)
+        prefs.isPublicBackupAddDateEnabled = false
+        assertFalse(prefs.isPublicBackupAddDateEnabled)
+
+        assertThat(prefs.publicAutoBackupFrequency, equalTo(15L))
+        prefs.publicAutoBackupFrequency = 30
+        assertThat(prefs.publicAutoBackupFrequency, equalTo(30L))
+    }
 }

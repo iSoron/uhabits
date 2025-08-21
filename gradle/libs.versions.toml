@@ -32,6 +32,7 @@ rules = "1.6.1"
 shadow = "8.1.1"
 sqliteJdbc = "3.45.1.0"
 uiautomator = "2.3.0"
+work = "2.9.0"
 
 [libraries]
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
@@ -73,6 +74,7 @@ opencsv = { group = "com.opencsv", name = "opencsv", version.ref = "opencsv" }
 rules = { group = "androidx.test", name = "rules", version.ref = "rules" }
 sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqliteJdbc" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 
 [bundles]
 androidTest = [
