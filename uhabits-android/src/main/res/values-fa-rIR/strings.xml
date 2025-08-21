@@ -218,4 +218,20 @@
     <string name="activity_not_found">هیچ برنامه‌ای برای انجام این کار یافت نشد.</string>
     <string name="pref_midnight_delay_title">تمدید کردن روز تا چند ساعت بعد از نیمه‌شب</string>
     <string name="pref_midnight_delay_description">تا ساعت ۳ نیمه‌شب برای نمایش یک روز جدید صبر می‌کند. اگر معمولاً بعد از نیمه‌شب می‌خوابید، برای شما می‌تواند مفید باشد. نیازمند راه‌اندازی مجدد برنامه است.</string>
+
+    <string name="pref_public_backup_folder_title">پوشه پشتیبان گیری عمومی</string>
+    <string name="pref_public_backup_folder_summary">هیچ پوشه ای انتخاب نشده است</string>
+    <string name="pref_public_backup_add_date_title">تاریخ را برای تهیه نسخه پشتیبان تهیه کنید</string>
+    <string name="pref_public_backup_add_date_summary">در صورت غیرفعال کردن ، نسخه پشتیبان تهیه می شود به عنوان &quot;عادت حلقه پشتیبان تهیه می شود. db&quot;</string>
+    <string name="pref_public_auto_backup_title">به طور خودکار از پشتیبان گیری عمومی صرفه جویی کنید</string>
+    <string name="pref_public_auto_backup_summary">به صورت دوره ای یک نسخه پشتیبان تهیه می کند</string>
+    <string name="pref_public_backup_frequency_title">بسامد پشتیبان</string>
+    <string name="public_backup_frequency_15m">15 دقیقه</string>
+    <string name="public_backup_frequency_1h">1 ساعت</string>
+    <string name="public_backup_frequency_1d">1 روز</string>
+    <string name="public_backup_frequency_3d">3 روز</string>
+    <string name="public_backup_frequency_7d">7 روز</string>
+    <string name="public_backup_frequency_14d">14 روز</string>
+    <string name="public_backup_frequency_1m">1 ماه</string>
+    <string name="automatic_backup">پشتیبان خودکار</string>
 </resources>

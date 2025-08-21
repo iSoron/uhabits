@@ -218,4 +218,20 @@
     <string name="activity_not_found">Nessuna app disponibile per gestire questa azione</string>
     <string name="pref_midnight_delay_title">Prolunga il giorno di alcune ore dopo la mezzanotte</string>
     <string name="pref_midnight_delay_description">Attendere fino alle 3:00 per mostrare il nuovo giorno. Utile se solitamente vai a dormire dopo mezzanotte. È necessario riavviare l\'app.</string>
+
+    <string name="pref_public_backup_folder_title">Cartella di backup pubblica</string>
+    <string name="pref_public_backup_folder_summary">Nessuna cartella selezionata</string>
+    <string name="pref_public_backup_add_date_title">Aggiungi data al nome file di backup</string>
+    <string name="pref_public_backup_add_date_summary">Se disabilitato, il backup verrà salvato come &quot;backup.db&quot;.</string>
+    <string name="pref_public_auto_backup_title">Salva automaticamente il backup pubblico</string>
+    <string name="pref_public_auto_backup_summary">Crea periodicamente un backup nella cartella selezionata</string>
+    <string name="pref_public_backup_frequency_title">Frequenza di backup</string>
+    <string name="public_backup_frequency_15m">15 minuti</string>
+    <string name="public_backup_frequency_1h">1 ora</string>
+    <string name="public_backup_frequency_1d">1 giorno</string>
+    <string name="public_backup_frequency_3d">3 giorni</string>
+    <string name="public_backup_frequency_7d">7 giorni</string>
+    <string name="public_backup_frequency_14d">14 giorni</string>
+    <string name="public_backup_frequency_1m">1 mese</string>
+    <string name="automatic_backup">Backup automatico</string>
 </resources>

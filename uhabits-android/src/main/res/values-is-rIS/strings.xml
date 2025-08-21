@@ -170,4 +170,20 @@
     <string name="decrement">Lækka</string>
     <string name="pref_midnight_delay_title">Lengja daginn nokkrar klukkustundir yfir miðnætti</string>
     <string name="pref_midnight_delay_description">Bíða til klukkan 03:00 til að sýna nýjan dag. Gagnlegt ef þú ferð að sofa eftir miðnætti. Krefst endurræsingar forritsins.</string>
+
+    <string name="pref_public_backup_folder_title">Opinber öryggisafritamappa</string>
+    <string name="pref_public_backup_folder_summary">Engin mappa valin</string>
+    <string name="pref_public_backup_add_date_title">Bættu dagsetningu við öryggisafritunarheiti</string>
+    <string name="pref_public_backup_add_date_summary">Ef fatlað er verður öryggisafrit vistað sem „lykkjuvenjur Backup.db“</string>
+    <string name="pref_public_auto_backup_title">Vista sjálfkrafa afrit af almenningi</string>
+    <string name="pref_public_auto_backup_summary">Býr til öryggisafrit í völdum möppu reglulega</string>
+    <string name="pref_public_backup_frequency_title">Afritunartíðni</string>
+    <string name="public_backup_frequency_15m">15 mínútur</string>
+    <string name="public_backup_frequency_1h">1 klukkustund</string>
+    <string name="public_backup_frequency_1d">1 dagur</string>
+    <string name="public_backup_frequency_3d">3 dagar</string>
+    <string name="public_backup_frequency_7d">7 dagar</string>
+    <string name="public_backup_frequency_14d">14 dagar</string>
+    <string name="public_backup_frequency_1m">1 mánuður</string>
+    <string name="automatic_backup">Sjálfvirk öryggisafrit</string>
 </resources>

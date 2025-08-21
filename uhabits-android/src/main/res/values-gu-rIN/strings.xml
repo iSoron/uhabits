@@ -17,4 +17,20 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="pref_public_backup_folder_title">સાર્વજનિક બેકઅપ ફોલ્ડર</string>
+    <string name="pref_public_backup_folder_summary">કોઈ ફોલ્ડર પસંદ થયેલ નથી</string>
+    <string name="pref_public_backup_add_date_title">બેકઅપ ફાઇલનામ પર તારીખ ઉમેરો</string>
+    <string name="pref_public_backup_add_date_summary">જો અક્ષમ કરવામાં આવે તો, બેકઅપને &quot;લૂપ ટેવ્સ બેકઅપ.ડીબી&quot; તરીકે સાચવવામાં આવશે.</string>
+    <string name="pref_public_auto_backup_title">આપમેળે જાહેર બેકઅપ સાચવો</string>
+    <string name="pref_public_auto_backup_summary">સમયાંતરે પસંદ કરેલા ફોલ્ડરમાં બેકઅપ બનાવે છે</string>
+    <string name="pref_public_backup_frequency_title">બેકઅપ આવર્તન</string>
+    <string name="public_backup_frequency_15m">15 મિનિટ</string>
+    <string name="public_backup_frequency_1h">1 કલાક</string>
+    <string name="public_backup_frequency_1d">1 દિવસ</string>
+    <string name="public_backup_frequency_3d">3 દિવસ</string>
+    <string name="public_backup_frequency_7d">7 દિવસ</string>
+    <string name="public_backup_frequency_14d">14 દિવસ</string>
+    <string name="public_backup_frequency_1m">1 મહિનો</string>
+    <string name="automatic_backup">સ્વચાલિત બેકઅપ</string>
+</resources>

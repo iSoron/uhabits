@@ -227,4 +227,20 @@
     <string name="activity_not_found">Ingen app som stödjer åtgärden hittades.</string>
     <string name="pref_midnight_delay_title">Förläng dagen några timmar efter midnatt</string>
     <string name="pref_midnight_delay_description">Vänta till 3:00 innan en ny dag visas. Användbart om du vanligtvis går och lägger dig efter midnatt. Kräver omstart av appen.</string>
+
+    <string name="pref_public_backup_folder_title">Offentlig säkerhetskopieringsmapp</string>
+    <string name="pref_public_backup_folder_summary">Ingen mapp vald</string>
+    <string name="pref_public_backup_add_date_title">Lägg till datum till säkerhetskopieringsfilnamn</string>
+    <string name="pref_public_backup_add_date_summary">Om inaktiverad sparas säkerhetskopiering som &quot;Loop Habits Backup.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Spara automatiskt offentlig säkerhetskopia</string>
+    <string name="pref_public_auto_backup_summary">Skapar en säkerhetskopia i den valda mappen regelbundet</string>
+    <string name="pref_public_backup_frequency_title">Säkerhetskopieringsfrekvens</string>
+    <string name="public_backup_frequency_15m">15 minuter</string>
+    <string name="public_backup_frequency_1h">1 timme</string>
+    <string name="public_backup_frequency_1d">1 dag</string>
+    <string name="public_backup_frequency_3d">3 dagar</string>
+    <string name="public_backup_frequency_7d">7 dagar</string>
+    <string name="public_backup_frequency_14d">14 dagar</string>
+    <string name="public_backup_frequency_1m">1 månad</string>
+    <string name="automatic_backup">Automatisk säkerhetskopiering</string>
 </resources>

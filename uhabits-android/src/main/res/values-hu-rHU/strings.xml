@@ -223,4 +223,20 @@
     <string name="activity_not_found">Ezen művelet elvégzéséhez nem található alkalmazás.</string>
     <string name="pref_midnight_delay_title">A nap meghosszabbítása éjfél után néhány órával</string>
     <string name="pref_midnight_delay_description">Várjon hajnali 3 -ig, hogy új napot mutasson. Hasznos, ha általában éjfél után fekszik le. Az alkalmazás újraindítását igényli.</string>
+
+    <string name="pref_public_backup_folder_title">Nyilvános biztonsági mentési mappa</string>
+    <string name="pref_public_backup_folder_summary">Nincs kiválasztva mappa</string>
+    <string name="pref_public_backup_add_date_title">Adja hozzá a dátumot a biztonsági mentés fájlnévhez</string>
+    <string name="pref_public_backup_add_date_summary">Ha letiltva van, a biztonsági másolatot &quot;hurok szokásainak biztonsági.db&quot; néven menti meg</string>
+    <string name="pref_public_auto_backup_title">Automatikusan mentse el a nyilvános biztonsági mentést</string>
+    <string name="pref_public_auto_backup_summary">Rendszeresen készít biztonsági másolatot a kiválasztott mappában</string>
+    <string name="pref_public_backup_frequency_title">Biztonsági mentési frekvencia</string>
+    <string name="public_backup_frequency_15m">15 perc</string>
+    <string name="public_backup_frequency_1h">1 óra</string>
+    <string name="public_backup_frequency_1d">1 nap</string>
+    <string name="public_backup_frequency_3d">3 nap</string>
+    <string name="public_backup_frequency_7d">7 nap</string>
+    <string name="public_backup_frequency_14d">14 nap</string>
+    <string name="public_backup_frequency_1m">1 hónap</string>
+    <string name="automatic_backup">Automatikus biztonsági mentés</string>
 </resources>

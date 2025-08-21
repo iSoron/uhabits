@@ -82,4 +82,20 @@
     <string name="x_times_per_month">Ամսական %d անգամ</string>
     <string name="color">Գույն</string>
     <string name="today">Այսօր</string>
+
+    <string name="pref_public_backup_folder_title">Հասարակական պահուստավորման թղթապանակ</string>
+    <string name="pref_public_backup_folder_summary">Ընտրված թղթապանակ չկա</string>
+    <string name="pref_public_backup_add_date_title">Ամսաթիվ ավելացնել կրկնօրինակման ֆայլի անունը</string>
+    <string name="pref_public_backup_add_date_summary">Եթե հաշմանդամ է, պահուստավորումը կփրկվի որպես «Loop CoBits Backup.db»</string>
+    <string name="pref_public_auto_backup_title">Ավտոմատ պահեք հանրային պահուստավորումը</string>
+    <string name="pref_public_auto_backup_summary">Պարբերաբար ստեղծում է կրկնօրինակում ընտրված թղթապանակում</string>
+    <string name="pref_public_backup_frequency_title">Կրկնօրինակման հաճախականությունը</string>
+    <string name="public_backup_frequency_15m">15 րոպե</string>
+    <string name="public_backup_frequency_1h">1 ժամ</string>
+    <string name="public_backup_frequency_1d">1 օր</string>
+    <string name="public_backup_frequency_3d">3 օր</string>
+    <string name="public_backup_frequency_7d">7 օր</string>
+    <string name="public_backup_frequency_14d">14 օր</string>
+    <string name="public_backup_frequency_1m">1 ամիս</string>
+    <string name="automatic_backup">Ավտոմատ կրկնօրինակում</string>
 </resources>

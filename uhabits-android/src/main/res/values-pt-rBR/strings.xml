@@ -218,4 +218,20 @@
     <string name="activity_not_found">Nenhum app encontrado para executar esta ação</string>
     <string name="pref_midnight_delay_title">Prolongar dia algumas horas depois da meia-noite</string>
     <string name="pref_midnight_delay_description">Espere até às 3:00 para mostrar um novo dia. Útil se você costuma dormir depois da meia-noite. Requer reinicialização do aplicativo.</string>
+
+    <string name="pref_public_backup_folder_title">Pasta de backup pública</string>
+    <string name="pref_public_backup_folder_summary">Nenhuma pasta selecionada</string>
+    <string name="pref_public_backup_add_date_title">Adicione a data ao nome do arquivo de backup</string>
+    <string name="pref_public_backup_add_date_summary">Se desativado, o backup será salvo como &quot;Backup de hábitos de loop.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Salvar automaticamente o backup público</string>
+    <string name="pref_public_auto_backup_summary">Cria um backup na pasta selecionada periodicamente</string>
+    <string name="pref_public_backup_frequency_title">Frequência de backup</string>
+    <string name="public_backup_frequency_15m">15 minutos</string>
+    <string name="public_backup_frequency_1h">1 hora</string>
+    <string name="public_backup_frequency_1d">1 dia</string>
+    <string name="public_backup_frequency_3d">3 dias</string>
+    <string name="public_backup_frequency_7d">7 dias</string>
+    <string name="public_backup_frequency_14d">14 dias</string>
+    <string name="public_backup_frequency_1m">1 mês</string>
+    <string name="automatic_backup">Backup automático</string>
 </resources>

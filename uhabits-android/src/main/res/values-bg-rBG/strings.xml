@@ -218,4 +218,20 @@
     <string name="activity_not_found">Не е намерено приложение, което да поддържа това действие</string>
     <string name="pref_midnight_delay_title">Удължаване на деня с няколко часа след полунощ</string>
     <string name="pref_midnight_delay_description">Изчакване до 3:00 часа сутринта за показване на нов ден. Полезно, ако обичайно си лягате да спите след полунощ. Изисква рестартиране на приложението.</string>
+
+    <string name="pref_public_backup_folder_title">Публична папка за архивиране</string>
+    <string name="pref_public_backup_folder_summary">Не е избрана папка</string>
+    <string name="pref_public_backup_add_date_title">Добавете дата към резервното име на файл</string>
+    <string name="pref_public_backup_add_date_summary">Ако е деактивиран, резервното копие ще бъде запазено като „циклични навици за архивиране.db“</string>
+    <string name="pref_public_auto_backup_title">Автоматично спестете публично архивиране</string>
+    <string name="pref_public_auto_backup_summary">Създава резервно копие в избраната папка периодично</string>
+    <string name="pref_public_backup_frequency_title">Честота на резервно копие</string>
+    <string name="public_backup_frequency_15m">15 минути</string>
+    <string name="public_backup_frequency_1h">1 час</string>
+    <string name="public_backup_frequency_1d">1 ден</string>
+    <string name="public_backup_frequency_3d">3 дни</string>
+    <string name="public_backup_frequency_7d">7 дни</string>
+    <string name="public_backup_frequency_14d">14 дни</string>
+    <string name="public_backup_frequency_1m">1 месец</string>
+    <string name="automatic_backup">Автоматично архивиране</string>
 </resources>

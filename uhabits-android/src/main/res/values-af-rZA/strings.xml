@@ -38,4 +38,20 @@
     <string name="interval_8_hour">8 ure</string>
     <string name="interval_24_hour">24 ure</string>
     <string name="settings">Instellings</string>
+
+    <string name="pref_public_backup_folder_title">Openbare rugsteunmap</string>
+    <string name="pref_public_backup_folder_summary">Geen vouer gekies nie</string>
+    <string name="pref_public_backup_add_date_title">Voeg datum by tot die rugsteunlêernaam</string>
+    <string name="pref_public_backup_add_date_summary">As dit gedeaktiveer is, sal rugsteun gestoor word as "Loop Habits Backup.db"</string>
+    <string name="pref_public_auto_backup_title">Stoor die openbare rugsteun outomaties</string>
+    <string name="pref_public_auto_backup_summary">Skep periodiek \'n rugsteun in die geselekteerde vouer</string>
+    <string name="pref_public_backup_frequency_title">Rugsteunfrekwensie</string>
+    <string name="public_backup_frequency_15m">15 minute</string>
+    <string name="public_backup_frequency_1h">1 uur</string>
+    <string name="public_backup_frequency_1d">1 dag</string>
+    <string name="public_backup_frequency_3d">3 dae</string>
+    <string name="public_backup_frequency_7d">7 dae</string>
+    <string name="public_backup_frequency_14d">14 dae</string>
+    <string name="public_backup_frequency_1m">1 maand</string>
+    <string name="automatic_backup">Outomatiese rugsteun</string>
 </resources>

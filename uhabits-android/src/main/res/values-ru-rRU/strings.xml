@@ -135,6 +135,20 @@
     <string name="import_data_summary">Поддерживает полные резервные копии, экспортированные из этого приложения, а также файлы, сгенерированные приложениями Tickmate, HabitBull и Rewire. Подробнее смотрите в FAQ.</string>
     <string name="export_as_csv_summary">Генерирует файлы, которые можно открыть в ПО для работы с таблицами (таком как Microsoft Excel или OpenOffice Calc). Этот файл нельзя импортировать обратно.</string>
     <string name="export_full_backup_summary">Генерирует файл, который содержит все ваши данные. Этот файл можно импортировать обратно.</string>
+    <string name="pref_public_backup_folder_title">Папка для публичной резервной копии</string>
+    <string name="pref_public_backup_folder_summary">Папка не выбрана</string>
+    <string name="pref_public_backup_add_date_title">Добавлять дату в имя файла бэкапа</string>
+    <string name="pref_public_backup_add_date_summary">Если выключено, файл будет называться "Loop Habits Backup.db"</string>
+    <string name="pref_public_auto_backup_title">Автоматически сохранять резервную копию в публичной папке</string>
+    <string name="pref_public_auto_backup_summary">Создаёт резервную копию в выбранной папке по расписанию</string>
+    <string name="pref_public_backup_frequency_title">Частота автоматического резервного копирования</string>
+    <string name="public_backup_frequency_15m">15 минут</string>
+    <string name="public_backup_frequency_1h">1 час</string>
+    <string name="public_backup_frequency_1d">1 день</string>
+    <string name="public_backup_frequency_3d">3 дня</string>
+    <string name="public_backup_frequency_7d">7 дней</string>
+    <string name="public_backup_frequency_14d">14 дней</string>
+    <string name="public_backup_frequency_1m">1 месяц</string>
     <string name="bug_report_failed">Ошибка генерации отчёта об ошибке.</string>
     <string name="generate_bug_report">Сгенерировать отчёт об ошибке</string>
     <string name="troubleshooting">Устранение неполадок</string>
@@ -230,4 +244,5 @@
     <string name="activity_not_found">Не найдено приложения для обработки данного действия</string>
     <string name="pref_midnight_delay_title">Продлить день на несколько часов после полуночи</string>
     <string name="pref_midnight_delay_description">Подождать до 3:00 перед показом нового дня. Полезно, если вы обычно ложитесь спать после полуночи. Требуется перезапуск приложения.</string>
+    <string name="automatic_backup">Автоматическая резервная копия</string>
 </resources>

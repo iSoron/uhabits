@@ -230,4 +230,20 @@
     <string name="activity_not_found">Najdena ni bila nobena aplikacija, ki bi podpirala to dejanje</string>
     <string name="pref_midnight_delay_title">Podaljšajte dan nekaj ur čez polnoč</string>
     <string name="pref_midnight_delay_description">Počakajte do 3.00, da prikažete nov dan. Uporabno, če greste običajno spat po polnoči. Zahteva ponovni zagon aplikacije.</string>
+
+    <string name="pref_public_backup_folder_title">Javna varnostna kopija mapa</string>
+    <string name="pref_public_backup_folder_summary">Ni izbrana mapa</string>
+    <string name="pref_public_backup_add_date_title">Dodajte datum v ime datoteke varnostne kopije</string>
+    <string name="pref_public_backup_add_date_summary">Če je onemogočeno, bo varnostna kopija shranjena kot &quot;navade zanke backup.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Samodejno shranite javno varnostno kopijo</string>
+    <string name="pref_public_auto_backup_summary">Občasno ustvari varnostno kopijo v izbrani mapi</string>
+    <string name="pref_public_backup_frequency_title">Frekvenca varnostne kopije</string>
+    <string name="public_backup_frequency_15m">15 minut</string>
+    <string name="public_backup_frequency_1h">1 ura</string>
+    <string name="public_backup_frequency_1d">1 dan</string>
+    <string name="public_backup_frequency_3d">3 dni</string>
+    <string name="public_backup_frequency_7d">7 dni</string>
+    <string name="public_backup_frequency_14d">14 dni</string>
+    <string name="public_backup_frequency_1m">1 mesec</string>
+    <string name="automatic_backup">Samodejno varnostno kopijo</string>
 </resources>

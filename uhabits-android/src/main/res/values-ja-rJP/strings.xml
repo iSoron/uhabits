@@ -212,4 +212,20 @@
     <string name="activity_not_found">この操作を行うアプリが見つかりませんでした。</string>
     <string name="pref_midnight_delay_title">一日の終わりを午前0時から数時間延長する</string>
     <string name="pref_midnight_delay_description">一日の始まりを午前3時にします。よく午前0時以降に就寝する場合に役立ちます。アプリの再起動が必要です。</string>
+
+    <string name="pref_public_backup_folder_title">パブリックバックアップフォルダー</string>
+    <string name="pref_public_backup_folder_summary">フォルダーが選択されていません</string>
+    <string name="pref_public_backup_add_date_title">バックアップファイル名に日付を追加します</string>
+    <string name="pref_public_backup_add_date_summary">無効になった場合、バックアップは「ループ習慣バックアップ」として保存されます。</string>
+    <string name="pref_public_auto_backup_title">パブリックバックアップを自動的に保存します</string>
+    <string name="pref_public_auto_backup_summary">選択したフォルダーに定期的にバックアップを作成します</string>
+    <string name="pref_public_backup_frequency_title">バックアップ周波数</string>
+    <string name="public_backup_frequency_15m">15分</string>
+    <string name="public_backup_frequency_1h">1時間</string>
+    <string name="public_backup_frequency_1d">1日</string>
+    <string name="public_backup_frequency_3d">3日</string>
+    <string name="public_backup_frequency_7d">7日</string>
+    <string name="public_backup_frequency_14d">14日</string>
+    <string name="public_backup_frequency_1m">1か月</string>
+    <string name="automatic_backup">自動バックアップ</string>
 </resources>

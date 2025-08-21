@@ -193,4 +193,20 @@
     <string name="activity_not_found">Nu a fost găsită nicio aplicație care să efectueze această acțiune.</string>
     <string name="pref_midnight_delay_title">Extinde ziua câteva ore după miezul nopții</string>
     <string name="pref_midnight_delay_description">Așteaptă până la ora 3:00 dimineața pentru a arăta o nouă zi. O funcție utilă dacă în mod normal obișnuiești să mergi la somn după miezul nopții. Necesită repornirea aplicației.</string>
+
+    <string name="pref_public_backup_folder_title">Public Backup Folder</string>
+    <string name="pref_public_backup_folder_summary">Nu există niciun folder selectat</string>
+    <string name="pref_public_backup_add_date_title">Adăugați data la numele de fișier de rezervă</string>
+    <string name="pref_public_backup_add_date_summary">Dacă este dezactivat, backup -ul va fi salvat ca &quot;buclă de rezervă pentru backup.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Salvați automat backup public</string>
+    <string name="pref_public_auto_backup_summary">Creează o copie de rezervă în folderul selectat periodic</string>
+    <string name="pref_public_backup_frequency_title">Frecvența de rezervă</string>
+    <string name="public_backup_frequency_15m">15 minute</string>
+    <string name="public_backup_frequency_1h">1 oră</string>
+    <string name="public_backup_frequency_1d">1 zi</string>
+    <string name="public_backup_frequency_3d">3 zile</string>
+    <string name="public_backup_frequency_7d">7 zile</string>
+    <string name="public_backup_frequency_14d">14 zile</string>
+    <string name="public_backup_frequency_1m">1 lună</string>
+    <string name="automatic_backup">Backup automat</string>
 </resources>

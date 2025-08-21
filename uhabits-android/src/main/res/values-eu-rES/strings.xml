@@ -216,4 +216,20 @@
     <string name="activity_not_found">Ez da aurkitu akzio hau gauzatu dezakeen aplikaziorik</string>
     <string name="pref_midnight_delay_title">Luzatu eguna gauerdia osteko ordu batzuetara</string>
     <string name="pref_midnight_delay_description">Itxaron goizeko 3:00ak arte egun berri bat erakusteko. Erabilgarria normalean gauerdia pasata lotara joaten bazara. Aplikazioa berrabiarazi behar da.</string>
+
+    <string name="pref_public_backup_folder_title">Backup karpeta publikoa</string>
+    <string name="pref_public_backup_folder_summary">Ez da karpeta hautatua</string>
+    <string name="pref_public_backup_add_date_title">Gehitu data Backup fitxategi izena</string>
+    <string name="pref_public_backup_add_date_summary">Elbarritua bada, babeskopia &quot;begizta habitazio backup.db&quot; gisa gordeko da</string>
+    <string name="pref_public_auto_backup_title">Babeskopia publikoa automatikoki gordetzea</string>
+    <string name="pref_public_auto_backup_summary">Aukeratutako karpetan segurtasun kopia sortzen du aldian-aldian</string>
+    <string name="pref_public_backup_frequency_title">Babeskopia maiztasuna</string>
+    <string name="public_backup_frequency_15m">15 minutu</string>
+    <string name="public_backup_frequency_1h">1 ordu</string>
+    <string name="public_backup_frequency_1d">Egun 1</string>
+    <string name="public_backup_frequency_3d">3 egun</string>
+    <string name="public_backup_frequency_7d">7 egun</string>
+    <string name="public_backup_frequency_14d">14 egun</string>
+    <string name="public_backup_frequency_1m">Hilabete 1</string>
+    <string name="automatic_backup">Babeskopia automatikoa</string>
 </resources>

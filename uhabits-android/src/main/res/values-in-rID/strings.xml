@@ -221,4 +221,20 @@
     <string name="activity_not_found">Aplikasi untuk mendukung tindakan ini tidak ditemukan</string>
     <string name="pref_midnight_delay_title">Perpanjang hari beberapa jam setelah tengah malam</string>
     <string name="pref_midnight_delay_description">Tunggu sampai jam 3 pagi untuk menampilkan hari yang baru. Berguna jika kamu biasanya tidur setelah tengah malam. Aplikasi perlu dimulai ulang.</string>
+
+    <string name="pref_public_backup_folder_title">Folder cadangan publik</string>
+    <string name="pref_public_backup_folder_summary">Tidak ada folder yang dipilih</string>
+    <string name="pref_public_backup_add_date_title">Tambahkan tanggal ke nama file cadangan</string>
+    <string name="pref_public_backup_add_date_summary">Jika dinonaktifkan, cadangan akan disimpan sebagai &quot;loop kebiasaan cadangan.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Secara otomatis menyimpan cadangan publik</string>
+    <string name="pref_public_auto_backup_summary">Membuat cadangan di folder yang dipilih secara berkala</string>
+    <string name="pref_public_backup_frequency_title">Frekuensi cadangan</string>
+    <string name="public_backup_frequency_15m">15 menit</string>
+    <string name="public_backup_frequency_1h">1 jam</string>
+    <string name="public_backup_frequency_1d">1 hari</string>
+    <string name="public_backup_frequency_3d">3 hari</string>
+    <string name="public_backup_frequency_7d">7 hari</string>
+    <string name="public_backup_frequency_14d">14 hari</string>
+    <string name="public_backup_frequency_1m">1 bulan</string>
+    <string name="automatic_backup">Cadangan Otomatis</string>
 </resources>

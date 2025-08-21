@@ -218,4 +218,20 @@
     <string name="activity_not_found">Für diese Aktion wurde keine App gefunden.</string>
     <string name="pref_midnight_delay_title">Verlängere den Tag um ein paar Stunden nach Mitternacht</string>
     <string name="pref_midnight_delay_description">Bis 3:00 Uhr warten, bevor ein neuer Tag angezeigt wird. Nützlich, wenn du normalerweise nach Mitternacht schlafen gehst. Benötigt einen Neustart der App.</string>
+
+    <string name="pref_public_backup_folder_title">Öffentlicher Backup -Ordner</string>
+    <string name="pref_public_backup_folder_summary">Kein Ordner ausgewählt</string>
+    <string name="pref_public_backup_add_date_title">Datum hinzufügen, um den Dateinamen zu sichern</string>
+    <string name="pref_public_backup_add_date_summary">Wenn deaktiviert, wird die Sicherung als &quot;Schleifengewohnheiten backup.db&quot; gespeichert.</string>
+    <string name="pref_public_auto_backup_title">Speichern Sie automatisch öffentliche Sicherungen</string>
+    <string name="pref_public_auto_backup_summary">Erstellt regelmäßig eine Sicherung im ausgewählten Ordner</string>
+    <string name="pref_public_backup_frequency_title">Sicherungsfrequenz</string>
+    <string name="public_backup_frequency_15m">15 Minuten</string>
+    <string name="public_backup_frequency_1h">1 Stunde</string>
+    <string name="public_backup_frequency_1d">1 Tag</string>
+    <string name="public_backup_frequency_3d">3 Tage</string>
+    <string name="public_backup_frequency_7d">7 Tage</string>
+    <string name="public_backup_frequency_14d">14 Tage</string>
+    <string name="public_backup_frequency_1m">1 Monat</string>
+    <string name="automatic_backup">Automatische Sicherung</string>
 </resources>

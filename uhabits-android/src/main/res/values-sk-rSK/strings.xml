@@ -230,4 +230,20 @@
     <string name="activity_not_found">Nenašla sa žiadna aplikácia podporujúca túto akciu</string>
     <string name="pref_midnight_delay_title">Predĺžte deň o niekoľko hodín po polnoci</string>
     <string name="pref_midnight_delay_description">Na zobrazenie nového dňa počkajte do 3:00. Užitočné, ak zvyčajne chodíte spať po polnoci. Vyžaduje reštart aplikácie.</string>
+
+    <string name="pref_public_backup_folder_title">Verejný priečinok</string>
+    <string name="pref_public_backup_folder_summary">Žiadny priečinok vybraný</string>
+    <string name="pref_public_backup_add_date_title">Pridajte dátum do záložného názvu súboru</string>
+    <string name="pref_public_backup_add_date_summary">Ak je zakázaný, zálohovanie sa uloží ako „Loop Habits Backup.db“</string>
+    <string name="pref_public_auto_backup_title">Automaticky uložte verejnú zálohu</string>
+    <string name="pref_public_auto_backup_summary">Pravidelne vytvára zálohu vo vybranom priečinku</string>
+    <string name="pref_public_backup_frequency_title">Záložná frekvencia</string>
+    <string name="public_backup_frequency_15m">15 minút</string>
+    <string name="public_backup_frequency_1h">1 hodina</string>
+    <string name="public_backup_frequency_1d">1 deň</string>
+    <string name="public_backup_frequency_3d">3 dni</string>
+    <string name="public_backup_frequency_7d">7 dní</string>
+    <string name="public_backup_frequency_14d">14 dní</string>
+    <string name="public_backup_frequency_1m">1 mesiac</string>
+    <string name="automatic_backup">Automatická záloha</string>
 </resources>

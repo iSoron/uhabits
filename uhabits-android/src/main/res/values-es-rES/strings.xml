@@ -218,4 +218,20 @@
     <string name="activity_not_found">No se encontró ninguna aplicación que admita esta acción</string>
     <string name="pref_midnight_delay_title">Ampliar día unas horas después de medianoche</string>
     <string name="pref_midnight_delay_description">Esperar hasta las 3:00 AM para mostrar un nuevo día. Útil si normalmente vas a dormir después de medianoche. Requiere reiniciar la aplicación.</string>
+
+    <string name="pref_public_backup_folder_title">Carpeta de copia de seguridad pública</string>
+    <string name="pref_public_backup_folder_summary">No se selecciona carpeta</string>
+    <string name="pref_public_backup_add_date_title">Agregar fecha al nombre de archivo de copia de seguridad</string>
+    <string name="pref_public_backup_add_date_summary">Si está deshabilitado, la copia de seguridad se guardará como &quot;Hábitos de bucle Backup.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Guardar automáticamente la copia de seguridad pública</string>
+    <string name="pref_public_auto_backup_summary">Crea una copia de seguridad en la carpeta seleccionada periódicamente</string>
+    <string name="pref_public_backup_frequency_title">Frecuencia de respaldo</string>
+    <string name="public_backup_frequency_15m">15 minutos</string>
+    <string name="public_backup_frequency_1h">1 hora</string>
+    <string name="public_backup_frequency_1d">1 día</string>
+    <string name="public_backup_frequency_3d">3 días</string>
+    <string name="public_backup_frequency_7d">7 días</string>
+    <string name="public_backup_frequency_14d">14 días</string>
+    <string name="public_backup_frequency_1m">1 mes</string>
+    <string name="automatic_backup">Copia de seguridad automática</string>
 </resources>

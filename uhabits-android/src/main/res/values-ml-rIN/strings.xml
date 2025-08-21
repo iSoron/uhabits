@@ -218,4 +218,20 @@
     <string name="activity_not_found">ഈ പ്രവർത്തനത്തെ പിന്തുണയ്ക്കുന്ന ഒരു ആപ്പും കണ്ടെത്തിയില്ല</string>
     <string name="pref_midnight_delay_title">അർദ്ധരാത്രി കഴിഞ്ഞ് കുറച്ച് മണിക്കൂറുകൾ പകൽ നീട്ടുക</string>
     <string name="pref_midnight_delay_description">ഒരു പുതിയ ദിവസം കാണിക്കാൻ 3:00 AM വരെ കാത്തിരിക്കുക.  നിങ്ങൾ സാധാരണയായി അർദ്ധരാത്രിക്ക് ശേഷം ഉറങ്ങാൻ പോകുകയാണെങ്കിൽ ഉപയോഗപ്രദമാണ്.  ആപ്പ് പുനരാരംഭിക്കേണ്ടതുണ്ട്.</string>
+
+    <string name="pref_public_backup_folder_title">പബ്ലിക് ബാക്കപ്പ് ഫോൾഡർ</string>
+    <string name="pref_public_backup_folder_summary">തിരഞ്ഞെടുത്ത ഫോൾഡുകളൊന്നുമില്ല</string>
+    <string name="pref_public_backup_add_date_title">ബാക്കപ്പ് ഫയൽനാമത്തിലേക്ക് തീയതി ചേർക്കുക</string>
+    <string name="pref_public_backup_add_date_summary">അപ്രാപ്തമാക്കിയിട്ടുണ്ടെങ്കിൽ, ബാക്കപ്പ് &quot;ലൂപ്പ് ശീലങ്ങൾ ബാക്കപ്പ് .db&quot; ആയി സംരക്ഷിക്കും</string>
+    <string name="pref_public_auto_backup_title">പൊതു ബാക്കപ്പ് യാന്ത്രികമായി സംരക്ഷിക്കുക</string>
+    <string name="pref_public_auto_backup_summary">ഇടയ്ക്കിടെ തിരഞ്ഞെടുത്ത ഫോൾഡിൽ ഒരു ബാക്കപ്പ് സൃഷ്ടിക്കുന്നു</string>
+    <string name="pref_public_backup_frequency_title">ബാക്കപ്പ് ആവൃത്തി</string>
+    <string name="public_backup_frequency_15m">15 മിനിറ്റ്</string>
+    <string name="public_backup_frequency_1h">1 മണിക്കൂർ</string>
+    <string name="public_backup_frequency_1d">1 ദിവസം</string>
+    <string name="public_backup_frequency_3d">3 ദിവസം</string>
+    <string name="public_backup_frequency_7d">7 ദിവസം</string>
+    <string name="public_backup_frequency_14d">14 ദിവസം</string>
+    <string name="public_backup_frequency_1m">1 മാസം</string>
+    <string name="automatic_backup">യാന്ത്രിക ബാക്കപ്പ്</string>
 </resources>

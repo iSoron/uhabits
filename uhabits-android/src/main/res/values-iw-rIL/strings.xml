@@ -230,4 +230,20 @@
     <string name="activity_not_found">לא נמצא יישום שתומך בפעולה זו</string>
     <string name="pref_midnight_delay_title">הארכת היום בכמה שעות לאחר החצות</string>
     <string name="pref_midnight_delay_description">המתנה עד 3:00 לפני הצגת יום חדש. שימושי אם לרוב הולכים לישון אחרי חצות. דורש הפעלה מחדש של היישום.</string>
+
+    <string name="pref_public_backup_folder_title">תיקיית גיבוי ציבורית</string>
+    <string name="pref_public_backup_folder_summary">לא נבחרה תיקיה</string>
+    <string name="pref_public_backup_add_date_title">הוסף תאריך לשם קובץ גיבוי</string>
+    <string name="pref_public_backup_add_date_summary">אם יושבתו, הגיבוי יישמר כ&quot;הרגלי לולאה backup.db &quot;</string>
+    <string name="pref_public_auto_backup_title">שמור אוטומטית גיבוי ציבורי</string>
+    <string name="pref_public_auto_backup_summary">יוצר גיבוי בתיקיה שנבחרה מעת לעת</string>
+    <string name="pref_public_backup_frequency_title">תדר גיבוי</string>
+    <string name="public_backup_frequency_15m">15 דקות</string>
+    <string name="public_backup_frequency_1h">שעה אחת</string>
+    <string name="public_backup_frequency_1d">יום אחד</string>
+    <string name="public_backup_frequency_3d">3 ימים</string>
+    <string name="public_backup_frequency_7d">7 ימים</string>
+    <string name="public_backup_frequency_14d">14 יום</string>
+    <string name="public_backup_frequency_1m">חודש</string>
+    <string name="automatic_backup">גיבוי אוטומטי</string>
 </resources>

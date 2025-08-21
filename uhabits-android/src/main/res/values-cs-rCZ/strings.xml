@@ -230,4 +230,20 @@
     <string name="activity_not_found">Nenalezen program podporující tento krok</string>
     <string name="pref_midnight_delay_title">Prodloužit den o pár hodin po půlnoci</string>
     <string name="pref_midnight_delay_description">Počkat do tří ráno pro zobrazení nového dne. Užitečné, pokud chodíte spát po půlnoci. Vyžaduje restartování aplikace. </string>
+
+    <string name="pref_public_backup_folder_title">Veřejná záložní složka</string>
+    <string name="pref_public_backup_folder_summary">Žádná vybraná složka</string>
+    <string name="pref_public_backup_add_date_title">Přidejte datum záložního souboru</string>
+    <string name="pref_public_backup_add_date_summary">Pokud je deaktivována, bude zálohování uloženo jako „smyčka zálohování.db“</string>
+    <string name="pref_public_auto_backup_title">Automaticky uložit veřejnou zálohu</string>
+    <string name="pref_public_auto_backup_summary">Pravidelně vytváří zálohu ve vybrané složce</string>
+    <string name="pref_public_backup_frequency_title">Frekvence zálohování</string>
+    <string name="public_backup_frequency_15m">15 minut</string>
+    <string name="public_backup_frequency_1h">1 hodina</string>
+    <string name="public_backup_frequency_1d">1 den</string>
+    <string name="public_backup_frequency_3d">3 dny</string>
+    <string name="public_backup_frequency_7d">7 dní</string>
+    <string name="public_backup_frequency_14d">14 dní</string>
+    <string name="public_backup_frequency_1m">1 měsíc</string>
+    <string name="automatic_backup">Automatická záloha</string>
 </resources>

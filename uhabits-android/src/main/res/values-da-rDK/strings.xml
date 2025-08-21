@@ -221,4 +221,20 @@
     <string name="activity_not_found">Ingen app fundet til at understøtte denne handling</string>
     <string name="pref_midnight_delay_title">Forlæng dagen et par timer efter midnat</string>
     <string name="pref_midnight_delay_description">Vent til 3:00 for at vise en ny dag. Nyttigt, hvis du typisk går i seng efter midnat. Kræver genstart af app.</string>
+
+    <string name="pref_public_backup_folder_title">Offentlig backup -mappe</string>
+    <string name="pref_public_backup_folder_summary">Ingen mappe valgt</string>
+    <string name="pref_public_backup_add_date_title">Tilføj dato til sikkerhedskopiering af filnavn</string>
+    <string name="pref_public_backup_add_date_summary">Hvis deaktiveret, gemmes sikkerhedskopi som &quot;Loop Habits Backup.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Gem automatisk offentlig sikkerhedskopi</string>
+    <string name="pref_public_auto_backup_summary">Opretter en sikkerhedskopi i den valgte mappe med jævne mellemrum</string>
+    <string name="pref_public_backup_frequency_title">Backupfrekvens</string>
+    <string name="public_backup_frequency_15m">15 minutter</string>
+    <string name="public_backup_frequency_1h">1 time</string>
+    <string name="public_backup_frequency_1d">1 dag</string>
+    <string name="public_backup_frequency_3d">3 dage</string>
+    <string name="public_backup_frequency_7d">7 dage</string>
+    <string name="public_backup_frequency_14d">14 dage</string>
+    <string name="public_backup_frequency_1m">1 måned</string>
+    <string name="automatic_backup">Automatisk sikkerhedskopi</string>
 </resources>

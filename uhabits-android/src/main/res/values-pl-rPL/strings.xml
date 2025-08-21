@@ -230,4 +230,20 @@
     <string name="activity_not_found">Nie znaleziono aplikacji obsługującej to działanie</string>
     <string name="pref_midnight_delay_title">Przedłuż dzień o kilka godzin po północy</string>
     <string name="pref_midnight_delay_description">Poczekaj do 3:00, aby pokazać nowy dzień. Przydatne, jeśli zwykle kładziesz się spać po północy. Wymaga ponownego uruchomienia aplikacji.</string>
+
+    <string name="pref_public_backup_folder_title">Publiczny folder kopii zapasowej</string>
+    <string name="pref_public_backup_folder_summary">Brak folderu</string>
+    <string name="pref_public_backup_add_date_title">Dodaj datę do zapasowej nazwy pliku</string>
+    <string name="pref_public_backup_add_date_summary">Jeśli wyłączony, kopia zapasowa zostanie zapisana jako „nawyki pętli Backup.db”</string>
+    <string name="pref_public_auto_backup_title">Automatycznie zapisz publiczny kopia zapasowa</string>
+    <string name="pref_public_auto_backup_summary">Okresowo tworzy kopię zapasową w wybranym folderze</string>
+    <string name="pref_public_backup_frequency_title">Częstotliwość kopii zapasowej</string>
+    <string name="public_backup_frequency_15m">15 minut</string>
+    <string name="public_backup_frequency_1h">1 godzina</string>
+    <string name="public_backup_frequency_1d">1 dzień</string>
+    <string name="public_backup_frequency_3d">3 dni</string>
+    <string name="public_backup_frequency_7d">7 dni</string>
+    <string name="public_backup_frequency_14d">14 dni</string>
+    <string name="public_backup_frequency_1m">1 miesiąc</string>
+    <string name="automatic_backup">Automatyczna kopia zapasowa</string>
 </resources>

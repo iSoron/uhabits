@@ -28,4 +28,20 @@
     <string name="color_picker_default_title">رەڭ ئۆزگەردى</string>
     <string name="toast_habit_created">ئادەت قۇرۇلدى</string>
     <string name="settings">تەڭشەك</string>
+
+    <string name="pref_public_backup_folder_title">ئاممىۋى زاپاسلاش ھۆججەت قىسقۇچى</string>
+    <string name="pref_public_backup_folder_summary">تاللانغان ھۆججەت قىسقۇچ يوق</string>
+    <string name="pref_public_backup_add_date_title">ھۆججەت نامىنى زاپاسلاش ۋاقتى قوشۇڭ</string>
+    <string name="pref_public_backup_add_date_summary">ئەگەر مېيىپ بولسا, زاپاسلاشنى «ئايلانما قالتىس ساقلاش» قىلىپ ساقلىنىدۇ .db &quot;دا ساقلىنىدۇ.</string>
+    <string name="pref_public_auto_backup_title">ئاممىۋى زاپاسلاشنى ئاپتوماتىك ساقلاڭ</string>
+    <string name="pref_public_auto_backup_summary">تاللانغان ھۆججەت قىسقۇچنى قەرەللىك زاپاسلاش ھاسىل قىلىدۇ</string>
+    <string name="pref_public_backup_frequency_title">زاپاسلاش چاستوتىسى</string>
+    <string name="public_backup_frequency_15m">15 مىنۇت</string>
+    <string name="public_backup_frequency_1h">1 سائەت</string>
+    <string name="public_backup_frequency_1d">1 كۈن</string>
+    <string name="public_backup_frequency_3d">3 كۈن</string>
+    <string name="public_backup_frequency_7d">7 كۈن</string>
+    <string name="public_backup_frequency_14d">14 كۈن</string>
+    <string name="public_backup_frequency_1m">1 ئاي</string>
+    <string name="automatic_backup">ئاپتوماتىك زاپاسلاش</string>
 </resources>

@@ -218,4 +218,20 @@
     <string name="activity_not_found">Tälle toiminnolle ei löytynyt yhtään sovellusta</string>
     <string name="pref_midnight_delay_title">Pidennä päivää muutama tunti keskiyön jälkeen</string>
     <string name="pref_midnight_delay_description">Odota kello 3.00 asti ennen uuden päivän näyttämistä. Hyödyllinen jos menet nukkumaan yleensä keskiyön jälkeen. Vaatii sovelluksen uudelleenkäynnistyksen.</string>
+
+    <string name="pref_public_backup_folder_title">Julkinen varmuuskopiokansio</string>
+    <string name="pref_public_backup_folder_summary">Ei kansiota valittu</string>
+    <string name="pref_public_backup_add_date_title">Lisää päivämäärä varmuuskopiointimeen</string>
+    <string name="pref_public_backup_add_date_summary">Jos varmuuskopio on vammainen, se tallennetaan &quot;silmukkatapojen varmuuskopioksi.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Tallenna julkinen varmuuskopio automaattisesti</string>
+    <string name="pref_public_auto_backup_summary">Luo varmuuskopion valituun kansioon määräajoin</string>
+    <string name="pref_public_backup_frequency_title">Varmuuskopiointitaajuus</string>
+    <string name="public_backup_frequency_15m">15 minuuttia</string>
+    <string name="public_backup_frequency_1h">1 tunti</string>
+    <string name="public_backup_frequency_1d">1 päivä</string>
+    <string name="public_backup_frequency_3d">3 päivää</string>
+    <string name="public_backup_frequency_7d">7 päivää</string>
+    <string name="public_backup_frequency_14d">14 päivää</string>
+    <string name="public_backup_frequency_1m">1 kuukausi</string>
+    <string name="automatic_backup">Automaattinen varmuuskopio</string>
 </resources>

@@ -213,4 +213,20 @@
     <string name="activity_not_found">找不到支持此操作的应用</string>
     <string name="pref_midnight_delay_title">将一天延长到午夜后的几个小时</string>
     <string name="pref_midnight_delay_description">凌晨 3 点后再显示新的一天。如果你通常在午夜后入睡，这会很有用。重启应用后生效。</string>
+
+    <string name="pref_public_backup_folder_title">公共备份文件夹</string>
+    <string name="pref_public_backup_folder_summary">未选择文件夹</string>
+    <string name="pref_public_backup_add_date_title">将日期添加到备份文件名</string>
+    <string name="pref_public_backup_add_date_summary">如果禁用，备份将被保存为“循环习惯backup.db”</string>
+    <string name="pref_public_auto_backup_title">自动保存公共备份</string>
+    <string name="pref_public_auto_backup_summary">定期在选定的文件夹中创建备份</string>
+    <string name="pref_public_backup_frequency_title">备份频率</string>
+    <string name="public_backup_frequency_15m">15分钟</string>
+    <string name="public_backup_frequency_1h">1小时</string>
+    <string name="public_backup_frequency_1d">1天</string>
+    <string name="public_backup_frequency_3d">3天</string>
+    <string name="public_backup_frequency_7d">7天</string>
+    <string name="public_backup_frequency_14d">14天</string>
+    <string name="public_backup_frequency_1m">1个月</string>
+    <string name="automatic_backup">自动备份</string>
 </resources>

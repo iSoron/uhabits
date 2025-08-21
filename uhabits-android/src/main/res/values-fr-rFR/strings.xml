@@ -219,4 +219,20 @@ Combien de pages avez-vous lu ?</string>
     <string name="activity_not_found">Aucune application trouvée pour faire cette action</string>
     <string name="pref_midnight_delay_title">Prolonger les jours de quelques heures après minuit </string>
     <string name="pref_midnight_delay_description">Attendre jusqu\'à trois heures du matin pour changer de jour. Très utile si vous avez l\'habitude d\'aller dormir après minuit. (Redémarrage nécessaire)</string>
+
+    <string name="pref_public_backup_folder_title">Dossier de sauvegarde public</string>
+    <string name="pref_public_backup_folder_summary">Aucun dossier sélectionné</string>
+    <string name="pref_public_backup_add_date_title">Ajouter la date de la sauvegarde du nom de fichier</string>
+    <string name="pref_public_backup_add_date_summary">S\'il est désactivé, la sauvegarde sera enregistrée sous forme de "Loop Habits Backup.db"</string>
+    <string name="pref_public_auto_backup_title">Économisez automatiquement la sauvegarde du public</string>
+    <string name="pref_public_auto_backup_summary">Crée une sauvegarde dans le dossier sélectionné périodiquement</string>
+    <string name="pref_public_backup_frequency_title">Fréquence de sauvegarde</string>
+    <string name="public_backup_frequency_15m">15 minutes</string>
+    <string name="public_backup_frequency_1h">1 heure</string>
+    <string name="public_backup_frequency_1d">1 jour</string>
+    <string name="public_backup_frequency_3d">3 jours</string>
+    <string name="public_backup_frequency_7d">7 jours</string>
+    <string name="public_backup_frequency_14d">14 jours</string>
+    <string name="public_backup_frequency_1m">1 mois</string>
+    <string name="automatic_backup">Sauvegarde automatique</string>
 </resources>

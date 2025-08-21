@@ -52,4 +52,20 @@
     <string name="interval_always_ask">ఎల్లప్పుడూ అడుగు</string>
     <string name="settings">సెట్టింగులు</string>
     <string name="clear_label">తొలగించుము</string>
+
+    <string name="pref_public_backup_folder_title">పబ్లిక్ బ్యాకప్ ఫోల్డర్</string>
+    <string name="pref_public_backup_folder_summary">ఫోల్డర్ ఎంచుకోలేదు</string>
+    <string name="pref_public_backup_add_date_title">బ్యాకప్ ఫైల్ పేరుకు తేదీని జోడించండి</string>
+    <string name="pref_public_backup_add_date_summary">నిలిపివేయబడితే, బ్యాకప్ &quot;లూప్ అలవాట్ల బ్యాకప్.డిబి&quot; గా సేవ్ చేయబడుతుంది</string>
+    <string name="pref_public_auto_backup_title">స్వయంచాలకంగా పబ్లిక్ బ్యాకప్‌ను సేవ్ చేయండి</string>
+    <string name="pref_public_auto_backup_summary">ఎంచుకున్న ఫోల్డర్‌లో క్రమానుగతంగా బ్యాకప్‌ను సృష్టిస్తుంది</string>
+    <string name="pref_public_backup_frequency_title">బ్యాకప్ ఫ్రీక్వెన్సీ</string>
+    <string name="public_backup_frequency_15m">15 నిమిషాలు</string>
+    <string name="public_backup_frequency_1h">1 గంట</string>
+    <string name="public_backup_frequency_1d">1 రోజు</string>
+    <string name="public_backup_frequency_3d">3 రోజులు</string>
+    <string name="public_backup_frequency_7d">7 రోజులు</string>
+    <string name="public_backup_frequency_14d">14 రోజులు</string>
+    <string name="public_backup_frequency_1m">1 నెల</string>
+    <string name="automatic_backup">ఆటోమేటిక్ బ్యాకప్</string>
 </resources>

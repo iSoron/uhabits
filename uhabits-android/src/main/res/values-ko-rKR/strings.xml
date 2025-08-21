@@ -212,4 +212,20 @@
     <string name="activity_not_found">이 작업을 지원하는 앱을 찾을 수 없습니다.</string>
     <string name="pref_midnight_delay_title">하루를 자정 이후까지 연장합니다.</string>
     <string name="pref_midnight_delay_description">오전 3시를 기점으로 하루가 변경됩니다. 자정 이후 잠드는 경우 유용합니다. 변경시 앱 재시작 후 적용됩니다.</string>
+
+    <string name="pref_public_backup_folder_title">공개 백업 폴더</string>
+    <string name="pref_public_backup_folder_summary">폴더가 선택되지 않았습니다</string>
+    <string name="pref_public_backup_add_date_title">백업 파일 이름에 날짜를 추가하십시오</string>
+    <string name="pref_public_backup_add_date_summary">비활성화 된 경우 백업은 &quot;루프 습관 Backup.db&quot;로 저장됩니다.</string>
+    <string name="pref_public_auto_backup_title">공개 백업을 자동으로 저장합니다</string>
+    <string name="pref_public_auto_backup_summary">선택한 폴더에서 주기적으로 백업을 만듭니다</string>
+    <string name="pref_public_backup_frequency_title">백업 주파수</string>
+    <string name="public_backup_frequency_15m">15 분</string>
+    <string name="public_backup_frequency_1h">1 시간</string>
+    <string name="public_backup_frequency_1d">1 일</string>
+    <string name="public_backup_frequency_3d">3 일</string>
+    <string name="public_backup_frequency_7d">7 일</string>
+    <string name="public_backup_frequency_14d">14 일</string>
+    <string name="public_backup_frequency_1m">1 개월</string>
+    <string name="automatic_backup">자동 백업</string>
 </resources>

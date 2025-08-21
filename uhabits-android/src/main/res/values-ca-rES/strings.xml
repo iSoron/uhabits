@@ -209,4 +209,20 @@
     <string name="activity_not_found">No s\'ha trobat cap aplicació per a gestionar aquesta acció</string>
     <string name="pref_midnight_delay_title">Ampliar el dia unes hores després de la mitjanit</string>
     <string name="pref_midnight_delay_description">Esperar fins a les 3:00 per mostrar un nou dia. Útil si normalment vas a dormir després de la mitjanit. Requereix el reinici de l\'aplicació.</string>
+
+    <string name="pref_public_backup_folder_title">Carpeta de còpia de seguretat pública</string>
+    <string name="pref_public_backup_folder_summary">No hi ha cap carpeta seleccionada</string>
+    <string name="pref_public_backup_add_date_title">Afegiu la data al nom de fitxer de còpia de seguretat</string>
+    <string name="pref_public_backup_add_date_summary">Si està desactivat, es guardarà la còpia de seguretat com a &quot;hàbits de bucle còpia de seguretat.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Desar automàticament la còpia de seguretat pública</string>
+    <string name="pref_public_auto_backup_summary">Crea una còpia de seguretat a la carpeta seleccionada periòdicament</string>
+    <string name="pref_public_backup_frequency_title">Freqüència de còpia de seguretat</string>
+    <string name="public_backup_frequency_15m">15 minuts</string>
+    <string name="public_backup_frequency_1h">1 hora</string>
+    <string name="public_backup_frequency_1d">1 dia</string>
+    <string name="public_backup_frequency_3d">3 dies</string>
+    <string name="public_backup_frequency_7d">7 dies</string>
+    <string name="public_backup_frequency_14d">14 dies</string>
+    <string name="public_backup_frequency_1m">1 mes</string>
+    <string name="automatic_backup">Còpia de seguretat automàtica</string>
 </resources>

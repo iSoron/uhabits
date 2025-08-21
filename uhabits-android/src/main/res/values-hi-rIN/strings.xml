@@ -247,4 +247,20 @@
     <string name="activity_not_found">इस कार्रवाई को संभालने के लिए कोई ऐप नहीं मिला</string>
     <string name="pref_midnight_delay_title">मध्यरात्रि से कुछ घंटे बाद तक दिन बढ़ाएँ</string>
     <string name="pref_midnight_delay_description">नया दिन दिखाने के लिए सुबह 3:00 बजे तक प्रतीक्षा करें। उपयोगी अगर आप आमतौर पर आधी रात के बाद सोने जाते हैं। ऐप पुनरारंभ की आवश्यकता होगी।</string>
+
+    <string name="pref_public_backup_folder_title">सार्वजनिक बैकअप फ़ोल्डर</string>
+    <string name="pref_public_backup_folder_summary">कोई फ़ोल्डर चयनित नहीं</string>
+    <string name="pref_public_backup_add_date_title">बैकअप फ़ाइल नाम में दिनांक जोड़ें</string>
+    <string name="pref_public_backup_add_date_summary">यदि अक्षम हो जाता है, तो बैकअप को &quot;लूप आदतें बैकअप&quot; के रूप में सहेजा जाएगा</string>
+    <string name="pref_public_auto_backup_title">स्वचालित रूप से सार्वजनिक बैकअप सहेजें</string>
+    <string name="pref_public_auto_backup_summary">समय -समय पर चयनित फ़ोल्डर में एक बैकअप बनाता है</string>
+    <string name="pref_public_backup_frequency_title">बैकअप आवृत्ति</string>
+    <string name="public_backup_frequency_15m">15 मिनटों</string>
+    <string name="public_backup_frequency_1h">1 घंटे</string>
+    <string name="public_backup_frequency_1d">1 दिन</string>
+    <string name="public_backup_frequency_3d">3 दिन</string>
+    <string name="public_backup_frequency_7d">7 दिन</string>
+    <string name="public_backup_frequency_14d">14 दिन</string>
+    <string name="public_backup_frequency_1m">1 महीना</string>
+    <string name="automatic_backup">स्वत: बैकअप</string>
 </resources>

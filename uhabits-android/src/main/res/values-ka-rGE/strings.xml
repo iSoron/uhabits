@@ -218,4 +218,20 @@
     <string name="activity_not_found">ვერ მოიძებნა აპლიკაცია ამ ოპერაციის განსახორციელებლად</string>
     <string name="pref_midnight_delay_title">ახალი დღის დასაწყისის გადატანა ნაშუაღამევის რამდენიმე საათისთვის</string>
     <string name="pref_midnight_delay_description">ახალი დღის 03:00 საათზე დაწყება. ხელსაყრელია თუ ზოგადად შუაღამის შემდეგ იძინებ. საჭიროებს აპლიკაციის გადატვირთვას.</string>
+
+    <string name="pref_public_backup_folder_title">საჯარო სარეზერვო საქაღალდე</string>
+    <string name="pref_public_backup_folder_summary">არ არის შერჩეული საქაღალდე</string>
+    <string name="pref_public_backup_add_date_title">დაამატეთ თარიღი სარეზერვო ფაილის სახელით</string>
+    <string name="pref_public_backup_add_date_summary">თუ ინვალიდი, სარეზერვო დაზოგვა მოხდება, როგორც &quot;მარყუჟის ჩვევების სარეზერვო. Db&quot;</string>
+    <string name="pref_public_auto_backup_title">ავტომატურად შეინახეთ საჯარო სარეზერვო</string>
+    <string name="pref_public_auto_backup_summary">პერიოდულად ქმნის სარეზერვო ასლს</string>
+    <string name="pref_public_backup_frequency_title">სარეზერვო სიხშირე</string>
+    <string name="public_backup_frequency_15m">15 წუთი</string>
+    <string name="public_backup_frequency_1h">1 საათი</string>
+    <string name="public_backup_frequency_1d">1 დღე</string>
+    <string name="public_backup_frequency_3d">3 დღე</string>
+    <string name="public_backup_frequency_7d">7 დღე</string>
+    <string name="public_backup_frequency_14d">14 დღე</string>
+    <string name="public_backup_frequency_1m">1 თვე</string>
+    <string name="automatic_backup">ავტომატური სარეზერვო</string>
 </resources>

@@ -198,4 +198,20 @@
     <string name="no_habits">Navike nisu pronađene</string>
     <string name="no_numerical_habits">Mjerljive navike nisu pronađene</string>
     <string name="no_boolean_habits">Da/Ne navike nisu pronađene</string>
+
+    <string name="pref_public_backup_folder_title">Javna mapa za sigurnosnu kopiju</string>
+    <string name="pref_public_backup_folder_summary">Nije odabrana mapa</string>
+    <string name="pref_public_backup_add_date_title">Dodajte datum sigurnosnom kopiranju naziva datoteke</string>
+    <string name="pref_public_backup_add_date_summary">Ako je onemogućeno, sigurnosna kopija će se spremiti kao &quot;Loop Habits Backup.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Automatski spremite sigurnosnu kopiju javnosti</string>
+    <string name="pref_public_auto_backup_summary">Povremeno stvara sigurnosnu kopiju u odabranoj mapi</string>
+    <string name="pref_public_backup_frequency_title">Frekvencija sigurnosnih kopija</string>
+    <string name="public_backup_frequency_15m">15 minuta</string>
+    <string name="public_backup_frequency_1h">1 sat</string>
+    <string name="public_backup_frequency_1d">1 dan</string>
+    <string name="public_backup_frequency_3d">3 dana</string>
+    <string name="public_backup_frequency_7d">7 dana</string>
+    <string name="public_backup_frequency_14d">14 dana</string>
+    <string name="public_backup_frequency_1m">1 mjesec</string>
+    <string name="automatic_backup">Automatska sigurnosna kopija</string>
 </resources>

@@ -239,4 +239,20 @@
     <string name="activity_not_found">Не знайдено програми для підтримки цієї дії</string>
     <string name="pref_midnight_delay_title">Продовжити день на кілька годин після опівночі</string>
     <string name="pref_midnight_delay_description">Почекати до 3:00 перед показом нового дня. Корисно, якщо ви зазвичай лягаєте спати після опівночі. Потрібно перезапустити програму.</string>
+
+    <string name="pref_public_backup_folder_title">Публічна резервна папка</string>
+    <string name="pref_public_backup_folder_summary">Жодної папки не вибрано</string>
+    <string name="pref_public_backup_add_date_title">Додайте дату до резервного імені файлу</string>
+    <string name="pref_public_backup_add_date_summary">Якщо вимкнено, резервне копіювання буде збережено як &quot;звички петлі резервні копії.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Автоматично зберегти публічне резервне копіювання</string>
+    <string name="pref_public_auto_backup_summary">Періодично створює резервну копію у вибраній папці</string>
+    <string name="pref_public_backup_frequency_title">Частота резервного копіювання</string>
+    <string name="public_backup_frequency_15m">15 хвилин</string>
+    <string name="public_backup_frequency_1h">1 година</string>
+    <string name="public_backup_frequency_1d">1 день</string>
+    <string name="public_backup_frequency_3d">3 дні</string>
+    <string name="public_backup_frequency_7d">7 днів</string>
+    <string name="public_backup_frequency_14d">14 днів</string>
+    <string name="public_backup_frequency_1m">1 місяць</string>
+    <string name="automatic_backup">Автоматичне резервне копіювання</string>
 </resources>

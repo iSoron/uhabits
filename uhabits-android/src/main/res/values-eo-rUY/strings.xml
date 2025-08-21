@@ -151,4 +151,20 @@
     <string name="pref_view_privacy">Vidu privatecan politikon</string>
     <string name="view_all_contributors">Rigardi ĉiujn kontribuantojn&#8230;</string>
     <string name="database">Datumbazo</string>
+
+    <string name="pref_public_backup_folder_title">Publika Rezerva Dosierujo</string>
+    <string name="pref_public_backup_folder_summary">Neniu dosierujo elektita</string>
+    <string name="pref_public_backup_add_date_title">Aldonu daton al rezerva dosiernomo</string>
+    <string name="pref_public_backup_add_date_summary">Se malebligita, sekurkopio estos konservita kiel &quot;Loop Habits Backup.db&quot;</string>
+    <string name="pref_public_auto_backup_title">Aŭtomate ŝpari publikan sekurkopion</string>
+    <string name="pref_public_auto_backup_summary">Kreas sekurkopion en la elektita dosierujo periode</string>
+    <string name="pref_public_backup_frequency_title">Rezerva frekvenco</string>
+    <string name="public_backup_frequency_15m">15 minutoj</string>
+    <string name="public_backup_frequency_1h">1 horo</string>
+    <string name="public_backup_frequency_1d">1 tago</string>
+    <string name="public_backup_frequency_3d">3 tagoj</string>
+    <string name="public_backup_frequency_7d">7 Tagoj</string>
+    <string name="public_backup_frequency_14d">14 tagoj</string>
+    <string name="public_backup_frequency_1m">1 monato</string>
+    <string name="automatic_backup">Aŭtomata sekurkopio</string>
 </resources>

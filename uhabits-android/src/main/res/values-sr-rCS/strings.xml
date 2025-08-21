@@ -217,4 +217,20 @@
     <string name="activity_not_found">Nema aplikacije koja podržava ovu radnju</string>
     <string name="pref_midnight_delay_title">Produžite dan nekoliko sati iza ponoći</string>
     <string name="pref_midnight_delay_description">Čeka do 03:00 da pokaže novi dan. Korisno ako obično idete na spavanje posle ponoći. Zahteva ponovno pokretanje.</string>
+
+    <string name="pref_public_backup_folder_title">Јавна мапа сигурносне копије</string>
+    <string name="pref_public_backup_folder_summary">Није изабрана мапа</string>
+    <string name="pref_public_backup_add_date_title">Додајте датум за израду резервне копије назива датотеке</string>
+    <string name="pref_public_backup_add_date_summary">Ако је онемогућено, резервна копија ће бити сачувана као &quot;петље навике бацкуп.дб&quot;</string>
+    <string name="pref_public_auto_backup_title">Аутоматски сачувајте јавну резервну копију</string>
+    <string name="pref_public_auto_backup_summary">Повремено креира резервну копију у одабраној фасцикли</string>
+    <string name="pref_public_backup_frequency_title">Резервна копија Фреквенција</string>
+    <string name="public_backup_frequency_15m">15 минута</string>
+    <string name="public_backup_frequency_1h">1 сат</string>
+    <string name="public_backup_frequency_1d">1 дан</string>
+    <string name="public_backup_frequency_3d">3 дана</string>
+    <string name="public_backup_frequency_7d">7 дана</string>
+    <string name="public_backup_frequency_14d">14 дана</string>
+    <string name="public_backup_frequency_1m">1 месец</string>
+    <string name="automatic_backup">Аутоматска резервна копија</string>
 </resources>

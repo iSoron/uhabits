@@ -218,4 +218,20 @@
     <string name="activity_not_found">இந்தச் செயலைச் செய்வதற்கான பயன்பாடு எதுவுமில்லை.</string>
     <string name="pref_midnight_delay_title">நாளை, நள்ளிரவை தாண்டி சில மணிநேரங்கள் நீட்டிக்கவும்</string>
     <string name="pref_midnight_delay_description">புதிய நாளைக் காண்பிக்க அதிகாலை 3:00 மணிவரை காத்திருக்கவும். நீங்கள் பொதுவாக நடுஇரவுக்கு பின் உறங்குபவரரெனில் உபயோகமானது. பயன்பாட்டை மறுதுவக்கம் செய்தல் அவசியமானது</string>
+
+    <string name="pref_public_backup_folder_title">பொது காப்பு கோப்புறை</string>
+    <string name="pref_public_backup_folder_summary">கோப்புறை எதுவும் தேர்ந்தெடுக்கப்படவில்லை</string>
+    <string name="pref_public_backup_add_date_title">காப்புப்பிரதி கோப்பு பெயருக்கு தேதியைச் சேர்க்கவும்</string>
+    <string name="pref_public_backup_add_date_summary">முடக்கப்பட்டால், காப்புப்பிரதி &quot;லூப் பழக்கவழக்கங்கள் காப்புப்பிரதி&quot; என்று சேமிக்கப்படும்</string>
+    <string name="pref_public_auto_backup_title">பொது காப்புப்பிரதியை தானாக சேமிக்கவும்</string>
+    <string name="pref_public_auto_backup_summary">தேர்ந்தெடுக்கப்பட்ட கோப்புறையில் அவ்வப்போது காப்புப்பிரதியை உருவாக்குகிறது</string>
+    <string name="pref_public_backup_frequency_title">காப்பு அதிர்வெண்</string>
+    <string name="public_backup_frequency_15m">15 நிமிடங்கள்</string>
+    <string name="public_backup_frequency_1h">1 மணி நேரம்</string>
+    <string name="public_backup_frequency_1d">1 நாள்</string>
+    <string name="public_backup_frequency_3d">3 நாட்கள்</string>
+    <string name="public_backup_frequency_7d">7 நாட்கள்</string>
+    <string name="public_backup_frequency_14d">14 நாட்கள்</string>
+    <string name="public_backup_frequency_1m">1 மாதம்</string>
+    <string name="automatic_backup">தானியங்கி காப்புப்பிரதி</string>
 </resources>
