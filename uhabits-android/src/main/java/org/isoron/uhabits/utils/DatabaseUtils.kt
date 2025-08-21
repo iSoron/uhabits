@@ -20,7 +20,9 @@ package org.isoron.uhabits.utils
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.net.Uri
 import android.util.Log
+import androidx.documentfile.provider.DocumentFile
 import org.isoron.uhabits.HabitsApplication.Companion.isTestMode
 import org.isoron.uhabits.HabitsDatabaseOpener
 import org.isoron.uhabits.core.DATABASE_FILENAME
@@ -71,6 +73,35 @@ object DatabaseUtils {
         val dbCopy = File(filename)
         db.copyTo(dbCopy)
         return dbCopy.absolutePath
+    }
+
+    @JvmStatic
+    @Throws(IOException::class)
+    fun saveDatabaseCopy(
+        context: Context,
+        folderUri: Uri,
+        add_date: Boolean = true
+    ): String {
+        val dateFormat: SimpleDateFormat = getBackupDateFormat()
+        val filename = if (add_date) {
+            val date = dateFormat.format(getLocalTime())
+            "Loop Habits Backup $date.db"
+        } else {
+            "Loop Habits Backup.db"
+        }
+
+        val folder = DocumentFile.fromTreeUri(context, folderUri)
+            ?: throw IOException("Invalid folder uri")
+        val document = folder.createFile("application/octet-stream", filename)
+            ?: throw IOException("Failed to create backup file")
+
+        context.contentResolver.openOutputStream(document.uri).use { outStream ->
+            val out = outStream ?: throw IOException("Cannot open output stream")
+            getDatabaseFile(context).inputStream().use { inStream ->
+                inStream.copyTo(out)
+            }
+        }
+        return document.uri.toString()
     }
 
     fun openDatabase(): SQLiteDatabase {

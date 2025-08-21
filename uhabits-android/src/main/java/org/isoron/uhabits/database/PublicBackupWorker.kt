@@ -2,13 +2,11 @@ package org.isoron.uhabits.database
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.utils.DatabaseUtils
-import org.isoron.uhabits.utils.UriUtils
-import java.io.File
-import java.io.IOException
 
 class PublicBackupWorker(
     appContext: Context,
@@ -19,13 +17,13 @@ class PublicBackupWorker(
         val app = applicationContext as HabitsApplication
         val prefs = app.component.preferences
         val uriString = prefs.publicBackupUri ?: return Result.failure()
-        val path = UriUtils.getPathFromTreeUri(applicationContext, Uri.parse(uriString))
-            ?: return Result.failure()
+        val folderUri = Uri.parse(uriString)
         return try {
             val addDate = prefs.isPublicBackupAddDateEnabled
-            DatabaseUtils.saveDatabaseCopy(applicationContext, File(path), addDate)
+            DatabaseUtils.saveDatabaseCopy(applicationContext, folderUri, addDate)
             Result.success()
-        } catch (e: IOException) {
+        } catch (e: Exception) {
+            Log.e("PublicBackupWorker", "backup failed", e)
             Result.retry()
         }
     }
