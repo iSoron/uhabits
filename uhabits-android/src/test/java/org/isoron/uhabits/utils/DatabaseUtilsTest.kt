@@ -30,7 +30,7 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import java.io.File
 import java.nio.file.Files
-import kotlin.test.assertTrue
+import org.junit.Assert.assertTrue
 
 class DatabaseUtilsTest {
     private lateinit var baseDir: File
