@@ -97,4 +97,3 @@ class AutoBackup(private val context: Context) {
         }
     }
 }
-

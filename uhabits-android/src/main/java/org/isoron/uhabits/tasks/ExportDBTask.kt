@@ -40,8 +40,8 @@ class ExportDBTask(
         filename = try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             val uriString = prefs.getString("publicBackupFolder", null)
-            // if public backup folder is selected, use it for backup
             if (uriString != null) {
+                // if public backup folder is selected, use it for backup
                 val uri = Uri.parse(uriString)
                 val dir = if (uri.scheme == "content") {
                     DocumentFile.fromTreeUri(context, uri)
@@ -53,8 +53,8 @@ class ExportDBTask(
                 } else {
                     null
                 }
-            // if public backup folder is unset, use default system folder to backup
             } else {
+                // if public backup folder is unset, use default system folder to backup
                 val dir = system.getFilesDir("Backups") ?: return
                 saveDatabaseCopy(context, dir)
             }

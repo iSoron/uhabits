@@ -19,8 +19,8 @@
 
 package org.isoron.uhabits.acceptance.steps
 
-import android.os.Build.VERSION.SDK_INT
 import android.net.Uri
+import android.os.Build.VERSION.SDK_INT
 import androidx.preference.PreferenceManager
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
