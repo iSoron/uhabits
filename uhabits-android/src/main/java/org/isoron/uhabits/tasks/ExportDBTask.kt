@@ -19,10 +19,14 @@
 package org.isoron.uhabits.tasks
 
 import android.content.Context
+import android.net.Uri
+import androidx.documentfile.provider.DocumentFile
+import androidx.preference.PreferenceManager
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.core.tasks.Task
 import org.isoron.uhabits.inject.AppContext
 import org.isoron.uhabits.utils.DatabaseUtils.saveDatabaseCopy
+import java.io.File
 import java.io.IOException
 
 class ExportDBTask(
@@ -34,8 +38,26 @@ class ExportDBTask(
     override fun doInBackground() {
         filename = null
         filename = try {
-            val dir = system.getFilesDir("Backups") ?: return
-            saveDatabaseCopy(context, dir)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val uriString = prefs.getString("publicBackupFolder", null)
+            // if public backup folder is selected, use it for backup
+            if (uriString != null) {
+                val uri = Uri.parse(uriString)
+                val dir = if (uri.scheme == "content") {
+                    DocumentFile.fromTreeUri(context, uri)
+                } else {
+                    DocumentFile.fromFile(File(uri.path!!))
+                }
+                if (dir != null) {
+                    saveDatabaseCopy(context, dir)
+                } else {
+                    null
+                }
+            // if public backup folder is unset, use default system folder to backup
+            } else {
+                val dir = system.getFilesDir("Backups") ?: return
+                saveDatabaseCopy(context, dir)
+            }
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
