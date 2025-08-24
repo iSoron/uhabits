@@ -33,6 +33,8 @@ import org.isoron.uhabits.acceptance.steps.clearDownloadFolder
 import org.isoron.uhabits.acceptance.steps.copyBackupToDownloadFolder
 import org.isoron.uhabits.acceptance.steps.exportFullBackup
 import org.isoron.uhabits.acceptance.steps.importBackupFromDownloadFolder
+import org.isoron.uhabits.acceptance.steps.selectPublicBackupFolder
+import org.isoron.uhabits.acceptance.steps.verifyBackupInDownloadFolder
 import org.junit.Test
 
 @LargeTest
@@ -50,5 +52,15 @@ class BackupTest : BaseUserInterfaceTest() {
         verifyDoesNotDisplayText("Wake up early")
         importBackupFromDownloadFolder()
         verifyDisplaysText("Wake up early")
+    }
+
+    @Test
+    fun shouldExportBackupToPublicFolder() {
+        launchApp()
+        clearDownloadFolder()
+        clearBackupFolder()
+        selectPublicBackupFolder()
+        exportFullBackup()
+        verifyBackupInDownloadFolder()
     }
 }

@@ -20,7 +20,9 @@
 package org.isoron.uhabits.acceptance.steps
 
 import android.os.Build.VERSION.SDK_INT
-import android.os.SystemClock.sleep
+import android.net.Uri
+import androidx.preference.PreferenceManager
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiSelector
 import org.isoron.uhabits.BaseUserInterfaceTest.Companion.device
@@ -28,6 +30,8 @@ import org.isoron.uhabits.acceptance.steps.CommonSteps.clickText
 import org.isoron.uhabits.acceptance.steps.CommonSteps.pressBack
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.SETTINGS
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
+import org.junit.Assert.assertTrue
+import java.io.File
 
 const val BACKUP_FOLDER = "/sdcard/Android/data/org.isoron.uhabits/files/Backups/"
 const val DOWNLOAD_FOLDER = "/sdcard/Download/"
@@ -41,6 +45,7 @@ fun exportFullBackup() {
 
 fun clearDownloadFolder() {
     device.executeShellCommand("rm -rf /sdcard/Download")
+    device.executeShellCommand("mkdir /sdcard/Download")
 }
 
 fun clearBackupFolder() {
@@ -50,6 +55,13 @@ fun clearBackupFolder() {
 fun copyBackupToDownloadFolder() {
     device.executeShellCommand("mv $BACKUP_FOLDER $DOWNLOAD_FOLDER")
     device.executeShellCommand("chown root $DOWNLOAD_FOLDER")
+}
+
+fun selectPublicBackupFolder() {
+    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    val uri = Uri.fromFile(File(DOWNLOAD_FOLDER))
+    prefs.edit().putString("publicBackupFolder", uri.toString()).commit()
 }
 
 fun importBackupFromDownloadFolder() {
@@ -91,6 +103,11 @@ fun importBackupFromDownloadFolder() {
         device.findObject(UiSelector().textContains("Download")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
     }
+}
+
+fun verifyBackupInDownloadFolder() {
+    val listing = device.executeShellCommand("ls $DOWNLOAD_FOLDER")
+    assertTrue(listing.contains("Loop Habits Backup"))
 }
 
 fun openLauncher() {
