@@ -209,4 +209,6 @@
     <string name="activity_not_found">No s\'ha trobat cap aplicació per a gestionar aquesta acció</string>
     <string name="pref_midnight_delay_title">Ampliar el dia unes hores després de la mitjanit</string>
     <string name="pref_midnight_delay_description">Esperar fins a les 3:00 per mostrar un nou dia. Útil si normalment vas a dormir després de la mitjanit. Requereix el reinici de l\'aplicació.</string>
+    <string name="select_public_backup_folder">Seleccioneu la carpeta pública de còpia de seguretat</string>
+    <string name="no_public_backup_folder_selected">No s\'ha seleccionat cap carpeta</string>
 </resources>

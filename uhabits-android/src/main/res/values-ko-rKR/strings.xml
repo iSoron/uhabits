@@ -212,4 +212,6 @@
     <string name="activity_not_found">이 작업을 지원하는 앱을 찾을 수 없습니다.</string>
     <string name="pref_midnight_delay_title">하루를 자정 이후까지 연장합니다.</string>
     <string name="pref_midnight_delay_description">오전 3시를 기점으로 하루가 변경됩니다. 자정 이후 잠드는 경우 유용합니다. 변경시 앱 재시작 후 적용됩니다.</string>
+    <string name="select_public_backup_folder">공용 백업 폴더 선택</string>
+    <string name="no_public_backup_folder_selected">선택된 폴더가 없습니다</string>
 </resources>

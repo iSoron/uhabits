@@ -217,4 +217,6 @@
     <string name="activity_not_found">Nema aplikacije koja podržava ovu radnju</string>
     <string name="pref_midnight_delay_title">Produžite dan nekoliko sati iza ponoći</string>
     <string name="pref_midnight_delay_description">Čeka do 03:00 da pokaže novi dan. Korisno ako obično idete na spavanje posle ponoći. Zahteva ponovno pokretanje.</string>
+    <string name="select_public_backup_folder">Izaberite javni folder za rezervnu kopiju</string>
+    <string name="no_public_backup_folder_selected">Nijedan folder nije izabran</string>
 </resources>

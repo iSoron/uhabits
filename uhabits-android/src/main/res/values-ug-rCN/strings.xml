@@ -28,4 +28,6 @@
     <string name="color_picker_default_title">رەڭ ئۆزگەردى</string>
     <string name="toast_habit_created">ئادەت قۇرۇلدى</string>
     <string name="settings">تەڭشەك</string>
+    <string name="select_public_backup_folder">ئاممىۋى زاپاس قىسقۇچىنى تاللاڭ</string>
+    <string name="no_public_backup_folder_selected">ھېچقانداق قىسقۇچ تاللانمىدى</string>
 </resources>

@@ -193,4 +193,6 @@
     <string name="activity_not_found">Nu a fost găsită nicio aplicație care să efectueze această acțiune.</string>
     <string name="pref_midnight_delay_title">Extinde ziua câteva ore după miezul nopții</string>
     <string name="pref_midnight_delay_description">Așteaptă până la ora 3:00 dimineața pentru a arăta o nouă zi. O funcție utilă dacă în mod normal obișnuiești să mergi la somn după miezul nopții. Necesită repornirea aplicației.</string>
+    <string name="select_public_backup_folder">Selectează dosarul public pentru backup</string>
+    <string name="no_public_backup_folder_selected">Niciun dosar selectat</string>
 </resources>

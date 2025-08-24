@@ -230,4 +230,6 @@
     <string name="activity_not_found">Najdena ni bila nobena aplikacija, ki bi podpirala to dejanje</string>
     <string name="pref_midnight_delay_title">Podaljšajte dan nekaj ur čez polnoč</string>
     <string name="pref_midnight_delay_description">Počakajte do 3.00, da prikažete nov dan. Uporabno, če greste običajno spat po polnoči. Zahteva ponovni zagon aplikacije.</string>
+    <string name="select_public_backup_folder">Izberite javno mapo za varnostne kopije</string>
+    <string name="no_public_backup_folder_selected">Mapa ni izbrana</string>
 </resources>

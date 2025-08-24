@@ -135,6 +135,8 @@
     <string name="import_data_summary">Поддерживает полные резервные копии, экспортированные из этого приложения, а также файлы, сгенерированные приложениями Tickmate, HabitBull и Rewire. Подробнее смотрите в FAQ.</string>
     <string name="export_as_csv_summary">Генерирует файлы, которые можно открыть в ПО для работы с таблицами (таком как Microsoft Excel или OpenOffice Calc). Этот файл нельзя импортировать обратно.</string>
     <string name="export_full_backup_summary">Генерирует файл, который содержит все ваши данные. Этот файл можно импортировать обратно.</string>
+    <string name="select_public_backup_folder">Выбрать публичную папку для резервных копий</string>
+    <string name="no_public_backup_folder_selected">Папка не выбрана</string>
     <string name="bug_report_failed">Ошибка генерации отчёта об ошибке.</string>
     <string name="generate_bug_report">Сгенерировать отчёт об ошибке</string>
     <string name="troubleshooting">Устранение неполадок</string>

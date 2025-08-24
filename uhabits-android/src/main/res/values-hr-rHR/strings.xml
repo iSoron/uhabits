@@ -198,4 +198,6 @@
     <string name="no_habits">Navike nisu pronađene</string>
     <string name="no_numerical_habits">Mjerljive navike nisu pronađene</string>
     <string name="no_boolean_habits">Da/Ne navike nisu pronađene</string>
+    <string name="select_public_backup_folder">Odaberite javnu mapu sigurnosne kopije</string>
+    <string name="no_public_backup_folder_selected">Nije odabrana nijedna mapa</string>
 </resources>

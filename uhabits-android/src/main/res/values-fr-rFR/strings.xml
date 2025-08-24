@@ -219,4 +219,6 @@ Combien de pages avez-vous lu ?</string>
     <string name="activity_not_found">Aucune application trouvée pour faire cette action</string>
     <string name="pref_midnight_delay_title">Prolonger les jours de quelques heures après minuit </string>
     <string name="pref_midnight_delay_description">Attendre jusqu\'à trois heures du matin pour changer de jour. Très utile si vous avez l\'habitude d\'aller dormir après minuit. (Redémarrage nécessaire)</string>
+    <string name="select_public_backup_folder">Sélectionner le dossier de sauvegarde public</string>
+    <string name="no_public_backup_folder_selected">Aucun dossier sélectionné</string>
 </resources>

@@ -218,4 +218,6 @@
     <string name="activity_not_found">هیچ برنامه‌ای برای انجام این کار یافت نشد.</string>
     <string name="pref_midnight_delay_title">تمدید کردن روز تا چند ساعت بعد از نیمه‌شب</string>
     <string name="pref_midnight_delay_description">تا ساعت ۳ نیمه‌شب برای نمایش یک روز جدید صبر می‌کند. اگر معمولاً بعد از نیمه‌شب می‌خوابید، برای شما می‌تواند مفید باشد. نیازمند راه‌اندازی مجدد برنامه است.</string>
+    <string name="select_public_backup_folder">انتخاب پوشهٔ پشتیبان‌گیری عمومی</string>
+    <string name="no_public_backup_folder_selected">هیچ پوشه‌ای انتخاب نشده است</string>
 </resources>
