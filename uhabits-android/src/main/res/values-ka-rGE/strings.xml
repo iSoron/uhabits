@@ -218,4 +218,6 @@
     <string name="activity_not_found">ვერ მოიძებნა აპლიკაცია ამ ოპერაციის განსახორციელებლად</string>
     <string name="pref_midnight_delay_title">ახალი დღის დასაწყისის გადატანა ნაშუაღამევის რამდენიმე საათისთვის</string>
     <string name="pref_midnight_delay_description">ახალი დღის 03:00 საათზე დაწყება. ხელსაყრელია თუ ზოგადად შუაღამის შემდეგ იძინებ. საჭიროებს აპლიკაციის გადატვირთვას.</string>
+    <string name="select_public_backup_folder">აირჩიეთ საჯარო სარეზერვო საქაღალდე</string>
+    <string name="no_public_backup_folder_selected">საქაღალდე არჩეული არ არის</string>
 </resources>

@@ -216,4 +216,6 @@
     <string name="activity_not_found">Ez da aurkitu akzio hau gauzatu dezakeen aplikaziorik</string>
     <string name="pref_midnight_delay_title">Luzatu eguna gauerdia osteko ordu batzuetara</string>
     <string name="pref_midnight_delay_description">Itxaron goizeko 3:00ak arte egun berri bat erakusteko. Erabilgarria normalean gauerdia pasata lotara joaten bazara. Aplikazioa berrabiarazi behar da.</string>
+    <string name="select_public_backup_folder">Hautatu babeskopia publikoaren karpeta</string>
+    <string name="no_public_backup_folder_selected">Ez da karpetarik hautatu</string>
 </resources>

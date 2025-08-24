@@ -151,4 +151,6 @@
     <string name="pref_view_privacy">Vidu privatecan politikon</string>
     <string name="view_all_contributors">Rigardi ĉiujn kontribuantojn&#8230;</string>
     <string name="database">Datumbazo</string>
+    <string name="select_public_backup_folder">Elektu publikan sekurkopi-dosierujon</string>
+    <string name="no_public_backup_folder_selected">Neniu dosierujo elektita</string>
 </resources>

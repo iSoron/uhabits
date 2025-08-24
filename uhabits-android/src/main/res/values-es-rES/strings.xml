@@ -218,4 +218,6 @@
     <string name="activity_not_found">No se encontró ninguna aplicación que admita esta acción</string>
     <string name="pref_midnight_delay_title">Ampliar día unas horas después de medianoche</string>
     <string name="pref_midnight_delay_description">Esperar hasta las 3:00 AM para mostrar un nuevo día. Útil si normalmente vas a dormir después de medianoche. Requiere reiniciar la aplicación.</string>
+    <string name="select_public_backup_folder">Seleccionar carpeta de copia de seguridad pública</string>
+    <string name="no_public_backup_folder_selected">Ninguna carpeta seleccionada</string>
 </resources>

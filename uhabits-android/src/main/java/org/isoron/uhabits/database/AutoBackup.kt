@@ -20,7 +20,10 @@
 package org.isoron.uhabits.database
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
+import androidx.documentfile.provider.DocumentFile
+import androidx.preference.PreferenceManager
 import org.isoron.uhabits.AndroidDirFinder
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.utils.DatabaseUtils
@@ -28,37 +31,69 @@ import java.io.File
 
 class AutoBackup(private val context: Context) {
 
-    private val basedir = AndroidDirFinder(context).getFilesDir("Backups")!!
+    private val backupPattern = Regex("^Loop Habits Backup .+\\.db$")
 
     fun run(keep: Int = 5) {
         Log.i("AutoBackup", "Starting automatic backups...")
-        val files = listBackupFiles()
-        var newestTimestamp = 0L
-        if (files.isNotEmpty()) {
-            newestTimestamp = files.last().lastModified()
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val uriString = prefs.getString("publicBackupFolder", null)
+        if (uriString != null) {
+            val uri = Uri.parse(uriString)
+            val dir = if (uri.scheme == "content") {
+                DocumentFile.fromTreeUri(context, uri)
+            } else {
+                DocumentFile.fromFile(File(uri.path!!))
+            }
+            if (dir != null) {
+                runInPublicDir(dir, keep)
+                return
+            }
         }
+
+        val basedir = AndroidDirFinder(context).getFilesDir("Backups") ?: return
+        runInPrivateDir(basedir, keep)
+    }
+
+    private fun runInPrivateDir(dir: File, keep: Int) {
+        val files = dir.listFiles()?.toMutableList() ?: mutableListOf()
+        files.sortBy { it.lastModified() }
+        val newestTimestamp = files.lastOrNull()?.lastModified() ?: 0L
+        removeOldestPrivate(files, keep)
         val now = DateUtils.getLocalTime()
-        removeOldest(files, keep)
         if (now - newestTimestamp > DateUtils.DAY_LENGTH) {
-            DatabaseUtils.saveDatabaseCopy(context, basedir)
+            DatabaseUtils.saveDatabaseCopy(context, dir)
         } else {
             Log.i("AutoBackup", "Fresh backup found (timestamp=$newestTimestamp)")
         }
     }
 
-    private fun removeOldest(files: ArrayList<File>, keep: Int) {
-        files.sortBy { -it.lastModified() }
-        for (k in keep until files.size) {
-            Log.i("AutoBackup", "Removing ${files[k]}")
-            files[k].delete()
+    private fun runInPublicDir(dir: DocumentFile, keep: Int) {
+        val files = dir.listFiles()
+            .filter { it.isFile && it.name?.matches(backupPattern) == true }
+            .sortedBy { it.lastModified() }
+        val newestTimestamp = files.lastOrNull()?.lastModified() ?: 0L
+        removeOldestPublic(files, keep)
+        val now = DateUtils.getLocalTime()
+        if (now - newestTimestamp > DateUtils.DAY_LENGTH) {
+            DatabaseUtils.saveDatabaseCopy(context, dir)
+        } else {
+            Log.i("AutoBackup", "Fresh backup found (timestamp=$newestTimestamp)")
         }
     }
 
-    private fun listBackupFiles(): ArrayList<File> {
-        val files = ArrayList<File>()
-        for (path in basedir.list()!!) {
-            files.add(File("${basedir.path}/$path"))
+    private fun removeOldestPrivate(files: List<File>, keep: Int) {
+        for (k in 0 until (files.size - keep)) {
+            val file = files[k]
+            Log.i("AutoBackup", "Removing $file")
+            file.delete()
         }
-        return files
+    }
+
+    private fun removeOldestPublic(files: List<DocumentFile>, keep: Int) {
+        for (k in 0 until (files.size - keep)) {
+            val file = files[k]
+            Log.i("AutoBackup", "Removing ${file.uri}")
+            file.delete()
+        }
     }
 }

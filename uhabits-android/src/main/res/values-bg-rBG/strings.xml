@@ -218,4 +218,6 @@
     <string name="activity_not_found">Не е намерено приложение, което да поддържа това действие</string>
     <string name="pref_midnight_delay_title">Удължаване на деня с няколко часа след полунощ</string>
     <string name="pref_midnight_delay_description">Изчакване до 3:00 часа сутринта за показване на нов ден. Полезно, ако обичайно си лягате да спите след полунощ. Изисква рестартиране на приложението.</string>
+    <string name="select_public_backup_folder">Изберете публична папка за резервни копия</string>
+    <string name="no_public_backup_folder_selected">Не е избрана папка</string>
 </resources>

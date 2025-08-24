@@ -227,4 +227,6 @@
     <string name="activity_not_found">Ingen app som stödjer åtgärden hittades.</string>
     <string name="pref_midnight_delay_title">Förläng dagen några timmar efter midnatt</string>
     <string name="pref_midnight_delay_description">Vänta till 3:00 innan en ny dag visas. Användbart om du vanligtvis går och lägger dig efter midnatt. Kräver omstart av appen.</string>
+    <string name="select_public_backup_folder">Välj offentlig säkerhetskopieringsmapp</string>
+    <string name="no_public_backup_folder_selected">Ingen mapp vald</string>
 </resources>

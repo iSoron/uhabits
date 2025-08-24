@@ -218,4 +218,6 @@
     <string name="activity_not_found">ഈ പ്രവർത്തനത്തെ പിന്തുണയ്ക്കുന്ന ഒരു ആപ്പും കണ്ടെത്തിയില്ല</string>
     <string name="pref_midnight_delay_title">അർദ്ധരാത്രി കഴിഞ്ഞ് കുറച്ച് മണിക്കൂറുകൾ പകൽ നീട്ടുക</string>
     <string name="pref_midnight_delay_description">ഒരു പുതിയ ദിവസം കാണിക്കാൻ 3:00 AM വരെ കാത്തിരിക്കുക.  നിങ്ങൾ സാധാരണയായി അർദ്ധരാത്രിക്ക് ശേഷം ഉറങ്ങാൻ പോകുകയാണെങ്കിൽ ഉപയോഗപ്രദമാണ്.  ആപ്പ് പുനരാരംഭിക്കേണ്ടതുണ്ട്.</string>
+    <string name="select_public_backup_folder">പൊതു ബാക്കപ്പ് ഫോൾഡർ തിരഞ്ഞെടുക്കുക</string>
+    <string name="no_public_backup_folder_selected">ഫോൾഡർ ഒന്നും തിരഞ്ഞെടുത്തിട്ടില്ല</string>
 </resources>

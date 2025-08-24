@@ -38,4 +38,6 @@
     <string name="interval_8_hour">8 ure</string>
     <string name="interval_24_hour">24 ure</string>
     <string name="settings">Instellings</string>
+    <string name="select_public_backup_folder">Kies openbare rugsteunmap</string>
+    <string name="no_public_backup_folder_selected">Geen vouer gekies nie</string>
 </resources>

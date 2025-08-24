@@ -17,4 +17,6 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"></resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">    <string name="select_public_backup_folder">જાહેર બેકઅપ ફોલ્ડર પસંદ કરો</string>
+    <string name="no_public_backup_folder_selected">કોઈ ફોલ્ડર પસંદ કરાયેલ નથી</string>
+</resources>

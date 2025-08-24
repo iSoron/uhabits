@@ -52,4 +52,6 @@
     <string name="interval_always_ask">ఎల్లప్పుడూ అడుగు</string>
     <string name="settings">సెట్టింగులు</string>
     <string name="clear_label">తొలగించుము</string>
+    <string name="select_public_backup_folder">పబ్లిక్ బ్యాకప్ ఫోల్డర్‌ను ఎంచుకోండి</string>
+    <string name="no_public_backup_folder_selected">ఏ ఫోల్డర్‌ కూడా ఎంపిక చేయబడలేదు</string>
 </resources>

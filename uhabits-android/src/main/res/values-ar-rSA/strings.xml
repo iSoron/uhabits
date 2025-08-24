@@ -242,4 +242,6 @@
     <string name="activity_not_found">لم يتم العثور على تطبيق لإتمام هذا الإجراء</string>
     <string name="pref_midnight_delay_title">تمديد اليوم بضع ساعات بعد منتصف الليل</string>
     <string name="pref_midnight_delay_description">انتظر حتى 3:00 صباحاً لعرض يوم جديد. مفيد إذا كنت عادة تذهب إلى السكون بعد منتصف الليل. يتطلب إعادة تشغيل التطبيق.</string>
+    <string name="select_public_backup_folder">اختر مجلد النسخ الاحتياطي العام</string>
+    <string name="no_public_backup_folder_selected">لم يتم اختيار مجلد</string>
 </resources>

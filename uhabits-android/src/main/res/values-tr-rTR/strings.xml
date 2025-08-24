@@ -218,4 +218,6 @@
     <string name="activity_not_found">Bu işlemi gerçekleştirebilecek bir uygulama bulunamadı.</string>
     <string name="pref_midnight_delay_title">Yeni günü gece yarısından birkaç saat sonra başlat</string>
     <string name="pref_midnight_delay_description">Yeni gün saat 03:00\'ten sonra başlar. Geç saatlerde uyuyanlar için kullanışlıdır. Uygulamanın yeniden başlatılmasını gerektirir.</string>
+    <string name="select_public_backup_folder">Genel yedekleme klasörünü seç</string>
+    <string name="no_public_backup_folder_selected">Klasör seçilmedi</string>
 </resources>

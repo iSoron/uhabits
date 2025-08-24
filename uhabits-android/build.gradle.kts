@@ -106,6 +106,7 @@ dependencies {
     implementation(libs.legacy.preference.v14)
     implementation(libs.legacy.support.v4)
     implementation(libs.material)
+    implementation(libs.documentfile)
     implementation(libs.opencsv)
     implementation(libs.konfetti.xml)
     implementation(project(":uhabits-core"))

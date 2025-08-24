@@ -82,4 +82,6 @@
     <string name="x_times_per_month">Ամսական %d անգամ</string>
     <string name="color">Գույն</string>
     <string name="today">Այսօր</string>
+    <string name="select_public_backup_folder">Ընտրեք հանրային պահուստային թղթապանակը</string>
+    <string name="no_public_backup_folder_selected">Թղթապանակ չի ընտրվել</string>
 </resources>

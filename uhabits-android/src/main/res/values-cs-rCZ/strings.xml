@@ -230,4 +230,6 @@
     <string name="activity_not_found">Nenalezen program podporující tento krok</string>
     <string name="pref_midnight_delay_title">Prodloužit den o pár hodin po půlnoci</string>
     <string name="pref_midnight_delay_description">Počkat do tří ráno pro zobrazení nového dne. Užitečné, pokud chodíte spát po půlnoci. Vyžaduje restartování aplikace. </string>
+    <string name="select_public_backup_folder">Vyberte veřejnou složku zálohy</string>
+    <string name="no_public_backup_folder_selected">Nebyla vybrána žádná složka</string>
 </resources>

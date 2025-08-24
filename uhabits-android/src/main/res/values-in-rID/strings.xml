@@ -221,4 +221,6 @@
     <string name="activity_not_found">Aplikasi untuk mendukung tindakan ini tidak ditemukan</string>
     <string name="pref_midnight_delay_title">Perpanjang hari beberapa jam setelah tengah malam</string>
     <string name="pref_midnight_delay_description">Tunggu sampai jam 3 pagi untuk menampilkan hari yang baru. Berguna jika kamu biasanya tidur setelah tengah malam. Aplikasi perlu dimulai ulang.</string>
+    <string name="select_public_backup_folder">Pilih folder cadangan publik</string>
+    <string name="no_public_backup_folder_selected">Tidak ada folder yang dipilih</string>
 </resources>

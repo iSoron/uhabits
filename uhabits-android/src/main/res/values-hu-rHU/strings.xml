@@ -223,4 +223,6 @@
     <string name="activity_not_found">Ezen művelet elvégzéséhez nem található alkalmazás.</string>
     <string name="pref_midnight_delay_title">A nap meghosszabbítása éjfél után néhány órával</string>
     <string name="pref_midnight_delay_description">Várjon hajnali 3 -ig, hogy új napot mutasson. Hasznos, ha általában éjfél után fekszik le. Az alkalmazás újraindítását igényli.</string>
+    <string name="select_public_backup_folder">Nyilvános biztonsági mentési mappa kiválasztása</string>
+    <string name="no_public_backup_folder_selected">Nincs mappa kiválasztva</string>
 </resources>

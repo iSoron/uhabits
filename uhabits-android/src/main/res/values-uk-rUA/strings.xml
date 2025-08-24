@@ -239,4 +239,6 @@
     <string name="activity_not_found">Не знайдено програми для підтримки цієї дії</string>
     <string name="pref_midnight_delay_title">Продовжити день на кілька годин після опівночі</string>
     <string name="pref_midnight_delay_description">Почекати до 3:00 перед показом нового дня. Корисно, якщо ви зазвичай лягаєте спати після опівночі. Потрібно перезапустити програму.</string>
+    <string name="select_public_backup_folder">Виберіть загальнодоступну теку для резервних копій</string>
+    <string name="no_public_backup_folder_selected">Теку не вибрано</string>
 </resources>

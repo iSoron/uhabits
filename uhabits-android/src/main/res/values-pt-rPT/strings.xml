@@ -178,4 +178,6 @@
     <string name="decrement">Decrementar</string>
     <string name="you_are_now_a_developer">Agora é um programador!</string>
     <string name="activity_not_found">Nenhuma aplicação foi encontrada para oferecer suporte a esta ação</string>
+    <string name="select_public_backup_folder">Selecionar pasta pública de cópia de segurança</string>
+    <string name="no_public_backup_folder_selected">Nenhuma pasta selecionada</string>
 </resources>
