@@ -185,6 +185,7 @@
     <string name="calendar">Calendar</string>
     <string name="unit">Unit</string>
     <string name="history_type">History Type</string>
+    <string name="include_empty_days">Include empty days</string>
     <string name="target_type">Target Type</string>
     <string name="target_type_at_least">At least</string>
     <string name="target_type_at_most">At most</string>

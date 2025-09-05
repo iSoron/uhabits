@@ -338,33 +338,33 @@ fun List<Entry>.groupedSum(
 fun List<Entry>.groupedAverage(
     truncateField: DateUtils.TruncateField,
     firstWeekday: Int = Calendar.SATURDAY,
-    isNumerical: Boolean
+    isNumerical: Boolean,
+    emptyDaysMode: NumericalEmptyDaysMode
 ): List<Entry> =
     this
         .map { (timestamp, value) ->
             if (isNumerical) {
                 if (value == SKIP) Entry(timestamp, 0)
-                else Entry(timestamp, max(0, value))
+                else Entry(timestamp, max(0, value)) // UNKNOWN/negatives -> 0
             } else {
                 Entry(timestamp, if (value == YES_MANUAL) 1000 else 0)
             }
         }
         .groupBy { entry ->
-            when (truncateField) {
-                DateUtils.TruncateField.WEEK_NUMBER ->
-                    entry.timestamp.truncate(truncateField, firstWeekday)
-                else ->
-                    entry.timestamp.truncate(truncateField, firstWeekday)
-            }
+            entry.timestamp.truncate(truncateField, firstWeekday)
         }
         .entries.map { (timestamp, entries) ->
-            val nonEmpty = entries.filter { it.value > 0}
-            val avg = if (nonEmpty.isEmpty()) 0
-            else nonEmpty.map { it.value }.average().roundToInt()
+            val values = when (emptyDaysMode) {
+                NumericalEmptyDaysMode.INCLUDE_EMPTY ->
+                    entries.map { it.value }
+                NumericalEmptyDaysMode.EXCLUDE_EMPTY ->
+                    entries.map { it.value }.filter { it > 0 }
+            }
+            val avg = if (values.isEmpty()) 0 else values.average().roundToInt()
             Entry(timestamp, avg)
         }
-        // 4) Sort buckets (latest first)
         .sortedByDescending { (timestamp, _) -> timestamp.unixTime }
+
 
 /**
  * Counts the number of days with vaLue SKIP in the given period.

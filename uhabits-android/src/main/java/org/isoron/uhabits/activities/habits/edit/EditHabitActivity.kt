@@ -47,6 +47,7 @@ import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.NumericalEmptyDaysMode
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.NumericalHistoryType
 import org.isoron.uhabits.core.models.PaletteColor
@@ -86,6 +87,7 @@ class EditHabitActivity : AppCompatActivity() {
     var reminderMin = -1
     var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
     var historyType = NumericalHistoryType.TOTAL
+    var emptyDaysMode = NumericalEmptyDaysMode.EXCLUDE_EMPTY
     var targetType = NumericalHabitType.AT_LEAST
 
     override fun onCreate(state: Bundle?) {
@@ -109,6 +111,7 @@ class EditHabitActivity : AppCompatActivity() {
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
             historyType = habit.historyType
+            emptyDaysMode = habit.emptyDaysMode
             targetType = habit.targetType
             habit.reminder?.let {
                 reminderHour = it.hour
@@ -189,6 +192,24 @@ class EditHabitActivity : AppCompatActivity() {
                     else -> NumericalHistoryType.AVERAGE
                 }
                 populateHistoryType()
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.dismissCurrentAndShow()
+        }
+
+        populateIncludeEmptyDays()
+        binding.includeEmptyDaysPicker.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.select_dialog_item)
+            arrayAdapter.add(getString(R.string.yes))
+            arrayAdapter.add(getString(R.string.no))
+            builder.setAdapter(arrayAdapter) { dialog, which ->
+                emptyDaysMode = when (which) {
+                    0 -> NumericalEmptyDaysMode.INCLUDE_EMPTY
+                    else -> NumericalEmptyDaysMode.EXCLUDE_EMPTY
+                }
+                populateIncludeEmptyDays()
                 dialog.dismiss()
             }
             val dialog = builder.create()
@@ -308,6 +329,7 @@ class EditHabitActivity : AppCompatActivity() {
             habit.unit = binding.unitInput.text.trim().toString()
         }
         habit.type = habitType
+        habit.emptyDaysMode = emptyDaysMode
 
         val command = if (habitId >= 0) {
             EditHabitCommand(
@@ -370,6 +392,13 @@ class EditHabitActivity : AppCompatActivity() {
         binding.historyTypePicker.text = when (historyType) {
             NumericalHistoryType.TOTAL -> getString(R.string.total)
             else -> getString(R.string.average)
+        }
+    }
+
+    private fun populateIncludeEmptyDays() {
+        binding.includeEmptyDaysPicker.text = when (emptyDaysMode) {
+            NumericalEmptyDaysMode.EXCLUDE_EMPTY -> getString(R.string.no)
+            else -> getString(R.string.yes)
         }
     }
     private fun populateTargetType() {

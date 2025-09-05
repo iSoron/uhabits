@@ -70,7 +70,8 @@ class BarCardPresenter(
                 NumericalHistoryType.AVERAGE -> habit.computedEntries.getByInterval(oldest, today).groupedAverage(
                     truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
                     firstWeekday = firstWeekday,
-                    isNumerical = habit.isNumerical
+                    isNumerical = habit.isNumerical,
+                    emptyDaysMode = habit.emptyDaysMode
                 )
             }
             return BarCardState(

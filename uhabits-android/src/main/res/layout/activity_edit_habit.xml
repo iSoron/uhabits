@@ -172,19 +172,58 @@
             </FrameLayout>
 
             <!-- History Type -->
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/historyTypeOuterBox"
-                style="@style/FormOuterBox">
-                <LinearLayout style="@style/FormInnerBox">
-                    <TextView
-                        style="@style/FormLabel"
-                        android:text="@string/history_type" />
-                    <TextView
-                        style="@style/FormDropdown"
-                        android:id="@+id/historyTypePicker"
-                        android:text="@string/total" />
-                </LinearLayout>
-            </FrameLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/history_type" />
+                        <TextView
+                            style="@style/FormDropdown"
+                            android:id="@+id/historyTypePicker"
+                            android:text="@string/total"
+                            android:textColor="?attr/contrast100"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+                <FrameLayout
+                    style="@style/FormOuterBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout style="@style/FormInnerBox">
+                        <TextView
+                            style="@style/FormLabel"
+                            android:text="@string/include_empty_days" />
+                        <TextView
+                            style="@style/FormDropdown"
+                            android:id="@+id/includeEmptyDaysPicker"
+                            android:text="@string/no"
+                            android:textColor="?attr/contrast100"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+<!--            <FrameLayout-->
+<!--                android:id="@+id/historyTypeOuterBox"-->
+<!--                style="@style/FormOuterBox">-->
+<!--                <LinearLayout style="@style/FormInnerBox">-->
+<!--                    <TextView-->
+<!--                        style="@style/FormLabel"-->
+<!--                        android:text="@string/history_type" />-->
+<!--                    <TextView-->
+<!--                        style="@style/FormDropdown"-->
+<!--                        android:id="@+id/historyTypePicker"-->
+<!--                        android:text="@string/total" />-->
+<!--                </LinearLayout>-->
+<!--            </FrameLayout>-->
 
             <LinearLayout
                 android:id="@+id/targetOuterBox"

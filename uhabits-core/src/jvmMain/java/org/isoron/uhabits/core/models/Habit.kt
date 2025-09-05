@@ -32,6 +32,7 @@ data class Habit(
     var question: String = "",
     var reminder: Reminder? = null,
     var historyType: NumericalHistoryType = NumericalHistoryType.TOTAL,
+    var emptyDaysMode: NumericalEmptyDaysMode = NumericalEmptyDaysMode.EXCLUDE_EMPTY,
     var targetType: NumericalHabitType = NumericalHabitType.AT_LEAST,
     var targetValue: Double = 0.0,
     var type: HabitType = HabitType.YES_NO,
@@ -119,6 +120,7 @@ data class Habit(
         this.question = other.question
         this.reminder = other.reminder
         this.historyType = other.historyType
+        this.emptyDaysMode = other.emptyDaysMode
         this.targetType = other.targetType
         this.targetValue = other.targetValue
         this.type = other.type
@@ -140,6 +142,7 @@ data class Habit(
         if (question != other.question) return false
         if (reminder != other.reminder) return false
         if (historyType != other.historyType) return false
+        if (emptyDaysMode != other.emptyDaysMode) return false
         if (targetType != other.targetType) return false
         if (targetValue != other.targetValue) return false
         if (type != other.type) return false
@@ -160,6 +163,7 @@ data class Habit(
         result = 31 * result + question.hashCode()
         result = 31 * result + (reminder?.hashCode() ?: 0)
         result = 31 * result + historyType.value
+        result = 31 * result + emptyDaysMode.value
         result = 31 * result + targetType.value
         result = 31 * result + targetValue.hashCode()
         result = 31 * result + type.value
