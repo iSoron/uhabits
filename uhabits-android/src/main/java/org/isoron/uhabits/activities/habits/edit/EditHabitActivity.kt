@@ -48,6 +48,7 @@ import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType
+import org.isoron.uhabits.core.models.NumericalHistoryType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
@@ -84,6 +85,7 @@ class EditHabitActivity : AppCompatActivity() {
     var reminderHour = -1
     var reminderMin = -1
     var reminderDays: WeekdayList = WeekdayList.EVERY_DAY
+    var historyType = NumericalHistoryType.TOTAL
     var targetType = NumericalHabitType.AT_LEAST
 
     override fun onCreate(state: Bundle?) {
@@ -106,6 +108,7 @@ class EditHabitActivity : AppCompatActivity() {
             color = habit.color
             freqNum = habit.frequency.numerator
             freqDen = habit.frequency.denominator
+            historyType = habit.historyType
             targetType = habit.targetType
             habit.reminder?.let {
                 reminderHour = it.hour
@@ -137,6 +140,7 @@ class EditHabitActivity : AppCompatActivity() {
         when (habitType) {
             HabitType.YES_NO -> {
                 binding.unitOuterBox.visibility = View.GONE
+                binding.historyTypeOuterBox.visibility = View.GONE
                 binding.targetOuterBox.visibility = View.GONE
                 binding.targetTypeOuterBox.visibility = View.GONE
             }
@@ -171,6 +175,24 @@ class EditHabitActivity : AppCompatActivity() {
                 populateFrequency()
             }
             picker.dismissCurrentAndShow(supportFragmentManager, "frequencyPicker")
+        }
+
+        populateHistoryType()
+        binding.historyTypePicker.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.select_dialog_item)
+            arrayAdapter.add(getString(R.string.total))
+            arrayAdapter.add(getString(R.string.average))
+            builder.setAdapter(arrayAdapter) { dialog, which ->
+                historyType = when (which) {
+                    0 -> NumericalHistoryType.TOTAL
+                    else -> NumericalHistoryType.AVERAGE
+                }
+                populateHistoryType()
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.dismissCurrentAndShow()
         }
 
         populateTargetType()
@@ -281,6 +303,7 @@ class EditHabitActivity : AppCompatActivity() {
         habit.frequency = Frequency(freqNum, freqDen)
         if (habitType == HabitType.NUMERICAL) {
             habit.targetValue = binding.targetInput.text.toString().toDouble()
+            habit.historyType = historyType
             habit.targetType = targetType
             habit.unit = binding.unitInput.text.trim().toString()
         }
@@ -343,6 +366,12 @@ class EditHabitActivity : AppCompatActivity() {
         }
     }
 
+    private fun populateHistoryType() {
+        binding.historyTypePicker.text = when (historyType) {
+            NumericalHistoryType.TOTAL -> getString(R.string.total)
+            else -> getString(R.string.average)
+        }
+    }
     private fun populateTargetType() {
         binding.targetTypePicker.text = when (targetType) {
             NumericalHabitType.AT_MOST -> getString(R.string.target_type_at_most)

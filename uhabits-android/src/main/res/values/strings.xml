@@ -184,12 +184,14 @@
     <string name="value">Value</string>
     <string name="calendar">Calendar</string>
     <string name="unit">Unit</string>
+    <string name="history_type">History Type</string>
     <string name="target_type">Target Type</string>
     <string name="target_type_at_least">At least</string>
     <string name="target_type_at_most">At most</string>
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
     <string name="target">Target</string>
+    <string name="average">Average</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="customize_notification_summary">Change sound, vibration, light and other notification settings</string>

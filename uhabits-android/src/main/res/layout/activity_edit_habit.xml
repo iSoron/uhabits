@@ -171,6 +171,21 @@
                 </LinearLayout>
             </FrameLayout>
 
+            <!-- History Type -->
+            <FrameLayout
+                android:id="@+id/historyTypeOuterBox"
+                style="@style/FormOuterBox">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/history_type" />
+                    <TextView
+                        style="@style/FormDropdown"
+                        android:id="@+id/historyTypePicker"
+                        android:text="@string/total" />
+                </LinearLayout>
+            </FrameLayout>
+
             <LinearLayout
                 android:id="@+id/targetOuterBox"
                 android:layout_width="match_parent"
