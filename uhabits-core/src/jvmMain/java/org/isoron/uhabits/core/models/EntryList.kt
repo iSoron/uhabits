@@ -30,6 +30,7 @@ import javax.annotation.concurrent.ThreadSafe
 import kotlin.collections.set
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 @ThreadSafe
 open class EntryList {
@@ -317,6 +318,53 @@ fun List<Entry>.groupedSum(
         -timestamp.unixTime
     }
 }
+
+/**
+ * Given a list of entries, truncates the timestamp of each entry (according to the field given),
+ * groups the entries according to this truncated timestamp, then creates a new entry (t,v) for
+ * each group, where t is the truncated timestamp and v is the average of the values of all
+ * non-empty entries in the group.
+ *
+ * For numerical habits, non-positive entry values are ignored when computing the average. For
+ * boolean habits, each YES_MANUAL value is converted to 1000 and all other values are converted
+ * to zero before averaging.
+ *
+ * The returned list is sorted by timestamp, with the newest entry coming first and the oldest
+ * entry coming last. If the original list has gaps in it (for example, weeks or months without
+ * any entries), then the list produced by this method will also have gaps.
+ *
+ * The argument [firstWeekday] is only relevant when truncating by week.
+ */
+fun List<Entry>.groupedAverage(
+    truncateField: DateUtils.TruncateField,
+    firstWeekday: Int = Calendar.SATURDAY,
+    isNumerical: Boolean
+): List<Entry> =
+    this
+        .map { (timestamp, value) ->
+            if (isNumerical) {
+                if (value == SKIP) Entry(timestamp, 0)
+                else Entry(timestamp, max(0, value))
+            } else {
+                Entry(timestamp, if (value == YES_MANUAL) 1000 else 0)
+            }
+        }
+        .groupBy { entry ->
+            when (truncateField) {
+                DateUtils.TruncateField.WEEK_NUMBER ->
+                    entry.timestamp.truncate(truncateField, firstWeekday)
+                else ->
+                    entry.timestamp.truncate(truncateField, firstWeekday)
+            }
+        }
+        .entries.map { (timestamp, entries) ->
+            val nonEmpty = entries.filter { it.value > 0}
+            val avg = if (nonEmpty.isEmpty()) 0
+            else nonEmpty.map { it.value }.average().roundToInt()
+            Entry(timestamp, avg)
+        }
+        // 4) Sort buckets (latest first)
+        .sortedByDescending { (timestamp, _) -> timestamp.unixTime }
 
 /**
  * Counts the number of days with vaLue SKIP in the given period.

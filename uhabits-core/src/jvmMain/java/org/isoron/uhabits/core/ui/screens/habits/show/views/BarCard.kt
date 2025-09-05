@@ -23,6 +23,8 @@ import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.groupedSum
+import org.isoron.uhabits.core.models.groupedAverage
+import org.isoron.uhabits.core.models.NumericalHistoryType
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
@@ -59,11 +61,18 @@ class BarCardPresenter(
             }
             val today = DateUtils.getTodayWithOffset()
             val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
-            val entries = habit.computedEntries.getByInterval(oldest, today).groupedSum(
-                truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
-                firstWeekday = firstWeekday,
-                isNumerical = habit.isNumerical
-            )
+            val entries = when (habit.historyType) {
+                NumericalHistoryType.TOTAL -> habit.computedEntries.getByInterval(oldest, today).groupedSum(
+                    truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
+                    firstWeekday = firstWeekday,
+                    isNumerical = habit.isNumerical
+                )
+                NumericalHistoryType.AVERAGE -> habit.computedEntries.getByInterval(oldest, today).groupedAverage(
+                    truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
+                    firstWeekday = firstWeekday,
+                    isNumerical = habit.isNumerical
+                )
+            }
             return BarCardState(
                 theme = theme,
                 entries = entries,
