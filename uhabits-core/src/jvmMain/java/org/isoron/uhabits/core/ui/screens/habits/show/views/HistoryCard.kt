@@ -46,6 +46,7 @@ import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 import kotlin.math.roundToInt
 
+
 data class HistoryCardState(
     val color: PaletteColor,
     val firstWeekday: DayOfWeek,
@@ -165,7 +166,7 @@ class HistoryCardPresenter(
             val series = if (habit.isNumerical) {
                 entries.map {
                     when {
-                        it.value == Entry.UNKNOWN -> OFF
+                        (it.value == Entry.UNKNOWN) || ((habit.targetType == AT_LEAST) && (it.value == 0 && habit.targetValue != 0.0)) -> OFF
                         it.value == SKIP -> HATCHED
                         (habit.targetType == AT_MOST) && (it.value / 1000.0 <= habit.targetValue) -> ON
                         (habit.targetType == AT_LEAST) && (it.value / 1000.0 >= habit.targetValue) -> ON

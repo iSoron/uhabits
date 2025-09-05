@@ -173,8 +173,7 @@ class NumberButtonView(
 
         fun draw(canvas: Canvas) {
             val activeColor = when {
-                value < 0.0 -> lowContrast
-                (targetType == AT_LEAST) && ((value == 0.0) && (threshold != 0.0)) -> lowContrast
+                (value < 0.0) || ((targetType == AT_LEAST) && ((value == 0.0) && (threshold != 0.0))) -> lowContrast
                 (targetType == AT_LEAST) && (value >= threshold) -> color
                 (targetType == AT_MOST) && (value <= threshold) -> color
                 else -> mediumContrast
