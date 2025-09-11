@@ -26,11 +26,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.recyclerview.widget.RecyclerView
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.RESULT_BUG_REPORT
@@ -44,6 +47,7 @@ import org.isoron.uhabits.core.utils.DateUtils.Companion.getLongWeekdayNames
 import org.isoron.uhabits.notifications.AndroidNotificationTray.Companion.createAndroidNotificationChannel
 import org.isoron.uhabits.notifications.RingtoneManager
 import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.applyBottomInset
 import org.isoron.uhabits.utils.startActivitySafely
 import org.isoron.uhabits.widgets.WidgetUpdater
 import java.util.Calendar
@@ -92,6 +96,15 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         val sr = StyledResources(context!!)
         view.setBackgroundColor(sr.getColor(R.attr.contrast0))
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onCreateRecyclerView(
+        inflater: LayoutInflater?,
+        parent: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): RecyclerView? {
+        return super.onCreateRecyclerView(inflater, parent, savedInstanceState)
+            .also { it.applyBottomInset() }
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
