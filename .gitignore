@@ -18,3 +18,8 @@ node_modules
 *.sketch
 crowdin.yml
 kotlin-js-store
+
+# Python / Django
+db.sqlite3
+__pycache__/
+*.pyc

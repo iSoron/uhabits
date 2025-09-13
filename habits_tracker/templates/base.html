@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Habits Tracker</title>
+  <style>
+    .has-rep {
+      background-color: #aaffaa;
+    }
+    .not-current-month {
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'habits:habit_list' %}">Home</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'account_logout' %}">Log Out</a>
+    {% else %}
+      <a href="{% url 'account_login' %}">Log In</a>
+      <a href="{% url 'account_signup' %}">Sign Up</a>
+    {% endif %}
+  </nav>
+  <hr>
+  {% block content %}
+  {% endblock %}
+
+  <script>
+    document.querySelectorAll('.log-repetition-form').forEach(form => {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+          }
+        }).then(response => {
+          if (response.status === 204) {
+            const button = form.querySelector('button');
+            if (button.innerHTML.includes('✓')) {
+              button.innerHTML = '×';
+            } else {
+              button.innerHTML = '✓';
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

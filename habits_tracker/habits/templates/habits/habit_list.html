@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load habit_tags %}
+
+{% block content %}
+  <h2>My Habits</h2>
+  <a href="{% url 'habits:habit_create' %}">Create New Habit</a>
+  <a href="{% url 'habits:export_csv' %}">Export to CSV</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Habit</th>
+        {% for day in days %}
+          <th>{{ day|date:"D" }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for habit, reps in habits_with_reps %}
+        <tr>
+          <td>
+            <a href="{% url 'habits:habit_detail' habit.pk %}">{{ habit.name }}</a>
+            <a href="{% url 'habits:habit_update' habit.pk %}">Edit</a>
+            <a href="{% url 'habits:habit_delete' habit.pk %}">Delete</a>
+          </td>
+          {% for day in days %}
+            <td>
+              <form class="log-repetition-form" method="post" action="{% url 'habits:log_repetition' %}">
+                {% csrf_token %}
+                <input type="hidden" name="habit_id" value="{{ habit.pk }}">
+                <input type="hidden" name="date" value="{{ day|date:'Y-m-d' }}">
+                <button type="submit">
+                  {% if reps|get_item:day %}
+                    &#10003;
+                  {% else %}
+                    &times;
+                  {% endif %}
+                </button>
+              </form>
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

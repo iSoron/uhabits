@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ object.name }}</h2>
+  <p>{{ object.description }}</p>
+
+  <h3>Calendar</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+        <th>Sun</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for week in month_days %}
+        <tr>
+          {% for day in week %}
+            <td class="{% if day.month != current_month %}not-current-month{% endif %} {% if day in reps %}has-rep{% endif %}">
+              {% if day.month == current_month %}
+                {{ day.day }}
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{% url 'habits:habit_list' %}">Back to Habits</a>
+{% endblock %}
