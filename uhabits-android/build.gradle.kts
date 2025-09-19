@@ -22,10 +22,20 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint.plugin)
+    id("io.qameta.allure") version "2.11.2"
 }
 
 tasks.compileLint {
     dependsOn("updateTranslators")
+}
+
+allure {
+    adapter {
+        frameworks {
+            junit4 { }
+        }
+        autoconfigureListeners.set(true)
+    }
 }
 
 /*
@@ -49,7 +59,7 @@ android {
         minSdk = 28
         targetSdk = 36
         applicationId = "org.isoron.uhabits"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -89,6 +99,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.espresso.core)
     compileOnly(libs.jsr250.api)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.appIntro)
@@ -114,4 +125,6 @@ dependencies {
 
     androidTestImplementation(libs.bundles.androidTest)
     testImplementation(libs.bundles.test)
+    androidTestImplementation("io.qameta.allure:allure-kotlin-junit4:2.4.0")
+    androidTestImplementation("io.qameta.allure:allure-kotlin-android:2.4.0")
 }

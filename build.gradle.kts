@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.ktlint.plugin) apply false
     alias(libs.plugins.shadow) apply false
+    id("io.qameta.allure") version "2.11.2"
 }
 
 apply {
