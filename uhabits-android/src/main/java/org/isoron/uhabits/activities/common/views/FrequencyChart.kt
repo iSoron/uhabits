@@ -172,6 +172,8 @@ class FrequencyChart : ScrollableChart {
     }
 
     private fun drawColumn(canvas: Canvas, rect: RectF?, date: GregorianCalendar) {
+        // Guard: prevent crash when rendering before Unix epoch (negative timestamps)
+        if (date.timeInMillis < 0) return
         val values = frequency[Timestamp(date)]
         val weekDaysInMonth = getWeekdaysInMonth(Timestamp(date))
         val rowHeight = rect!!.height() / 8.0f

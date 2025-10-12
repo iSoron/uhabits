@@ -18,6 +18,9 @@
  */
 package org.isoron.uhabits.activities.common.views
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.RectF
 import android.view.MotionEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
@@ -26,6 +29,8 @@ import org.isoron.uhabits.utils.toFixedAndroidColor
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
+import java.util.GregorianCalendar
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -73,6 +78,21 @@ class FrequencyChartTest : BaseViewTest() {
         assertRenders(view, BASE_PATH + "renderTransparent.png")
     }
 
+    @Test
+    fun testDrawBefore1970_doesNotCrash() {
+        val chart = FrequencyChart(targetContext)
+        val rect = RectF(0f, 0f, 300f, 100f)
+        val canvas = Canvas(Bitmap.createBitmap(300, 100, Bitmap.Config.ARGB_8888))
+        val oldDate = GregorianCalendar(1969, Calendar.DECEMBER, 15)
+
+        try {
+            chart.javaClass.getDeclaredMethod("drawColumn", Canvas::class.java, RectF::class.java, GregorianCalendar::class.java)
+                .apply { isAccessible = true }
+                .invoke(chart, canvas, rect, oldDate)
+        } catch (e: Exception) {
+            fail("Drawing before 1970 should not throw, but got: ${e.cause?.message ?: e.message}")
+        }
+    }
     companion object {
         const val BASE_PATH = "common/FrequencyChart/"
     }
