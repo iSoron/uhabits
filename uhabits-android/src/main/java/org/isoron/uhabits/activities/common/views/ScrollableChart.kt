@@ -31,6 +31,8 @@ import android.widget.Scroller
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getMonthsSince1970
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 
 abstract class ScrollableChart : View, GestureDetector.OnGestureListener, AnimatorUpdateListener {
     var dataOffset = 0
@@ -41,7 +43,7 @@ abstract class ScrollableChart : View, GestureDetector.OnGestureListener, Animat
     private lateinit var scroller: Scroller
     private lateinit var scrollAnimator: ValueAnimator
     private lateinit var scrollController: ScrollController
-    private var maxDataOffset = 10000
+    private var maxDataOffset = getMonthsSince1970(getStartOfTodayCalendar())
 
     constructor(context: Context?) : super(context) {
         init(context)

@@ -123,6 +123,7 @@ class FrequencyChart : ScrollableChart {
     }
 
     override fun onDraw(canvas: Canvas) {
+        populateWithRandomData()
         super.onDraw(canvas)
         rect!![0f, 0f, nColumns * columnWidth] = columnHeight.toFloat()
         rect!!.offset(0f, internalPaddingTop.toFloat())
