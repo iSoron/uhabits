@@ -13,7 +13,7 @@ buildscript {
     }
 }
 
-task("updateTranslators") {
+tasks.register("updateTranslators") {
     doLast {
         fun updateTranslatorLayouts() {
             val translators = mutableMapOf<String, MutableList<String>>()

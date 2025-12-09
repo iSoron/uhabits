@@ -23,7 +23,7 @@ plugins {
 }
 
 kotlin {
-    jvm().withJava()
+    jvm()
     jvmToolchain(21)
 
     sourceSets {
