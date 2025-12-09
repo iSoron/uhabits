@@ -36,7 +36,7 @@ Updating gradle might fix this, so try again in the future to remove this and ru
 If this doesn't produce any warning, try to remove it.
  */
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 android {
