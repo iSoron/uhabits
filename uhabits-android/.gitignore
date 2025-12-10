@@ -27,3 +27,6 @@ crowdin.yml
 local
 tmp/
 secret/
+/release/baselineProfiles/0/uhabits-android-release.dm
+/release/baselineProfiles/1/uhabits-android-release.dm
+/release/output-metadata.json
