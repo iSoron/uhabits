@@ -36,6 +36,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
@@ -72,7 +73,7 @@ class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
             // Gather links from all patterns
             for (pattern in patterns) {
-                gatherLinks(links, spannable, pattern, context)
+                gatherLinks(links, spannable, pattern)
             }
 
             // Resolve overlaps (longer/earlier links win)
@@ -96,8 +97,7 @@ class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         private fun gatherLinks(
             links: ArrayList<LinkSpec>,
             text: Spannable,
-            pattern: LinkPattern,
-            context: Context
+            pattern: LinkPattern
         ) {
             val matcher = pattern.regex.matcher(text)
 
@@ -447,7 +447,7 @@ class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                         }
 
                         // Validate via PackageManager
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                         context.packageManager.queryIntentActivities(
                             intent,
                             PackageManager.MATCH_DEFAULT_ONLY
@@ -457,9 +457,6 @@ class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
             )
 
             val foundLinks = addLinks(spannable, patterns, context)
-
-            val htmlString = Html.toHtml(spannable, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
-            Log.d("NotesCardView", "Found $foundLinks links: $htmlString")
 
             // 3. Post back to UI only if we actually found something worth updating
             if (foundLinks) {
