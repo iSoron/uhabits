@@ -22,8 +22,6 @@ package org.isoron.uhabits.activities.habits.show.views
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
@@ -31,7 +29,6 @@ import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.util.AttributeSet
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -61,8 +58,7 @@ class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     companion object {
         fun addLinks(
             spannable: Spannable,
-            patterns: List<LinkPattern>,
-            context: Context
+            patterns: List<LinkPattern>
         ): Boolean {
             // Remove existing URLSpans to start fresh
             spannable.getSpans(0, spannable.length, URLSpan::class.java).forEach {
@@ -456,7 +452,7 @@ class NotesCardView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 )
             )
 
-            val foundLinks = addLinks(spannable, patterns, context)
+            val foundLinks = addLinks(spannable, patterns)
 
             // 3. Post back to UI only if we actually found something worth updating
             if (foundLinks) {
