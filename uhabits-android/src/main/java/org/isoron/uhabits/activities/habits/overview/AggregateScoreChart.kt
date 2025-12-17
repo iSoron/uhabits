@@ -20,7 +20,6 @@ package org.isoron.uhabits.activities.habits.overview
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
@@ -34,7 +33,6 @@ import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.toSimpleDataFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.GregorianCalendar
 import kotlin.math.max
 import kotlin.math.min
 
@@ -58,7 +56,7 @@ class AggregateScoreChart : ScrollableChart {
     private var previousYearText: String? = null
     private var previousMonthText: String? = null
     private var skipYear = 0
-    
+
     // Dynamic Y-axis scaling
     private var minScore = 0.0
     private var maxScore = 1.0
@@ -77,22 +75,22 @@ class AggregateScoreChart : ScrollableChart {
         calculateYAxisRange()
         postInvalidate()
     }
-    
+
     private fun calculateYAxisRange() {
         if (scores == null || scores!!.isEmpty()) {
             minScore = 0.0
             maxScore = 1.0
             return
         }
-        
+
         var min = Double.MAX_VALUE
         var max = Double.MIN_VALUE
-        
+
         for (score in scores!!) {
             if (score.value < min) min = score.value
             if (score.value > max) max = score.value
         }
-        
+
         // Add buffer
         val range = max - min
         if (range < 0.01) {
@@ -103,7 +101,7 @@ class AggregateScoreChart : ScrollableChart {
             minScore = max(0.0, min - range * 0.1)
             maxScore = min(1.0, max + range * 0.1)
         }
-        
+
         // Ensure min != max
         if (minScore == maxScore) {
             minScore = max(0.0, minScore - 0.05)
@@ -113,12 +111,12 @@ class AggregateScoreChart : ScrollableChart {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        
+
         if (scores == null || scores!!.isEmpty()) return
-        
+
         val rect = RectF(0f, 0f, nColumns * columnWidth, columnHeight.toFloat())
         rect.offset(0f, internalPaddingTop.toFloat())
-        
+
         drawGrid(canvas, rect)
         drawLineGraph(canvas, rect)
     }
@@ -132,12 +130,12 @@ class AggregateScoreChart : ScrollableChart {
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         var height = height
         if (height < 9) height = 200
-        
+
         val maxTextSize = InterfaceUtils.getDimension(context, R.dimen.tinyTextSize)
         val textSize = height * 0.06f
         pText!!.textSize = min(textSize, maxTextSize)
         em = pText!!.fontSpacing
-        
+
         val footerHeight = (3 * em).toInt()
         internalPaddingTop = em.toInt()
         baseSize = (height - footerHeight - internalPaddingTop) / 8
@@ -148,7 +146,7 @@ class AggregateScoreChart : ScrollableChart {
         columnWidth = width.toFloat() / nColumns
         setScrollerBucketSize(columnWidth.toInt())
         columnHeight = 8 * baseSize
-        
+
         val minStrokeWidth = InterfaceUtils.dpToPixels(context, 1f)
         pGraph!!.strokeWidth = max(minStrokeWidth, baseSize * 0.1f)
         pGrid!!.strokeWidth = min(minStrokeWidth, baseSize * 0.05f)
@@ -157,11 +155,11 @@ class AggregateScoreChart : ScrollableChart {
     private fun drawGrid(canvas: Canvas, rGrid: RectF) {
         val nRows = 5
         val rowHeight = rGrid.height() / nRows
-        
+
         pText!!.textAlign = Paint.Align.LEFT
         pText!!.color = textColor
         pGrid!!.color = gridColor
-        
+
         val tempRect = RectF(rGrid)
         for (i in 0 until nRows) {
             val percentage = maxScore - i * (maxScore - minScore) / nRows
@@ -185,25 +183,25 @@ class AggregateScoreChart : ScrollableChart {
 
     private fun drawLineGraph(canvas: Canvas, rect: RectF) {
         if (scores == null || scores!!.size < 2) return
-        
+
         pGraph!!.color = primaryColor
         pGraph!!.style = Paint.Style.STROKE
-        
+
         previousMonthText = ""
         previousYearText = ""
         skipYear = 0
-        
+
         var prevX = 0f
         var prevY = 0f
         var isFirst = true
-        
+
         for (k in 0 until min(nColumns, scores!!.size)) {
             val offset = nColumns - k - 1 + dataOffset
             if (offset >= scores!!.size) continue
-            
+
             val score = scores!![offset]
             val timestamp = score.timestamp
-            
+
             // Normalize score value to Y position
             val normalizedValue = if (maxScore > minScore) {
                 (score.value - minScore) / (maxScore - minScore)
@@ -212,18 +210,18 @@ class AggregateScoreChart : ScrollableChart {
             }
             val y = rect.top + rect.height() * (1 - normalizedValue.toFloat())
             val x = rect.left + k * columnWidth + columnWidth / 2
-            
+
             // Draw line segment
             if (!isFirst) {
                 canvas.drawLine(prevX, prevY, x, y, pGraph!!)
             }
-            
+
             // Draw marker point
             val markerRadius = baseSize * 0.15f
             pGraph!!.style = Paint.Style.FILL
             canvas.drawCircle(x, y, markerRadius, pGraph!!)
             pGraph!!.style = Paint.Style.STROKE
-            
+
             // Draw footer
             val footerRect = RectF(
                 k * columnWidth,
@@ -232,7 +230,7 @@ class AggregateScoreChart : ScrollableChart {
                 rect.bottom + 3 * em
             )
             drawFooter(canvas, footerRect, timestamp)
-            
+
             prevX = x
             prevY = y
             isFirst = false
@@ -245,7 +243,7 @@ class AggregateScoreChart : ScrollableChart {
         val dayText = dfDay!!.format(currentDate.toJavaDate())
         val calendar = currentDate.toCalendar()
         val year = calendar[Calendar.YEAR]
-        
+
         var shouldPrintYear = true
         if (yearText == previousYearText) shouldPrintYear = false
         if (year % 2 != 0) shouldPrintYear = false
@@ -253,7 +251,7 @@ class AggregateScoreChart : ScrollableChart {
             skipYear--
             shouldPrintYear = false
         }
-        
+
         if (shouldPrintYear) {
             previousYearText = yearText
             previousMonthText = ""
@@ -266,14 +264,14 @@ class AggregateScoreChart : ScrollableChart {
             )
             skipYear = 1
         }
-        
+
         val text = if (monthText != previousMonthText) {
             previousMonthText = monthText
             monthText
         } else {
             dayText
         }
-        
+
         pText!!.textAlign = Paint.Align.CENTER
         canvas.drawText(
             text,

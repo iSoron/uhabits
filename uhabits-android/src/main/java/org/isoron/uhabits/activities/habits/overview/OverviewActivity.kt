@@ -30,11 +30,8 @@ import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.models.Score
-import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.utils.DateUtils
-import kotlin.math.max
-import kotlin.math.min
 
 class OverviewActivity : AppCompatActivity() {
 
@@ -45,7 +42,8 @@ class OverviewActivity : AppCompatActivity() {
     private lateinit var emptyStateView: TextView
     private lateinit var timeRangeSpinner: Spinner
     private lateinit var taskRunner: TaskRunner
-    
+    private val calculator = AggregateScoreCalculator()
+
     private var currentDays = 7
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,11 +82,11 @@ class OverviewActivity : AppCompatActivity() {
             getString(R.string.last_365_days),
             getString(R.string.all_time)
         )
-        
+
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, timeRanges)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         timeRangeSpinner.adapter = adapter
-        
+
         timeRangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 currentDays = when (position) {
@@ -112,11 +110,11 @@ class OverviewActivity : AppCompatActivity() {
         taskRunner.run {
             val app = applicationContext as HabitsApplication
             val habitList = app.component.habitList
-            
+
             // Get all active (non-archived) habits
             val matcher = HabitMatcher(isArchivedAllowed = false)
             val activeHabits = habitList.getFiltered(matcher)
-            
+
             if (activeHabits.isEmpty()) {
                 runOnUiThread {
                     showEmptyState()
@@ -127,40 +125,17 @@ class OverviewActivity : AppCompatActivity() {
             // Calculate date range
             val today = DateUtils.getToday()
             val fromDate = if (days == -1) {
-                // Find earliest habit creation date
-                var earliest = today
-                for (habit in activeHabits) {
-                    val entries = habit.originalEntries.getKnown()
-                    if (entries.isNotEmpty()) {
-                        val firstEntry = entries.minByOrNull { it.timestamp.unixTime }
-                        if (firstEntry != null && firstEntry.timestamp.isOlderThan(earliest)) {
-                            earliest = firstEntry.timestamp
-                        }
-                    }
-                }
-                earliest
+                calculator.findEarliestHabitDate(activeHabits, today)
             } else {
                 today.minus(days - 1)
             }
 
             // Compute aggregate scores per day
-            val aggregateScores = mutableListOf<Score>()
-            var current = fromDate
-            
-            while (!current.isNewerThan(today)) {
-                var sumScore = 0.0
-                var count = 0
-                
-                for (habit in activeHabits) {
-                    val score = habit.scores[current]
-                    sumScore += score.value
-                    count++
-                }
-                
-                val avgScore = if (count > 0) sumScore / count else 0.0
-                aggregateScores.add(Score(current, avgScore))
-                current = current.plus(1)
-            }
+            val aggregateScores = calculator.computeAggregateScores(
+                activeHabits,
+                fromDate,
+                today
+            )
 
             // Update UI
             runOnUiThread {
@@ -168,10 +143,10 @@ class OverviewActivity : AppCompatActivity() {
                     val todayScore = aggregateScores.last()
                     val yesterdayScore = aggregateScores[aggregateScores.size - 2]
                     val change = todayScore.value - yesterdayScore.value
-                    
+
                     statsYesterday.text = String.format("%.2f%%", yesterdayScore.value * 100)
                     statsToday.text = String.format("%.2f%%", todayScore.value * 100)
-                    
+
                     val changeText = if (change >= 0) {
                         String.format("+%.2f%% ↑", change * 100)
                     } else {
@@ -179,12 +154,13 @@ class OverviewActivity : AppCompatActivity() {
                     }
                     statsChange.text = changeText
                     statsChange.setTextColor(
-                        if (change >= 0) 
-                            getColor(android.R.color.holo_green_dark) 
-                        else 
+                        if (change >= 0) {
+                            getColor(android.R.color.holo_green_dark)
+                        } else {
                             getColor(android.R.color.holo_red_dark)
+                        }
                     )
-                    
+
                     chartView.visibility = View.VISIBLE
                     emptyStateView.visibility = View.GONE
                     chartView.setScores(aggregateScores.reversed()) // Reversed for chart display
