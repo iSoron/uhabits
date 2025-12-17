@@ -261,6 +261,11 @@ class ListHabitsScreen
         activity.startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
+    override fun showOverviewScreen() {
+        val intent = Intent(activity, org.isoron.uhabits.activities.habits.overview.OverviewActivity::class.java)
+        activity.startActivity(intent)
+    }
+
     override fun showColorPicker(defaultColor: PaletteColor, callback: OnColorPickedCallback) {
         val picker = colorPickerFactory.create(defaultColor, themeSwitcher.currentTheme!!)
         picker.setListener(callback)
