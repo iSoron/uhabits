@@ -156,7 +156,7 @@ class AggregateScoreCalculatorTest : BaseAndroidJVMTest() {
 
     @Test
     fun testFindEarliestHabitDate_withHabitsWithoutEntries_returnsDefault() {
-        val habit = fixtures.createShortHabit()
+        val habit = fixtures.createEmptyHabit()
         val today = DateUtils.getToday()
 
         val result = calculator.findEarliestHabitDate(listOf(habit), today)
@@ -271,5 +271,175 @@ class AggregateScoreCalculatorTest : BaseAndroidJVMTest() {
             assertTrue("Score ${score.value} should be >= 0", score.value >= 0.0)
             assertTrue("Score ${score.value} should be <= 1", score.value <= 1.0)
         }
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withEmptyScores_returnsEmptyList() {
+        val result = calculator.calculateAggregateStreaks(emptyList())
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withSingleScore_returnsEmptyList() {
+        val today = DateUtils.getToday()
+        val scores = listOf(
+            org.isoron.uhabits.core.models.Score(today, 0.5)
+        )
+
+        val result = calculator.calculateAggregateStreaks(scores)
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withNoImprovements_returnsEmptyList() {
+        val today = DateUtils.getToday()
+        val scores = listOf(
+            org.isoron.uhabits.core.models.Score(today.minus(3), 0.5),
+            org.isoron.uhabits.core.models.Score(today.minus(2), 0.4),
+            org.isoron.uhabits.core.models.Score(today.minus(1), 0.3),
+            org.isoron.uhabits.core.models.Score(today, 0.2)
+        )
+
+        val result = calculator.calculateAggregateStreaks(scores)
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withEqualScores_doesNotCountAsImprovement() {
+        val today = DateUtils.getToday()
+        val scores = listOf(
+            org.isoron.uhabits.core.models.Score(today.minus(3), 0.5),
+            org.isoron.uhabits.core.models.Score(today.minus(2), 0.5),
+            org.isoron.uhabits.core.models.Score(today.minus(1), 0.5),
+            org.isoron.uhabits.core.models.Score(today, 0.5)
+        )
+
+        val result = calculator.calculateAggregateStreaks(scores)
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withSingleStreak_returnsCorrectStreak() {
+        val today = DateUtils.getToday()
+        val scores = listOf(
+            org.isoron.uhabits.core.models.Score(today.minus(4), 0.2),
+            org.isoron.uhabits.core.models.Score(today.minus(3), 0.3),
+            org.isoron.uhabits.core.models.Score(today.minus(2), 0.5),
+            org.isoron.uhabits.core.models.Score(today.minus(1), 0.7),
+            org.isoron.uhabits.core.models.Score(today, 0.9)
+        )
+
+        val result = calculator.calculateAggregateStreaks(scores)
+
+        assertEquals(1, result.size)
+        assertEquals(today.minus(3), result[0].start)
+        assertEquals(today, result[0].end)
+        assertEquals(4, result[0].length)
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withMultipleStreaks_returnsAllStreaks() {
+        val today = DateUtils.getToday()
+        val scores = listOf(
+            org.isoron.uhabits.core.models.Score(today.minus(10), 0.1),
+            org.isoron.uhabits.core.models.Score(today.minus(9), 0.2), // Streak 1: 2 days
+            org.isoron.uhabits.core.models.Score(today.minus(8), 0.1), // Break
+            org.isoron.uhabits.core.models.Score(today.minus(7), 0.2),
+            org.isoron.uhabits.core.models.Score(today.minus(6), 0.3),
+            org.isoron.uhabits.core.models.Score(today.minus(5), 0.4), // Streak 2: 3 days
+            org.isoron.uhabits.core.models.Score(today.minus(4), 0.3), // Break
+            org.isoron.uhabits.core.models.Score(today.minus(3), 0.4),
+            org.isoron.uhabits.core.models.Score(today.minus(2), 0.5),
+            org.isoron.uhabits.core.models.Score(today.minus(1), 0.6),
+            org.isoron.uhabits.core.models.Score(today, 0.7) // Streak 3: 4 days
+        )
+
+        val result = calculator.calculateAggregateStreaks(scores)
+
+        assertEquals(3, result.size)
+        
+        // Verify first streak
+        assertEquals(today.minus(9), result[0].start)
+        assertEquals(today.minus(9), result[0].end)
+        assertEquals(1, result[0].length)
+        
+        // Verify second streak
+        assertEquals(today.minus(7), result[1].start)
+        assertEquals(today.minus(5), result[1].end)
+        assertEquals(3, result[1].length)
+        
+        // Verify third streak
+        assertEquals(today.minus(3), result[2].start)
+        assertEquals(today, result[2].end)
+        assertEquals(4, result[2].length)
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withMoreThan10Streaks_returnsLast10() {
+        val today = DateUtils.getToday()
+        val scores = mutableListOf<org.isoron.uhabits.core.models.Score>()
+        
+        // Create 15 streaks, each 2 days long with 1 day break between
+        for (i in 44 downTo 0 step 3) {
+            scores.add(org.isoron.uhabits.core.models.Score(today.minus(i), 0.3))
+            scores.add(org.isoron.uhabits.core.models.Score(today.minus(i - 1), 0.5)) // Improvement
+            if (i > 0) {
+                scores.add(org.isoron.uhabits.core.models.Score(today.minus(i - 2), 0.2)) // Break
+            }
+        }
+
+        val result = calculator.calculateAggregateStreaks(scores)
+
+        // Should only return the last 10 streaks
+        assertEquals(10, result.size)
+        
+        // Verify the last streak is the most recent one
+        assertEquals(today.minus(1), result.last().end)
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withStrictImprovementOnly() {
+        val today = DateUtils.getToday()
+        val scores = listOf(
+            org.isoron.uhabits.core.models.Score(today.minus(5), 0.500000),
+            org.isoron.uhabits.core.models.Score(today.minus(4), 0.600000),
+            org.isoron.uhabits.core.models.Score(today.minus(3), 0.700000),
+            org.isoron.uhabits.core.models.Score(today.minus(2), 0.700000), // Equal - breaks streak
+            org.isoron.uhabits.core.models.Score(today.minus(1), 0.800000),
+            org.isoron.uhabits.core.models.Score(today, 0.900000)
+        )
+
+        val result = calculator.calculateAggregateStreaks(scores)
+
+        // Should have 2 streaks because equal score breaks the streak
+        assertEquals(2, result.size)
+        
+        // First streak: days -4 to -3 (improvements)
+        assertEquals(today.minus(4), result[0].start)
+        assertEquals(today.minus(3), result[0].end)
+        assertEquals(2, result[0].length)
+        
+        // Second streak: days -1 to today (improvements)
+        assertEquals(today.minus(1), result[1].start)
+        assertEquals(today, result[1].end)
+        assertEquals(2, result[1].length)
+    }
+
+    @Test
+    fun testCalculateAggregateStreaks_withOngoingStreak_includesCurrentDay() {
+        val today = DateUtils.getToday()
+        val scores = listOf(
+            org.isoron.uhabits.core.models.Score(today.minus(3), 0.5),
+            org.isoron.uhabits.core.models.Score(today.minus(2), 0.6),
+            org.isoron.uhabits.core.models.Score(today.minus(1), 0.7),
+            org.isoron.uhabits.core.models.Score(today, 0.8) // Ongoing streak
+        )
+
+        val result = calculator.calculateAggregateStreaks(scores)
+
+        assertEquals(1, result.size)
+        assertEquals(today.minus(2), result[0].start)
+        assertEquals(today, result[0].end)
+        assertEquals(3, result[0].length)
     }
 }

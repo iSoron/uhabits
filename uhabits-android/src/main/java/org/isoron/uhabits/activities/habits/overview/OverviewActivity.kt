@@ -24,6 +24,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.utils.DateUtils
@@ -34,6 +35,7 @@ class OverviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOverviewBinding
     private lateinit var presenter: OverviewPresenter
     private lateinit var taskRunner: TaskRunner
+    private lateinit var themeSwitcher: AndroidThemeSwitcher
 
     private var currentTimeRangeDays = 7 // Default to 7 days
 
@@ -48,9 +50,14 @@ class OverviewActivity : AppCompatActivity() {
         val app = applicationContext as HabitsApplication
         taskRunner = app.component.taskRunner
         val habitList = app.component.habitList
+        val preferences = app.component.preferences
+        
+        // Initialize theme
+        themeSwitcher = AndroidThemeSwitcher(this, preferences)
+        themeSwitcher.apply()
 
         // Initialize presenter
-        presenter = OverviewPresenter(this, habitList)
+        presenter = OverviewPresenter(this, habitList, themeSwitcher.currentTheme)
 
         // Setup UI
         setupToolbar()

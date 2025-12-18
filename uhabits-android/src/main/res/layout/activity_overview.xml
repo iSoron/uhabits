@@ -53,7 +53,7 @@
                 android:id="@+id/scoreCard"
                 style="@style/Card"/>
 
-            <org.isoron.uhabits.activities.habits.overview.views.ImprovementStreakCardView
+            <org.isoron.uhabits.activities.habits.overview.views.BestStreakCardView
                 android:id="@+id/streakCard"
                 style="@style/Card"/>
 

@@ -19,13 +19,13 @@
 
 package org.isoron.uhabits.activities.habits.overview
 
-import org.isoron.uhabits.activities.habits.overview.views.ImprovementStreakCardView
 import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
 import org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 
 data class OverviewState(
     val statsCard: OverviewStatsCardView.State,
     val scoreCard: OverviewScoreCardView.State,
-    val streakCard: ImprovementStreakCardView.State?,
+    val streakCard: StreakCardState?,
     val isEmpty: Boolean = false
 )

@@ -98,114 +98,56 @@ class AggregateScoreCalculator {
     }
 
     /**
-     * Calculates the current improvement streak.
-     * Counts consecutive days where the score increased compared to the previous day.
+     * Calculates all improvement streaks from the score history.
+     * A streak is a consecutive period where each day's score is strictly greater than the previous day.
+     * Equal scores do not count as improvement.
      *
      * @param scores List of scores ordered from oldest to newest
-     * @return Number of consecutive days of improvement (0 if empty or no improvement)
+     * @return List of the last 10 streaks (or fewer if less than 10 exist), ordered by recency
      */
-    fun calculateImprovementStreak(scores: List<Score>): Int {
+    fun calculateAggregateStreaks(scores: List<Score>): List<org.isoron.uhabits.core.models.Streak> {
         if (scores.size < 2) {
-            return 0
+            return emptyList()
         }
 
-        var streak = 0
-        var i = scores.size - 1
+        val allStreaks = mutableListOf<org.isoron.uhabits.core.models.Streak>()
+        var streakStart: Timestamp? = null
+        var streakEnd: Timestamp? = null
 
-        // Start from most recent day and work backwards
-        while (i > 0) {
+        for (i in 1 until scores.size) {
             val currentScore = scores[i].value
             val previousScore = scores[i - 1].value
 
+            // Check for strict improvement (not equal)
             if (currentScore > previousScore) {
-                streak++
-                i--
-            } else {
-                break
-            }
-        }
-
-        return streak
-    }
-
-    /**
-     * Calculates the longest improvement streak in the given scores.
-     *
-     * @param scores List of scores ordered from oldest to newest
-     * @return Longest streak of consecutive improvements
-     */
-    fun calculateLongestStreak(scores: List<Score>): Int {
-        if (scores.size < 2) {
-            return 0
-        }
-
-        var longestStreak = 0
-        var currentStreak = 0
-
-        for (i in 1 until scores.size) {
-            if (scores[i].value > scores[i - 1].value) {
-                currentStreak++
-                if (currentStreak > longestStreak) {
-                    longestStreak = currentStreak
+                if (streakStart == null) {
+                    // Start a new streak - starts on the first improved day, not the baseline
+                    streakStart = scores[i].timestamp
+                    streakEnd = scores[i].timestamp
+                } else {
+                    // Continue the current streak
+                    streakEnd = scores[i].timestamp
                 }
             } else {
-                currentStreak = 0
+                // Streak broken - save if we had one
+                if (streakStart != null && streakEnd != null) {
+                    allStreaks.add(org.isoron.uhabits.core.models.Streak(streakStart, streakEnd))
+                }
+                streakStart = null
+                streakEnd = null
             }
         }
 
-        return longestStreak
-    }
-
-    /**
-     * Generates a motivational insight based on streak data.
-     *
-     * @param currentStreak Current consecutive days of improvement
-     * @param longestStreak Longest streak achieved
-     * @param recentTrend Average change in score over recent days (positive = improving)
-     * @return Motivational message string
-     */
-    fun generateStreakInsight(
-        currentStreak: Int,
-        longestStreak: Int,
-        recentTrend: Double
-    ): String {
-        return when {
-            // Current streak is a new personal best
-            currentStreak > 0 && currentStreak == longestStreak && currentStreak >= 3 ->
-                "New personal best!"
-
-            // Strong ongoing streak
-            currentStreak >= 7 -> "Building momentum!"
-
-            // Good progress
-            currentStreak >= 3 -> "Keep going!"
-
-            // Positive trend but no current streak
-            currentStreak == 0 && recentTrend > 0 -> "Steady and consistent!"
-
-            // No streak but previous best exists
-            currentStreak == 0 && longestStreak >= 3 -> "Tomorrow's a fresh start!"
-
-            // Starting out or flat performance
-            else -> "Take it one day at a time."
+        // Don't forget to save the last streak if it was ongoing
+        if (streakStart != null && streakEnd != null) {
+            allStreaks.add(org.isoron.uhabits.core.models.Streak(streakStart, streakEnd))
         }
-    }
 
-    /**
-     * Calculates the next milestone for the improvement streak.
-     *
-     * @param currentStreak Current streak value
-     * @return Next milestone value
-     */
-    fun getNextMilestone(currentStreak: Int): Int {
-        return when {
-            currentStreak < 3 -> 3
-            currentStreak < 7 -> 7
-            currentStreak < 14 -> 14
-            currentStreak < 30 -> 30
-            currentStreak < 60 -> 60
-            currentStreak < 90 -> 90
-            else -> ((currentStreak / 30) + 1) * 30  // Next 30-day milestone
+        // Return last 10 streaks (most recent)
+        return if (allStreaks.size <= 10) {
+            allStreaks
+        } else {
+            allStreaks.takeLast(10)
         }
     }
 }

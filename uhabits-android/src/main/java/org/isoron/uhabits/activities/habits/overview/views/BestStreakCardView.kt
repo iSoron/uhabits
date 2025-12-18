@@ -16,35 +16,24 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.isoron.uhabits.activities.habits.overview.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.widget.LinearLayout
-import org.isoron.uhabits.R
-import org.isoron.uhabits.databinding.ImprovementStreakCardBinding
+import org.isoron.platform.gui.toInt
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
+import org.isoron.uhabits.databinding.BestStreakCardBinding
 
-class ImprovementStreakCardView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : LinearLayout(context, attrs) {
-
-    private val binding: ImprovementStreakCardBinding
-
-    init {
-        inflate(context, R.layout.improvement_streak_card, this)
-        binding = ImprovementStreakCardBinding.bind(this)
-        orientation = VERTICAL
+class BestStreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    private val binding = BestStreakCardBinding.inflate(LayoutInflater.from(context), this)
+    
+    fun setState(state: StreakCardState) {
+        val androidColor = state.theme.color(state.color).toInt()
+        binding.title.setTextColor(androidColor)
+        binding.streakChart.setColor(androidColor)
+        binding.streakChart.setStreaks(state.bestStreaks)
+        postInvalidate()
     }
-
-    fun setState(state: State) {
-        binding.streakCount.text = state.currentStreak.toString()
-        binding.insightText.text = state.insightMessage
-    }
-
-    data class State(
-        val currentStreak: Int,
-        val insightMessage: String
-    )
 }

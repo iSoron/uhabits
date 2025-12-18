@@ -21,17 +21,19 @@ package org.isoron.uhabits.activities.habits.overview
 
 import android.content.Context
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.habits.overview.views.ImprovementStreakCardView
 import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
 import org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 
 class OverviewPresenter(
     private val context: Context,
     private val habitList: HabitList,
+    private val theme: Theme,
     private val calculator: AggregateScoreCalculator = AggregateScoreCalculator()
 ) {
 
@@ -86,29 +88,18 @@ class OverviewPresenter(
             maxScore = scores.maxOfOrNull { it.value } ?: 1.0
         )
 
-        // Build streak card state (only if we have enough data)
-        val streakCardState = if (scores.size >= 7) {
-            val currentStreak = calculator.calculateImprovementStreak(scores)
-            val longestStreak = calculator.calculateLongestStreak(scores)
-            
-            // Calculate recent trend (average change over last 7 days)
-            val recentTrend = if (scores.size >= 7) {
-                val last7 = scores.takeLast(7)
-                var totalChange = 0.0
-                for (i in 1 until last7.size) {
-                    totalChange += (last7[i].value - last7[i - 1].value)
-                }
-                totalChange / 6.0
+        // Build streak card state - calculate best streaks from aggregate scores
+        val streakCardState = if (scores.size >= 2) {
+            val bestStreaks = calculator.calculateAggregateStreaks(scores)
+            if (bestStreaks.isNotEmpty()) {
+                StreakCardState(
+                    color = PaletteColor(11), // Blue
+                    bestStreaks = bestStreaks,
+                    theme = theme
+                )
             } else {
-                0.0
+                null
             }
-
-            val insight = calculator.generateStreakInsight(currentStreak, longestStreak, recentTrend)
-
-            ImprovementStreakCardView.State(
-                currentStreak = currentStreak,
-                insightMessage = insight
-            )
         } else {
             null
         }
