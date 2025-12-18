@@ -225,5 +225,88 @@ class AggregateScoreCalculator {
         
         return result
     }
+
+    /**
+     * Computes aggregate entries grouped by time period for bar chart display.
+     * Each entry represents the average aggregate score for that period.
+     * 
+     * @param habits List of habits to aggregate
+     * @param fromDate Start date (inclusive)
+     * @param toDate End date (inclusive)
+     * @param bucketSize Period size (7=week, 31=month, 92=quarter, 365=year)
+     * @param truncateField Calendar field to truncate by (DAY_OF_WEEK, DAY_OF_MONTH, MONTH, DAY_OF_YEAR)
+     * @return List of Entry where value represents average score * 1000 (0-1000 range)
+     */
+    fun computeAggregateEntriesByPeriod(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp,
+        bucketSize: Int,
+        truncateField: Int
+    ): List<org.isoron.uhabits.core.models.Entry> {
+        // Get all daily aggregate scores
+        val scores = computeAggregateScores(habits, fromDate, toDate)
+        if (scores.isEmpty()) {
+            return emptyList()
+        }
+
+        // Group scores by period
+        val grouped = mutableMapOf<Timestamp, MutableList<Double>>()
+        
+        for (score in scores) {
+            val truncatedTimestamp = Timestamp(
+                score.timestamp.toCalendar().apply {
+                    when (truncateField) {
+                        java.util.Calendar.DAY_OF_WEEK -> {
+                            // Truncate to start of week
+                            set(java.util.Calendar.DAY_OF_WEEK, firstDayOfWeek)
+                            set(java.util.Calendar.HOUR_OF_DAY, 0)
+                            set(java.util.Calendar.MINUTE, 0)
+                            set(java.util.Calendar.SECOND, 0)
+                            set(java.util.Calendar.MILLISECOND, 0)
+                        }
+                        java.util.Calendar.DAY_OF_MONTH -> {
+                            // Truncate to start of month
+                            set(java.util.Calendar.DAY_OF_MONTH, 1)
+                            set(java.util.Calendar.HOUR_OF_DAY, 0)
+                            set(java.util.Calendar.MINUTE, 0)
+                            set(java.util.Calendar.SECOND, 0)
+                            set(java.util.Calendar.MILLISECOND, 0)
+                        }
+                        java.util.Calendar.MONTH -> {
+                            // Truncate to start of quarter (Q1=Jan, Q2=Apr, Q3=Jul, Q4=Oct)
+                            val currentMonth = get(java.util.Calendar.MONTH)
+                            val quarterStartMonth = (currentMonth / 3) * 3 // 0, 3, 6, or 9
+                            set(java.util.Calendar.MONTH, quarterStartMonth)
+                            set(java.util.Calendar.DAY_OF_MONTH, 1)
+                            set(java.util.Calendar.HOUR_OF_DAY, 0)
+                            set(java.util.Calendar.MINUTE, 0)
+                            set(java.util.Calendar.SECOND, 0)
+                            set(java.util.Calendar.MILLISECOND, 0)
+                        }
+                        java.util.Calendar.DAY_OF_YEAR -> {
+                            // Truncate to start of year
+                            set(java.util.Calendar.DAY_OF_YEAR, 1)
+                            set(java.util.Calendar.HOUR_OF_DAY, 0)
+                            set(java.util.Calendar.MINUTE, 0)
+                            set(java.util.Calendar.SECOND, 0)
+                            set(java.util.Calendar.MILLISECOND, 0)
+                        }
+                    }
+                }.timeInMillis
+            )
+            
+            grouped.getOrPut(truncatedTimestamp) { mutableListOf() }.add(score.value)
+        }
+        
+        // Convert to Entry list with average values (multiply by 1000 to match Entry format)
+        return grouped.map { (timestamp, values) ->
+            val average = values.average()
+            org.isoron.uhabits.core.models.Entry(
+                timestamp = timestamp,
+                value = (average * 1000).toInt() // Convert 0-1 score to 0-1000 range
+            )
+        }.sortedBy { it.timestamp }
+    }
 }
 

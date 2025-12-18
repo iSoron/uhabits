@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.overview
 import android.content.Context
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.habits.overview.views.OverviewBarCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
@@ -32,6 +33,7 @@ import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
+import java.util.Calendar
 
 class OverviewPresenter(
     private val context: Context,
@@ -42,7 +44,8 @@ class OverviewPresenter(
 ) {
 
     fun buildState(
-        timeRangeDays: Int
+        timeRangeDays: Int,
+        barSpinnerPosition: Int = 0
     ): OverviewState {
         val matcher = HabitMatcher(isArchivedAllowed = false)
         val activeHabits = habitList.getFiltered(matcher)
@@ -52,6 +55,7 @@ class OverviewPresenter(
                 statsCard = OverviewStatsCardView.State(0.0, 0.0),
                 scoreCard = OverviewScoreCardView.State(emptyList()),
                 streakCard = null,
+                barCard = null,
                 historyCard = null,
                 frequencyCard = null,
                 isEmpty = true
@@ -72,6 +76,7 @@ class OverviewPresenter(
                 statsCard = OverviewStatsCardView.State(0.0, 0.0),
                 scoreCard = OverviewScoreCardView.State(emptyList()),
                 streakCard = null,
+                barCard = null,
                 historyCard = null,
                 frequencyCard = null,
                 isEmpty = true
@@ -131,6 +136,43 @@ class OverviewPresenter(
             null
         }
 
+        // Build bar card state - show average scores by period (Week/Month/Quarter/Year)
+        val bucketSizes = intArrayOf(7, 31, 92, 365)
+        val barCardState = if (barSpinnerPosition in bucketSizes.indices) {
+            val bucketSize = bucketSizes[barSpinnerPosition]
+            val barStartDate = today.minus(bucketSize * 20) // Show ~20 periods
+            
+            // Determine truncate field based on bucket size
+            val truncateField = when (bucketSize) {
+                7 -> Calendar.DAY_OF_WEEK
+                31 -> Calendar.DAY_OF_MONTH
+                92 -> Calendar.MONTH // For quarters, truncate by month then group by 3
+                365 -> Calendar.DAY_OF_YEAR
+                else -> Calendar.DAY_OF_WEEK
+            }
+            
+            val entries = calculator.computeAggregateEntriesByPeriod(
+                activeHabits.toList(),
+                barStartDate,
+                today,
+                bucketSize,
+                truncateField
+            )
+            if (entries.isNotEmpty()) {
+                OverviewBarCardState(
+                    theme = theme,
+                    spinnerPosition = barSpinnerPosition,
+                    bucketSize = bucketSize,
+                    color = PaletteColor(11), // Blue
+                    entries = entries
+                )
+            } else {
+                null
+            }
+        } else {
+            null
+        }
+
         // Build frequency card state - show last ~12 months
         val frequencyStartDate = today.minus(365)
         val frequencyData = calculator.computeAggregateWeekdayFrequency(
@@ -153,6 +195,7 @@ class OverviewPresenter(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
             streakCard = streakCardState,
+            barCard = barCardState,
             historyCard = historyCardState,
             frequencyCard = frequencyCardState,
             isEmpty = false

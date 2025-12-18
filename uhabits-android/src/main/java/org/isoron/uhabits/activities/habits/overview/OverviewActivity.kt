@@ -78,11 +78,19 @@ class OverviewActivity : AppCompatActivity() {
             currentTimeRangeDays = days
             loadData(days)
         }
+        
+        binding.barCard.setOnSpinnerPositionChanged { position ->
+            val app = applicationContext as HabitsApplication
+            app.component.preferences.overviewBarSpinnerPosition = position
+            loadData(currentTimeRangeDays)
+        }
     }
 
     private fun loadData(days: Int) {
         taskRunner.run {
-            val state = presenter.buildState(days)
+            val app = applicationContext as HabitsApplication
+            val barSpinnerPosition = app.component.preferences.overviewBarSpinnerPosition
+            val state = presenter.buildState(days, barSpinnerPosition)
             
             runOnUiThread {
                 updateUI(state)
@@ -108,6 +116,14 @@ class OverviewActivity : AppCompatActivity() {
                 binding.streakCard.setState(state.streakCard)
             } else {
                 binding.streakCard.visibility = View.GONE
+            }
+
+            // Show/hide bar card based on availability
+            if (state.barCard != null) {
+                binding.barCard.visibility = View.VISIBLE
+                binding.barCard.setState(state.barCard)
+            } else {
+                binding.barCard.visibility = View.GONE
             }
 
             // Show/hide history card based on availability

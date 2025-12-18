@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.overview
 
+import org.isoron.uhabits.activities.habits.overview.views.OverviewBarCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
@@ -29,6 +30,7 @@ data class OverviewState(
     val statsCard: OverviewStatsCardView.State,
     val scoreCard: OverviewScoreCardView.State,
     val streakCard: StreakCardState?,
+    val barCard: OverviewBarCardState?,
     val historyCard: OverviewHistoryCardState?,
     val frequencyCard: OverviewFrequencyCardState?,
     val isEmpty: Boolean = false

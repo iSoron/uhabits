@@ -84,6 +84,11 @@ open class Preferences(private val storage: Storage) {
         set(position) {
             storage.putInt("pref_bar_card_numerical_spinner", position)
         }
+    var overviewBarSpinnerPosition: Int
+        get() = min(3, max(0, storage.getInt("pref_overview_bar_spinner", 0)))
+        set(position) {
+            storage.putInt("pref_overview_bar_spinner", position)
+        }
     val lastHintNumber: Int
         get() = storage.getInt("last_hint_number", -1)
     open val lastHintTimestamp: Timestamp?
