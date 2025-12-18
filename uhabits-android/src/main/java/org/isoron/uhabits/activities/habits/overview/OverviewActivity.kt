@@ -42,19 +42,19 @@ class OverviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Setup ViewBinding
-        binding = ActivityOverviewBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         // Get dependencies
         val app = applicationContext as HabitsApplication
         taskRunner = app.component.taskRunner
         val habitList = app.component.habitList
         val preferences = app.component.preferences
         
-        // Initialize theme
+        // Initialize theme BEFORE setting content view
         themeSwitcher = AndroidThemeSwitcher(this, preferences)
         themeSwitcher.apply()
+        
+        // Setup ViewBinding
+        binding = ActivityOverviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize presenter
         presenter = OverviewPresenter(this, habitList, themeSwitcher.currentTheme, preferences.firstWeekdayInt)

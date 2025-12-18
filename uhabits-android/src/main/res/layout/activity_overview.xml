@@ -77,17 +77,29 @@
     </ScrollView>
 
     <!-- Empty State -->
-    <TextView
+    <LinearLayout
         android:id="@+id/emptyStateView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        android:layout_centerInParent="true"
+        android:orientation="vertical"
         android:gravity="center"
-        android:padding="32dp"
-        android:text="@string/overview_empty_message"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="16sp"
-        android:visibility="gone"/>
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_action_check"
+            android:alpha="0.3"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/overview_empty_message"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="16sp"
+            android:gravity="center"/>
+    </LinearLayout>
 
 </RelativeLayout>

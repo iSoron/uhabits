@@ -153,9 +153,10 @@ class OverviewPresenter(
             val bucketSize = bucketSizes[barSpinnerPosition]
             val barStartDate = today.minus(bucketSize * 20) // Show ~20 periods
             
-            // Determine truncate field based on bucket size
+            // For daily view, don't group - show each individual day
+            // For other views, use truncation
             val truncateField = when (bucketSize) {
-                1 -> Calendar.DAY_OF_MONTH // Daily - each day
+                1 -> -1 // Daily - no truncation, each day is separate
                 7 -> Calendar.DAY_OF_WEEK
                 31 -> Calendar.DAY_OF_MONTH
                 92 -> Calendar.MONTH // For quarters, truncate by month then group by 3

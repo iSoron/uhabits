@@ -254,47 +254,52 @@ class AggregateScoreCalculator {
         val grouped = mutableMapOf<Timestamp, MutableList<Double>>()
         
         for (score in scores) {
-            val truncatedTimestamp = Timestamp(
-                score.timestamp.toCalendar().apply {
-                    when (truncateField) {
-                        java.util.Calendar.DAY_OF_WEEK -> {
-                            // Truncate to start of week
-                            set(java.util.Calendar.DAY_OF_WEEK, firstDayOfWeek)
-                            set(java.util.Calendar.HOUR_OF_DAY, 0)
-                            set(java.util.Calendar.MINUTE, 0)
-                            set(java.util.Calendar.SECOND, 0)
-                            set(java.util.Calendar.MILLISECOND, 0)
+            // For daily view (truncateField = -1), use the score timestamp directly without truncation
+            val truncatedTimestamp = if (truncateField == -1) {
+                score.timestamp
+            } else {
+                Timestamp(
+                    score.timestamp.toCalendar().apply {
+                        when (truncateField) {
+                            java.util.Calendar.DAY_OF_WEEK -> {
+                                // Truncate to start of week
+                                set(java.util.Calendar.DAY_OF_WEEK, firstDayOfWeek)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.DAY_OF_MONTH -> {
+                                // Truncate to start of month
+                                set(java.util.Calendar.DAY_OF_MONTH, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.MONTH -> {
+                                // Truncate to start of quarter (Q1=Jan, Q2=Apr, Q3=Jul, Q4=Oct)
+                                val currentMonth = get(java.util.Calendar.MONTH)
+                                val quarterStartMonth = (currentMonth / 3) * 3 // 0, 3, 6, or 9
+                                set(java.util.Calendar.MONTH, quarterStartMonth)
+                                set(java.util.Calendar.DAY_OF_MONTH, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.DAY_OF_YEAR -> {
+                                // Truncate to start of year
+                                set(java.util.Calendar.DAY_OF_YEAR, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
                         }
-                        java.util.Calendar.DAY_OF_MONTH -> {
-                            // Truncate to start of month
-                            set(java.util.Calendar.DAY_OF_MONTH, 1)
-                            set(java.util.Calendar.HOUR_OF_DAY, 0)
-                            set(java.util.Calendar.MINUTE, 0)
-                            set(java.util.Calendar.SECOND, 0)
-                            set(java.util.Calendar.MILLISECOND, 0)
-                        }
-                        java.util.Calendar.MONTH -> {
-                            // Truncate to start of quarter (Q1=Jan, Q2=Apr, Q3=Jul, Q4=Oct)
-                            val currentMonth = get(java.util.Calendar.MONTH)
-                            val quarterStartMonth = (currentMonth / 3) * 3 // 0, 3, 6, or 9
-                            set(java.util.Calendar.MONTH, quarterStartMonth)
-                            set(java.util.Calendar.DAY_OF_MONTH, 1)
-                            set(java.util.Calendar.HOUR_OF_DAY, 0)
-                            set(java.util.Calendar.MINUTE, 0)
-                            set(java.util.Calendar.SECOND, 0)
-                            set(java.util.Calendar.MILLISECOND, 0)
-                        }
-                        java.util.Calendar.DAY_OF_YEAR -> {
-                            // Truncate to start of year
-                            set(java.util.Calendar.DAY_OF_YEAR, 1)
-                            set(java.util.Calendar.HOUR_OF_DAY, 0)
-                            set(java.util.Calendar.MINUTE, 0)
-                            set(java.util.Calendar.SECOND, 0)
-                            set(java.util.Calendar.MILLISECOND, 0)
-                        }
-                    }
-                }.timeInMillis
-            )
+                    }.timeInMillis
+                )
+            }
             
             grouped.getOrPut(truncatedTimestamp) { mutableListOf() }.add(score.value)
         }
