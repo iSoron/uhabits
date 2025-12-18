@@ -96,5 +96,117 @@ class AggregateScoreCalculator {
 
         return earliest
     }
+
+    /**
+     * Calculates the current improvement streak.
+     * Counts consecutive days where the score increased compared to the previous day.
+     *
+     * @param scores List of scores ordered from oldest to newest
+     * @return Number of consecutive days of improvement (0 if empty or no improvement)
+     */
+    fun calculateImprovementStreak(scores: List<Score>): Int {
+        if (scores.size < 2) {
+            return 0
+        }
+
+        var streak = 0
+        var i = scores.size - 1
+
+        // Start from most recent day and work backwards
+        while (i > 0) {
+            val currentScore = scores[i].value
+            val previousScore = scores[i - 1].value
+
+            if (currentScore > previousScore) {
+                streak++
+                i--
+            } else {
+                break
+            }
+        }
+
+        return streak
+    }
+
+    /**
+     * Calculates the longest improvement streak in the given scores.
+     *
+     * @param scores List of scores ordered from oldest to newest
+     * @return Longest streak of consecutive improvements
+     */
+    fun calculateLongestStreak(scores: List<Score>): Int {
+        if (scores.size < 2) {
+            return 0
+        }
+
+        var longestStreak = 0
+        var currentStreak = 0
+
+        for (i in 1 until scores.size) {
+            if (scores[i].value > scores[i - 1].value) {
+                currentStreak++
+                if (currentStreak > longestStreak) {
+                    longestStreak = currentStreak
+                }
+            } else {
+                currentStreak = 0
+            }
+        }
+
+        return longestStreak
+    }
+
+    /**
+     * Generates a motivational insight based on streak data.
+     *
+     * @param currentStreak Current consecutive days of improvement
+     * @param longestStreak Longest streak achieved
+     * @param recentTrend Average change in score over recent days (positive = improving)
+     * @return Motivational message string
+     */
+    fun generateStreakInsight(
+        currentStreak: Int,
+        longestStreak: Int,
+        recentTrend: Double
+    ): String {
+        return when {
+            // Current streak is a new personal best
+            currentStreak > 0 && currentStreak == longestStreak && currentStreak >= 3 ->
+                "New personal best!"
+
+            // Strong ongoing streak
+            currentStreak >= 7 -> "Building momentum!"
+
+            // Good progress
+            currentStreak >= 3 -> "Keep going!"
+
+            // Positive trend but no current streak
+            currentStreak == 0 && recentTrend > 0 -> "Steady and consistent!"
+
+            // No streak but previous best exists
+            currentStreak == 0 && longestStreak >= 3 -> "Tomorrow's a fresh start!"
+
+            // Starting out or flat performance
+            else -> "Take it one day at a time."
+        }
+    }
+
+    /**
+     * Calculates the next milestone for the improvement streak.
+     *
+     * @param currentStreak Current streak value
+     * @return Next milestone value
+     */
+    fun getNextMilestone(currentStreak: Int): Int {
+        return when {
+            currentStreak < 3 -> 3
+            currentStreak < 7 -> 7
+            currentStreak < 14 -> 14
+            currentStreak < 30 -> 30
+            currentStreak < 60 -> 60
+            currentStreak < 90 -> 90
+            else -> ((currentStreak / 30) + 1) * 30  // Next 30-day milestone
+        }
+    }
 }
 

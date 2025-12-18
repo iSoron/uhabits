@@ -247,4 +247,20 @@
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
     <string name="pref_animations_title">Disable animations</string>
     <string name="pref_animations_description">Disable confetti animation after adding a checkmark.</string>
+    
+    <!-- Overview Screen - Additional strings -->
+    <string name="improvement_streak">Improvement Streak</string>
+    <string name="days_of_improvement">days of improvement</string>
+    <string name="streak_explanation">Counts consecutive days your score increased</string>
+    <string name="next_milestone">Next milestone:</string>
+    <string name="next_milestone_format">Next milestone: %d days</string>
+    <string name="keep_going">Keep going!</string>
+    <string name="building_momentum">Building momentum!</string>
+    <string name="fresh_start">Tomorrow\'s a fresh start!</string>
+    <string name="personal_best">New personal best!</string>
+    <string name="insight_strong_week">Strong week of progress!</string>
+    <string name="insight_steady">Steady and consistent!</string>
+    <string name="insight_same">Take it one day at a time.</string>
+    <string name="insight_encourage">You can do this!</string>
+    
 </resources>

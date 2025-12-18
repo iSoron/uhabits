@@ -21,161 +21,92 @@ package org.isoron.uhabits.activities.habits.overview
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.HabitMatcher
-import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.databinding.ActivityOverviewBinding
 
 class OverviewActivity : AppCompatActivity() {
 
-    private lateinit var chartView: AggregateScoreChart
-    private lateinit var statsYesterday: TextView
-    private lateinit var statsToday: TextView
-    private lateinit var statsChange: TextView
-    private lateinit var emptyStateView: TextView
-    private lateinit var timeRangeSpinner: Spinner
+    private lateinit var binding: ActivityOverviewBinding
+    private lateinit var presenter: OverviewPresenter
     private lateinit var taskRunner: TaskRunner
-    private val calculator = AggregateScoreCalculator()
 
-    private var currentDays = 7
+    private var currentTimeRangeDays = 7 // Default to 7 days
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_overview)
+        
+        // Setup ViewBinding
+        binding = ActivityOverviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = getString(R.string.overview)
-
+        // Get dependencies
         val app = applicationContext as HabitsApplication
         taskRunner = app.component.taskRunner
+        val habitList = app.component.habitList
 
-        chartView = findViewById(R.id.overviewChart)
-        statsYesterday = findViewById(R.id.statsYesterday)
-        statsToday = findViewById(R.id.statsToday)
-        statsChange = findViewById(R.id.statsChange)
-        emptyStateView = findViewById(R.id.emptyStateView)
-        timeRangeSpinner = findViewById(R.id.timeRangeSpinner)
+        // Initialize presenter
+        presenter = OverviewPresenter(this, habitList)
 
-        setupTimeRangeSpinner()
-        loadData(currentDays)
+        // Setup UI
+        setupToolbar()
+        setupCardCallbacks()
+        
+        // Load initial data
+        loadData(currentTimeRangeDays)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
+    private fun setupToolbar() {
+        binding.toolbar.title = getString(R.string.overview)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setupTimeRangeSpinner() {
-        val timeRanges = arrayOf(
-            getString(R.string.last_7_days),
-            getString(R.string.last_30_days),
-            getString(R.string.last_60_days),
-            getString(R.string.last_90_days),
-            getString(R.string.last_180_days),
-            getString(R.string.last_365_days),
-            getString(R.string.all_time)
-        )
-
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, timeRanges)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        timeRangeSpinner.adapter = adapter
-
-        timeRangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                currentDays = when (position) {
-                    0 -> 7
-                    1 -> 30
-                    2 -> 60
-                    3 -> 90
-                    4 -> 180
-                    5 -> 365
-                    6 -> -1 // all time
-                    else -> 7
-                }
-                loadData(currentDays)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+    private fun setupCardCallbacks() {
+        binding.scoreCard.onTimeRangeChanged = { days ->
+            currentTimeRangeDays = days
+            loadData(days)
         }
     }
 
     private fun loadData(days: Int) {
         taskRunner.run {
-            val app = applicationContext as HabitsApplication
-            val habitList = app.component.habitList
-
-            // Get all active (non-archived) habits
-            val matcher = HabitMatcher(isArchivedAllowed = false)
-            val activeHabits = habitList.getFiltered(matcher)
-
-            if (activeHabits.isEmpty) {
-                runOnUiThread {
-                    showEmptyState()
-                }
-                return@run
-            }
-
-            // Calculate date range
-            val today = DateUtils.getToday()
-            val fromDate = if (days == -1) {
-                calculator.findEarliestHabitDate(activeHabits.toList(), today)
-            } else {
-                today.minus(days - 1)
-            }
-
-            // Compute aggregate scores per day
-            val aggregateScores = calculator.computeAggregateScores(
-                activeHabits.toList(),
-                fromDate,
-                today
-            )
-
-            // Update UI
+            val state = presenter.buildState(days)
+            
             runOnUiThread {
-                if (aggregateScores.size >= 2) {
-                    val todayScore = aggregateScores.last()
-                    val yesterdayScore = aggregateScores[aggregateScores.size - 2]
-                    val change = todayScore.value - yesterdayScore.value
-
-                    statsYesterday.text = String.format("%.2f%%", yesterdayScore.value * 100)
-                    statsToday.text = String.format("%.2f%%", todayScore.value * 100)
-
-                    val changeText = if (change >= 0) {
-                        String.format("+%.2f%% ↑", change * 100)
-                    } else {
-                        String.format("%.2f%% ↓", change * 100)
-                    }
-                    statsChange.text = changeText
-                    statsChange.setTextColor(
-                        if (change >= 0) {
-                            getColor(android.R.color.holo_green_dark)
-                        } else {
-                            getColor(android.R.color.holo_red_dark)
-                        }
-                    )
-
-                    chartView.visibility = View.VISIBLE
-                    emptyStateView.visibility = View.GONE
-                    chartView.setScores(aggregateScores.reversed()) // Reversed for chart display
-                } else {
-                    showEmptyState()
-                }
+                updateUI(state)
             }
         }
     }
 
-    private fun showEmptyState() {
-        chartView.visibility = View.GONE
-        emptyStateView.visibility = View.VISIBLE
-        statsYesterday.text = "-"
-        statsToday.text = "-"
-        statsChange.text = "-"
+    private fun updateUI(state: OverviewState) {
+        if (state.isEmpty) {
+            binding.emptyStateView.visibility = View.VISIBLE
+            binding.scrollView.visibility = View.GONE
+        } else {
+            binding.emptyStateView.visibility = View.GONE
+            binding.scrollView.visibility = View.VISIBLE
+
+            // Update card states
+            binding.statsCard.setState(state.statsCard)
+            binding.scoreCard.setState(state.scoreCard)
+
+            // Show/hide streak card based on availability
+            if (state.streakCard != null) {
+                binding.streakCard.visibility = View.VISIBLE
+                binding.streakCard.setState(state.streakCard)
+            } else {
+                binding.streakCard.visibility = View.GONE
+            }
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

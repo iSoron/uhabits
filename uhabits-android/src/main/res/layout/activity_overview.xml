@@ -18,118 +18,60 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <!-- Time Range Selector -->
-    <Spinner
-        android:id="@+id/timeRangeSpinner"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        app:popupTheme="?toolbarPopupTheme"
+        android:layout_alignParentTop="true"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Stats Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="16dp">
+        android:layout_below="@id/toolbar"
+        android:background="?windowBackgroundColor"
+        android:clipToPadding="false">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            style="@style/CardList"
+            android:id="@+id/linearLayout"
+            android:clipToPadding="false">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/yesterday"
-                android:textSize="12sp"
-                android:textColor="?android:attr/textColorSecondary" />
+            <org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
+                android:id="@+id/statsCard"
+                style="@style/Card"/>
 
-            <TextView
-                android:id="@+id/statsYesterday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="--"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary" />
+            <org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
+                android:id="@+id/scoreCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.overview.views.ImprovementStreakCardView
+                android:id="@+id/streakCard"
+                style="@style/Card"/>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/today"
-                android:textSize="12sp"
-                android:textColor="?android:attr/textColorSecondary" />
-
-            <TextView
-                android:id="@+id/statsToday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="--"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/change"
-                android:textSize="12sp"
-                android:textColor="?android:attr/textColorSecondary" />
-
-            <TextView
-                android:id="@+id/statsChange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="--"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Chart View -->
-    <org.isoron.uhabits.activities.habits.overview.AggregateScoreChart
-        android:id="@+id/overviewChart"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="visible" />
+    </ScrollView>
 
     <!-- Empty State -->
     <TextView
         android:id="@+id/emptyStateView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_centerInParent="true"
         android:gravity="center"
+        android:padding="32dp"
         android:text="@string/overview_empty_message"
-        android:textSize="16sp"
         android:textColor="?android:attr/textColorSecondary"
-        android:visibility="gone" />
+        android:textSize="16sp"
+        android:visibility="gone"/>
 
-</LinearLayout>
+</RelativeLayout>
