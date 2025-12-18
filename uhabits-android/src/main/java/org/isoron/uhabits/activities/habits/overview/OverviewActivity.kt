@@ -57,7 +57,7 @@ class OverviewActivity : AppCompatActivity() {
         themeSwitcher.apply()
 
         // Initialize presenter
-        presenter = OverviewPresenter(this, habitList, themeSwitcher.currentTheme)
+        presenter = OverviewPresenter(this, habitList, themeSwitcher.currentTheme, preferences.firstWeekdayInt)
 
         // Setup UI
         setupToolbar()
@@ -116,6 +116,14 @@ class OverviewActivity : AppCompatActivity() {
                 binding.historyCard.setState(state.historyCard)
             } else {
                 binding.historyCard.visibility = View.GONE
+            }
+
+            // Show/hide frequency card based on availability
+            if (state.frequencyCard != null) {
+                binding.frequencyCard.visibility = View.VISIBLE
+                binding.frequencyCard.setState(state.frequencyCard)
+            } else {
+                binding.frequencyCard.visibility = View.GONE
             }
         }
     }

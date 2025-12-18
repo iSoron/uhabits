@@ -152,5 +152,78 @@ class AggregateScoreCalculator {
         
         return last10.reversed()
     }
+
+    /**
+     * Computes aggregate weekday frequency data for use in frequency charts.
+     * For each month in the date range, calculates the average score for each weekday.
+     * 
+     * @param habits List of habits to aggregate
+     * @param fromDate Start date (inclusive)
+     * @param toDate End date (inclusive)
+     * @return HashMap where key is first day of month, value is array of 7 integers
+     *         representing average scores (0-1000) for each weekday (Sat=0, Sun=1, ... Fri=6)
+     */
+    fun computeAggregateWeekdayFrequency(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp
+    ): HashMap<Timestamp, Array<Int>> {
+        if (habits.isEmpty()) {
+            return hashMapOf()
+        }
+
+        // First compute all daily aggregate scores
+        val scores = computeAggregateScores(habits, fromDate, toDate)
+        if (scores.isEmpty()) {
+            return hashMapOf()
+        }
+
+        // Group scores by month and weekday
+        val map = hashMapOf<Timestamp, HashMap<Int, MutableList<Double>>>()
+        
+        for (score in scores) {
+            val timestamp = score.timestamp
+            val weekday = timestamp.weekday
+            
+            // Truncate to first day of month
+            val truncatedTimestamp = Timestamp(
+                timestamp.toCalendar().apply {
+                    set(java.util.Calendar.DAY_OF_MONTH, 1)
+                }.timeInMillis
+            )
+            
+            // Get or create month map
+            val monthMap = map.getOrPut(truncatedTimestamp) {
+                hashMapOf()
+            }
+            
+            // Get or create weekday list
+            val weekdayScores = monthMap.getOrPut(weekday) {
+                mutableListOf()
+            }
+            
+            weekdayScores.add(score.value)
+        }
+        
+        // Convert to final format: average scores as integers (0-1000)
+        val result = hashMapOf<Timestamp, Array<Int>>()
+        
+        for ((monthTimestamp, monthMap) in map) {
+            val weekdayAverages = Array(7) { 0 }
+            
+            for (weekday in 0..6) {
+                val scores = monthMap[weekday]
+                if (scores != null && scores.isNotEmpty()) {
+                    val average = scores.average()
+                    // Convert to integer (0-1000 range) to match FrequencyChart expectations
+                    weekdayAverages[weekday] = (average * 1000).toInt()
+                }
+            }
+            
+            result[monthTimestamp] = weekdayAverages
+        }
+        
+        return result
+    }
 }
 

@@ -61,6 +61,10 @@
                 android:id="@+id/historyCard"
                 style="@style/Card"/>
 
+            <org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardView
+                android:id="@+id/frequencyCard"
+                style="@style/Card"/>
+
         </LinearLayout>
     </ScrollView>
 

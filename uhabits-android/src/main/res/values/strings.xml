@@ -130,6 +130,7 @@
     <string name="overview">Overview</string>
     <string name="overview_empty_message">Start adding habits to see the overall progress trend</string>
     <string name="overview_history">Calendar</string>
+    <string name="overview_frequency">Frequency</string>
     <string name="yesterday">Yesterday</string>
     <string name="today">Today</string>
     <string name="change">Change</string>

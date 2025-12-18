@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.overview
 import android.content.Context
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
 import org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
@@ -36,6 +37,7 @@ class OverviewPresenter(
     private val context: Context,
     private val habitList: HabitList,
     private val theme: Theme,
+    private val firstWeekday: Int,
     private val calculator: AggregateScoreCalculator = AggregateScoreCalculator()
 ) {
 
@@ -51,6 +53,7 @@ class OverviewPresenter(
                 scoreCard = OverviewScoreCardView.State(emptyList()),
                 streakCard = null,
                 historyCard = null,
+                frequencyCard = null,
                 isEmpty = true
             )
         }
@@ -70,6 +73,7 @@ class OverviewPresenter(
                 scoreCard = OverviewScoreCardView.State(emptyList()),
                 streakCard = null,
                 historyCard = null,
+                frequencyCard = null,
                 isEmpty = true
             )
         }
@@ -127,11 +131,30 @@ class OverviewPresenter(
             null
         }
 
+        // Build frequency card state - show last ~12 months
+        val frequencyStartDate = today.minus(365)
+        val frequencyData = calculator.computeAggregateWeekdayFrequency(
+            activeHabits.toList(),
+            frequencyStartDate,
+            today
+        )
+        val frequencyCardState = if (frequencyData.isNotEmpty()) {
+            OverviewFrequencyCardState(
+                frequency = frequencyData,
+                color = PaletteColor(11), // Blue
+                firstWeekday = firstWeekday,
+                theme = theme
+            )
+        } else {
+            null
+        }
+
         return OverviewState(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
             streakCard = streakCardState,
             historyCard = historyCardState,
+            frequencyCard = frequencyCardState,
             isEmpty = false
         )
     }
