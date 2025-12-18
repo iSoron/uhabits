@@ -21,108 +21,53 @@ package org.isoron.uhabits.activities.habits.overview.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
-import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.views.ScoreChart
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Score
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.databinding.OverviewScoreCardBinding
-import org.isoron.uhabits.utils.PaletteUtils
 
-class OverviewScoreCardView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : LinearLayout(context, attrs) {
+data class OverviewScoreCardState(
+    val scores: List<Score>,
+    val bucketSize: Int,
+    val spinnerPosition: Int,
+    val color: PaletteColor,
+    val theme: Theme
+)
 
-    private val binding: OverviewScoreCardBinding
-    var onTimeRangeChanged: ((Int) -> Unit)? = null
+class OverviewScoreCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    init {
-        inflate(context, R.layout.overview_score_card, this)
-        binding = OverviewScoreCardBinding.bind(this)
-        orientation = VERTICAL
+    private var binding = OverviewScoreCardBinding.inflate(LayoutInflater.from(context), this)
+    private var onSpinnerPositionChanged: ((Int) -> Unit)? = null
 
-        setupTimeRangeSpinner()
+    fun setState(state: OverviewScoreCardState) {
+        val androidColor = state.theme.color(state.color).toInt()
+        binding.title.setTextColor(androidColor)
+        binding.spinner.setSelection(state.spinnerPosition)
+        binding.scoreView.setScores(state.scores)
+        binding.scoreView.reset()
+        binding.scoreView.setBucketSize(state.bucketSize)
+        binding.scoreView.setColor(androidColor)
     }
 
-    private fun setupTimeRangeSpinner() {
-        val timeRanges = arrayOf(
-            context.getString(R.string.last_7_days),
-            context.getString(R.string.last_30_days),
-            context.getString(R.string.last_60_days),
-            context.getString(R.string.last_90_days),
-            context.getString(R.string.last_180_days),
-            context.getString(R.string.last_365_days),
-            context.getString(R.string.all_time)
-        )
-
-        val adapter = ArrayAdapter(
-            context,
-            android.R.layout.simple_spinner_item,
-            timeRanges
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.timeRangeSpinner.adapter = adapter
-
-        binding.timeRangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val days = when (position) {
-                    0 -> 7
-                    1 -> 30
-                    2 -> 60
-                    3 -> 90
-                    4 -> 180
-                    5 -> 365
-                    6 -> Int.MAX_VALUE // All time
-                    else -> 30
-                }
-                onTimeRangeChanged?.invoke(days)
+    fun setOnSpinnerPositionChanged(listener: (Int) -> Unit) {
+        this.onSpinnerPositionChanged = listener
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                listener(position)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
     }
-
-    fun setState(state: State) {
-        binding.scoreChart.setScores(state.scores.reversed()) // ScoreChart expects reversed order
-        binding.scoreChart.setColor(PaletteUtils.getAndroidTestColor(state.color.paletteIndex))
-        
-        // Set dynamic Y-axis bounds: min-2% to max+2%
-        val minBound = (state.minScore - 0.02).coerceAtLeast(0.0)
-        val maxBound = (state.maxScore + 0.02).coerceAtMost(1.0)
-        binding.scoreChart.setYAxisBounds(minBound, maxBound)
-        
-        // Set bucket size based on time range for proper X-axis scaling
-        val bucketSize = when {
-            state.selectedTimeRange <= 7 -> 1  // Daily granularity for 7 days
-            state.selectedTimeRange <= 60 -> 1  // Daily for up to 60 days
-            state.selectedTimeRange <= 180 -> 7  // Weekly for up to 180 days
-            else -> 7  // Weekly for longer periods
-        }
-        binding.scoreChart.setBucketSize(bucketSize)
-        
-        // Set spinner selection without triggering listener
-        val position = when (state.selectedTimeRange) {
-            7 -> 0
-            30 -> 1
-            60 -> 2
-            90 -> 3
-            180 -> 4
-            365 -> 5
-            Int.MAX_VALUE -> 6
-            else -> 0 // Default to 7 days
-        }
-        binding.timeRangeSpinner.setSelection(position)
-    }
-
-    data class State(
-        val scores: List<Score>,
-        val selectedTimeRange: Int = 7,
-        val color: PaletteColor = PaletteColor(11), // Blue
-        val minScore: Double = 0.0,
-        val maxScore: Double = 1.0
-    )
 }

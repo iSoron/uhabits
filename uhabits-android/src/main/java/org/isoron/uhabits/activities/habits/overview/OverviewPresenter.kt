@@ -44,7 +44,7 @@ class OverviewPresenter(
 ) {
 
     fun buildState(
-        timeRangeDays: Int,
+        scoreSpinnerPosition: Int = 1,
         barSpinnerPosition: Int = 0
     ): OverviewState {
         val matcher = HabitMatcher(isArchivedAllowed = false)
@@ -53,59 +53,70 @@ class OverviewPresenter(
         if (activeHabits.isEmpty) {
             return OverviewState(
                 statsCard = OverviewStatsCardView.State(0.0, 0.0),
-                scoreCard = OverviewScoreCardView.State(emptyList()),
-                streakCard = null,
+                scoreCard = null,
                 barCard = null,
                 historyCard = null,
+                streakCard = null,
                 frequencyCard = null,
                 isEmpty = true
             )
         }
 
         val today = DateUtils.getToday()
-        val fromDate = if (timeRangeDays == Int.MAX_VALUE) {
-            calculator.findEarliestHabitDate(activeHabits.toList(), today.minus(365))
-        } else {
-            today.minus(timeRangeDays - 1)
-        }
+        val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today.minus(365))
+        val fullHistoryScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
 
-        val scores = calculator.computeAggregateScores(activeHabits.toList(), fromDate, today)
-
-        if (scores.isEmpty()) {
+        if (fullHistoryScores.isEmpty()) {
             return OverviewState(
                 statsCard = OverviewStatsCardView.State(0.0, 0.0),
-                scoreCard = OverviewScoreCardView.State(emptyList()),
-                streakCard = null,
+                scoreCard = null,
                 barCard = null,
                 historyCard = null,
+                streakCard = null,
                 frequencyCard = null,
                 isEmpty = true
             )
         }
 
         // Build stats card state
-        val scoreToday = scores.lastOrNull()?.value ?: 0.0
-        val scoreYesterday = if (scores.size >= 2) scores[scores.size - 2].value else 0.0
+        val scoreToday = fullHistoryScores.lastOrNull()?.value ?: 0.0
+        val scoreYesterday = if (fullHistoryScores.size >= 2) fullHistoryScores[fullHistoryScores.size - 2].value else 0.0
         val statsCardState = OverviewStatsCardView.State(
             scoreYesterday = scoreYesterday * 100,
             scoreToday = scoreToday * 100,
             color = PaletteColor(11) // Blue
         )
 
-        // Build score card state - pass original scores, chart will handle Y-axis scaling
-        val scoreCardState = OverviewScoreCardView.State(
-            scores = scores,
-            selectedTimeRange = timeRangeDays,
+        // Build score card state - use same logic as individual habit ScoreCardPresenter
+        val scoreBucketSizes = intArrayOf(1, 7, 31, 92, 365)
+        val scoreBucketSize = scoreBucketSizes[scoreSpinnerPosition]
+        val scoreTruncateField = when (scoreBucketSize) {
+            1 -> DateUtils.TruncateField.DAY
+            7 -> DateUtils.TruncateField.WEEK_NUMBER
+            31 -> DateUtils.TruncateField.MONTH
+            92 -> DateUtils.TruncateField.QUARTER
+            365 -> DateUtils.TruncateField.YEAR
+            else -> DateUtils.TruncateField.MONTH
+        }
+        
+        val groupedScores = fullHistoryScores.groupBy {
+            DateUtils.truncate(scoreTruncateField, it.timestamp, firstWeekday)
+        }.map { (timestamp, scores) ->
+            org.isoron.uhabits.core.models.Score(
+                timestamp,
+                scores.map { it.value }.average()
+            )
+        }.sortedBy { it.timestamp }.reversed()
+        
+        val scoreCardState = org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardState(
+            scores = groupedScores,
+            bucketSize = scoreBucketSize,
+            spinnerPosition = scoreSpinnerPosition,
             color = PaletteColor(11), // Blue
-            minScore = scores.minOfOrNull { it.value } ?: 0.0,
-            maxScore = scores.maxOfOrNull { it.value } ?: 1.0
+            theme = theme
         )
 
-        // Build streak card state - calculate best streaks from FULL historical data
-        // (not limited by time range selector)
-        val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today.minus(365))
-        val fullHistoryScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
-        
+        // Build streak card state using same fullHistoryScores
         val streakCardState = if (fullHistoryScores.size >= 2) {
             val bestStreaks = calculator.calculateAggregateStreaks(fullHistoryScores)
             if (bestStreaks.isNotEmpty()) {
@@ -194,9 +205,9 @@ class OverviewPresenter(
         return OverviewState(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
-            streakCard = streakCardState,
             barCard = barCardState,
             historyCard = historyCardState,
+            streakCard = streakCardState,
             frequencyCard = frequencyCardState,
             isEmpty = false
         )

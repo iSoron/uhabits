@@ -51,18 +51,22 @@
 
             <org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
                 android:id="@+id/scoreCard"
-                style="@style/Card"/>
-
-            <org.isoron.uhabits.activities.habits.overview.views.BestStreakCardView
-                android:id="@+id/streakCard"
-                style="@style/Card"/>
+                style="@style/Card"
+                android:gravity="center"/>
 
             <org.isoron.uhabits.activities.habits.overview.views.OverviewBarCardView
                 android:id="@+id/barCard"
-                style="@style/Card"/>
+                style="@style/Card"
+                android:gravity="center"/>
 
             <org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardView
                 android:id="@+id/historyCard"
+                style="@style/Card"
+                android:gravity="center"
+                android:paddingBottom="0dp"/>
+
+            <org.isoron.uhabits.activities.habits.overview.views.BestStreakCardView
+                android:id="@+id/streakCard"
                 style="@style/Card"/>
 
             <org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardView

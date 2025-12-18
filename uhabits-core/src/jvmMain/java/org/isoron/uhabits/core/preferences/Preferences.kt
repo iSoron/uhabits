@@ -84,6 +84,11 @@ open class Preferences(private val storage: Storage) {
         set(position) {
             storage.putInt("pref_bar_card_numerical_spinner", position)
         }
+    var overviewScoreSpinnerPosition: Int
+        get() = min(4, max(0, storage.getInt("pref_overview_score_spinner", 1)))
+        set(position) {
+            storage.putInt("pref_overview_score_spinner", position)
+        }
     var overviewBarSpinnerPosition: Int
         get() = min(3, max(0, storage.getInt("pref_overview_bar_spinner", 0)))
         set(position) {

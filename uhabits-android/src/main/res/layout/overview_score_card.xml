@@ -19,18 +19,18 @@
   -->
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/timeRangeSpinner"
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:entries="@array/strengthIntervalNames"
             android:theme="@style/SmallSpinner" />
 
         <TextView
@@ -39,16 +39,13 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="@string/score" />
+            android:text="@string/score"/>
+
+        <org.isoron.uhabits.activities.common.views.ScoreChart
+            android:id="@+id/scoreView"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_below="@id/title"/>
 
     </RelativeLayout>
-
-    <org.isoron.uhabits.activities.common.views.ScoreChart
-        android:id="@+id/scoreChart"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp" />
-
 </merge>

@@ -64,7 +64,7 @@ class OverviewActivity : AppCompatActivity() {
         setupCardCallbacks()
         
         // Load initial data
-        loadData(currentTimeRangeDays)
+        loadData()
     }
 
     private fun setupToolbar() {
@@ -74,23 +74,25 @@ class OverviewActivity : AppCompatActivity() {
     }
 
     private fun setupCardCallbacks() {
-        binding.scoreCard.onTimeRangeChanged = { days ->
-            currentTimeRangeDays = days
-            loadData(days)
+        binding.scoreCard.setOnSpinnerPositionChanged { position ->
+            val app = applicationContext as HabitsApplication
+            app.component.preferences.overviewScoreSpinnerPosition = position
+            loadData()
         }
         
         binding.barCard.setOnSpinnerPositionChanged { position ->
             val app = applicationContext as HabitsApplication
             app.component.preferences.overviewBarSpinnerPosition = position
-            loadData(currentTimeRangeDays)
+            loadData()
         }
     }
 
-    private fun loadData(days: Int) {
+    private fun loadData() {
         taskRunner.run {
             val app = applicationContext as HabitsApplication
+            val scoreSpinnerPosition = app.component.preferences.overviewScoreSpinnerPosition
             val barSpinnerPosition = app.component.preferences.overviewBarSpinnerPosition
-            val state = presenter.buildState(days, barSpinnerPosition)
+            val state = presenter.buildState(scoreSpinnerPosition, barSpinnerPosition)
             
             runOnUiThread {
                 updateUI(state)
@@ -106,19 +108,18 @@ class OverviewActivity : AppCompatActivity() {
             binding.emptyStateView.visibility = View.GONE
             binding.scrollView.visibility = View.VISIBLE
 
-            // Update card states
+            // Update card states (in order matching individual habit detail view)
             binding.statsCard.setState(state.statsCard)
-            binding.scoreCard.setState(state.scoreCard)
-
-            // Show/hide streak card based on availability
-            if (state.streakCard != null) {
-                binding.streakCard.visibility = View.VISIBLE
-                binding.streakCard.setState(state.streakCard)
+            
+            // Score card
+            if (state.scoreCard != null) {
+                binding.scoreCard.visibility = View.VISIBLE
+                binding.scoreCard.setState(state.scoreCard)
             } else {
-                binding.streakCard.visibility = View.GONE
+                binding.scoreCard.visibility = View.GONE
             }
 
-            // Show/hide bar card based on availability
+            // Bar card
             if (state.barCard != null) {
                 binding.barCard.visibility = View.VISIBLE
                 binding.barCard.setState(state.barCard)
@@ -126,7 +127,7 @@ class OverviewActivity : AppCompatActivity() {
                 binding.barCard.visibility = View.GONE
             }
 
-            // Show/hide history card based on availability
+            // History (Calendar) card
             if (state.historyCard != null) {
                 binding.historyCard.visibility = View.VISIBLE
                 binding.historyCard.setState(state.historyCard)
@@ -134,7 +135,15 @@ class OverviewActivity : AppCompatActivity() {
                 binding.historyCard.visibility = View.GONE
             }
 
-            // Show/hide frequency card based on availability
+            // Streaks card
+            if (state.streakCard != null) {
+                binding.streakCard.visibility = View.VISIBLE
+                binding.streakCard.setState(state.streakCard)
+            } else {
+                binding.streakCard.visibility = View.GONE
+            }
+
+            // Frequency card
             if (state.frequencyCard != null) {
                 binding.frequencyCard.visibility = View.VISIBLE
                 binding.frequencyCard.setState(state.frequencyCard)
