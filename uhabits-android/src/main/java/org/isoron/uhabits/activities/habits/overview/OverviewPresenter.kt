@@ -88,9 +88,13 @@ class OverviewPresenter(
             maxScore = scores.maxOfOrNull { it.value } ?: 1.0
         )
 
-        // Build streak card state - calculate best streaks from aggregate scores
-        val streakCardState = if (scores.size >= 2) {
-            val bestStreaks = calculator.calculateAggregateStreaks(scores)
+        // Build streak card state - calculate best streaks from FULL historical data
+        // (not limited by time range selector)
+        val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today.minus(365))
+        val fullHistoryScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
+        
+        val streakCardState = if (fullHistoryScores.size >= 2) {
+            val bestStreaks = calculator.calculateAggregateStreaks(fullHistoryScores)
             if (bestStreaks.isNotEmpty()) {
                 StreakCardState(
                     color = PaletteColor(11), // Blue

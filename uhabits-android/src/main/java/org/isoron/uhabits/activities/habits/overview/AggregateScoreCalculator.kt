@@ -143,12 +143,14 @@ class AggregateScoreCalculator {
             allStreaks.add(org.isoron.uhabits.core.models.Streak(streakStart, streakEnd))
         }
 
-        // Return last 10 streaks (most recent)
-        return if (allStreaks.size <= 10) {
+        // Return last 10 streaks, reversed so most recent appears first
+        val last10 = if (allStreaks.size <= 10) {
             allStreaks
         } else {
             allStreaks.takeLast(10)
         }
+        
+        return last10.reversed()
     }
 }
 

@@ -358,20 +358,20 @@ class AggregateScoreCalculatorTest : BaseAndroidJVMTest() {
 
         assertEquals(3, result.size)
         
-        // Verify first streak
-        assertEquals(today.minus(9), result[0].start)
-        assertEquals(today.minus(9), result[0].end)
-        assertEquals(1, result[0].length)
+        // Verify first streak (most recent)
+        assertEquals(today.minus(3), result[0].start)
+        assertEquals(today, result[0].end)
+        assertEquals(4, result[0].length)
         
         // Verify second streak
         assertEquals(today.minus(7), result[1].start)
         assertEquals(today.minus(5), result[1].end)
         assertEquals(3, result[1].length)
         
-        // Verify third streak
-        assertEquals(today.minus(3), result[2].start)
-        assertEquals(today, result[2].end)
-        assertEquals(4, result[2].length)
+        // Verify third streak (oldest)
+        assertEquals(today.minus(9), result[2].start)
+        assertEquals(today.minus(9), result[2].end)
+        assertEquals(1, result[2].length)
     }
 
     @Test
@@ -393,8 +393,8 @@ class AggregateScoreCalculatorTest : BaseAndroidJVMTest() {
         // Should only return the last 10 streaks
         assertEquals(10, result.size)
         
-        // Verify the last streak is the most recent one
-        assertEquals(today.minus(1), result.last().end)
+        // Verify the first streak is the most recent one (reversed order)
+        assertEquals(today.minus(1), result.first().end)
     }
 
     @Test
@@ -414,14 +414,14 @@ class AggregateScoreCalculatorTest : BaseAndroidJVMTest() {
         // Should have 2 streaks because equal score breaks the streak
         assertEquals(2, result.size)
         
-        // First streak: days -4 to -3 (improvements)
-        assertEquals(today.minus(4), result[0].start)
-        assertEquals(today.minus(3), result[0].end)
+        // First streak (most recent): days -1 to today (improvements)
+        assertEquals(today.minus(1), result[0].start)
+        assertEquals(today, result[0].end)
         assertEquals(2, result[0].length)
         
-        // Second streak: days -1 to today (improvements)
-        assertEquals(today.minus(1), result[1].start)
-        assertEquals(today, result[1].end)
+        // Second streak (older): days -4 to -3 (improvements)
+        assertEquals(today.minus(4), result[1].start)
+        assertEquals(today.minus(3), result[1].end)
         assertEquals(2, result[1].length)
     }
 
