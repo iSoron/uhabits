@@ -63,7 +63,7 @@ class OverviewPresenter(
         }
 
         val today = DateUtils.getToday()
-        val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today.minus(365))
+        val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today)
         val fullHistoryScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
 
         if (fullHistoryScores.isEmpty()) {
@@ -132,9 +132,8 @@ class OverviewPresenter(
             null
         }
 
-        // Build history card state - show last ~150 days (approximately 5 months)
-        val historyStartDate = today.minus(149)
-        val historyScores = calculator.computeAggregateScores(activeHabits.toList(), historyStartDate, today)
+        // Build history card state - show all historical data
+        val historyScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
         val historyCardState = if (historyScores.isNotEmpty()) {
             OverviewHistoryCardState(
                 scoreValues = historyScores.map { it.value },
@@ -151,7 +150,7 @@ class OverviewPresenter(
         val bucketSizes = intArrayOf(1, 7, 31, 92, 365)
         val barCardState = if (barSpinnerPosition in bucketSizes.indices) {
             val bucketSize = bucketSizes[barSpinnerPosition]
-            val barStartDate = today.minus(bucketSize * 20) // Show ~20 periods
+            val barStartDate = earliestDate // Show all historical data
             
             // For daily view, don't group - show each individual day
             // For other views, use truncation

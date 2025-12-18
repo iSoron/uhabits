@@ -442,4 +442,33 @@ class AggregateScoreCalculatorTest : BaseAndroidJVMTest() {
         assertEquals(today, result[0].end)
         assertEquals(3, result[0].length)
     }
+
+    @Test
+    fun testFindEarliestHabitDate_withRecentEntries_doesNotUseFallback() {
+        // Simulates real scenario: user started logging in Aug 2025, but fallback is Dec 2024
+        // The function should return Aug 2025 (actual earliest), not Dec 2024 (fallback)
+        val habit = fixtures.createShortHabit()
+        val today = DateUtils.getToday() // Dec 18, 2025
+        val firstEntry = today.minus(137) // Aug 3, 2025 (137 days ago from Dec 18)
+        
+        habit.originalEntries.add(Entry(firstEntry, Entry.YES_MANUAL))
+        
+        // BUG: If we pass today.minus(365) as fallback (Dec 18, 2024),
+        // it's OLDER than Aug 2025, so function incorrectly returns Dec 2024
+        val buggyResult = calculator.findEarliestHabitDate(
+            listOf(habit),
+            today.minus(365) // Dec 18, 2024
+        )
+        
+        // CORRECT: Should return Aug 3, 2025 (actual earliest entry)
+        assertEquals(firstEntry, buggyResult)
+        
+        // With proper fallback (today), it correctly finds Aug 2025
+        val correctResult = calculator.findEarliestHabitDate(
+            listOf(habit),
+            today
+        )
+        
+        assertEquals(firstEntry, correctResult)
+    }
 }

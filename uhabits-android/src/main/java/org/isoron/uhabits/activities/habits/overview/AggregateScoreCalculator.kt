@@ -82,19 +82,21 @@ class AggregateScoreCalculator {
             return defaultDate
         }
 
-        var earliest = defaultDate
+        var earliest: Timestamp? = null
 
         for (habit in habits) {
             val entries = habit.originalEntries.getKnown()
             if (entries.isNotEmpty()) {
                 val firstEntry = entries.minByOrNull { it.timestamp.unixTime }
-                if (firstEntry != null && firstEntry.timestamp.isOlderThan(earliest)) {
-                    earliest = firstEntry.timestamp
+                if (firstEntry != null) {
+                    if (earliest == null || firstEntry.timestamp.isOlderThan(earliest)) {
+                        earliest = firstEntry.timestamp
+                    }
                 }
             }
         }
 
-        return earliest
+        return earliest ?: defaultDate
     }
 
     /**
