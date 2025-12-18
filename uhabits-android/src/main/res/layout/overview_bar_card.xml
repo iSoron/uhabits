@@ -30,7 +30,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:entries="@array/strengthIntervalNamesWithoutDay"
+            android:entries="@array/strengthIntervalNames"
             android:theme="@style/SmallSpinner" />
 
         <TextView

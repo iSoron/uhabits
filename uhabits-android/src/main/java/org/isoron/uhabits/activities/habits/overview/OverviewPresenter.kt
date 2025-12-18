@@ -147,14 +147,15 @@ class OverviewPresenter(
             null
         }
 
-        // Build bar card state - show average scores by period (Week/Month/Quarter/Year)
-        val bucketSizes = intArrayOf(7, 31, 92, 365)
+        // Build bar card state - show average scores by period (Day/Week/Month/Quarter/Year)
+        val bucketSizes = intArrayOf(1, 7, 31, 92, 365)
         val barCardState = if (barSpinnerPosition in bucketSizes.indices) {
             val bucketSize = bucketSizes[barSpinnerPosition]
             val barStartDate = today.minus(bucketSize * 20) // Show ~20 periods
             
             // Determine truncate field based on bucket size
             val truncateField = when (bucketSize) {
+                1 -> Calendar.DAY_OF_MONTH // Daily - each day
                 7 -> Calendar.DAY_OF_WEEK
                 31 -> Calendar.DAY_OF_MONTH
                 92 -> Calendar.MONTH // For quarters, truncate by month then group by 3
