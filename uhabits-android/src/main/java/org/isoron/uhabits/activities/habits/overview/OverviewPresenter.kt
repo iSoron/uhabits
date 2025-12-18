@@ -136,7 +136,7 @@ class OverviewPresenter(
         val historyScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
         val historyCardState = if (historyScores.isNotEmpty()) {
             OverviewHistoryCardState(
-                scoreValues = historyScores.map { it.value },
+                scoreValues = historyScores.map { it.value }.reversed(), // Reverse for HistoryChart display
                 color = PaletteColor(11), // Blue
                 firstWeekday = DayOfWeek.SUNDAY,
                 theme = theme,

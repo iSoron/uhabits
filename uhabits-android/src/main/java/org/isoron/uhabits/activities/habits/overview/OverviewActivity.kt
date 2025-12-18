@@ -73,6 +73,16 @@ class OverviewActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setupCardCallbacks() {
         binding.scoreCard.setOnSpinnerPositionChanged { position ->
             val app = applicationContext as HabitsApplication
