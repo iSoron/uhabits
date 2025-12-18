@@ -74,6 +74,8 @@ class ScoreChart : ScrollableChart {
     private var skipYear = 0
     private var previousYearText: String? = null
     private var previousMonthText: String? = null
+    private var yAxisMin = 0.0
+    private var yAxisMax = 1.0
 
     constructor(context: Context?) : super(context) {
         init()
@@ -118,6 +120,12 @@ class ScoreChart : ScrollableChart {
         postInvalidate()
     }
 
+    fun setYAxisBounds(minBound: Double, maxBound: Double) {
+        this.yAxisMin = minBound
+        this.yAxisMax = maxBound
+        postInvalidate()
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val activeCanvas: Canvas?
@@ -143,7 +151,13 @@ class ScoreChart : ScrollableChart {
             if (offset >= scores!!.size) continue
             val score = scores!![offset].value
             val timestamp = scores!![offset].timestamp
-            val height = (columnHeight * score).toInt()
+            // Map score to Y-axis bounds for dynamic scaling
+            val normalizedScore = if (yAxisMax > yAxisMin) {
+                ((score - yAxisMin) / (yAxisMax - yAxisMin)).coerceIn(0.0, 1.0)
+            } else {
+                0.5 // Fallback if bounds are invalid
+            }
+            val height = (columnHeight * normalizedScore).toInt()
             rect!![0f, 0f, baseSize.toFloat()] = baseSize.toFloat()
             rect!!.offset(
                 k * columnWidth + (columnWidth - baseSize) / 2,
@@ -249,8 +263,12 @@ class ScoreChart : ScrollableChart {
         pText!!.color = textColor
         pGrid!!.color = gridColor
         for (i in 0 until nRows) {
+            // Calculate actual percentage value based on Y-axis bounds
+            val normalizedValue = (nRows - i).toDouble() / nRows
+            val actualValue = yAxisMin + (yAxisMax - yAxisMin) * normalizedValue
+            val percentage = (actualValue * 100).toInt()
             canvas!!.drawText(
-                String.format("%d%%", 100 - i * 100 / nRows),
+                String.format("%d%%", percentage),
                 rGrid.left + 0.5f * em,
                 rGrid.top + 1f * em,
                 pText!!

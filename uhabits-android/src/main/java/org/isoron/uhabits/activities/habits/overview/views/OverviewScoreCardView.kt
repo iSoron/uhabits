@@ -90,6 +90,20 @@ class OverviewScoreCardView @JvmOverloads constructor(
         binding.scoreChart.setScores(state.scores.reversed()) // ScoreChart expects reversed order
         binding.scoreChart.setColor(PaletteUtils.getAndroidTestColor(state.color.paletteIndex))
         
+        // Set dynamic Y-axis bounds: min-2% to max+2%
+        val minBound = (state.minScore - 0.02).coerceAtLeast(0.0)
+        val maxBound = (state.maxScore + 0.02).coerceAtMost(1.0)
+        binding.scoreChart.setYAxisBounds(minBound, maxBound)
+        
+        // Set bucket size based on time range for proper X-axis scaling
+        val bucketSize = when {
+            state.selectedTimeRange <= 7 -> 1  // Daily granularity for 7 days
+            state.selectedTimeRange <= 60 -> 1  // Daily for up to 60 days
+            state.selectedTimeRange <= 180 -> 7  // Weekly for up to 180 days
+            else -> 7  // Weekly for longer periods
+        }
+        binding.scoreChart.setBucketSize(bucketSize)
+        
         // Set spinner selection without triggering listener
         val position = when (state.selectedTimeRange) {
             7 -> 0
@@ -107,6 +121,8 @@ class OverviewScoreCardView @JvmOverloads constructor(
     data class State(
         val scores: List<Score>,
         val selectedTimeRange: Int = 7,
-        val color: PaletteColor = PaletteColor(11) // Blue
+        val color: PaletteColor = PaletteColor(11), // Blue
+        val minScore: Double = 0.0,
+        val maxScore: Double = 1.0
     )
 }

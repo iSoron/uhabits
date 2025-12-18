@@ -77,12 +77,13 @@ class OverviewPresenter(
             color = PaletteColor(11) // Blue
         )
 
-        // Build score card state with normalized scores for better Y-axis visibility
-        val normalizedScores = normalizeScoresForChart(scores)
+        // Build score card state - pass original scores, chart will handle Y-axis scaling
         val scoreCardState = OverviewScoreCardView.State(
-            scores = normalizedScores,
+            scores = scores,
             selectedTimeRange = timeRangeDays,
-            color = PaletteColor(11) // Blue
+            color = PaletteColor(11), // Blue
+            minScore = scores.minOfOrNull { it.value } ?: 0.0,
+            maxScore = scores.maxOfOrNull { it.value } ?: 1.0
         )
 
         // Build streak card state (only if we have enough data)
@@ -121,9 +122,10 @@ class OverviewPresenter(
     }
 
     /**
-     * Normalizes scores for better chart visibility with dynamic Y-axis bounds.
-     * Sets Y-axis to min-2% and max+2% instead of fixed 0-100%.
+     * No longer used - ScoreChart now handles dynamic Y-axis bounds directly.
+     * Kept for reference.
      */
+    @Deprecated("ScoreChart now handles Y-axis scaling")
     private fun normalizeScoresForChart(scores: List<org.isoron.uhabits.core.models.Score>): List<org.isoron.uhabits.core.models.Score> {
         if (scores.isEmpty()) return scores
         
