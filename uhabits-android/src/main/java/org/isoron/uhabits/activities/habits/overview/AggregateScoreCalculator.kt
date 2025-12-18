@@ -300,13 +300,14 @@ class AggregateScoreCalculator {
         }
         
         // Convert to Entry list with average values (multiply by 1000 to match Entry format)
+        // Sort by descending timestamp so most recent periods appear on the right in BarChart
         return grouped.map { (timestamp, values) ->
             val average = values.average()
             org.isoron.uhabits.core.models.Entry(
                 timestamp = timestamp,
                 value = (average * 1000).toInt() // Convert 0-1 score to 0-1000 range
             )
-        }.sortedBy { it.timestamp }
+        }.sortedByDescending { it.timestamp }
     }
 }
 
