@@ -17,21 +17,21 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview
+package org.isoron.uhabits.activities.habits.progress
 
-import org.isoron.uhabits.activities.habits.overview.views.OverviewBarCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
+import org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
+import org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
 import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 
-data class OverviewState(
-    val statsCard: OverviewStatsCardView.State,
-    val scoreCard: OverviewScoreCardState?,
-    val barCard: OverviewBarCardState?,
-    val historyCard: OverviewHistoryCardState?,
+data class ProgressState(
+    val statsCard: ProgressStatsCardView.State,
+    val scoreCard: ProgressScoreCardView.State?,
+    val barCard: ProgressBarCardState?,
+    val historyCard: ProgressHistoryCardState?,
     val streakCard: StreakCardState?,
-    val frequencyCard: OverviewFrequencyCardState?,
+    val frequencyCard: ProgressFrequencyCardState?,
     val isEmpty: Boolean = false
 )

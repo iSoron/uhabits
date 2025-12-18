@@ -17,17 +17,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview.views
+package org.isoron.uhabits.activities.habits.progress.views
 
-import org.isoron.platform.time.DayOfWeek
-import org.isoron.platform.time.LocalDate
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.views.Theme
 
-data class OverviewHistoryCardState(
-    val scoreValues: List<Double>,
-    val color: PaletteColor,
-    val firstWeekday: DayOfWeek,
+data class ProgressBarCardState(
     val theme: Theme,
-    val today: LocalDate
+    val spinnerPosition: Int,
+    val bucketSize: Int,
+    val color: PaletteColor,
+    val entries: List<Entry>
 )

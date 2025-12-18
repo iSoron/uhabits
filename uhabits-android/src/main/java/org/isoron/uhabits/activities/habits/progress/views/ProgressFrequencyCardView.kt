@@ -17,39 +17,25 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview.views
+package org.isoron.uhabits.activities.habits.progress.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.platform.gui.toInt
-import org.isoron.platform.time.JavaLocalDateFormatter
-import org.isoron.uhabits.core.ui.views.HistoryChart
-import org.isoron.uhabits.databinding.OverviewHistoryCardBinding
-import java.util.Locale
+import org.isoron.uhabits.databinding.ProgressFrequencyCardBinding
 
-class OverviewHistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class ProgressFrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     
-    private var binding = OverviewHistoryCardBinding.inflate(LayoutInflater.from(context), this)
+    private var binding = ProgressFrequencyCardBinding.inflate(LayoutInflater.from(context), this)
     
-    fun setState(state: OverviewHistoryCardState) {
+    fun setState(state: ProgressFrequencyCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
-        
-        val chart = HistoryChart(
-            dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
-            firstWeekday = state.firstWeekday,
-            paletteColor = state.color,
-            series = emptyList(),
-            defaultSquare = HistoryChart.Square.OFF,
-            notesIndicators = emptyList(),
-            theme = state.theme,
-            today = state.today,
-            scoreValues = state.scoreValues
-        )
-        
-        binding.historyChart.view = chart
-        binding.historyChart.postInvalidate()
+        binding.frequencyChart.setFrequency(state.frequency)
+        binding.frequencyChart.setIsNumerical(true) // Always true for aggregate scores
+        binding.frequencyChart.setFirstWeekday(state.firstWeekday)
+        binding.frequencyChart.setColor(androidColor)
     }
 }

@@ -49,8 +49,8 @@ class ListHabitsMenuBehavior @Inject constructor(
         screen.showSettingsScreen()
     }
 
-    fun onViewOverview() {
-        screen.showOverviewScreen()
+    fun onViewProgress() {
+        screen.showProgressScreen()
     }
 
     fun onToggleShowArchived() {
@@ -136,7 +136,7 @@ class ListHabitsMenuBehavior @Inject constructor(
         fun showAboutScreen()
         fun showFAQScreen()
         fun showSettingsScreen()
-        fun showOverviewScreen()
+        fun showProgressScreen()
         fun showSelectHabitTypeDialog()
     }
 

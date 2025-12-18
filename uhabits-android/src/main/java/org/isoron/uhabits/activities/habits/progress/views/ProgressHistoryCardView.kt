@@ -16,24 +16,40 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.activities.habits.overview.views
+
+package org.isoron.uhabits.activities.habits.progress.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.platform.gui.toInt
-import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
-import org.isoron.uhabits.databinding.BestStreakCardBinding
+import org.isoron.platform.time.JavaLocalDateFormatter
+import org.isoron.uhabits.core.ui.views.HistoryChart
+import org.isoron.uhabits.databinding.ProgressHistoryCardBinding
+import java.util.Locale
 
-class BestStreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    private val binding = BestStreakCardBinding.inflate(LayoutInflater.from(context), this)
+class ProgressHistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     
-    fun setState(state: StreakCardState) {
+    private var binding = ProgressHistoryCardBinding.inflate(LayoutInflater.from(context), this)
+    
+    fun setState(state: ProgressHistoryCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
-        binding.streakChart.setColor(androidColor)
-        binding.streakChart.setStreaks(state.bestStreaks)
-        postInvalidate()
+        
+        val chart = HistoryChart(
+            dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
+            firstWeekday = state.firstWeekday,
+            paletteColor = state.color,
+            series = emptyList(),
+            defaultSquare = HistoryChart.Square.OFF,
+            notesIndicators = emptyList(),
+            theme = state.theme,
+            today = state.today,
+            scoreValues = state.scoreValues
+        )
+        
+        binding.historyChart.view = chart
+        binding.historyChart.postInvalidate()
     }
 }

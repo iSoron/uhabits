@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview.views
+package org.isoron.uhabits.activities.habits.progress.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -28,15 +28,15 @@ import android.widget.LinearLayout
 import org.isoron.platform.gui.toInt
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.core.ui.views.BarChart
-import org.isoron.uhabits.databinding.OverviewBarCardBinding
+import org.isoron.uhabits.databinding.ProgressBarCardBinding
 import java.util.Locale
 
-class OverviewBarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class ProgressBarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private var binding = OverviewBarCardBinding.inflate(LayoutInflater.from(context), this)
+    private var binding = ProgressBarCardBinding.inflate(LayoutInflater.from(context), this)
     private var onSpinnerPositionChanged: ((Int) -> Unit)? = null
 
-    fun setState(state: OverviewBarCardState) {
+    fun setState(state: ProgressBarCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.getDefault())).apply {
             // For overview, values are already in 0-1000 range (scores * 1000)

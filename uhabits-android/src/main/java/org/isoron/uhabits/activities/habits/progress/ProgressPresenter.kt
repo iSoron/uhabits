@@ -17,16 +17,16 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview
+package org.isoron.uhabits.activities.habits.progress
 
 import android.content.Context
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.habits.overview.views.OverviewBarCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
-import org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
+import org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
+import org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.models.PaletteColor
@@ -35,7 +35,7 @@ import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 import java.util.Calendar
 
-class OverviewPresenter(
+class ProgressPresenter(
     private val context: Context,
     private val habitList: HabitList,
     private val theme: Theme,
@@ -46,13 +46,13 @@ class OverviewPresenter(
     fun buildState(
         scoreSpinnerPosition: Int = 1,
         barSpinnerPosition: Int = 0
-    ): OverviewState {
+    ): ProgressState {
         val matcher = HabitMatcher(isArchivedAllowed = false)
         val activeHabits = habitList.getFiltered(matcher)
 
         if (activeHabits.isEmpty) {
-            return OverviewState(
-                statsCard = OverviewStatsCardView.State(0.0, 0.0),
+            return ProgressState(
+                statsCard = ProgressStatsCardView.State(0.0, 0.0),
                 scoreCard = null,
                 barCard = null,
                 historyCard = null,
@@ -67,8 +67,8 @@ class OverviewPresenter(
         val fullHistoryScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
 
         if (fullHistoryScores.isEmpty()) {
-            return OverviewState(
-                statsCard = OverviewStatsCardView.State(0.0, 0.0),
+            return ProgressState(
+                statsCard = ProgressStatsCardView.State(0.0, 0.0),
                 scoreCard = null,
                 barCard = null,
                 historyCard = null,
@@ -81,7 +81,7 @@ class OverviewPresenter(
         // Build stats card state
         val scoreToday = fullHistoryScores.lastOrNull()?.value ?: 0.0
         val scoreYesterday = if (fullHistoryScores.size >= 2) fullHistoryScores[fullHistoryScores.size - 2].value else 0.0
-        val statsCardState = OverviewStatsCardView.State(
+        val statsCardState = ProgressStatsCardView.State(
             scoreYesterday = scoreYesterday * 100,
             scoreToday = scoreToday * 100,
             color = PaletteColor(11) // Blue
@@ -108,7 +108,7 @@ class OverviewPresenter(
             )
         }.sortedBy { it.timestamp }.reversed()
         
-        val scoreCardState = org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardState(
+        val scoreCardState = org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView.State(
             scores = groupedScores,
             bucketSize = scoreBucketSize,
             spinnerPosition = scoreSpinnerPosition,
@@ -135,7 +135,7 @@ class OverviewPresenter(
         // Build history card state - show all historical data
         val historyScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
         val historyCardState = if (historyScores.isNotEmpty()) {
-            OverviewHistoryCardState(
+            ProgressHistoryCardState(
                 scoreValues = historyScores.map { it.value }.reversed(), // Reverse for HistoryChart display
                 color = PaletteColor(11), // Blue
                 firstWeekday = DayOfWeek.SUNDAY,
@@ -171,7 +171,7 @@ class OverviewPresenter(
                 truncateField
             )
             if (entries.isNotEmpty()) {
-                OverviewBarCardState(
+                ProgressBarCardState(
                     theme = theme,
                     spinnerPosition = barSpinnerPosition,
                     bucketSize = bucketSize,
@@ -193,7 +193,7 @@ class OverviewPresenter(
             today
         )
         val frequencyCardState = if (frequencyData.isNotEmpty()) {
-            OverviewFrequencyCardState(
+            ProgressFrequencyCardState(
                 frequency = frequencyData,
                 color = PaletteColor(11), // Blue
                 firstWeekday = firstWeekday,
@@ -203,7 +203,7 @@ class OverviewPresenter(
             null
         }
 
-        return OverviewState(
+        return ProgressState(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
             barCard = barCardState,

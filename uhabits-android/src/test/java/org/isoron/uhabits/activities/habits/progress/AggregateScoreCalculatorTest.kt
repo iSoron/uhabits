@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.activities.habits.overview
+package org.isoron.uhabits.activities.habits.progress
 
 import org.isoron.uhabits.BaseAndroidJVMTest
 import org.isoron.uhabits.core.models.Entry

@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview.views
+package org.isoron.uhabits.activities.habits.progress.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -29,22 +29,22 @@ import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.ui.views.Theme
-import org.isoron.uhabits.databinding.OverviewScoreCardBinding
+import org.isoron.uhabits.databinding.ProgressScoreCardBinding
 
-data class OverviewScoreCardState(
-    val scores: List<Score>,
-    val bucketSize: Int,
-    val spinnerPosition: Int,
-    val color: PaletteColor,
-    val theme: Theme
-)
+class ProgressScoreCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-class OverviewScoreCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    data class State(
+        val scores: List<Score>,
+        val bucketSize: Int,
+        val spinnerPosition: Int,
+        val color: PaletteColor,
+        val theme: Theme
+    )
 
-    private var binding = OverviewScoreCardBinding.inflate(LayoutInflater.from(context), this)
+    private var binding = ProgressScoreCardBinding.inflate(LayoutInflater.from(context), this)
     private var onSpinnerPositionChanged: ((Int) -> Unit)? = null
 
-    fun setState(state: OverviewScoreCardState) {
+    fun setState(state: State) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
         binding.spinner.setSelection(state.spinnerPosition)

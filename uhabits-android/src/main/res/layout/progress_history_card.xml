@@ -23,11 +23,11 @@
     <TextView
         android:id="@+id/title"
         style="@style/CardHeader"
-        android:text="@string/overview_frequency"/>
+        android:text="@string/progress_history"/>
 
-    <org.isoron.uhabits.activities.common.views.FrequencyChart
-        android:id="@+id/frequencyChart"
+    <org.isoron.platform.gui.AndroidDataView
+        android:id="@+id/historyChart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="160dp"/>
 
 </merge>

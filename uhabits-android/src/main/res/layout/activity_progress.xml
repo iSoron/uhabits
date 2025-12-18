@@ -45,31 +45,31 @@
             android:id="@+id/linearLayout"
             android:clipToPadding="false">
 
-            <org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
                 android:id="@+id/statsCard"
                 style="@style/Card"/>
 
-            <org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
                 android:id="@+id/scoreCard"
                 style="@style/Card"
                 android:gravity="center"/>
 
-            <org.isoron.uhabits.activities.habits.overview.views.OverviewBarCardView
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardView
                 android:id="@+id/barCard"
                 style="@style/Card"
                 android:gravity="center"/>
 
-            <org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardView
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardView
                 android:id="@+id/historyCard"
                 style="@style/Card"
                 android:gravity="center"
                 android:paddingBottom="0dp"/>
 
-            <org.isoron.uhabits.activities.habits.overview.views.BestStreakCardView
+            <org.isoron.uhabits.activities.habits.progress.views.BestStreakCardView
                 android:id="@+id/streakCard"
                 style="@style/Card"/>
 
-            <org.isoron.uhabits.activities.habits.overview.views.OverviewFrequencyCardView
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardView
                 android:id="@+id/frequencyCard"
                 style="@style/Card"/>
 
@@ -96,7 +96,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/overview_empty_message"
+            android:text="@string/progress_empty_message"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="16sp"
             android:gravity="center"/>

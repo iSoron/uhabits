@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview
+package org.isoron.uhabits.activities.habits.progress
 
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.Score

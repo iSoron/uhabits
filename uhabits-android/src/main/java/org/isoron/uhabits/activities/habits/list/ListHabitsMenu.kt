@@ -109,8 +109,8 @@ class ListHabitsMenu @Inject constructor(
                 return true
             }
 
-            R.id.actionOverview -> {
-                behavior.onViewOverview()
+            R.id.actionProgress -> {
+                behavior.onViewProgress()
                 return true
             }
 

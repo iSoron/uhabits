@@ -16,26 +16,24 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.isoron.uhabits.activities.habits.overview.views
+package org.isoron.uhabits.activities.habits.progress.views
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.platform.gui.toInt
-import org.isoron.uhabits.databinding.OverviewFrequencyCardBinding
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
+import org.isoron.uhabits.databinding.BestStreakCardBinding
 
-class OverviewFrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class BestStreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    private val binding = BestStreakCardBinding.inflate(LayoutInflater.from(context), this)
     
-    private var binding = OverviewFrequencyCardBinding.inflate(LayoutInflater.from(context), this)
-    
-    fun setState(state: OverviewFrequencyCardState) {
+    fun setState(state: StreakCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
-        binding.frequencyChart.setFrequency(state.frequency)
-        binding.frequencyChart.setIsNumerical(true) // Always true for aggregate scores
-        binding.frequencyChart.setFirstWeekday(state.firstWeekday)
-        binding.frequencyChart.setColor(androidColor)
+        binding.streakChart.setColor(androidColor)
+        binding.streakChart.setStreaks(state.bestStreaks)
+        postInvalidate()
     }
 }

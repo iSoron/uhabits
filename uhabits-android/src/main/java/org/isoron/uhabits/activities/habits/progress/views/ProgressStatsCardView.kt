@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview.views
+package org.isoron.uhabits.activities.habits.progress.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -25,19 +25,19 @@ import android.widget.LinearLayout
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.activities.common.views.RingView
-import org.isoron.uhabits.databinding.OverviewStatsCardBinding
+import org.isoron.uhabits.databinding.ProgressStatsCardBinding
 import org.isoron.uhabits.utils.PaletteUtils
 
-class OverviewStatsCardView @JvmOverloads constructor(
+class ProgressStatsCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
 
-    private val binding: OverviewStatsCardBinding
+    private val binding: ProgressStatsCardBinding
 
     init {
-        inflate(context, R.layout.overview_stats_card, this)
-        binding = OverviewStatsCardBinding.bind(this)
+        inflate(context, R.layout.progress_stats_card, this)
+        binding = ProgressStatsCardBinding.bind(this)
         orientation = VERTICAL
     }
 

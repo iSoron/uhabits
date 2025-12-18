@@ -17,7 +17,7 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview
+package org.isoron.uhabits.activities.habits.progress
 
 import android.os.Bundle
 import android.view.View
@@ -28,12 +28,12 @@ import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.utils.DateUtils
-import org.isoron.uhabits.databinding.ActivityOverviewBinding
+import org.isoron.uhabits.databinding.ActivityProgressBinding
 
-class OverviewActivity : AppCompatActivity() {
+class ProgressActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityOverviewBinding
-    private lateinit var presenter: OverviewPresenter
+    private lateinit var binding: ActivityProgressBinding
+    private lateinit var presenter: ProgressPresenter
     private lateinit var taskRunner: TaskRunner
     private lateinit var themeSwitcher: AndroidThemeSwitcher
 
@@ -53,11 +53,11 @@ class OverviewActivity : AppCompatActivity() {
         themeSwitcher.apply()
         
         // Setup ViewBinding
-        binding = ActivityOverviewBinding.inflate(layoutInflater)
+        binding = ActivityProgressBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Initialize presenter
-        presenter = OverviewPresenter(this, habitList, themeSwitcher.currentTheme, preferences.firstWeekdayInt)
+        presenter = ProgressPresenter(this, habitList, themeSwitcher.currentTheme, preferences.firstWeekdayInt)
 
         // Setup UI
         setupToolbar()
@@ -68,7 +68,7 @@ class OverviewActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.toolbar.title = getString(R.string.overview)
+        binding.toolbar.title = getString(R.string.progress)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -86,13 +86,13 @@ class OverviewActivity : AppCompatActivity() {
     private fun setupCardCallbacks() {
         binding.scoreCard.setOnSpinnerPositionChanged { position ->
             val app = applicationContext as HabitsApplication
-            app.component.preferences.overviewScoreSpinnerPosition = position
+            app.component.preferences.progressScoreSpinnerPosition = position
             loadData()
         }
         
         binding.barCard.setOnSpinnerPositionChanged { position ->
             val app = applicationContext as HabitsApplication
-            app.component.preferences.overviewBarSpinnerPosition = position
+            app.component.preferences.progressBarSpinnerPosition = position
             loadData()
         }
     }
@@ -100,8 +100,8 @@ class OverviewActivity : AppCompatActivity() {
     private fun loadData() {
         taskRunner.run {
             val app = applicationContext as HabitsApplication
-            val scoreSpinnerPosition = app.component.preferences.overviewScoreSpinnerPosition
-            val barSpinnerPosition = app.component.preferences.overviewBarSpinnerPosition
+            val scoreSpinnerPosition = app.component.preferences.progressScoreSpinnerPosition
+            val barSpinnerPosition = app.component.preferences.progressBarSpinnerPosition
             val state = presenter.buildState(scoreSpinnerPosition, barSpinnerPosition)
             
             runOnUiThread {
@@ -110,7 +110,7 @@ class OverviewActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(state: OverviewState) {
+    private fun updateUI(state: ProgressState) {
         if (state.isEmpty) {
             binding.emptyStateView.visibility = View.VISIBLE
             binding.scrollView.visibility = View.GONE

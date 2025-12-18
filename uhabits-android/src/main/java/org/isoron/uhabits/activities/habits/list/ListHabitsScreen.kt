@@ -261,8 +261,8 @@ class ListHabitsScreen
         activity.startActivityForResult(intent, REQUEST_SETTINGS)
     }
 
-    override fun showOverviewScreen() {
-        val intent = Intent(activity, org.isoron.uhabits.activities.habits.overview.OverviewActivity::class.java)
+    override fun showProgressScreen() {
+        val intent = Intent(activity, org.isoron.uhabits.activities.habits.progress.ProgressActivity::class.java)
         activity.startActivity(intent)
     }
 

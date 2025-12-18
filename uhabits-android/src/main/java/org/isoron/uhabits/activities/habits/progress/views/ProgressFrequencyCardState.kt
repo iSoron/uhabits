@@ -17,14 +17,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview.views
+package org.isoron.uhabits.activities.habits.progress.views
 
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.views.Theme
 import java.util.HashMap
 
-data class OverviewFrequencyCardState(
+data class ProgressFrequencyCardState(
     val frequency: HashMap<Timestamp, Array<Int>>,
     val color: PaletteColor,
     val firstWeekday: Int,

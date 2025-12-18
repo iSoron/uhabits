@@ -89,9 +89,9 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/actionOverview"
+        android:id="@+id/actionProgress"
         android:orderInCategory="100"
-        android:title="@string/overview"
+        android:title="@string/progress"
         app:showAsAction="never"/>
 
     <item
