@@ -109,6 +109,14 @@ class OverviewActivity : AppCompatActivity() {
             } else {
                 binding.streakCard.visibility = View.GONE
             }
+
+            // Show/hide history card based on availability
+            if (state.historyCard != null) {
+                binding.historyCard.visibility = View.VISIBLE
+                binding.historyCard.setState(state.historyCard)
+            } else {
+                binding.historyCard.visibility = View.GONE
+            }
         }
     }
 

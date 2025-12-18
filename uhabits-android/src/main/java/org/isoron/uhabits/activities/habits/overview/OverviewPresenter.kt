@@ -20,7 +20,9 @@
 package org.isoron.uhabits.activities.habits.overview
 
 import android.content.Context
+import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardState
 import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
 import org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
 import org.isoron.uhabits.core.models.HabitList
@@ -48,6 +50,7 @@ class OverviewPresenter(
                 statsCard = OverviewStatsCardView.State(0.0, 0.0),
                 scoreCard = OverviewScoreCardView.State(emptyList()),
                 streakCard = null,
+                historyCard = null,
                 isEmpty = true
             )
         }
@@ -66,6 +69,7 @@ class OverviewPresenter(
                 statsCard = OverviewStatsCardView.State(0.0, 0.0),
                 scoreCard = OverviewScoreCardView.State(emptyList()),
                 streakCard = null,
+                historyCard = null,
                 isEmpty = true
             )
         }
@@ -108,10 +112,26 @@ class OverviewPresenter(
             null
         }
 
+        // Build history card state - show last ~150 days (approximately 5 months)
+        val historyStartDate = today.minus(149)
+        val historyScores = calculator.computeAggregateScores(activeHabits.toList(), historyStartDate, today)
+        val historyCardState = if (historyScores.isNotEmpty()) {
+            OverviewHistoryCardState(
+                scoreValues = historyScores.map { it.value },
+                color = PaletteColor(11), // Blue
+                firstWeekday = DayOfWeek.SUNDAY,
+                theme = theme,
+                today = today.toLocalDate()
+            )
+        } else {
+            null
+        }
+
         return OverviewState(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
             streakCard = streakCardState,
+            historyCard = historyCardState,
             isEmpty = false
         )
     }

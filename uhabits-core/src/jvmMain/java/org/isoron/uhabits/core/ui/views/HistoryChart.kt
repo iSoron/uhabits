@@ -47,7 +47,8 @@ class HistoryChart(
     var theme: Theme,
     var today: LocalDate,
     var onDateClickedListener: OnDateClickedListener = object : OnDateClickedListener {},
-    var padding: Double = 0.0
+    var padding: Double = 0.0,
+    var scoreValues: List<Double>? = null
 ) : DataView {
 
     enum class Square {
@@ -209,18 +210,25 @@ class HistoryChart(
         val squareColor: Color
         val circleColor: Color
         val color = theme.color(paletteColor.paletteIndex)
-        squareColor = when (value) {
-            Square.ON -> {
-                color
-            }
-            Square.OFF -> {
-                theme.lowContrastTextColor
-            }
-            Square.GREY -> {
-                theme.mediumContrastTextColor
-            }
-            Square.DIMMED, Square.HATCHED -> {
-                color.blendWith(theme.cardBackgroundColor, 0.5)
+        
+        // Use continuous gradient if scoreValues provided, otherwise use discrete Square enum
+        squareColor = if (scoreValues != null && offset < scoreValues!!.size) {
+            val score = scoreValues!![offset].coerceIn(0.0, 1.0)
+            color.blendWith(theme.cardBackgroundColor, 1.0 - score)
+        } else {
+            when (value) {
+                Square.ON -> {
+                    color
+                }
+                Square.OFF -> {
+                    theme.lowContrastTextColor
+                }
+                Square.GREY -> {
+                    theme.mediumContrastTextColor
+                }
+                Square.DIMMED, Square.HATCHED -> {
+                    color.blendWith(theme.cardBackgroundColor, 0.5)
+                }
             }
         }
 

@@ -17,17 +17,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.overview
+package org.isoron.uhabits.activities.habits.overview.views
 
-import org.isoron.uhabits.activities.habits.overview.views.OverviewHistoryCardState
-import org.isoron.uhabits.activities.habits.overview.views.OverviewScoreCardView
-import org.isoron.uhabits.activities.habits.overview.views.OverviewStatsCardView
-import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
+import org.isoron.platform.time.DayOfWeek
+import org.isoron.platform.time.LocalDate
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.views.Theme
 
-data class OverviewState(
-    val statsCard: OverviewStatsCardView.State,
-    val scoreCard: OverviewScoreCardView.State,
-    val streakCard: StreakCardState?,
-    val historyCard: OverviewHistoryCardState?,
-    val isEmpty: Boolean = false
+data class OverviewHistoryCardState(
+    val scoreValues: List<Double>,
+    val color: PaletteColor,
+    val firstWeekday: DayOfWeek,
+    val theme: Theme,
+    val today: LocalDate
 )
