@@ -115,7 +115,7 @@ class OverviewActivity : AppCompatActivity() {
             val matcher = HabitMatcher(isArchivedAllowed = false)
             val activeHabits = habitList.getFiltered(matcher)
 
-            if (activeHabits.isEmpty()) {
+            if (activeHabits.isEmpty) {
                 runOnUiThread {
                     showEmptyState()
                 }
@@ -125,14 +125,14 @@ class OverviewActivity : AppCompatActivity() {
             // Calculate date range
             val today = DateUtils.getToday()
             val fromDate = if (days == -1) {
-                calculator.findEarliestHabitDate(activeHabits, today)
+                calculator.findEarliestHabitDate(activeHabits.toList(), today)
             } else {
                 today.minus(days - 1)
             }
 
             // Compute aggregate scores per day
             val aggregateScores = calculator.computeAggregateScores(
-                activeHabits,
+                activeHabits.toList(),
                 fromDate,
                 today
             )

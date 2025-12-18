@@ -39,7 +39,7 @@ else
     echo "   📍 ANDROID_HOME: $ANDROID_HOME"
     if [ -d "$ANDROID_HOME" ]; then
         echo "   ✅ Directory exists"
-        
+
         # Check platforms
         if [ -d "$ANDROID_HOME/platforms" ]; then
             echo "   ✅ platforms/ found"
@@ -56,14 +56,14 @@ else
         else
             echo "   ❌ platforms/ NOT found"
         fi
-        
+
         # Check build-tools
         if [ -d "$ANDROID_HOME/build-tools" ]; then
             echo "   ✅ build-tools/ found"
         else
             echo "   ❌ build-tools/ NOT found"
         fi
-        
+
         # Check platform-tools
         if [ -d "$ANDROID_HOME/platform-tools" ]; then
             echo "   ✅ platform-tools/ found (adb, fastboot)"
