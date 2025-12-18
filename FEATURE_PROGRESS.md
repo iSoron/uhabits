@@ -45,8 +45,7 @@ This feature was initially developed as "Overview" but was renamed to "Progress"
 
 4. **Multiple Visualization Modes**
    - **Stats Card**: Yesterday/Today scores with % change
-   - **Score Chart**: Line graph with 7/30/60/90/180/365 day ranges
-   - **Bar Chart**: Period aggregation (daily/weekly/monthly)
+   - **Bar Chart**: Period aggregation (daily/weekly/monthly) with time range selector
    - **Calendar**: Heat map showing aggregate scores
    - **Frequency**: Weekday patterns (when you perform best)
    - **Best Streaks**: List of longest improvement periods
@@ -55,7 +54,7 @@ This feature was initially developed as "Overview" but was renamed to "Progress"
 
 - Accessible via menu item "Progress" in main habits list
 - Empty state message when no habits exist
-- Persistent spinner selections (remembers last viewed time ranges)
+- Time range selectors on bar chart (remembers last selection)
 - Backward-compatible preference migration from "Overview" naming
 
 ## How It Works
@@ -131,7 +130,7 @@ class AggregateScoreCalculator {
 
 Orchestrates business logic and prepares data for UI:
 - Filters archived habits (only active habits included)
-- Determines date ranges based on spinner selections
+- Determines date ranges and periods based on time range selections
 - Calls calculator methods
 - Builds immutable state objects for each card
 
@@ -140,7 +139,7 @@ Orchestrates business logic and prepares data for UI:
 
 Android UI controller:
 - Inflates layout with ViewBinding
-- Handles spinner selections
+- Handles time range selector changes
 - Updates UI when state changes
 - Manages empty state display
 
@@ -149,8 +148,7 @@ Android UI controller:
 
 Custom views for each card:
 - `ProgressStatsCardView` - Yesterday/Today comparison
-- `ProgressScoreCardView` - Line chart with time selector
-- `ProgressBarCardView` - Bar chart with period aggregation
+- `ProgressBarCardView` - Bar chart with period aggregation and time selector
 - `ProgressHistoryCardView` - Calendar heat map
 - `ProgressFrequencyCardView` - Weekday frequency matrix
 - `BestStreakCardView` - Streak list display
@@ -179,11 +177,9 @@ Each view has a corresponding `State` data class for immutability.
 **Preferences Migration:**
 ```kotlin
 // Old keys (from "Overview" naming)
-pref_overview_score_spinner
 pref_overview_bar_spinner
 
 // New keys (Progress naming)
-pref_progress_score_spinner
 pref_progress_bar_spinner
 ```
 
@@ -202,7 +198,6 @@ uhabits-android/src/main/java/.../habits/progress/
 ├── ProgressState.kt                 # Immutable state container
 └── views/
     ├── ProgressStatsCardView.kt     # Stats card UI
-    ├── ProgressScoreCardView.kt     # Score chart UI
     ├── ProgressBarCardView.kt       # Bar chart UI
     ├── ProgressBarCardState.kt      # Bar chart state
     ├── ProgressHistoryCardView.kt   # Calendar UI
@@ -214,7 +209,6 @@ uhabits-android/src/main/java/.../habits/progress/
 uhabits-android/src/main/res/layout/
 ├── activity_progress.xml            # Main layout
 ├── progress_stats_card.xml          # Stats card layout
-├── progress_score_card.xml          # Score chart layout
 ├── progress_bar_card.xml            # Bar chart layout
 ├── progress_history_card.xml        # Calendar layout
 └── progress_frequency_card.xml      # Frequency layout
@@ -305,9 +299,45 @@ If you're working on code that references the old "Overview" naming:
 
 1. **Package imports**: Use `org.isoron.uhabits.activities.habits.progress.*`
 2. **String resources**: Use `@string/progress` for aggregate screen, `@string/overview` for individual habit card
-3. **Preferences**: Use `progressScoreSpinnerPosition` and `progressBarSpinnerPosition`
+3. **Preferences**: Use `progressBarSpinnerPosition` for time range selection
 4. **Activity intent**: Launch `ProgressActivity`
 5. **Menu references**: Use `R.id.actionProgress`
+
+## Known Issues & Future Work
+
+### Before Public Release
+
+#### 1. Day Extension Setting Integration
+**Issue**: The app has a setting "Extend day for a few hours past midnight" that needs to be considered for progress calculation.
+
+**Current Behavior**: Progress change shows today vs yesterday without considering the day extension setting.
+
+**Required Fix**: 
+- When day extension is active (e.g., extend until 3 AM), the "today" calculation should respect device time
+- If current time is before 3 AM device time, show previous day's change only
+- After 3 AM, show actual new day progress
+- Example: If it's 2:30 AM, still show yesterday's stats as "today" until 3 AM threshold
+
+**Impact**: Without this fix, users with day extension enabled will see inconsistent progress metrics during extended hours.
+
+#### 2. Back Navigation Issues
+**Known Issues**:
+- Back navigation broken in Settings page
+- Back navigation broken in About page
+
+**Status**: Requires investigation and fix before public release.
+
+**Priority**: High - affects core navigation UX
+
+### Translation Updates
+
+The ~30 translation files still use "Overview" strings. These should be updated to "Progress" with proper translations for each language:
+- `<string name="progress">Progress</string>` (translated)
+- `<string name="progress_empty_message">...</string>` (translated)
+- `<string name="progress_history">Calendar</string>` (translated)
+- `<string name="progress_frequency">Frequency</string>` (translated)
+
+**Status**: Low priority - English strings work, no build errors. Can be done in separate PR.
 
 ## Contributors
 

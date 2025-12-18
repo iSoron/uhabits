@@ -110,6 +110,11 @@ open class Preferences(private val storage: Storage) {
         set(position) {
             storage.putInt("pref_progress_bar_spinner", position)
         }
+    var showProgressWidget: Boolean
+        get() = storage.getBoolean("pref_show_progress_widget", false)
+        set(value) {
+            storage.putBoolean("pref_show_progress_widget", value)
+        }
     val lastHintNumber: Int
         get() = storage.getInt("last_hint_number", -1)
     open val lastHintTimestamp: Timestamp?

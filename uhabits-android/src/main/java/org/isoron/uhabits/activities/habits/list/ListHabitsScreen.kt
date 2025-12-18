@@ -102,7 +102,8 @@ class ListHabitsScreen
     private val colorPickerFactory: ColorPickerDialogFactory,
     private val behavior: Lazy<ListHabitsBehavior>,
     private val preferences: Preferences,
-    private val rootView: Lazy<ListHabitsRootView>
+    private val rootView: Lazy<ListHabitsRootView>,
+    private val habitList: org.isoron.uhabits.core.models.HabitList
 ) : CommandRunner.Listener,
     ListHabitsBehavior.Screen,
     ListHabitsMenuBehavior.Screen,
@@ -112,6 +113,8 @@ class ListHabitsScreen
 
     fun onAttached() {
         commandRunner.addListener(this)
+        setupProgressWidget()
+        updateProgressWidget()
     }
 
     fun onDetached() {
@@ -121,6 +124,45 @@ class ListHabitsScreen
     override fun onCommandFinished(command: Command) {
         val msg = getExecuteString(command)
         if (msg != null) activity.showMessage(msg)
+        updateProgressWidget()
+    }
+    
+    private fun setupProgressWidget() {
+        rootView.get().setProgressWidgetClickListener {
+            showProgressScreen()
+        }
+    }
+    
+    private fun updateProgressWidget() {
+        if (!preferences.showProgressWidget) return
+        
+        taskRunner.run {
+            val activeHabits = habitList.getFiltered(
+                org.isoron.uhabits.core.models.HabitMatcher(isArchivedAllowed = false)
+            )
+            
+            if (activeHabits.size() == 0) {
+                activity.runOnUiThread {
+                    rootView.get().setProgressWidgetData(0.0, 0.0)
+                }
+                return@run
+            }
+            
+            // getTodayWithOffset respects midnight delay: if enabled and before 3am, this returns previous day
+            val today = org.isoron.uhabits.core.utils.DateUtils.getTodayWithOffset()
+            val yesterday = today.minus(1)
+            
+            val calculator = org.isoron.uhabits.activities.habits.progress.AggregateScoreCalculator()
+            val todayScores = calculator.computeAggregateScores(activeHabits.toList(), today, today)
+            val yesterdayScores = calculator.computeAggregateScores(activeHabits.toList(), yesterday, yesterday)
+            
+            val todayScore = todayScores.firstOrNull()?.value ?: 0.0
+            val yesterdayScore = yesterdayScores.firstOrNull()?.value ?: 0.0
+            
+            activity.runOnUiThread {
+                rootView.get().setProgressWidgetData(todayScore, yesterdayScore)
+            }
+        }
     }
 
     fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -152,6 +194,12 @@ class ListHabitsScreen
             RESULT_EXPORT_DB -> onExportDB()
             RESULT_BUG_REPORT -> behavior.get().onSendBugReport()
             RESULT_REPAIR_DB -> behavior.get().onRepairDB()
+        }
+        // Update widget visibility after settings change
+        val visibility = if (preferences.showProgressWidget) android.view.View.VISIBLE else android.view.View.GONE
+        rootView.get().progressWidget.visibility = visibility
+        if (preferences.showProgressWidget) {
+            updateProgressWidget()
         }
     }
 

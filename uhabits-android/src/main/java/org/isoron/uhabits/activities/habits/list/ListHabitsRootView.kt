@@ -33,6 +33,7 @@ import org.isoron.uhabits.activities.habits.list.views.HabitCardListView
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListViewFactory
 import org.isoron.uhabits.activities.habits.list.views.HeaderView
 import org.isoron.uhabits.activities.habits.list.views.HintView
+import org.isoron.uhabits.activities.habits.list.views.ProgressSummaryWidget
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
@@ -60,7 +61,7 @@ const val MAX_CHECKMARK_COUNT = 60
 class ListHabitsRootView @Inject constructor(
     @ActivityContext context: Context,
     hintListFactory: HintListFactory,
-    preferences: Preferences,
+    private val preferences: Preferences,
     midnightTimer: MidnightTimer,
     runner: TaskRunner,
     private val listAdapter: HabitCardListAdapter,
@@ -76,20 +77,26 @@ class ListHabitsRootView @Inject constructor(
     val progressBar = TaskProgressBar(context, runner)
     val hintView: HintView
     val header = HeaderView(context, preferences, midnightTimer)
+    val progressWidget = ProgressSummaryWidget(context)
 
     init {
         val hints = resources.getStringArray(R.array.hints)
         val hintList = hintListFactory.create(hints)
         hintView = HintView(context, hintList)
 
+        progressWidget.visibility = if (preferences.showProgressWidget) VISIBLE else GONE
+        
         val rootView = RelativeLayout(context).apply {
             background = sres.getDrawable(R.attr.windowBackgroundColor)
             addAtTop(konfettiView)
             addAtTop(tbar)
             addBelow(header, tbar)
-            addBelow(listView, header, height = MATCH_PARENT)
-            addBelow(llEmpty, header, height = MATCH_PARENT)
-            addBelow(progressBar, header) {
+            addBelow(progressWidget, header) {
+                it.topMargin = dp(0.0f).toInt()
+            }
+            addBelow(listView, progressWidget, height = MATCH_PARENT)
+            addBelow(llEmpty, progressWidget, height = MATCH_PARENT)
+            addBelow(progressBar, progressWidget) {
                 it.topMargin = dp(-6.0f).toInt()
             }
             addAtBottom(hintView)
@@ -107,6 +114,22 @@ class ListHabitsRootView @Inject constructor(
 
     override fun onModelChange() {
         updateEmptyView()
+        updateProgressWidget()
+    }
+    
+    fun updateProgressWidget() {
+        if (!preferences.showProgressWidget || progressWidget.visibility != VISIBLE) return
+        
+        // This will be called from ListHabitsScreen with proper data
+        // For now, just mark it visible
+    }
+    
+    fun setProgressWidgetData(todayScore: Double, yesterdayScore: Double) {
+        progressWidget.setProgress(todayScore, yesterdayScore)
+    }
+    
+    fun setProgressWidgetClickListener(listener: () -> Unit) {
+        progressWidget.setOnDetailsClickListener(listener)
     }
 
     private fun setupControllers() {
