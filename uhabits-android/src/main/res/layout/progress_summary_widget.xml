@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/progress"
-            android:textSize="@dimen/tinyTextSize"
+            android:textSize="@dimen/smallTextSize"
             android:textStyle="bold"
             android:textColor="?attr/contrast60"
             android:layout_marginEnd="4dp" />
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="0.00000%"
-            android:textSize="@dimen/tinyTextSize"
+            android:textSize="@dimen/regularTextSize"
             android:textStyle="bold"
             android:textColor="?attr/contrast60" />
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="±0.00000%"
-            android:textSize="@dimen/tinyTextSize"
+            android:textSize="@dimen/regularTextSize"
             android:textStyle="bold"
             android:textColor="?attr/contrast60" />
 

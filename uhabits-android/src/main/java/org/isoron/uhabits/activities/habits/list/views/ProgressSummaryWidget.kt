@@ -61,8 +61,8 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         val negative = res.getColor(R.attr.contrast40)
         val neutral = res.getColor(R.attr.contrast60)
         val colorInt = when {
-            change > 0.0001 -> positive
-            change < -0.0001 -> negative
+            change > 0.00001 -> positive
+            change < -0.00001 -> negative
             else -> neutral
         }
         binding.changeText.setTextColor(colorInt)
