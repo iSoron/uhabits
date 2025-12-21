@@ -1,221 +1,97 @@
-# PR: Rename "Overview" to "Progress" for Aggregate Tracking Feature
+**Discussion Title**
 
-## Summary
+Proposal: Progress View — Daily Aggregate Progress & Progress Widget
 
-This PR renames the aggregate habit tracking feature from "Overview" to "Progress" for better semantic accuracy. The feature displays cross-habit progress metrics, and "Progress" better represents the concept of improvement over time (where progress days = today's score > yesterday's score).
+**Discussion Details**
 
-## Changes Made
+Overview
+- This proposal introduces a new "Progress" view that surfaces an overall, per-day progress percentage computed from all active (non-archived) tracked habits. The goal is to give users a single, clear indicator answering "Am I making progress?" across all habits.
 
-### 1. Package & File Renames (Git History Preserved)
+Why the name "Progress"
+- Clear forward movement: progress literally communicates improvement over time.
+- Aligns with streak logic: progress is treated as an increase in aggregate score.
+- Matches user mental model: users commonly ask "Am I making progress?" rather than "What's my average score?".
+- Semantic fit: "progress days" are days where the aggregate score increased vs the previous day.
 
-**Directory Structure:**
-- `overview/` → `progress/` (git mv)
+UX & behavior
+- Daily aggregate: for each day we compute the average score across all active (non-archived) habits that are tracked that day.
+- Display: the Progress view shows the daily percentage for the selected date range and allows drilling into the details view (reusing the existing yes/no charts used by habit detail pages).
+- Progress widget: a small widget is added to the main habit listing. It shows (1) today's avg %; (2) change in % vs previous day; (3) progress/streak days count (TBD — initial implementation shows placeholders until counting logic is added).
+- Streak rule: a day counts as a progress day when the daily aggregate increases (delta > 0). Consecutive progress days contribute to a progress streak.
 
-**Core Files:**
-- `OverviewActivity.kt` → `ProgressActivity.kt`
-- `OverviewPresenter.kt` → `ProgressPresenter.kt`
-- `OverviewState.kt` → `ProgressState.kt`
-- `AggregateScoreCalculator.kt` - package updated to `.progress`
+Implementation notes (high level)
+- Reuse the existing yes/no chart components from the habit details view for the Progress detail screen.
+- Aggregation logic computes: today's avg = mean(score_i) for i in active tracked habits; previous day's avg computed similarly; delta = today - previous. All calculations exclude archived habits.
+- Performance: compute aggregates off the main UI thread and cache per-day results to avoid UI jank for users with many habits.
 
-**View Files (9 files):**
-- `OverviewStatsCardView.kt` → `ProgressStatsCardView.kt`
-- `OverviewScoreCardView.kt` → `ProgressScoreCardView.kt`
-- `OverviewBarCardView.kt` → `ProgressBarCardView.kt`
-- `OverviewHistoryCardView.kt` → `ProgressHistoryCardView.kt`
-- `OverviewFrequencyCardView.kt` → `ProgressFrequencyCardView.kt`
-- `OverviewBarCardState.kt` → `ProgressBarCardState.kt`
-- `OverviewHistoryCardState.kt` → `ProgressHistoryCardState.kt`
-- `OverviewFrequencyCardState.kt` → `ProgressFrequencyCardState.kt`
-- `BestStreakCardView.kt` - package updated
-
-**Layout Files (6 files):**
-- `activity_overview.xml` → `activity_progress.xml`
-- `overview_stats_card.xml` → `progress_stats_card.xml`
-- `overview_score_card.xml` → `progress_score_card.xml`
-- `overview_bar_card.xml` → `progress_bar_card.xml`
-- `overview_history_card.xml` → `progress_history_card.xml`
-- `overview_frequency_card.xml` → `progress_frequency_card.xml`
-
-**Test Files:**
-- `AggregateScoreCalculatorTest.kt` - package updated to `.progress`
-
-### 2. Code Updates
-
-**Package Declarations:**
-- Updated all Kotlin files to use `org.isoron.uhabits.activities.habits.progress` package
-
-**Imports:**
-- Updated all import statements referencing the old package
-- Updated references to renamed classes (ProgressActivity, ProgressState, etc.)
-
-**Navigation & Integration:**
-- `ListHabitsMenuBehavior.kt`: `onViewOverview()` → `onViewProgress()`, `showOverviewScreen()` → `showProgressScreen()`
-- `ListHabitsScreen.kt`: Intent now launches `ProgressActivity`
-- `ListHabitsMenu.kt`: Menu handler updated to `R.id.actionProgress`
-- `list_habits.xml`: Menu item ID and title updated
-
-**XML Layouts:**
-- Updated all `<view class="...">` references to new package path
-- Updated string resource references: `@string/overview_*` → `@string/progress_*`
-
-**AndroidManifest.xml:**
-```xml
-<activity
-    android:name=".activities.habits.progress.ProgressActivity"
-    android:label="@string/progress">
-```
-
-### 3. Preferences & Data Migration
-
-**Backward-Compatible Migration:**
-```kotlin
-var progressScoreSpinnerPosition: Int
-    get() {
-        val newValue = storage.getInt("pref_progress_score_spinner", -1)
-        if (newValue < 0) {
-            // Fallback to old key for migration
-            val oldValue = storage.getInt("pref_overview_score_spinner", 1)
-            return min(4, max(0, oldValue))
-        }
-        return min(4, max(0, newValue))
-    }
-    set(position) { 
-        storage.putInt("pref_progress_score_spinner", position) 
-    }
-```
-
-**Storage Keys:**
-- `pref_overview_score_spinner` → `pref_progress_score_spinner`
-- `pref_overview_bar_spinner` → `pref_progress_bar_spinner`
-- Old keys automatically migrated on first access
-
-### 4. String Resources
-
-**Main English strings (strings.xml):**
-```xml
-<string name="overview">Overview</string>        <!-- Kept for individual habit detail card -->
-<string name="progress">Progress</string>         <!-- New aggregate screen title -->
-<string name="progress_empty_message">Start adding habits to see the overall progress trend</string>
-<string name="progress_history">Calendar</string>
-<string name="progress_frequency">Frequency</string>
-```
-
-**Note on Translations:**
-- ~30 translation files still reference "Overview" strings
-- These will continue to work (no build errors)
-- Future PR can add proper "Progress" translations for each language
-- Left as-is to keep this PR focused on English rename
-
-### 5. Documentation
-
-**New File: `FEATURE_PROGRESS.md`**
-- Comprehensive feature documentation
-- Explains motivation ("Progress" vs "Overview" semantics)
-- Architecture diagrams and design decisions
-- Testing strategy (13 unit tests)
-- Usage examples
-- Future enhancement ideas
-- Migration guide for contributors
-
-## Testing
-
-### Build Verification
-```bash
-.\gradlew clean assembleDebug --no-daemon
-# Result: BUILD SUCCESSFUL in 1m 8s
-```
-
-### Test Suite
-```bash
-.\gradlew test --no-daemon
-# Result: BUILD SUCCESSFUL in 1m 22s
-# All 13 AggregateScoreCalculator tests passing
-```
-
-### Manual Testing Checklist
-- [x] App builds without errors
-- [x] All tests pass
-- [x] Menu item shows "Progress"
-- [x] Progress screen opens correctly
-- [x] All cards display properly
-- [x] Time range spinners work
-- [x] Empty state displays when no habits
-- [x] Preference migration works (tested with old pref keys)
-
-## Breaking Changes
-
-**None.** This is purely a rename with backward compatibility:
-- ✅ Existing user preferences automatically migrated
-- ✅ No database schema changes
-- ✅ No API changes
-- ✅ Individual habit "Overview" card unchanged
-- ✅ All functionality preserved
-
-## Semantic Rationale
-
-### Why "Progress" is More Accurate
-
-**Old Naming:** "Overview"
-- Implies a summary or general view
-- Doesn't communicate the improvement-tracking aspect
-- Could be confused with a dashboard or summary screen
-
-**New Naming:** "Progress"
-- Clearly indicates forward movement
-- Aligns with streak logic (progress = score improvement)
-- Matches user mental model ("Am I making progress?")
-- Semantic fit: Progress days = days where aggregate score increased
-
-**Progress Detection Logic:**
-```kotlin
-// A "progress day" occurs when today > yesterday
-val isProgressDay = aggregateScoreToday > aggregateScoreYesterday
-
-// Streaks measure consecutive progress days
-val streak = consecutiveProgressDays
-```
-
-This naming better represents what the feature actually measures: **improvement over time**.
-
-## Files Changed Summary
-
-- **Kotlin files**: 20 (renamed + content updated)
-- **XML layouts**: 6 (renamed + view references updated)
-- **Test files**: 1 (package updated)
-- **XML resources**: 1 (strings.xml)
-- **Configuration files**: 2 (AndroidManifest.xml, Preferences.kt)
-- **Navigation files**: 3 (Menu, Screen, Behavior)
-- **Documentation**: 1 new (FEATURE_PROGRESS.md)
-
-**Total**: ~34 files modified
-
-## Screenshots
-
-[User's existing screenshots from implementation - not attached to PR description]
-
-The feature UI remains unchanged - only naming updated.
-
-## Review Checklist
-
-- [x] Code builds successfully
-- [x] All tests pass
-- [x] No breaking changes
-- [x] Backward compatibility ensured
-- [x] Git history preserved (used git mv)
-- [x] Documentation created
-- [x] Semantic naming justified
-- [x] Translation files noted (future work)
-
-## Related Issues
-
-This addresses semantic accuracy following the initial 3-day implementation of the aggregate habit tracking feature. The feature was functional with "Overview" naming, but "Progress" better communicates its purpose.
-
-## Future Work
-
-1. Add "Progress" translations for ~30 language files
-2. Consider adding live progress widget to main habits list (optional, disabled by default)
-3. Explore trend analysis features (moving averages, predictions)
+Open questions for discussion
+- Naming: confirm "Progress" is preferred vs alternatives ("Aggregate", "Overview", "Momentum").
+- Placement: should the Progress widget be visible by default on the main listing, or an opt-in/optional widget?
+- Streak semantics: should equal days (delta == 0) break streaks or be neutral? (current proposal: only positive delta counts as progress)
+- Telemetry / analytics: do we want to record aggregate progress changes for A/B testing or analysis?
 
 ---
 
-**Note for Maintainers**: This rename was done after the feature reached a stable state to ensure semantic accuracy before wider use. All git history preserved via `git mv` commands.
+**Pull Request Description (Technical Draft)**
+
+Summary
+- Adds a new overall Progress view and a small Progress widget in the main habit listing. The Progress view aggregates per-habit scores for each day and presents a daily percentage representing the user's overall progress. The detail view reuses the existing yes/no type charts from habit details.
+
+Motivation
+- Users often want a single, simple metric that answers "Am I making progress?" across all habits. Individual habit details are useful, but an aggregate view makes trends and streaks easier to understand.
+
+Key behavior
+- Aggregate calculation: for each day, compute the average score across all non-archived tracked habits.
+- Progress day: a day is considered a progress day if the aggregate percentage increased compared to the previous day (delta > 0).
+- Widget: displays today's average %, the delta vs previous day (signed), and a counter for progress/streak days (initial implementation shows the first two values; progress/streak counter will be added in a follow-up if desired).
+
+Files / modules touched (conceptual)
+- UI: add `ProgressView` screen and `ProgressWidget` component integrated into the main habit-listing layout.
+- Charts: reuse `YesNoChart` / `HabitDetailCharts` components for the Progress detail screen.
+- Domain / data: add `ProgressAggregator` service that computes per-day aggregates and exposes an API for UI consumption. Move heavy computation off the UI thread and add simple in-memory or on-disk caching keyed by date range.
+- Tests: add unit tests for `ProgressAggregator` covering edge cases (no habits, all archived, score ties, large habit sets) and a small UI test for widget display.
+
+Implementation details
+- Aggregation algorithm:
+  - Fetch all active (non-archived) tracked habits for the target date range.
+  - For each date, compute habit-level scores (existing score calculation logic) and take the arithmetic mean across habits with valid scores that day.
+  - Persist/cache the computed daily aggregates to avoid recomputing for every UI render.
+  - Delta calculation: `delta = todayAvg - previousDayAvg`.
+
+- Threading / performance:
+  - All aggregation runs on a background coroutine / worker thread and posts results to the UI via LiveData/Flow/State.
+  - Cache eviction: simple TTL or LRU keyed by date range should suffice; we can optimize based on profiling.
+
+Testing & QA
+- Unit tests for `ProgressAggregator` covering:
+  - Empty set of habits
+  - All habits archived
+  - Single habit
+  - Multiple habits with different scoring
+  - Consecutive days with increases, decreases, and ties
+- Integration / UI tests:
+  - Verify `ProgressWidget` shows today's average and correct delta vs yesterday.
+  - Verify `ProgressView` charts render and match aggregator output.
+
+How to test locally
+1. Build and run the app on an emulator or device.
+2. Create several habits (mix of yes/no and scored types), mark some archived to confirm exclusion.
+3. Populate a few days of activity (via the UI or test helpers) and open the main listing — confirm the Progress widget displays today's avg and delta.
+4. Open the Progress view and verify charts and numbers match the expected aggregates.
+
+Migration / backwards compatibility
+- No db schema changes expected. If any caching or persisted aggregates are added, they should be optional and regeneratable.
+
+Risks & mitigations
+- Performance with large habit sets: mitigate by moving calculations off the main thread and caching.
+- Naming / UX confusion: PR includes a discussion so maintainers can decide naming and placement.
+
+Notes / follow-ups
+- Add progress/streak days counter (complete counting logic) and an optional toggle to include/exclude specific habits from the aggregate.
+- Consider exposing an API for third-party widgets to read the daily aggregate.
+
+Screenshots / design
+- This draft does not include final mockups. Screenshots and designs will be provided in a follow-up commit if maintainers agree with the approach.
+
+Request for maintainers
+- Please review the naming and placement decisions. Feedback on whether progress days should be delta > 0 or delta >= 0 is especially welcome.
