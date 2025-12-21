@@ -26,6 +26,7 @@ import android.widget.LinearLayout
 import org.isoron.uhabits.R
 import org.isoron.uhabits.databinding.ProgressSummaryWidgetBinding
 import org.isoron.uhabits.utils.StyledResources
+import androidx.core.content.ContextCompat
 import java.text.DecimalFormat
 
 class ProgressSummaryWidget @JvmOverloads constructor(
@@ -55,16 +56,11 @@ class ProgressSummaryWidget @JvmOverloads constructor(
             else -> "±0.00000%"
         }
 
-        // Theme-aware colors: use primary for gains, contrast40 for drops, contrast60 when flat
-        val res = StyledResources(context)
-        val positive = res.getColor(R.attr.colorPrimary)
-        val negative = res.getColor(R.attr.contrast40)
-        val neutral = res.getColor(R.attr.contrast60)
-        val colorInt = when {
-            change > 0.00001 -> positive
-            change < -0.00001 -> negative
-            else -> neutral
-        }
+        // Positive -> green, Negative -> red, Neutral -> theme contrast
+        val neutral = StyledResources(context).getColor(R.attr.contrast60)
+        val positive = ContextCompat.getColor(context, org.isoron.uhabits.R.color.green_500)
+        val negative = ContextCompat.getColor(context, org.isoron.uhabits.R.color.red_500)
+        val colorInt = if (change > 0.0) positive else if (change < 0.0) negative else neutral
         binding.changeText.setTextColor(colorInt)
     }
     
