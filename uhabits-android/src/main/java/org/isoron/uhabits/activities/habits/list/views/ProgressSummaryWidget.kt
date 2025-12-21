@@ -54,13 +54,16 @@ class ProgressSummaryWidget @JvmOverloads constructor(
             change < 0 -> "$changeFormatted%"
             else -> "±0.00000%"
         }
-        
-        // Use green/red for change, contrast60 for zero
+
+        // Theme-aware colors: use primary for gains, contrast40 for drops, contrast60 when flat
         val res = StyledResources(context)
+        val positive = res.getColor(R.attr.colorPrimary)
+        val negative = res.getColor(R.attr.contrast40)
+        val neutral = res.getColor(R.attr.contrast60)
         val colorInt = when {
-            change > 0.0001 -> Color.parseColor("#4CAF50")  // Green
-            change < -0.0001 -> Color.parseColor("#F44336")  // Red
-            else -> res.getColor(R.attr.contrast60)  // Gray for no change
+            change > 0.0001 -> positive
+            change < -0.0001 -> negative
+            else -> neutral
         }
         binding.changeText.setTextColor(colorInt)
     }

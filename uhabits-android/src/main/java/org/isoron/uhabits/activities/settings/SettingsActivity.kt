@@ -46,4 +46,9 @@ class SettingsActivity : AppCompatActivity() {
         binding.root.applyRootViewInsets()
         setContentView(binding.root)
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
+    }
 }

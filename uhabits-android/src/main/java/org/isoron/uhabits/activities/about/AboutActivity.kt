@@ -39,4 +39,9 @@ class AboutActivity : AppCompatActivity() {
         AndroidThemeSwitcher(this, app.component.preferences).apply()
         setContentView(AboutView(this, screen))
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
+    }
 }

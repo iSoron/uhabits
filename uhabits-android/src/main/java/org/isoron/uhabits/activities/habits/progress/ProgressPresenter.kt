@@ -134,11 +134,12 @@ class ProgressPresenter(
 
         // Build history card state - show all historical data
         val historyScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
+        val historyFirstWeekday = DayOfWeek.values().getOrNull((firstWeekday - 1).coerceIn(0, 6)) ?: DayOfWeek.MONDAY
         val historyCardState = if (historyScores.isNotEmpty()) {
             ProgressHistoryCardState(
                 scoreValues = historyScores.map { it.value }.reversed(), // Reverse for HistoryChart display
                 color = PaletteColor(11), // Blue
-                firstWeekday = DayOfWeek.SUNDAY,
+                firstWeekday = historyFirstWeekday,
                 theme = theme,
                 today = today.toLocalDate()
             )
