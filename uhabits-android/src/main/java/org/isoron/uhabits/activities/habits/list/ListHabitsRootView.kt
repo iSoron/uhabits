@@ -90,10 +90,10 @@ class ListHabitsRootView @Inject constructor(
             background = sres.getDrawable(R.attr.windowBackgroundColor)
             addAtTop(konfettiView)
             addAtTop(tbar)
-            addBelow(header, tbar)
-            addBelow(progressWidget, header) {
+            addBelow(progressWidget, tbar) {
                 it.topMargin = dp(0.0f).toInt()
             }
+            addBelow(header, progressWidget)
             addBelow(listView, progressWidget, height = MATCH_PARENT)
             addBelow(llEmpty, progressWidget, height = MATCH_PARENT)
             addBelow(progressBar, progressWidget) {
