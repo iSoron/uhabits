@@ -94,9 +94,11 @@ class ListHabitsRootView @Inject constructor(
                 it.topMargin = dp(0.0f).toInt()
             }
             addBelow(header, progressWidget)
-            addBelow(listView, progressWidget, height = MATCH_PARENT)
-            addBelow(llEmpty, progressWidget, height = MATCH_PARENT)
-            addBelow(progressBar, progressWidget) {
+            // Fix: Anchor listView and llEmpty to header, not progressWidget
+            // This ensures first habit is not hidden when progressWidget is visible
+            addBelow(listView, header, height = MATCH_PARENT)
+            addBelow(llEmpty, header, height = MATCH_PARENT)
+            addBelow(progressBar, header) {
                 it.topMargin = dp(-6.0f).toInt()
             }
             addAtBottom(hintView)
@@ -126,6 +128,10 @@ class ListHabitsRootView @Inject constructor(
     
     fun setProgressWidgetData(todayScore: Double, yesterdayScore: Double) {
         progressWidget.setProgress(todayScore, yesterdayScore)
+    }
+    
+    fun setProgressWidgetStreakData(currentStreakLength: Int, bestStreakLength: Int) {
+        progressWidget.setStreakData(currentStreakLength, bestStreakLength)
     }
     
     fun setProgressWidgetClickListener(listener: () -> Unit) {

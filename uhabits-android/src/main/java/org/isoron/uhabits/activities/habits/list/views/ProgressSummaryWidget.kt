@@ -22,6 +22,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import org.isoron.uhabits.R
 import org.isoron.uhabits.databinding.ProgressSummaryWidgetBinding
@@ -62,6 +63,38 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         val negative = ContextCompat.getColor(context, org.isoron.uhabits.R.color.red_500)
         val colorInt = if (change > 0.0) positive else if (change < 0.0) negative else neutral
         binding.changeText.setTextColor(colorInt)
+    }
+    
+    /**
+     * Sets streak information in the widget.
+     * @param currentStreakLength Length of the current active streak (0 if no active streak)
+     * @param bestStreakLength Length of the best/longest streak (0 if no streaks)
+     */
+    fun setStreakData(currentStreakLength: Int, bestStreakLength: Int) {
+        if (currentStreakLength == 0 && bestStreakLength == 0) {
+            // Hide streak row if no streaks
+            binding.streakRow.visibility = View.GONE
+            return
+        }
+        
+        binding.streakRow.visibility = View.VISIBLE
+        
+        // Show current streak
+        val currentText = if (currentStreakLength > 0) {
+            val days = if (currentStreakLength == 1) "day" else "days"
+            "Current: $currentStreakLength $days"
+        } else {
+            "Current: —"
+        }
+        binding.streakText.text = currentText
+        
+        // Show best streak
+        val bestText = if (bestStreakLength > 0) {
+            "Best: $bestStreakLength"
+        } else {
+            "Best: —"
+        }
+        binding.bestStreakText.text = bestText
     }
     
     fun setOnDetailsClickListener(listener: () -> Unit) {

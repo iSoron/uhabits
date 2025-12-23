@@ -62,7 +62,8 @@ class ProgressPresenter(
             )
         }
 
-        val today = DateUtils.getToday()
+        // Use getTodayWithOffset to respect the "day closure" (3 AM) setting
+        val today = DateUtils.getTodayWithOffset()
         val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today)
         val fullHistoryScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
 

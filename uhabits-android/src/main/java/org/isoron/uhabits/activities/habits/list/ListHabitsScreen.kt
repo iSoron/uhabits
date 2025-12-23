@@ -23,6 +23,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Lazy
@@ -110,6 +112,10 @@ class ListHabitsScreen
     ListHabitsSelectionMenuBehavior.Screen {
 
     val activity = (context as AppCompatActivity)
+    
+    // Debounce handler to prevent excessive progress widget updates
+    private val updateHandler = Handler(Looper.getMainLooper())
+    private var updateRunnable: Runnable? = null
 
     fun onAttached() {
         commandRunner.addListener(this)
@@ -119,6 +125,9 @@ class ListHabitsScreen
 
     fun onDetached() {
         commandRunner.removeListener(this)
+        // Cancel any pending progress widget updates to prevent leaks
+        updateRunnable?.let { updateHandler.removeCallbacks(it) }
+        updateRunnable = null
     }
 
     override fun onCommandFinished(command: Command) {
@@ -136,6 +145,19 @@ class ListHabitsScreen
     private fun updateProgressWidget() {
         if (!preferences.showProgressWidget) return
         
+        // Cancel any pending update to debounce rapid calls
+        updateRunnable?.let { updateHandler.removeCallbacks(it) }
+        
+        // Schedule new update with 300ms delay to debounce multiple rapid updates
+        updateRunnable = Runnable {
+            doUpdateProgressWidget()
+        }
+        updateHandler.postDelayed(updateRunnable!!, 300)
+    }
+    
+    private fun doUpdateProgressWidget() {
+        if (!preferences.showProgressWidget) return
+        
         taskRunner.run {
             val activeHabits = habitList.getFiltered(
                 org.isoron.uhabits.core.models.HabitMatcher(isArchivedAllowed = false)
@@ -144,6 +166,7 @@ class ListHabitsScreen
             if (activeHabits.size() == 0) {
                 activity.runOnUiThread {
                     rootView.get().setProgressWidgetData(0.0, 0.0)
+                    rootView.get().setProgressWidgetStreakData(0, 0)
                 }
                 return@run
             }
@@ -153,14 +176,32 @@ class ListHabitsScreen
             val yesterday = today.minus(1)
             
             val calculator = org.isoron.uhabits.activities.habits.progress.AggregateScoreCalculator()
+            
+            // Calculate today's and yesterday's scores
             val todayScores = calculator.computeAggregateScores(activeHabits.toList(), today, today)
             val yesterdayScores = calculator.computeAggregateScores(activeHabits.toList(), yesterday, yesterday)
             
             val todayScore = todayScores.firstOrNull()?.value ?: 0.0
             val yesterdayScore = yesterdayScores.firstOrNull()?.value ?: 0.0
             
+            // Calculate streak data - get history for last year for performance
+            val oneYearAgo = today.minus(365)
+            val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today)
+            val startDate = if (earliestDate.isNewerThan(oneYearAgo)) earliestDate else oneYearAgo
+            
+            val historyScores = calculator.computeAggregateScores(activeHabits.toList(), startDate, today)
+            val streaks = calculator.calculateAggregateStreaks(historyScores)
+            
+            // Find current streak (most recent, ending today)
+            val currentStreak = streaks.firstOrNull { it.end == today }
+            val currentStreakLength = currentStreak?.length ?: 0
+            
+            // Find best streak
+            val bestStreakLength = streaks.maxOfOrNull { it.length } ?: 0
+            
             activity.runOnUiThread {
                 rootView.get().setProgressWidgetData(todayScore, yesterdayScore)
+                rootView.get().setProgressWidgetStreakData(currentStreakLength, bestStreakLength)
             }
         }
     }
