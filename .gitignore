@@ -18,6 +18,3 @@ node_modules
 *.sketch
 crowdin.yml
 kotlin-js-store
-
-
-debug-screenshots
