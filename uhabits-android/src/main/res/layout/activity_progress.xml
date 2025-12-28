@@ -59,6 +59,11 @@
                 style="@style/Card"
                 android:gravity="center"/>
 
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardView
+                android:id="@+id/deltaCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
             <org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardView
                 android:id="@+id/historyCard"
                 style="@style/Card"

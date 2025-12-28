@@ -316,5 +316,74 @@ class AggregateScoreCalculator {
             )
         }.sortedByDescending { it.timestamp }
     }
+
+    /**
+     * Computes aggregate scores grouped by time period for delta chart display.
+     * Each score represents the average aggregate score for that period (0-1 range).
+     */
+    fun computeAggregateScoresByPeriod(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp,
+        bucketSize: Int,
+        truncateField: Int
+    ): List<Score> {
+        val scores = computeAggregateScores(habits, fromDate, toDate)
+        if (scores.isEmpty()) {
+            return emptyList()
+        }
+
+        val grouped = mutableMapOf<Timestamp, MutableList<Double>>()
+
+        for (score in scores) {
+            val truncatedTimestamp = if (truncateField == -1) {
+                score.timestamp
+            } else {
+                Timestamp(
+                    score.timestamp.toCalendar().apply {
+                        when (truncateField) {
+                            java.util.Calendar.DAY_OF_WEEK -> {
+                                set(java.util.Calendar.DAY_OF_WEEK, firstDayOfWeek)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.DAY_OF_MONTH -> {
+                                set(java.util.Calendar.DAY_OF_MONTH, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.MONTH -> {
+                                val currentMonth = get(java.util.Calendar.MONTH)
+                                val quarterStartMonth = (currentMonth / 3) * 3
+                                set(java.util.Calendar.MONTH, quarterStartMonth)
+                                set(java.util.Calendar.DAY_OF_MONTH, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.DAY_OF_YEAR -> {
+                                set(java.util.Calendar.DAY_OF_YEAR, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                        }
+                    }.timeInMillis
+                )
+            }
+
+            grouped.getOrPut(truncatedTimestamp) { mutableListOf() }.add(score.value)
+        }
+
+        return grouped.map { (timestamp, values) ->
+            Score(timestamp, values.average())
+        }.sortedByDescending { it.timestamp }
+    }
 }
 

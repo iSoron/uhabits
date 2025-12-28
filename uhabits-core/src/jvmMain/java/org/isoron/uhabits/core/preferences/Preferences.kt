@@ -110,6 +110,11 @@ open class Preferences(private val storage: Storage) {
         set(position) {
             storage.putInt("pref_progress_bar_spinner", position)
         }
+    var progressDeltaSpinnerPosition: Int
+        get() = min(4, max(0, storage.getInt("pref_progress_delta_spinner", 0)))
+        set(position) {
+            storage.putInt("pref_progress_delta_spinner", position)
+        }
     var showProgressWidget: Boolean
         get() = storage.getBoolean("pref_show_progress_widget", false)
         set(value) {

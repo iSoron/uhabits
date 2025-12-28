@@ -95,6 +95,12 @@ class ProgressActivity : AppCompatActivity() {
             app.component.preferences.progressBarSpinnerPosition = position
             loadData()
         }
+
+        binding.deltaCard.setOnSpinnerPositionChanged { position ->
+            val app = applicationContext as HabitsApplication
+            app.component.preferences.progressDeltaSpinnerPosition = position
+            loadData()
+        }
     }
 
     private fun loadData() {
@@ -102,7 +108,8 @@ class ProgressActivity : AppCompatActivity() {
             val app = applicationContext as HabitsApplication
             val scoreSpinnerPosition = app.component.preferences.progressScoreSpinnerPosition
             val barSpinnerPosition = app.component.preferences.progressBarSpinnerPosition
-            val state = presenter.buildState(scoreSpinnerPosition, barSpinnerPosition)
+            val deltaSpinnerPosition = app.component.preferences.progressDeltaSpinnerPosition
+            val state = presenter.buildState(scoreSpinnerPosition, barSpinnerPosition, deltaSpinnerPosition)
             
             runOnUiThread {
                 updateUI(state)
@@ -135,6 +142,14 @@ class ProgressActivity : AppCompatActivity() {
                 binding.barCard.setState(state.barCard)
             } else {
                 binding.barCard.visibility = View.GONE
+            }
+
+            // Delta card
+            if (state.deltaCard != null) {
+                binding.deltaCard.visibility = View.VISIBLE
+                binding.deltaCard.setState(state.deltaCard)
+            } else {
+                binding.deltaCard.visibility = View.GONE
             }
 
             // History (Calendar) card

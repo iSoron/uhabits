@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.progress
 
 import org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
@@ -30,6 +31,7 @@ data class ProgressState(
     val statsCard: ProgressStatsCardView.State,
     val scoreCard: ProgressScoreCardView.State?,
     val barCard: ProgressBarCardState?,
+    val deltaCard: ProgressDeltaCardState?,
     val historyCard: ProgressHistoryCardState?,
     val streakCard: StreakCardState?,
     val frequencyCard: ProgressFrequencyCardState?,

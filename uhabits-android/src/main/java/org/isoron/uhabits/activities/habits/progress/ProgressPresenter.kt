@@ -23,6 +23,7 @@ import android.content.Context
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
@@ -30,9 +31,12 @@ import org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.utils.PaletteUtils
+import org.isoron.platform.gui.Color
 import java.util.Calendar
 
 class ProgressPresenter(
@@ -45,7 +49,8 @@ class ProgressPresenter(
 
     fun buildState(
         scoreSpinnerPosition: Int = 1,
-        barSpinnerPosition: Int = 0
+        barSpinnerPosition: Int = 0,
+        deltaSpinnerPosition: Int = 0
     ): ProgressState {
         val matcher = HabitMatcher(isArchivedAllowed = false)
         val activeHabits = habitList.getFiltered(matcher)
@@ -55,6 +60,7 @@ class ProgressPresenter(
                 statsCard = ProgressStatsCardView.State(0.0, 0.0),
                 scoreCard = null,
                 barCard = null,
+                deltaCard = null,
                 historyCard = null,
                 streakCard = null,
                 frequencyCard = null,
@@ -72,6 +78,7 @@ class ProgressPresenter(
                 statsCard = ProgressStatsCardView.State(0.0, 0.0),
                 scoreCard = null,
                 barCard = null,
+                deltaCard = null,
                 historyCard = null,
                 streakCard = null,
                 frequencyCard = null,
@@ -187,6 +194,49 @@ class ProgressPresenter(
             null
         }
 
+        // Build delta card state - score changes vs previous period
+        val deltaBucketSizes = intArrayOf(1, 7, 31, 92, 365)
+        val deltaCardState = if (deltaSpinnerPosition in deltaBucketSizes.indices) {
+            val bucketSize = deltaBucketSizes[deltaSpinnerPosition]
+            val truncateField = when (bucketSize) {
+                1 -> -1
+                7 -> Calendar.DAY_OF_WEEK
+                31 -> Calendar.DAY_OF_MONTH
+                92 -> Calendar.MONTH
+                365 -> Calendar.DAY_OF_YEAR
+                else -> Calendar.DAY_OF_WEEK
+            }
+            val periodScores = calculator.computeAggregateScoresByPeriod(
+                activeHabits.toList(),
+                earliestDate,
+                today,
+                bucketSize,
+                truncateField
+            )
+            val deltas = if (periodScores.size >= 2) {
+                periodScores.zipWithNext { current, previous ->
+                    Score(current.timestamp, (current.value - previous.value) * 100)
+                }
+            } else {
+                emptyList()
+            }
+            if (deltas.isNotEmpty()) {
+                ProgressDeltaCardState(
+                    theme = theme,
+                    spinnerPosition = deltaSpinnerPosition,
+                    bucketSize = bucketSize,
+                    color = PaletteColor(11),
+                    positiveColor = Color(PaletteUtils.getAndroidTestColor(7)),
+                    negativeColor = Color(PaletteUtils.getAndroidTestColor(2)),
+                    deltas = deltas
+                )
+            } else {
+                null
+            }
+        } else {
+            null
+        }
+
         // Build frequency card state - show last ~12 months
         val frequencyStartDate = today.minus(365)
         val frequencyData = calculator.computeAggregateWeekdayFrequency(
@@ -209,6 +259,7 @@ class ProgressPresenter(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
             barCard = barCardState,
+            deltaCard = deltaCardState,
             historyCard = historyCardState,
             streakCard = streakCardState,
             frequencyCard = frequencyCardState,
