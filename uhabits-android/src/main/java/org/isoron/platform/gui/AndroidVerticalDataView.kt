@@ -77,7 +77,7 @@ class AndroidVerticalDataView(
             scroller.currX,
             scroller.currY,
             0,
-            -dy.toInt(),
+            dy.toInt(),
             0
         )
         scroller.computeScrollOffset()
@@ -95,7 +95,7 @@ class AndroidVerticalDataView(
             scroller.currX,
             scroller.currY,
             0,
-            velocityY.toInt() / 2,
+            -velocityY.toInt() / 2,
             0,
             0,
             0,
