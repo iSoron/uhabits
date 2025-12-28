@@ -25,6 +25,8 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Scroller
+import android.view.MotionEvent.ACTION_DOWN
+import android.view.MotionEvent.ACTION_MOVE
 import kotlin.math.abs
 import kotlin.math.max
 
@@ -44,7 +46,12 @@ class AndroidVerticalDataView(
         addUpdateListener(this@AndroidVerticalDataView)
     }
 
-    override fun onTouchEvent(event: MotionEvent) = detector.onTouchEvent(event)
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (event.actionMasked == ACTION_DOWN || event.actionMasked == ACTION_MOVE) {
+            parent?.requestDisallowInterceptTouchEvent(true)
+        }
+        return detector.onTouchEvent(event)
+    }
     override fun onDown(e: MotionEvent) = true
     override fun onShowPress(e: MotionEvent) = Unit
 

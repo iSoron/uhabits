@@ -89,7 +89,8 @@ class DivergingBarChart(
         val isLargeInterval = axis.size < 2 || (axis[0].distanceTo(axis[1]) > 300)
         val labels = mutableListOf<String>()
         var labelWidth = minLabelWidth
-        var valueLabelWidth = 0.0
+        var positiveLabelWidth = 0.0
+        var negativeLabelWidth = 0.0
         var prevMonth = -1
         for (row in 0 until visibleRows) {
             val dataIndex = row + dataOffset
@@ -104,12 +105,20 @@ class DivergingBarChart(
             }
             labels.add(label)
             labelWidth = max(labelWidth, canvas.measureText(label))
-            valueLabelWidth = max(valueLabelWidth, canvas.measureText(formatValue(abs(series[dataIndex]))))
+            val value = series[dataIndex]
+            val valueWidth = canvas.measureText(formatValue(abs(value)))
+            if (value > 0) {
+                positiveLabelWidth = max(positiveLabelWidth, valueWidth)
+            } else if (value < 0) {
+                negativeLabelWidth = max(negativeLabelWidth, valueWidth)
+            }
             prevMonth = date.month
         }
 
-        val chartLeft = paddingLeft + labelWidth + labelPadding
-        val chartRight = width - paddingRight - valueLabelWidth - valuePadding
+        val negativeGutter = if (hasNegative) negativeLabelWidth + valuePadding else 0.0
+        val positiveGutter = if (hasPositive) positiveLabelWidth + valuePadding else 0.0
+        val chartLeft = paddingLeft + labelWidth + labelPadding + negativeGutter
+        val chartRight = width - paddingRight - positiveGutter
         if (chartRight <= chartLeft) return
         val chartWidth = chartRight - chartLeft
 
@@ -172,14 +181,23 @@ class DivergingBarChart(
             }
 
             val labelText = formatValue(absValue)
-            val labelX = if (value > 0) {
-                zeroX + barLength + valuePadding
+            if (value > 0) {
+                canvas.setTextAlign(TextAlign.LEFT)
+                canvas.setColor(positiveColor)
+                canvas.drawText(
+                    labelText,
+                    chartRight + valuePadding,
+                    yCenter + theme.smallTextSize * 0.35
+                )
             } else {
-                max(chartLeft + valueLabelWidth, zeroX - barLength - valuePadding)
+                canvas.setTextAlign(TextAlign.RIGHT)
+                canvas.setColor(negativeColor)
+                canvas.drawText(
+                    labelText,
+                    chartLeft - valuePadding,
+                    yCenter + theme.smallTextSize * 0.35
+                )
             }
-            canvas.setTextAlign(if (value > 0) TextAlign.LEFT else TextAlign.RIGHT)
-            canvas.setColor(if (value > 0) positiveColor else negativeColor)
-            canvas.drawText(labelText, labelX, yCenter + theme.smallTextSize * 0.35)
         }
     }
 
