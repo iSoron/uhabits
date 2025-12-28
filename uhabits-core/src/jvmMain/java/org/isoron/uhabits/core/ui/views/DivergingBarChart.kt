@@ -108,7 +108,7 @@ class DivergingBarChart(
             prevMonth = date.month
         }
 
-        val chartLeft = paddingLeft + labelWidth + labelPadding + valueLabelWidth + valuePadding
+        val chartLeft = paddingLeft + labelWidth + labelPadding
         val chartRight = width - paddingRight - valueLabelWidth - valuePadding
         if (chartRight <= chartLeft) return
         val chartWidth = chartRight - chartLeft
@@ -172,7 +172,11 @@ class DivergingBarChart(
             }
 
             val labelText = formatValue(absValue)
-            val labelX = if (value > 0) zeroX + barLength + valuePadding else zeroX - barLength - valuePadding
+            val labelX = if (value > 0) {
+                zeroX + barLength + valuePadding
+            } else {
+                max(chartLeft + valueLabelWidth, zeroX - barLength - valuePadding)
+            }
             canvas.setTextAlign(if (value > 0) TextAlign.LEFT else TextAlign.RIGHT)
             canvas.setColor(if (value > 0) positiveColor else negativeColor)
             canvas.drawText(labelText, labelX, yCenter + theme.smallTextSize * 0.35)

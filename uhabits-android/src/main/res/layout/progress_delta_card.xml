@@ -41,7 +41,7 @@
             android:layout_alignParentTop="true"
             android:text="@string/progress_change" />
 
-        <org.isoron.platform.gui.AndroidDataView
+        <org.isoron.platform.gui.AndroidVerticalDataView
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="220dp"
