@@ -31,5 +31,6 @@ data class ProgressDeltaCardState(
     val color: PaletteColor,
     val positiveColor: Color,
     val negativeColor: Color,
-    val deltas: List<Score>
+    val deltas: List<Score>,
+    val emptyMessage: String? = null
 )

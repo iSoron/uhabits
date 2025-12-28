@@ -220,19 +220,20 @@ class ProgressPresenter(
             } else {
                 emptyList()
             }
-            if (deltas.isNotEmpty()) {
-                ProgressDeltaCardState(
-                    theme = theme,
-                    spinnerPosition = deltaSpinnerPosition,
-                    bucketSize = bucketSize,
-                    color = PaletteColor(11),
-                    positiveColor = Color(PaletteUtils.getAndroidTestColor(7)),
-                    negativeColor = Color(PaletteUtils.getAndroidTestColor(2)),
-                    deltas = deltas
-                )
-            } else {
-                null
-            }
+            ProgressDeltaCardState(
+                theme = theme,
+                spinnerPosition = deltaSpinnerPosition,
+                bucketSize = bucketSize,
+                color = PaletteColor(11),
+                positiveColor = Color(PaletteUtils.getAndroidTestColor(7)),
+                negativeColor = Color(PaletteUtils.getAndroidTestColor(2)),
+                deltas = deltas,
+                emptyMessage = if (deltas.isEmpty()) {
+                    context.getString(R.string.progress_change_not_enough_data)
+                } else {
+                    null
+                }
+            )
         } else {
             null
         }

@@ -46,6 +46,16 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:layout_below="@id/title"/>
+
+        <TextView
+            android:id="@+id/emptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </merge>

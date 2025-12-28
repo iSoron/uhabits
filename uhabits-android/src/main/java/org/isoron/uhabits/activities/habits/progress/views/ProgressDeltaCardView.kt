@@ -41,14 +41,22 @@ class ProgressDeltaCardView(context: Context, attrs: AttributeSet) : LinearLayou
         binding.title.setTextColor(androidColor)
         binding.spinner.setSelection(state.spinnerPosition)
 
-        binding.chart.view = DivergingBarChart(state.theme, JavaLocalDateFormatter(Locale.getDefault())).apply {
-            series = state.deltas.map { it.value }.toMutableList()
-            axis = state.deltas.map { it.timestamp.toLocalDate() }
-            positiveColor = state.positiveColor
-            negativeColor = state.negativeColor
+        if (state.deltas.isEmpty()) {
+            binding.chart.visibility = View.GONE
+            binding.emptyMessage.visibility = View.VISIBLE
+            binding.emptyMessage.text = state.emptyMessage ?: ""
+        } else {
+            binding.chart.visibility = View.VISIBLE
+            binding.emptyMessage.visibility = View.GONE
+            binding.chart.view = DivergingBarChart(state.theme, JavaLocalDateFormatter(Locale.getDefault())).apply {
+                series = state.deltas.map { it.value }.toMutableList()
+                axis = state.deltas.map { it.timestamp.toLocalDate() }
+                positiveColor = state.positiveColor
+                negativeColor = state.negativeColor
+            }
+            binding.chart.resetDataOffset()
+            binding.chart.postInvalidate()
         }
-        binding.chart.resetDataOffset()
-        binding.chart.postInvalidate()
     }
 
     fun setOnSpinnerPositionChanged(listener: (Int) -> Unit) {

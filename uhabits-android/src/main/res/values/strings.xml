@@ -132,6 +132,7 @@
     <string name="progress_empty_message">Start adding habits to see the overall progress trend</string>
     <string name="progress_history">Calendar</string>
     <string name="progress_change">Change</string>
+    <string name="progress_change_not_enough_data">Not enough data to show change for this interval</string>
     <string name="progress_frequency">Frequency</string>
     <string name="progress_summary">Today\'s Progress: %s%%</string>
     <string name="show_progress_widget">Show Progress Widget</string>
