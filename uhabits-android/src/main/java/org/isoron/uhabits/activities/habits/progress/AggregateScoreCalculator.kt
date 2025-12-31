@@ -260,8 +260,8 @@ class AggregateScoreCalculator {
     }
 
     /**
-     * Computes aggregate progress change ratio per weekday for each month.
-     * Values are returned in 0-1000 range (normalized change * 1000).
+     * Computes aggregate progress change per weekday for each month.
+     * Values are returned in 0-1000 range (average change * 1000), preserving sign.
      */
     fun computeAggregateProgressChangeWeekdayFrequency(
         habits: List<Habit>,
@@ -290,7 +290,7 @@ class AggregateScoreCalculator {
             val weekdayChanges = monthMap.getOrPut(weekday) {
                 mutableListOf()
             }
-            weekdayChanges.add(normalizeProgressChange(change.value))
+            weekdayChanges.add(change.value)
         }
 
         val result = hashMapOf<Timestamp, Array<Int>>()
@@ -307,10 +307,6 @@ class AggregateScoreCalculator {
         }
 
         return result
-    }
-
-    fun normalizeProgressChangeValue(value: Double): Double {
-        return normalizeProgressChange(value)
     }
 
     /**
@@ -699,10 +695,6 @@ class AggregateScoreCalculator {
         return grouped.map { (timestamp, values) ->
             Score(timestamp, values.average())
         }.sortedByDescending { it.timestamp }
-    }
-
-    private fun normalizeProgressChange(value: Double): Double {
-        return ((value + 1.0) / 2.0).coerceIn(0.0, 1.0)
     }
 
     private fun isHabitDueForDate(habit: Habit, entry: Entry): Boolean {

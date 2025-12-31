@@ -27,6 +27,7 @@ import java.util.HashMap
 data class ProgressFrequencyCardState(
     val frequency: HashMap<Timestamp, Array<Int>>,
     val color: PaletteColor,
+    val negativeColor: PaletteColor? = null,
     val firstWeekday: Int,
     val theme: Theme
 )

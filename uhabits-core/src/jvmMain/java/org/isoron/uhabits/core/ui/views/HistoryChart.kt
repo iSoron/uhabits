@@ -30,6 +30,7 @@ import org.isoron.uhabits.core.models.PaletteColor
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.abs
 import kotlin.math.round
 
 interface OnDateClickedListener {
@@ -48,7 +49,9 @@ class HistoryChart(
     var today: LocalDate,
     var onDateClickedListener: OnDateClickedListener = object : OnDateClickedListener {},
     var padding: Double = 0.0,
-    var scoreValues: List<Double>? = null
+    var scoreValues: List<Double>? = null,
+    var bipolarMode: Boolean = false,
+    var negativePaletteColor: PaletteColor? = null
 ) : DataView {
 
     enum class Square {
@@ -213,8 +216,14 @@ class HistoryChart(
         
         // Use continuous gradient if scoreValues provided, otherwise use discrete Square enum
         squareColor = if (scoreValues != null && offset < scoreValues!!.size) {
-            val score = scoreValues!![offset].coerceIn(0.0, 1.0)
-            color.blendWith(theme.cardBackgroundColor, 1.0 - score)
+            val rawScore = scoreValues!![offset]
+            val magnitude = abs(rawScore).coerceIn(0.0, 1.0)
+            val baseColor = if (bipolarMode && rawScore < 0 && negativePaletteColor != null) {
+                theme.color(negativePaletteColor!!)
+            } else {
+                color
+            }
+            baseColor.blendWith(theme.cardBackgroundColor, 1.0 - magnitude)
         } else {
             when (value) {
                 Square.ON -> {

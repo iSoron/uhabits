@@ -39,6 +39,7 @@ import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.Random
 import kotlin.collections.HashMap
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -60,7 +61,9 @@ class FrequencyChart : ScrollableChart {
     private var textColor = 0
     private var gridColor = 0
     private lateinit var colors: IntArray
+    private lateinit var negativeColors: IntArray
     private var primaryColor = 0
+    private var negativeColor = 0
     private var isBackgroundTransparent = false
     private lateinit var frequency: HashMap<Timestamp, Array<Int>>
     private var maxFreq = 0
@@ -78,6 +81,15 @@ class FrequencyChart : ScrollableChart {
 
     fun setColor(color: Int) {
         primaryColor = color
+        if (negativeColor == 0) {
+            negativeColor = color
+        }
+        initColors()
+        postInvalidate()
+    }
+
+    fun setNegativeColor(color: Int) {
+        negativeColor = color
         initColors()
         postInvalidate()
     }
@@ -101,7 +113,7 @@ class FrequencyChart : ScrollableChart {
     private fun getMaxFreq(frequency: HashMap<Timestamp, Array<Int>>): Int {
         var maxValue = 1
         for (values in frequency.values) for (value in values) maxValue = max(
-            value,
+            abs(value),
             maxValue
         )
         return maxValue
@@ -235,17 +247,20 @@ class FrequencyChart : ScrollableChart {
 
     private fun drawMarker(canvas: Canvas, rect: RectF?, value: Int?, weekdayFrequency: Int) {
         // value can be negative when the entry is skipped
-        val valueCopy = value?.let { max(0, it) }
+        if (value == null) return
+        val isNegative = value < 0
+        val valueCopy = abs(value)
 
         val padding = rect!!.height() * 0.2f
         // maximal allowed mark radius
         val maxRadius = (rect.height() - 2 * padding) / 2.0f
         // the real mark radius is scaled down by a factor depending on the maximal frequency
         val scalingFactor = if (isNumerical) maxFreq else weekdayFrequency
-        val scale = 1.0f / scalingFactor * valueCopy!!
+        val scale = if (scalingFactor == 0) 0.0f else (1.0f / scalingFactor * valueCopy)
         val radius = maxRadius * scale
         val colorIndex = min((colors.size - 1), ((colors.size - 1) * scale).roundToInt())
-        pGraph!!.color = colors[colorIndex]
+        val palette = if (isNegative) negativeColors else colors
+        pGraph!!.color = palette[colorIndex]
         canvas.drawCircle(rect.centerX(), rect.centerY(), radius, pGraph!!)
     }
 
@@ -278,6 +293,11 @@ class FrequencyChart : ScrollableChart {
         colors[3] = primaryColor
         colors[1] = mixColors(colors[0], colors[3], 0.66f)
         colors[2] = mixColors(colors[0], colors[3], 0.33f)
+        negativeColors = IntArray(4)
+        negativeColors[0] = gridColor
+        negativeColors[3] = negativeColor
+        negativeColors[1] = mixColors(negativeColors[0], negativeColors[3], 0.66f)
+        negativeColors[2] = mixColors(negativeColors[0], negativeColors[3], 0.33f)
     }
 
     private fun initDateFormats() {

@@ -27,7 +27,9 @@ import org.isoron.uhabits.core.ui.views.Theme
 data class ProgressHistoryCardState(
     val scoreValues: List<Double>,
     val color: PaletteColor,
+    val negativeColor: PaletteColor? = null,
     val firstWeekday: DayOfWeek,
     val theme: Theme,
-    val today: LocalDate
+    val today: LocalDate,
+    val bipolarMode: Boolean = false
 )

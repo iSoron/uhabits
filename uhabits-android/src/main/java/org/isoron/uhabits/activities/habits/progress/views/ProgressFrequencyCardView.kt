@@ -31,11 +31,14 @@ class ProgressFrequencyCardView(context: Context, attrs: AttributeSet) : LinearL
     private var binding = ProgressFrequencyCardBinding.inflate(LayoutInflater.from(context), this)
     
     fun setState(state: ProgressFrequencyCardState) {
-        val androidColor = state.theme.color(state.color).toInt()
-        binding.title.setTextColor(androidColor)
+        val positiveColor = state.theme.color(state.color).toInt()
+        binding.title.setTextColor(positiveColor)
         binding.frequencyChart.setFrequency(state.frequency)
         binding.frequencyChart.setIsNumerical(true) // Always true for aggregate progress values
         binding.frequencyChart.setFirstWeekday(state.firstWeekday)
-        binding.frequencyChart.setColor(androidColor)
+        binding.frequencyChart.setColor(positiveColor)
+        state.negativeColor?.let {
+            binding.frequencyChart.setNegativeColor(state.theme.color(it).toInt())
+        }
     }
 }

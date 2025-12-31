@@ -123,6 +123,8 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         if (start < 0) {
             return spannable
         }
+        val numberStartInProgress = progressText.indexOf(' ') + 1
+        val numberStart = start + numberStartInProgress
         val end = start + progressText.length
         val neutral = StyledResources(context).getColor(R.attr.contrast60)
         val positive = ContextCompat.getColor(context, R.color.green_500)
@@ -134,7 +136,7 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         }
         spannable.setSpan(
             ForegroundColorSpan(colorInt),
-            start,
+            numberStart,
             end,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )

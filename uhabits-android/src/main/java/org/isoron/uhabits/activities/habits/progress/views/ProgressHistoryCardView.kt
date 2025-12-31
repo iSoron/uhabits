@@ -46,7 +46,9 @@ class ProgressHistoryCardView(context: Context, attrs: AttributeSet) : LinearLay
             notesIndicators = emptyList(),
             theme = state.theme,
             today = state.today,
-            scoreValues = state.scoreValues
+            scoreValues = state.scoreValues,
+            bipolarMode = state.bipolarMode,
+            negativePaletteColor = state.negativeColor
         )
         
         binding.historyChart.view = chart

@@ -183,13 +183,18 @@ class ProgressPresenter(
             today
         )
         val historyFirstWeekday = DayOfWeek.values().getOrNull((firstWeekday - 1).coerceIn(0, 6)) ?: DayOfWeek.MONDAY
+        val maxAbsChange = progressChanges.maxOfOrNull { kotlin.math.abs(it.value) } ?: 0.0
         val historyCardState = if (progressChanges.isNotEmpty()) {
             ProgressHistoryCardState(
-                scoreValues = progressChanges.map { calculator.normalizeProgressChangeValue(it.value) }.reversed(),
-                color = PaletteColor(11), // Blue
+                scoreValues = progressChanges.map {
+                    if (maxAbsChange > 0) it.value / maxAbsChange else 0.0
+                }.reversed(),
+                color = PaletteColor(7),
+                negativeColor = PaletteColor(2),
                 firstWeekday = historyFirstWeekday,
                 theme = theme,
-                today = today.toLocalDate()
+                today = today.toLocalDate(),
+                bipolarMode = true
             )
         } else {
             null
@@ -316,7 +321,8 @@ class ProgressPresenter(
         val frequencyCardState = if (frequencyData.isNotEmpty()) {
             ProgressFrequencyCardState(
                 frequency = frequencyData,
-                color = PaletteColor(11), // Blue
+                color = PaletteColor(7),
+                negativeColor = PaletteColor(2),
                 firstWeekday = firstWeekday,
                 theme = theme
             )
