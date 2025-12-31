@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2025 Álinson Santos Xavier <git@axavier.org>
+ * Copyright (C) 2016-2025 A?linson Santos Xavier <git@axavier.org>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -24,18 +24,24 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.platform.gui.toInt
-import org.isoron.uhabits.databinding.ProgressFrequencyCardBinding
+import org.isoron.platform.time.JavaLocalDateFormatter
+import org.isoron.uhabits.core.ui.views.BarChart
+import org.isoron.uhabits.databinding.ProgressCompletionBarCardBinding
+import java.util.Locale
 
-class ProgressFrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    
-    private var binding = ProgressFrequencyCardBinding.inflate(LayoutInflater.from(context), this)
-    
-    fun setState(state: ProgressFrequencyCardState) {
+class ProgressCompletionBarCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+
+    private val binding = ProgressCompletionBarCardBinding.inflate(LayoutInflater.from(context), this)
+
+    fun setState(state: ProgressCompletionBarCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
-        binding.frequencyChart.setFrequency(state.frequency)
-        binding.frequencyChart.setIsNumerical(true) // Always true for aggregate progress values
-        binding.frequencyChart.setFirstWeekday(state.firstWeekday)
-        binding.frequencyChart.setColor(androidColor)
+        binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.getDefault())).apply {
+            series = mutableListOf(state.entries.map { it.value.toDouble() })
+            colors = mutableListOf(theme.color(state.color.paletteIndex))
+            axis = state.entries.map { it.timestamp.toLocalDate() }
+        }
+        binding.chart.resetDataOffset()
+        binding.chart.postInvalidate()
     }
 }

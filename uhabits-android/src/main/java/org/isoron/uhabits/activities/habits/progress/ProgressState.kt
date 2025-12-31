@@ -20,6 +20,10 @@
 package org.isoron.uhabits.activities.habits.progress
 
 import org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionFrequencyCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionHistoryCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionStatsCardView
 import org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardState
@@ -35,5 +39,10 @@ data class ProgressState(
     val historyCard: ProgressHistoryCardState?,
     val streakCard: StreakCardState?,
     val frequencyCard: ProgressFrequencyCardState?,
+    val completionStatsCard: ProgressCompletionStatsCardView.State?,
+    val completionBarCard: ProgressCompletionBarCardState?,
+    val completionHistoryCard: ProgressCompletionHistoryCardState?,
+    val completionStreakCard: StreakCardState?,
+    val completionFrequencyCard: ProgressCompletionFrequencyCardState?,
     val isEmpty: Boolean = false
 )

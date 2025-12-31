@@ -19,14 +19,30 @@
 
 package org.isoron.uhabits.activities.habits.progress
 
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.Score
+import org.isoron.uhabits.core.models.Streak
 import org.isoron.uhabits.core.models.Timestamp
+import kotlin.math.max
 
 /**
  * Calculates aggregate scores across multiple habits over a time period.
  */
 class AggregateScoreCalculator {
+
+    data class CompletionSummary(
+        val timestamp: Timestamp,
+        val completedCount: Int,
+        val dueCount: Int
+    ) {
+        val completionRatio: Double
+            get() = if (dueCount > 0) completedCount.toDouble() / dueCount else 0.0
+
+        val missedCount: Int
+            get() = max(0, dueCount - completedCount)
+    }
 
     /**
      * Computes the average score across all given habits for each day in the specified range.
@@ -71,6 +87,81 @@ class AggregateScoreCalculator {
     }
 
     /**
+     * Computes day-to-day score changes across all habits.
+     * The first day in the range has a change of 0.0 by definition.
+     */
+    fun computeAggregateProgressChanges(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp
+    ): List<Score> {
+        val scores = computeAggregateScores(habits, fromDate, toDate)
+        if (scores.isEmpty()) {
+            return emptyList()
+        }
+
+        val changes = mutableListOf<Score>()
+        for (i in scores.indices) {
+            val change = if (i == 0) {
+                0.0
+            } else {
+                scores[i].value - scores[i - 1].value
+            }
+            changes.add(Score(scores[i].timestamp, change))
+        }
+        return changes
+    }
+
+    /**
+     * Computes the number of completed and due habits for each day in the specified range.
+     * Due habits exclude auto-skipped entries (YES_AUTO). Manual skips count as completed.
+     */
+    fun computeAggregateCompletionSummaries(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp
+    ): List<CompletionSummary> {
+        if (habits.isEmpty()) {
+            return emptyList()
+        }
+
+        if (fromDate.isNewerThan(toDate)) {
+            return emptyList()
+        }
+
+        val summaries = mutableListOf<CompletionSummary>()
+        var current = fromDate
+
+        while (!current.isNewerThan(toDate)) {
+            var dueCount = 0
+            var completedCount = 0
+
+            for (habit in habits) {
+                val entry = habit.computedEntries.get(current)
+                if (!isHabitDueForDate(habit, entry)) {
+                    continue
+                }
+
+                dueCount++
+                if (isHabitCompletedForDate(habit, entry)) {
+                    completedCount++
+                }
+            }
+
+            summaries.add(
+                CompletionSummary(
+                    timestamp = current,
+                    completedCount = completedCount,
+                    dueCount = dueCount
+                )
+            )
+            current = current.plus(1)
+        }
+
+        return summaries
+    }
+
+    /**
      * Finds the earliest date among all habits that have at least one entry.
      *
      * @param habits List of habits to search
@@ -97,6 +188,230 @@ class AggregateScoreCalculator {
         }
 
         return earliest ?: defaultDate
+    }
+
+    /**
+     * Computes completion totals grouped by time period for bar chart display.
+     * Each entry represents the total number of completed habits for that period.
+     */
+    fun computeCompletionEntriesByPeriod(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp,
+        truncateField: Int
+    ): List<Entry> {
+        val summaries = computeAggregateCompletionSummaries(habits, fromDate, toDate)
+        if (summaries.isEmpty()) {
+            return emptyList()
+        }
+
+        val grouped = mutableMapOf<Timestamp, Int>()
+
+        for (summary in summaries) {
+            val truncatedTimestamp = if (truncateField == -1) {
+                summary.timestamp
+            } else {
+                Timestamp(
+                    summary.timestamp.toCalendar().apply {
+                        when (truncateField) {
+                            java.util.Calendar.DAY_OF_WEEK -> {
+                                set(java.util.Calendar.DAY_OF_WEEK, firstDayOfWeek)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.DAY_OF_MONTH -> {
+                                set(java.util.Calendar.DAY_OF_MONTH, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.MONTH -> {
+                                val currentMonth = get(java.util.Calendar.MONTH)
+                                val quarterStartMonth = (currentMonth / 3) * 3
+                                set(java.util.Calendar.MONTH, quarterStartMonth)
+                                set(java.util.Calendar.DAY_OF_MONTH, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                            java.util.Calendar.DAY_OF_YEAR -> {
+                                set(java.util.Calendar.DAY_OF_YEAR, 1)
+                                set(java.util.Calendar.HOUR_OF_DAY, 0)
+                                set(java.util.Calendar.MINUTE, 0)
+                                set(java.util.Calendar.SECOND, 0)
+                                set(java.util.Calendar.MILLISECOND, 0)
+                            }
+                        }
+                    }.timeInMillis
+                )
+            }
+
+            grouped[truncatedTimestamp] =
+                (grouped[truncatedTimestamp] ?: 0) + summary.completedCount
+        }
+
+        return grouped.map { (timestamp, totalCompleted) ->
+            Entry(timestamp = timestamp, value = totalCompleted)
+        }.sortedByDescending { it.timestamp }
+    }
+
+    /**
+     * Computes aggregate progress change ratio per weekday for each month.
+     * Values are returned in 0-1000 range (normalized change * 1000).
+     */
+    fun computeAggregateProgressChangeWeekdayFrequency(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp
+    ): HashMap<Timestamp, Array<Int>> {
+        val changes = computeAggregateProgressChanges(habits, fromDate, toDate)
+        if (changes.isEmpty()) {
+            return hashMapOf()
+        }
+
+        val map = hashMapOf<Timestamp, HashMap<Int, MutableList<Double>>>()
+
+        for (change in changes) {
+            val timestamp = change.timestamp
+            val weekday = timestamp.weekday
+            val truncatedTimestamp = Timestamp(
+                timestamp.toCalendar().apply {
+                    set(java.util.Calendar.DAY_OF_MONTH, 1)
+                }.timeInMillis
+            )
+
+            val monthMap = map.getOrPut(truncatedTimestamp) {
+                hashMapOf()
+            }
+            val weekdayChanges = monthMap.getOrPut(weekday) {
+                mutableListOf()
+            }
+            weekdayChanges.add(normalizeProgressChange(change.value))
+        }
+
+        val result = hashMapOf<Timestamp, Array<Int>>()
+        for ((monthTimestamp, monthMap) in map) {
+            val weekdayAverages = Array(7) { 0 }
+            for (weekday in 0..6) {
+                val ratios = monthMap[weekday]
+                if (ratios != null && ratios.isNotEmpty()) {
+                    val average = ratios.average()
+                    weekdayAverages[weekday] = (average * 1000).toInt()
+                }
+            }
+            result[monthTimestamp] = weekdayAverages
+        }
+
+        return result
+    }
+
+    fun normalizeProgressChangeValue(value: Double): Double {
+        return normalizeProgressChange(value)
+    }
+
+    /**
+     * Computes aggregate completion ratio per weekday for each month.
+     * Values are returned in 0-1000 range (percentage * 10).
+     */
+    fun computeCompletionWeekdayFrequency(
+        habits: List<Habit>,
+        fromDate: Timestamp,
+        toDate: Timestamp
+    ): HashMap<Timestamp, Array<Int>> {
+        val summaries = computeAggregateCompletionSummaries(habits, fromDate, toDate)
+        if (summaries.isEmpty()) {
+            return hashMapOf()
+        }
+
+        val map = hashMapOf<Timestamp, HashMap<Int, MutableList<Double>>>()
+
+        for (summary in summaries) {
+            if (summary.dueCount <= 0) {
+                continue
+            }
+
+            val timestamp = summary.timestamp
+            val weekday = timestamp.weekday
+            val truncatedTimestamp = Timestamp(
+                timestamp.toCalendar().apply {
+                    set(java.util.Calendar.DAY_OF_MONTH, 1)
+                }.timeInMillis
+            )
+
+            val monthMap = map.getOrPut(truncatedTimestamp) {
+                hashMapOf()
+            }
+            val weekdayRatios = monthMap.getOrPut(weekday) {
+                mutableListOf()
+            }
+            weekdayRatios.add(summary.completionRatio)
+        }
+
+        val result = hashMapOf<Timestamp, Array<Int>>()
+        for ((monthTimestamp, monthMap) in map) {
+            val weekdayAverages = Array(7) { 0 }
+            for (weekday in 0..6) {
+                val ratios = monthMap[weekday]
+                if (ratios != null && ratios.isNotEmpty()) {
+                    val average = ratios.average()
+                    weekdayAverages[weekday] = (average * 1000).toInt()
+                }
+            }
+            result[monthTimestamp] = weekdayAverages
+        }
+
+        return result
+    }
+
+    /**
+     * Calculates best streaks of perfect completion (100% due habits completed).
+     */
+    fun calculateCompletionStreaks(summaries: List<CompletionSummary>): List<Streak> {
+        if (summaries.isEmpty()) {
+            return emptyList()
+        }
+
+        val allStreaks = mutableListOf<Streak>()
+        var streakStart: Timestamp? = null
+        var streakEnd: Timestamp? = null
+
+        for (summary in summaries) {
+            val isPerfectDay = summary.dueCount > 0 && summary.completedCount == summary.dueCount
+            if (isPerfectDay) {
+                if (streakStart == null) {
+                    streakStart = summary.timestamp
+                    streakEnd = summary.timestamp
+                } else {
+                    streakEnd = summary.timestamp
+                }
+            } else {
+                if (streakStart != null && streakEnd != null) {
+                    allStreaks.add(Streak(streakStart, streakEnd))
+                }
+                streakStart = null
+                streakEnd = null
+            }
+        }
+
+        if (streakStart != null && streakEnd != null) {
+            allStreaks.add(Streak(streakStart, streakEnd))
+        }
+
+        if (allStreaks.isEmpty()) {
+            return emptyList()
+        }
+
+        val bestStreaks = allStreaks.sortedWith { s1, s2 ->
+            s2.compareLonger(s1)
+        }.take(10)
+
+        return bestStreaks.sortedWith { s1, s2 ->
+            s2.compareNewer(s1)
+        }
     }
 
     /**
@@ -384,6 +699,38 @@ class AggregateScoreCalculator {
         return grouped.map { (timestamp, values) ->
             Score(timestamp, values.average())
         }.sortedByDescending { it.timestamp }
+    }
+
+    private fun normalizeProgressChange(value: Double): Double {
+        return ((value + 1.0) / 2.0).coerceIn(0.0, 1.0)
+    }
+
+    private fun isHabitDueForDate(habit: Habit, entry: Entry): Boolean {
+        return if (habit.isNumerical) {
+            true
+        } else {
+            entry.value != Entry.YES_AUTO
+        }
+    }
+
+    private fun isHabitCompletedForDate(habit: Habit, entry: Entry): Boolean {
+        if (entry.value == Entry.SKIP) {
+            return true
+        }
+
+        return if (habit.isNumerical) {
+            if (entry.value == Entry.UNKNOWN) {
+                false
+            } else {
+                val value = entry.value / 1000.0
+                when (habit.targetType) {
+                    NumericalHabitType.AT_LEAST -> value >= habit.targetValue
+                    NumericalHabitType.AT_MOST -> value <= habit.targetValue
+                }
+            }
+        } else {
+            entry.value == Entry.YES_MANUAL
+        }
     }
 }
 

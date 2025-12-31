@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2025 Álinson Santos Xavier <git@axavier.org>
+ * Copyright (C) 2016-2025 A?linson Santos Xavier <git@axavier.org>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -19,84 +19,128 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
-import android.graphics.Color
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import org.isoron.uhabits.R
 import org.isoron.uhabits.databinding.ProgressSummaryWidgetBinding
 import org.isoron.uhabits.utils.StyledResources
-import androidx.core.content.ContextCompat
-import java.text.DecimalFormat
 
 class ProgressSummaryWidget @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : LinearLayout(context, attrs) {
-    
+
     private val binding: ProgressSummaryWidgetBinding
-    
-    private val decimalFormat = DecimalFormat("0.00000")
-    
+
     init {
         binding = ProgressSummaryWidgetBinding.inflate(LayoutInflater.from(context), this)
         orientation = VERTICAL
     }
-    
-    fun setProgress(todayScore: Double, yesterdayScore: Double) {
-        val change = todayScore - yesterdayScore
-        
-        // Show progress value without label (label is separate in XML)
-        binding.progressText.text = "${decimalFormat.format(todayScore * 100)}%"
-        
-        val changeFormatted = decimalFormat.format(change * 100)
-        binding.changeText.text = when {
-            change > 0 -> "+$changeFormatted%"
-            change < 0 -> "$changeFormatted%"
-            else -> "±0.00000%"
-        }
 
-        // Positive -> green, Negative -> red, Neutral -> theme contrast
+    fun setSummaryData(
+        todayScore: Double,
+        yesterdayScore: Double,
+        todayCompleted: Int,
+        todayDue: Int,
+        yesterdayCompleted: Int,
+        yesterdayDue: Int,
+        yesterdayStreakLength: Int,
+        projectedStreakLength: Int
+    ) {
+        val yesterdayCompletionPercent = if (yesterdayDue > 0) {
+            yesterdayCompleted.toDouble() / yesterdayDue * 100
+        } else {
+            0.0
+        }
+        val todayCompletionPercent = if (todayDue > 0) {
+            todayCompleted.toDouble() / todayDue * 100
+        } else {
+            0.0
+        }
+        val yesterdayScorePercent = yesterdayScore * 100
+        val todayScorePercent = todayScore * 100
+        val progressDiffPercent = (todayScore - yesterdayScore) * 100
+
+        binding.yesterdaySummary.text = formatSummary(
+            prefix = "Y:",
+            completed = yesterdayCompleted,
+            due = yesterdayDue,
+            completionPercent = yesterdayCompletionPercent,
+            scorePercent = yesterdayScorePercent,
+            streakText = "Streak $yesterdayStreakLength"
+        )
+        val progressText = formatProgressText(progressDiffPercent)
+        val todaySummary = formatSummary(
+            prefix = "T:",
+            completed = todayCompleted,
+            due = todayDue,
+            completionPercent = todayCompletionPercent,
+            scorePercent = todayScorePercent,
+            progressText = progressText,
+            streakText = "Streak $yesterdayStreakLength->$projectedStreakLength"
+        )
+        binding.todaySummary.text = colorizeProgress(todaySummary, progressText, progressDiffPercent)
+    }
+
+    private fun formatSummary(
+        prefix: String,
+        completed: Int,
+        due: Int,
+        completionPercent: Double,
+        scorePercent: Double,
+        streakText: String,
+        progressText: String? = null
+    ): String {
+        val completionText = String.format("%d/%d (%.1f%%)", completed, due, completionPercent)
+        val prefixText = "$prefix $completionText"
+        val scoreText = String.format("Score %.5f%%", scorePercent)
+
+        return listOfNotNull(prefixText, scoreText, progressText, streakText)
+            .joinToString(" | ")
+    }
+
+    private fun formatProgressText(progressPercent: Double): String {
+        val formatted = when {
+            progressPercent > 0 -> String.format("+%.5f%%", progressPercent)
+            progressPercent < 0 -> String.format("%.5f%%", progressPercent)
+            else -> "0.00000%"
+        }
+        return "Progress $formatted"
+    }
+
+    private fun colorizeProgress(
+        summary: String,
+        progressText: String,
+        progressPercent: Double
+    ): SpannableString {
+        val spannable = SpannableString(summary)
+        val start = summary.indexOf(progressText)
+        if (start < 0) {
+            return spannable
+        }
+        val end = start + progressText.length
         val neutral = StyledResources(context).getColor(R.attr.contrast60)
-        val positive = ContextCompat.getColor(context, org.isoron.uhabits.R.color.green_500)
-        val negative = ContextCompat.getColor(context, org.isoron.uhabits.R.color.red_500)
-        val colorInt = if (change > 0.0) positive else if (change < 0.0) negative else neutral
-        binding.changeText.setTextColor(colorInt)
+        val positive = ContextCompat.getColor(context, R.color.green_500)
+        val negative = ContextCompat.getColor(context, R.color.red_500)
+        val colorInt = when {
+            progressPercent > 0.0 -> positive
+            progressPercent < 0.0 -> negative
+            else -> neutral
+        }
+        spannable.setSpan(
+            ForegroundColorSpan(colorInt),
+            start,
+            end,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        return spannable
     }
-    
-    /**
-     * Sets streak information in the widget.
-     * @param currentStreakLength Length of the current active streak (0 if no active streak)
-     * @param bestStreakLength Length of the best/longest streak (0 if no streaks)
-     */
-    fun setStreakData(currentStreakLength: Int, bestStreakLength: Int) {
-        if (currentStreakLength == 0 && bestStreakLength == 0) {
-            // Hide streak row if no streaks
-            binding.streakRow.visibility = View.GONE
-            return
-        }
-        
-        binding.streakRow.visibility = View.VISIBLE
-        
-        // Show current streak
-        val currentText = if (currentStreakLength > 0) {
-            val days = if (currentStreakLength == 1) "day" else "days"
-            "Current: $currentStreakLength $days"
-        } else {
-            "Current: —"
-        }
-        binding.streakText.text = currentText
-        
-        // Show best streak
-        val bestText = if (bestStreakLength > 0) {
-            "Best: $bestStreakLength"
-        } else {
-            "Best: —"
-        }
-        binding.bestStreakText.text = bestText
-    }
-    
+
     fun setOnDetailsClickListener(listener: () -> Unit) {
         binding.progressWidgetRoot.setOnClickListener { listener() }
     }

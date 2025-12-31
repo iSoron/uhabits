@@ -175,6 +175,46 @@ class ProgressActivity : AppCompatActivity() {
             } else {
                 binding.frequencyCard.visibility = View.GONE
             }
+
+            // Completion stats card
+            if (state.completionStatsCard != null) {
+                binding.completionStatsCard.visibility = View.VISIBLE
+                binding.completionStatsCard.setState(state.completionStatsCard)
+            } else {
+                binding.completionStatsCard.visibility = View.GONE
+            }
+
+            // Completion bar card
+            if (state.completionBarCard != null) {
+                binding.completionBarCard.visibility = View.VISIBLE
+                binding.completionBarCard.setState(state.completionBarCard)
+            } else {
+                binding.completionBarCard.visibility = View.GONE
+            }
+
+            // Completion history card
+            if (state.completionHistoryCard != null) {
+                binding.completionHistoryCard.visibility = View.VISIBLE
+                binding.completionHistoryCard.setState(state.completionHistoryCard)
+            } else {
+                binding.completionHistoryCard.visibility = View.GONE
+            }
+
+            // Completion streak card
+            if (state.completionStreakCard != null) {
+                binding.completionStreakCard.visibility = View.VISIBLE
+                binding.completionStreakCard.setState(state.completionStreakCard)
+            } else {
+                binding.completionStreakCard.visibility = View.GONE
+            }
+
+            // Completion frequency card
+            if (state.completionFrequencyCard != null) {
+                binding.completionFrequencyCard.visibility = View.VISIBLE
+                binding.completionFrequencyCard.setState(state.completionFrequencyCard)
+            } else {
+                binding.completionFrequencyCard.visibility = View.GONE
+            }
         }
     }
 

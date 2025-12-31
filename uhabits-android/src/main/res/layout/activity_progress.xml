@@ -45,6 +45,10 @@
             android:id="@+id/linearLayout"
             android:clipToPadding="false">
 
+            <TextView
+                style="@style/CardHeader"
+                android:text="@string/score_section_title"/>
+
             <org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
                 android:id="@+id/statsCard"
                 style="@style/Card"/>
@@ -58,6 +62,11 @@
                 android:id="@+id/barCard"
                 style="@style/Card"
                 android:gravity="center"/>
+
+            <TextView
+                style="@style/CardHeader"
+                android:text="@string/progress_section_title"
+                android:layout_marginTop="8dp"/>
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardView
                 android:id="@+id/deltaCard"
@@ -76,6 +85,34 @@
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardView
                 android:id="@+id/frequencyCard"
+                style="@style/Card"/>
+
+            <TextView
+                style="@style/CardHeader"
+                android:text="@string/completion_section_title"
+                android:layout_marginTop="8dp"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionStatsCardView
+                android:id="@+id/completionStatsCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionBarCardView
+                android:id="@+id/completionBarCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionHistoryCardView
+                android:id="@+id/completionHistoryCard"
+                style="@style/Card"
+                android:gravity="center"
+                android:paddingBottom="0dp"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionStreakCardView
+                android:id="@+id/completionStreakCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionFrequencyCardView
+                android:id="@+id/completionFrequencyCard"
                 style="@style/Card"/>
 
         </LinearLayout>

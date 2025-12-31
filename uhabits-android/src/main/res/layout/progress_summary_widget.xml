@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016-2025 Álinson Santos Xavier <git@axavier.org>
+  ~ Copyright (C) 2016-2025 A?linson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -32,83 +32,27 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
-        <!-- Progress Row -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/yesterdaySummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:text="Y: --"
+            android:textSize="@dimen/regularTextSize"
+            android:textColor="?attr/contrast60"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
-            <TextView
-                android:id="@+id/progressLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/progress"
-                android:textSize="@dimen/smallTextSize"
-                android:textStyle="bold"
-                android:textColor="?attr/contrast60"
-                android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:id="@+id/progressText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0.00000%"
-                android:textSize="@dimen/regularTextSize"
-                android:textStyle="bold"
-                android:textColor="?attr/contrast60" />
-
-            <TextView
-                android:id="@+id/changeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="±0.00000%"
-                android:textSize="@dimen/regularTextSize"
-                android:textStyle="bold"
-                android:textColor="?attr/contrast60" />
-
-        </LinearLayout>
-
-        <!-- Streak Row -->
-        <LinearLayout
-            android:id="@+id/streakRow"
+        <TextView
+            android:id="@+id/todaySummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="4dp"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/streakLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Streak:"
-                android:textSize="@dimen/tinyTextSize"
-                android:textColor="?attr/contrast60"
-                android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:id="@+id/streakText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Current: 0 days"
-                android:textSize="@dimen/tinyTextSize"
-                android:textColor="?attr/contrast60" />
-
-            <TextView
-                android:id="@+id/bestStreakText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Best: 0"
-                android:textSize="@dimen/tinyTextSize"
-                android:textColor="?attr/contrast60" />
-
-        </LinearLayout>
+            android:layout_marginTop="2dp"
+            android:text="T: --"
+            android:textSize="@dimen/regularTextSize"
+            android:textStyle="bold"
+            android:textColor="?attr/contrast60"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
     </LinearLayout>
 

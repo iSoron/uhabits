@@ -126,12 +126,26 @@ class ListHabitsRootView @Inject constructor(
         // For now, just mark it visible
     }
     
-    fun setProgressWidgetData(todayScore: Double, yesterdayScore: Double) {
-        progressWidget.setProgress(todayScore, yesterdayScore)
-    }
-    
-    fun setProgressWidgetStreakData(currentStreakLength: Int, bestStreakLength: Int) {
-        progressWidget.setStreakData(currentStreakLength, bestStreakLength)
+    fun setProgressWidgetSummary(
+        todayScore: Double,
+        yesterdayScore: Double,
+        todayCompleted: Int,
+        todayDue: Int,
+        yesterdayCompleted: Int,
+        yesterdayDue: Int,
+        yesterdayStreakLength: Int,
+        projectedStreakLength: Int
+    ) {
+        progressWidget.setSummaryData(
+            todayScore = todayScore,
+            yesterdayScore = yesterdayScore,
+            todayCompleted = todayCompleted,
+            todayDue = todayDue,
+            yesterdayCompleted = yesterdayCompleted,
+            yesterdayDue = yesterdayDue,
+            yesterdayStreakLength = yesterdayStreakLength,
+            projectedStreakLength = projectedStreakLength
+        )
     }
     
     fun setProgressWidgetClickListener(listener: () -> Unit) {

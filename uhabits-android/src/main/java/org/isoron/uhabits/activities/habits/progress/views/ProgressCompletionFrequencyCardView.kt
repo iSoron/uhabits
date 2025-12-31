@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2025 Álinson Santos Xavier <git@axavier.org>
+ * Copyright (C) 2016-2025 A?linson Santos Xavier <git@axavier.org>
  *
  * This file is part of Loop Habit Tracker.
  *
@@ -24,17 +24,17 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.isoron.platform.gui.toInt
-import org.isoron.uhabits.databinding.ProgressFrequencyCardBinding
+import org.isoron.uhabits.databinding.ProgressCompletionFrequencyCardBinding
 
-class ProgressFrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    
-    private var binding = ProgressFrequencyCardBinding.inflate(LayoutInflater.from(context), this)
-    
-    fun setState(state: ProgressFrequencyCardState) {
+class ProgressCompletionFrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+
+    private var binding = ProgressCompletionFrequencyCardBinding.inflate(LayoutInflater.from(context), this)
+
+    fun setState(state: ProgressCompletionFrequencyCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
         binding.frequencyChart.setFrequency(state.frequency)
-        binding.frequencyChart.setIsNumerical(true) // Always true for aggregate progress values
+        binding.frequencyChart.setIsNumerical(true)
         binding.frequencyChart.setFirstWeekday(state.firstWeekday)
         binding.frequencyChart.setColor(androidColor)
     }

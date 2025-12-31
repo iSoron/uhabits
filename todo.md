@@ -22,7 +22,7 @@
     - By adopting one of these formats, we can ensure that the information is both concise and contextually useful for the end user.
 
 ## bug
-    - app crahs
-      - after some inactivity time
-      - some time even after the first alunch itself !
-    - the 'did you know"' app hint comes in, is it a bug or the app is hard desinged to show this on ~2nd or 3rd day of the new verison usage ? [ harddesing doesn't make much sense, so i feel this si bug/feature we broke ]
+  - app crahs
+    - after some inactivity time
+    - some time even after the first alunch itself !
+  - the 'did you know"' app hint comes in, is it a bug or the app is hard desinged to show this on ~2nd or 3rd day of the new verison usage ? [ harddesing doesn't make much sense, so i feel this si bug/feature we broke ]

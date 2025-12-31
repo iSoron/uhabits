@@ -165,8 +165,16 @@ class ListHabitsScreen
             
             if (activeHabits.size() == 0) {
                 activity.runOnUiThread {
-                    rootView.get().setProgressWidgetData(0.0, 0.0)
-                    rootView.get().setProgressWidgetStreakData(0, 0)
+                    rootView.get().setProgressWidgetSummary(
+                        todayScore = 0.0,
+                        yesterdayScore = 0.0,
+                        todayCompleted = 0,
+                        todayDue = 0,
+                        yesterdayCompleted = 0,
+                        yesterdayDue = 0,
+                        yesterdayStreakLength = 0,
+                        projectedStreakLength = 0
+                    )
                 }
                 return@run
             }
@@ -183,25 +191,46 @@ class ListHabitsScreen
             
             val todayScore = todayScores.firstOrNull()?.value ?: 0.0
             val yesterdayScore = yesterdayScores.firstOrNull()?.value ?: 0.0
-            
+
+            val completionSummaries = calculator.computeAggregateCompletionSummaries(
+                activeHabits.toList(),
+                yesterday,
+                today
+            )
+            val completionYesterday = completionSummaries.firstOrNull()
+            val completionToday = completionSummaries.lastOrNull()
+
+            val yesterdayCompleted = completionYesterday?.completedCount ?: 0
+            val yesterdayDue = completionYesterday?.dueCount ?: 0
+            val todayCompleted = completionToday?.completedCount ?: 0
+            val todayDue = completionToday?.dueCount ?: 0
+
             // Calculate streak data - get history for last year for performance
             val oneYearAgo = today.minus(365)
             val earliestDate = calculator.findEarliestHabitDate(activeHabits.toList(), today)
             val startDate = if (earliestDate.isNewerThan(oneYearAgo)) earliestDate else oneYearAgo
-            
+
             val historyScores = calculator.computeAggregateScores(activeHabits.toList(), startDate, today)
             val streaks = calculator.calculateAggregateStreaks(historyScores)
-            
-            // Find current streak (most recent, ending today)
-            val currentStreak = streaks.firstOrNull { it.end == today }
-            val currentStreakLength = currentStreak?.length ?: 0
-            
-            // Find best streak
-            val bestStreakLength = streaks.maxOfOrNull { it.length } ?: 0
+
+            val yesterdayStreakLength = streaks.firstOrNull { it.end == yesterday }?.length ?: 0
+            val projectedStreakLength = if (todayScore > yesterdayScore) {
+                yesterdayStreakLength + 1
+            } else {
+                0
+            }
             
             activity.runOnUiThread {
-                rootView.get().setProgressWidgetData(todayScore, yesterdayScore)
-                rootView.get().setProgressWidgetStreakData(currentStreakLength, bestStreakLength)
+                rootView.get().setProgressWidgetSummary(
+                    todayScore = todayScore,
+                    yesterdayScore = yesterdayScore,
+                    todayCompleted = todayCompleted,
+                    todayDue = todayDue,
+                    yesterdayCompleted = yesterdayCompleted,
+                    yesterdayDue = yesterdayDue,
+                    yesterdayStreakLength = yesterdayStreakLength,
+                    projectedStreakLength = projectedStreakLength
+                )
             }
         }
     }

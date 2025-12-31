@@ -23,6 +23,10 @@ import android.content.Context
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionBarCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionFrequencyCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionHistoryCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionStatsCardView
 import org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardState
@@ -64,6 +68,11 @@ class ProgressPresenter(
                 historyCard = null,
                 streakCard = null,
                 frequencyCard = null,
+                completionStatsCard = null,
+                completionBarCard = null,
+                completionHistoryCard = null,
+                completionStreakCard = null,
+                completionFrequencyCard = null,
                 isEmpty = true
             )
         }
@@ -82,6 +91,11 @@ class ProgressPresenter(
                 historyCard = null,
                 streakCard = null,
                 frequencyCard = null,
+                completionStatsCard = null,
+                completionBarCard = null,
+                completionHistoryCard = null,
+                completionStreakCard = null,
+                completionFrequencyCard = null,
                 isEmpty = true
             )
         }
@@ -94,6 +108,28 @@ class ProgressPresenter(
             scoreToday = scoreToday * 100,
             color = PaletteColor(11) // Blue
         )
+
+        val completionSummaries = calculator.computeAggregateCompletionSummaries(
+            activeHabits.toList(),
+            earliestDate,
+            today
+        )
+        val completionToday = completionSummaries.lastOrNull()
+        val completionYesterday = if (completionSummaries.size >= 2) {
+            completionSummaries[completionSummaries.size - 2]
+        } else {
+            completionToday
+        }
+        val completionStatsCardState = if (completionToday != null && completionYesterday != null) {
+            ProgressCompletionStatsCardView.State(
+                yesterdayCompleted = completionYesterday.completedCount,
+                yesterdayDue = completionYesterday.dueCount,
+                todayCompleted = completionToday.completedCount,
+                todayDue = completionToday.dueCount
+            )
+        } else {
+            null
+        }
 
         // Build score card state - use same logic as individual habit ScoreCardPresenter
         val scoreBucketSizes = intArrayOf(1, 7, 31, 92, 365)
@@ -140,13 +176,29 @@ class ProgressPresenter(
             null
         }
 
-        // Build history card state - show all historical data
-        val historyScores = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
+        // Build progress-change calendar card state
+        val progressChanges = calculator.computeAggregateProgressChanges(
+            activeHabits.toList(),
+            earliestDate,
+            today
+        )
         val historyFirstWeekday = DayOfWeek.values().getOrNull((firstWeekday - 1).coerceIn(0, 6)) ?: DayOfWeek.MONDAY
-        val historyCardState = if (historyScores.isNotEmpty()) {
+        val historyCardState = if (progressChanges.isNotEmpty()) {
             ProgressHistoryCardState(
-                scoreValues = historyScores.map { it.value }.reversed(), // Reverse for HistoryChart display
+                scoreValues = progressChanges.map { calculator.normalizeProgressChangeValue(it.value) }.reversed(),
                 color = PaletteColor(11), // Blue
+                firstWeekday = historyFirstWeekday,
+                theme = theme,
+                today = today.toLocalDate()
+            )
+        } else {
+            null
+        }
+
+        val completionHistoryCardState = if (completionSummaries.isNotEmpty()) {
+            ProgressCompletionHistoryCardState(
+                completionRatios = completionSummaries.map { it.completionRatio }.reversed(),
+                color = PaletteColor(11),
                 firstWeekday = historyFirstWeekday,
                 theme = theme,
                 today = today.toLocalDate()
@@ -190,6 +242,22 @@ class ProgressPresenter(
             } else {
                 null
             }
+        } else {
+            null
+        }
+
+        val completionEntries = calculator.computeCompletionEntriesByPeriod(
+            activeHabits.toList(),
+            earliestDate,
+            today,
+            -1
+        )
+        val completionBarCardState = if (completionEntries.isNotEmpty()) {
+            ProgressCompletionBarCardState(
+                theme = theme,
+                color = PaletteColor(11),
+                entries = completionEntries
+            )
         } else {
             null
         }
@@ -240,7 +308,7 @@ class ProgressPresenter(
 
         // Build frequency card state - show last ~12 months
         val frequencyStartDate = today.minus(365)
-        val frequencyData = calculator.computeAggregateWeekdayFrequency(
+        val frequencyData = calculator.computeAggregateProgressChangeWeekdayFrequency(
             activeHabits.toList(),
             frequencyStartDate,
             today
@@ -256,6 +324,33 @@ class ProgressPresenter(
             null
         }
 
+        val completionFrequencyData = calculator.computeCompletionWeekdayFrequency(
+            activeHabits.toList(),
+            frequencyStartDate,
+            today
+        )
+        val completionFrequencyCardState = if (completionFrequencyData.isNotEmpty()) {
+            ProgressCompletionFrequencyCardState(
+                frequency = completionFrequencyData,
+                color = PaletteColor(11),
+                firstWeekday = firstWeekday,
+                theme = theme
+            )
+        } else {
+            null
+        }
+
+        val completionStreakStart = today.minus(150)
+        val completionStreakSummaries = completionSummaries.filter {
+            !it.timestamp.isOlderThan(completionStreakStart)
+        }
+        val completionStreaks = calculator.calculateCompletionStreaks(completionStreakSummaries)
+        val completionStreakCardState = StreakCardState(
+            color = PaletteColor(11),
+            bestStreaks = completionStreaks,
+            theme = theme
+        )
+
         return ProgressState(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
@@ -264,6 +359,11 @@ class ProgressPresenter(
             historyCard = historyCardState,
             streakCard = streakCardState,
             frequencyCard = frequencyCardState,
+            completionStatsCard = completionStatsCardState,
+            completionBarCard = completionBarCardState,
+            completionHistoryCard = completionHistoryCardState,
+            completionStreakCard = completionStreakCardState,
+            completionFrequencyCard = completionFrequencyCardState,
             isEmpty = false
         )
     }
