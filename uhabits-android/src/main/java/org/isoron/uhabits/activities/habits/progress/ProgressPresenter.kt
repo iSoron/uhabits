@@ -30,6 +30,7 @@ import org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionSta
 import org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardState
+import org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardState
 import org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
 import org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
 import org.isoron.uhabits.core.models.HabitList
@@ -73,6 +74,10 @@ class ProgressPresenter(
                 completionHistoryCard = null,
                 completionStreakCard = null,
                 completionFrequencyCard = null,
+                scoreRankCard = null,
+                progressRankCard = null,
+                completionRankCard = null,
+                overallRankCard = null,
                 isEmpty = true
             )
         }
@@ -96,6 +101,10 @@ class ProgressPresenter(
                 completionHistoryCard = null,
                 completionStreakCard = null,
                 completionFrequencyCard = null,
+                scoreRankCard = null,
+                progressRankCard = null,
+                completionRankCard = null,
+                overallRankCard = null,
                 isEmpty = true
             )
         }
@@ -357,6 +366,82 @@ class ProgressPresenter(
             theme = theme
         )
 
+        val scoreHistory = fullHistoryScores.reversed()
+        val progressHistory = progressChanges.reversed()
+        val completionHistory = completionSummaries.reversed()
+
+        val scoreRanks = calculator.computeDescendingRanks(
+            scoreHistory.map { it.timestamp to it.value }
+        )
+        val progressRanks = calculator.computeDescendingRanks(
+            progressHistory.map { it.timestamp to it.value }
+        )
+        val completionRanks = calculator.computeDescendingRanks(
+            completionHistory.map { summary ->
+                summary.timestamp to if (summary.dueCount > 0) summary.completionRatio else null
+            }
+        )
+
+        val scoreRankValues = scoreHistory.map { (scoreRanks[it.timestamp] ?: 0).toDouble() }
+        val progressRankValues = progressHistory.map { (progressRanks[it.timestamp] ?: 0).toDouble() }
+        val completionRankValues = completionHistory.map { (completionRanks[it.timestamp] ?: 0).toDouble() }
+
+        val scoreRankCardState = if (scoreRankValues.any { it > 0 }) {
+            ProgressRankCardState(
+            title = context.getString(R.string.rank_score_title),
+            subtitle = context.getString(R.string.rank_one_best),
+            axis = scoreHistory.map { it.timestamp.toLocalDate() },
+            series = listOf(scoreRankValues),
+            colors = listOf(PaletteColor(11)),
+            theme = theme
+            )
+        } else {
+            null
+        }
+
+        val progressRankCardState = if (progressRankValues.any { it > 0 }) {
+            ProgressRankCardState(
+            title = context.getString(R.string.rank_progress_title),
+            subtitle = context.getString(R.string.rank_one_best),
+            axis = progressHistory.map { it.timestamp.toLocalDate() },
+            series = listOf(progressRankValues),
+            colors = listOf(PaletteColor(7)),
+            theme = theme
+            )
+        } else {
+            null
+        }
+
+        val completionRankCardState = if (completionRankValues.any { it > 0 }) {
+            ProgressRankCardState(
+            title = context.getString(R.string.rank_completion_title),
+            subtitle = context.getString(R.string.rank_one_best),
+            axis = completionHistory.map { it.timestamp.toLocalDate() },
+            series = listOf(completionRankValues),
+            colors = listOf(PaletteColor(11)),
+            theme = theme
+            )
+        } else {
+            null
+        }
+
+        val overallRankCardState = if (
+            scoreRankValues.any { it > 0 } ||
+            progressRankValues.any { it > 0 } ||
+            completionRankValues.any { it > 0 }
+        ) {
+            ProgressRankCardState(
+                title = context.getString(R.string.rank_overall_title),
+                subtitle = context.getString(R.string.rank_overall_subtitle),
+                axis = scoreHistory.map { it.timestamp.toLocalDate() },
+                series = listOf(scoreRankValues, progressRankValues, completionRankValues),
+                colors = listOf(PaletteColor(11), PaletteColor(7), PaletteColor(8)),
+                theme = theme
+            )
+        } else {
+            null
+        }
+
         return ProgressState(
             statsCard = statsCardState,
             scoreCard = scoreCardState,
@@ -370,6 +455,10 @@ class ProgressPresenter(
             completionHistoryCard = completionHistoryCardState,
             completionStreakCard = completionStreakCardState,
             completionFrequencyCard = completionFrequencyCardState,
+            scoreRankCard = scoreRankCardState,
+            progressRankCard = progressRankCardState,
+            completionRankCard = completionRankCardState,
+            overallRankCard = overallRankCardState,
             isEmpty = false
         )
     }

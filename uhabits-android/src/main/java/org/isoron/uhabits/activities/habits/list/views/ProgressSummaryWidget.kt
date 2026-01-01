@@ -50,7 +50,10 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         yesterdayCompleted: Int,
         yesterdayDue: Int,
         yesterdayStreakLength: Int,
-        projectedStreakLength: Int
+        projectedStreakLength: Int,
+        todayScoreRank: Int,
+        todayProgressRank: Int,
+        todayCompletionRank: Int
     ) {
         val yesterdayCompletionPercent = if (yesterdayDue > 0) {
             yesterdayCompleted.toDouble() / yesterdayDue * 100
@@ -72,7 +75,10 @@ class ProgressSummaryWidget @JvmOverloads constructor(
             due = yesterdayDue,
             completionPercent = yesterdayCompletionPercent,
             scorePercent = yesterdayScorePercent,
-            streakText = "Streak $yesterdayStreakLength"
+            streakText = "Streak $yesterdayStreakLength",
+            completionRank = null,
+            scoreRank = null,
+            progressRank = null
         )
         val progressText = formatProgressText(progressDiffPercent)
         val todaySummary = formatSummary(
@@ -82,7 +88,10 @@ class ProgressSummaryWidget @JvmOverloads constructor(
             completionPercent = todayCompletionPercent,
             scorePercent = todayScorePercent,
             progressText = progressText,
-            streakText = "Streak $yesterdayStreakLength->$projectedStreakLength"
+            streakText = "Streak $yesterdayStreakLength->$projectedStreakLength",
+            completionRank = todayCompletionRank,
+            scoreRank = todayScoreRank,
+            progressRank = todayProgressRank
         )
         binding.todaySummary.text = colorizeProgress(todaySummary, progressText, progressDiffPercent)
     }
@@ -94,13 +103,33 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         completionPercent: Double,
         scorePercent: Double,
         streakText: String,
-        progressText: String? = null
+        progressText: String? = null,
+        completionRank: Int? = null,
+        scoreRank: Int? = null,
+        progressRank: Int? = null
     ): String {
         val completionText = String.format("%d/%d (%.1f%%)", completed, due, completionPercent)
-        val prefixText = "$prefix $completionText"
-        val scoreText = String.format("Score %.5f%%", scorePercent)
+        val completionRankText = if (completionRank != null && completionRank > 0) {
+            " #$completionRank"
+        } else {
+            ""
+        }
+        val completionValue = "$completionText$completionRankText"
+        val scoreRankText = if (scoreRank != null && scoreRank > 0) {
+            " #$scoreRank"
+        } else {
+            ""
+        }
+        val scoreText = String.format("Score %.5f%%%s", scorePercent, scoreRankText)
+        val progressRankText = if (progressRank != null && progressRank > 0) {
+            " #$progressRank"
+        } else {
+            ""
+        }
+        val progressValueText = progressText?.let { "$it$progressRankText" }
 
-        return listOfNotNull(prefixText, scoreText, progressText, streakText)
+        val prefixWithRank = "$prefix $completionValue"
+        return listOfNotNull(prefixWithRank, scoreText, progressValueText, streakText)
             .joinToString(" | ")
     }
 

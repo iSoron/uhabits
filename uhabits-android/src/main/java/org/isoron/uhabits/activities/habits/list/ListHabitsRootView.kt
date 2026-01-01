@@ -134,7 +134,10 @@ class ListHabitsRootView @Inject constructor(
         yesterdayCompleted: Int,
         yesterdayDue: Int,
         yesterdayStreakLength: Int,
-        projectedStreakLength: Int
+        projectedStreakLength: Int,
+        todayScoreRank: Int,
+        todayProgressRank: Int,
+        todayCompletionRank: Int
     ) {
         progressWidget.setSummaryData(
             todayScore = todayScore,
@@ -144,7 +147,10 @@ class ListHabitsRootView @Inject constructor(
             yesterdayCompleted = yesterdayCompleted,
             yesterdayDue = yesterdayDue,
             yesterdayStreakLength = yesterdayStreakLength,
-            projectedStreakLength = projectedStreakLength
+            projectedStreakLength = projectedStreakLength,
+            todayScoreRank = todayScoreRank,
+            todayProgressRank = todayProgressRank,
+            todayCompletionRank = todayCompletionRank
         )
     }
     

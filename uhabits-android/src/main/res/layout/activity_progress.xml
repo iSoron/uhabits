@@ -63,6 +63,11 @@
                 style="@style/Card"
                 android:gravity="center"/>
 
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
+                android:id="@+id/scoreRankCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
             <TextView
                 style="@style/CardHeader"
                 android:text="@string/progress_section_title"
@@ -86,6 +91,11 @@
             <org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardView
                 android:id="@+id/frequencyCard"
                 style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
+                android:id="@+id/progressRankCard"
+                style="@style/Card"
+                android:gravity="center"/>
 
             <TextView
                 style="@style/CardHeader"
@@ -114,6 +124,16 @@
             <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionFrequencyCardView
                 android:id="@+id/completionFrequencyCard"
                 style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
+                android:id="@+id/completionRankCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
+                android:id="@+id/overallRankCard"
+                style="@style/Card"
+                android:gravity="center"/>
 
         </LinearLayout>
     </ScrollView>

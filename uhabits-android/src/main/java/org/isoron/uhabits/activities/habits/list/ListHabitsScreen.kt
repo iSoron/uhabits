@@ -173,7 +173,10 @@ class ListHabitsScreen
                         yesterdayCompleted = 0,
                         yesterdayDue = 0,
                         yesterdayStreakLength = 0,
-                        projectedStreakLength = 0
+                        projectedStreakLength = 0,
+                        todayScoreRank = 0,
+                        todayProgressRank = 0,
+                        todayCompletionRank = 0
                     )
                 }
                 return@run
@@ -213,6 +216,32 @@ class ListHabitsScreen
             val historyScores = calculator.computeAggregateScores(activeHabits.toList(), startDate, today)
             val streaks = calculator.calculateAggregateStreaks(historyScores)
 
+            val historyScoresAll = calculator.computeAggregateScores(activeHabits.toList(), earliestDate, today)
+            val progressChangesAll = calculator.computeAggregateProgressChanges(
+                activeHabits.toList(),
+                earliestDate,
+                today
+            )
+            val completionHistoryAll = calculator.computeAggregateCompletionSummaries(
+                activeHabits.toList(),
+                earliestDate,
+                today
+            )
+            val scoreRanks = calculator.computeDescendingRanks(
+                historyScoresAll.map { it.timestamp to it.value }
+            )
+            val progressRanks = calculator.computeDescendingRanks(
+                progressChangesAll.map { it.timestamp to it.value }
+            )
+            val completionRanks = calculator.computeDescendingRanks(
+                completionHistoryAll.map { summary ->
+                    summary.timestamp to if (summary.dueCount > 0) summary.completionRatio else null
+                }
+            )
+            val todayScoreRank = scoreRanks[today] ?: 0
+            val todayProgressRank = progressRanks[today] ?: 0
+            val todayCompletionRank = completionRanks[today] ?: 0
+
             val yesterdayStreakLength = streaks.firstOrNull { it.end == yesterday }?.length ?: 0
             val projectedStreakLength = if (todayScore > yesterdayScore) {
                 yesterdayStreakLength + 1
@@ -229,7 +258,10 @@ class ListHabitsScreen
                     yesterdayCompleted = yesterdayCompleted,
                     yesterdayDue = yesterdayDue,
                     yesterdayStreakLength = yesterdayStreakLength,
-                    projectedStreakLength = projectedStreakLength
+                    projectedStreakLength = projectedStreakLength,
+                    todayScoreRank = todayScoreRank,
+                    todayProgressRank = todayProgressRank,
+                    todayCompletionRank = todayCompletionRank
                 )
             }
         }

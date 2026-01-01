@@ -215,6 +215,34 @@ class ProgressActivity : AppCompatActivity() {
             } else {
                 binding.completionFrequencyCard.visibility = View.GONE
             }
+
+            if (state.scoreRankCard != null) {
+                binding.scoreRankCard.visibility = View.VISIBLE
+                binding.scoreRankCard.setState(state.scoreRankCard)
+            } else {
+                binding.scoreRankCard.visibility = View.GONE
+            }
+
+            if (state.progressRankCard != null) {
+                binding.progressRankCard.visibility = View.VISIBLE
+                binding.progressRankCard.setState(state.progressRankCard)
+            } else {
+                binding.progressRankCard.visibility = View.GONE
+            }
+
+            if (state.completionRankCard != null) {
+                binding.completionRankCard.visibility = View.VISIBLE
+                binding.completionRankCard.setState(state.completionRankCard)
+            } else {
+                binding.completionRankCard.visibility = View.GONE
+            }
+
+            if (state.overallRankCard != null) {
+                binding.overallRankCard.visibility = View.VISIBLE
+                binding.overallRankCard.setState(state.overallRankCard)
+            } else {
+                binding.overallRankCard.visibility = View.GONE
+            }
         }
     }
 

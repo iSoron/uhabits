@@ -113,6 +113,36 @@ class AggregateScoreCalculator {
     }
 
     /**
+     * Computes descending competition ranks for the provided values.
+     * Null values are excluded from ranking.
+     */
+    fun computeDescendingRanks(values: List<Pair<Timestamp, Double?>>): Map<Timestamp, Int> {
+        val filtered = values.filter { it.second != null }
+        if (filtered.isEmpty()) {
+            return emptyMap()
+        }
+
+        val sorted = filtered.sortedWith(
+            compareByDescending<Pair<Timestamp, Double?>> { it.second!! }
+                .thenByDescending { it.first.unixTime }
+        )
+        val ranks = mutableMapOf<Timestamp, Int>()
+        var currentRank = 0
+        var lastValue: Double? = null
+
+        for (index in sorted.indices) {
+            val (timestamp, value) = sorted[index]
+            if (lastValue == null || value != lastValue) {
+                currentRank = index + 1
+                lastValue = value
+            }
+            ranks[timestamp] = currentRank
+        }
+
+        return ranks
+    }
+
+    /**
      * Computes the number of completed and due habits for each day in the specified range.
      * Due habits exclude auto-skipped entries (YES_AUTO). Manual skips count as completed.
      */
