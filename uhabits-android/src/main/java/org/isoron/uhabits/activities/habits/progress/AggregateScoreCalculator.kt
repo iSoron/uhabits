@@ -155,10 +155,9 @@ class AggregateScoreCalculator {
         var currentRank = 0
         var lastValue: Double? = null
 
-        for (index in sorted.indices) {
-            val (timestamp, value) = sorted[index]
+        for ((timestamp, value) in sorted) {
             if (lastValue == null || value != lastValue) {
-                currentRank = index + 1
+                currentRank += 1
                 lastValue = value
             }
             ranks[timestamp] = currentRank
