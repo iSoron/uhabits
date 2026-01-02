@@ -136,11 +136,15 @@
     <string name="progress_frequency">Progress frequency</string>
     <string name="score_section_title">Score</string>
     <string name="progress_section_title">Progress change</string>
+    <string name="progress_label">Progress</string>
+    <string name="streak_by_progress_label">Streak by progress</string>
+    <string name="streak_by_progress_section_title">Streak by progress</string>
     <string name="completion_section_title">Completion</string>
     <string name="completion_streaks_empty">No perfect completion streaks yet</string>
     <string name="rank_one_best">1 = best</string>
     <string name="rank_score_title">Score rank</string>
     <string name="rank_progress_title">Progress rank</string>
+    <string name="rank_streak_title">Streak rank</string>
     <string name="rank_completion_title">Completion rank</string>
     <string name="rank_overall_title">Overall ranks</string>
     <string name="rank_overall_subtitle">Score / Progress / Completion (1 = best)</string>
