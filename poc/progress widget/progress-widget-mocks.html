@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Progress Widget Mockups - Today</title>
+  <style>
+    :root {
+      --ink: #1e1e1e;
+      --muted: #6a6a6a;
+      --card: #f4f4f4;
+      --accent: #e36a3a;
+      --accent-2: #2f6e66;
+      --accent-3: #c2a23c;
+      --accent-4: #5061c4;
+      --ring: #dedede;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Roboto", "Noto Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: #f1f1f1;
+    }
+
+    header {
+      padding: 24px 18px 8px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0 0 6px;
+      letter-spacing: 0.4px;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+      padding: 16px 18px 32px;
+    }
+
+    .variant {
+      display: grid;
+      gap: 10px;
+    }
+
+    .variant-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    .mock-row {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      align-items: start;
+    }
+
+    .mock {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 12px;
+      padding: 10px 12px 12px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .title strong {
+      font-size: 14px;
+      color: var(--ink);
+      letter-spacing: 0.6px;
+    }
+
+    .tiny {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .tile {
+      border-radius: 12px;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 2px;
+    }
+
+    .tile .label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--muted);
+    }
+
+    .tile .value {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .tile .rank {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .rank-bar {
+      height: 3px;
+      border-radius: 999px;
+      background: var(--ring);
+      overflow: hidden;
+    }
+
+    .rank-bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .metric-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .metric {
+      display: grid;
+      grid-template-columns: 78px 1fr 60px;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .metric .bar {
+      height: 6px;
+      border-radius: 999px;
+      background: var(--ring);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .metric .bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent-2);
+    }
+
+    .metric strong { font-size: 13px; }
+
+    .chip-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 6px 8px;
+      font-size: 10px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px dashed rgba(0, 0, 0, 0.18);
+    }
+
+    .ring {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 5px solid var(--ring);
+      position: relative;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--accent-4);
+      margin-right: 12px;
+    }
+
+    .ring:after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      border: 5px solid var(--accent-4);
+      clip-path: inset(0 0 0 50%);
+      transform: rotate(120deg);
+      opacity: 0.8;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .stack .headline {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .stack .sub {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .legend {
+      position: absolute;
+      right: 16px;
+      bottom: 12px;
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .neg { color: #c63d3d; }
+
+    .kv-list {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .kv-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 56px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .kv-row-viz {
+      display: grid;
+      grid-template-columns: 90px 1fr 56px 28px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .kv-row .value {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .mini-ring {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 3px solid var(--ring);
+      position: relative;
+      margin-left: auto;
+    }
+
+    .mini-ring:after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-3);
+      clip-path: inset(0 0 0 50%);
+      transform: rotate(200deg);
+    }
+
+    .mini-ring.completion:after {
+      border-color: var(--accent-2);
+      transform: rotate(260deg);
+    }
+
+    .mini-bar {
+      width: 22px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--ring);
+      position: relative;
+      overflow: hidden;
+      margin-left: auto;
+    }
+
+    .mini-bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+      width: 70%;
+    }
+
+    .mini-streak {
+      width: 22px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      padding: 2px;
+      margin-left: auto;
+    }
+
+    .mini-streak span {
+      display: block;
+      border-radius: 2px;
+      background: var(--accent-4);
+      opacity: 0.3;
+    }
+
+    .mini-streak span.on {
+      opacity: 1;
+    }
+
+    .pill-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .pill {
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      display: grid;
+      gap: 2px;
+      font-size: 10px;
+    }
+
+    .pill .big {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .strip {
+      display: grid;
+      gap: 6px;
+    }
+
+    .strip-row {
+      display: grid;
+      grid-template-columns: 6px 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .strip-row span {
+      display: block;
+      width: 6px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .strip-row .meta {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .mini-table {
+      display: grid;
+      gap: 4px;
+      font-size: 12px;
+    }
+
+    .mini-table .row {
+      display: grid;
+      grid-template-columns: 90px 1fr 60px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .mini-table .row strong {
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .bar-block {
+      display: grid;
+      gap: 8px;
+    }
+
+    .bar-block .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--ring);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-block .bar span {
+      display: block;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .bar-block .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .inline-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 10px;
+      font-size: 11px;
+    }
+
+    .inline-grid .item {
+      display: grid;
+      gap: 2px;
+    }
+
+    .inline-grid .item .big {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .theme-light {
+      background: #f4f4f4;
+      color: #1e1e1e;
+    }
+
+    .theme-dark {
+      background: #2b2b2b;
+      color: #f0f0f0;
+      --muted: #b0b0b0;
+      --ring: #3c3c3c;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .theme-pitch {
+      background: #121212;
+      color: #f4f4f4;
+      --muted: #a6a6a6;
+      --ring: #242424;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .theme-dark .tile,
+    .theme-pitch .tile,
+    .theme-dark .chip,
+    .theme-pitch .chip {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .theme-dark .metric .bar,
+    .theme-pitch .metric .bar,
+    .theme-dark .rank-bar,
+    .theme-pitch .rank-bar,
+    .theme-dark .bar,
+    .theme-pitch .bar {
+      background: var(--ring);
+    }
+
+    .theme-dark .pill,
+    .theme-pitch .pill {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .theme-dark .mini-streak,
+    .theme-pitch .mini-streak {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Progress Widget - Today Only</h1>
+    <p>Ten layout options for the same metrics and rank context in a compact card (priority: progress → score → streak → completion).</p>
+  </header>
+
+  <section class="grid">
+    <div class="variant">
+      <div class="variant-title">Variant A: Priority tiles</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Rank is historical total</span></div>
+          <div class="tile-grid">
+            <div class="tile"><div class="label">Progress</div><div class="value">+1.98765%</div><div class="rank">42 / 150</div><div class="rank-bar"><span style="width: 72%"></span></div></div>
+            <div class="tile"><div class="label">Score</div><div class="value">84.30123%</div><div class="rank">21 / 150</div><div class="rank-bar"><span style="width: 86%; background: var(--accent-3);"></span></div></div>
+            <div class="tile"><div class="label">Streak</div><div class="value">12 -> 14d</div><div class="rank">5 / 150</div><div class="rank-bar"><span style="width: 97%; background: var(--accent-4);"></span></div></div>
+            <div class="tile"><div class="label">Completion</div><div class="value">7/9 (77.78%)</div><div class="rank">133 / 150</div><div class="rank-bar"><span style="width: 12%; background: var(--accent-2);"></span></div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Rank is historical total</span></div>
+          <div class="tile-grid">
+            <div class="tile"><div class="label">Progress</div><div class="value">+1.98765%</div><div class="rank">42 / 150</div><div class="rank-bar"><span style="width: 72%"></span></div></div>
+            <div class="tile"><div class="label">Score</div><div class="value">84.30123%</div><div class="rank">21 / 150</div><div class="rank-bar"><span style="width: 86%; background: var(--accent-3);"></span></div></div>
+            <div class="tile"><div class="label">Streak</div><div class="value">12 -> 14d</div><div class="rank">5 / 150</div><div class="rank-bar"><span style="width: 97%; background: var(--accent-4);"></span></div></div>
+            <div class="tile"><div class="label">Completion</div><div class="value">7/9 (77.78%)</div><div class="rank">133 / 150</div><div class="rank-bar"><span style="width: 12%; background: var(--accent-2);"></span></div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Rank is historical total</span></div>
+          <div class="tile-grid">
+            <div class="tile"><div class="label">Progress</div><div class="value">+1.98765%</div><div class="rank">42 / 150</div><div class="rank-bar"><span style="width: 72%"></span></div></div>
+            <div class="tile"><div class="label">Score</div><div class="value">84.30123%</div><div class="rank">21 / 150</div><div class="rank-bar"><span style="width: 86%; background: var(--accent-3);"></span></div></div>
+            <div class="tile"><div class="label">Streak</div><div class="value">12 -> 14d</div><div class="rank">5 / 150</div><div class="rank-bar"><span style="width: 97%; background: var(--accent-4);"></span></div></div>
+            <div class="tile"><div class="label">Completion</div><div class="value">7/9 (77.78%)</div><div class="rank">133 / 150</div><div class="rank-bar"><span style="width: 12%; background: var(--accent-2);"></span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant B: Rows + rank bars</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Higher bar = better rank</span></div>
+          <div class="metric-list">
+            <div class="metric"><strong>Progress +1.98765%</strong><div class="bar"><span style="width: 72%; background: var(--accent);"></span></div><div>42/150</div></div>
+            <div class="metric"><strong>Score 84.30123%</strong><div class="bar"><span style="width: 86%; background: var(--accent-3);"></span></div><div>21/150</div></div>
+            <div class="metric"><strong>Streak 12->14d</strong><div class="bar"><span style="width: 97%; background: var(--accent-4);"></span></div><div>5/150</div></div>
+            <div class="metric"><strong>Completion 7/9 (77.78%)</strong><div class="bar"><span style="width: 12%; background: var(--accent-2);"></span></div><div>133/150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Higher bar = better rank</span></div>
+          <div class="metric-list">
+            <div class="metric"><strong>Progress +1.98765%</strong><div class="bar"><span style="width: 72%; background: var(--accent);"></span></div><div>42/150</div></div>
+            <div class="metric"><strong>Score 84.30123%</strong><div class="bar"><span style="width: 86%; background: var(--accent-3);"></span></div><div>21/150</div></div>
+            <div class="metric"><strong>Streak 12->14d</strong><div class="bar"><span style="width: 97%; background: var(--accent-4);"></span></div><div>5/150</div></div>
+            <div class="metric"><strong>Completion 7/9 (77.78%)</strong><div class="bar"><span style="width: 12%; background: var(--accent-2);"></span></div><div>133/150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Higher bar = better rank</span></div>
+          <div class="metric-list">
+            <div class="metric"><strong>Progress +1.98765%</strong><div class="bar"><span style="width: 72%; background: var(--accent);"></span></div><div>42/150</div></div>
+            <div class="metric"><strong>Score 84.30123%</strong><div class="bar"><span style="width: 86%; background: var(--accent-3);"></span></div><div>21/150</div></div>
+            <div class="metric"><strong>Streak 12->14d</strong><div class="bar"><span style="width: 97%; background: var(--accent-4);"></span></div><div>5/150</div></div>
+            <div class="metric"><strong>Completion 7/9 (77.78%)</strong><div class="bar"><span style="width: 12%; background: var(--accent-2);"></span></div><div>133/150</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant C: Lead stat + compact list</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Progress first</span></div>
+          <div class="row">
+            <div class="ring">+1.99%</div>
+            <div class="stack">
+              <div class="headline">Progress rank 42/150</div>
+              <div class="sub">Score 84.30123% (21/150)</div>
+              <div class="chip-row">
+                <div class="chip">Streak 12 -> 14 (5/150)</div>
+                <div class="chip">Completion 7/9 (77.78%) (133/150)</div>
+                <div class="chip">Score 84.30123% (21/150)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Progress first</span></div>
+          <div class="row">
+            <div class="ring">+1.99%</div>
+            <div class="stack">
+              <div class="headline">Progress rank 42/150</div>
+              <div class="sub">Score 84.30123% (21/150)</div>
+              <div class="chip-row">
+                <div class="chip">Streak 12 -> 14 (5/150)</div>
+                <div class="chip">Completion 7/9 (77.78%) (133/150)</div>
+                <div class="chip">Score 84.30123% (21/150)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Progress first</span></div>
+          <div class="row">
+            <div class="ring">+1.99%</div>
+            <div class="stack">
+              <div class="headline">Progress rank 42/150</div>
+              <div class="sub">Score 84.30123% (21/150)</div>
+              <div class="chip-row">
+                <div class="chip">Streak 12 -> 14 (5/150)</div>
+                <div class="chip">Completion 7/9 (77.78%) (133/150)</div>
+                <div class="chip">Score 84.30123% (21/150)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant D: Two-column stats</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Two columns</span></div>
+          <div class="tile-grid">
+            <div class="tile"><div class="label">Progress</div><div class="value">+1.98765%</div><div class="rank">42 / 150</div></div>
+            <div class="tile"><div class="label">Score</div><div class="value">84.30123%</div><div class="rank">21 / 150</div></div>
+            <div class="tile"><div class="label">Streak</div><div class="value">12 -> 14d</div><div class="rank">5 / 150</div></div>
+            <div class="tile"><div class="label">Completion</div><div class="value">7/9 (77.78%)</div><div class="rank">133 / 150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Two columns</span></div>
+          <div class="tile-grid">
+            <div class="tile"><div class="label">Progress</div><div class="value">+1.98765%</div><div class="rank">42 / 150</div></div>
+            <div class="tile"><div class="label">Score</div><div class="value">84.30123%</div><div class="rank">21 / 150</div></div>
+            <div class="tile"><div class="label">Streak</div><div class="value">12 -> 14d</div><div class="rank">5 / 150</div></div>
+            <div class="tile"><div class="label">Completion</div><div class="value">7/9 (77.78%)</div><div class="rank">133 / 150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Two columns</span></div>
+          <div class="tile-grid">
+            <div class="tile"><div class="label">Progress</div><div class="value">+1.98765%</div><div class="rank">42 / 150</div></div>
+            <div class="tile"><div class="label">Score</div><div class="value">84.30123%</div><div class="rank">21 / 150</div></div>
+            <div class="tile"><div class="label">Streak</div><div class="value">12 -> 14d</div><div class="rank">5 / 150</div></div>
+            <div class="tile"><div class="label">Completion</div><div class="value">7/9 (77.78%)</div><div class="rank">133 / 150</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant E: Compact list + micro viz</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Value + rank per line</span></div>
+          <div class="kv-list">
+            <div class="kv-row-viz"><div>Progress</div><div class="value">+1.98765%</div><div>42/150</div><div class="mini-bar"><span></span></div></div>
+            <div class="kv-row-viz"><div>Score</div><div class="value">84.30123%</div><div>21/150</div><div class="mini-ring"></div></div>
+            <div class="kv-row-viz"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div><div class="mini-streak"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+            <div class="kv-row-viz"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div><div class="mini-ring completion"></div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Value + rank per line</span></div>
+          <div class="kv-list">
+            <div class="kv-row-viz"><div>Progress</div><div class="value">+1.98765%</div><div>42/150</div><div class="mini-bar"><span></span></div></div>
+            <div class="kv-row-viz"><div>Score</div><div class="value">84.30123%</div><div>21/150</div><div class="mini-ring"></div></div>
+            <div class="kv-row-viz"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div><div class="mini-streak"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+            <div class="kv-row-viz"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div><div class="mini-ring completion"></div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Value + rank per line</span></div>
+          <div class="kv-list">
+            <div class="kv-row-viz"><div>Progress</div><div class="value">+1.98765%</div><div>42/150</div><div class="mini-bar"><span></span></div></div>
+            <div class="kv-row-viz"><div>Score</div><div class="value">84.30123%</div><div>21/150</div><div class="mini-ring"></div></div>
+            <div class="kv-row-viz"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div><div class="mini-streak"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+            <div class="kv-row-viz"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div><div class="mini-ring completion"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant K: Compact list + rank glyphs</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Right glyph = rank strength</span></div>
+          <div class="kv-list">
+            <div class="kv-row-viz"><div>Progress</div><div class="value">+1.98765%</div><div>42/150</div><div class="mini-bar"><span style="width: 72%;"></span></div></div>
+            <div class="kv-row-viz"><div>Score</div><div class="value">84.30123%</div><div>21/150</div><div class="mini-ring"></div></div>
+            <div class="kv-row-viz"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div><div class="mini-streak"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+            <div class="kv-row-viz"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div><div class="mini-ring completion"></div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Right glyph = rank strength</span></div>
+          <div class="kv-list">
+            <div class="kv-row-viz"><div>Progress</div><div class="value">+1.98765%</div><div>42/150</div><div class="mini-bar"><span style="width: 72%;"></span></div></div>
+            <div class="kv-row-viz"><div>Score</div><div class="value">84.30123%</div><div>21/150</div><div class="mini-ring"></div></div>
+            <div class="kv-row-viz"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div><div class="mini-streak"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+            <div class="kv-row-viz"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div><div class="mini-ring completion"></div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Right glyph = rank strength</span></div>
+          <div class="kv-list">
+            <div class="kv-row-viz"><div>Progress</div><div class="value">+1.98765%</div><div>42/150</div><div class="mini-bar"><span style="width: 72%;"></span></div></div>
+            <div class="kv-row-viz"><div>Score</div><div class="value">84.30123%</div><div>21/150</div><div class="mini-ring"></div></div>
+            <div class="kv-row-viz"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div><div class="mini-streak"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+            <div class="kv-row-viz"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div><div class="mini-ring completion"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant F: Split hero + list</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Progress primary</span></div>
+          <div class="row">
+            <div class="ring"><span class="neg">-1.23456%</span></div>
+            <div class="stack">
+              <div class="headline"><span class="neg">Progress down -1.23456%</span></div>
+              <div class="sub">Rank 110/150</div>
+              <div class="kv-list">
+                <div class="kv-row"><div>Score</div><div class="value">84.30123%</div><div>21/150</div></div>
+                <div class="kv-row"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div></div>
+                <div class="kv-row"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Progress primary</span></div>
+          <div class="row">
+            <div class="ring"><span class="neg">-1.23456%</span></div>
+            <div class="stack">
+              <div class="headline"><span class="neg">Progress down -1.23456%</span></div>
+              <div class="sub">Rank 110/150</div>
+              <div class="kv-list">
+                <div class="kv-row"><div>Score</div><div class="value">84.30123%</div><div>21/150</div></div>
+                <div class="kv-row"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div></div>
+                <div class="kv-row"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Progress primary</span></div>
+          <div class="row">
+            <div class="ring"><span class="neg">-1.23456%</span></div>
+            <div class="stack">
+              <div class="headline"><span class="neg">Progress down -1.23456%</span></div>
+              <div class="sub">Rank 110/150</div>
+              <div class="kv-list">
+                <div class="kv-row"><div>Score</div><div class="value">84.30123%</div><div>21/150</div></div>
+                <div class="kv-row"><div>Streak</div><div class="value">12 -> 14d</div><div>5/150</div></div>
+                <div class="kv-row"><div>Completion</div><div class="value">7/9 (77.78%)</div><div>133/150</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant G: Metric pills</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Pill grid</span></div>
+          <div class="pill-row">
+            <div class="pill"><div>Progress</div><div class="big">+1.98765%</div><div>Rank 42/150</div></div>
+            <div class="pill"><div>Score</div><div class="big">84.30123%</div><div>Rank 21/150</div></div>
+            <div class="pill"><div>Streak</div><div class="big">12 -> 14d</div><div>Rank 5/150</div></div>
+            <div class="pill"><div>Completion</div><div class="big">7/9 (77.78%)</div><div>Rank 133/150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Pill grid</span></div>
+          <div class="pill-row">
+            <div class="pill"><div>Progress</div><div class="big">+1.98765%</div><div>Rank 42/150</div></div>
+            <div class="pill"><div>Score</div><div class="big">84.30123%</div><div>Rank 21/150</div></div>
+            <div class="pill"><div>Streak</div><div class="big">12 -> 14d</div><div>Rank 5/150</div></div>
+            <div class="pill"><div>Completion</div><div class="big">7/9 (77.78%)</div><div>Rank 133/150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Pill grid</span></div>
+          <div class="pill-row">
+            <div class="pill"><div>Progress</div><div class="big">+1.98765%</div><div>Rank 42/150</div></div>
+            <div class="pill"><div>Score</div><div class="big">84.30123%</div><div>Rank 21/150</div></div>
+            <div class="pill"><div>Streak</div><div class="big">12 -> 14d</div><div>Rank 5/150</div></div>
+            <div class="pill"><div>Completion</div><div class="big">7/9 (77.78%)</div><div>Rank 133/150</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant H: Bars + labels</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Bars with values</span></div>
+          <div class="bar-block">
+            <div class="bar"><span style="width: 72%;"></span></div>
+            <div class="bar-label"><span>Progress +1.98765%</span><span>42/150</span></div>
+            <div class="bar"><span style="width: 86%; background: var(--accent-3);"></span></div>
+            <div class="bar-label"><span>Score 84.30123%</span><span>21/150</span></div>
+            <div class="bar"><span style="width: 97%; background: var(--accent-4);"></span></div>
+            <div class="bar-label"><span>Streak 12 -> 14d</span><span>5/150</span></div>
+            <div class="bar"><span style="width: 12%; background: var(--accent-2);"></span></div>
+            <div class="bar-label"><span>Completion 7/9 (77.78%)</span><span>133/150</span></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Bars with values</span></div>
+          <div class="bar-block">
+            <div class="bar"><span style="width: 72%;"></span></div>
+            <div class="bar-label"><span>Progress +1.98765%</span><span>42/150</span></div>
+            <div class="bar"><span style="width: 86%; background: var(--accent-3);"></span></div>
+            <div class="bar-label"><span>Score 84.30123%</span><span>21/150</span></div>
+            <div class="bar"><span style="width: 97%; background: var(--accent-4);"></span></div>
+            <div class="bar-label"><span>Streak 12 -> 14d</span><span>5/150</span></div>
+            <div class="bar"><span style="width: 12%; background: var(--accent-2);"></span></div>
+            <div class="bar-label"><span>Completion 7/9 (77.78%)</span><span>133/150</span></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Bars with values</span></div>
+          <div class="bar-block">
+            <div class="bar"><span style="width: 72%;"></span></div>
+            <div class="bar-label"><span>Progress +1.98765%</span><span>42/150</span></div>
+            <div class="bar"><span style="width: 86%; background: var(--accent-3);"></span></div>
+            <div class="bar-label"><span>Score 84.30123%</span><span>21/150</span></div>
+            <div class="bar"><span style="width: 97%; background: var(--accent-4);"></span></div>
+            <div class="bar-label"><span>Streak 12 -> 14d</span><span>5/150</span></div>
+            <div class="bar"><span style="width: 12%; background: var(--accent-2);"></span></div>
+            <div class="bar-label"><span>Completion 7/9 (77.78%)</span><span>133/150</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant I: Inline grid</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Inline values</span></div>
+          <div class="inline-grid">
+            <div class="item"><div>Progress</div><div class="big">+1.98765%</div><div>42/150</div></div>
+            <div class="item"><div>Score</div><div class="big">84.30123%</div><div>21/150</div></div>
+            <div class="item"><div>Streak</div><div class="big">12 -> 14d</div><div>5/150</div></div>
+            <div class="item"><div>Completion</div><div class="big">77.78%</div><div>133/150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Inline values</span></div>
+          <div class="inline-grid">
+            <div class="item"><div>Progress</div><div class="big">+1.98765%</div><div>42/150</div></div>
+            <div class="item"><div>Score</div><div class="big">84.30123%</div><div>21/150</div></div>
+            <div class="item"><div>Streak</div><div class="big">12 -> 14d</div><div>5/150</div></div>
+            <div class="item"><div>Completion</div><div class="big">77.78%</div><div>133/150</div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Inline values</span></div>
+          <div class="inline-grid">
+            <div class="item"><div>Progress</div><div class="big">+1.98765%</div><div>42/150</div></div>
+            <div class="item"><div>Score</div><div class="big">84.30123%</div><div>21/150</div></div>
+            <div class="item"><div>Streak</div><div class="big">12 -> 14d</div><div>5/150</div></div>
+            <div class="item"><div>Completion</div><div class="big">77.78%</div><div>133/150</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant">
+      <div class="variant-title">Variant J: Color strips</div>
+      <div class="mock-row">
+        <div class="mock theme-light">
+          <div class="title"><strong>Today</strong><span class="tiny">Strips with ranks</span></div>
+          <div class="strip">
+            <div class="strip-row"><span style="background: var(--accent);"></span><div><strong>Progress</strong> +1.98765% <span class="meta">42/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-3);"></span><div><strong>Score</strong> 84.30123% <span class="meta">21/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-4);"></span><div><strong>Streak</strong> 12 -> 14d <span class="meta">5/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-2);"></span><div><strong>Completion</strong> 7/9 (77.78%) <span class="meta">133/150</span></div></div>
+          </div>
+        </div>
+        <div class="mock theme-dark">
+          <div class="title"><strong>Today</strong><span class="tiny">Strips with ranks</span></div>
+          <div class="strip">
+            <div class="strip-row"><span style="background: var(--accent);"></span><div><strong>Progress</strong> +1.98765% <span class="meta">42/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-3);"></span><div><strong>Score</strong> 84.30123% <span class="meta">21/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-4);"></span><div><strong>Streak</strong> 12 -> 14d <span class="meta">5/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-2);"></span><div><strong>Completion</strong> 7/9 (77.78%) <span class="meta">133/150</span></div></div>
+          </div>
+        </div>
+        <div class="mock theme-pitch">
+          <div class="title"><strong>Today</strong><span class="tiny">Strips with ranks</span></div>
+          <div class="strip">
+            <div class="strip-row"><span style="background: var(--accent);"></span><div><strong>Progress</strong> +1.98765% <span class="meta">42/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-3);"></span><div><strong>Score</strong> 84.30123% <span class="meta">21/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-4);"></span><div><strong>Streak</strong> 12 -> 14d <span class="meta">5/150</span></div></div>
+            <div class="strip-row"><span style="background: var(--accent-2);"></span><div><strong>Completion</strong> 7/9 (77.78%) <span class="meta">133/150</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
