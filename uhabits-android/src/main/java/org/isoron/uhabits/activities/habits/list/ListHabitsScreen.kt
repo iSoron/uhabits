@@ -237,6 +237,12 @@ class ListHabitsScreen
             val streakRanks = calculator.computeDescendingRanks(
                 improvementStreaksAll.map { it.timestamp to it.value }
             )
+            val scoreRankTotal = historyScoresAll.map { it.value }.distinct().size
+            val progressRankTotal = progressChangesAll.map { it.value }.distinct().size
+            val completionRankTotal = completionHistoryAll.mapNotNull { summary ->
+                if (summary.dueCount > 0) summary.completionRatio else null
+            }.distinct().size
+            val streakRankTotal = improvementStreaksAll.map { it.value }.distinct().size
             val todayScoreRank = scoreRanks[today] ?: 0
             val todayProgressRank = progressRanks[today] ?: 0
             val todayCompletionRank = completionRanks[today] ?: 0
@@ -262,11 +268,11 @@ class ListHabitsScreen
                     todayScoreRank = todayScoreRank,
                     todayProgressRank = todayProgressRank,
                     todayCompletionRank = todayCompletionRank,
-                    todayScoreRankTotal = scoreRanks.size,
-                    todayProgressRankTotal = progressRanks.size,
-                    todayCompletionRankTotal = completionRanks.size,
+                    todayScoreRankTotal = scoreRankTotal,
+                    todayProgressRankTotal = progressRankTotal,
+                    todayCompletionRankTotal = completionRankTotal,
                     todayStreakRank = todayStreakRank,
-                    todayStreakRankTotal = streakRanks.size,
+                    todayStreakRankTotal = streakRankTotal,
                     maxAbsProgressChange = maxAbsProgressChange
                 )
             }
