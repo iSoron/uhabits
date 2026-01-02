@@ -19,16 +19,16 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.databinding.ProgressSummaryWidgetBinding
 import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.utils.InterfaceUtils
 
 class ProgressSummaryWidget @JvmOverloads constructor(
     context: Context,
@@ -47,129 +47,102 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         yesterdayScore: Double,
         todayCompleted: Int,
         todayDue: Int,
-        yesterdayCompleted: Int,
-        yesterdayDue: Int,
         yesterdayStreakLength: Int,
         projectedStreakLength: Int,
         todayScoreRank: Int,
         todayProgressRank: Int,
-        todayCompletionRank: Int
+        todayCompletionRank: Int,
+        todayScoreRankTotal: Int,
+        todayProgressRankTotal: Int,
+        todayCompletionRankTotal: Int,
+        todayStreakRank: Int,
+        todayStreakRankTotal: Int,
+        maxAbsProgressChange: Double
     ) {
-        val yesterdayCompletionPercent = if (yesterdayDue > 0) {
-            yesterdayCompleted.toDouble() / yesterdayDue * 100
-        } else {
-            0.0
-        }
         val todayCompletionPercent = if (todayDue > 0) {
             todayCompleted.toDouble() / todayDue * 100
         } else {
             0.0
         }
-        val yesterdayScorePercent = yesterdayScore * 100
         val todayScorePercent = todayScore * 100
         val progressDiffPercent = (todayScore - yesterdayScore) * 100
 
-        binding.yesterdaySummary.text = formatSummary(
-            prefix = "Y:",
-            completed = yesterdayCompleted,
-            due = yesterdayDue,
-            completionPercent = yesterdayCompletionPercent,
-            scorePercent = yesterdayScorePercent,
-            streakText = "Streak $yesterdayStreakLength",
-            completionRank = null,
-            scoreRank = null,
-            progressRank = null
+        binding.progressValue.text = formatSignedPercent(progressDiffPercent)
+        binding.progressRank.text = formatRank(todayProgressRank, todayProgressRankTotal)
+        binding.streakValue.text = String.format("%d -> %dd", yesterdayStreakLength, projectedStreakLength)
+        binding.streakRank.text = formatRank(todayStreakRank, todayStreakRankTotal)
+        binding.scoreValue.text = String.format("%.5f%%", todayScorePercent)
+        binding.scoreRank.text = formatRank(todayScoreRank, todayScoreRankTotal)
+        binding.completionValue.text = String.format(
+            "%d/%d (%.2f%%)",
+            todayCompleted,
+            todayDue,
+            todayCompletionPercent
         )
-        val progressText = formatProgressText(progressDiffPercent)
-        val todaySummary = formatSummary(
-            prefix = "T:",
-            completed = todayCompleted,
-            due = todayDue,
-            completionPercent = todayCompletionPercent,
-            scorePercent = todayScorePercent,
-            progressText = progressText,
-            streakText = "Streak $yesterdayStreakLength->$projectedStreakLength",
-            completionRank = todayCompletionRank,
-            scoreRank = todayScoreRank,
-            progressRank = todayProgressRank
-        )
-        binding.todaySummary.text = colorizeProgress(todaySummary, progressText, progressDiffPercent)
-    }
+        binding.completionRank.text = formatRank(todayCompletionRank, todayCompletionRankTotal)
 
-    private fun formatSummary(
-        prefix: String,
-        completed: Int,
-        due: Int,
-        completionPercent: Double,
-        scorePercent: Double,
-        streakText: String,
-        progressText: String? = null,
-        completionRank: Int? = null,
-        scoreRank: Int? = null,
-        progressRank: Int? = null
-    ): String {
-        val completionText = String.format("%d/%d (%.1f%%)", completed, due, completionPercent)
-        val completionRankText = if (completionRank != null && completionRank > 0) {
-            " #$completionRank"
-        } else {
-            ""
-        }
-        val completionValue = "$completionText$completionRankText"
-        val scoreRankText = if (scoreRank != null && scoreRank > 0) {
-            " #$scoreRank"
-        } else {
-            ""
-        }
-        val scoreText = String.format("Score %.5f%%%s", scorePercent, scoreRankText)
-        val progressRankText = if (progressRank != null && progressRank > 0) {
-            " #$progressRank"
-        } else {
-            ""
-        }
-        val progressValueText = progressText?.let { "$it$progressRankText" }
-
-        val prefixWithRank = "$prefix $completionValue"
-        return listOfNotNull(prefixWithRank, scoreText, progressValueText, streakText)
-            .joinToString(" | ")
-    }
-
-    private fun formatProgressText(progressPercent: Double): String {
-        val formatted = when {
-            progressPercent > 0 -> String.format("+%.5f%%", progressPercent)
-            progressPercent < 0 -> String.format("%.5f%%", progressPercent)
-            else -> "0.00000%"
-        }
-        return "Progress $formatted"
-    }
-
-    private fun colorizeProgress(
-        summary: String,
-        progressText: String,
-        progressPercent: Double
-    ): SpannableString {
-        val spannable = SpannableString(summary)
-        val start = summary.indexOf(progressText)
-        if (start < 0) {
-            return spannable
-        }
-        val numberStartInProgress = progressText.indexOf(' ') + 1
-        val numberStart = start + numberStartInProgress
-        val end = start + progressText.length
-        val neutral = StyledResources(context).getColor(R.attr.contrast60)
         val positive = ContextCompat.getColor(context, R.color.green_500)
         val negative = ContextCompat.getColor(context, R.color.red_500)
-        val colorInt = when {
-            progressPercent > 0.0 -> positive
-            progressPercent < 0.0 -> negative
-            else -> neutral
-        }
-        spannable.setSpan(
-            ForegroundColorSpan(colorInt),
-            numberStart,
-            end,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        updateProgressFill(progressDiffPercent, maxAbsProgressChange, positive, negative)
+
+        val scoreColor = StyledResources(context).getColor(R.attr.colorPrimary)
+        val completionColor = StyledResources(context).getColor(R.attr.colorAccent)
+        updateRing(binding.scoreRing, todayScore.coerceIn(0.0, 1.0).toFloat(), scoreColor)
+        updateRing(
+            binding.completionRing,
+            (todayCompletionPercent / 100.0).coerceIn(0.0, 1.0).toFloat(),
+            completionColor
         )
-        return spannable
+    }
+
+    private fun formatRank(rank: Int, total: Int): String {
+        return if (rank > 0 && total > 0) {
+            "$rank/$total"
+        } else {
+            "--"
+        }
+    }
+
+    private fun formatSignedPercent(value: Double): String {
+        return when {
+            value > 0 -> String.format("+%.5f%%", value)
+            value < 0 -> String.format("%.5f%%", value)
+            else -> "0.00000%"
+        }
+    }
+
+    private fun updateRing(ring: RingView, percent: Float, color: Int) {
+        ring.setColor(color)
+        ring.setPercentage(percent)
+        ring.setPrecision(0.001f)
+        ring.setThickness(InterfaceUtils.dpToPixels(context, 3f))
+        ring.invalidate()
+    }
+
+    private fun updateProgressFill(
+        progressPercent: Double,
+        maxAbsProgressChange: Double,
+        positiveColor: Int,
+        negativeColor: Int
+    ) {
+        val fill = binding.progressFill
+        val container = binding.progressVisual
+        val maxAbs = if (maxAbsProgressChange > 0.0) maxAbsProgressChange else 1.0
+        val clamped = progressPercent.coerceIn(-maxAbs, maxAbs)
+        val containerWidth = container.width
+        if (containerWidth == 0) {
+            container.post { updateProgressFill(progressPercent, maxAbsProgressChange, positiveColor, negativeColor) }
+            return
+        }
+
+        val half = containerWidth / 2f
+        val ratio = kotlin.math.abs(clamped) / maxAbs
+        val fillWidth = (half * ratio).toInt()
+        val params = fill.layoutParams as ViewGroup.LayoutParams
+        params.width = fillWidth
+        fill.layoutParams = params
+        fill.setBackgroundColor(if (clamped >= 0) positiveColor else negativeColor)
+        fill.translationX = if (clamped >= 0) half else half - fillWidth
     }
 
     fun setOnDetailsClickListener(listener: () -> Unit) {
