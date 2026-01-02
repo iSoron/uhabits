@@ -230,6 +230,13 @@ class ProgressActivity : AppCompatActivity() {
                 binding.progressRankCard.visibility = View.GONE
             }
 
+            if (state.streakRankCard != null) {
+                binding.streakRankCard.visibility = View.VISIBLE
+                binding.streakRankCard.setState(state.streakRankCard)
+            } else {
+                binding.streakRankCard.visibility = View.GONE
+            }
+
             if (state.completionRankCard != null) {
                 binding.completionRankCard.visibility = View.VISIBLE
                 binding.completionRankCard.setState(state.completionRankCard)
