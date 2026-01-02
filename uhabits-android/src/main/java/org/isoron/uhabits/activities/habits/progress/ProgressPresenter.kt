@@ -76,6 +76,7 @@ class ProgressPresenter(
                 completionFrequencyCard = null,
                 scoreRankCard = null,
                 progressRankCard = null,
+                streakRankCard = null,
                 completionRankCard = null,
                 overallRankCard = null,
                 isEmpty = true
@@ -103,6 +104,7 @@ class ProgressPresenter(
                 completionFrequencyCard = null,
                 scoreRankCard = null,
                 progressRankCard = null,
+                streakRankCard = null,
                 completionRankCard = null,
                 overallRankCard = null,
                 isEmpty = true
@@ -369,6 +371,8 @@ class ProgressPresenter(
         val scoreHistory = fullHistoryScores.reversed()
         val progressHistory = progressChanges.reversed()
         val completionHistory = completionSummaries.reversed()
+        val improvementStreaks = calculator.computeImprovementStreakLengths(fullHistoryScores)
+        val streakHistory = improvementStreaks.reversed()
 
         val scoreRanks = calculator.computeDescendingRanks(
             scoreHistory.map { it.timestamp to it.value }
@@ -381,10 +385,14 @@ class ProgressPresenter(
                 summary.timestamp to if (summary.dueCount > 0) summary.completionRatio else null
             }
         )
+        val streakRanks = calculator.computeDescendingRanks(
+            streakHistory.map { it.timestamp to it.value }
+        )
 
         val scoreRankValues = scoreHistory.map { (scoreRanks[it.timestamp] ?: 0).toDouble() }
         val progressRankValues = progressHistory.map { (progressRanks[it.timestamp] ?: 0).toDouble() }
         val completionRankValues = completionHistory.map { (completionRanks[it.timestamp] ?: 0).toDouble() }
+        val streakRankValues = streakHistory.map { (streakRanks[it.timestamp] ?: 0).toDouble() }
 
         val scoreRankCardState = if (scoreRankValues.any { it > 0 }) {
             ProgressRankCardState(
@@ -406,6 +414,19 @@ class ProgressPresenter(
             axis = progressHistory.map { it.timestamp.toLocalDate() },
             series = listOf(progressRankValues),
             colors = listOf(PaletteColor(7)),
+            theme = theme
+            )
+        } else {
+            null
+        }
+
+        val streakRankCardState = if (streakRankValues.any { it > 0 }) {
+            ProgressRankCardState(
+            title = context.getString(R.string.rank_streak_title),
+            subtitle = context.getString(R.string.rank_one_best),
+            axis = streakHistory.map { it.timestamp.toLocalDate() },
+            series = listOf(streakRankValues),
+            colors = listOf(PaletteColor(6)),
             theme = theme
             )
         } else {
@@ -457,6 +478,7 @@ class ProgressPresenter(
             completionFrequencyCard = completionFrequencyCardState,
             scoreRankCard = scoreRankCardState,
             progressRankCard = progressRankCardState,
+            streakRankCard = streakRankCardState,
             completionRankCard = completionRankCardState,
             overallRankCard = overallRankCardState,
             isEmpty = false
