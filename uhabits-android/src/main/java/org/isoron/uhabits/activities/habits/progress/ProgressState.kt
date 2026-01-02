@@ -47,6 +47,7 @@ data class ProgressState(
     val completionFrequencyCard: ProgressCompletionFrequencyCardState?,
     val scoreRankCard: ProgressRankCardState?,
     val progressRankCard: ProgressRankCardState?,
+    val streakRankCard: ProgressRankCardState?,
     val completionRankCard: ProgressRankCardState?,
     val overallRankCard: ProgressRankCardState?,
     val isEmpty: Boolean = false
