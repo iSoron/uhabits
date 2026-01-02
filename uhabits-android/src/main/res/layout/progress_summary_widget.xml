@@ -29,30 +29,205 @@
         android:orientation="vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
 
-        <TextView
-            android:id="@+id/yesterdaySummary"
+        <LinearLayout
+            android:id="@+id/progressRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Y: --"
-            android:textSize="@dimen/regularTextSize"
-            android:textColor="?attr/contrast60"
-            android:maxLines="2"
-            android:ellipsize="end" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/todaySummary"
+            <TextView
+                android:id="@+id/progressLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:text="@string/progress_label"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize" />
+
+            <TextView
+                android:id="@+id/progressValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="--"
+                android:textColor="?attr/contrast100"
+                android:textSize="@dimen/regularTextSize" />
+
+            <TextView
+                android:id="@+id/progressRank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:gravity="end"
+                android:text="--"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize" />
+
+            <FrameLayout
+                android:id="@+id/progressVisual"
+                android:layout_width="34dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="4dp">
+
+                <View
+                    android:id="@+id/progressTrack"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?attr/contrast20" />
+
+                <View
+                    android:id="@+id/progressZeroLine"
+                    android:layout_width="1dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="center"
+                    android:background="?attr/contrast60" />
+
+                <View
+                    android:id="@+id/progressFill"
+                    android:layout_width="0dp"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/green_500" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/streakRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:text="T: --"
-            android:textSize="@dimen/regularTextSize"
-            android:textStyle="bold"
-            android:textColor="?attr/contrast60"
-            android:maxLines="2"
-            android:ellipsize="end" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/streakLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:text="@string/streak_by_progress_label"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/streakValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="--"
+                android:textColor="?attr/contrast100"
+                android:textSize="@dimen/regularTextSize" />
+
+            <TextView
+                android:id="@+id/streakRank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:gravity="end"
+                android:text="--"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize" />
+
+            <Space
+                android:layout_width="34dp"
+                android:layout_height="8dp"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/scoreRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/scoreLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:text="@string/score_section_title"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize" />
+
+            <TextView
+                android:id="@+id/scoreValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="--"
+                android:textColor="?attr/contrast100"
+                android:textSize="@dimen/regularTextSize" />
+
+            <TextView
+                android:id="@+id/scoreRank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:gravity="end"
+                android:text="--"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize" />
+
+            <org.isoron.uhabits.activities.common.views.RingView
+                android:id="@+id/scoreRing"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/completionRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/completionLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:text="@string/completion_summary"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize" />
+
+            <TextView
+                android:id="@+id/completionValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="--"
+                android:textColor="?attr/contrast100"
+                android:textSize="@dimen/regularTextSize" />
+
+            <TextView
+                android:id="@+id/completionRank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:gravity="end"
+                android:text="--"
+                android:textColor="?attr/contrast60"
+                android:textSize="@dimen/regularTextSize" />
+
+            <org.isoron.uhabits.activities.common.views.RingView
+                android:id="@+id/completionRing"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
