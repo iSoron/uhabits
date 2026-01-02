@@ -113,6 +113,31 @@ class AggregateScoreCalculator {
     }
 
     /**
+     * Computes improvement streak length for each day based on aggregate scores.
+     * A streak increments when today's score is strictly greater than yesterday's.
+     */
+    fun computeImprovementStreakLengths(scores: List<Score>): List<Score> {
+        if (scores.isEmpty()) {
+            return emptyList()
+        }
+
+        val streaks = mutableListOf<Score>()
+        var currentLength = 0
+        streaks.add(Score(scores[0].timestamp, 0.0))
+
+        for (i in 1 until scores.size) {
+            currentLength = if (scores[i].value > scores[i - 1].value) {
+                currentLength + 1
+            } else {
+                0
+            }
+            streaks.add(Score(scores[i].timestamp, currentLength.toDouble()))
+        }
+
+        return streaks
+    }
+
+    /**
      * Computes descending competition ranks for the provided values.
      * Null values are excluded from ranking.
      */
