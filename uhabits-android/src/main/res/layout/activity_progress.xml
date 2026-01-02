@@ -47,7 +47,47 @@
 
             <TextView
                 style="@style/CardHeader"
-                android:text="@string/score_section_title"/>
+                android:text="@string/progress_section_title"
+                android:layout_marginTop="0dp"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardView
+                android:id="@+id/deltaCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardView
+                android:id="@+id/historyCard"
+                style="@style/Card"
+                android:gravity="center"
+                android:paddingBottom="0dp"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardView
+                android:id="@+id/frequencyCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
+                android:id="@+id/progressRankCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <TextView
+                style="@style/CardHeader"
+                android:text="@string/streak_by_progress_section_title"
+                android:layout_marginTop="8dp"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.BestStreakCardView
+                android:id="@+id/streakCard"
+                style="@style/Card"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
+                android:id="@+id/streakRankCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <TextView
+                style="@style/CardHeader"
+                android:text="@string/score_section_title"
+                android:layout_marginTop="8dp"/>
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
                 android:id="@+id/statsCard"
@@ -65,35 +105,6 @@
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
                 android:id="@+id/scoreRankCard"
-                style="@style/Card"
-                android:gravity="center"/>
-
-            <TextView
-                style="@style/CardHeader"
-                android:text="@string/progress_section_title"
-                android:layout_marginTop="8dp"/>
-
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardView
-                android:id="@+id/deltaCard"
-                style="@style/Card"
-                android:gravity="center"/>
-
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressHistoryCardView
-                android:id="@+id/historyCard"
-                style="@style/Card"
-                android:gravity="center"
-                android:paddingBottom="0dp"/>
-
-            <org.isoron.uhabits.activities.habits.progress.views.BestStreakCardView
-                android:id="@+id/streakCard"
-                style="@style/Card"/>
-
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressFrequencyCardView
-                android:id="@+id/frequencyCard"
-                style="@style/Card"/>
-
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
-                android:id="@+id/progressRankCard"
                 style="@style/Card"
                 android:gravity="center"/>
 
