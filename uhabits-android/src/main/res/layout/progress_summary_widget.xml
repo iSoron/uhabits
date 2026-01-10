@@ -96,7 +96,7 @@
 
                 <View
                     android:id="@+id/progressZeroLine"
-                    android:layout_width="2dp"
+                    android:layout_width="0.1dp"
                     android:layout_height="8dp"
                     android:layout_gravity="center"
                     android:background="?attr/contrast100" />
