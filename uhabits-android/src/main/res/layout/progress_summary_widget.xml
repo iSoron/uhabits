@@ -26,26 +26,32 @@
         android:id="@+id/progressWidgetRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/progress_widget_background">
 
         <LinearLayout
             android:id="@+id/progressRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/progressLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.55"
+                android:layout_weight="0.4"
                 android:text="@string/progress_label"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
@@ -55,7 +61,7 @@
                 android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
@@ -63,37 +69,37 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                android:gravity="end"
+                android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <FrameLayout
                 android:id="@+id/progressVisual"
-                android:layout_width="15dp"
-                android:layout_height="8dp"
-                android:layout_marginStart="6dp">
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:layout_weight="0.10"
+                android:layout_gravity="center" >
 
                 <View
                     android:id="@+id/progressTrack"
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="?attr/contrast20" />
-
-                <View
-                    android:id="@+id/progressZeroLine"
-                    android:layout_width="1dp"
+                    android:layout_width="30dp"
                     android:layout_height="8dp"
                     android:layout_gravity="center"
-                    android:background="?attr/contrast60" />
+                    android:background="@drawable/progress_widget_track" />
 
                 <View
                     android:id="@+id/progressFill"
                     android:layout_width="0dp"
-                    android:layout_height="4dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/green_500" />
+                    android:layout_height="8dp"
+                    android:layout_gravity="center_vertical" />
+
+                <View
+                    android:id="@+id/progressZeroLine"
+                    android:layout_width="2dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="center"
+                    android:background="?attr/contrast100" />
             </FrameLayout>
         </LinearLayout>
 
@@ -103,15 +109,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/streakLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.55"
+                android:layout_weight="0.4"
                 android:text="@string/streak_by_progress_label"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize"
                 android:singleLine="true" />
 
@@ -122,7 +129,7 @@
                 android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
@@ -130,15 +137,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                android:gravity="end"
+                android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
-            <Space
-                android:layout_width="15dp"
-                android:layout_height="8dp"
-                android:layout_marginStart="6dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -147,15 +150,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/scoreLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.55"
+                android:layout_weight="0.4"
                 android:text="@string/score_section_title"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
@@ -165,7 +169,7 @@
                 android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
@@ -173,16 +177,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                android:gravity="end"
+                android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
-            <org.isoron.uhabits.activities.common.views.RingView
-                android:id="@+id/scoreRing"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginStart="6dp" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_weight="0.1">
+
+                <org.isoron.uhabits.activities.common.views.RingView
+                    android:id="@+id/scoreRing"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center" />
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -191,15 +201,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/completionLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.55"
+                android:layout_weight="0.4"
                 android:text="@string/completion_summary"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
@@ -209,7 +220,7 @@
                 android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
@@ -217,16 +228,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                android:gravity="end"
+                android:gravity="center"
                 android:text="--"
-                android:textColor="?attr/contrast60"
+                android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
-            <org.isoron.uhabits.activities.common.views.RingView
-                android:id="@+id/completionRing"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginStart="6dp" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="17dp"
+                android:layout_weight="0.1">
+
+                <org.isoron.uhabits.activities.common.views.RingView
+                    android:id="@+id/completionRing"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_gravity="center" />
+            </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>

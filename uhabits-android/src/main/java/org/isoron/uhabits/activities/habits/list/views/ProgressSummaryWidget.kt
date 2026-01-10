@@ -19,6 +19,7 @@
 package org.isoron.uhabits.activities.habits.list.views
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -27,7 +28,6 @@ import androidx.core.content.ContextCompat
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.databinding.ProgressSummaryWidgetBinding
-import org.isoron.uhabits.utils.StyledResources
 import org.isoron.uhabits.utils.InterfaceUtils
 
 class ProgressSummaryWidget @JvmOverloads constructor(
@@ -81,12 +81,12 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         )
         binding.completionRank.text = formatRank(todayCompletionRank, todayCompletionRankTotal)
 
-        val positive = ContextCompat.getColor(context, R.color.green_500)
-        val negative = ContextCompat.getColor(context, R.color.red_500)
+        val positive = ContextCompat.getColor(context, R.color.light_green_600)
+        val negative = ContextCompat.getColor(context, R.color.red_700)
         updateProgressFill(progressDiffPercent, maxAbsProgressChange, positive, negative)
 
-        val scoreColor = StyledResources(context).getColor(R.attr.colorPrimary)
-        val completionColor = StyledResources(context).getColor(R.attr.colorAccent)
+        val scoreColor = ContextCompat.getColor(context, R.color.amber_800)
+        val completionColor = ContextCompat.getColor(context, R.color.purple_600)
         updateRing(binding.scoreRing, todayScore.coerceIn(0.0, 1.0).toFloat(), scoreColor)
         updateRing(
             binding.completionRing,
@@ -114,7 +114,7 @@ class ProgressSummaryWidget @JvmOverloads constructor(
     private fun updateRing(ring: RingView, percent: Float, color: Int) {
         ring.setColor(color)
         ring.setPercentage(percent)
-        ring.setPrecision(0.001f)
+        ring.setPrecision(1f / 16f)
         ring.setThickness(InterfaceUtils.dpToPixels(context, 3f))
         ring.invalidate()
     }
@@ -141,8 +141,31 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         val params = fill.layoutParams as ViewGroup.LayoutParams
         params.width = fillWidth
         fill.layoutParams = params
-        fill.setBackgroundColor(if (clamped >= 0) positiveColor else negativeColor)
+        fill.background = createFillDrawable(
+            if (clamped >= 0) positiveColor else negativeColor,
+            roundStart = clamped < 0,
+            roundEnd = clamped >= 0
+        )
         fill.translationX = if (clamped >= 0) half else half - fillWidth
+    }
+
+    private fun createFillDrawable(color: Int, roundStart: Boolean, roundEnd: Boolean): GradientDrawable {
+        val radius = InterfaceUtils.dpToPixels(context, 4f).toFloat()
+        val radii = floatArrayOf(
+            if (roundStart) radius else 0f,
+            if (roundStart) radius else 0f,
+            if (roundEnd) radius else 0f,
+            if (roundEnd) radius else 0f,
+            if (roundEnd) radius else 0f,
+            if (roundEnd) radius else 0f,
+            if (roundStart) radius else 0f,
+            if (roundStart) radius else 0f
+        )
+        return GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadii = radii
+            setColor(color)
+        }
     }
 
     fun setOnDetailsClickListener(listener: () -> Unit) {
