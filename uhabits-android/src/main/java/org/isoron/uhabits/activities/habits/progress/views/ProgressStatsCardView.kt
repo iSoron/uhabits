@@ -26,7 +26,6 @@ import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.views.Theme
-import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.databinding.ProgressStatsCardBinding
 import org.isoron.uhabits.utils.PaletteUtils
 
@@ -49,7 +48,7 @@ class ProgressStatsCardView @JvmOverloads constructor(
         // Update stats text with 5 decimal places
         binding.statsYesterday.text = String.format("%.5f%%", state.scoreYesterday)
         binding.statsToday.text = String.format("%.5f%%", state.scoreToday)
-        
+
         val diff = state.scoreToday - state.scoreYesterday
         val diffText = when {
             diff > 0 -> String.format("+%.5f%%", diff)
@@ -61,7 +60,7 @@ class ProgressStatsCardView @JvmOverloads constructor(
         // Set color based on change
         val color = when {
             diff > 0 -> PaletteUtils.getAndroidTestColor(7) // Green
-            diff < 0 -> PaletteUtils.getAndroidTestColor(2) // Orange  
+            diff < 0 -> PaletteUtils.getAndroidTestColor(2) // Orange
             else -> binding.statsChange.currentTextColor
         }
         binding.statsChange.setTextColor(color)

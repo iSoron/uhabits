@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.progress
 
 import android.content.Context
+import org.isoron.platform.gui.Color
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.progress.views.ProgressBarCardState
@@ -40,7 +41,6 @@ import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.utils.PaletteUtils
-import org.isoron.platform.gui.Color
 import java.util.Calendar
 
 class ProgressPresenter(
@@ -165,7 +165,7 @@ class ProgressPresenter(
             365 -> DateUtils.TruncateField.YEAR
             else -> DateUtils.TruncateField.MONTH
         }
-        
+
         val groupedScores = fullHistoryScores.groupBy {
             DateUtils.truncate(scoreTruncateField, it.timestamp, firstWeekday)
         }.map { (timestamp, scores) ->
@@ -174,7 +174,7 @@ class ProgressPresenter(
                 scores.map { it.value }.average()
             )
         }.sortedBy { it.timestamp }.reversed()
-        
+
         val scoreCardState = org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView.State(
             scores = groupedScores,
             bucketSize = scoreBucketSize,
@@ -240,7 +240,7 @@ class ProgressPresenter(
         val barCardState = if (barSpinnerPosition in bucketSizes.indices) {
             val bucketSize = bucketSizes[barSpinnerPosition]
             val barStartDate = earliestDate // Show all historical data
-            
+
             // For daily view, don't group - show each individual day
             // For other views, use truncation
             val truncateField = when (bucketSize) {
@@ -251,7 +251,7 @@ class ProgressPresenter(
                 365 -> Calendar.DAY_OF_YEAR
                 else -> Calendar.DAY_OF_WEEK
             }
-            
+
             val entries = calculator.computeAggregateEntriesByPeriod(
                 activeHabits.toList(),
                 barStartDate,
@@ -408,13 +408,13 @@ class ProgressPresenter(
 
         val scoreRankCardState = if (scoreRankValues.any { it > 0 }) {
             ProgressRankCardState(
-            title = context.getString(R.string.rank_score_title),
-            subtitle = context.getString(R.string.rank_one_best),
-            axis = scoreHistory.map { it.timestamp.toLocalDate() },
-            series = listOf(scoreRankValues),
-            colors = listOf(ProgressSectionColors.score),
-            titleColor = ProgressSectionColors.score,
-            theme = theme
+                title = context.getString(R.string.rank_score_title),
+                subtitle = context.getString(R.string.rank_one_best),
+                axis = scoreHistory.map { it.timestamp.toLocalDate() },
+                series = listOf(scoreRankValues),
+                colors = listOf(ProgressSectionColors.score),
+                titleColor = ProgressSectionColors.score,
+                theme = theme
             )
         } else {
             null
@@ -422,13 +422,13 @@ class ProgressPresenter(
 
         val progressRankCardState = if (progressRankValues.any { it > 0 }) {
             ProgressRankCardState(
-            title = context.getString(R.string.rank_progress_title),
-            subtitle = context.getString(R.string.rank_one_best),
-            axis = progressHistory.map { it.timestamp.toLocalDate() },
-            series = listOf(progressRankValues),
-            colors = listOf(ProgressSectionColors.progress),
-            titleColor = ProgressSectionColors.progress,
-            theme = theme
+                title = context.getString(R.string.rank_progress_title),
+                subtitle = context.getString(R.string.rank_one_best),
+                axis = progressHistory.map { it.timestamp.toLocalDate() },
+                series = listOf(progressRankValues),
+                colors = listOf(ProgressSectionColors.progress),
+                titleColor = ProgressSectionColors.progress,
+                theme = theme
             )
         } else {
             null
@@ -436,13 +436,13 @@ class ProgressPresenter(
 
         val streakRankCardState = if (streakRankValues.any { it > 0 }) {
             ProgressRankCardState(
-            title = context.getString(R.string.rank_streak_title),
-            subtitle = context.getString(R.string.rank_one_best),
-            axis = streakHistory.map { it.timestamp.toLocalDate() },
-            series = listOf(streakRankValues),
-            colors = listOf(ProgressSectionColors.streak),
-            titleColor = ProgressSectionColors.streak,
-            theme = theme
+                title = context.getString(R.string.rank_streak_title),
+                subtitle = context.getString(R.string.rank_one_best),
+                axis = streakHistory.map { it.timestamp.toLocalDate() },
+                series = listOf(streakRankValues),
+                colors = listOf(ProgressSectionColors.streak),
+                titleColor = ProgressSectionColors.streak,
+                theme = theme
             )
         } else {
             null
@@ -450,13 +450,13 @@ class ProgressPresenter(
 
         val completionRankCardState = if (completionRankValues.any { it > 0 }) {
             ProgressRankCardState(
-            title = context.getString(R.string.rank_completion_title),
-            subtitle = context.getString(R.string.rank_one_best),
-            axis = completionHistory.map { it.timestamp.toLocalDate() },
-            series = listOf(completionRankValues),
-            colors = listOf(ProgressSectionColors.completion),
-            titleColor = ProgressSectionColors.completion,
-            theme = theme
+                title = context.getString(R.string.rank_completion_title),
+                subtitle = context.getString(R.string.rank_one_best),
+                axis = completionHistory.map { it.timestamp.toLocalDate() },
+                series = listOf(completionRankValues),
+                colors = listOf(ProgressSectionColors.completion),
+                titleColor = ProgressSectionColors.completion,
+                theme = theme
             )
         } else {
             null
@@ -513,20 +513,20 @@ class ProgressPresenter(
     @Deprecated("ScoreChart now handles Y-axis scaling")
     private fun normalizeScoresForChart(scores: List<org.isoron.uhabits.core.models.Score>): List<org.isoron.uhabits.core.models.Score> {
         if (scores.isEmpty()) return scores
-        
+
         val values = scores.map { it.value }
         val minValue = values.minOrNull() ?: 0.0
         val maxValue = values.maxOrNull() ?: 1.0
-        
+
         // Add 2% padding to min and max
         val range = maxValue - minValue
         val paddedMin = (minValue - 0.02).coerceAtLeast(0.0)
         val paddedMax = (maxValue + 0.02).coerceAtMost(1.0)
         val paddedRange = paddedMax - paddedMin
-        
+
         // Avoid division by zero
         if (paddedRange < 0.001) return scores
-        
+
         // Normalize to 0-1 range based on padded min/max
         return scores.map { score ->
             val normalizedValue = ((score.value - paddedMin) / paddedRange).coerceIn(0.0, 1.0)

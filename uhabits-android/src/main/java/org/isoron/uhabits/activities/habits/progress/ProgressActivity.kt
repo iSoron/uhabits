@@ -22,13 +22,11 @@ package org.isoron.uhabits.activities.habits.progress
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
-import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.tasks.TaskRunner
-import org.isoron.uhabits.core.utils.DateUtils
-import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.databinding.ActivityProgressBinding
 
 class ProgressActivity : AppCompatActivity() {
@@ -38,21 +36,19 @@ class ProgressActivity : AppCompatActivity() {
     private lateinit var taskRunner: TaskRunner
     private lateinit var themeSwitcher: AndroidThemeSwitcher
 
-    private var currentTimeRangeDays = 7 // Default to 7 days
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         // Get dependencies
         val app = applicationContext as HabitsApplication
         taskRunner = app.component.taskRunner
         val habitList = app.component.habitList
         val preferences = app.component.preferences
-        
+
         // Initialize theme BEFORE setting content view
         themeSwitcher = AndroidThemeSwitcher(this, preferences)
         themeSwitcher.apply()
-        
+
         // Setup ViewBinding
         binding = ActivityProgressBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -63,7 +59,7 @@ class ProgressActivity : AppCompatActivity() {
         // Setup UI
         setupToolbar()
         setupCardCallbacks()
-        
+
         // Load initial data
         loadData()
     }
@@ -90,7 +86,7 @@ class ProgressActivity : AppCompatActivity() {
             app.component.preferences.progressScoreSpinnerPosition = position
             loadData()
         }
-        
+
         binding.barCard.setOnSpinnerPositionChanged { position ->
             val app = applicationContext as HabitsApplication
             app.component.preferences.progressBarSpinnerPosition = position
@@ -111,7 +107,7 @@ class ProgressActivity : AppCompatActivity() {
             val barSpinnerPosition = app.component.preferences.progressBarSpinnerPosition
             val deltaSpinnerPosition = app.component.preferences.progressDeltaSpinnerPosition
             val state = presenter.buildState(scoreSpinnerPosition, barSpinnerPosition, deltaSpinnerPosition)
-            
+
             runOnUiThread {
                 updateUI(state)
             }
@@ -129,7 +125,7 @@ class ProgressActivity : AppCompatActivity() {
 
             // Update card states (in order matching individual habit detail view)
             binding.statsCard.setState(state.statsCard)
-            
+
             // Score card
             if (state.scoreCard != null) {
                 binding.scoreCard.visibility = View.VISIBLE

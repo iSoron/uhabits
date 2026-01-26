@@ -259,5 +259,4 @@ class DivergingBarChart(
         val format = "%.${valuePrecision}f"
         return String.format(format, value)
     }
-
 }

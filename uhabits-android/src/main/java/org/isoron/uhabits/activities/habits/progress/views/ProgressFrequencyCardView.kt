@@ -27,9 +27,9 @@ import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.databinding.ProgressFrequencyCardBinding
 
 class ProgressFrequencyCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    
+
     private var binding = ProgressFrequencyCardBinding.inflate(LayoutInflater.from(context), this)
-    
+
     fun setState(state: ProgressFrequencyCardState) {
         val positiveColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(positiveColor)

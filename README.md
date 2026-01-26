@@ -39,6 +39,8 @@ source.
 
 * **Widgets.** Be reminded of your habits whenever you unlock your phone. Colorful widgets allow you to track your habits directly from your home screen, without even opening the app.
 
+* **Progress View.** Get a comprehensive overview of your daily progress across all habits. The progress summary widget shows today's aggregate score, completion ratio, and trends at a glance. Tap to access detailed statistics including score charts, completion history, streaks, and improvement metrics—all aggregated across your entire habit collection.
+
 * **Take control of your data.** If you want to further analyze your data, or move it to another service, Loop allows you to export it to spreadsheets (CSV) or to a database file (SQLite). For power users, checkmarks can be added through other apps, such as Tasker.
 
 * **No limitations.** Track as many habits as you wish. Loop imposes no artificial limits on how many habits you can have. All features are available to all users. There are no in-app purchases.

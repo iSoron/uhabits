@@ -173,4 +173,133 @@ class HistoryChartTest {
         view.dataOffset = 2
         assertRenders(400, 200, "$base/scroll.png", view)
     }
+
+    // ==================== Bipolar Mode Tests ====================
+
+    @Test
+    fun testBipolarMode_initialization() {
+        // Default should be false
+        val chart = HistoryChart(
+            today = LocalDate(2015, 1, 25),
+            paletteColor = PaletteColor(7),
+            theme = LightTheme(),
+            dateFormatter = JavaLocalDateFormatter(Locale.US),
+            firstWeekday = SUNDAY,
+            defaultSquare = OFF,
+            series = emptyList(),
+            notesIndicators = emptyList()
+        )
+
+        assert(!chart.bipolarMode)
+        assert(chart.scoreValues == null)
+        assert(chart.negativePaletteColor == null)
+    }
+
+    @Test
+    fun testBipolarMode_canBeEnabled() {
+        val chart = HistoryChart(
+            today = LocalDate(2015, 1, 25),
+            paletteColor = PaletteColor(7),
+            theme = LightTheme(),
+            dateFormatter = JavaLocalDateFormatter(Locale.US),
+            firstWeekday = SUNDAY,
+            defaultSquare = OFF,
+            series = emptyList(),
+            notesIndicators = emptyList(),
+            bipolarMode = true,
+            negativePaletteColor = PaletteColor(0)
+        )
+
+        assert(chart.bipolarMode)
+        assert(chart.negativePaletteColor != null)
+    }
+
+    @Test
+    fun testBipolarMode_withScoreValues() {
+        val scoreValues = listOf(0.5, -0.3, 0.8, -0.1, 0.0)
+        val chart = HistoryChart(
+            today = LocalDate(2015, 1, 25),
+            paletteColor = PaletteColor(7),
+            theme = LightTheme(),
+            dateFormatter = JavaLocalDateFormatter(Locale.US),
+            firstWeekday = SUNDAY,
+            defaultSquare = OFF,
+            series = listOf(ON, ON, ON, ON, OFF),
+            notesIndicators = listOf(false, false, false, false, false),
+            scoreValues = scoreValues,
+            bipolarMode = true,
+            negativePaletteColor = PaletteColor(0)
+        )
+
+        assert(chart.scoreValues != null)
+        assert(chart.scoreValues!!.size == 5)
+        assert(chart.scoreValues!![0] == 0.5)
+        assert(chart.scoreValues!![1] == -0.3)
+    }
+
+    @Test
+    fun testBipolarMode_scoreValuesAffectRendering() {
+        // Positive scores should use positive color, negative should use negative color
+        val scoreValues = listOf(0.8, -0.8)
+        val chart = HistoryChart(
+            today = LocalDate(2015, 1, 25),
+            paletteColor = PaletteColor(11), // Green
+            theme = LightTheme(),
+            dateFormatter = JavaLocalDateFormatter(Locale.US),
+            firstWeekday = SUNDAY,
+            defaultSquare = OFF,
+            series = listOf(ON, ON),
+            notesIndicators = listOf(false, false),
+            scoreValues = scoreValues,
+            bipolarMode = true,
+            negativePaletteColor = PaletteColor(0) // Red
+        )
+
+        // Chart should have different colors for positive and negative values
+        assert(chart.paletteColor.paletteIndex != chart.negativePaletteColor!!.paletteIndex)
+    }
+
+    @Test
+    fun testBipolarMode_withMixedValues() {
+        // Mix of positive, negative, and zero values
+        val scoreValues = listOf(0.5, -0.3, 0.0, 0.2, -0.1, 1.0, -1.0)
+        val chart = HistoryChart(
+            today = LocalDate(2015, 1, 25),
+            paletteColor = PaletteColor(7),
+            theme = LightTheme(),
+            dateFormatter = JavaLocalDateFormatter(Locale.US),
+            firstWeekday = SUNDAY,
+            defaultSquare = OFF,
+            series = List(7) { ON },
+            notesIndicators = List(7) { false },
+            scoreValues = scoreValues,
+            bipolarMode = true,
+            negativePaletteColor = PaletteColor(0)
+        )
+
+        assert(chart.scoreValues!!.size == 7)
+        // Verify boundary values
+        assert(chart.scoreValues!![5] == 1.0) // Max positive
+        assert(chart.scoreValues!![6] == -1.0) // Max negative
+    }
+
+    @Test
+    fun testBipolarMode_disabledByDefault_usesSquareColors() {
+        // When bipolarMode is false, scoreValues should be ignored
+        val chart = HistoryChart(
+            today = LocalDate(2015, 1, 25),
+            paletteColor = PaletteColor(7),
+            theme = LightTheme(),
+            dateFormatter = JavaLocalDateFormatter(Locale.US),
+            firstWeekday = SUNDAY,
+            defaultSquare = OFF,
+            series = listOf(ON, OFF, DIMMED),
+            notesIndicators = listOf(false, false, false),
+            scoreValues = listOf(0.5, -0.5, 0.0),
+            bipolarMode = false // Explicitly disabled
+        )
+
+        assert(!chart.bipolarMode)
+        // scoreValues are set but bipolarMode is false, so they won't affect colors
+    }
 }

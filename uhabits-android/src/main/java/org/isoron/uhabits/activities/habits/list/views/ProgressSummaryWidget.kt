@@ -123,7 +123,8 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         progressPercent: Double,
         maxAbsProgressChange: Double,
         positiveColor: Int,
-        negativeColor: Int
+        negativeColor: Int,
+        retryCount: Int = 0
     ) {
         val fill = binding.progressFill
         val container = binding.progressVisual
@@ -131,7 +132,10 @@ class ProgressSummaryWidget @JvmOverloads constructor(
         val clamped = progressPercent.coerceIn(-maxAbs, maxAbs)
         val containerWidth = container.width
         if (containerWidth == 0) {
-            container.post { updateProgressFill(progressPercent, maxAbsProgressChange, positiveColor, negativeColor) }
+            // Retry after layout, but limit retries to prevent potential infinite loop
+            if (retryCount < 3) {
+                container.post { updateProgressFill(progressPercent, maxAbsProgressChange, positiveColor, negativeColor, retryCount + 1) }
+            }
             return
         }
 

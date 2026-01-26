@@ -28,7 +28,7 @@ import org.isoron.uhabits.databinding.BestStreakCardBinding
 
 class BestStreakCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     private val binding = BestStreakCardBinding.inflate(LayoutInflater.from(context), this)
-    
+
     fun setState(state: StreakCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)

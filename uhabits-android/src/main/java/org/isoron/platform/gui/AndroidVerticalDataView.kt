@@ -24,9 +24,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.widget.Scroller
 import android.view.MotionEvent.ACTION_DOWN
 import android.view.MotionEvent.ACTION_MOVE
+import android.widget.Scroller
 import kotlin.math.abs
 import kotlin.math.max
 

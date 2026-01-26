@@ -22,10 +22,10 @@ package org.isoron.uhabits.activities.habits.progress
 import org.isoron.uhabits.core.models.PaletteColor
 
 object ProgressSectionColors {
-    val progress = PaletteColor(11)   // Blue
-    val streak = PaletteColor(7)      // Green
-    val score = PaletteColor(2)       // Orange
+    val progress = PaletteColor(11) // Blue
+    val streak = PaletteColor(7) // Green
+    val score = PaletteColor(2) // Orange
     val completion = PaletteColor(14) // Purple
-    val negative = PaletteColor(2)    // Orange (for negative deltas)
-    val positive = PaletteColor(7)    // Green (for positive deltas)
+    val negative = PaletteColor(2) // Orange (for negative deltas)
+    val positive = PaletteColor(7) // Green (for positive deltas)
 }

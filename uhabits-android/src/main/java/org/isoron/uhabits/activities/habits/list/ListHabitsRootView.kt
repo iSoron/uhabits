@@ -85,7 +85,7 @@ class ListHabitsRootView @Inject constructor(
         hintView = HintView(context, hintList)
 
         progressWidget.visibility = if (preferences.showProgressWidget) VISIBLE else GONE
-        
+
         val rootView = RelativeLayout(context).apply {
             background = sres.getDrawable(R.attr.windowBackgroundColor)
             addAtTop(konfettiView)
@@ -118,14 +118,14 @@ class ListHabitsRootView @Inject constructor(
         updateEmptyView()
         updateProgressWidget()
     }
-    
+
     fun updateProgressWidget() {
         if (!preferences.showProgressWidget || progressWidget.visibility != VISIBLE) return
-        
+
         // This will be called from ListHabitsScreen with proper data
         // For now, just mark it visible
     }
-    
+
     fun setProgressWidgetSummary(
         todayScore: Double,
         yesterdayScore: Double,
@@ -161,7 +161,7 @@ class ListHabitsRootView @Inject constructor(
             maxAbsProgressChange = maxAbsProgressChange
         )
     }
-    
+
     fun setProgressWidgetClickListener(listener: () -> Unit) {
         progressWidget.setOnDetailsClickListener(listener)
     }

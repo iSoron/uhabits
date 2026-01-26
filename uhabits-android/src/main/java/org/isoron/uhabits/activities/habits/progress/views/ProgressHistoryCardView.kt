@@ -30,13 +30,13 @@ import org.isoron.uhabits.databinding.ProgressHistoryCardBinding
 import java.util.Locale
 
 class ProgressHistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    
+
     private var binding = ProgressHistoryCardBinding.inflate(LayoutInflater.from(context), this)
-    
+
     fun setState(state: ProgressHistoryCardState) {
         val androidColor = state.theme.color(state.color).toInt()
         binding.title.setTextColor(androidColor)
-        
+
         val chart = HistoryChart(
             dateFormatter = JavaLocalDateFormatter(Locale.getDefault()),
             firstWeekday = state.firstWeekday,
@@ -50,7 +50,7 @@ class ProgressHistoryCardView(context: Context, attrs: AttributeSet) : LinearLay
             bipolarMode = state.bipolarMode,
             negativePaletteColor = state.negativeColor
         )
-        
+
         binding.historyChart.view = chart
         binding.historyChart.postInvalidate()
     }

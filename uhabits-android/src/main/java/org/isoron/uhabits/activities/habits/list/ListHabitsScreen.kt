@@ -112,7 +112,7 @@ class ListHabitsScreen
     ListHabitsSelectionMenuBehavior.Screen {
 
     val activity = (context as AppCompatActivity)
-    
+
     // Debounce handler to prevent excessive progress widget updates
     private val updateHandler = Handler(Looper.getMainLooper())
     private var updateRunnable: Runnable? = null
@@ -135,34 +135,34 @@ class ListHabitsScreen
         if (msg != null) activity.showMessage(msg)
         updateProgressWidget()
     }
-    
+
     private fun setupProgressWidget() {
         rootView.get().setProgressWidgetClickListener {
             showProgressScreen()
         }
     }
-    
+
     private fun updateProgressWidget() {
         if (!preferences.showProgressWidget) return
-        
+
         // Cancel any pending update to debounce rapid calls
         updateRunnable?.let { updateHandler.removeCallbacks(it) }
-        
+
         // Schedule new update with 300ms delay to debounce multiple rapid updates
         updateRunnable = Runnable {
             doUpdateProgressWidget()
         }
         updateHandler.postDelayed(updateRunnable!!, 300)
     }
-    
+
     private fun doUpdateProgressWidget() {
         if (!preferences.showProgressWidget) return
-        
+
         taskRunner.run {
             val activeHabits = habitList.getFiltered(
                 org.isoron.uhabits.core.models.HabitMatcher(isArchivedAllowed = false)
             )
-            
+
             if (activeHabits.size() == 0) {
                 activity.runOnUiThread {
                     rootView.get().setProgressWidgetSummary(
@@ -185,17 +185,17 @@ class ListHabitsScreen
                 }
                 return@run
             }
-            
+
             // getTodayWithOffset respects midnight delay: if enabled and before 3am, this returns previous day
             val today = org.isoron.uhabits.core.utils.DateUtils.getTodayWithOffset()
             val yesterday = today.minus(1)
-            
+
             val calculator = org.isoron.uhabits.activities.habits.progress.AggregateScoreCalculator()
-            
+
             // Calculate today's and yesterday's scores
             val todayScores = calculator.computeAggregateScores(activeHabits.toList(), today, today)
             val yesterdayScores = calculator.computeAggregateScores(activeHabits.toList(), yesterday, yesterday)
-            
+
             val todayScore = todayScores.firstOrNull()?.value ?: 0.0
             val yesterdayScore = yesterdayScores.firstOrNull()?.value ?: 0.0
 
@@ -256,7 +256,7 @@ class ListHabitsScreen
                 .firstOrNull { it.timestamp == today }
                 ?.value
                 ?.toInt() ?: 0
-            
+
             activity.runOnUiThread {
                 rootView.get().setProgressWidgetSummary(
                     todayScore = todayScore,

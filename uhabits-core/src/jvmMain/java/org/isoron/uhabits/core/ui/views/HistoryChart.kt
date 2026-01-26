@@ -27,10 +27,10 @@ import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.LocalDateFormatter
 import org.isoron.uhabits.core.models.PaletteColor
+import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.abs
 import kotlin.math.round
 
 interface OnDateClickedListener {
@@ -213,7 +213,7 @@ class HistoryChart(
         val squareColor: Color
         val circleColor: Color
         val color = theme.color(paletteColor.paletteIndex)
-        
+
         // Use continuous gradient if scoreValues provided, otherwise use discrete Square enum
         squareColor = if (scoreValues != null && offset < scoreValues!!.size) {
             val rawScore = scoreValues!![offset]
