@@ -28,6 +28,7 @@ import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.databinding.ActivityProgressBinding
 
 class ProgressActivity : AppCompatActivity() {
@@ -118,6 +119,7 @@ class ProgressActivity : AppCompatActivity() {
     }
 
     private fun updateUI(state: ProgressState) {
+        applySectionHeaderColors()
         if (state.isEmpty) {
             binding.emptyStateView.visibility = View.VISIBLE
             binding.scrollView.visibility = View.GONE
@@ -251,6 +253,14 @@ class ProgressActivity : AppCompatActivity() {
                 binding.overallRankCard.visibility = View.GONE
             }
         }
+    }
+
+    private fun applySectionHeaderColors() {
+        val theme = themeSwitcher.currentTheme
+        binding.progressSectionTitle.setTextColor(theme.color(ProgressSectionColors.progress).toInt())
+        binding.streakSectionTitle.setTextColor(theme.color(ProgressSectionColors.streak).toInt())
+        binding.scoreSectionTitle.setTextColor(theme.color(ProgressSectionColors.score).toInt())
+        binding.completionSectionTitle.setTextColor(theme.color(ProgressSectionColors.completion).toInt())
     }
 
     override fun onSupportNavigateUp(): Boolean {

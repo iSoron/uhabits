@@ -22,7 +22,10 @@ package org.isoron.uhabits.activities.habits.progress.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.databinding.ProgressCompletionStatsCardBinding
 import org.isoron.uhabits.utils.PaletteUtils
 
@@ -40,6 +43,8 @@ class ProgressCompletionStatsCardView @JvmOverloads constructor(
     }
 
     fun setState(state: State) {
+        binding.title.setTextColor(state.theme.color(state.color).toInt())
+
         val yesterdayPercent = if (state.yesterdayDue > 0) {
             state.yesterdayCompleted.toDouble() / state.yesterdayDue * 100
         } else {
@@ -78,6 +83,8 @@ class ProgressCompletionStatsCardView @JvmOverloads constructor(
         val yesterdayCompleted: Int,
         val yesterdayDue: Int,
         val todayCompleted: Int,
-        val todayDue: Int
+        val todayDue: Int,
+        val color: PaletteColor = PaletteColor(14),
+        val theme: Theme
     )
 }

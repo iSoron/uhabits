@@ -35,7 +35,6 @@ import org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
 import org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
 import org.isoron.uhabits.core.ui.views.Theme
@@ -62,7 +61,12 @@ class ProgressPresenter(
 
         if (activeHabits.isEmpty) {
             return ProgressState(
-                statsCard = ProgressStatsCardView.State(0.0, 0.0),
+                statsCard = ProgressStatsCardView.State(
+                    scoreYesterday = 0.0,
+                    scoreToday = 0.0,
+                    color = ProgressSectionColors.score,
+                    theme = theme
+                ),
                 scoreCard = null,
                 barCard = null,
                 deltaCard = null,
@@ -90,7 +94,12 @@ class ProgressPresenter(
 
         if (fullHistoryScores.isEmpty()) {
             return ProgressState(
-                statsCard = ProgressStatsCardView.State(0.0, 0.0),
+                statsCard = ProgressStatsCardView.State(
+                    scoreYesterday = 0.0,
+                    scoreToday = 0.0,
+                    color = ProgressSectionColors.score,
+                    theme = theme
+                ),
                 scoreCard = null,
                 barCard = null,
                 deltaCard = null,
@@ -117,7 +126,8 @@ class ProgressPresenter(
         val statsCardState = ProgressStatsCardView.State(
             scoreYesterday = scoreYesterday * 100,
             scoreToday = scoreToday * 100,
-            color = PaletteColor(11) // Blue
+            color = ProgressSectionColors.score,
+            theme = theme
         )
 
         val completionSummaries = calculator.computeAggregateCompletionSummaries(
@@ -136,7 +146,9 @@ class ProgressPresenter(
                 yesterdayCompleted = completionYesterday.completedCount,
                 yesterdayDue = completionYesterday.dueCount,
                 todayCompleted = completionToday.completedCount,
-                todayDue = completionToday.dueCount
+                todayDue = completionToday.dueCount,
+                color = ProgressSectionColors.completion,
+                theme = theme
             )
         } else {
             null
@@ -167,7 +179,7 @@ class ProgressPresenter(
             scores = groupedScores,
             bucketSize = scoreBucketSize,
             spinnerPosition = scoreSpinnerPosition,
-            color = PaletteColor(11), // Blue
+            color = ProgressSectionColors.score,
             theme = theme
         )
 
@@ -176,7 +188,7 @@ class ProgressPresenter(
             val bestStreaks = calculator.calculateAggregateStreaks(fullHistoryScores)
             if (bestStreaks.isNotEmpty()) {
                 StreakCardState(
-                    color = PaletteColor(11), // Blue
+                    color = ProgressSectionColors.streak,
                     bestStreaks = bestStreaks,
                     theme = theme
                 )
@@ -200,8 +212,8 @@ class ProgressPresenter(
                 scoreValues = progressChanges.map {
                     if (maxAbsChange > 0) it.value / maxAbsChange else 0.0
                 }.reversed(),
-                color = PaletteColor(7),
-                negativeColor = PaletteColor(2),
+                color = ProgressSectionColors.progress,
+                negativeColor = ProgressSectionColors.negative,
                 firstWeekday = historyFirstWeekday,
                 theme = theme,
                 today = today.toLocalDate(),
@@ -214,7 +226,7 @@ class ProgressPresenter(
         val completionHistoryCardState = if (completionSummaries.isNotEmpty()) {
             ProgressCompletionHistoryCardState(
                 completionRatios = completionSummaries.map { it.completionRatio }.reversed(),
-                color = PaletteColor(11),
+                color = ProgressSectionColors.completion,
                 firstWeekday = historyFirstWeekday,
                 theme = theme,
                 today = today.toLocalDate()
@@ -252,7 +264,7 @@ class ProgressPresenter(
                     theme = theme,
                     spinnerPosition = barSpinnerPosition,
                     bucketSize = bucketSize,
-                    color = PaletteColor(11), // Blue
+                    color = ProgressSectionColors.score,
                     entries = entries
                 )
             } else {
@@ -271,7 +283,7 @@ class ProgressPresenter(
         val completionBarCardState = if (completionEntries.isNotEmpty()) {
             ProgressCompletionBarCardState(
                 theme = theme,
-                color = PaletteColor(11),
+                color = ProgressSectionColors.completion,
                 entries = completionEntries
             )
         } else {
@@ -308,9 +320,9 @@ class ProgressPresenter(
                 theme = theme,
                 spinnerPosition = deltaSpinnerPosition,
                 bucketSize = bucketSize,
-                color = PaletteColor(11),
-                positiveColor = Color(PaletteUtils.getAndroidTestColor(7)),
-                negativeColor = Color(PaletteUtils.getAndroidTestColor(2)),
+                color = ProgressSectionColors.progress,
+                positiveColor = Color(PaletteUtils.getAndroidTestColor(ProgressSectionColors.positive.paletteIndex)),
+                negativeColor = Color(PaletteUtils.getAndroidTestColor(ProgressSectionColors.negative.paletteIndex)),
                 deltas = deltas,
                 emptyMessage = if (deltas.isEmpty()) {
                     context.getString(R.string.progress_change_not_enough_data)
@@ -332,8 +344,8 @@ class ProgressPresenter(
         val frequencyCardState = if (frequencyData.isNotEmpty()) {
             ProgressFrequencyCardState(
                 frequency = frequencyData,
-                color = PaletteColor(7),
-                negativeColor = PaletteColor(2),
+                color = ProgressSectionColors.progress,
+                negativeColor = ProgressSectionColors.negative,
                 firstWeekday = firstWeekday,
                 theme = theme
             )
@@ -349,7 +361,7 @@ class ProgressPresenter(
         val completionFrequencyCardState = if (completionFrequencyData.isNotEmpty()) {
             ProgressCompletionFrequencyCardState(
                 frequency = completionFrequencyData,
-                color = PaletteColor(11),
+                color = ProgressSectionColors.completion,
                 firstWeekday = firstWeekday,
                 theme = theme
             )
@@ -363,7 +375,7 @@ class ProgressPresenter(
         }
         val completionStreaks = calculator.calculateCompletionStreaks(completionStreakSummaries)
         val completionStreakCardState = StreakCardState(
-            color = PaletteColor(11),
+            color = ProgressSectionColors.completion,
             bestStreaks = completionStreaks,
             theme = theme
         )
@@ -400,7 +412,8 @@ class ProgressPresenter(
             subtitle = context.getString(R.string.rank_one_best),
             axis = scoreHistory.map { it.timestamp.toLocalDate() },
             series = listOf(scoreRankValues),
-            colors = listOf(PaletteColor(11)),
+            colors = listOf(ProgressSectionColors.score),
+            titleColor = ProgressSectionColors.score,
             theme = theme
             )
         } else {
@@ -413,7 +426,8 @@ class ProgressPresenter(
             subtitle = context.getString(R.string.rank_one_best),
             axis = progressHistory.map { it.timestamp.toLocalDate() },
             series = listOf(progressRankValues),
-            colors = listOf(PaletteColor(7)),
+            colors = listOf(ProgressSectionColors.progress),
+            titleColor = ProgressSectionColors.progress,
             theme = theme
             )
         } else {
@@ -426,7 +440,8 @@ class ProgressPresenter(
             subtitle = context.getString(R.string.rank_one_best),
             axis = streakHistory.map { it.timestamp.toLocalDate() },
             series = listOf(streakRankValues),
-            colors = listOf(PaletteColor(6)),
+            colors = listOf(ProgressSectionColors.streak),
+            titleColor = ProgressSectionColors.streak,
             theme = theme
             )
         } else {
@@ -439,7 +454,8 @@ class ProgressPresenter(
             subtitle = context.getString(R.string.rank_one_best),
             axis = completionHistory.map { it.timestamp.toLocalDate() },
             series = listOf(completionRankValues),
-            colors = listOf(PaletteColor(11)),
+            colors = listOf(ProgressSectionColors.completion),
+            titleColor = ProgressSectionColors.completion,
             theme = theme
             )
         } else {
@@ -456,7 +472,12 @@ class ProgressPresenter(
                 subtitle = context.getString(R.string.rank_overall_subtitle),
                 axis = scoreHistory.map { it.timestamp.toLocalDate() },
                 series = listOf(scoreRankValues, progressRankValues, completionRankValues),
-                colors = listOf(PaletteColor(11), PaletteColor(7), PaletteColor(8)),
+                colors = listOf(
+                    ProgressSectionColors.score,
+                    ProgressSectionColors.progress,
+                    ProgressSectionColors.completion
+                ),
+                titleColor = ProgressSectionColors.completion,
                 theme = theme
             )
         } else {

@@ -17,18 +17,15 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.isoron.uhabits.activities.habits.progress.views
+package org.isoron.uhabits.activities.habits.progress
 
-import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.ui.views.Theme
 
-data class ProgressRankCardState(
-    val title: String,
-    val subtitle: String?,
-    val axis: List<LocalDate>,
-    val series: List<List<Double>>,
-    val colors: List<PaletteColor>,
-    val titleColor: PaletteColor? = null,
-    val theme: Theme
-)
+object ProgressSectionColors {
+    val progress = PaletteColor(11)   // Blue
+    val streak = PaletteColor(7)      // Green
+    val score = PaletteColor(2)       // Orange
+    val completion = PaletteColor(14) // Purple
+    val negative = PaletteColor(2)    // Orange (for negative deltas)
+    val positive = PaletteColor(7)    // Green (for positive deltas)
+}

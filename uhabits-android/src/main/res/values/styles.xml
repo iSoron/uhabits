@@ -219,6 +219,11 @@
         <item name="android:textSize">@dimen/regularTextSize</item>
     </style>
 
+    <style name="ProgressSectionHeader" parent="CardHeader">
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">4dp</item>
+    </style>
+
     <style name="About" />
 
     <style name="About.Item">

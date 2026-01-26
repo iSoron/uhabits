@@ -22,8 +22,10 @@ package org.isoron.uhabits.activities.habits.progress.views
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.views.Theme
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.databinding.ProgressStatsCardBinding
 import org.isoron.uhabits.utils.PaletteUtils
@@ -42,6 +44,8 @@ class ProgressStatsCardView @JvmOverloads constructor(
     }
 
     fun setState(state: State) {
+        binding.title.setTextColor(state.theme.color(state.color).toInt())
+
         // Update stats text with 5 decimal places
         binding.statsYesterday.text = String.format("%.5f%%", state.scoreYesterday)
         binding.statsToday.text = String.format("%.5f%%", state.scoreToday)
@@ -66,6 +70,7 @@ class ProgressStatsCardView @JvmOverloads constructor(
     data class State(
         val scoreYesterday: Double,
         val scoreToday: Double,
-        val color: PaletteColor = PaletteColor(11) // Blue
+        val color: PaletteColor = PaletteColor(11), // Blue
+        val theme: Theme
     )
 }

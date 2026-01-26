@@ -55,20 +55,20 @@
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
-                android:id="@+id/progressValue"
+                android:id="@+id/progressRank"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
-                android:id="@+id/progressRank"
+                android:id="@+id/progressValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"
@@ -123,20 +123,20 @@
                 android:singleLine="true" />
 
             <TextView
-                android:id="@+id/streakValue"
+                android:id="@+id/streakRank"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
-                android:id="@+id/streakRank"
+                android:id="@+id/streakValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"
@@ -163,20 +163,20 @@
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
-                android:id="@+id/scoreValue"
+                android:id="@+id/scoreRank"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
-                android:id="@+id/scoreRank"
+                android:id="@+id/scoreValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"
@@ -214,20 +214,20 @@
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
-                android:id="@+id/completionValue"
+                android:id="@+id/completionRank"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"
                 android:textSize="@dimen/regularTextSize" />
 
             <TextView
-                android:id="@+id/completionRank"
+                android:id="@+id/completionValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:text="--"
                 android:textColor="?attr/contrast100"

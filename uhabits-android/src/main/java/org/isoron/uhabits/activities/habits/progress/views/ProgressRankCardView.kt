@@ -24,6 +24,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import org.isoron.platform.gui.toInt
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.core.ui.views.BarChart
 import org.isoron.uhabits.databinding.ProgressRankCardBinding
@@ -35,6 +36,10 @@ class ProgressRankCardView(context: Context, attrs: AttributeSet) : LinearLayout
 
     fun setState(state: ProgressRankCardState) {
         binding.title.text = state.title
+        val titleColor = state.titleColor ?: state.colors.firstOrNull()
+        if (titleColor != null) {
+            binding.title.setTextColor(state.theme.color(titleColor).toInt())
+        }
         val subtitle = state.subtitle
         if (subtitle.isNullOrBlank()) {
             binding.subtitle.visibility = View.GONE
