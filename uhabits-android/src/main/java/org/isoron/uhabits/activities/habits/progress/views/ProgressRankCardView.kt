@@ -20,6 +20,9 @@
 package org.isoron.uhabits.activities.habits.progress.views
 
 import android.content.Context
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +32,7 @@ import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.core.ui.views.BarChart
 import org.isoron.uhabits.databinding.ProgressRankCardBinding
 import java.util.Locale
+import kotlin.text.Regex
 
 class ProgressRankCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -45,7 +49,35 @@ class ProgressRankCardView(context: Context, attrs: AttributeSet) : LinearLayout
             binding.subtitle.visibility = View.GONE
         } else {
             binding.subtitle.visibility = View.VISIBLE
-            binding.subtitle.text = subtitle
+            // For overall rank card with multiple colors, colorize only the metric names in the legend
+            if (state.colors.size > 1 && subtitle.contains("/")) {
+                // Extract metric names (before the parenthesis)
+                val metricsPartMatch = Regex("^([^(]+)").find(subtitle)
+                if (metricsPartMatch != null) {
+                    val metricsPart = metricsPartMatch.groupValues[1].trim()
+                    val spannableString = SpannableString(subtitle)
+                    val metricNames = metricsPart.split("/").map { it.trim() }
+                    var searchStartIndex = 0
+                    metricNames.forEachIndexed { index, metricName ->
+                        val partStart = subtitle.indexOf(metricName, searchStartIndex)
+                        if (partStart >= 0 && index < state.colors.size) {
+                            val color = state.theme.color(state.colors[index]).toInt()
+                            spannableString.setSpan(
+                                ForegroundColorSpan(color),
+                                partStart,
+                                partStart + metricName.length,
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                            searchStartIndex = partStart + metricName.length
+                        }
+                    }
+                    binding.subtitle.text = spannableString
+                } else {
+                    binding.subtitle.text = subtitle
+                }
+            } else {
+                binding.subtitle.text = subtitle
+            }
         }
 
         binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.getDefault())).apply {

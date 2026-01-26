@@ -26,6 +26,7 @@ object ProgressSectionColors {
     val streak = PaletteColor(7) // Green
     val score = PaletteColor(2) // Orange
     val completion = PaletteColor(14) // Purple
+    val overall = PaletteColor(8) // Teal
     val negative = PaletteColor(2) // Orange (for negative deltas)
     val positive = PaletteColor(7) // Green (for positive deltas)
 }

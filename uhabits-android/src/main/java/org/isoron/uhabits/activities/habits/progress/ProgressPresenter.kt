@@ -477,7 +477,7 @@ class ProgressPresenter(
                     ProgressSectionColors.progress,
                     ProgressSectionColors.completion
                 ),
-                titleColor = ProgressSectionColors.completion,
+                titleColor = ProgressSectionColors.overall,
                 theme = theme
             )
         } else {

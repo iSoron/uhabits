@@ -148,6 +148,7 @@
     <string name="rank_completion_title">Completion rank</string>
     <string name="rank_overall_title">Overall ranks</string>
     <string name="rank_overall_subtitle">Score / Progress / Completion (1 = best)</string>
+    <string name="overall_section_title">Overall</string>
     <string name="completion_summary">Completion</string>
     <string name="completion_history">Completion history</string>
     <string name="completion_calendar">Completion calendar</string>

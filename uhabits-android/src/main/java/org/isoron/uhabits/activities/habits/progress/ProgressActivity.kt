@@ -257,6 +257,7 @@ class ProgressActivity : AppCompatActivity() {
         binding.streakSectionTitle.setTextColor(theme.color(ProgressSectionColors.streak).toInt())
         binding.scoreSectionTitle.setTextColor(theme.color(ProgressSectionColors.score).toInt())
         binding.completionSectionTitle.setTextColor(theme.color(ProgressSectionColors.completion).toInt())
+        binding.overallSectionTitle.setTextColor(theme.color(ProgressSectionColors.overall).toInt())
     }
 
     override fun onSupportNavigateUp(): Boolean {
