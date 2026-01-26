@@ -28,5 +28,6 @@ data class ProgressBarCardState(
     val spinnerPosition: Int,
     val bucketSize: Int,
     val color: PaletteColor,
-    val entries: List<Entry>
+    val entries: List<Entry>,
+    val title: String = ""
 )

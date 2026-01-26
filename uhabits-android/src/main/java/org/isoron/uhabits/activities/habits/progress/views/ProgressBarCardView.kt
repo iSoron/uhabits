@@ -38,6 +38,7 @@ class ProgressBarCardView(context: Context, attrs: AttributeSet) : LinearLayout(
 
     fun setState(state: ProgressBarCardState) {
         val androidColor = state.theme.color(state.color).toInt()
+        binding.title.text = state.title
         binding.chart.view = BarChart(state.theme, JavaLocalDateFormatter(Locale.getDefault())).apply {
             // For overview, values are already in 0-1000 range (scores * 1000)
             // Divide by 10 to show as 0-100 percentage

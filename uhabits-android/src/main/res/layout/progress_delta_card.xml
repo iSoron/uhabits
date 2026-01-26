@@ -39,7 +39,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:text="@string/progress_change" />
+            android:text="@string/daily_progress_title" />
 
         <org.isoron.platform.gui.AndroidVerticalDataView
             android:id="@+id/chart"

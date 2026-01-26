@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/title"
         style="@style/CardHeader"
-        android:text="@string/progress" />
+        android:text="@string/stats_title" />
 
 
     <LinearLayout

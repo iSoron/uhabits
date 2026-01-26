@@ -126,7 +126,7 @@ class ProgressPresenter(
         val statsCardState = ProgressStatsCardView.State(
             scoreYesterday = scoreYesterday * 100,
             scoreToday = scoreToday * 100,
-            color = ProgressSectionColors.score,
+            color = ProgressSectionColors.progress,
             theme = theme
         )
 
@@ -265,7 +265,8 @@ class ProgressPresenter(
                     spinnerPosition = barSpinnerPosition,
                     bucketSize = bucketSize,
                     color = ProgressSectionColors.score,
-                    entries = entries
+                    entries = entries,
+                    title = context.getString(R.string.day_score_history_title)
                 )
             } else {
                 null

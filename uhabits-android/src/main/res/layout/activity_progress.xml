@@ -51,13 +51,17 @@
                 android:text="@string/progress_section_title"
                 android:layout_marginTop="0dp"/>
 
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
-                android:id="@+id/progressRankCard"
-                style="@style/Card"
-                android:gravity="center"/>
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
+                android:id="@+id/statsCard"
+                style="@style/Card"/>
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressDeltaCardView
                 android:id="@+id/deltaCard"
+                style="@style/Card"
+                android:gravity="center"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
+                android:id="@+id/progressRankCard"
                 style="@style/Card"
                 android:gravity="center"/>
 
@@ -89,17 +93,13 @@
             <TextView
                 android:id="@+id/scoreSectionTitle"
                 style="@style/ProgressSectionHeader"
-                android:text="@string/score_section_title"
+                android:text="@string/day_score_section_title"
                 android:layout_marginTop="8dp"/>
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
                 android:id="@+id/scoreRankCard"
                 style="@style/Card"
                 android:gravity="center"/>
-
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressStatsCardView
-                android:id="@+id/statsCard"
-                style="@style/Card"/>
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressScoreCardView
                 android:id="@+id/scoreCard"
@@ -117,29 +117,29 @@
                 android:text="@string/completion_section_title"
                 android:layout_marginTop="8dp"/>
 
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionStatsCardView
+                android:id="@+id/completionStatsCard"
+                style="@style/Card"/>
+
             <org.isoron.uhabits.activities.habits.progress.views.ProgressRankCardView
                 android:id="@+id/completionRankCard"
                 style="@style/Card"
                 android:gravity="center"/>
 
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionStatsCardView
-                android:id="@+id/completionStatsCard"
-                style="@style/Card"/>
-
             <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionStreakCardView
                 android:id="@+id/completionStreakCard"
                 style="@style/Card"/>
-
-            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionBarCardView
-                android:id="@+id/completionBarCard"
-                style="@style/Card"
-                android:gravity="center"/>
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionHistoryCardView
                 android:id="@+id/completionHistoryCard"
                 style="@style/Card"
                 android:gravity="center"
                 android:paddingBottom="0dp"/>
+
+            <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionBarCardView
+                android:id="@+id/completionBarCard"
+                style="@style/Card"
+                android:gravity="center"/>
 
             <org.isoron.uhabits.activities.habits.progress.views.ProgressCompletionFrequencyCardView
                 android:id="@+id/completionFrequencyCard"
