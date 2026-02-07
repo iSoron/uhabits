@@ -264,7 +264,7 @@ class CheckmarkWidgetView : HabitWidgetView {
     private fun shouldShowReminder(width: Int, height: Int): Boolean {
         if (width <= 0 || height <= 0) return false
         val minDim = min(width, height).toFloat()
-        val bigEnough = minDim >= dpToPixels(context, 120f)
+        val bigEnough = minDim >= dpToPixels(context, 100f)
         val tallEnough = height.toFloat() / width.toFloat() >= 1.15f
         return bigEnough || tallEnough
     }
