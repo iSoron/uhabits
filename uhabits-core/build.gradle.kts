@@ -22,6 +22,13 @@ plugins {
     alias(libs.plugins.ktlint.plugin)
 }
 
+// For local run
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 kotlin {
     jvm().withJava()
     jvmToolchain(17)
