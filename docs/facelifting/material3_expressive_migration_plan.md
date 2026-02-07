@@ -1,3 +1,8 @@
+```
+model: Gemini 3
+```
+____________________________________________________________________________
+
 # Material 3 Expressive Migration Plan for UHabits Android
 
 This document outlines a step-by-step iterative plan for migrating the UHabits Android application's UI from Material Design 2 to Material Design 3 Expressive.
