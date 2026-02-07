@@ -201,6 +201,8 @@
     <string name="database">Database</string>
     <string name="widget_opacity_title">Widget opacity</string>
     <string name="widget_opacity_description">Makes widgets more transparent or more opaque in your home screen.</string>
+    <string name="widget_next_reminder_at">Next reminder at %1$s</string>
+    <string name="widget_dashboard_done_summary">%1$d/%2$d done</string>
     <string name="first_day_of_the_week">First day of the week</string>
     <string name="default_reminder_question">Have you completed this habit today?</string>
     <string name="notes">Notes</string>

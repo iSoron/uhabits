@@ -145,6 +145,11 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <service
+            android:name=".widgets.GridWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <receiver
             android:name=".widgets.HistoryWidgetProvider"
             android:exported="true"

@@ -21,40 +21,86 @@
 <LinearLayout
     android:id="@+id/frame"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:habit="http://isoron.org/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:habit="http://isoron.org/android"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <org.isoron.uhabits.activities.common.views.RingView
-        android:id="@+id/scoreRing"
+    <FrameLayout
+        android:id="@+id/ringContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.9"
-        habit:thickness="2"
-        habit:textSize="16"
-        habit:enableFontAwesome="true"
+        android:layout_weight="1"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"/>
+        android:layout_marginRight="4dp">
+
+        <org.isoron.uhabits.activities.common.views.RingView
+            android:id="@+id/scoreRing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            habit:thickness="2"
+            habit:textSize="16"
+            habit:enableFontAwesome="true" />
+
+        <TextView
+            android:id="@+id/streakBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="6dp"
+            android:paddingLeft="6dp"
+            android:paddingTop="2dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="2dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:maxLines="1"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <org.isoron.uhabits.widgets.views.WeeklyHeatmapView
+        android:id="@+id/weeklyHeatmap"
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="12dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/reminderLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textSize="10sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:textSize="12sp"
-        android:textColor="@color/white"
         android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:gravity="center"
-        android:scrollHorizontally="true"
-        android:ellipsize="end"
-        android:maxLines="2"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="6dp"
         android:layout_marginBottom="4dp"
+        android:breakStrategy="balanced"
+        android:ellipsize="end"
         android:fontFamily="sans-serif-condensed"
-        android:breakStrategy="balanced" />
+        android:gravity="center"
+        android:maxLines="2"
+        android:scrollHorizontally="true"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
 </LinearLayout>

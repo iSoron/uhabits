@@ -27,6 +27,7 @@ import org.isoron.uhabits.activities.common.views.ScoreChart
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.ui.screens.habits.show.views.ScoreCardPresenter
 import org.isoron.uhabits.core.ui.views.WidgetTheme
+import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.widgets.views.GraphWidgetView
 
 class ScoreWidget(
@@ -51,6 +52,15 @@ class ScoreWidget(
         val widgetView = view as GraphWidgetView
         widgetView.setBackgroundAlpha(preferedBackgroundAlpha)
         if (preferedBackgroundAlpha >= 255) widgetView.setShadowAlpha(0x4f)
+
+        val today = DateUtils.getTodayWithOffset()
+        val accent = WidgetTheme().color(habit.color).toInt()
+        widgetView.setExtras(
+            accentColor = accent,
+            streakDays = WidgetHabitStats.computeCurrentStreakDays(habit, today),
+            weeklySuccess = WidgetHabitStats.computeWeeklySuccess(habit, today),
+            nextReminderTimeUtcMillis = WidgetHabitStats.computeNextReminderTimeUtcMillis(habit, System.currentTimeMillis())
+        )
         (widgetView.dataView as ScoreChart).apply {
             setIsTransparencyEnabled(true)
             setBucketSize(viewModel.bucketSize)

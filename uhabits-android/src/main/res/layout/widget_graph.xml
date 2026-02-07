@@ -38,14 +38,66 @@
         android:paddingBottom="8dp"
         tools:ignore="UselessParent">
 
-        <TextView
-            android:id="@+id/title"
+        <FrameLayout
+            android:id="@+id/titleRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/smallTextSize"
+                android:maxLines="2"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/streakBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:paddingLeft="6dp"
+                android:paddingTop="2dp"
+                android:paddingRight="6dp"
+                android:paddingBottom="2dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensed"
+                android:maxLines="1"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/dataContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <org.isoron.uhabits.widgets.views.WeeklyHeatmapView
+            android:id="@+id/weeklyHeatmap"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="6dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/reminderLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:textSize="@dimen/smallTextSize"
-            android:maxLines="2"
-            android:textColor="@color/white"/>
+            android:maxLines="1"
+            android:textSize="10sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

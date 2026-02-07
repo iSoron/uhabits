@@ -24,10 +24,15 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.text.format.DateFormat
 import android.view.View
 import android.widget.RemoteViews
 import org.isoron.platform.utils.StringUtils
+import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.utils.InterfaceUtils.dpToPixels
+import java.util.Date
+import kotlin.math.max
 
 class StackWidget(
     context: Context,
@@ -52,31 +57,74 @@ class StackWidget(
 
     override fun getRemoteViews(width: Int, height: Int): RemoteViews {
         val manager = AppWidgetManager.getInstance(context)
+        val habitIds = StringUtils.joinLongs(habits.map { it.id!! }.toLongArray())
+
+        if (widgetType == StackWidgetType.CHECKMARK && shouldUseCheckmarkGrid(width, height)) {
+            val remoteViews = RemoteViews(context.packageName, R.layout.checkmark_gridview_widget)
+            val serviceIntent = Intent(context, GridWidgetService::class.java)
+
+            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
+            serviceIntent.putExtra(GridWidgetService.WIDGET_TYPE, widgetType.value)
+            serviceIntent.putExtra(GridWidgetService.HABIT_IDS, habitIds)
+            serviceIntent.data = Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME))
+
+            remoteViews.setRemoteAdapter(R.id.checkmarkGridWidgetView, serviceIntent)
+            manager.notifyAppWidgetViewDataChanged(id, R.id.checkmarkGridWidgetView)
+            remoteViews.setEmptyView(R.id.checkmarkGridWidgetView, R.id.checkmarkGridWidgetEmptyView)
+
+            val doneCount = habits.count { it.isCompletedToday() }
+            remoteViews.setTextViewText(
+                R.id.checkmarkGridWidgetSummary,
+                context.getString(R.string.widget_dashboard_done_summary, doneCount, habits.size)
+            )
+
+            val now = System.currentTimeMillis()
+            val next = habits.mapNotNull { WidgetHabitStats.computeNextReminderTimeUtcMillis(it, now) }.minOrNull()
+            if (next != null) {
+                val timeStr = DateFormat.getTimeFormat(context).format(Date(next))
+                remoteViews.setViewVisibility(R.id.checkmarkGridWidgetNext, View.VISIBLE)
+                remoteViews.setTextViewText(
+                    R.id.checkmarkGridWidgetNext,
+                    context.getString(R.string.widget_next_reminder_at, timeStr)
+                )
+            } else {
+                remoteViews.setViewVisibility(R.id.checkmarkGridWidgetNext, View.GONE)
+            }
+
+            remoteViews.setPendingIntentTemplate(
+                R.id.checkmarkGridWidgetView,
+                StackWidgetType.getPendingIntentTemplate(pendingIntentFactory, widgetType, habits)
+            )
+
+            return remoteViews
+        }
+
         val remoteViews =
             RemoteViews(context.packageName, StackWidgetType.getStackWidgetLayoutId(widgetType))
         val serviceIntent = Intent(context, StackWidgetService::class.java)
-        val habitIds = StringUtils.joinLongs(habits.map { it.id!! }.toLongArray())
 
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
         serviceIntent.putExtra(StackWidgetService.WIDGET_TYPE, widgetType.value)
         serviceIntent.putExtra(StackWidgetService.HABIT_IDS, habitIds)
         serviceIntent.data = Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME))
-        remoteViews.setRemoteAdapter(
-            StackWidgetType.getStackWidgetAdapterViewId(widgetType),
-            serviceIntent
-        )
-        manager.notifyAppWidgetViewDataChanged(
-            id,
-            StackWidgetType.getStackWidgetAdapterViewId(widgetType)
-        )
-        remoteViews.setEmptyView(
-            StackWidgetType.getStackWidgetAdapterViewId(widgetType),
-            StackWidgetType.getStackWidgetEmptyViewId(widgetType)
-        )
+
+        val adapterViewId = StackWidgetType.getStackWidgetAdapterViewId(widgetType)
+        remoteViews.setRemoteAdapter(adapterViewId, serviceIntent)
+        manager.notifyAppWidgetViewDataChanged(id, adapterViewId)
+        remoteViews.setEmptyView(adapterViewId, StackWidgetType.getStackWidgetEmptyViewId(widgetType))
         remoteViews.setPendingIntentTemplate(
-            StackWidgetType.getStackWidgetAdapterViewId(widgetType),
+            adapterViewId,
             StackWidgetType.getPendingIntentTemplate(pendingIntentFactory, widgetType, habits)
         )
+
         return remoteViews
+    }
+
+    private fun shouldUseCheckmarkGrid(width: Int, height: Int): Boolean {
+        if (habits.size < 3) return false
+        val minCell = dpToPixels(context, 140f).toInt()
+        val columns = max(1, width / max(1, minCell))
+        val rows = max(1, height / max(1, minCell))
+        return columns >= 2 && rows >= 2
     }
 }

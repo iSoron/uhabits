@@ -61,6 +61,9 @@ open class CheckmarkWidget(
                 entryState = habit.computedEntries.get(today).value
             }
             percentage = habit.scores[today].value.toFloat()
+            streakDays = WidgetHabitStats.computeCurrentStreakDays(habit, today)
+            weeklySuccess = WidgetHabitStats.computeWeeklySuccess(habit, today)
+            nextReminderTimeUtcMillis = WidgetHabitStats.computeNextReminderTimeUtcMillis(habit, System.currentTimeMillis())
             refresh()
         }
     }
