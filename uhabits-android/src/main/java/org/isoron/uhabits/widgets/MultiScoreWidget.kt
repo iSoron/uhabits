@@ -21,6 +21,8 @@ package org.isoron.uhabits.widgets
 
 import android.app.PendingIntent
 import android.content.Context
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.activities.common.views.ScoreChart
@@ -68,13 +70,37 @@ class MultiScoreWidget(
     }
 
     override fun buildView(): View {
-        val title = if (habits.size == 1) {
-            habits[0].name
-        } else {
-            "${habits[0].name} +${habits.size - 1}"
-        }
         return GraphWidgetView(context, ScoreChart(context)).apply {
-            setTitle(title)
+            if (habits.size == 1) {
+                setTitle(habits[0].name)
+            } else {
+                setTitle(buildLegend())
+            }
         }
+    }
+
+    private fun buildLegend(): CharSequence {
+        val theme = WidgetTheme()
+        val builder = SpannableStringBuilder()
+        builder.append("(${habits.size} habits) ")
+        habits.forEachIndexed { index, habit ->
+            if (index > 0) builder.append("  ")
+            val truncatedName = if (habit.name.length > 10) {
+                habit.name.take(10) + "\u2026"
+            } else {
+                habit.name
+            }
+            val entry = "\u25CF $truncatedName"
+            val start = builder.length
+            builder.append(entry)
+            val color = theme.color(habit.color).toInt()
+            builder.setSpan(
+                ForegroundColorSpan(color),
+                start,
+                builder.length,
+                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        return builder
     }
 }
