@@ -26,7 +26,7 @@ import org.isoron.uhabits.R
 
 class GraphWidgetView(context: Context?, val dataView: View) : HabitWidgetView(context) {
     private lateinit var title: TextView
-    fun setTitle(text: String?) {
+    fun setTitle(text: CharSequence?) {
         title.text = text
     }
 

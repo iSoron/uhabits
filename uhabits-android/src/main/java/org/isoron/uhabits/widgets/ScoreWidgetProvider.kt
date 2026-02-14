@@ -19,14 +19,16 @@
 package org.isoron.uhabits.widgets
 
 import android.content.Context
+import org.isoron.uhabits.core.models.HabitNotFoundException
 
 class ScoreWidgetProvider : BaseWidgetProvider() {
     override fun getWidgetFromId(context: Context, id: Int): BaseWidget {
         val habits = getHabitsFromWidgetId(id)
+        if (habits.isEmpty()) throw HabitNotFoundException()
         return if (habits.size == 1) {
             ScoreWidget(context, id, habits[0])
         } else {
-            StackWidget(context, id, StackWidgetType.SCORE, habits)
+            MultiScoreWidget(context, id, habits)
         }
     }
 }

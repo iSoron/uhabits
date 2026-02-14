@@ -45,6 +45,8 @@ import java.util.Random
 import kotlin.math.max
 import kotlin.math.min
 
+data class ScoreSeries(val scores: List<Score>, val color: Int)
+
 class ScoreChart : ScrollableChart {
     private var pGrid: Paint? = null
     private var em = 0f
@@ -62,7 +64,7 @@ class ScoreChart : ScrollableChart {
     private var nColumns = 0
     private var textColor = 0
     private var gridColor = 0
-    private var scores: List<Score>? = null
+    private var seriesList: List<ScoreSeries> = emptyList()
     private var primaryColor = 0
 
     @Deprecated("")
@@ -95,7 +97,7 @@ class ScoreChart : ScrollableChart {
             newScores.add(Score(timestamp.minus(i), current))
             previous = current
         }
-        scores = newScores
+        seriesList = listOf(ScoreSeries(newScores, primaryColor))
     }
 
     fun setBucketSize(bucketSize: Int) {
@@ -110,11 +112,19 @@ class ScoreChart : ScrollableChart {
 
     fun setColor(primaryColor: Int) {
         this.primaryColor = primaryColor
+        if (seriesList.size == 1) {
+            seriesList = listOf(ScoreSeries(seriesList[0].scores, primaryColor))
+        }
         postInvalidate()
     }
 
     fun setScores(scores: List<Score>) {
-        this.scores = scores
+        seriesList = listOf(ScoreSeries(scores, primaryColor))
+        postInvalidate()
+    }
+
+    fun setSeriesList(series: List<ScoreSeries>) {
+        seriesList = series
         postInvalidate()
     }
 
@@ -128,39 +138,78 @@ class ScoreChart : ScrollableChart {
         } else {
             activeCanvas = canvas
         }
-        if (scores == null) return
+        if (seriesList.isEmpty()) return
+
+        // Find the longest series for grid/footer sizing
+        val longestSeries = seriesList.maxByOrNull { it.scores.size } ?: return
+
         rect!![0f, 0f, nColumns * columnWidth] = columnHeight.toFloat()
         rect!!.offset(0f, internalPaddingTop.toFloat())
         drawGrid(activeCanvas, rect)
+
+        // Collect line segments and markers for all series, then draw lines first, markers second.
+        // This prevents XFERMODE_CLEAR in drawMarker from erasing other series' lines.
+        data class LineSegment(val fromX: Float, val fromY: Float, val toX: Float, val toY: Float, val color: Int)
+        data class Marker(val cx: Float, val cy: Float, val color: Int)
+
+        val lines = mutableListOf<LineSegment>()
+        val markers = mutableListOf<Marker>()
+
+        for (series in seriesList) {
+            val scores = series.scores
+            var prevCx = 0f
+            var prevCy = 0f
+            var hasPrev = false
+
+            for (k in 0 until nColumns) {
+                val offset = nColumns - k - 1 + dataOffset
+                if (offset >= scores.size) {
+                    hasPrev = false
+                    continue
+                }
+                val score = scores[offset].value
+                val height = (columnHeight * score).toInt()
+                val cx = k * columnWidth + columnWidth / 2
+                val cy = (internalPaddingTop + columnHeight - height).toFloat()
+
+                if (hasPrev) {
+                    lines.add(LineSegment(prevCx, prevCy, cx, cy, series.color))
+                    markers.add(Marker(prevCx, prevCy, series.color))
+                }
+                if (k == nColumns - 1) {
+                    markers.add(Marker(cx, cy, series.color))
+                }
+                prevCx = cx
+                prevCy = cy
+                hasPrev = true
+            }
+        }
+
+        // Draw all lines first
+        for (line in lines) {
+            pGraph!!.color = line.color
+            activeCanvas!!.drawLine(line.fromX, line.fromY, line.toX, line.toY, pGraph!!)
+        }
+
+        // Then draw all markers
+        for (marker in markers) {
+            drawMarker(activeCanvas, marker.cx, marker.cy, marker.color)
+        }
+
+        // Draw footer using longest series for timestamps
         pText!!.color = textColor
-        pGraph!!.color = primaryColor
-        prevRect!!.setEmpty()
         previousMonthText = ""
         previousYearText = ""
         skipYear = 0
         for (k in 0 until nColumns) {
             val offset = nColumns - k - 1 + dataOffset
-            if (offset >= scores!!.size) continue
-            val score = scores!![offset].value
-            val timestamp = scores!![offset].timestamp
-            val height = (columnHeight * score).toInt()
-            rect!![0f, 0f, baseSize.toFloat()] = baseSize.toFloat()
-            rect!!.offset(
-                k * columnWidth + (columnWidth - baseSize) / 2,
-                (
-                    internalPaddingTop + columnHeight - height - baseSize / 2
-                    ).toFloat()
-            )
-            if (!prevRect!!.isEmpty) {
-                drawLine(activeCanvas, prevRect, rect)
-                drawMarker(activeCanvas, prevRect)
-            }
-            if (k == nColumns - 1) drawMarker(activeCanvas, rect)
-            prevRect!!.set(rect!!)
+            if (offset >= longestSeries.scores.size) continue
+            val timestamp = longestSeries.scores[offset].timestamp
             rect!![0f, 0f, columnWidth] = columnHeight.toFloat()
             rect!!.offset(k * columnWidth, internalPaddingTop.toFloat())
             drawFooter(activeCanvas, rect, timestamp)
         }
+
         if (activeCanvas !== canvas) canvas.drawBitmap(internalDrawingCache!!, 0f, 0f, null)
     }
 
@@ -267,28 +316,19 @@ class ScoreChart : ScrollableChart {
         canvas!!.drawLine(rGrid.left, rGrid.top, rGrid.right, rGrid.top, pGrid!!)
     }
 
-    private fun drawLine(canvas: Canvas?, rectFrom: RectF?, rectTo: RectF?) {
-        pGraph!!.color = primaryColor
-        canvas!!.drawLine(
-            rectFrom!!.centerX(),
-            rectFrom.centerY(),
-            rectTo!!.centerX(),
-            rectTo.centerY(),
-            pGraph!!
+    private fun drawMarker(canvas: Canvas?, cx: Float, cy: Float, color: Int) {
+        val markerRect = RectF(
+            cx - baseSize / 2f,
+            cy - baseSize / 2f,
+            cx + baseSize / 2f,
+            cy + baseSize / 2f
         )
-    }
-
-    private fun drawMarker(canvas: Canvas?, rect: RectF?) {
-        rect!!.inset(baseSize * 0.225f, baseSize * 0.225f)
+        markerRect.inset(baseSize * 0.225f, baseSize * 0.225f)
         setModeOrColor(pGraph, XFERMODE_CLEAR, internalBackgroundColor)
-        canvas!!.drawOval(rect, pGraph!!)
-        rect.inset(baseSize * 0.1f, baseSize * 0.1f)
-        setModeOrColor(pGraph, XFERMODE_SRC, primaryColor)
-        canvas.drawOval(rect, pGraph!!)
-
-//        rect.inset(baseSize * 0.1f, baseSize * 0.1f);
-//        setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
-//        canvas.drawOval(rect, pGraph);
+        canvas!!.drawOval(markerRect, pGraph!!)
+        markerRect.inset(baseSize * 0.1f, baseSize * 0.1f)
+        setModeOrColor(pGraph, XFERMODE_SRC, color)
+        canvas.drawOval(markerRect, pGraph!!)
         if (isTransparencyEnabled) pGraph!!.xfermode = XFERMODE_SRC
     }
 
@@ -367,7 +407,12 @@ class ScoreChart : ScrollableChart {
     }
 
     private fun setModeOrColor(p: Paint?, mode: PorterDuffXfermode, color: Int) {
-        if (isTransparencyEnabled) p!!.xfermode = mode else p!!.color = color
+        if (isTransparencyEnabled) {
+            p!!.xfermode = mode
+            p.color = color
+        } else {
+            p!!.color = color
+        }
     }
 
     companion object {

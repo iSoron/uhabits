@@ -44,6 +44,10 @@ class NumericalHabitPickerDialog : HabitPickerDialog() {
     override fun getEmptyMessage() = R.string.no_numerical_habits
 }
 
+class ScoreHabitPickerDialog : HabitPickerDialog() {
+    override fun allowMultiSelect() = true
+}
+
 open class HabitPickerDialog : Activity() {
 
     private var widgetId = 0
@@ -53,6 +57,7 @@ open class HabitPickerDialog : Activity() {
     protected open fun shouldHideNumerical() = false
     protected open fun shouldHideBoolean() = false
     protected open fun getEmptyMessage() = R.string.no_habits
+    protected open fun allowMultiSelect() = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,18 +84,42 @@ open class HabitPickerDialog : Activity() {
             return
         }
 
-        setContentView(R.layout.widget_configure_activity)
-        val listView = findViewById<ListView>(R.id.listView)
-        val saveButton = findViewById<Button>(R.id.buttonSave)
+        if (allowMultiSelect()) {
+            setContentView(R.layout.widget_configure_activity_multi)
+            val listView = findViewById<ListView>(R.id.listView)
+            val saveButton = findViewById<Button>(R.id.buttonSave)
 
-        with(listView) {
-            adapter = ArrayAdapter(
-                context,
-                android.R.layout.simple_list_item_1,
+            listView.adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_list_item_multiple_choice,
                 habitNames
             )
-            setOnItemClickListener { parent, view, position, id ->
-                confirm(mutableListOf(habitIds[position]))
+            listView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+
+            saveButton.setOnClickListener {
+                val selected = mutableListOf<Long>()
+                for (i in 0 until listView.count) {
+                    if (listView.isItemChecked(i)) {
+                        selected.add(habitIds[i])
+                    }
+                }
+                if (selected.isNotEmpty()) {
+                    confirm(selected)
+                }
+            }
+        } else {
+            setContentView(R.layout.widget_configure_activity)
+            val listView = findViewById<ListView>(R.id.listView)
+
+            with(listView) {
+                adapter = ArrayAdapter(
+                    context,
+                    android.R.layout.simple_list_item_1,
+                    habitNames
+                )
+                setOnItemClickListener { parent, view, position, id ->
+                    confirm(mutableListOf(habitIds[position]))
+                }
             }
         }
     }

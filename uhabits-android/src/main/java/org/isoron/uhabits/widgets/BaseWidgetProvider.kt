@@ -70,6 +70,7 @@ abstract class BaseWidgetProvider : AppWidgetProvider() {
     ) {
         try {
             updateDependencies(context)
+            if (widgetPrefs.getHabitIdsFromWidgetId(widgetId).isEmpty()) return
             context.setTheme(R.style.WidgetTheme)
             val widget = getWidgetFromId(context, widgetId)
             val dims = getDimensionsFromOptions(context, options)
@@ -146,6 +147,7 @@ abstract class BaseWidgetProvider : AppWidgetProvider() {
         widgetId: Int
     ) {
         try {
+            if (widgetPrefs.getHabitIdsFromWidgetId(widgetId).isEmpty()) return
             val widget = getWidgetFromId(context, widgetId)
             val options = manager.getAppWidgetOptions(widgetId)
             widget.setDimensions(getDimensionsFromOptions(context, options))
