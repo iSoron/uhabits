@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2016-2025 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
@@ -18,16 +17,22 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:minHeight="100dp"
-                    android:minWidth="100dp"
-                    android:minResizeWidth="100dp"
-                    android:minResizeHeight="100dp"
-                    android:initialLayout="@layout/widget_graph"
-                    android:previewImage="@drawable/widget_preview_score"
-                    android:resizeMode="vertical|horizontal"
-                    android:updatePeriodMillis="3600000"
-                    android:configure="org.isoron.uhabits.widgets.activities.ScoreHabitPickerDialog"
-                    android:widgetCategory="home_screen">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</appwidget-provider>
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:choiceMode="multipleChoice" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@android:string/ok" />
+
+</LinearLayout>
