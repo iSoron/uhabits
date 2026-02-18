@@ -76,6 +76,7 @@ class ScoreList {
     ) {
         map.clear()
         var rollingSum = 0.0
+        var skipDays = 0
         var numerator = frequency.numerator
         var denominator = frequency.denominator
         val freq = frequency.toDouble()
@@ -93,14 +94,19 @@ class ScoreList {
         var previousValue = if (isNumerical && isAtMost) 1.0 else 0.0
         for (i in values.indices) {
             val offset = values.size - i - 1
+            var outsideRangeIndex = offset + denominator + skipDays
             if (isNumerical) {
                 rollingSum += max(0, values[offset])
-                if (offset + denominator < values.size) {
-                    rollingSum -= max(0, values[offset + denominator])
-                }
-
-                val normalizedRollingSum = rollingSum / 1000
                 if (values[offset] != Entry.SKIP) {
+                    if (outsideRangeIndex < values.size) {
+                        while (values[outsideRangeIndex] == Entry.SKIP) {
+                            skipDays -= 1
+                            outsideRangeIndex -= 1
+                        }
+                        rollingSum -= max(0, values[outsideRangeIndex])
+                    }
+
+                    val normalizedRollingSum = rollingSum / 1000
                     val percentageCompleted = if (!isAtMost) {
                         if (targetValue > 0) {
                             min(1.0, normalizedRollingSum / targetValue)
@@ -119,19 +125,27 @@ class ScoreList {
                     }
 
                     previousValue = compute(freq, previousValue, percentageCompleted)
+                } else {
+                    skipDays += 1
                 }
             } else {
                 if (values[offset] == Entry.YES_MANUAL) {
                     rollingSum += 1.0
                 }
-                if (offset + denominator < values.size) {
-                    if (values[offset + denominator] == Entry.YES_MANUAL) {
-                        rollingSum -= 1.0
-                    }
-                }
                 if (values[offset] != Entry.SKIP) {
+                    if (outsideRangeIndex < values.size) {
+                        while (values[outsideRangeIndex] == Entry.SKIP) {
+                            skipDays -= 1
+                            outsideRangeIndex -= 1
+                        }
+                        if (values[outsideRangeIndex] == Entry.YES_MANUAL) {
+                            rollingSum -= 1.0
+                        }
+                    }
                     val percentageCompleted = min(1.0, rollingSum / numerator)
                     previousValue = compute(freq, previousValue, percentageCompleted)
+                } else {
+                    skipDays += 1
                 }
             }
             val timestamp = from.plus(i)
