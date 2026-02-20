@@ -133,9 +133,9 @@ class HabitCardView(
 
     init {
         scoreRing = RingView(context).apply {
-            val thickness = dp(3f)
+            val thickness = dp(2f)
             val margin = dp(8f).toInt()
-            val ringSize = dp(15f).toInt()
+            val ringSize = dp(20f).toInt()
             layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
                 setMargins(margin, 0, margin, 0)
                 gravity = Gravity.CENTER
@@ -278,6 +278,12 @@ class HabitCardView(
         }
         scoreRing.apply {
             setColor(c)
+            val streak = h.streaks.getCurrentStreakCount(
+                h.originalEntries,
+                h.frequency,
+                DateUtils.getTodayWithOffset()
+            )
+            setText(streak.toString())
         }
         checkmarkPanel.apply {
             color = c
