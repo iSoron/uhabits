@@ -24,6 +24,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import org.isoron.uhabits.R
+import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.StyledResources
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -35,6 +36,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
     var isCompleted = false
 
     private lateinit var currentStreakText: TextView
+    private lateinit var streakBgIcon: TextView
     private lateinit var label: TextView
 
     constructor(context: Context?) : super(context) {
@@ -62,6 +64,10 @@ class CurrentStreakWidgetView : HabitWidgetView {
             fgColor = res.getColor(R.attr.contrast60)
         }
 
+        streakBgIcon.typeface = InterfaceUtils.getFontAwesome(context)
+        streakBgIcon.setTextColor(fgColor)
+        streakBgIcon.alpha = 0.2f
+
         currentStreakText.text = currentStreak.toString()
         currentStreakText.setTextColor(fgColor)
 
@@ -83,11 +89,12 @@ class CurrentStreakWidgetView : HabitWidgetView {
         } else {
             width = min(width, height)
         }
-        val labelTextSize = min(0.175f * width, org.isoron.uhabits.utils.InterfaceUtils.getDimension(context, R.dimen.smallTextSize))
+        val labelTextSize = min(0.175f * width, InterfaceUtils.getDimension(context, R.dimen.smallTextSize))
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, labelTextSize)
 
         val streakTextSize = 0.4f * width
         currentStreakText.setTextSize(TypedValue.COMPLEX_UNIT_PX, streakTextSize)
+        streakBgIcon.setTextSize(TypedValue.COMPLEX_UNIT_PX, streakTextSize * 1.5f)
 
         super.onMeasure(
             MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
@@ -97,6 +104,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
 
     private fun init() {
         currentStreakText = findViewById<View>(R.id.current_streak_text) as TextView
+        streakBgIcon = findViewById<View>(R.id.streak_bg_icon) as TextView
         label = findViewById<View>(R.id.label) as TextView
     }
 }
