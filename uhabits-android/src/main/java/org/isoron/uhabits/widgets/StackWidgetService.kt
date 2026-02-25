@@ -115,6 +115,7 @@ internal class StackRemoteViewsFactory(private val context: Context, intent: Int
     ): BaseWidget {
         return when (widgetType) {
             StackWidgetType.CHECKMARK -> CheckmarkWidget(context, widgetId, habit, true)
+            StackWidgetType.CURRENT_STREAK -> CurrentStreakWidget(context, widgetId, habit, true)
             StackWidgetType.FREQUENCY -> FrequencyWidget(
                 context,
                 widgetId,

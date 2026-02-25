@@ -140,6 +140,19 @@
                 android:resource="@xml/widget_checkmark_info" />
         </receiver>
 
+        <receiver
+            android:name=".widgets.CurrentStreakWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_current_streak_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_current_streak_info" />
+        </receiver>
+
         <service
             android:name=".widgets.StackWidgetService"
             android:exported="false"

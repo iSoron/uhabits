@@ -26,6 +26,11 @@ class StreakList {
     private val list = ArrayList<Streak>()
 
     @Synchronized
+    fun getAll(): List<Streak> {
+        return list.toList()
+    }
+
+    @Synchronized
     fun getBest(limit: Int): List<Streak> {
         list.sortWith { s1: Streak, s2: Streak -> s2.compareLonger(s1) }
         return list.subList(0, min(list.size, limit)).apply {
