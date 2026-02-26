@@ -19,6 +19,7 @@
 package org.isoron.uhabits.widgets.views
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -26,6 +27,8 @@ import android.widget.TextView
 import org.isoron.uhabits.R
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.StyledResources
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.utils.toFixedAndroidColor
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -65,8 +68,8 @@ class CurrentStreakWidgetView : HabitWidgetView {
         }
 
         streakBgIcon.typeface = InterfaceUtils.getFontAwesome(context)
-        streakBgIcon.setTextColor(fgColor)
-        streakBgIcon.alpha = 0.2f
+        streakBgIcon.setTextColor(getFireIconColor())
+        streakBgIcon.alpha = 0.6f // Increased alpha since we are using specific colors
 
         currentStreakText.text = currentStreak.toString()
         currentStreakText.setTextColor(fgColor)
@@ -76,6 +79,28 @@ class CurrentStreakWidgetView : HabitWidgetView {
 
         requestLayout()
         postInvalidate()
+    }
+
+    private fun getFireIconColor(): Int {
+        val red = PaletteColor(0).toFixedAndroidColor()
+        val deepOrange = PaletteColor(1).toFixedAndroidColor()
+        val orange = PaletteColor(2).toFixedAndroidColor()
+
+        val isWarmColor = activeColor == red || activeColor == deepOrange || activeColor == orange
+
+        return if (isWarmColor) {
+            if (isCompleted) {
+                Color.parseColor("#0D47A1") // Dark Blue
+            } else {
+                Color.parseColor("#BBDEFB") // Light Blue
+            }
+        } else {
+            if (isCompleted) {
+                Color.parseColor("#FF6D00") // Bright Orange
+            } else {
+                Color.parseColor("#FFE0B2") // Light Orange
+            }
+        }
     }
 
     override val innerLayoutId: Int
