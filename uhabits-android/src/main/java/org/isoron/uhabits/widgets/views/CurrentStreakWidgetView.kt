@@ -85,8 +85,12 @@ class CurrentStreakWidgetView : HabitWidgetView {
         val red = PaletteColor(0).toFixedAndroidColor()
         val deepOrange = PaletteColor(1).toFixedAndroidColor()
         val orange = PaletteColor(2).toFixedAndroidColor()
+        val amber = PaletteColor(3).toFixedAndroidColor()
+        val yellow = PaletteColor(4).toFixedAndroidColor()
+        val pink = PaletteColor(15).toFixedAndroidColor()
 
-        val isWarmColor = activeColor == red || activeColor == deepOrange || activeColor == orange
+        val isWarmColor = activeColor == red || activeColor == deepOrange || activeColor == orange || activeColor == amber
+                || activeColor == yellow || activeColor == pink
 
         return if (isWarmColor) {
             if (isCompleted) {

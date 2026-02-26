@@ -59,10 +59,14 @@ open class CurrentStreakWidget(
 
     private fun getCurrentStreak(): Int {
         val today = DateUtils.getTodayWithOffset()
-        val yesterday = today.minus(1)
         val latestStreak = habit.streaks.getAll().maxByOrNull { it.end } ?: return 0
 
-        return if (latestStreak.end == today || latestStreak.end == yesterday) {
+        // For non-daily habits, the streak doesn't necessarily end "yesterday".
+        // It's still active if it ended within the period defined by the frequency.
+        val intervalSize = habit.frequency.denominator
+        val daysSinceStreakEnded = latestStreak.end.daysUntil(today)
+
+        return if (daysSinceStreakEnded < intervalSize) {
             latestStreak.length
         } else {
             0
