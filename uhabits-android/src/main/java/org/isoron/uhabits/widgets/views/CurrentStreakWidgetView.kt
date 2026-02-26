@@ -20,6 +20,7 @@ package org.isoron.uhabits.widgets.views
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -55,24 +56,41 @@ class CurrentStreakWidgetView : HabitWidgetView {
         val res = StyledResources(context)
         val bgColor: Int
         val fgColor: Int
+        val textColor: Int
+        val fireIconColor: Int
         setShadowAlpha(0x4f)
 
         if (isCompleted) {
             bgColor = activeColor
             fgColor = res.getColor(R.attr.contrast0)
+            textColor = -1 // White
+            fireIconColor = getFireIconColor()
             backgroundPaint!!.color = bgColor
             frame!!.setBackgroundDrawable(background)
+            
+            // Oozing effect: High alpha + colored glow (Increased by 25% to 10f)
+            streakBgIcon.alpha = 0.9f
+            streakBgIcon.setShadowLayer(InterfaceUtils.dpToPixels(context, 10f), 0f, 0f, fireIconColor)
         } else {
             bgColor = res.getColor(R.attr.cardBgColor)
             fgColor = res.getColor(R.attr.contrast60)
+            textColor = -3355444 // LTGRAY
+            fireIconColor = -7829368 // GRAY
+
+            // Static state: Lower alpha + no glow
+            streakBgIcon.alpha = 0.6f
+            streakBgIcon.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
         }
 
         streakBgIcon.typeface = InterfaceUtils.getFontAwesome(context)
-        streakBgIcon.setTextColor(getFireIconColor())
-        streakBgIcon.alpha = 0.6f // Increased alpha since we are using specific colors
+        streakBgIcon.setTextColor(fireIconColor)
 
+        // Preservation of user design for the number
         currentStreakText.text = currentStreak.toString()
-        currentStreakText.setTextColor(fgColor)
+        currentStreakText.setTextColor(textColor)
+        currentStreakText.paint.style = Paint.Style.FILL_AND_STROKE
+        currentStreakText.paint.strokeWidth = InterfaceUtils.dpToPixels(context, 0.5f)
+        currentStreakText.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
 
         label.text = name
         label.setTextColor(fgColor)
@@ -82,28 +100,25 @@ class CurrentStreakWidgetView : HabitWidgetView {
     }
 
     private fun getFireIconColor(): Int {
-        val red = PaletteColor(0).toFixedAndroidColor()
         val deepOrange = PaletteColor(1).toFixedAndroidColor()
         val orange = PaletteColor(2).toFixedAndroidColor()
         val amber = PaletteColor(3).toFixedAndroidColor()
         val yellow = PaletteColor(4).toFixedAndroidColor()
+        val red = PaletteColor(0).toFixedAndroidColor()
         val pink = PaletteColor(15).toFixedAndroidColor()
 
-        val isWarmColor = activeColor == red || activeColor == deepOrange || activeColor == orange || activeColor == amber
-                || activeColor == yellow || activeColor == pink
+        val isCitrusTones =  activeColor == deepOrange || activeColor == orange || activeColor == amber
+                || activeColor == yellow
 
-        return if (isWarmColor) {
-            if (isCompleted) {
-                Color.parseColor("#0D47A1") // Dark Blue
-            } else {
-                Color.parseColor("#BBDEFB") // Light Blue
-            }
-        } else {
-            if (isCompleted) {
+        val isBerryTones = activeColor == red || activeColor == pink
+
+        return if (isCitrusTones) {
+                Color.parseColor("#B71C1C") // Dark Red (Impactful)
+        }
+        else if (isBerryTones) {
+                Color.parseColor("#0D47A1") // Blue
+        }else {
                 Color.parseColor("#FF6D00") // Bright Orange
-            } else {
-                Color.parseColor("#FFE0B2") // Light Orange
-            }
         }
     }
 
