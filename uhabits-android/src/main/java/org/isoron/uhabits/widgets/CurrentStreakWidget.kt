@@ -23,6 +23,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.view.View
 import org.isoron.platform.gui.toInt
+import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.ui.views.WidgetTheme
 import org.isoron.uhabits.core.utils.DateUtils
@@ -61,16 +62,18 @@ open class CurrentStreakWidget(
         val today = DateUtils.getTodayWithOffset()
         val latestStreak = habit.streaks.getAll().maxByOrNull { it.end } ?: return 0
 
-        // For non-daily habits, the streak doesn't necessarily end "yesterday".
-        // It's still active if it ended within the period defined by the frequency.
-        val intervalSize = habit.frequency.denominator
-        val daysSinceStreakEnded = latestStreak.end.daysUntil(today)
+        val yesterday = today.minus(1)
+        if (latestStreak.end.isOlderThan(yesterday)) return 0
 
-        return if (daysSinceStreakEnded < intervalSize) {
-            latestStreak.length
-        } else {
-            0
+        // If it's a daily habit, the standard length is correct (manual checkmarks)
+        if (habit.frequency.numerator == 1 && habit.frequency.denominator == 1) {
+            return latestStreak.length
         }
+
+        // For non-daily habits, count only manual checkmarks within the streak interval
+        return habit.computedEntries
+            .getByInterval(latestStreak.start, latestStreak.end)
+            .count { it.value == Entry.YES_MANUAL }
     }
 
     override fun buildView(): View {
