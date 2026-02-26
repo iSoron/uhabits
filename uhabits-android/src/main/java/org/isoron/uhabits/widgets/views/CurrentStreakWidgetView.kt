@@ -38,6 +38,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
     var currentStreak = 0
     var name: String? = null
     var isCompleted = false
+    var isAutoCompleted = false
 
     private lateinit var currentStreakText: TextView
     private lateinit var streakBgIcon: TextView
@@ -60,7 +61,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
         val fireIconColor: Int
         setShadowAlpha(0x4f)
 
-        if (isCompleted) {
+        if (isCompleted || isAutoCompleted) {
             bgColor = activeColor
             fgColor = res.getColor(R.attr.contrast0)
             textColor = -1 // White
@@ -68,9 +69,25 @@ class CurrentStreakWidgetView : HabitWidgetView {
             backgroundPaint!!.color = bgColor
             frame!!.setBackgroundDrawable(background)
             
-            // Oozing effect: High alpha + colored glow (Increased by 25% to 10f)
-            streakBgIcon.alpha = 0.9f
-            streakBgIcon.setShadowLayer(InterfaceUtils.dpToPixels(context, 10f), 0f, 0f, fireIconColor)
+            if (isAutoCompleted) {
+                // Hollow theme for Auto-Completed days
+                streakBgIcon.alpha = 0.9f
+                streakBgIcon.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
+                streakBgIcon.paint.style = Paint.Style.STROKE
+                streakBgIcon.paint.strokeWidth = InterfaceUtils.dpToPixels(context, 3f)
+                
+                currentStreakText.setTextColor(Color.WHITE)
+                currentStreakText.paint.style = Paint.Style.FILL
+                currentStreakText.paint.strokeWidth = InterfaceUtils.dpToPixels(context, 1f)
+            } else {
+                // Oozing effect for Manual-Completed days
+                streakBgIcon.alpha = 0.9f
+                streakBgIcon.setShadowLayer(InterfaceUtils.dpToPixels(context, 10f), 0f, 0f, fireIconColor)
+                streakBgIcon.paint.style = Paint.Style.FILL
+                
+                currentStreakText.setTextColor(textColor)
+                currentStreakText.paint.style = Paint.Style.FILL
+            }
         } else {
             bgColor = res.getColor(R.attr.cardBgColor)
             fgColor = res.getColor(R.attr.contrast60)
@@ -80,16 +97,16 @@ class CurrentStreakWidgetView : HabitWidgetView {
             // Static state: Lower alpha + no glow
             streakBgIcon.alpha = 0.6f
             streakBgIcon.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
+            streakBgIcon.paint.style = Paint.Style.FILL
+            
+            currentStreakText.setTextColor(textColor)
+            currentStreakText.paint.style = Paint.Style.FILL
         }
 
         streakBgIcon.typeface = InterfaceUtils.getFontAwesome(context)
         streakBgIcon.setTextColor(fireIconColor)
 
-        // Preservation of user design for the number
         currentStreakText.text = currentStreak.toString()
-        currentStreakText.setTextColor(textColor)
-        currentStreakText.paint.style = Paint.Style.FILL_AND_STROKE
-        currentStreakText.paint.strokeWidth = InterfaceUtils.dpToPixels(context, 0.5f)
         currentStreakText.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
 
         label.text = name
@@ -136,9 +153,11 @@ class CurrentStreakWidgetView : HabitWidgetView {
         val labelTextSize = min(0.175f * width, InterfaceUtils.getDimension(context, R.dimen.smallTextSize))
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, labelTextSize)
 
-        val streakTextSize = 0.4f * width
+        val streakTextSize = 0.25f * width
+        val fireIconSize = 0.48f * width
+        
         currentStreakText.setTextSize(TypedValue.COMPLEX_UNIT_PX, streakTextSize)
-        streakBgIcon.setTextSize(TypedValue.COMPLEX_UNIT_PX, streakTextSize * 1.5f)
+        streakBgIcon.setTextSize(TypedValue.COMPLEX_UNIT_PX, fireIconSize)
 
         super.onMeasure(
             MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),

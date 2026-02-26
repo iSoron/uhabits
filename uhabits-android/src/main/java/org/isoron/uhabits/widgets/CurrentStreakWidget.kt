@@ -54,8 +54,16 @@ open class CurrentStreakWidget(
             name = habit.name
             currentStreak = getCurrentStreak()
             isCompleted = habit.isCompletedToday()
+            isAutoCompleted = checkIsAutoCompleted()
             refresh()
         }
+    }
+
+    private fun checkIsAutoCompleted(): Boolean {
+        if (habit.frequency.numerator == 1 && habit.frequency.denominator == 1) return false
+        val today = DateUtils.getTodayWithOffset()
+        val value = habit.computedEntries.get(today).value
+        return value == Entry.YES_AUTO
     }
 
     private fun getCurrentStreak(): Int {

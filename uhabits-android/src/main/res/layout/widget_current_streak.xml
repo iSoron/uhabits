@@ -38,14 +38,16 @@
             android:gravity="center"
             android:text="@string/fa_fire"
             android:alpha="0.2"
-            android:layout_marginTop="8dp"
+            android:includeFontPadding="false"
+            android:layout_marginTop="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
 
         <TextView
             android:id="@+id/current_streak_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
