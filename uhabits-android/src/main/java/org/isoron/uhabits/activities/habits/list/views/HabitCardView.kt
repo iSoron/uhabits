@@ -36,13 +36,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
-import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
@@ -90,12 +90,8 @@ class HabitCardView(
             if (newHabit != null) copyAttributesFrom(newHabit)
         }
 
-    var score
-        get() = scoreRing.getPercentage().toDouble()
-        set(value) {
-            scoreRing.setPercentage(value.toFloat())
-            scoreRing.setPrecision(1.0f / 16)
-        }
+    @Suppress("unused")
+    var score: Double = 0.0
 
     var unit
         get() = numberPanel.units
@@ -127,20 +123,30 @@ class HabitCardView(
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
     private var label: TextView
-    private var scoreRing: RingView
+    private var streakLabel: TextView
+    private var flameIcon: TextView
 
     private var currentToggleTaskId = 0
 
     init {
-        scoreRing = RingView(context).apply {
-            val thickness = dp(2f)
+        streakLabel = TextView(context).apply {
             val margin = dp(8f).toInt()
-            val ringSize = dp(20f).toInt()
-            layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
+            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                setMargins(margin, 0, 0, 0)
+                gravity = Gravity.CENTER
+            }
+            textSize = 14f
+        }
+
+        flameIcon = TextView(context).apply {
+            val margin = dp(2f).toInt()
+            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
                 setMargins(margin, 0, margin, 0)
                 gravity = Gravity.CENTER
             }
-            setThickness(thickness)
+            typeface = InterfaceUtils.getFontAwesome(context)
+            text = context.getString(R.string.fa_fire)
+            textSize = 14f
         }
 
         label = TextView(context).apply {
@@ -189,7 +195,8 @@ class HabitCardView(
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             elevation = dp(1f)
 
-            addView(scoreRing)
+            addView(streakLabel)
+            addView(flameIcon)
             addView(label)
             addView(checkmarkPanel)
             addView(numberPanel)
@@ -276,15 +283,16 @@ class HabitCardView(
             text = h.name
             setTextColor(c)
         }
-        scoreRing.apply {
-            setColor(c)
-            val streak = h.streaks.getCurrentStreakCount(
-                h.originalEntries,
-                h.frequency,
-                DateUtils.getTodayWithOffset()
-            )
-            setText(streak.toString())
+        val streak = h.streaks.getCurrentStreakCount(
+            h.originalEntries,
+            h.frequency,
+            DateUtils.getTodayWithOffset()
+        )
+        streakLabel.apply {
+            text = streak.toString()
+            setTextColor(c)
         }
+        flameIcon.setTextColor(c)
         checkmarkPanel.apply {
             color = c
             visibility = when (h.isNumerical) {

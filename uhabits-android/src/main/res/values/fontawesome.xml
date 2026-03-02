@@ -129,7 +129,7 @@
 	<!--<string translatable="false" name="fa_asterisk">&#xf069;</string>-->
 	<!--<string translatable="false" name="fa_gift">&#xf06b;</string>-->
 	<!--<string translatable="false" name="fa_leaf">&#xf06c;</string>-->
-	<!--<string translatable="false" name="fa_fire">&#xf06d;</string>-->
+	<string translatable="false" name="fa_fire">&#xf06d;</string>
 	<!--<string translatable="false" name="fa_eye">&#xf06e;</string>-->
 	<!--<string translatable="false" name="fa_eye_slash">&#xf070;</string>-->
 	<!--<string translatable="false" name="fa_exclamation_triangle">&#xf071;</string>-->
