@@ -74,6 +74,20 @@
             android:title="@string/pref_animations_title"
             app:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="pref_show_score_wheel"
+            android:summary="@string/pref_show_score_wheel_description"
+            android:title="@string/pref_show_score_wheel_title"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pref_show_streak_view"
+            android:summary="@string/pref_show_streak_view_description"
+            android:title="@string/pref_show_streak_view_title"
+            app:iconSpaceReserved="false" />
+
         <ListPreference
                 android:defaultValue="255"
                 android:entries="@array/widget_opacity_entries"

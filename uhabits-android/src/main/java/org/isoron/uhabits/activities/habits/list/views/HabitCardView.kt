@@ -36,9 +36,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Timestamp
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
@@ -53,16 +55,26 @@ class HabitCardViewFactory
     @ActivityContext val context: Context,
     private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
     private val numberPanelFactory: NumberPanelViewFactory,
-    private val behavior: ListHabitsBehavior
+    private val behavior: ListHabitsBehavior,
+    private val preferences: Preferences
 ) {
-    fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
+    fun create() = HabitCardView(
+        context,
+        checkmarkPanelFactory,
+        numberPanelFactory,
+        behavior,
+        preferences.isScoreWheelEnabled,
+        preferences.isStreakViewEnabled
+    )
 }
 
 class HabitCardView(
     @ActivityContext context: Context,
     checkmarkPanelFactory: CheckmarkPanelViewFactory,
     numberPanelFactory: NumberPanelViewFactory,
-    private val behavior: ListHabitsBehavior
+    private val behavior: ListHabitsBehavior,
+    private val showScoreWheel: Boolean,
+    private val showStreakView: Boolean
 ) : FrameLayout(context),
     ModelObservable.Listener {
 
@@ -90,8 +102,14 @@ class HabitCardView(
             if (newHabit != null) copyAttributesFrom(newHabit)
         }
 
-    @Suppress("unused")
     var score: Double = 0.0
+        set(value) {
+            field = value
+            if (showScoreWheel) {
+                scoreRing.setPercentage(value.toFloat())
+                scoreRing.setPrecision(1.0f / 16)
+            }
+        }
 
     var unit
         get() = numberPanel.units
@@ -123,12 +141,25 @@ class HabitCardView(
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
     private var label: TextView
+    private var scoreRing: RingView
     private var streakLabel: TextView
     private var flameIcon: TextView
 
     private var currentToggleTaskId = 0
 
     init {
+        scoreRing = RingView(context).apply {
+            val thickness = dp(3f)
+            val margin = dp(8f).toInt()
+            val ringSize = dp(15f).toInt()
+            layoutParams = LinearLayout.LayoutParams(ringSize, ringSize).apply {
+                setMargins(margin, 0, margin, 0)
+                gravity = Gravity.CENTER
+            }
+            setThickness(thickness)
+            visibility = if (showScoreWheel) View.VISIBLE else View.GONE
+        }
+
         streakLabel = TextView(context).apply {
             val margin = dp(8f).toInt()
             layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
@@ -136,6 +167,7 @@ class HabitCardView(
                 gravity = Gravity.CENTER
             }
             textSize = 14f
+            visibility = if (showStreakView) View.VISIBLE else View.GONE
         }
 
         flameIcon = TextView(context).apply {
@@ -147,6 +179,7 @@ class HabitCardView(
             typeface = InterfaceUtils.getFontAwesome(context)
             text = context.getString(R.string.fa_fire)
             textSize = 14f
+            visibility = if (showStreakView) View.VISIBLE else View.GONE
         }
 
         label = TextView(context).apply {
@@ -195,6 +228,7 @@ class HabitCardView(
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
             elevation = dp(1f)
 
+            addView(scoreRing)
             addView(streakLabel)
             addView(flameIcon)
             addView(label)
@@ -283,16 +317,21 @@ class HabitCardView(
             text = h.name
             setTextColor(c)
         }
-        val streak = h.streaks.getCurrentStreakCount(
-            h.originalEntries,
-            h.frequency,
-            DateUtils.getTodayWithOffset()
-        )
-        streakLabel.apply {
-            text = streak.toString()
-            setTextColor(c)
+        if (showScoreWheel) {
+            scoreRing.setColor(c)
         }
-        flameIcon.setTextColor(c)
+        if (showStreakView) {
+            val streak = h.streaks.getCurrentStreakCount(
+                h.originalEntries,
+                h.frequency,
+                DateUtils.getTodayWithOffset()
+            )
+            streakLabel.apply {
+                text = streak.toString()
+                setTextColor(c)
+            }
+            flameIcon.setTextColor(c)
+        }
         checkmarkPanel.apply {
             color = c
             visibility = when (h.isNumerical) {

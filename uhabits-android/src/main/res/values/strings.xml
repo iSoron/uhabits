@@ -237,4 +237,8 @@
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
     <string name="pref_animations_title">Disable animations</string>
     <string name="pref_animations_description">Disable confetti animation after adding a checkmark.</string>
+    <string name="pref_show_score_wheel_title">Show score wheel</string>
+    <string name="pref_show_score_wheel_description">Display a score ring next to each habit.</string>
+    <string name="pref_show_streak_view_title">Show streak counter</string>
+    <string name="pref_show_streak_view_description">Display the current streak number and flame icon next to each habit.</string>
 </resources>
