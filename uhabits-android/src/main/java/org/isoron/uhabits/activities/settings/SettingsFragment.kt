@@ -114,7 +114,7 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     override fun onCreateRecyclerView(
         inflater: LayoutInflater?,
         parent: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): RecyclerView? {
         return super.onCreateRecyclerView(inflater, parent, savedInstanceState)
             .also { it.applyBottomInset() }

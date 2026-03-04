@@ -107,10 +107,8 @@ class CurrentStreakWidgetTest : BaseViewTest() {
         habit.frequency = Frequency(3, 7)
         habit.originalEntries.add(Entry(today.minus(1), Entry.YES_MANUAL))
         habit.recompute()
-        
         // Ensure today is YES_AUTO for this non-daily habit
         assertThat(habit.computedEntries.get(today).value, equalTo(Entry.YES_AUTO))
-        
         setupWidget()
         assertRenders(view, PATH + "render_auto.png")
     }

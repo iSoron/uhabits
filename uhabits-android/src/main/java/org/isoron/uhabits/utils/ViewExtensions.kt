@@ -215,7 +215,7 @@ fun View.drawNotesIndicator(
     canvas: Canvas,
     color: Int,
     size: Float,
-    notes: String,
+    notes: String
 ) {
     if (notes.isBlank()) return
 
