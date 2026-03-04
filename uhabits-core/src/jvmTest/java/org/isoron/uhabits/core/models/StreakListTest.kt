@@ -40,6 +40,16 @@ class StreakListTest : BaseUnitTest() {
     }
 
     @Test
+    fun testGetAll() {
+        val all = streaks.getAll()
+        assertThat(all.size, equalTo(4))
+        assertThat(all[0].length, equalTo(4))
+        assertThat(all[1].length, equalTo(3))
+        assertThat(all[2].length, equalTo(5))
+        assertThat(all[3].length, equalTo(6))
+    }
+
+    @Test
     @Throws(Exception::class)
     fun testGetBest() {
         var best = streaks.getBest(4)
