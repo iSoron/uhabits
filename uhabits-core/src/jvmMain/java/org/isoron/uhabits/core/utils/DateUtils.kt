@@ -198,6 +198,7 @@ abstract class DateUtils {
 
             return freq
         }
+
         @JvmStatic
         fun getMonthsSince1970(today: GregorianCalendar): Int {
             val start = GregorianCalendar(TimeZone.getTimeZone("GMT"))

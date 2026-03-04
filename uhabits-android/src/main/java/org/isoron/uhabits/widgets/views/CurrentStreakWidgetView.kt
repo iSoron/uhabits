@@ -26,9 +26,9 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.utils.InterfaceUtils
 import org.isoron.uhabits.utils.StyledResources
-import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.utils.toFixedAndroidColor
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -44,13 +44,9 @@ class CurrentStreakWidgetView : HabitWidgetView {
     private lateinit var streakBgIcon: TextView
     private lateinit var label: TextView
 
-    constructor(context: Context?) : super(context) {
-        init()
-    }
+    constructor(context: Context?) : super(context)
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        init()
-    }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
     fun refresh() {
         if (backgroundPaint == null || frame == null) return
@@ -68,14 +64,14 @@ class CurrentStreakWidgetView : HabitWidgetView {
             fireIconColor = getFireIconColor()
             backgroundPaint!!.color = bgColor
             frame!!.setBackgroundDrawable(background)
-            
+
             if (isAutoCompleted) {
                 // Hollow theme for Auto-Completed days
                 streakBgIcon.alpha = 0.9f
                 streakBgIcon.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
                 streakBgIcon.paint.style = Paint.Style.STROKE
                 streakBgIcon.paint.strokeWidth = InterfaceUtils.dpToPixels(context, 3f)
-                
+
                 currentStreakText.setTextColor(Color.WHITE)
                 currentStreakText.paint.style = Paint.Style.FILL
                 currentStreakText.paint.strokeWidth = InterfaceUtils.dpToPixels(context, 1f)
@@ -84,7 +80,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
                 streakBgIcon.alpha = 0.9f
                 streakBgIcon.setShadowLayer(InterfaceUtils.dpToPixels(context, 10f), 0f, 0f, fireIconColor)
                 streakBgIcon.paint.style = Paint.Style.FILL
-                
+
                 currentStreakText.setTextColor(textColor)
                 currentStreakText.paint.style = Paint.Style.FILL
             }
@@ -98,7 +94,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
             streakBgIcon.alpha = 0.6f
             streakBgIcon.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
             streakBgIcon.paint.style = Paint.Style.FILL
-            
+
             currentStreakText.setTextColor(textColor)
             currentStreakText.paint.style = Paint.Style.FILL
         }
@@ -124,18 +120,17 @@ class CurrentStreakWidgetView : HabitWidgetView {
         val red = PaletteColor(0).toFixedAndroidColor()
         val pink = PaletteColor(15).toFixedAndroidColor()
 
-        val isCitrusTones =  activeColor == deepOrange || activeColor == orange || activeColor == amber
-                || activeColor == yellow
+        val isCitrusTones = activeColor == deepOrange || activeColor == orange ||
+            activeColor == amber || activeColor == yellow
 
         val isBerryTones = activeColor == red || activeColor == pink
 
         return if (isCitrusTones) {
-                Color.parseColor("#B71C1C") // Dark Red (Impactful)
-        }
-        else if (isBerryTones) {
-                Color.parseColor("#0D47A1") // Blue
-        }else {
-                Color.parseColor("#FF6D00") // Bright Orange
+            Color.parseColor("#B71C1C") // Dark Red (Impactful)
+        } else if (isBerryTones) {
+            Color.parseColor("#0D47A1") // Blue
+        } else {
+            Color.parseColor("#FF6D00") // Bright Orange
         }
     }
 
@@ -155,7 +150,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
 
         val streakTextSize = 0.25f * width
         val fireIconSize = 0.48f * width
-        
+
         currentStreakText.setTextSize(TypedValue.COMPLEX_UNIT_PX, streakTextSize)
         streakBgIcon.setTextSize(TypedValue.COMPLEX_UNIT_PX, fireIconSize)
 
@@ -165,7 +160,8 @@ class CurrentStreakWidgetView : HabitWidgetView {
         )
     }
 
-    private fun init() {
+    override fun onFinishInflate() {
+        super.onFinishInflate()
         currentStreakText = findViewById<View>(R.id.current_streak_text) as TextView
         streakBgIcon = findViewById<View>(R.id.streak_bg_icon) as TextView
         label = findViewById<View>(R.id.label) as TextView
