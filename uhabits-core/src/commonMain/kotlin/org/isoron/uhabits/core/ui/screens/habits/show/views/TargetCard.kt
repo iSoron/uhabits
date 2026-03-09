@@ -25,6 +25,7 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.countSkippedDays
 import org.isoron.uhabits.core.models.groupedSum
+import org.isoron.uhabits.core.models.FrequencyMode
 import org.isoron.uhabits.core.ui.views.Theme
 import kotlin.math.max
 
@@ -105,26 +106,27 @@ class TargetCardPresenter {
             val monthsInYear = 12
 
             val denominator = habit.frequency.denominator
+            val isCalendarWeekly = habit.frequency.mode == FrequencyMode.WEEKS
             val dailyTarget = habit.targetValue / habit.frequency.denominator
 
             var targetToday = dailyTarget
             var targetThisWeek = when (denominator) {
-                7 -> habit.targetValue
+                7 -> if (isCalendarWeekly) habit.targetValue else dailyTarget * daysInWeek
                 else -> dailyTarget * daysInWeek
             }
             var targetThisMonth = when (denominator) {
                 30 -> habit.targetValue
-                7 -> habit.targetValue * weeksInMonth
+                7 -> if (isCalendarWeekly) habit.targetValue * weeksInMonth else dailyTarget * daysInMonth
                 else -> dailyTarget * daysInMonth
             }
             var targetThisQuarter = when (denominator) {
                 30 -> habit.targetValue * monthsInQuarter
-                7 -> habit.targetValue * weeksInQuarter
+                7 -> if (isCalendarWeekly) habit.targetValue * weeksInQuarter else dailyTarget * daysInQuarter
                 else -> dailyTarget * daysInQuarter
             }
             var targetThisYear = when (denominator) {
                 30 -> habit.targetValue * monthsInYear
-                7 -> habit.targetValue * weeksInYear
+                7 -> if (isCalendarWeekly) habit.targetValue * weeksInYear else dailyTarget * daysInYear
                 else -> dailyTarget * daysInYear
             }
 

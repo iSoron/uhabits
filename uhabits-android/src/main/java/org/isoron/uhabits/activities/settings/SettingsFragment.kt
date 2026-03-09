@@ -38,6 +38,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.JavaLocalDateFormatter
+import org.isoron.platform.time.setFirstWeekdayNumber
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.habits.list.RESULT_BUG_REPORT
@@ -188,6 +189,16 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         if (key == "pref_widget_opacity" && widgetUpdater != null) {
             Log.d("SettingsFragment", "updating widgets")
             widgetUpdater!!.updateWidgets()
+        }
+        if (key == "pref_first_weekday") {
+            setFirstWeekdayNumber(prefs.firstWeekdayInt)
+            val appContext = requireContext().applicationContext
+            if (appContext is HabitsApplication) {
+                for (habit in appContext.component.habitList) {
+                    habit.recompute()
+                }
+            }
+            widgetUpdater?.updateWidgets()
         }
         BackupManager.dataChanged("org.isoron.uhabits")
         updateWeekdayPreference()

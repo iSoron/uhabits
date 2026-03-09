@@ -20,12 +20,14 @@ package org.isoron.uhabits.core.models
 
 data class Frequency(
     var numerator: Int,
-    var denominator: Int
+    var denominator: Int,
+    var mode: FrequencyMode = FrequencyMode.DAYS
 ) {
     init {
         if (numerator == denominator) {
             denominator = 1
             numerator = 1
+            mode = FrequencyMode.DAYS
         }
     }
 
@@ -36,10 +38,10 @@ data class Frequency(
     companion object {
         val DAILY = Frequency(1, 1)
 
-        val THREE_TIMES_PER_WEEK = Frequency(3, 7)
+        val THREE_TIMES_PER_WEEK = Frequency(3, 7, FrequencyMode.WEEKS)
 
-        val TWO_TIMES_PER_WEEK = Frequency(2, 7)
+        val TWO_TIMES_PER_WEEK = Frequency(2, 7, FrequencyMode.WEEKS)
 
-        val WEEKLY = Frequency(1, 7)
+        val WEEKLY = Frequency(1, 7, FrequencyMode.WEEKS)
     }
 }

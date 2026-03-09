@@ -23,6 +23,7 @@ import org.isoron.platform.Synchronized
 import org.isoron.uhabits.core.database.HabitData
 import org.isoron.uhabits.core.database.HabitRepository
 import org.isoron.uhabits.core.models.Frequency
+import org.isoron.uhabits.core.models.FrequencyMode
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitMatcher
@@ -220,6 +221,7 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
                 question = habit.question,
                 freqNum = numerator,
                 freqDen = denominator,
+                freqMode = habit.frequency.mode.value,
                 color = habit.color.paletteIndex,
                 position = habit.position,
                 reminderHour = habit.reminder?.hour,
@@ -240,7 +242,7 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
             habit.name = data.name
             habit.description = data.description
             habit.question = data.question
-            habit.frequency = Frequency(data.freqNum, data.freqDen)
+            habit.frequency = Frequency(data.freqNum, data.freqDen, FrequencyMode.fromInt(data.freqMode))
             habit.color = PaletteColor(data.color)
             habit.isArchived = data.archived != 0
             habit.type = HabitType.fromInt(data.type)

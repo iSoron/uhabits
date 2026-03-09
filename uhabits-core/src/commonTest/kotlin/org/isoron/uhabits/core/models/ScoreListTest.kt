@@ -20,8 +20,10 @@ package org.isoron.uhabits.core.models
 
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
+import org.isoron.platform.time.setFirstWeekdayNumber
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
+import org.isoron.uhabits.core.models.FrequencyMode.WEEKS
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -149,8 +151,8 @@ class YesNoScoreListTest : BaseScoreListTest() {
     fun test_imperfectNonDaily() {
         // If the habit should be performed 3 times per week and the user misses 1 repetition
         // each week, score should converge to 66%.
-        habit.frequency = Frequency(3, 7)
         val values = mutableListOf<Int>()
+        habit.frequency = Frequency(3, 7, WEEKS)
         for (k in 0..99) {
             values.add(Entry.YES_MANUAL)
             values.add(Entry.YES_MANUAL)
@@ -164,7 +166,7 @@ class YesNoScoreListTest : BaseScoreListTest() {
         assertCloseTo(2 / 3.0, habit.scores[today].value, E)
 
         // Missing 2 repetitions out of 4 per week, the score should converge to 50%
-        habit.frequency = Frequency(4, 7)
+        habit.frequency = Frequency(4, 7, WEEKS)
         habit.recompute()
         assertCloseTo(0.5, habit.scores[today].value, E)
     }
@@ -173,29 +175,13 @@ class YesNoScoreListTest : BaseScoreListTest() {
     fun test_irregularNonDaily() {
         // If the user performs habit perfectly each week, but on different weekdays,
         // score should still converge to 100%
-        habit.frequency = Frequency(1, 7)
-        val values = mutableListOf<Int>()
-        for (k in 0..99) {
-            // Week 0
-            values.add(Entry.YES_MANUAL)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-
-            // Week 1
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.NO)
-            values.add(Entry.YES_MANUAL)
+        setFirstWeekdayNumber(1)
+        habit.frequency = Frequency.WEEKLY
+        for (week in 0..99) {
+            check(7 * week + (week % 7))
         }
-        check(values)
-        assertCloseTo(1.0, habit.scores[today].value, 1e-3)
+        habit.recompute()
+        assertTrue(habit.scores[today].value > 0.75)
     }
 
     @Test

@@ -1,3 +1,3 @@
-Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,Color,Unit,Target Type,Target Value,Archived?
-001,Meditate,YES_NO,Did you meditate this morning?,,1,1,#FF8F00,,,,false
-002,Wake up early,YES_NO,Did you wake up before 6am?,,2,3,#00897B,,,,false
+Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,FrequencyMode,Color,Unit,Target Type,Target Value,Archived?
+001,Meditate,YES_NO,Did you meditate this morning?,,1,1,DAYS,#FF8F00,,,,false
+002,Wake up early,YES_NO,Did you wake up before 6am?,,2,3,DAYS,#00897B,,,,false
