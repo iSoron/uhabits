@@ -44,9 +44,13 @@ class CurrentStreakWidgetView : HabitWidgetView {
     private lateinit var streakBgIcon: TextView
     private lateinit var label: TextView
 
-    constructor(context: Context?) : super(context)
+    constructor(context: Context?) : super(context) {
+        init()
+    }
 
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+        init()
+    }
 
     fun refresh() {
         if (backgroundPaint == null || frame == null) return
@@ -160,8 +164,7 @@ class CurrentStreakWidgetView : HabitWidgetView {
         )
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
+    private fun init() {
         currentStreakText = findViewById<View>(R.id.current_streak_text) as TextView
         streakBgIcon = findViewById<View>(R.id.streak_bg_icon) as TextView
         label = findViewById<View>(R.id.label) as TextView
