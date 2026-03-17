@@ -30,6 +30,7 @@
 	<string translatable="false" name="fa_exclamation_circle">&#xf06a;</string>
 	<string translatable="false" name="fa_question">&#xf128;</string>
 	<string translatable="false" name="fa_umbrella_beach">&#xf5ca;</string>
+	<string translatable="false" name="fa_fire">&#xf06d;</string>
 
     <!--<string translatable="false" name="fa_glass">&#xf000;</string>-->
 	<!--<string translatable="false" name="fa_music">&#xf001;</string>-->
@@ -163,7 +164,7 @@
 	<!--<string translatable="false" name="fa_github_square">&#xf092;</string>-->
 	<!--<string translatable="false" name="fa_upload">&#xf093;</string>-->
 	<!--<string translatable="false" name="fa_lemon_o">&#xf094;</string>-->
-	<!--<string translatable="false" name="fa_phone">&#xf095;</string>-->
+	<!--<string translatable="false" name="phone">&#xf095;</string>-->
 	<!--<string translatable="false" name="fa_square_o">&#xf096;</string>-->
 	<!--<string translatable="false" name="fa_bookmark_o">&#xf097;</string>-->
 	<!--<string translatable="false" name="fa_phone_square">&#xf098;</string>-->

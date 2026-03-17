@@ -198,7 +198,7 @@ class CheckmarkButtonView(
                 canvas = canvas,
                 color = color,
                 size = em,
-                notes = notes,
+                notes = notes
             )
         }
     }
