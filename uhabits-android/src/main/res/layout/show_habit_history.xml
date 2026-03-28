@@ -27,6 +27,7 @@
     <TextView
         android:id="@+id/title"
         style="@style/CardHeader"
+        android:padding="6dp"
         android:text="@string/calendar"/>
 
     <org.isoron.platform.gui.AndroidDataView

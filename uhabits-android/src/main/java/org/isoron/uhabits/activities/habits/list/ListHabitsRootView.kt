@@ -85,7 +85,8 @@ class ListHabitsRootView @Inject constructor(
         findViewById<View>(org.isoron.uhabits.R.id.edit)?.visibility = GONE
         val p = dp(16f).toInt()
         val pt = dp(8f).toInt()
-        setPadding(p, pt, p, 0)
+        val pb = dp(56f).toInt()
+        setPadding(p, pt, p, pb)
     }
 
     init {
