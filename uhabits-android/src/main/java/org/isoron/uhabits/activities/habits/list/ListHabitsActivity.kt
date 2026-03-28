@@ -27,6 +27,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
@@ -40,6 +41,7 @@ import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
@@ -60,7 +62,7 @@ import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dismissCurrentDialog
 import org.isoron.uhabits.utils.restartWithFade
 
-class ListHabitsActivity : AppCompatActivity(), Preferences.Listener, CommandRunner.Listener {
+class ListHabitsActivity : AppCompatActivity(), Preferences.Listener, CommandRunner.Listener, ModelObservable.Listener {
 
     var pureBlack: Boolean = false
     lateinit var appComponent: HabitsApplicationComponent
@@ -90,7 +92,15 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener, CommandRun
         menu.behavior.onPreferencesChanged()
     }
 
+    override fun onShowMainCalendarChanged() {
+        updateAggregatedHistory()
+    }
+
     override fun onCommandFinished(command: Command) {
+        updateAggregatedHistory()
+    }
+
+    override fun onModelChange() {
         updateAggregatedHistory()
     }
 
@@ -113,6 +123,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener, CommandRun
         rootView = component.listHabitsRootView
         screen = component.listHabitsScreen
         adapter = component.habitCardListAdapter
+        adapter.observable.addListener(this)
         taskRunner = appComponent.taskRunner
         menu = component.listHabitsMenu
         Thread.setDefaultUncaughtExceptionHandler(BaseExceptionHandler(this))
@@ -122,6 +133,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener, CommandRun
     }
 
     override fun onDestroy() {
+        adapter.observable.removeListener(this)
         appComponent.commandRunner.removeListener(this)
         prefs.removeListener(this)
         super.onDestroy()
@@ -177,6 +189,10 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener, CommandRun
     }
 
     private fun updateAggregatedHistory() {
+        val isEnabled = prefs.isShowMainCalendarEnabled
+        rootView.historyCard.visibility = if (isEnabled) View.VISIBLE else View.GONE
+        if (!isEnabled) return
+
         scope.launch {
             val habits = appComponent.habitList.toList()
             if (habits.isEmpty()) return@launch

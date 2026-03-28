@@ -64,12 +64,12 @@ const val MAX_CHECKMARK_COUNT = 60
 class ListHabitsRootView @Inject constructor(
     @ActivityContext context: Context,
     hintListFactory: HintListFactory,
-    preferences: Preferences,
+    private val preferences: Preferences,
     midnightTimer: MidnightTimer,
     runner: TaskRunner,
     private val listAdapter: HabitCardListAdapter,
     habitCardListViewFactory: HabitCardListViewFactory
-) : FrameLayout(context), ModelObservable.Listener {
+) : FrameLayout(context), ModelObservable.Listener, Preferences.Listener {
 
     val listView: HabitCardListView = habitCardListViewFactory.create()
     val llEmpty = EmptyListView(context)
@@ -82,6 +82,10 @@ class ListHabitsRootView @Inject constructor(
     val header = HeaderView(context, preferences, midnightTimer)
     val historyCard = HistoryCardView(ContextThemeWrapper(context, R.style.Card)).apply {
         id = View.generateViewId()
+        findViewById<View>(org.isoron.uhabits.R.id.edit)?.visibility = GONE
+        val p = dp(16f).toInt()
+        val pt = dp(8f).toInt()
+        setPadding(p, pt, p, 0)
     }
 
     init {
@@ -115,6 +119,7 @@ class ListHabitsRootView @Inject constructor(
         )
         addView(rootView, MATCH_PARENT, MATCH_PARENT)
         listAdapter.setListView(listView)
+        updateCalendarVisibility()
     }
 
     override fun onModelChange() {
@@ -135,11 +140,36 @@ class ListHabitsRootView @Inject constructor(
         super.onAttachedToWindow()
         setupControllers()
         listAdapter.observable.addListener(this)
+        preferences.addListener(this)
     }
 
     override fun onDetachedFromWindow() {
+        preferences.removeListener(this)
         listAdapter.observable.removeListener(this)
         super.onDetachedFromWindow()
+    }
+
+    override fun onShowMainCalendarChanged() {
+        post { updateCalendarVisibility() }
+    }
+
+    private fun updateCalendarVisibility() {
+        val isEnabled = preferences.isShowMainCalendarEnabled
+        historyCard.visibility = if (isEnabled) VISIBLE else GONE
+
+        val listViewParams = listView.layoutParams as RelativeLayout.LayoutParams
+        val llEmptyParams = llEmpty.layoutParams as RelativeLayout.LayoutParams
+
+        if (isEnabled) {
+            listViewParams.addRule(RelativeLayout.ABOVE, historyCard.id)
+            llEmptyParams.addRule(RelativeLayout.ABOVE, historyCard.id)
+        } else {
+            listViewParams.removeRule(RelativeLayout.ABOVE)
+            llEmptyParams.removeRule(RelativeLayout.ABOVE)
+        }
+
+        listView.requestLayout()
+        llEmpty.requestLayout()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
