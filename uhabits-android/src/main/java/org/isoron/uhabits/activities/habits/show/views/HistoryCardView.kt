@@ -30,7 +30,10 @@ import org.isoron.uhabits.core.ui.views.HistoryChart
 import org.isoron.uhabits.databinding.ShowHabitHistoryBinding
 import java.util.Locale
 
-class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class HistoryCardView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : LinearLayout(context, attrs) {
 
     private var binding = ShowHabitHistoryBinding.inflate(LayoutInflater.from(context), this)
 
@@ -45,7 +48,8 @@ class HistoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             series = state.series,
             defaultSquare = state.defaultSquare,
             notesIndicators = state.notesIndicators,
-            firstWeekday = state.firstWeekday
+            firstWeekday = state.firstWeekday,
+            colors = state.colors
         )
         binding.chart.postInvalidate()
     }

@@ -47,7 +47,8 @@ class HistoryChart(
     var theme: Theme,
     var today: LocalDate,
     var onDateClickedListener: OnDateClickedListener = object : OnDateClickedListener {},
-    var padding: Double = 0.0
+    var padding: Double = 0.0,
+    var colors: List<PaletteColor?>? = null
 ) : DataView {
 
     enum class Square {
@@ -208,7 +209,11 @@ class HistoryChart(
         val hasNotes = if (offset >= notesIndicators.size) false else notesIndicators[offset]
         val squareColor: Color
         val circleColor: Color
-        val color = theme.color(paletteColor.paletteIndex)
+        val color = if (colors != null && offset < colors!!.size && colors!![offset] != null) {
+            theme.color(colors!![offset]!!.paletteIndex)
+        } else {
+            theme.color(paletteColor.paletteIndex)
+        }
         squareColor = when (value) {
             Square.ON -> {
                 color

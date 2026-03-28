@@ -20,7 +20,10 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.content.Context
+import android.view.ContextThemeWrapper
+import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import nl.dionsegijn.konfetti.xml.KonfettiView
@@ -33,6 +36,7 @@ import org.isoron.uhabits.activities.habits.list.views.HabitCardListView
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListViewFactory
 import org.isoron.uhabits.activities.habits.list.views.HeaderView
 import org.isoron.uhabits.activities.habits.list.views.HintView
+import org.isoron.uhabits.activities.habits.show.views.HistoryCardView
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
@@ -76,6 +80,9 @@ class ListHabitsRootView @Inject constructor(
     val progressBar = TaskProgressBar(context, runner)
     val hintView: HintView
     val header = HeaderView(context, preferences, midnightTimer)
+    val historyCard = HistoryCardView(ContextThemeWrapper(context, R.style.Card)).apply {
+        id = View.generateViewId()
+    }
 
     init {
         val hints = resources.getStringArray(R.array.hints)
@@ -87,12 +94,17 @@ class ListHabitsRootView @Inject constructor(
             addAtTop(konfettiView)
             addAtTop(tbar)
             addBelow(header, tbar)
-            addBelow(listView, header, height = MATCH_PARENT)
-            addBelow(llEmpty, header, height = MATCH_PARENT)
+            addAtBottom(hintView)
+            addAtBottom(historyCard)
+            addBelow(listView, header, height = MATCH_PARENT) {
+                it.addRule(RelativeLayout.ABOVE, historyCard.id)
+            }
+            addBelow(llEmpty, header, height = MATCH_PARENT) {
+                it.addRule(RelativeLayout.ABOVE, historyCard.id)
+            }
             addBelow(progressBar, header) {
                 it.topMargin = dp(-6.0f).toInt()
             }
-            addAtBottom(hintView)
         }
         rootView.setupToolbar(
             toolbar = tbar,

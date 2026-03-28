@@ -32,13 +32,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.isoron.uhabits.BaseExceptionHandler
 import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
+import org.isoron.uhabits.core.commands.Command
+import org.isoron.uhabits.core.commands.CommandRunner
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.NumericalHabitType
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_DARK
+import org.isoron.uhabits.core.ui.screens.habits.show.views.HistoryCardState
+import org.isoron.uhabits.core.ui.views.HistoryChart
+import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.core.utils.MidnightTimer
 import org.isoron.uhabits.database.AutoBackup
 import org.isoron.uhabits.inject.ActivityContextModule
@@ -46,10 +56,11 @@ import org.isoron.uhabits.inject.DaggerHabitsActivityComponent
 import org.isoron.uhabits.inject.HabitsActivityComponent
 import org.isoron.uhabits.inject.HabitsApplicationComponent
 import org.isoron.uhabits.utils.applyRootViewInsets
+import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dismissCurrentDialog
 import org.isoron.uhabits.utils.restartWithFade
 
-class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
+class ListHabitsActivity : AppCompatActivity(), Preferences.Listener, CommandRunner.Listener {
 
     var pureBlack: Boolean = false
     lateinit var appComponent: HabitsApplicationComponent
@@ -79,6 +90,10 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         menu.behavior.onPreferencesChanged()
     }
 
+    override fun onCommandFinished(command: Command) {
+        updateAggregatedHistory()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -92,6 +107,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
 
         prefs = appComponent.preferences
         prefs.addListener(this)
+        appComponent.commandRunner.addListener(this)
         pureBlack = prefs.isPureBlackEnabled
         midnightTimer = appComponent.midnightTimer
         rootView = component.listHabitsRootView
@@ -103,6 +119,12 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         component.listHabitsBehavior.onStartup()
         rootView.applyRootViewInsets()
         setContentView(rootView)
+    }
+
+    override fun onDestroy() {
+        appComponent.commandRunner.removeListener(this)
+        prefs.removeListener(this)
+        super.onDestroy()
     }
 
     override fun onPause() {
@@ -150,7 +172,64 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
             restartWithFade(ListHabitsActivity::class.java)
         }
         parseIntents()
+        updateAggregatedHistory()
         super.onResume()
+    }
+
+    private fun updateAggregatedHistory() {
+        scope.launch {
+            val habits = appComponent.habitList.toList()
+            if (habits.isEmpty()) return@launch
+
+            val today = DateUtils.getTodayWithOffset()
+            val oldest = habits.mapNotNull { it.computedEntries.getKnown().lastOrNull()?.timestamp }
+                .minOrNull() ?: today
+
+            val dateRangeCount = oldest.daysUntil(today) + 1
+            val aggregatedSeries = MutableList(dateRangeCount) { HistoryChart.Square.OFF }
+            val notesIndicators = MutableList(dateRangeCount) { false }
+            val aggregatedColors = MutableList<PaletteColor?>(dateRangeCount) { null }
+
+            for (habit in habits) {
+                val entries = habit.computedEntries.getByInterval(oldest, today)
+                entries.forEachIndexed { index, entry ->
+                    if (aggregatedSeries[index] == HistoryChart.Square.ON) return@forEachIndexed
+
+                    val isCompleted = if (habit.isNumerical) {
+                        when {
+                            habit.targetType == NumericalHabitType.AT_MOST && entry.value / 1000.0 <= habit.targetValue -> true
+                            habit.targetType == NumericalHabitType.AT_LEAST && entry.value / 1000.0 >= habit.targetValue -> true
+                            else -> false
+                        }
+                    } else {
+                        entry.value == Entry.YES_MANUAL || entry.value == Entry.YES_AUTO
+                    }
+
+                    if (isCompleted) {
+                        aggregatedSeries[index] = HistoryChart.Square.ON
+                        aggregatedColors[index] = habit.color
+                    } else if (entry.value == Entry.SKIP && aggregatedSeries[index] == HistoryChart.Square.OFF) {
+                        aggregatedSeries[index] = HistoryChart.Square.HATCHED
+                    }
+
+                    if (entry.notes.isNotBlank()) {
+                        notesIndicators[index] = true
+                    }
+                }
+            }
+
+            val state = HistoryCardState(
+                color = PaletteColor(11), // Blue color for title
+                firstWeekday = prefs.firstWeekday,
+                series = aggregatedSeries,
+                defaultSquare = HistoryChart.Square.OFF,
+                notesIndicators = notesIndicators,
+                theme = rootView.currentTheme(),
+                today = today.toLocalDate(),
+                colors = aggregatedColors
+            )
+            rootView.historyCard.setState(state)
+        }
     }
 
     private fun scheduleReminders() {

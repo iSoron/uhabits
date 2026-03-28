@@ -53,7 +53,8 @@ data class HistoryCardState(
     val defaultSquare: HistoryChart.Square,
     val notesIndicators: List<Boolean>,
     val theme: Theme,
-    val today: LocalDate
+    val today: LocalDate,
+    val colors: List<PaletteColor?>? = null
 )
 
 class HistoryCardPresenter(

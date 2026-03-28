@@ -8,10 +8,16 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
+        mavenCentral()
     }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
+
 include(":uhabits-android", ":uhabits-core")
+
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
@@ -28,5 +34,3 @@ dependencyResolutionManagement {
         maven(url = "https://jitpack.io")
     }
 }
-
-include(":uhabits-android", ":uhabits-core")
