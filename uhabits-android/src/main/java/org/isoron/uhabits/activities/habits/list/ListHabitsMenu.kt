@@ -20,11 +20,14 @@
 package org.isoron.uhabits.activities.habits.list
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import me.tatarka.inject.annotations.Inject
+import androidx.appcompat.widget.SearchView
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.preferences.Preferences
@@ -43,10 +46,32 @@ class ListHabitsMenu(
     val behavior: ListHabitsMenuBehavior
 ) {
     val activity = (context as AppCompatActivity)
+    private val handler = Handler(Looper.getMainLooper())
+    private var searchDebounce: Runnable? = null
 
     fun onCreate(inflater: MenuInflater, menu: Menu) {
         menu.clear()
         inflater.inflate(R.menu.list_habits, menu)
+        val searchView = menu.findItem(R.id.actionSearch).actionView as SearchView
+        searchView.queryHint = activity.getString(R.string.search)
+        if (behavior.searchQuery.isNotEmpty()) {
+            searchView.isIconified = false
+            searchView.setQuery(behavior.searchQuery, false)
+        }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String) = false
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchDebounce?.let { handler.removeCallbacks(it) }
+                searchDebounce = Runnable { behavior.onSearchQueryChanged(newText) }
+                handler.postDelayed(searchDebounce!!, SEARCH_DEBOUNCE_MS)
+                return true
+            }
+        })
+        searchView.setOnCloseListener {
+            searchDebounce?.let { handler.removeCallbacks(it) }
+            behavior.onSearchQueryChanged("")
+            false
+        }
         val nightModeItem = menu.findItem(R.id.actionToggleNightMode)
         val hideArchivedItem = menu.findItem(R.id.actionHideArchived)
         val hideCompletedItem = menu.findItem(R.id.actionHideCompleted)
@@ -81,6 +106,10 @@ class ListHabitsMenu(
             HabitList.Order.BY_STATUS_DESC -> sortStatus.icon = arrowUp
             HabitList.Order.BY_POSITION -> sortManual.icon = arrowUp
         }
+    }
+
+    companion object {
+        private const val SEARCH_DEBOUNCE_MS = 150L
     }
 
     fun onItemSelected(item: MenuItem): Boolean {

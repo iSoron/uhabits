@@ -23,6 +23,12 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/actionSearch"
+        android:title="@string/search"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+    <item
         android:id="@+id/actionCreateHabit"
         android:enabled="true"
         android:icon="?iconAdd"

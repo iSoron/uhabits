@@ -176,4 +176,37 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         verify(themeSwitcher).toggleNightMode()
         verify(screen).applyTheme()
     }
+
+    @Test
+    fun testOnSearchQueryChanged() {
+        behavior.onSearchQueryChanged("yoga")
+        verify(adapter).setFilter(matcherCaptor.capture())
+        verify(adapter).refresh()
+        assertThat(matcherCaptor.lastValue.searchQuery, equalTo("yoga"))
+    }
+
+    @Test
+    fun testSearchQueryClearedOnEmpty() {
+        behavior.onSearchQueryChanged("")
+        verify(adapter).setFilter(matcherCaptor.capture())
+        assertThat(matcherCaptor.lastValue.searchQuery, equalTo(""))
+    }
+
+    @Test
+    fun testSearchCoexistsWithArchivedFilter() {
+        behavior.onToggleShowArchived()
+        clearInvocations(adapter)
+        behavior.onSearchQueryChanged("yoga")
+        verify(adapter).setFilter(matcherCaptor.capture())
+        assertTrue(matcherCaptor.lastValue.isArchivedAllowed)
+        assertThat(matcherCaptor.lastValue.searchQuery, equalTo("yoga"))
+    }
+
+    @Test
+    fun testSearchQueryExposedForMenuRestore() {
+        behavior.onSearchQueryChanged("yoga")
+        assertThat(behavior.searchQuery, equalTo("yoga"))
+        behavior.onSearchQueryChanged("")
+        assertThat(behavior.searchQuery, equalTo(""))
+    }
 }

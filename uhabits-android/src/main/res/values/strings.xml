@@ -162,6 +162,7 @@
     <string name="reminder_sound">Reminder sound</string>
     <string name="none">None</string>
     <string name="filter">Filter</string>
+    <string name="search">Search</string>
     <string name="hide_completed">Hide completed</string>
     <string name="hide_entered">Hide entered</string>
     <string name="hide_archived">Hide archived</string>

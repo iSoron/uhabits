@@ -33,6 +33,8 @@ class ListHabitsMenuBehavior(
 ) {
     private var showCompleted: Boolean
     private var showArchived: Boolean
+    var searchQuery: String = ""
+        private set
 
     fun onCreateHabit() {
         screen.showSelectHabitTypeDialog()
@@ -48,6 +50,11 @@ class ListHabitsMenuBehavior(
 
     fun onViewSettings() {
         screen.showSettingsScreen()
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        searchQuery = query
+        updateAdapterFilter()
     }
 
     fun onToggleShowArchived() {
@@ -107,14 +114,16 @@ class ListHabitsMenuBehavior(
             adapter.setFilter(
                 HabitMatcher(
                     isArchivedAllowed = showArchived,
-                    isEnteredAllowed = showCompleted
+                    isEnteredAllowed = showCompleted,
+                    searchQuery = searchQuery
                 )
             )
         } else {
             adapter.setFilter(
                 HabitMatcher(
                     isArchivedAllowed = showArchived,
-                    isCompletedAllowed = showCompleted
+                    isCompletedAllowed = showCompleted,
+                    searchQuery = searchQuery
                 )
             )
         }
