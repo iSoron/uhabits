@@ -83,6 +83,10 @@ android {
         sourceCompatibility(JavaVersion.VERSION_17)
     }
 
+    testOptions {
+        animationsDisabled = true
+    }
+
     kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
     buildFeatures.viewBinding = true
     lint.abortOnError = false
