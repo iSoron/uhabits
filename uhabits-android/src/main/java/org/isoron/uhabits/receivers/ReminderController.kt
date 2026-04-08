@@ -29,7 +29,7 @@ import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.reminders.ReminderScheduler
 import org.isoron.uhabits.core.ui.NotificationTray
-import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.uhabits.core.utils.DateUtils.getUpcomingTimeInMillis
 import org.isoron.uhabits.notifications.SnoozeDelayPickerActivity
 
 @Inject
@@ -80,7 +80,7 @@ class ReminderController(
     }
 
     fun onSnoozeTimePicked(habit: Habit?, hour: Int, minute: Int) {
-        val time: Long = DateUtils.getUpcomingTimeInMillis(hour, minute)
+        val time: Long = getUpcomingTimeInMillis(hour, minute)
         reminderScheduler.scheduleAtTime(habit!!, time)
         notificationTray.cancel(habit)
     }

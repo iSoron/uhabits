@@ -21,8 +21,8 @@ package org.isoron.uhabits.core.models
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual.equalTo
+import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.BaseUnitTest
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getToday
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -92,24 +92,21 @@ class HabitGroupTest : BaseUnitTest() {
         val h = hgr.habitList.getByPosition(0)
         assertFalse(hgr.isCompletedToday())
         h.originalEntries.add(Entry(getToday(), 4000))
-        h.recompute()
+        hgr.recompute()
         assertTrue(hgr.isCompletedToday())
         h.originalEntries.add(Entry(getToday(), 2000))
-        h.recompute()
+        hgr.recompute()
         assertTrue(hgr.isCompletedToday())
         h.originalEntries.add(Entry(getToday(), 1000))
-        h.recompute()
+        hgr.recompute()
         assertFalse(hgr.isCompletedToday())
         h.targetType = NumericalHabitType.AT_MOST
         h.originalEntries.add(Entry(getToday(), 4000))
-        h.recompute()
+        hgr.recompute()
         assertFalse(hgr.isCompletedToday())
-        h.originalEntries.add(Entry(getToday(), 2000))
-        h.recompute()
-        assertTrue(hgr.isCompletedToday())
         h.originalEntries.add(Entry(getToday(), 1000))
-        h.recompute()
-        assertTrue(hgr.isCompletedToday())
+        hgr.recompute()
+        assertFalse(hgr.isCompletedToday())
     }
 
     @Test

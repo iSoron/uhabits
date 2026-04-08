@@ -60,7 +60,7 @@ class OverviewCardPresenter {
         }
 
         fun buildState(habitGroup: HabitGroup, theme: Theme): OverviewCardState {
-            val today = DateUtils.getTodayWithOffset()
+            val today = getToday()
             val lastMonth = today.minus(30)
             val lastYear = today.minus(365)
             val scores = habitGroup.scores

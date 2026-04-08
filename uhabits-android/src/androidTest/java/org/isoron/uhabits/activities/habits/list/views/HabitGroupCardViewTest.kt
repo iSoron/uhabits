@@ -21,10 +21,10 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.getToday
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.models.Timestamp
-import org.isoron.uhabits.core.utils.DateUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -34,14 +34,14 @@ class HabitGroupCardViewTest : BaseViewTest() {
 
     val PATH = "habits/list/HabitGroupCardView"
     private lateinit var view: HabitGroupCardView
-    private lateinit var today: Timestamp
+    private lateinit var today: LocalDate
 
     override fun setUp() {
         super.setUp()
         setTheme(R.style.AppBaseTheme)
 
         val habitGroup1 = groupFixtures.createGroupWithLongHabits()
-        today = DateUtils.getTodayWithOffset()
+        today = getToday()
 
         view = component.getHabitCardViewFactory().createHabitGroupCard().apply {
             habitGroup = habitGroup1

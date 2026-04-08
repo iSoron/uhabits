@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.models
 
+import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -116,8 +117,8 @@ data class Habit(
         )
     }
 
-    fun firstEntryDate(): Timestamp {
-        return computedEntries.getKnown().lastOrNull()?.timestamp ?: DateUtils.getTodayWithOffset()
+    fun firstEntryDate(): LocalDate {
+        return computedEntries.getKnown().lastOrNull()?.date ?: getToday()
     }
 
     fun copyFrom(other: Habit) {

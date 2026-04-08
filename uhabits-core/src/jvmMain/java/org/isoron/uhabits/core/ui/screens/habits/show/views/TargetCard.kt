@@ -19,13 +19,11 @@
 
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
-import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.TruncateField
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.PaletteColor
-import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.models.countSkippedDays
 import org.isoron.uhabits.core.models.groupedSum
 import org.isoron.uhabits.core.ui.views.Theme
@@ -167,17 +165,6 @@ class TargetCardPresenter {
             )
         }
 
-        private fun getYearRange(firstWeekday: Int): Pair<LocalDate, LocalDate> {
-            val today = getToday()
-            val yearBegin = today.truncate(TruncateField.YEAR, firstWeekday)
-            val cali = yearBegin.toCalendar()
-            cali.add(Calendar.YEAR, 1)
-            var newest = Timestamp(cali)
-            val thisWeek = today.truncate(TruncateField.WEEK_NUMBER, firstWeekday)
-            if (thisWeek.daysUntil(newest) < 7) newest = thisWeek.plus(7)
-            return Pair(yearBegin, newest)
-        }
-
         fun buildState(
             habitGroup: HabitGroup,
             firstWeekday: Int,
@@ -227,16 +214,5 @@ class TargetCardPresenter {
                 theme = theme
             )
         }
-    }
-
-    private fun getYearRange(firstWeekday: Int): Pair<LocalDate, LocalDate> {
-        val today = getToday()
-        val yearBegin = today.truncate(TruncateField.YEAR, firstWeekday)
-        val cali = yearBegin.toCalendar()
-        cali.add(Calendar.YEAR, 1)
-        var newest = Timestamp(cali)
-        val thisWeek = today.truncate(TruncateField.WEEK_NUMBER, firstWeekday)
-        if (thisWeek.daysUntil(newest) < 7) newest = thisWeek.plus(7)
-        return Pair(yearBegin, newest)
     }
 }

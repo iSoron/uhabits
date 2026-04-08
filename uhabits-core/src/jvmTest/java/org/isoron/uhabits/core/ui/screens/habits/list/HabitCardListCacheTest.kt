@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.commands.DeleteHabitGroupsCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.models.Entry
-import org.isoron.uhabits.core.models.Timestamp
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.reset

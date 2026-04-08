@@ -97,7 +97,7 @@ class ShowHabitGroupPresenter(
                 ),
                 frequency = FrequencyCardPresenter.buildState(
                     habitGroup = habitGroup,
-                    firstWeekday = preferences.firstWeekdayInt,
+                    firstWeekday = preferences.firstWeekday,
                     theme = theme
                 ),
                 bar = BarCardPresenter.buildState(

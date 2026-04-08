@@ -84,19 +84,11 @@ class ReminderScheduler(
             sys.log("ReminderScheduler", "habit group=" + habitGroup.id + " has no reminder. Skipping.")
             return
         }
-        var reminderTime = Objects.requireNonNull(habitGroup.reminder)!!.timeInMillis
+        var reminderTime = habitGroup.reminder!!.timeInMillis
         val snoozeReminderTime = widgetPreferences.getSnoozeTime(habitGroup.id!!)
         if (snoozeReminderTime != 0L) {
-            val now = applyTimezone(getLocalTime())
-            sys.log(
-                "ReminderScheduler",
-                String.format(
-                    Locale.US,
-                    "Habit group %d has been snoozed until %d",
-                    habitGroup.id,
-                    snoozeReminderTime
-                )
-            )
+            val now = DateUtils.applyTimezone(DateUtils.getLocalTime())
+            sys.log("ReminderScheduler", "Habit group ${habitGroup.id} has been snoozed until $snoozeReminderTime")
             if (snoozeReminderTime > now) {
                 sys.log("ReminderScheduler", "Snooze time is in the future. Accepting.")
                 reminderTime = snoozeReminderTime
@@ -135,17 +127,8 @@ class ReminderScheduler(
             sys.log("ReminderScheduler", "habit group=" + habitGroup.id + " is archived. Skipping.")
             return
         }
-        val timestamp = getStartOfDayWithOffset(removeTimezone(reminderTime))
-        sys.log(
-            "ReminderScheduler",
-            String.format(
-                Locale.US,
-                "reminderTime=%d removeTimezone=%d timestamp=%d",
-                reminderTime,
-                removeTimezone(reminderTime),
-                timestamp
-            )
-        )
+        val timestamp = DateUtils.getStartOfDayWithOffset(DateUtils.removeTimezone(reminderTime), 0, 0)
+        sys.log("ReminderScheduler", "reminderTime=$reminderTime removeTimezone=${DateUtils.removeTimezone(reminderTime)} timestamp=$timestamp")
         sys.scheduleShowReminder(reminderTime, habitGroup, timestamp)
     }
 
@@ -188,7 +171,7 @@ class ReminderScheduler(
 
     @Synchronized
     fun snoozeReminder(habitGroup: HabitGroup, minutes: Long) {
-        val now = applyTimezone(getLocalTime())
+        val now = DateUtils.applyTimezone(DateUtils.getLocalTime())
         val snoozedUntil = now + minutes * 60 * 1000
         widgetPreferences.setSnoozeTime(habitGroup.id!!, snoozedUntil)
         schedule(habitGroup)

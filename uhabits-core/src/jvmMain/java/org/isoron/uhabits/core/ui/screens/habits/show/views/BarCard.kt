@@ -83,12 +83,13 @@ class BarCardPresenter(
             boolSpinnerPosition: Int,
             theme: Theme
         ): BarCardState {
+            val today = getToday()
             val isNumerical = habitGroup.habitList.all { it.isNumerical }
             val isBoolean = habitGroup.habitList.all { !it.isNumerical }
             if ((!isNumerical && !isBoolean) || habitGroup.habitList.isEmpty) {
                 return BarCardState(
                     theme = theme,
-                    entries = listOf(Entry(DateUtils.getTodayWithOffset(), 0)),
+                    entries = listOf(Entry(today, 0)),
                     bucketSize = 1,
                     color = habitGroup.color,
                     isNumerical = isNumerical,
@@ -101,9 +102,8 @@ class BarCardPresenter(
             } else {
                 boolBucketSizes[boolSpinnerPosition]
             }
-            val today = DateUtils.getTodayWithOffset()
             val allEntries = habitGroup.habitList.map { habit ->
-                val oldest = habit.computedEntries.getKnown().lastOrNull()?.timestamp ?: today
+                val oldest = habit.computedEntries.getKnown().lastOrNull()?.date ?: today
                 habit.computedEntries.getByInterval(oldest, today).groupedSum(
                     truncateField = ScoreCardPresenter.getTruncateField(bucketSize),
                     firstWeekday = firstWeekday,

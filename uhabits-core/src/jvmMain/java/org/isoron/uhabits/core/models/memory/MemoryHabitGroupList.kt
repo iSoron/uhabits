@@ -1,10 +1,10 @@
 package org.isoron.uhabits.core.models.memory
 
+import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList.Order
 import org.isoron.uhabits.core.models.HabitMatcher
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import java.util.LinkedList
 import java.util.Objects
 
@@ -114,7 +114,7 @@ class MemoryHabitGroupList : HabitGroupList {
             Comparator { h1: HabitGroup, h2: HabitGroup -> colorComparatorAsc.compare(h2, h1) }
         val scoreComparatorDesc =
             Comparator<HabitGroup> { habit1, habit2 ->
-                val today = getTodayWithOffset()
+                val today = getToday()
                 habit1.scores[today].value.compareTo(habit2.scores[today].value)
             }
         val scoreComparatorAsc =
@@ -125,7 +125,7 @@ class MemoryHabitGroupList : HabitGroupList {
             if (h1.isCompletedToday() != h2.isCompletedToday()) {
                 return@Comparator if (h1.isCompletedToday()) -1 else 1
             }
-            val today = getTodayWithOffset()
+            val today = getToday()
             val v1 = h1.scores[today].value
             val v2 = h2.scores[today].value
             v2.compareTo(v1)

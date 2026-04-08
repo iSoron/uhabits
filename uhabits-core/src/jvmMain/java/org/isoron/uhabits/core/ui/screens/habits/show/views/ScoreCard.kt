@@ -119,9 +119,8 @@ class ScoreCardPresenter(
                 }
             }
 
-            val field = getTruncateField(bucketSize)
-            val scores = habitGroup.scores.getByInterval(oldest, today).groupBy {
-                DateUtils.truncate(field, it.date, firstWeekday)
+            val scores = habitGroup.scores.getByInterval(oldest, today).groupBy { score ->
+                truncateDate(getTruncateField(bucketSize), score.date, firstWeekday)
             }.map { (date, scores) ->
                 Score(
                     date,

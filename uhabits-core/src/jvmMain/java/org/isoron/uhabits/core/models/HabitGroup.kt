@@ -1,6 +1,7 @@
 package org.isoron.uhabits.core.models
 
-import org.isoron.uhabits.core.utils.DateUtils
+import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.getToday
 import java.util.UUID
 
 data class HabitGroup(
@@ -72,8 +73,8 @@ data class HabitGroup(
         return habitList.all { it.isEnteredToday() }
     }
 
-    fun firstEntryDate(): Timestamp {
-        val today = DateUtils.getTodayWithOffset()
+    fun firstEntryDate(): LocalDate {
+        val today = getToday()
         var earliest = today
         for (h in habitList) {
             val first = h.firstEntryDate()
@@ -85,7 +86,7 @@ data class HabitGroup(
     fun recompute() {
         for (h in habitList) h.recompute()
 
-        val today = DateUtils.getTodayWithOffset()
+        val today = getToday()
         val to = today.plus(30)
         var from = firstEntryDate()
         if (from.isNewerThan(to)) from = to

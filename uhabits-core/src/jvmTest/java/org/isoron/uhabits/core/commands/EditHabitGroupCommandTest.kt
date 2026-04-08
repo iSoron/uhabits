@@ -20,10 +20,9 @@ package org.isoron.uhabits.core.commands
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
+import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.HabitGroup
-import org.isoron.uhabits.core.models.Timestamp
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getTodayWithOffset
 import org.junit.Before
 import org.junit.Test
 
@@ -31,7 +30,7 @@ class EditHabitGroupCommandTest : BaseUnitTest() {
     private lateinit var command: EditHabitGroupCommand
     private lateinit var hgr: HabitGroup
     private lateinit var modified: HabitGroup
-    private lateinit var today: Timestamp
+    private lateinit var today: org.isoron.platform.time.LocalDate
 
     @Before
     @Throws(Exception::class)
@@ -45,7 +44,7 @@ class EditHabitGroupCommandTest : BaseUnitTest() {
         modified.copyFrom(hgr)
         modified.name = "modified"
         habitGroupList.add(modified)
-        today = getTodayWithOffset()
+        today = getToday()
     }
 
     @Test

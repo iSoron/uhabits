@@ -26,7 +26,6 @@ import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import kotlin.collections.set
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -157,7 +156,7 @@ open class EntryList {
         for (entry in entries) {
             if (!isNumerical && entry.value != YES_MANUAL) continue
             val newValue = (entry.value.toDouble() / dailyTarget * 1000).roundToInt()
-            normalized.add(Entry(entry.timestamp, newValue))
+            normalized.add(Entry(entry.date, newValue))
         }
         return normalized
     }

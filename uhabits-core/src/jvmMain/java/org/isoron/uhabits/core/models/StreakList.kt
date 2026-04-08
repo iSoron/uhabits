@@ -78,15 +78,15 @@ class StreakList {
     }
 
     @Synchronized
-    fun isInStreaks(timestamp: Timestamp): Boolean {
-        return list.any { it.isInStreak(timestamp) }
+    fun isInStreaks(date: LocalDate): Boolean {
+        return list.any { it.isInStreak(date) }
     }
 
     @Synchronized
     fun combineFrom(
         habitList: HabitList,
-        from: Timestamp,
-        to: Timestamp
+        from: LocalDate,
+        to: LocalDate
     ) {
         list.clear()
         if (habitList.isEmpty) return

@@ -101,15 +101,15 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
 
     @Test
     fun testOnEditBoolean() {
-        behavior.onEdit(habit1, getToday())
+        behavior.onEdit(habit1, getToday(), 0f, 0f)
         verify(screen).showCheckmarkPopup(
             eq(2),
             eq(""),
             eq(PaletteColor(8)),
             picker2.capture()
         )
-        picker2.lastValue.onNotesSaved(2, "", 0f, 0f)
-        val today = getTodayWithOffset()
+        picker2.lastValue.onNotesSaved(2, "")
+        val today = getToday()
         assertThat(habit1.computedEntries.get(today).value, equalTo(2))
     }
 

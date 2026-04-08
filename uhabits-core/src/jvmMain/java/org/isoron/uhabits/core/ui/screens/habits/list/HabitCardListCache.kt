@@ -19,12 +19,14 @@
 package org.isoron.uhabits.core.ui.screens.habits.list
 
 import me.tatarka.inject.annotations.Inject
+import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.io.Logging
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitList.Order
@@ -361,7 +363,7 @@ class HabitCardListCache(
             for (hgr in filteredHabitGroups) {
                 if (hgr.uuid == null || hgr.id == null) continue
                 habitGroups.add(hgr)
-                val habitList = LinkedList<Habit>()
+                val habitList = mutableListOf<Habit>()
                 for (h in hgr.habitList) {
                     habitList.add(h)
                 }
@@ -566,8 +568,8 @@ class HabitCardListCache(
                     val checkmarkList = mutableListOf<Int>()
                     val noteList = mutableListOf<String>()
                     for ((_, value, note) in habit.computedEntries.getByInterval(dateFrom, today)) {
-                        val checkmarkList = mutableListOf<Int>()
-                        val noteList = mutableListOf<String>()
+                        checkmarkList.add(value)
+                        noteList.add(note)
                     }
                     newData.checkmarks[habit.id] = checkmarkList.toIntArray()
                     newData.notes[habit.id] = noteList.toTypedArray()
@@ -629,7 +631,7 @@ class HabitCardListCache(
 
             data.habitGroups.add(idx, habitGroup)
 
-            data.subHabits.add(idx, LinkedList<Habit>())
+            data.subHabits.add(idx, mutableListOf())
             data.scores[id] = newData.scores[id]!!
 
             data.rebuildPositions()
