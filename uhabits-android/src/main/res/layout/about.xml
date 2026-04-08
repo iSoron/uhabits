@@ -189,7 +189,6 @@
 
             <include layout="@layout/about_translators" />
 
-            >
         </LinearLayout>
     </ScrollView>
 

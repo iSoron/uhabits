@@ -1,5 +1,6 @@
 package org.isoron.uhabits.core.models.sqlite
 
+import me.tatarka.inject.annotations.Inject
 import org.isoron.uhabits.core.database.Repository
 import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.HabitGroupList
@@ -9,12 +10,12 @@ import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.memory.MemoryHabitGroupList
 import org.isoron.uhabits.core.models.sqlite.records.HabitGroupRecord
 import org.isoron.uhabits.core.preferences.WidgetPreferences
-import javax.inject.Inject
 
 /**
  * Implementation of a [HabitGroupList] that is backed by SQLite.
  */
-class SQLiteHabitGroupList @Inject constructor(
+@Inject
+class SQLiteHabitGroupList(
     private val modelFactory: ModelFactory,
     private val widgetPreferences: WidgetPreferences // Added Injection
 ) : HabitGroupList() {
