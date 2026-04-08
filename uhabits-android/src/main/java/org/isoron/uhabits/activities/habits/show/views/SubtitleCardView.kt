@@ -49,11 +49,17 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
     fun setState(state: SubtitleCardState) {
         val color = state.theme.color(state.color).toInt()
         val reminder = state.reminder
-        binding.frequencyLabel.text = formatFrequency(
-            state.frequency.numerator,
-            state.frequency.denominator,
-            resources
-        )
+        state.frequency?.let { freq ->
+            binding.frequencyLabel.text = formatFrequency(
+                freq.numerator,
+                freq.denominator,
+                resources
+            )
+        } ?: run {
+            binding.frequencyLabel.visibility = View.GONE
+            binding.frequencyIcon.visibility = View.GONE
+        }
+
         binding.questionLabel.setTextColor(color)
         binding.questionLabel.text = state.question
         binding.reminderLabel.text = if (reminder != null) {

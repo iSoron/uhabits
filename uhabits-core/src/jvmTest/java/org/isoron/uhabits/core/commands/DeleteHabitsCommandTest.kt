@@ -24,7 +24,7 @@ import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Habit
 import org.junit.Before
 import org.junit.Test
-import java.util.*
+import java.util.LinkedList
 
 class DeleteHabitsCommandTest : BaseUnitTest() {
     private lateinit var command: DeleteHabitsCommand
@@ -47,7 +47,7 @@ class DeleteHabitsCommandTest : BaseUnitTest() {
         val extraHabit = fixtures.createShortHabit()
         extraHabit.name = "extra"
         habitList.add(extraHabit)
-        command = DeleteHabitsCommand(habitList, selected)
+        command = DeleteHabitsCommand(habitList, habitGroupList, selected)
     }
 
     @Test

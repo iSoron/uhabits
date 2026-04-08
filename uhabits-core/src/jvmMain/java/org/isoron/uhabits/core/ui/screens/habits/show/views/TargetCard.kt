@@ -22,6 +22,7 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 import org.isoron.platform.time.TruncateField
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.countSkippedDays
 import org.isoron.uhabits.core.models.groupedSum
@@ -157,6 +158,56 @@ class TargetCardPresenter {
 
             return TargetCardState(
                 color = habit.color,
+                values = values,
+                targets = targets,
+                intervals = intervals,
+                theme = theme
+            )
+        }
+
+        fun buildState(
+            habitGroup: HabitGroup,
+            firstWeekday: Int,
+            theme: Theme
+        ): TargetCardState {
+            val maxDen = habitGroup.habitList.maxOfOrNull { habit -> habit.frequency.denominator }
+            val isNumerical = habitGroup.habitList.all { it.isNumerical }
+            if (maxDen == null || !isNumerical) {
+                return TargetCardState(
+                    color = habitGroup.color,
+                    values = arrayListOf(0.0, 0.0, 0.0, 0.0, 0.0),
+                    targets = arrayListOf(0.0, 0.0, 0.0, 0.0, 0.0),
+                    intervals = arrayListOf(1, 7, 30, 91, 365),
+                    theme = theme
+                )
+            }
+
+            val states = habitGroup.habitList.map { Companion.buildState(it, firstWeekday, theme) }
+
+            val values = states
+                .map {
+                    val startIdx = it.intervals.indexOf(maxDen)
+                    val endIdx = it.intervals.size
+                    it.values.subList(startIdx, endIdx)
+                }
+                .reduce { acc, list ->
+                    acc.zip(list) { a, b -> a + b }
+                }
+
+            val targets = states
+                .map {
+                    val startIdx = it.intervals.indexOf(maxDen)
+                    val endIdx = it.intervals.size
+                    it.targets.subList(startIdx, endIdx)
+                }
+                .reduce { acc, list ->
+                    acc.zip(list) { a, b -> a + b }
+                }
+
+            val intervals = arrayListOf(1, 7, 30, 91, 365).filter { it >= maxDen }
+
+            return TargetCardState(
+                color = habitGroup.color,
                 values = values,
                 targets = targets,
                 intervals = intervals,

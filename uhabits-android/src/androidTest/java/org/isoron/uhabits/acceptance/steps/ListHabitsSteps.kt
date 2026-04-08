@@ -42,6 +42,7 @@ object ListHabitsSteps {
             MenuItem.SETTINGS -> clickTextInsideOverflowMenu(R.string.settings)
             MenuItem.ADD -> clickViewWithId(R.id.actionCreateHabit)
             MenuItem.EDIT -> clickViewWithId(R.id.action_edit_habit)
+            MenuItem.EDIT_GROUP -> clickViewWithId(R.id.action_edit_habit_group)
             MenuItem.DELETE -> clickTextInsideOverflowMenu(R.string.delete)
             MenuItem.ARCHIVE -> clickTextInsideOverflowMenu(R.string.archive)
             MenuItem.UNARCHIVE -> clickTextInsideOverflowMenu(R.string.unarchive)
@@ -121,6 +122,38 @@ object ListHabitsSteps {
         BaseUserInterfaceTest.device.waitForIdle()
     }
 
+    fun pressAddButton(habitGroup: String) {
+        Espresso.onView(
+            allOf(
+                ViewMatchers.isDescendantOfA(
+                    allOf(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(habitGroup)),
+                        ViewMatchers.withClassName(endsWith("HabitGroupCardView"))
+                    )
+                ),
+                ViewMatchers.withClassName(endsWith("AddButtonView"))
+            )
+        ).perform(ViewActions.click())
+        BaseUserInterfaceTest.device.waitForIdle()
+    }
+
+    fun pressCollapseButton(habitGroup: String) {
+        Espresso.onView(
+            allOf(
+                ViewMatchers.isDescendantOfA(
+                    allOf(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(habitGroup)),
+                        ViewMatchers.withClassName(endsWith("HabitGroupCardView"))
+                    )
+                ),
+                ViewMatchers.withClassName(endsWith("CollapseButtonView"))
+            )
+        ).perform(
+            ViewActions.click()
+        )
+        BaseUserInterfaceTest.device.waitForIdle()
+    }
+
     fun changeSort(sortText: String) {
         clickViewWithId(R.id.action_filter)
         Espresso.onView(ViewMatchers.withText("Sort")).perform(ViewActions.click())
@@ -128,6 +161,6 @@ object ListHabitsSteps {
     }
 
     enum class MenuItem {
-        ABOUT, HELP, SETTINGS, EDIT, DELETE, ARCHIVE, TOGGLE_ARCHIVED, UNARCHIVE, TOGGLE_COMPLETED, ADD
+        ABOUT, HELP, SETTINGS, EDIT, EDIT_GROUP, DELETE, ARCHIVE, TOGGLE_ARCHIVED, UNARCHIVE, TOGGLE_COMPLETED, ADD
     }
 }

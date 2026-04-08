@@ -29,6 +29,7 @@ import androidx.test.uiautomator.UiDevice
 import junit.framework.TestCase
 import org.hamcrest.CoreMatchers.hasItems
 import org.hamcrest.MatcherAssert.assertThat
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.computeToday
 import org.isoron.platform.time.getToday
@@ -61,8 +62,10 @@ abstract class BaseAndroidTest : TestCase() {
     protected lateinit var prefs: Preferences
 
     protected lateinit var habitList: HabitList
+    protected lateinit var habitGroupList: HabitGroupList
     protected lateinit var taskRunner: TaskRunner
     protected lateinit var fixtures: HabitFixtures
+    protected lateinit var groupFixtures: HabitGroupFixtures
     protected lateinit var latch: CountDownLatch
     protected lateinit var appComponent: HabitsApplicationTestComponent
     protected lateinit var modelFactory: ModelFactory
@@ -86,13 +89,15 @@ abstract class BaseAndroidTest : TestCase() {
         HabitsApplication.component = appComponent
         prefs = appComponent.preferences
         habitList = appComponent.habitList
+        habitGroupList = appComponent.habitGroupList
         taskRunner = appComponent.taskRunner
         setToday(computeToday(appComponent.preferences.midnightDelayHours, 0))
         modelFactory = appComponent.modelFactory
         prefs.clear()
         fixtures = HabitFixtures(modelFactory, habitList)
-        fixtures.purgeHabits(appComponent.habitList)
-        fixtures.createEmptyHabit()
+        fixtures.purgeHabits(habitList)
+        groupFixtures = HabitGroupFixtures(modelFactory, habitList, habitGroupList)
+        groupFixtures.purgeHabitGroups(habitGroupList)
         component = HabitsActivityTestComponent::class.create(
             parent = appComponent,
             activityContext = targetContext
@@ -151,9 +156,7 @@ abstract class BaseAndroidTest : TestCase() {
         hourOfDay: Int,
         minute: Int
     ) {
-        val cal = GregorianCalendar()
-        cal[Calendar.SECOND] = 0
-        cal[year, javaMonth, day, hourOfDay] = minute
+        val cal = GregorianCalendar(year, javaMonth, day, hourOfDay, minute, 0)
         cal.timeZone = TimeZone.getTimeZone(tz)
         setSystemTime(cal)
     }
@@ -162,17 +165,21 @@ abstract class BaseAndroidTest : TestCase() {
     private fun setSystemTime(cal: GregorianCalendar) {
         val tz = cal.timeZone.toZoneId()
 
-        // Set time zone (temporary)
-        var command = String.format("service call alarm 3 s16 %s", tz)
+        // Set time zone (API < 28)
+        var command = String.format(Locale.US, "service call alarm 3 s16 %s", tz)
         device.executeShellCommand(command)
 
+        // Set time zone (API >= 28)
+        device.executeShellCommand("cmd alarm set-timezone $tz")
+
         // Set time zone (permanent)
-        command = String.format("setprop persist.sys.timezone %s", tz)
+        command = String.format(Locale.US, "setprop persist.sys.timezone %s", tz)
         device.executeShellCommand(command)
 
         // Set time
         val date = String.format(
-            "%02d%02d%02d%02d%02d.%02d",
+            Locale.US,
+            "%02d%02d%02d%02d%04d.%02d",
             cal[Calendar.MONTH] + 1,
             cal[Calendar.DAY_OF_MONTH],
             cal[Calendar.HOUR_OF_DAY],
@@ -189,11 +196,14 @@ abstract class BaseAndroidTest : TestCase() {
         // Set time (method 2)
         // Run in addition to the method above because one of these mail fail, depending
         // on the Android API version.
-        command = String.format("date -u @%d", cal.timeInMillis / 1000)
+        command = String.format(Locale.US, "date -u @%d", cal.timeInMillis / 1000)
         device.executeShellCommand(command)
 
+        // Set time (method 3 - API >= 28)
+        device.executeShellCommand("cmd alarm set-time ${cal.timeInMillis}")
+
         // Wait for system events to settle
-        Thread.sleep(1000)
+        Thread.sleep(2001L)
     }
 
     private lateinit var savedCalendar: GregorianCalendar

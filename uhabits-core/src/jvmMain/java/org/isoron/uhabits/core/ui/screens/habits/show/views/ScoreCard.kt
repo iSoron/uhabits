@@ -23,6 +23,7 @@ import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.TruncateField
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Score
 import org.isoron.uhabits.core.preferences.Preferences
@@ -100,6 +101,44 @@ class ScoreCardPresenter(
                 TruncateField.YEAR -> date.startOfYear()
                 else -> date
             }
+        }
+
+        fun buildState(
+            habitGroup: HabitGroup,
+            firstWeekday: Int,
+            spinnerPosition: Int,
+            theme: Theme
+        ): ScoreCardState {
+            val bucketSize = BUCKET_SIZES[spinnerPosition]
+            val today = getToday()
+            val oldest = if (habitGroup.habitList.isEmpty) {
+                today
+            } else {
+                habitGroup.habitList.minOf {
+                    it.computedEntries.getKnown().lastOrNull()?.date ?: today
+                }
+            }
+
+            val scores = habitGroup.scores.getByInterval(oldest, today).groupBy { score ->
+                truncateDate(getTruncateField(bucketSize), score.date, firstWeekday)
+            }.map { (date, scores) ->
+                Score(
+                    date,
+                    scores.map {
+                        it.value
+                    }.average()
+                )
+            }.sortedBy {
+                it.date
+            }.reversed()
+
+            return ScoreCardState(
+                color = habitGroup.color,
+                scores = scores,
+                bucketSize = bucketSize,
+                spinnerPosition = spinnerPosition,
+                theme = theme
+            )
         }
     }
 

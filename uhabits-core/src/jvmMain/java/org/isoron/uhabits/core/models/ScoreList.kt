@@ -135,4 +135,21 @@ class ScoreList {
             map[date] = Score(date, previousValue)
         }
     }
+
+    @Synchronized
+    fun combineFrom(
+        habitList: HabitList,
+        from: LocalDate,
+        to: LocalDate
+    ) {
+        var current = to
+        while (!current.isOlderThan(from)) {
+            val habitScores = habitList
+                .filter { !it.isArchived }
+                .map { it.scores[current].value }
+            val averageScore = if (habitScores.isNotEmpty()) habitScores.average() else 0.0
+            map[current] = Score(current, averageScore)
+            current = current.minus(1)
+        }
+    }
 }

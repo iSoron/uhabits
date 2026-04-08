@@ -36,6 +36,7 @@ import org.junit.runner.RunWith
 class NotesCardViewTest : BaseViewTest() {
     val PATH = "habits/show/NotesCard"
     private lateinit var view: NotesCardView
+    private lateinit var viewGroup: NotesCardView
 
     @Before
     override fun setUp() {
@@ -46,16 +47,26 @@ class NotesCardViewTest : BaseViewTest() {
             .findViewById(R.id.notesCard)
         view.setState(NotesCardState(description = "This is a test description"))
         measureView(view, 800f, 200f)
+
+        viewGroup = LayoutInflater
+            .from(targetContext)
+            .inflate(R.layout.show_habit_group, null)
+            .findViewById(R.id.notesCard)
+        viewGroup.setState(NotesCardState(description = "This is a test description"))
+        measureView(viewGroup, 800f, 200f)
     }
 
     @Test
     fun testRender() {
         assertRenders(view, "$PATH/render.png")
+        assertRenders(viewGroup, "$PATH/render.png")
     }
 
     @Test
     fun testRenderEmptyDescription() {
         view.setState(NotesCardState(description = ""))
+        viewGroup.setState(NotesCardState(description = ""))
         assertThat(view.visibility, equalTo(GONE))
+        assertThat(viewGroup.visibility, equalTo(GONE))
     }
 }

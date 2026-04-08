@@ -36,6 +36,7 @@ import org.junit.runner.RunWith
 class OverviewCardViewTest : BaseViewTest() {
     val PATH = "habits/show/OverviewCard/"
     private lateinit var view: OverviewCardView
+    private lateinit var viewGroup: OverviewCardView
 
     @Before
     override fun setUp() {
@@ -55,10 +56,27 @@ class OverviewCardViewTest : BaseViewTest() {
             )
         )
         measureView(view, 800f, 300f)
+
+        viewGroup = LayoutInflater
+            .from(targetContext)
+            .inflate(R.layout.show_habit_group, null)
+            .findViewById<View>(R.id.overviewCard) as OverviewCardView
+        viewGroup.setState(
+            OverviewCardState(
+                scoreToday = 0.74f,
+                scoreMonthDiff = 0.23f,
+                scoreYearDiff = 0.74f,
+                totalCount = 44,
+                color = PaletteColor(7),
+                theme = LightTheme()
+            )
+        )
+        measureView(viewGroup, 800f, 300f)
     }
 
     @Test
     fun testRender() {
         assertRenders(view, PATH + "render.png")
+        assertRenders(viewGroup, PATH + "render.png")
     }
 }

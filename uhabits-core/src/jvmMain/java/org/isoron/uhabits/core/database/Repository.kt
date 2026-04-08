@@ -22,8 +22,6 @@ import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.tuple.ImmutablePair
 import org.apache.commons.lang3.tuple.Pair
 import java.lang.reflect.Field
-import java.util.ArrayList
-import java.util.HashMap
 import java.util.LinkedList
 
 class Repository<T>(
@@ -128,6 +126,26 @@ class Repository<T>(
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
+    }
+
+    /**
+     * Gets the shared id for tables that need to maintain unique ids across tables
+     * like habits and habit groups
+     */
+
+    fun getNextAvailableId(name: String): Long {
+        val query = "SELECT next_id FROM SharedIds WHERE name = ?"
+        val cursor = db.query(query, name)
+        val nextId: Long
+        cursor.use { c ->
+            if (cursor.moveToNext()) {
+                nextId = cursor.getLong(0) ?: throw IllegalStateException("Cannot fetch shared ID for $name")
+                execSQL("UPDATE SharedIds SET next_id = next_id + 1 WHERE name = ?", name)
+            } else {
+                throw IllegalStateException("Cannot fetch shared ID for $name")
+            }
+        }
+        return nextId
     }
 
     private fun cursorToMultipleRecords(c: Cursor): List<T> {

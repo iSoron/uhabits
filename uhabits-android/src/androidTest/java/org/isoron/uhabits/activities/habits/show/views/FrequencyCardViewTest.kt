@@ -25,6 +25,7 @@ import androidx.test.filters.MediumTest
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.ui.screens.habits.show.views.FrequencyCardPresenter
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
@@ -36,6 +37,7 @@ import org.junit.runner.RunWith
 class FrequencyCardViewTest : BaseViewTest() {
     val PATH = "habits/show/FrequencyCard/"
     private lateinit var view: FrequencyCardView
+    private lateinit var groupView: FrequencyCardView
 
     @Before
     override fun setUp() {
@@ -53,10 +55,25 @@ class FrequencyCardViewTest : BaseViewTest() {
             )
         )
         measureView(view, 800f, 600f)
+
+        val group = groupFixtures.createGroupWithLongHabits(color = PaletteColor(7))
+        groupView = LayoutInflater
+            .from(targetContext)
+            .inflate(R.layout.show_habit_group, null)
+            .findViewById<View>(R.id.frequencyCard) as FrequencyCardView
+        groupView.setState(
+            FrequencyCardPresenter.buildState(
+                habitGroup = group,
+                firstWeekday = DayOfWeek.SUNDAY,
+                theme = LightTheme()
+            )
+        )
+        measureView(groupView, 800f, 600f)
     }
 
     @Test
     fun testRender() {
         assertRenders(view, PATH + "render.png")
+        assertRenders(groupView, PATH + "render_group.png")
     }
 }

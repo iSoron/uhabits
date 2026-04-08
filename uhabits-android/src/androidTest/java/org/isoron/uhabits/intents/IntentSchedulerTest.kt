@@ -95,6 +95,7 @@ class IntentSchedulerTest : BaseAndroidTest() {
         setSystemTime("America/Chicago", 2020, JUNE, 1, 12, 30)
         val reminderTime = 1591155900000 // 2020-06-02 22:45:00 (America/Chicago)
 
+        fixtures.createLongHabit(habitList)
         val habit = habitList.getByPosition(0)
         val scheduler = appComponent.intentScheduler
         assertThat(scheduler!!.scheduleShowReminder(reminderTime, habit, 0), equalTo(OK))

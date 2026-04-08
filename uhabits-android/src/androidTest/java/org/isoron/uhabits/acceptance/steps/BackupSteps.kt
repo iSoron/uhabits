@@ -98,10 +98,18 @@ fun importBackupFromDownloadFolder() {
         device.findObject(UiSelector().textContains("Download")).click()
         device.findObject(UiSelector().textContains("Loop")).click()
     } else {
-        device.click(50, 90) // Click menu button
+        device.click(50, withOffset(90)) // Click menu button
         Thread.sleep(1000)
-        device.findObject(UiSelector().textContains("Download")).click()
-        device.findObject(UiSelector().textContains("Loop")).click()
+        device.waitForIdle()
+        device.findObjects(By.textContains("Download")).last().click()
+        Thread.sleep(1000)
+        device.waitForIdle()
+        device.findObjects(By.textContains("Backups")).last().click()
+        Thread.sleep(1000)
+        device.waitForIdle()
+        device.findObjects(By.textContains("Loop")).last().click()
+        Thread.sleep(2000)
+        device.waitForIdle()
     }
 }
 
@@ -116,4 +124,11 @@ fun openLauncher() {
     val h = device.displayHeight
     val w = device.displayWidth
     device.swipe(w / 2, h / 2, w / 2, 0, 8)
+}
+
+fun withOffset(y: Int): Int {
+    val context = InstrumentationRegistry.getInstrumentation().targetContext
+    val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+    val statusBarHeight = if (resourceId > 0) context.resources.getDimensionPixelSize(resourceId) else 0
+    return y + statusBarHeight
 }

@@ -24,6 +24,7 @@ import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
@@ -36,8 +37,10 @@ import org.junit.Before
 open class BaseUserInterfaceTest {
     private lateinit var component: HabitsApplicationComponent
     private lateinit var habitList: HabitList
+    private lateinit var habitGroupList: HabitGroupList
     private lateinit var prefs: Preferences
     private lateinit var fixtures: HabitFixtures
+    private lateinit var groupFixtures: HabitGroupFixtures
     private lateinit var cache: HabitCardListCache
 
     @Before
@@ -48,9 +51,11 @@ open class BaseUserInterfaceTest {
             ApplicationProvider.getApplicationContext<Context>().applicationContext as HabitsApplication
         component = app.component
         habitList = component.habitList
+        habitGroupList = component.habitGroupList
         prefs = component.preferences
         cache = component.habitCardListCache
         fixtures = HabitFixtures(component.modelFactory, habitList)
+        groupFixtures = HabitGroupFixtures(component.modelFactory, habitList, habitGroupList)
         resetState()
     }
 
@@ -67,6 +72,7 @@ open class BaseUserInterfaceTest {
         prefs.isFirstRun = false
         prefs.updateLastHint(100, getToday())
         habitList.removeAll()
+        habitGroupList.removeAll()
         cache.refreshAllHabits()
         Thread.sleep(1000)
         val h1 = fixtures.createEmptyHabit()
@@ -93,6 +99,24 @@ open class BaseUserInterfaceTest {
         h4.description = ""
         h4.color = PaletteColor(2)
         habitList.update(h4)
+
+        val hgr1 = groupFixtures.createGroupWithEmptyHabits(
+            name = "Study",
+            numHabits = 2,
+            id = h4.id!! + 1L
+        )
+        hgr1.question = "Did you study today?"
+        val sh1 = hgr1.habitList.getByPosition(0)
+        sh1.name = "Physics"
+        sh1.question = "Did you study physics today?"
+        val sh2 = hgr1.habitList.getByPosition(1)
+        sh2.name = "Economics"
+        sh2.question = "Did you study economics today?"
+        hgr1.habitList.update(sh1)
+        hgr1.habitList.update(sh2)
+        habitGroupList.update(hgr1)
+        hgr1.recompute()
+        cache.refreshAllHabits()
     }
 
     @Throws(Exception::class)

@@ -26,18 +26,23 @@ import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.ScoreList
 import org.isoron.uhabits.core.models.StreakList
 import org.isoron.uhabits.core.models.sqlite.records.EntryRecord
+import org.isoron.uhabits.core.models.sqlite.records.HabitGroupRecord
 import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
+import org.isoron.uhabits.core.preferences.WidgetPreferences
 
 /**
  * Factory that provides models backed by an SQLite database.
  */
 @Inject
 class SQLModelFactory(
-    val database: Database
+    val database: Database,
+    private val widgetPreferences: WidgetPreferences
 ) : ModelFactory {
     override fun buildOriginalEntries() = SQLiteEntryList(database)
     override fun buildComputedEntries() = EntryList()
     override fun buildHabitList() = SQLiteHabitList(this)
+    override fun buildHabitGroupList() = SQLiteHabitGroupList(this, widgetPreferences)
+
     override fun buildScoreList() = ScoreList()
     override fun buildStreakList() = StreakList()
 
@@ -46,4 +51,7 @@ class SQLModelFactory(
 
     override fun buildRepetitionListRepository() =
         Repository(EntryRecord::class.java, database)
+
+    override fun buildHabitGroupListRepository() =
+        Repository(HabitGroupRecord::class.java, database)
 }

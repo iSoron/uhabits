@@ -38,4 +38,8 @@ data class Streak(
 
     val length: Int
         get() = start.daysUntil(end) + 1
+
+    fun isInStreak(date: LocalDate): Boolean {
+        return date in start..end
+    }
 }

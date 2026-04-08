@@ -45,6 +45,7 @@ class ShowHabitMenuPresenterTest : BaseUnitTest() {
             commandRunner,
             habit,
             habitList,
+            habitGroupList,
             screen,
             system,
             taskRunner

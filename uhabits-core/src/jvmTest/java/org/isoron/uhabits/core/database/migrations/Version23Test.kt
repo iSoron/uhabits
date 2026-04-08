@@ -25,8 +25,10 @@ import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.MigrationHelper
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
+import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.core.test.HabitFixtures
 import org.junit.Test
+import org.mockito.kotlin.mock
 
 class Version23Test : BaseUnitTest() {
 
@@ -34,11 +36,13 @@ class Version23Test : BaseUnitTest() {
 
     private lateinit var helper: MigrationHelper
 
+    private val widgetPreferences: WidgetPreferences = mock()
+
     override fun setUp() {
         super.setUp()
         db = openDatabaseResource("/databases/022.db")
         helper = MigrationHelper(db)
-        modelFactory = SQLModelFactory(db)
+        modelFactory = SQLModelFactory(db, widgetPreferences)
         habitList = (modelFactory as SQLModelFactory).buildHabitList()
         fixtures = HabitFixtures(modelFactory, habitList)
     }

@@ -48,6 +48,13 @@ class MemoryHabitList : HabitList {
         getComposedComparatorByOrder(primaryOrder, secondaryOrder)
     private var parent: MemoryHabitList? = null
 
+    override var collapsed: Boolean = false
+        set(value) {
+            field = value
+            val habits = parent?.list ?: list
+            habits.forEach { it.collapsed = value }
+        }
+
     constructor() : super()
     constructor(
         matcher: HabitMatcher,
@@ -56,6 +63,7 @@ class MemoryHabitList : HabitList {
     ) : super(matcher) {
         this.parent = parent
         this.comparator = comparator
+        this.groupId = parent.groupId
         primaryOrder = parent.primaryOrder
         secondaryOrder = parent.secondaryOrder
         parent.observable.addListener { loadFromParent() }
@@ -72,6 +80,17 @@ class MemoryHabitList : HabitList {
         if (id == null) habit.id = list.size.toLong()
         list.add(habit)
         resort()
+    }
+
+    @Synchronized
+    @Throws(IllegalArgumentException::class)
+    override fun add(position: Int, habit: Habit) {
+        throwIfHasParent()
+        require(!list.contains(habit)) { "habit already added" }
+        val id = habit.id
+        if (id != null && getById(id) != null) throw RuntimeException("duplicate id")
+        if (id == null) habit.id = list.size.toLong()
+        list.add(position, habit)
     }
 
     @Synchronized
@@ -178,6 +197,13 @@ class MemoryHabitList : HabitList {
     }
 
     @Synchronized
+    override fun removeAt(position: Int) {
+        throwIfHasParent()
+        list.removeAt(position)
+        observable.notifyListeners()
+    }
+
+    @Synchronized
     override fun reorder(from: Habit, to: Habit) {
         throwIfHasParent()
         check(!(primaryOrder !== Order.BY_POSITION)) { "cannot reorder automatically sorted list" }
@@ -213,6 +239,8 @@ class MemoryHabitList : HabitList {
         checkNotNull(parent)
         list.clear()
         for (h in parent!!) if (filter.matches(h)) list.add(h)
+        primaryOrder = parent!!.primaryOrder
+        secondaryOrder = parent!!.secondaryOrder
         resort()
     }
 

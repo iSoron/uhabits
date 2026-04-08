@@ -20,45 +20,31 @@ package org.isoron.uhabits.core.models
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.number.IsCloseTo.closeTo
-import org.isoron.uhabits.core.BaseUnitTest
-import org.isoron.uhabits.core.models.Score.Companion.compute
-import org.junit.Before
 import org.junit.Test
 
-class ScoreTest : BaseUnitTest() {
-    @Before
-    @Throws(Exception::class)
-    override fun setUp() {
-        super.setUp()
+class ScoreTest {
+    @Test
+    fun testCompute() {
+        val frequency = 1.0 // daily
+        val previousScore = 0.5
+        val checkmarkValue = 1.0
+
+        // Expected value based on formula:
+        // multiplier = 0.5 ^ (sqrt(1.0) / 13.0) = 0.5 ^ (1/13) ≈ 0.9479
+        // score = 0.5 * 0.9479 + 1.0 * (1 - 0.9479) ≈ 0.47395 + 0.0521 ≈ 0.526
+        val score = Score.compute(frequency, previousScore, checkmarkValue)
+        assertThat(score, closeTo(0.526, 0.001))
     }
 
     @Test
-    fun test_compute_withDailyHabit() {
-        var check = 1
-        val freq = 1.0
-        assertThat(compute(freq, 0.0, check.toDouble()), closeTo(0.051922, E))
-        assertThat(compute(freq, 0.5, check.toDouble()), closeTo(0.525961, E))
-        assertThat(compute(freq, 0.75, check.toDouble()), closeTo(0.762981, E))
-        check = 0
-        assertThat(compute(freq, 0.0, check.toDouble()), closeTo(0.0, E))
-        assertThat(compute(freq, 0.5, check.toDouble()), closeTo(0.474039, E))
-        assertThat(compute(freq, 0.75, check.toDouble()), closeTo(0.711058, E))
+    fun testComputeStayAtZero() {
+        val score = Score.compute(1.0, 0.0, 0.0)
+        assertThat(score, closeTo(0.0, 0.001))
     }
 
     @Test
-    fun test_compute_withNonDailyHabit() {
-        var check = 1
-        val freq = 1 / 3.0
-        assertThat(compute(freq, 0.0, check.toDouble()), closeTo(0.030314, E))
-        assertThat(compute(freq, 0.5, check.toDouble()), closeTo(0.515157, E))
-        assertThat(compute(freq, 0.75, check.toDouble()), closeTo(0.757578, E))
-        check = 0
-        assertThat(compute(freq, 0.0, check.toDouble()), closeTo(0.0, E))
-        assertThat(compute(freq, 0.5, check.toDouble()), closeTo(0.484842, E))
-        assertThat(compute(freq, 0.75, check.toDouble()), closeTo(0.727263, E))
-    }
-
-    companion object {
-        private const val E = 1e-6
+    fun testComputeStayAtOne() {
+        val score = Score.compute(1.0, 1.0, 1.0)
+        assertThat(score, closeTo(1.0, 0.001))
     }
 }

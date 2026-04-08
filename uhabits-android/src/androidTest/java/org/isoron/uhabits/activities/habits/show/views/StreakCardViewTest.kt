@@ -24,7 +24,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCardState
+import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.screens.habits.show.views.StreakCartPresenter.Companion.buildState
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
@@ -35,6 +36,7 @@ import org.junit.runner.RunWith
 class StreakCardViewTest : BaseViewTest() {
     val PATH = "habits/show/StreakCard/"
     private lateinit var view: StreakCardView
+    private lateinit var viewGroup: StreakCardView
 
     @Before
     override fun setUp() {
@@ -45,17 +47,26 @@ class StreakCardViewTest : BaseViewTest() {
             .inflate(R.layout.show_habit, null)
             .findViewById<View>(R.id.streakCard) as StreakCardView
         view.setState(
-            StreakCardState(
-                bestStreaks = habit.streaks.getBest(10),
-                color = habit.color,
-                theme = LightTheme()
-            )
+            buildState(habit, LightTheme())
         )
         measureView(view, 800f, 600f)
+
+        val habitGroup = groupFixtures.createGroupWithLongHabits(color = PaletteColor(7), numHabits = 1)
+        fixtures.createShortHabit(habitGroup.habitList)
+        habitGroup.recompute()
+        viewGroup = LayoutInflater
+            .from(targetContext)
+            .inflate(R.layout.show_habit_group, null)
+            .findViewById<View>(R.id.streakCard) as StreakCardView
+        viewGroup.setState(
+            buildState(habitGroup, LightTheme())
+        )
+        measureView(viewGroup, 800f, 600f)
     }
 
     @Test
     fun testRender() {
         assertRenders(view, PATH + "render.png")
+        assertRenders(viewGroup, PATH + "render_group.png")
     }
 }

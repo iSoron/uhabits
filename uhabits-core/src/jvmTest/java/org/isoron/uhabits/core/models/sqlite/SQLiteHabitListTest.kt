@@ -30,12 +30,12 @@ import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList
 import org.isoron.uhabits.core.models.sqlite.records.HabitRecord
+import org.isoron.uhabits.core.preferences.WidgetPreferences
 import org.isoron.uhabits.core.test.HabitFixtures
 import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
-import java.util.ArrayList
 import kotlin.test.assertNull
 
 class SQLiteHabitListTest : BaseUnitTest() {
@@ -44,12 +44,13 @@ class SQLiteHabitListTest : BaseUnitTest() {
     private lateinit var habitsArray: ArrayList<Habit>
     private lateinit var activeHabits: HabitList
     private lateinit var reminderHabits: HabitList
+    private val widgetPreferences: WidgetPreferences = mock()
 
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
         val db: Database = buildMemoryDatabase()
-        modelFactory = SQLModelFactory(db)
+        modelFactory = SQLModelFactory(db, widgetPreferences)
         habitList = SQLiteHabitList(modelFactory)
         fixtures = HabitFixtures(modelFactory, habitList)
         repository = Repository(HabitRecord::class.java, db)
@@ -98,8 +99,8 @@ class SQLiteHabitListTest : BaseUnitTest() {
         habit.name = "Hello world with id"
         habit.id = 12300L
         habitList.add(habit)
-        assertThat(habit.id, equalTo(12300L))
-        val record = repository.find(12300L)
+        assertThat(habit.id, equalTo(11L))
+        val record = repository.find(11L)
         assertThat(record!!.name, equalTo(habit.name))
     }
 

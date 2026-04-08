@@ -27,7 +27,7 @@ import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
 import org.isoron.uhabits.core.models.WeekdayList.Companion.EVERY_DAY
-import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardState
+import org.isoron.uhabits.core.ui.screens.habits.show.views.SubtitleCardPresenter.Companion.buildState
 import org.isoron.uhabits.core.ui.views.LightTheme
 import org.junit.Before
 import org.junit.Test
@@ -38,29 +38,37 @@ import org.junit.runner.RunWith
 class SubtitleCardViewTest : BaseViewTest() {
     val PATH = "habits/show/SubtitleCard/"
     private lateinit var view: SubtitleCardView
+    private lateinit var viewGroup: SubtitleCardView
 
     @Before
     override fun setUp() {
         super.setUp()
+        val habit = fixtures.createLongHabit()
+        habit.frequency = Frequency(3, 7)
+        habit.color = PaletteColor(7)
+        habit.question = "Did you meditate this morning?"
+        habit.reminder = Reminder(8, 30, EVERY_DAY)
         view = LayoutInflater
             .from(targetContext)
             .inflate(R.layout.show_habit, null)
             .findViewById(R.id.subtitleCard)
-        view.setState(
-            SubtitleCardState(
-                color = PaletteColor(7),
-                frequency = Frequency(3, 7),
-                isNumerical = false,
-                question = "Did you meditate this morning?",
-                reminder = Reminder(8, 30, EVERY_DAY),
-                theme = LightTheme()
-            )
-        )
+        view.setState(buildState(habit, LightTheme()))
         measureView(view, 800f, 200f)
+
+        val habitGroup = groupFixtures.createEmptyHabitGroup(name = "Exercise", color = PaletteColor(7))
+        habitGroup.question = "Did you exercise today?"
+        habitGroup.reminder = Reminder(8, 30, EVERY_DAY)
+        viewGroup = LayoutInflater
+            .from(targetContext)
+            .inflate(R.layout.show_habit_group, null)
+            .findViewById(R.id.subtitleCard)
+        viewGroup.setState(buildState(habitGroup, LightTheme()))
+        measureView(viewGroup, 800f, 200f)
     }
 
     @Test
     fun testRender() {
         assertRenders(view, PATH + "render.png")
+        assertRenders(viewGroup, PATH + "render_group.png")
     }
 }

@@ -20,6 +20,7 @@
 package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitGroup
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Streak
 import org.isoron.uhabits.core.ui.views.Theme
@@ -36,6 +37,14 @@ class StreakCartPresenter {
             return StreakCardState(
                 color = habit.color,
                 bestStreaks = habit.streaks.getBest(10),
+                theme = theme
+            )
+        }
+
+        fun buildState(habitGroup: HabitGroup, theme: Theme): StreakCardState {
+            return StreakCardState(
+                color = habitGroup.color,
+                bestStreaks = habitGroup.streaks.getBest(10),
                 theme = theme
             )
         }

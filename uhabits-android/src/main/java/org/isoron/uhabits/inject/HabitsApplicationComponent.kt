@@ -27,9 +27,11 @@ import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.DatabaseOpener
 import org.isoron.uhabits.core.io.GenericImporter
 import org.isoron.uhabits.core.io.Logging
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.sqlite.SQLModelFactory
+import org.isoron.uhabits.core.models.sqlite.SQLiteHabitGroupList
 import org.isoron.uhabits.core.models.sqlite.SQLiteHabitList
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.preferences.WidgetPreferences
@@ -67,6 +69,7 @@ abstract class HabitsApplicationComponent(
     abstract val genericImporter: GenericImporter
     abstract val habitCardListCache: HabitCardListCache
     abstract val habitList: HabitList
+    abstract val habitGroupList: HabitGroupList
     abstract val intentFactory: IntentFactory
     abstract val intentParser: IntentParser
     abstract val logging: Logging
@@ -97,15 +100,17 @@ abstract class HabitsApplicationComponent(
     open fun preferences(storage: SharedPreferencesStorage): Preferences =
         Preferences(storage)
 
-    @AppScope
     @Provides
+    @AppScope
     open fun reminderScheduler(
         sys: IntentScheduler,
         commandRunner: CommandRunner,
         habitList: HabitList,
+        habitGroupList: HabitGroupList,
         widgetPreferences: WidgetPreferences
-    ): ReminderScheduler =
-        ReminderScheduler(commandRunner, habitList, sys, widgetPreferences)
+    ): ReminderScheduler {
+        return ReminderScheduler(commandRunner, habitList, habitGroupList, sys, widgetPreferences)
+    }
 
     @AppScope
     @Provides
@@ -122,13 +127,19 @@ abstract class HabitsApplicationComponent(
     open fun widgetPreferences(storage: SharedPreferencesStorage): WidgetPreferences =
         WidgetPreferences(storage)
 
-    @AppScope
     @Provides
-    open fun modelFactory(): ModelFactory = SQLModelFactory(providedDb)
+    @AppScope
+    fun modelFactory(widgetPreferences: WidgetPreferences): ModelFactory {
+        return SQLModelFactory(providedDb, widgetPreferences)
+    }
 
     @AppScope
     @Provides
     open fun habitList(list: SQLiteHabitList): HabitList = list
+
+    @AppScope
+    @Provides
+    open fun habitGroupList(list: SQLiteHabitGroupList): HabitGroupList = list
 
     @AppScope
     @Provides

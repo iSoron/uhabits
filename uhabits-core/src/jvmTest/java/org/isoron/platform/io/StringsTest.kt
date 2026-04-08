@@ -19,10 +19,17 @@
 
 package org.isoron.platform.io
 
+import java.util.Locale
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class StringsTest {
+    @BeforeTest
+    fun setup() {
+        Locale.setDefault(Locale.US)
+    }
+
     @Test
     fun testFormat() {
         assertEquals("hello world!", format("hello %s!", "world"))

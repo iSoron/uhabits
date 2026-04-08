@@ -76,4 +76,39 @@ class StreakList {
         }
         list.add(Streak(begin, end))
     }
+
+    @Synchronized
+    fun isInStreaks(date: LocalDate): Boolean {
+        return list.any { it.isInStreak(date) }
+    }
+
+    @Synchronized
+    fun combineFrom(
+        habitList: HabitList,
+        from: LocalDate,
+        to: LocalDate
+    ) {
+        list.clear()
+        if (habitList.isEmpty) return
+        var current = from
+        var streakRunning = false
+        var streakStart = from
+        val notArchivedHabits = habitList.filter { !it.isArchived }
+        while (current <= to) {
+            if (notArchivedHabits.all { it.streaks.isInStreaks(current) }) {
+                if (!streakRunning) {
+                    streakStart = current
+                    streakRunning = true
+                }
+            } else {
+                if (streakRunning) {
+                    val streakEnd = current.minus(1)
+                    list.add(Streak(streakStart, streakEnd))
+                    streakRunning = false
+                }
+            }
+            current = current.plus(1)
+        }
+        list.sortByDescending { it.start }
+    }
 }

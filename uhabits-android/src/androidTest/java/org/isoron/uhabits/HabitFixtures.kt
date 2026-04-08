@@ -40,19 +40,20 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
         100000, 0, 100000
     )
 
-    fun createEmptyHabit(): Habit {
+    fun createEmptyHabit(list: HabitList = habitList): Habit {
         val habit = modelFactory.buildHabit()
         habit.name = "Meditate"
         habit.question = "Did you meditate this morning?"
         habit.description = "This is a test description"
         habit.color = PaletteColor(5)
         habit.frequency = DAILY
-        habitList.add(habit)
+        list.add(habit)
+        habit.recompute()
         return habit
     }
 
-    fun createLongHabit(): Habit {
-        val habit = createEmptyHabit()
+    fun createLongHabit(list: HabitList = habitList): Habit {
+        val habit = createEmptyHabit(list)
         habit.frequency = Frequency(3, 7)
         habit.color = PaletteColor(7)
         val today: LocalDate = getToday()
@@ -117,13 +118,13 @@ class HabitFixtures(private val modelFactory: ModelFactory, private val habitLis
         return habit
     }
 
-    fun createShortHabit(): Habit {
+    fun createShortHabit(list: HabitList = habitList): Habit {
         val habit = modelFactory.buildHabit().apply {
             name = "Wake up early"
             question = "Did you wake up before 6am?"
             frequency = Frequency(2, 3)
         }
-        habitList.add(habit)
+        list.add(habit)
         var date: LocalDate = getToday()
         for (c in LONG_HABIT_ENTRIES) {
             if (c) habit.originalEntries.add(Entry(date, YES_MANUAL))

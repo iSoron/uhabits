@@ -26,11 +26,13 @@ import org.isoron.uhabits.core.database.Database
 import org.isoron.uhabits.core.database.DatabaseOpener
 import org.isoron.uhabits.core.database.JdbcDatabase
 import org.isoron.uhabits.core.database.MigrationHelper
+import org.isoron.uhabits.core.models.HabitGroupList
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.ModelFactory
 import org.isoron.uhabits.core.models.memory.MemoryModelFactory
 import org.isoron.uhabits.core.tasks.SingleThreadTaskRunner
 import org.isoron.uhabits.core.test.HabitFixtures
+import org.isoron.uhabits.core.test.HabitGroupFixtures
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -52,7 +54,9 @@ import java.util.TimeZone
 @RunWith(MockitoJUnitRunner::class)
 open class BaseUnitTest {
     protected open lateinit var habitList: HabitList
+    protected open lateinit var habitGroupList: HabitGroupList
     protected lateinit var fixtures: HabitFixtures
+    protected lateinit var groupFixtures: HabitGroupFixtures
     protected lateinit var modelFactory: ModelFactory
     protected lateinit var taskRunner: SingleThreadTaskRunner
     protected open lateinit var commandRunner: CommandRunner
@@ -79,7 +83,9 @@ open class BaseUnitTest {
         setToday(LocalDate(2015, 1, 25))
         val memoryModelFactory = MemoryModelFactory()
         habitList = spy(memoryModelFactory.buildHabitList())
+        habitGroupList = spy(memoryModelFactory.buildHabitGroupList())
         fixtures = HabitFixtures(memoryModelFactory, habitList)
+        groupFixtures = HabitGroupFixtures(memoryModelFactory, habitList, habitGroupList)
         modelFactory = memoryModelFactory
         taskRunner = SingleThreadTaskRunner()
         commandRunner = CommandRunner(taskRunner)
