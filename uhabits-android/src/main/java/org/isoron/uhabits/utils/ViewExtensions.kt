@@ -28,6 +28,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Handler
 import android.os.SystemClock
 import android.view.LayoutInflater
@@ -118,8 +119,13 @@ fun Activity.showMessage(msg: String) {
 }
 
 fun Activity.showSendFileScreen(archiveFilename: String) {
-    val file = File(archiveFilename)
-    val fileUri = FileProvider.getUriForFile(this, "org.isoron.uhabits", file)
+    val uri = Uri.parse(archiveFilename)
+    val fileUri = if (uri.scheme == "content") {
+        uri
+    } else {
+        val file = if (uri.scheme == "file") File(uri.path!!) else File(archiveFilename)
+        FileProvider.getUriForFile(this, "org.isoron.uhabits", file)
+    }
     this.startActivitySafely(
         Intent().apply {
             action = Intent.ACTION_SEND

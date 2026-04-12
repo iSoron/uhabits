@@ -23,6 +23,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint.plugin)
     alias(libs.plugins.mokkery)
+    id("io.qameta.allure")
 }
 
 tasks.compileLint {
@@ -44,6 +45,7 @@ android {
     namespace = "org.isoron.uhabits"
     compileSdk = 36
 
+
     sourceSets {
         getByName("main") {
             assets.srcDirs("src/main/assets", "../uhabits-core/assets/main")
@@ -57,6 +59,7 @@ android {
         targetSdk = 36
         applicationId = "org.isoron.uhabits"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "org.isoron.uhabits.TestRunner"
     }
 
     signingConfigs {
@@ -137,7 +140,30 @@ dependencies {
     androidTestImplementation(libs.ktor.jackson)
     androidTestImplementation(libs.rules)
     androidTestImplementation(libs.uiautomator)
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+
+    // Kakao for UI tests
+    androidTestImplementation("com.github.kakaocup:kakao:3.3.0")
+
+    // Allure
+    androidTestImplementation("io.qameta.allure:allure-kotlin-android:2.4.0")
+    implementation("io.qameta.allure:allure-kotlin-model:2.4.0")
 
     testImplementation(libs.kotlin.inject.runtime)
     testImplementation(libs.junit.junit)
+
+//    allure {
+//        version.set("2.20.1")
+//        adapter {
+//            aspectjWeaver.set(true)
+//            frameworks {
+//                junit4 {
+//                    adapterVersion.set("2.20.1")
+//                }
+//            }
+//        }
+//    }
 }
