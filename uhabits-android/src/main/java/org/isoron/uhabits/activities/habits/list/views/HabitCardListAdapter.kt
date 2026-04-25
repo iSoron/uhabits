@@ -164,16 +164,19 @@ class HabitCardListAdapter(
     override fun onItemInserted(position: Int) {
         notifyItemInserted(position)
         observable.notifyListeners()
+        listView?.invalidateItemDecorations()
     }
 
     override fun onItemMoved(oldPosition: Int, newPosition: Int) {
         notifyItemMoved(oldPosition, newPosition)
         observable.notifyListeners()
+        listView?.invalidateItemDecorations()
     }
 
     override fun onItemRemoved(position: Int) {
         notifyItemRemoved(position)
         observable.notifyListeners()
+        listView?.invalidateItemDecorations()
     }
 
     override fun onRefreshFinished() {
