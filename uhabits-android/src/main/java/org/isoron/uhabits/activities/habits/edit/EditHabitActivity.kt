@@ -20,6 +20,7 @@
 package org.isoron.uhabits.activities.habits.edit
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.os.Bundle
@@ -27,6 +28,7 @@ import android.text.Html
 import android.text.Spanned
 import android.text.format.DateFormat
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -119,6 +121,7 @@ class EditHabitActivity : AppCompatActivity() {
             binding.targetInput.setText(habit.targetValue.toString())
         } else {
             habitType = HabitType.fromInt(intent.getIntExtra("habitType", HabitType.YES_NO.value))
+            showKeyboard()
         }
 
         if (state != null) {
@@ -256,6 +259,12 @@ class EditHabitActivity : AppCompatActivity() {
         for (fragment in supportFragmentManager.fragments) {
             (fragment as DialogFragment).dismiss()
         }
+    }
+
+    private fun showKeyboard() {
+        binding.nameInput.requestFocus()
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.nameInput, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun save() {
