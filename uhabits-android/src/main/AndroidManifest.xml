@@ -36,12 +36,12 @@
 
         <activity
             android:name=".activities.habits.edit.EditHabitActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.habits.list.ListHabitsActivity" />
         </activity>
-
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw" />

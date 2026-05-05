@@ -97,6 +97,11 @@ class EditHabitActivity : AppCompatActivity() {
         binding.root.applyRootViewInsets()
         binding.toolbar.applyToolbarInsets()
         setContentView(binding.root)
+        binding.root.setOnApplyWindowInsetsListener { view, insets ->
+            val imeHeight = insets.getInsets(android.view.WindowInsets.Type.ime()).bottom
+            view.setPadding(0, 0, 0, imeHeight)
+            insets
+        }
 
         if (intent.hasExtra("habitId")) {
             binding.toolbar.title = getString(R.string.edit_habit)
