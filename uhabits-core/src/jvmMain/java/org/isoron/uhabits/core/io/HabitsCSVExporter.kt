@@ -163,15 +163,20 @@ class HabitsCSVExporter(
         val timeframe = getTimeframe()
         val oldest = timeframe[0]
         val newest = DateUtils.getTodayWithOffset()
-        val checkmarks: MutableList<ArrayList<Entry>> = ArrayList()
-        val scores: MutableList<ArrayList<Score>> = ArrayList()
-        for (habit in selectedHabits) {
-            checkmarks.add(ArrayList(habit.computedEntries.getByInterval(oldest, newest)))
-            scores.add(ArrayList(habit.scores.getByInterval(oldest, newest)))
+        val checkmarks = selectedHabits.map { habit ->
+            habit.computedEntries
+                .getByInterval(oldest, newest)
+                .associateBy { it.timestamp }
+        }
+        val scores = selectedHabits.map { habit ->
+            habit.scores
+                .getByInterval(oldest, newest)
+                .associateBy { it.timestamp }
         }
 
         val days = oldest.daysUntil(newest)
         val dateFormat = DateFormats.getCSVDateFormat()
+
         for (i in 0..days) {
             val day = newest.minus(i).toJavaDate()
             val date = dateFormat.format(day)
@@ -179,10 +184,21 @@ class HabitsCSVExporter(
             sb.append(date).append(delimiter)
             checksWriter.write(sb.toString())
             scoresWriter.write(sb.toString())
+            val timestamp = newest.minus(i)
+
             for (j in selectedHabits.indices) {
-                checksWriter.write(checkmarks[j][i].formattedValue)
+                val entry = checkmarks[j][timestamp]
+                val value = entry?.formattedValue ?: ""
+
+                checksWriter.write(value)
                 checksWriter.write(delimiter)
-                val score = String.format(Locale.US, "%.4f", scores[j][i].value)
+
+                val scoreEntry = scores[j][timestamp]
+                val score = if (scoreEntry != null)
+                    String.format(Locale.US, "%.4f", scoreEntry.value)
+                else
+                    ""
+
                 scoresWriter.write(score)
                 scoresWriter.write(delimiter)
             }
