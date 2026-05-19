@@ -36,7 +36,7 @@ import java.util.TimeZone
 
 fun LocalDate.toGregorianCalendar(): GregorianCalendar {
     val cal = GregorianCalendar()
-    cal.timeZone = TimeZone.getTimeZone("GMT")
+   cal.timeZone = TimeZone.getDefault()
     cal.set(MILLISECOND, 0)
     cal.set(SECOND, 0)
     cal.set(MINUTE, 0)
@@ -85,7 +85,7 @@ class JavaLocalDateFormatter(private val locale: Locale) : LocalDateFormatter {
 
     fun longFormat(date: LocalDate): String {
         val df = DateFormat.getDateInstance(DateFormat.MEDIUM, locale)
-        df.timeZone = TimeZone.getTimeZone("UTC")
+       df.timeZone = TimeZone.getDefault()
         return df.format(date.toGregorianCalendar().time)
     }
 
