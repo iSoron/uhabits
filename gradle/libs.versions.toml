@@ -1,4 +1,6 @@
 [versions]
+kaspresso = "1.6.0"
+allure-kotlin = "2.4.0"
 agp = "8.9.2"
 annotation = "1.9.1"
 appcompat = "1.7.0"
@@ -32,6 +34,9 @@ uiautomator = "2.3.0"
 documentfile = "1.0.1"
 
 [libraries]
+kaspresso = { group = "com.kaspersky.android-components", name = "kaspresso", version.ref = "kaspresso" }
+kaspresso-allure = { group = "com.kaspersky.android-components", name = "kaspresso-allure-support", version.ref = "kaspresso" }
+allure-kotlin-android = { group = "io.qameta.allure", name = "allure-kotlin-android", version.ref = "allure-kotlin" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 appIntro = { group = "com.github.AppIntro", name = "AppIntro", version.ref = "appintro" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
