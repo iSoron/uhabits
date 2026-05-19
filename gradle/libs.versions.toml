@@ -30,6 +30,8 @@ shadow = "8.1.1"
 sqliteJdbc = "3.45.1.0"
 uiautomator = "2.3.0"
 documentfile = "1.0.1"
+kakao = "3.7.0"
+allureKotlin = "2.4.0"
 
 [libraries]
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
@@ -69,6 +71,11 @@ rules = { group = "androidx.test", name = "rules", version.ref = "rules" }
 sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqliteJdbc" }
 uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
+kakao = { group = "io.github.kakaocup", name = "kakao", version.ref = "kakao" }
+allure-kotlin-model = { group = "io.qameta.allure", name = "allure-kotlin-model", version.ref = "allureKotlin" }
+allure-kotlin-commons = { group = "io.qameta.allure", name = "allure-kotlin-commons", version.ref = "allureKotlin" }
+allure-kotlin-junit4 = { group = "io.qameta.allure", name = "allure-kotlin-junit4", version.ref = "allureKotlin" }
+allure-kotlin-android = { group = "io.qameta.allure", name = "allure-kotlin-android", version.ref = "allureKotlin" }
 
 [plugins]
 agp = { id = "com.android.application", version.ref = "agp" }

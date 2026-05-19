@@ -59,6 +59,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testOptions {
+        animationsDisabled = true
+    }
+
     signingConfigs {
         if (System.getenv("LOOP_KEY_ALIAS") != null) {
             create("release") {
@@ -137,6 +141,11 @@ dependencies {
     androidTestImplementation(libs.ktor.jackson)
     androidTestImplementation(libs.rules)
     androidTestImplementation(libs.uiautomator)
+    androidTestImplementation(libs.kakao)
+    androidTestImplementation(libs.allure.kotlin.model)
+    androidTestImplementation(libs.allure.kotlin.commons)
+    androidTestImplementation(libs.allure.kotlin.junit4)
+    androidTestImplementation(libs.allure.kotlin.android)
 
     testImplementation(libs.kotlin.inject.runtime)
     testImplementation(libs.junit.junit)

@@ -1,0 +1,61 @@
+{
+    "name": "shouldCreateNewHabit",
+    "start": 1766593275443,
+    "stop": 1766593282821,
+    "stage": "finished",
+    "description": "Проверка, что пользователь может создать новую привычку, заполнив все необходимые поля, и она отображается в списке привычек после сохранения.",
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "248d7cc9-16b1-4789-a356-157f071d89d4",
+    "historyId": "31fa12788c5affaa1490a81ba23094dc",
+    "fullName": "org.isoron.uhabits.acceptance.AllureHabitsTest.shouldCreateNewHabit",
+    "labels": [
+        {
+            "name": "package",
+            "value": "org.isoron.uhabits.acceptance"
+        },
+        {
+            "name": "testClass",
+            "value": "org.isoron.uhabits.acceptance.AllureHabitsTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "shouldCreateNewHabit"
+        },
+        {
+            "name": "suite",
+            "value": "org.isoron.uhabits.acceptance.AllureHabitsTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(56)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        },
+        {
+            "name": "epic",
+            "value": "Habit Tracking"
+        },
+        {
+            "name": "feature",
+            "value": "Создание привычки"
+        }
+    ]
+}

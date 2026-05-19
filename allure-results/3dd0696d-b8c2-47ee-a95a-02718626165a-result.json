@@ -1,0 +1,61 @@
+{
+    "name": "shouldViewHabitStatistics",
+    "start": 1766593269884,
+    "stop": 1766593275434,
+    "stage": "finished",
+    "description": "Проверка, что при нажатии на привычку открывается подробное представление со статистикой и карточками истории.",
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "3dd0696d-b8c2-47ee-a95a-02718626165a",
+    "historyId": "491bb6a06f852350af1f2ee807d97181",
+    "fullName": "org.isoron.uhabits.acceptance.AllureHabitsTest.shouldViewHabitStatistics",
+    "labels": [
+        {
+            "name": "package",
+            "value": "org.isoron.uhabits.acceptance"
+        },
+        {
+            "name": "testClass",
+            "value": "org.isoron.uhabits.acceptance.AllureHabitsTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "shouldViewHabitStatistics"
+        },
+        {
+            "name": "suite",
+            "value": "org.isoron.uhabits.acceptance.AllureHabitsTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(56)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        },
+        {
+            "name": "epic",
+            "value": "Habit Tracking"
+        },
+        {
+            "name": "feature",
+            "value": "Статистика привычки"
+        }
+    ]
+}

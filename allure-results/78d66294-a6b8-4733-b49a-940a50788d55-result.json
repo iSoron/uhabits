@@ -1,0 +1,61 @@
+{
+    "name": "shouldDeleteHabit",
+    "start": 1766593260195,
+    "stop": 1766593269856,
+    "stage": "finished",
+    "description": "Проверка, что пользователь может удалить существующую привычку и она полностью удалена из списка привычек.",
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "78d66294-a6b8-4733-b49a-940a50788d55",
+    "historyId": "db0d31a4c77bd65236e35010c121b84c",
+    "fullName": "org.isoron.uhabits.acceptance.AllureHabitsTest.shouldDeleteHabit",
+    "labels": [
+        {
+            "name": "package",
+            "value": "org.isoron.uhabits.acceptance"
+        },
+        {
+            "name": "testClass",
+            "value": "org.isoron.uhabits.acceptance.AllureHabitsTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "shouldDeleteHabit"
+        },
+        {
+            "name": "suite",
+            "value": "org.isoron.uhabits.acceptance.AllureHabitsTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(56)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        },
+        {
+            "name": "epic",
+            "value": "Habit Tracking"
+        },
+        {
+            "name": "feature",
+            "value": "Удаление привычки"
+        }
+    ]
+}
