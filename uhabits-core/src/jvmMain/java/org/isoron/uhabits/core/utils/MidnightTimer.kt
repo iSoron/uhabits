@@ -25,7 +25,6 @@ import org.isoron.platform.time.setToday
 import org.isoron.uhabits.core.AppScope
 import org.isoron.uhabits.core.io.Logging
 import org.isoron.uhabits.core.preferences.Preferences
-import java.util.LinkedList
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -39,7 +38,7 @@ open class MidnightTimer(
     logging: Logging,
     private val preferences: Preferences
 ) {
-    private val listeners: MutableList<MidnightListener> = LinkedList()
+    private val listeners = mutableListOf<MidnightListener>()
     private lateinit var executor: ScheduledExecutorService
     private val logger = logging.getLogger("MidnightTimer")
 
