@@ -39,34 +39,48 @@ The repository will be downloaded to the directory `uhabits`.
 
 ## Build from the command line
 
-The following instructions were tested on **Ubuntu Linux 18.04 LTS** and may need to be modified for other operating systems.
+The following instructions were tested on **Ubuntu Linux 22.04 LTS** and should also work on 20.04 LTS, 24.04 LTS, and recent macOS releases. They may need to be modified for other operating systems.
 
 ### Step 1: Install basic packages
 
-To build the application, some basic packages are required. The package `git` is required to download the source code, while `openjdk-8-jdk-headless` is required for compiling Java and Kotlin files.
+To build the application, some basic packages are required. The package `git` is required to download the source code, and a JDK is required for compiling Java and Kotlin files. The project is configured with `jvmToolchain(17)` in `uhabits-android/build.gradle.kts` and `uhabits-core/build.gradle.kts`, so **JDK 17 is required**. Older JDKs (such as JDK 8 or JDK 11) are no longer supported by the current Android Gradle Plugin and will fail to compile.
+
+On Debian/Ubuntu, install OpenJDK 17:
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y git openjdk-8-jdk-headless
+sudo apt-get install -y git openjdk-17-jdk-headless
 ```
 
-**IMPORTANT:** Newer JDK versions have not been tested and may not work correctly.
+On macOS (using Homebrew):
+
+```bash
+brew install git openjdk@17
+```
+
+If you have multiple JDKs installed, point Gradle to the correct one by exporting `JAVA_HOME` before running any `./gradlew` command, for example:
+
+```bash
+export JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(which javac)")")")"
+```
+
+Gradle will normally download the required toolchain automatically if it cannot find a matching JDK, but exporting `JAVA_HOME` speeds up the first build and avoids network surprises on CI.
 
 
 ### Step 2: Install Android SDK tools
 
-The Android SDK tools contains many necessary tools for developing and debugging Android applications. It can be obtained as part of Android Studio, but, for simple command line usage, it can also be downloaded individually.
+The Android SDK tools contain many of the necessary tools for developing and debugging Android applications. They can be obtained as part of Android Studio, but, for simple command line usage, it is recommended to install the **command-line tools** directly, since that is what `build.sh` and the CI pipeline expect (`$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager`).
 
-1. Download the file `sdk-tools-linux-4333796.zip` (or a newer version) from <https://developer.android.com/studio/#downloads>, and extract it somewhere. In this guide, we assume that it was extracted to `/opt/android-sdk/tools`; that is, the script `/opt/android-sdk/tools/bin/sdkmanager` should exist.
+1. Download the latest `commandlinetools-linux-*.zip` (or `commandlinetools-mac-*.zip` on macOS) from <https://developer.android.com/studio#command-line-tools-only>, and extract it to `/opt/android-sdk/cmdline-tools/latest` so that the script `/opt/android-sdk/cmdline-tools/latest/bin/sdkmanager` exists. (Earlier standalone "SDK tools" archives from 2018 are deprecated and no longer recommended.)
 
-2. Append the following lines to `~/.profile`, so that other tools can locate your Android SDK installation. It is necessary to restart your terminal for these changes to take effect.
+2. Append the following lines to `~/.profile` (Linux) or `~/.zshrc` / `~/.bash_profile` (macOS), so that other tools can locate your Android SDK installation. It is necessary to restart your terminal for these changes to take effect.
 ```bash
-export PATH="$PATH:/opt/android-sdk/tools/bin"
-export PATH="$PATH:/opt/android-sdk/platform-tools"
 export ANDROID_HOME="/opt/android-sdk"
+export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
+export PATH="$PATH:$ANDROID_HOME/platform-tools"
 ```
 
-3. Accept all Android SDK licenses, by running
+3. Accept all Android SDK licenses by running:
 ```bash
 yes | sdkmanager --licenses
 ```
