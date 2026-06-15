@@ -25,7 +25,7 @@ import org.isoron.uhabits.activities.AndroidThemeSwitcher
 
 /**
  * Activity that allows the user to see information about the app itself.
- * Display current version, link to Google Play and list of contributors.
+ * Displays the current version, a link to Google Play, and the list of contributors.
  */
 class AboutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

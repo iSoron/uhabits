@@ -36,7 +36,7 @@ open class EntryList {
     private val entriesByDate: HashMap<LocalDate, Entry> = HashMap()
 
     /**
-     * Returns the entry corresponding to the given date. If no entry with such date
+     * Returns the entry corresponding to the given date. If no entry with such a date
      * has been previously added, returns Entry(date, UNKNOWN).
      */
     @Synchronized

@@ -41,7 +41,6 @@ internal abstract class WidgetComponent(
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
  *
- *
  * All broadcast messages are received and processed by this class.
  */
 class WidgetReceiver : BroadcastReceiver() {

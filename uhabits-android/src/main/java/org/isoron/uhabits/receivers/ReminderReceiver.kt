@@ -33,7 +33,6 @@ import org.isoron.uhabits.core.models.Habit
 /**
  * The Android BroadcastReceiver for Loop Habit Tracker.
  *
- *
  * All broadcast messages are received and processed by this class.
  */
 class ReminderReceiver : BroadcastReceiver() {

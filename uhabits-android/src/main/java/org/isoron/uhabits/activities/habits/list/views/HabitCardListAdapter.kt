@@ -38,7 +38,7 @@ import java.util.LinkedList
  * Provides data that backs a [HabitCardListView].
  *
  *
- * The data if fetched and cached by a [HabitCardListCache]. This adapter
+ * The data is fetched and cached by a [HabitCardListCache]. This adapter
  * also holds a list of items that have been selected.
  */
 @Inject
@@ -86,7 +86,7 @@ class HabitCardListAdapter(
      * Returns the item that occupies a certain position on the list
      *
      * @param position position of the item
-     * @return the item at given position or null if position is invalid
+     * @return the item at the given position or null if position is invalid
      */
     @Deprecated("")
     fun getItem(position: Int): Habit? {
@@ -102,7 +102,7 @@ class HabitCardListAdapter(
     }
 
     /**
-     * Returns whether list of selected items is empty.
+     * Returns whether the list of selected items is empty.
      *
      * @return true if selection is empty, false otherwise
      */
@@ -184,7 +184,7 @@ class HabitCardListAdapter(
      * Removes a list of habits from the adapter.
      *
      *
-     * Note that this only has effect on the adapter cache. The database is not
+     * Note that this only has an effect on the adapter cache. The database is not
      * modified, and the change is lost when the cache is refreshed. This method
      * is useful for making the ListView more responsive: while we wait for the
      * database operation to finish, the cache can be modified to reflect the
@@ -225,7 +225,7 @@ class HabitCardListAdapter(
      * Sets the HabitCardListView that this adapter will provide data for.
      *
      *
-     * This object will be used to generated new HabitCardViews, upon demand.
+     * This object will be used to generate new HabitCardViews, upon demand.
      *
      * @param listView the HabitCardListView associated with this adapter
      */

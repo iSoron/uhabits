@@ -114,9 +114,9 @@
                     android:textColor="?aboutScreenColor" />
 
                 <!--
-                This file lists developers who contributed with at least 100 lines
+                This file lists developers who contributed at least 100 lines
                 of code or 5 commits to our code base, sorted by the number of commits.
-                All other contributors are acknowledge in the GitHub Contributors page,
+                All other contributors are acknowledged in the GitHub Contributors page,
                 linked at the bottom of the list. If you qualify, please feel free to
                 submit a pull request adding yourself here.
                 -->

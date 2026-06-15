@@ -1,6 +1,6 @@
 # Build the project
 
-This pages describes how to download and build the app from the source code. If you are having trouble building the project, please do not hesitate to open a new issue.
+This page describes how to download and build the app from the source code. If you are having trouble building the project, please do not hesitate to open a new issue.
 
 ## Contents
 
@@ -11,7 +11,7 @@ This pages describes how to download and build the app from the source code. If 
 
 ### Step 1: Install git
 
-The package `git` is required for downloading the source code of the app and submitting changes GitHub. Please see [the git book](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for further instructions. If you are planning to submit pull requests in the future, it is recommended to [generate and configure your SSH keys](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
+The package `git` is required for downloading the source code of the app and submitting changes to GitHub. Please see [the git book](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for further instructions. If you are planning to submit pull requests in the future, it is recommended to [generate and configure your SSH keys](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
 ### Step 2: Download and install Android Studio
 
@@ -55,7 +55,7 @@ sudo apt-get install -y git openjdk-8-jdk-headless
 
 ### Step 2: Install Android SDK tools
 
-The Android SDK tools contains many necessary tools for developing and debugging Android applications. It can be obtained as part of Android Studio, but, for simple command line usage, it can also be downloaded individually.
+The Android SDK tools contain many necessary tools for developing and debugging Android applications. It can be obtained as part of Android Studio, but, for simple command line usage, it can also be downloaded individually.
 
 1. Download the file `sdk-tools-linux-4333796.zip` (or a newer version) from <https://developer.android.com/studio/#downloads>, and extract it somewhere. In this guide, we assume that it was extracted to `/opt/android-sdk/tools`; that is, the script `/opt/android-sdk/tools/bin/sdkmanager` should exist.
 

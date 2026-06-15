@@ -222,7 +222,7 @@ open class Preferences(private val storage: Storage) {
      * @return An integer representing the first day of the week. Sunday
      * corresponds to 1, Monday to 2, and so on, until Saturday, which is
      * represented by 7. By default, this is based on the current system locale,
-     * unless the user changed this in the settings.
+     * unless the user has changed this in the settings.
      */
     @get:Deprecated("")
     open val firstWeekdayInt: Int

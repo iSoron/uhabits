@@ -85,7 +85,7 @@ class HabitCardListCache(
     }
 
     /**
-     * Returns the habits that occupies a certain position on the list.
+     * Returns the habit that occupies a certain position on the list.
      *
      * @param position the position of the habit
      * @return the habit at given position or null if position is invalid

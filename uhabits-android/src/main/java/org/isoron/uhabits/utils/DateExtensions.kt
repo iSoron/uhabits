@@ -31,7 +31,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-fun String.toSimpleDataFormat(): SimpleDateFormat {
+fun String.toSimpleDateFormat(): SimpleDateFormat {
     val locale = Locale.getDefault()
     return DateFormats.fromSkeleton(DateFormat.getBestDateTimePattern(locale, this), locale)
 }

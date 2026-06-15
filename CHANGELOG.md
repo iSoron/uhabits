@@ -94,7 +94,7 @@
 
 ### Removed
 
-- Hide snooze button Android 12 notifications (@hiqua, #1226)
+- Hide snooze button in Android 12 notifications (@hiqua, #1226)
 - Remove preference to set LED lights (@iSoron)
 
 ### Changed
@@ -190,7 +190,7 @@
 - Sort habits by status (@hiqua)
 - Sort habits in reverse order (@iSoron)
 - Add notes to habits (@recheej)
-- Improve readibility of charts (@chennemann)
+- Improve readability of charts (@chennemann)
 - Delay new day until 3am (@KristianTashkov)
 - Export backups daily (@iSoron)
 

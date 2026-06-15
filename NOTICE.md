@@ -71,7 +71,7 @@ Attribution 4.0 International License (CC-BY 4.0).
 
 <https://github.com/ApmeM/android-flowlayout>
 
-Extended linear layout that wrap its content when there is no place in the current line.
+Extended linear layout that wraps its content when there is no place in the current line.
 
     Copyright 2011, Artem Votincev (apmem.org)
 
@@ -192,7 +192,7 @@ Bind Android views and callbacks to fields and methods
 
 <http://opencsv.sourceforge.net/>
 
-Opencsv is a very simple csv (comma-separated values) parser library for Java.
+Opencsv is a very simple CSV (comma-separated values) parser library for Java.
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.

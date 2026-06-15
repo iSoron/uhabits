@@ -124,11 +124,11 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
                 if (checkSelfPermission(this, POST_NOTIFICATIONS) == PERMISSION_GRANTED) {
                     scheduleReminders()
                 } else {
-                    // If we have not requested the permission yet, request it. Otherwide do
+                    // If we have not requested the permission yet, request it. Otherwise do
                     // nothing. This check is necessary to avoid an infinite onResume loop in case
                     // the user denies the permission.
                     if (!permissionAlreadyRequested) {
-                        Log.i("ListHabitsActivity", "Requestion permission: POST_NOTIFICATIONS")
+                        Log.i("ListHabitsActivity", "Requesting permission: POST_NOTIFICATIONS")
                         permissionLauncher.launch(POST_NOTIFICATIONS)
                         permissionAlreadyRequested = true
                     }
@@ -141,7 +141,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
                 AutoBackup(this@ListHabitsActivity).run()
                 appComponent.widgetUpdater.updateWidgets()
             } catch (e: Exception) {
-                Log.e("ListHabitActivity", "TaskRunner failed", e)
+                Log.e("ListHabitsActivity", "TaskRunner failed", e)
             }
         }
         if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {

@@ -26,7 +26,7 @@ import org.isoron.uhabits.core.ui.callbacks.OnConfirmedCallback
 import org.isoron.uhabits.inject.ActivityContext
 
 /**
- * Dialog that asks the user confirmation before executing a delete operation.
+ * Dialog that asks the user for confirmation before executing a delete operation.
  */
 class ConfirmDeleteDialog(
     @ActivityContext context: Context,

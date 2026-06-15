@@ -50,7 +50,7 @@ open class CheckmarkWidget(
     override fun refreshData(widgetView: View) {
         (widgetView as CheckmarkWidgetView).apply {
             val today = getToday()
-            setBackgroundAlpha(preferedBackgroundAlpha)
+            setBackgroundAlpha(preferredBackgroundAlpha)
             activeColor = WidgetTheme().color(habit.color).toInt()
             name = habit.name
             entryValue = habit.computedEntries.get(today).value

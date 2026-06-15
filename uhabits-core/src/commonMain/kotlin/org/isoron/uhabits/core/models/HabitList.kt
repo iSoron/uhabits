@@ -49,7 +49,7 @@ abstract class HabitList : Iterable<Habit> {
      * If the id of the habit is null, the list will assign it a new id, which
      * is guaranteed to be unique in the scope of the list. If id is not null,
      * the caller should make sure that the list does not already contain
-     * another habit with same id, otherwise a RuntimeException will be thrown.
+     * another habit with the same id, otherwise a RuntimeException will be thrown.
      *
      * @param habit the habit to be inserted
      * @throws IllegalArgumentException if the habit is already on the list.
@@ -58,7 +58,7 @@ abstract class HabitList : Iterable<Habit> {
     abstract fun add(habit: Habit)
 
     /**
-     * Returns the habit with specified id.
+     * Returns the habit with the specified id.
      *
      * @param id the id of the habit
      * @return the habit, or null if none exist
@@ -66,7 +66,7 @@ abstract class HabitList : Iterable<Habit> {
     abstract fun getById(id: Long): Habit?
 
     /**
-     * Returns the habit with specified UUID.
+     * Returns the habit with the specified UUID.
      *
      * @param uuid the UUID of the habit
      * @return the habit, or null if none exist

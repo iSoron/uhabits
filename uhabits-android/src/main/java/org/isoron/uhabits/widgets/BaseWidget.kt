@@ -145,7 +145,7 @@ abstract class BaseWidget(val context: Context, val id: Int, val stacked: Boolea
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
     }
 
-    protected val preferedBackgroundAlpha: Int
+    protected val preferredBackgroundAlpha: Int
         get() {
             return if (stacked) {
                 255

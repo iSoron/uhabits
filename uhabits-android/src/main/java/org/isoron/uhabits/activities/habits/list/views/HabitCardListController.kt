@@ -109,7 +109,7 @@ class HabitCardListController(
     }
 
     /**
-     * Mode activated when there are no items selected. Clicks trigger habit
+     * Mode activated when there are no items selected. Clicks trigger a habit
      * click. Long clicks start selection.
      */
     internal inner class NormalMode : Mode {
