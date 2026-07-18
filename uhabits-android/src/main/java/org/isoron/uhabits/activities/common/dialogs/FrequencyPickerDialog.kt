@@ -144,29 +144,27 @@ class FrequencyPickerDialog(
 
             binding.everyXDaysRadioButton.isChecked -> {
                 if (binding.everyXDaysTextView.text.isNotEmpty()) {
-                    denominator = Integer.parseInt(binding.everyXDaysTextView.text.toString())
+                    binding.everyXDaysTextView.text.toString().toIntOrNull()?.let { denominator = it }
                 }
             }
 
             binding.xTimesPerWeekRadioButton.isChecked -> {
                 if (binding.xTimesPerWeekTextView.text.isNotEmpty()) {
-                    numerator = Integer.parseInt(binding.xTimesPerWeekTextView.text.toString())
+                    binding.xTimesPerWeekTextView.text.toString().toIntOrNull()?.let { numerator = it }
                     denominator = 7
                 }
             }
 
             binding.xTimesPerYDaysRadioButton.isChecked -> {
                 if (binding.xTimesPerYDaysXTextView.text.isNotEmpty() && binding.xTimesPerYDaysYTextView.text.isNotEmpty()) {
-                    numerator =
-                        Integer.parseInt(binding.xTimesPerYDaysXTextView.text.toString())
-                    denominator =
-                        Integer.parseInt(binding.xTimesPerYDaysYTextView.text.toString())
+                    binding.xTimesPerYDaysXTextView.text.toString().toIntOrNull()?.let { numerator = it }
+                    binding.xTimesPerYDaysYTextView.text.toString().toIntOrNull()?.let { denominator = it }
                 }
             }
 
             else -> {
                 if (binding.xTimesPerMonthTextView.text.isNotEmpty()) {
-                    numerator = Integer.parseInt(binding.xTimesPerMonthTextView.text.toString())
+                    binding.xTimesPerMonthTextView.text.toString().toIntOrNull()?.let { numerator = it }
                     denominator = 30
                 }
             }
