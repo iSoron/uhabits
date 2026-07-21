@@ -263,7 +263,8 @@ fun View.applyRootViewInsets() {
 fun View.applyBottomInset() {
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-        view.setPadding(0, 0, 0, systemBarsInsets.bottom)
+        val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+        view.setPadding(0, 0, 0, maxOf(systemBarsInsets.bottom, imeInsets.bottom))
         insets
     }
 }
