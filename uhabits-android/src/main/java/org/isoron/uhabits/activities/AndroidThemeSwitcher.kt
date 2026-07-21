@@ -72,4 +72,15 @@ constructor(
         (context as Activity).window.navigationBarColor =
             ContextCompat.getColor(context, R.color.black)
     }
+
+    fun applyDialog() {
+        if (isNightMode) {
+            context.setTheme(R.style.BaseDialogDark)
+            (context as Activity).window.decorView.setBackgroundColor(
+                ContextCompat.getColor(context, R.color.grey_900)
+            )
+        } else {
+            context.setTheme(R.style.BaseDialog)
+        }
+    }
 }

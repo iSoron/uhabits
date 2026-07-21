@@ -67,7 +67,7 @@
         <item name="dialogFormLabelColor">@color/white</item>
     </style>
 
-    <style name="AppBaseThemeDark" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+    <style name="AppBaseThemeDark" parent="@style/Theme.MaterialComponents.NoActionBar">
         <item name="aboutScreenColor">@color/blue_300</item>
         <item name="actionModeBackground">@color/grey_800</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog</item>
