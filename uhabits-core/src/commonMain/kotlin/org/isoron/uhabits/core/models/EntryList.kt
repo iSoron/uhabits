@@ -23,6 +23,7 @@ import org.isoron.platform.Synchronized
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.TruncateField
+import org.isoron.platform.time.getFirstWeekday
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
@@ -97,7 +98,9 @@ open class EntryList {
             original.forEach { add(it) }
         } else {
             val intervals = buildIntervals(frequency, original)
-            snapIntervalsTogether(intervals)
+            if (frequency.mode == FrequencyMode.DAYS) {
+                snapIntervalsTogether(intervals)
+            }
             val computed = buildEntriesFromInterval(original, intervals)
             computed.filter { it.value != UNKNOWN || it.notes.isNotEmpty() }.forEach { add(it) }
         }
@@ -243,6 +246,16 @@ open class EntryList {
             freq: Frequency,
             entries: List<Entry>
         ): ArrayList<Interval> {
+            if (freq.mode == FrequencyMode.WEEKS && freq.denominator == 7) {
+                return buildWeekIntervals(freq, entries)
+            }
+            return buildRollingIntervals(freq, entries)
+        }
+
+        private fun buildRollingIntervals(
+            freq: Frequency,
+            entries: List<Entry>
+        ): ArrayList<Interval> {
             val filtered = entries.filter { it.value == YES_MANUAL }
             val num = freq.numerator
             val den = freq.denominator
@@ -264,6 +277,29 @@ open class EntryList {
                 }
             }
             return intervals
+        }
+
+        private fun buildWeekIntervals(
+            freq: Frequency,
+            entries: List<Entry>
+        ): ArrayList<Interval> {
+            val filtered = entries.filter { it.value == YES_MANUAL }
+            val firstWeekday = getFirstWeekday()
+            val intervals = arrayListOf<Interval>()
+            val grouped = filtered.groupBy {
+                it.date.startOfWeek(firstWeekday)
+            }
+
+            grouped.entries.sortedByDescending { it.key }.forEach { (weekStart, weekEntries) ->
+                if (weekEntries.size < freq.numerator) return@forEach
+                val completionDate = weekEntries
+                    .sortedBy { it.date }
+                    .get(freq.numerator - 1)
+                    .date
+                val weekEnd = weekStart.plus(6)
+                intervals.add(Interval(weekStart, completionDate, weekEnd))
+            }
+            return ArrayList(intervals.sortedByDescending { it.begin })
         }
     }
 }

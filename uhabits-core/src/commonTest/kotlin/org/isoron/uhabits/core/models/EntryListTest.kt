@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.models
 
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.TruncateField
+import org.isoron.platform.time.setFirstWeekdayNumber
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
@@ -278,6 +279,7 @@ class EntryListTest {
 
     @Test
     fun testBuildIntervals1() {
+        setFirstWeekdayNumber(7)
         val entries = listOf(
             Entry(day(8), YES_MANUAL),
             Entry(day(18), YES_MANUAL),
@@ -285,8 +287,8 @@ class EntryListTest {
         )
         val expected = listOf(
             EntryList.Interval(day(8), day(8), day(2)),
-            EntryList.Interval(day(18), day(18), day(12)),
-            EntryList.Interval(day(23), day(23), day(17))
+            EntryList.Interval(day(22), day(18), day(16)),
+            EntryList.Interval(day(29), day(23), day(23))
         )
         val actual = EntryList.buildIntervals(Frequency.WEEKLY, entries)
         assertEquals(expected, actual)
@@ -310,6 +312,7 @@ class EntryListTest {
 
     @Test
     fun testBuildIntervals3() {
+        setFirstWeekdayNumber(7)
         val entries = listOf(
             Entry(day(8), YES_MANUAL),
             Entry(day(15), YES_MANUAL),
@@ -318,9 +321,7 @@ class EntryListTest {
             Entry(day(23), YES_MANUAL)
         )
         val expected = listOf(
-            EntryList.Interval(day(18), day(15), day(12)),
-            EntryList.Interval(day(22), day(18), day(16)),
-            EntryList.Interval(day(23), day(22), day(17))
+            EntryList.Interval(day(22), day(18), day(16))
         )
         val actual = EntryList.buildIntervals(Frequency.TWO_TIMES_PER_WEEK, entries)
         assertEquals(expected, actual)

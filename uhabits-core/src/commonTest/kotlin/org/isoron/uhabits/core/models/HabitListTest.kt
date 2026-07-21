@@ -204,10 +204,10 @@ class HabitListTest : BaseUnitTest() {
         list.add(h3)
         val expectedCSV =
             """
-            Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,Color,Unit,Target Type,Target Value,Archived?
-            001,Meditate,YES_NO,Did you meditate this morning?,this is a test description,1,1,#FF8F00,,,,false
-            002,Run,NUMERICAL,How many miles did you run today?,,1,1,#E64A19,miles,AT_LEAST,2.0,false
-            003,Wake up early,YES_NO,Did you wake up before 6am?,,2,3,#AFB42B,,,,false
+            Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,FrequencyMode,Color,Unit,Target Type,Target Value,Archived?
+            001,Meditate,YES_NO,Did you meditate this morning?,this is a test description,1,1,DAYS,#FF8F00,,,,false
+            002,Run,NUMERICAL,How many miles did you run today?,,1,1,DAYS,#E64A19,miles,AT_LEAST,2.0,false
+            003,Wake up early,YES_NO,Did you wake up before 6am?,,2,3,DAYS,#AFB42B,,,,false
 
             """.trimIndent()
         assertEquals(expectedCSV, list.writeCSV())

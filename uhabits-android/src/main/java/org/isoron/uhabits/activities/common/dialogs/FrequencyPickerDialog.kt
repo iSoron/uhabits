@@ -29,18 +29,20 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import org.isoron.uhabits.R
+import org.isoron.uhabits.core.models.FrequencyMode
 import org.isoron.uhabits.databinding.FrequencyPickerDialogBinding
 
 class FrequencyPickerDialog(
     var freqNumerator: Int,
-    var freqDenominator: Int
+    var freqDenominator: Int,
+    var freqMode: FrequencyMode
 ) : AppCompatDialogFragment() {
     private var _binding: FrequencyPickerDialogBinding? = null
     private val binding get() = _binding!!
 
-    var onFrequencyPicked: (num: Int, den: Int) -> Unit = { _, _ -> }
+    var onFrequencyPicked: (num: Int, den: Int, mode: FrequencyMode) -> Unit = { _, _, _ -> }
 
-    constructor() : this(1, 1)
+    constructor() : this(1, 1, FrequencyMode.DAYS)
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -137,6 +139,7 @@ class FrequencyPickerDialog(
     private fun onSaveClicked() {
         var numerator = 1
         var denominator = 1
+        var mode = FrequencyMode.DAYS
         when {
             binding.everyDayRadioButton.isChecked -> {
                 // NOP
@@ -152,6 +155,7 @@ class FrequencyPickerDialog(
                 if (binding.xTimesPerWeekTextView.text.isNotEmpty()) {
                     numerator = Integer.parseInt(binding.xTimesPerWeekTextView.text.toString())
                     denominator = 7
+                    mode = FrequencyMode.WEEKS
                 }
             }
 
@@ -174,8 +178,9 @@ class FrequencyPickerDialog(
         if (numerator >= denominator || numerator < 1) {
             numerator = 1
             denominator = 1
+            mode = FrequencyMode.DAYS
         }
-        onFrequencyPicked(numerator, denominator)
+        onFrequencyPicked(numerator, denominator, mode)
         dismiss()
     }
 
@@ -201,12 +206,18 @@ class FrequencyPickerDialog(
                 if (freqDenominator == 1) {
                     binding.everyDayRadioButton.isChecked = true
                 } else {
-                    binding.everyXDaysRadioButton.isChecked = true
-                    binding.everyXDaysTextView.setText(freqDenominator.toString())
-                    selectInputField(binding.everyXDaysTextView)
+                    if (freqDenominator == 7 && freqMode == FrequencyMode.WEEKS) {
+                        binding.xTimesPerWeekRadioButton.isChecked = true
+                        binding.xTimesPerWeekTextView.setText(freqNumerator.toString())
+                        selectInputField(binding.xTimesPerWeekTextView)
+                    } else {
+                        binding.everyXDaysRadioButton.isChecked = true
+                        binding.everyXDaysTextView.setText(freqDenominator.toString())
+                        selectInputField(binding.everyXDaysTextView)
+                    }
                 }
             } else {
-                if (freqDenominator == 7) {
+                if (freqDenominator == 7 && freqMode == FrequencyMode.WEEKS) {
                     binding.xTimesPerWeekRadioButton.isChecked = true
                     binding.xTimesPerWeekTextView.setText(freqNumerator.toString())
                     selectInputField(binding.xTimesPerWeekTextView)

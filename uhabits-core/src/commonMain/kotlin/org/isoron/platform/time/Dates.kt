@@ -22,6 +22,7 @@ package org.isoron.platform.time
 import kotlin.math.ceil
 
 private var currentToday: LocalDate? = null
+private var currentFirstWeekday: DayOfWeek? = null
 
 fun getToday(): LocalDate =
     currentToday ?: error("getToday() called before setToday()")
@@ -32,6 +33,13 @@ fun setToday(date: LocalDate) {
 
 fun resetToday() {
     currentToday = null
+}
+
+fun getFirstWeekday(): DayOfWeek =
+    currentFirstWeekday ?: DayOfWeek.entries[getFirstWeekdayNumberAccordingToLocale() - 1]
+
+fun setFirstWeekdayNumber(value: Int?) {
+    currentFirstWeekday = value?.let { DayOfWeek.entries[it - 1] }
 }
 
 enum class DayOfWeek(val daysSinceSunday: Int) {

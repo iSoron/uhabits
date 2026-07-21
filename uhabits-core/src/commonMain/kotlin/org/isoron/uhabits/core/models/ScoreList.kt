@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.models
 
 import org.isoron.platform.Synchronized
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.getFirstWeekday
 import org.isoron.uhabits.core.models.Score.Companion.compute
 import kotlin.math.max
 import kotlin.math.min
@@ -73,6 +74,18 @@ class ScoreList {
         to: LocalDate
     ) {
         map.clear()
+        if (frequency.mode == FrequencyMode.WEEKS && frequency.denominator == 7) {
+            recomputeWeekly(
+                frequency = frequency,
+                isNumerical = isNumerical,
+                numericalHabitType = numericalHabitType,
+                targetValue = targetValue,
+                computedEntries = computedEntries,
+                from = from,
+                to = to
+            )
+            return
+        }
         var rollingSum = 0.0
         var numerator = frequency.numerator
         var denominator = frequency.denominator
@@ -134,6 +147,70 @@ class ScoreList {
             }
             val date = from.plus(i)
             map[date] = Score(date, previousValue)
+        }
+    }
+
+    private fun recomputeWeekly(
+        frequency: Frequency,
+        isNumerical: Boolean,
+        numericalHabitType: NumericalHabitType,
+        targetValue: Double,
+        computedEntries: EntryList,
+        from: LocalDate,
+        to: LocalDate
+    ) {
+        val freq = frequency.toDouble()
+        val isAtMost = numericalHabitType == NumericalHabitType.AT_MOST
+        val firstWeekday = getFirstWeekday()
+        val entries = computedEntries.getByInterval(from, to).asReversed()
+        var previousValue = if (isNumerical && isAtMost) 1.0 else 0.0
+        val weeklySums = mutableMapOf<LocalDate, Double>()
+
+        for (entry in entries) {
+            val week = entry.date.startOfWeek(firstWeekday)
+            if (isNumerical) {
+                val contribution = if (entry.value == Entry.SKIP) 0 else max(0, entry.value)
+                weeklySums[week] = (weeklySums[week] ?: 0.0) + contribution
+            } else if (entry.value == Entry.YES_MANUAL) {
+                weeklySums[week] = (weeklySums[week] ?: 0.0) + 1.0
+            } else if (entry.value == Entry.YES_AUTO) {
+                weeklySums[week] = max(weeklySums[week] ?: 0.0, frequency.numerator.toDouble())
+            }
+        }
+
+        for (entry in entries) {
+            val week = entry.date.startOfWeek(firstWeekday)
+            val weeklySum = weeklySums[week] ?: 0.0
+
+            if (isNumerical) {
+                val normalizedWeeklySum = weeklySum / 1000
+                if (entry.value != Entry.SKIP) {
+                    val percentageCompleted = if (!isAtMost) {
+                        if (targetValue > 0) {
+                            min(1.0, normalizedWeeklySum / targetValue)
+                        } else {
+                            1.0
+                        }
+                    } else {
+                        if (targetValue > 0) {
+                            (1 - ((normalizedWeeklySum - targetValue) / targetValue)).coerceIn(
+                                0.0,
+                                1.0
+                            )
+                        } else {
+                            if (normalizedWeeklySum > 0) 0.0 else 1.0
+                        }
+                    }
+                    previousValue = compute(freq, previousValue, percentageCompleted)
+                }
+            } else {
+                if (entry.value != Entry.SKIP) {
+                    val percentageCompleted = min(1.0, weeklySum / frequency.numerator)
+                    previousValue = compute(freq, previousValue, percentageCompleted)
+                }
+            }
+
+            map[entry.date] = Score(entry.date, previousValue)
         }
     }
 }

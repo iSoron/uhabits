@@ -16,8 +16,15 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.isoron.uhabits.core
+package org.isoron.uhabits.core.models
 
-const val DATABASE_FILENAME = "uhabits.db"
+enum class FrequencyMode(val value: Int) {
+    DAYS(0),
+    WEEKS(1);
 
-const val DATABASE_VERSION = 26
+    companion object {
+        fun fromInt(value: Int): FrequencyMode {
+            return entries.firstOrNull { it.value == value } ?: DAYS
+        }
+    }
+}

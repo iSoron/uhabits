@@ -13,6 +13,7 @@ data class HabitData(
     var question: String = "",
     var freqNum: Int = 1,
     var freqDen: Int = 1,
+    var freqMode: Int = 0,
     var color: Int = 0,
     var position: Int = 0,
     var reminderHour: Int? = null,
@@ -30,7 +31,7 @@ data class HabitData(
 class HabitRepository(private val db: Database) {
     private val findAllStmt by lazy {
         db.prepareStatement(
-            """SELECT id, name, description, question, freq_num, freq_den, color,
+            """SELECT id, name, description, question, freq_num, freq_den, freq_mode, color,
                position, reminder_hour, reminder_min, reminder_days, highlight,
                archived, type, target_value, target_type, unit, uuid
                FROM Habits ORDER BY position"""
@@ -39,26 +40,26 @@ class HabitRepository(private val db: Database) {
 
     private val insertStmt by lazy {
         db.prepareStatement(
-            """INSERT INTO Habits(name, description, question, freq_num, freq_den,
-               color, position, reminder_hour, reminder_min, reminder_days,
-               highlight, archived, type, target_value, target_type, unit, uuid)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-        )
-    }
-
-    private val insertWithIdStmt by lazy {
-        db.prepareStatement(
-            """INSERT INTO Habits(id, name, description, question, freq_num, freq_den,
+            """INSERT INTO Habits(name, description, question, freq_num, freq_den, freq_mode,
                color, position, reminder_hour, reminder_min, reminder_days,
                highlight, archived, type, target_value, target_type, unit, uuid)
                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
         )
     }
 
+    private val insertWithIdStmt by lazy {
+        db.prepareStatement(
+            """INSERT INTO Habits(id, name, description, question, freq_num, freq_den, freq_mode,
+               color, position, reminder_hour, reminder_min, reminder_days,
+               highlight, archived, type, target_value, target_type, unit, uuid)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+        )
+    }
+
     private val updateStmt by lazy {
         db.prepareStatement(
             """UPDATE Habits SET name=?, description=?, question=?, freq_num=?,
-               freq_den=?, color=?, position=?, reminder_hour=?, reminder_min=?,
+               freq_den=?, freq_mode=?, color=?, position=?, reminder_hour=?, reminder_min=?,
                reminder_days=?, highlight=?, archived=?, type=?, target_value=?,
                target_type=?, unit=?, uuid=? WHERE id=?"""
         )
@@ -94,7 +95,7 @@ class HabitRepository(private val db: Database) {
     fun update(data: HabitData) {
         updateStmt.reset()
         bindForInsert(updateStmt, data)
-        updateStmt.bindLong(18, data.id!!)
+        updateStmt.bindLong(19, data.id!!)
         updateStmt.step()
     }
 
@@ -115,18 +116,19 @@ class HabitRepository(private val db: Database) {
         stmt.bindText(3 + o, data.question)
         stmt.bindInt(4 + o, data.freqNum)
         stmt.bindInt(5 + o, data.freqDen)
-        stmt.bindInt(6 + o, data.color)
-        stmt.bindInt(7 + o, data.position)
-        if (data.reminderHour != null) stmt.bindInt(8 + o, data.reminderHour!!) else stmt.bindNull(8 + o)
-        if (data.reminderMin != null) stmt.bindInt(9 + o, data.reminderMin!!) else stmt.bindNull(9 + o)
-        stmt.bindInt(10 + o, data.reminderDays)
-        stmt.bindInt(11 + o, data.highlight)
-        stmt.bindInt(12 + o, data.archived)
-        stmt.bindInt(13 + o, data.type)
-        stmt.bindReal(14 + o, data.targetValue)
-        stmt.bindInt(15 + o, data.targetType)
-        stmt.bindText(16 + o, data.unit)
-        if (data.uuid != null) stmt.bindText(17 + o, data.uuid!!) else stmt.bindNull(17 + o)
+        stmt.bindInt(6 + o, data.freqMode)
+        stmt.bindInt(7 + o, data.color)
+        stmt.bindInt(8 + o, data.position)
+        if (data.reminderHour != null) stmt.bindInt(9 + o, data.reminderHour!!) else stmt.bindNull(9 + o)
+        if (data.reminderMin != null) stmt.bindInt(10 + o, data.reminderMin!!) else stmt.bindNull(10 + o)
+        stmt.bindInt(11 + o, data.reminderDays)
+        stmt.bindInt(12 + o, data.highlight)
+        stmt.bindInt(13 + o, data.archived)
+        stmt.bindInt(14 + o, data.type)
+        stmt.bindReal(15 + o, data.targetValue)
+        stmt.bindInt(16 + o, data.targetType)
+        stmt.bindText(17 + o, data.unit)
+        if (data.uuid != null) stmt.bindText(18 + o, data.uuid!!) else stmt.bindNull(18 + o)
     }
 
     private fun readRow(stmt: PreparedStatement): HabitData {
@@ -137,18 +139,19 @@ class HabitRepository(private val db: Database) {
             question = stmt.getText(3),
             freqNum = stmt.getInt(4),
             freqDen = stmt.getInt(5),
-            color = stmt.getInt(6),
-            position = stmt.getInt(7),
-            reminderHour = stmt.getIntOrNull(8),
-            reminderMin = stmt.getIntOrNull(9),
-            reminderDays = stmt.getInt(10),
-            highlight = stmt.getInt(11),
-            archived = stmt.getInt(12),
-            type = stmt.getInt(13),
-            targetValue = stmt.getReal(14),
-            targetType = stmt.getInt(15),
-            unit = stmt.getText(16),
-            uuid = stmt.getTextOrNull(17)
+            freqMode = stmt.getInt(6),
+            color = stmt.getInt(7),
+            position = stmt.getInt(8),
+            reminderHour = stmt.getIntOrNull(9),
+            reminderMin = stmt.getIntOrNull(10),
+            reminderDays = stmt.getInt(11),
+            highlight = stmt.getInt(12),
+            archived = stmt.getInt(13),
+            type = stmt.getInt(14),
+            targetValue = stmt.getReal(15),
+            targetType = stmt.getInt(16),
+            unit = stmt.getText(17),
+            uuid = stmt.getTextOrNull(18)
         )
     }
 }
