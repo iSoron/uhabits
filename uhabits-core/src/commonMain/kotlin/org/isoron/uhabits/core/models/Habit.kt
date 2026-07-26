@@ -73,7 +73,7 @@ data class Habit(
     fun isEnteredToday(): Boolean {
         val today = getToday()
         val value = computedEntries.get(today).value
-        return value != Entry.UNKNOWN
+        return value != Entry.UNKNOWN && value != Entry.YES_AUTO
     }
 
     fun recompute() {

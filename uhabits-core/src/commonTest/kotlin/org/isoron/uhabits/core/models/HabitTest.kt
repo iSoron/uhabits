@@ -84,6 +84,19 @@ class HabitTest : BaseUnitTest() {
     }
 
     @Test
+    fun test_isEntered_implicitlyCompleted() {
+        val today = getToday()
+        val h = modelFactory.buildHabit()
+        h.frequency = Frequency(2, 7)
+        h.originalEntries.add(Entry(today.minus(1), Entry.YES_MANUAL))
+        h.originalEntries.add(Entry(today.minus(2), Entry.YES_MANUAL))
+        h.recompute()
+        // Today is implicitly completed (YES_AUTO), but nothing was entered today
+        assertEquals(Entry.YES_AUTO, h.computedEntries.get(today).value)
+        assertFalse(h.isEnteredToday())
+    }
+
+    @Test
     fun test_isCompleted_numerical() {
         val h = modelFactory.buildHabit()
         h.type = HabitType.NUMERICAL
