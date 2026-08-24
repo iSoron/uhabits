@@ -40,8 +40,10 @@ import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
+import org.isoron.uhabits.activities.common.views.StreakFlameView
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.ModelObservable
+import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.currentTheme
@@ -53,16 +55,24 @@ class HabitCardViewFactory(
     @ActivityContext val context: Context,
     private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
     private val numberPanelFactory: NumberPanelViewFactory,
-    private val behavior: ListHabitsBehavior
+    private val behavior: ListHabitsBehavior,
+    private val preferences: Preferences
 ) {
-    fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
+    fun create() = HabitCardView(
+        context,
+        checkmarkPanelFactory,
+        numberPanelFactory,
+        behavior,
+        preferences
+    )
 }
 
 class HabitCardView(
     @ActivityContext context: Context,
     checkmarkPanelFactory: CheckmarkPanelViewFactory,
     numberPanelFactory: NumberPanelViewFactory,
-    private val behavior: ListHabitsBehavior
+    private val behavior: ListHabitsBehavior,
+    private val preferences: Preferences
 ) : FrameLayout(context),
     ModelObservable.Listener {
 
@@ -97,6 +107,12 @@ class HabitCardView(
             scoreRing.setPrecision(1.0f / 16)
         }
 
+    var streak
+        get() = streakFlame.streak
+        set(value) {
+            streakFlame.streak = value
+        }
+
     var unit
         get() = numberPanel.units
         set(value) {
@@ -128,6 +144,7 @@ class HabitCardView(
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
+    private var streakFlame: StreakFlameView
 
     private var currentToggleTaskId = 0
 
@@ -141,6 +158,14 @@ class HabitCardView(
                 gravity = Gravity.CENTER
             }
             setThickness(thickness)
+        }
+
+        streakFlame = StreakFlameView(context).apply {
+            val margin = dp(4f).toInt()
+            layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                setMargins(margin, 0, margin, 0)
+                gravity = Gravity.CENTER
+            }
         }
 
         label = TextView(context).apply {
@@ -190,6 +215,7 @@ class HabitCardView(
             elevation = dp(1f)
 
             addView(scoreRing)
+            addView(streakFlame)
             addView(label)
             addView(checkmarkPanel)
             addView(numberPanel)
@@ -272,12 +298,21 @@ class HabitCardView(
         }
 
         val c = getActiveColor(h)
+        val showFlame = preferences.isStreakFlameEnabled
         label.apply {
             text = h.name
             setTextColor(c)
         }
         scoreRing.apply {
             setColor(c)
+            visibility = if (showFlame) View.GONE else View.VISIBLE
+        }
+        streakFlame.apply {
+            color = c
+            isArchived = h.isArchived
+            val today = getToday()
+            streak = h.streaks.getCurrentStreak(today)?.length ?: 0
+            visibility = if (showFlame) View.VISIBLE else View.GONE
         }
         checkmarkPanel.apply {
             color = c

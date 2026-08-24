@@ -112,6 +112,7 @@ class HabitCardListView(
         holder: HabitCardViewHolder,
         habit: Habit,
         score: Double,
+        streak: Int,
         checkmarks: IntArray,
         notes: Array<String>,
         selected: Boolean
@@ -123,6 +124,7 @@ class HabitCardListView(
         cardView.buttonCount = checkmarkCount
         cardView.dataOffset = dataOffset
         cardView.score = score
+        cardView.streak = streak
         cardView.unit = habit.unit
         cardView.threshold = habit.targetValue / habit.frequency.denominator
         cardView.notes = notes

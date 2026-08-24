@@ -24,6 +24,8 @@ import org.isoron.uhabits.core.BaseUnitTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class StreakListTest : BaseUnitTest() {
     private lateinit var habit: Habit
@@ -63,5 +65,47 @@ class StreakListTest : BaseUnitTest() {
         val best = streaks.getBest(5)
         assertEquals(1, best.size)
         assertEquals(1, best[0].length)
+    }
+
+    @Test
+    fun testGetCurrentStreak_completedToday() {
+        habit.originalEntries.clear()
+        habit.originalEntries.add(Entry(today, Entry.YES_MANUAL))
+        habit.originalEntries.add(Entry(today.minus(1), Entry.YES_MANUAL))
+        habit.originalEntries.add(Entry(today.minus(2), Entry.YES_MANUAL))
+        habit.recompute()
+        val current = streaks.getCurrentStreak(today)
+        assertNotNull(current)
+        assertEquals(3, current.length)
+        assertEquals(today.minus(2), current.start)
+        assertEquals(today, current.end)
+    }
+
+    @Test
+    fun testGetCurrentStreak_completedYesterdayNotToday() {
+        habit.originalEntries.clear()
+        habit.originalEntries.add(Entry(today.minus(1), Entry.YES_MANUAL))
+        habit.originalEntries.add(Entry(today.minus(2), Entry.YES_MANUAL))
+        habit.recompute()
+        val current = streaks.getCurrentStreak(today)
+        assertNull(current)
+    }
+
+    @Test
+    fun testGetCurrentStreak_brokenTwoDaysAgo() {
+        habit.originalEntries.clear()
+        habit.originalEntries.add(Entry(today.minus(2), Entry.YES_MANUAL))
+        habit.originalEntries.add(Entry(today.minus(3), Entry.YES_MANUAL))
+        habit.recompute()
+        val current = streaks.getCurrentStreak(today)
+        assertNull(current)
+    }
+
+    @Test
+    fun testGetCurrentStreak_empty() {
+        habit.originalEntries.clear()
+        habit.recompute()
+        val current = streaks.getCurrentStreak(today)
+        assertNull(current)
     }
 }
