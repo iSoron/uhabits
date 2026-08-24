@@ -218,6 +218,12 @@ open class Preferences(private val storage: Storage) {
             for (l in listeners) l.onQuestionMarksChanged()
         }
 
+    open var isStreakFlameEnabled: Boolean
+        get() = storage.getBoolean("pref_streak_flame", false)
+        set(enabled) {
+            storage.putBoolean("pref_streak_flame", enabled)
+        }
+
     /**
      * @return An integer representing the first day of the week. Sunday
      * corresponds to 1, Monday to 2, and so on, until Saturday, which is

@@ -82,8 +82,10 @@ class HabitCardListCacheTest : BaseUnitTest() {
         assertEquals(10, cache.habitCount)
         val h = habitList.getByPosition(3)
         val score = h.scores[today].value
+        val streak = h.streaks.getCurrentStreak(today)?.length ?: 0
         assertEquals(h, cache.getHabitByPosition(3))
         assertEquals(score, cache.getScore(h.id!!))
+        assertEquals(streak, cache.getStreak(h.id!!))
         val actualCheckmarks = cache.getCheckmarks(h.id!!)
 
         val expectedCheckmarks = h

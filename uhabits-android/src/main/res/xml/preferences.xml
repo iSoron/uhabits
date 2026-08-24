@@ -59,6 +59,12 @@
                 android:title="@string/reverse_days"
                 app:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+                android:defaultValue="false"
+                android:key="pref_streak_flame"
+                android:summary="@string/pref_streak_flame_description"
+                android:title="@string/pref_streak_flame_title"
+                app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
                 android:defaultValue="false"

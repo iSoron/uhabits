@@ -238,4 +238,6 @@
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
     <string name="pref_animations_title">Disable animations</string>
     <string name="pref_animations_description">Disable confetti animation after adding a checkmark.</string>
+    <string name="pref_streak_flame_title">Show streak flame</string>
+    <string name="pref_streak_flame_description">Show streak flame with number of successive days instead of score circle.</string>
 </resources>

@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.models
 
 import org.isoron.platform.Synchronized
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.getToday
 import kotlin.math.min
 
 class StreakList {
@@ -31,6 +32,11 @@ class StreakList {
         return list.subList(0, min(list.size, limit)).apply {
             sortWith { s1: Streak, s2: Streak -> s2.compareNewer(s1) }
         }.toList()
+    }
+
+    @Synchronized
+    fun getCurrentStreak(today: LocalDate = getToday()): Streak? {
+        return list.firstOrNull { it.end >= today && it.start <= today }
     }
 
     @Synchronized

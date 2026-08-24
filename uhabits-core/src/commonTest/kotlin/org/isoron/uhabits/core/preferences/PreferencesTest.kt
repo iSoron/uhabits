@@ -152,4 +152,11 @@ class PreferencesTest : BaseUnitTest() {
         prefs.isMidnightDelayEnabled = true
         assertTrue(prefs.isMidnightDelayEnabled)
     }
+
+    @Test
+    fun testStreakFlame() {
+        assertFalse(prefs.isStreakFlameEnabled)
+        prefs.isStreakFlameEnabled = true
+        assertTrue(prefs.isStreakFlameEnabled)
+    }
 }

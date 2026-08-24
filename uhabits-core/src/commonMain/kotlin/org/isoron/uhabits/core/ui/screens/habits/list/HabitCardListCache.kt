@@ -125,6 +125,11 @@ class HabitCardListCache(
     }
 
     @Synchronized
+    fun getStreak(habitId: Long): Int {
+        return data.streaks[habitId] ?: 0
+    }
+
+    @Synchronized
     fun onAttached() {
         refreshAllHabits()
         commandRunner.addListener(this)
@@ -166,6 +171,7 @@ class HabitCardListCache(
         data.checkmarks.remove(id)
         data.notes.remove(id)
         data.scores.remove(id)
+        data.streaks.remove(id)
         listener.onItemRemoved(position)
     }
 
@@ -209,6 +215,7 @@ class HabitCardListCache(
         val habits: MutableList<Habit>
         val checkmarks: MutableMap<Long?, IntArray>
         val scores: MutableMap<Long?, Double>
+        val streaks: MutableMap<Long?, Int>
         val notes: MutableMap<Long?, Array<String>>
 
         @Synchronized
@@ -250,6 +257,18 @@ class HabitCardListCache(
         }
 
         @Synchronized
+        fun copyStreaksFrom(oldData: CacheData) {
+            for (id in idToHabit.keys) {
+                if (oldData.streaks.containsKey(id)) {
+                    streaks[id] =
+                        oldData.streaks[id]!!
+                } else {
+                    streaks[id] = 0
+                }
+            }
+        }
+
+        @Synchronized
         fun fetchHabits() {
             for (h in filteredHabits) {
                 if (h.id == null) continue
@@ -265,6 +284,7 @@ class HabitCardListCache(
             habits = mutableListOf()
             checkmarks = mutableMapOf()
             scores = mutableMapOf()
+            streaks = mutableMapOf()
             notes = mutableMapOf()
         }
     }
@@ -295,6 +315,7 @@ class HabitCardListCache(
         override suspend fun doInBackground() {
             newData.fetchHabits()
             newData.copyScoresFrom(data)
+            newData.copyStreaksFrom(data)
             newData.copyCheckmarksFrom(data)
             newData.copyNoteIndicatorsFrom(data)
             val today = getToday()
@@ -305,6 +326,7 @@ class HabitCardListCache(
                 val habit = newData.habits[position]
                 if (targetId != null && targetId != habit.id) continue
                 newData.scores[habit.id] = habit.scores[today].value
+                newData.streaks[habit.id] = habit.streaks.getCurrentStreak(today)?.length ?: 0
                 val checkmarkList = mutableListOf<Int>()
                 val noteList = mutableListOf<String>()
                 for ((_, value, note) in habit.computedEntries.getByInterval(dateFrom, today)) {
@@ -339,6 +361,7 @@ class HabitCardListCache(
             data.habits.add(position, habit)
             data.idToHabit[id] = habit
             data.scores[id] = newData.scores[id]!!
+            data.streaks[id] = newData.streaks[id]!!
             data.checkmarks[id] = newData.checkmarks[id]!!
             data.notes[id] = newData.notes[id]!!
             listener.onItemInserted(position)
@@ -367,17 +390,21 @@ class HabitCardListCache(
         @Synchronized
         private fun performUpdate(id: Long, position: Int) {
             val oldScore = data.scores[id]!!
+            val oldStreak = data.streaks[id]
             val oldCheckmarks = data.checkmarks[id]
             val oldNoteIndicators = data.notes[id]
             val newScore = newData.scores[id]!!
+            val newStreak = newData.streaks[id]!!
             val newCheckmarks = newData.checkmarks[id]!!
             val newNoteIndicators = newData.notes[id]!!
             var unchanged = true
             if (oldScore != newScore) unchanged = false
+            if (oldStreak != newStreak) unchanged = false
             if (!oldCheckmarks.contentEquals(newCheckmarks)) unchanged = false
             if (!oldNoteIndicators.contentEquals(newNoteIndicators)) unchanged = false
             if (unchanged) return
             data.scores[id] = newScore
+            data.streaks[id] = newStreak
             data.checkmarks[id] = newCheckmarks
             data.notes[id] = newNoteIndicators
             listener.onItemChanged(position)
