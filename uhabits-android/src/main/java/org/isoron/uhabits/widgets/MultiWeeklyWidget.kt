@@ -86,7 +86,7 @@ class MultiWeeklyWidget(
         }
 
     private fun buildColoredTitle(): CharSequence {
-        val names = habits.take(4).map { it.name.take(3) }
+        val names = habits.take(5).map { it.name.take(3) }
         val spannable = SpannableString(names.joinToString(" · "))
         var offset = 0
         names.forEachIndexed { index, name ->
