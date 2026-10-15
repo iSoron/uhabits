@@ -54,6 +54,7 @@ class RingView : View {
     private var rect: RectF? = null
     private var pRing: TextPaint? = null
     private var backgroundColor: Int? = null
+    private var fillColor: Int? = null
     private var inactiveColor: Int? = null
     private var em = 0f
     private var text: String?
@@ -102,6 +103,11 @@ class RingView : View {
 
     fun getColor(): Int {
         return color
+    }
+
+    fun setFillColor(color: Int?) {
+        fillColor = color
+        invalidate()
     }
 
     fun setIsTransparencyEnabled(isTransparencyEnabled: Boolean) {
@@ -162,6 +168,10 @@ class RingView : View {
             rect!!.inset(thickness, thickness)
             activeCanvas.drawArc(rect!!, 0f, 360f, true, pRing!!)
             pRing!!.xfermode = null
+            if (isTransparencyEnabled && fillColor != null) {
+                pRing!!.color = fillColor!!
+                activeCanvas.drawArc(rect!!, 0f, 360f, true, pRing!!)
+            }
             pRing!!.color = color
             pRing!!.textSize = textSize
 

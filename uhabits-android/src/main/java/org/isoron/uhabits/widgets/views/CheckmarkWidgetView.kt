@@ -34,6 +34,7 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.HabitsApplicationComponent
+import org.isoron.uhabits.utils.ColorUtils.setAlpha
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
 import org.isoron.uhabits.utils.PaletteUtils.getAndroidTestColor
 import org.isoron.uhabits.utils.StyledResources
@@ -84,8 +85,9 @@ class CheckmarkWidgetView : HabitWidgetView {
             }
         }
         ring.setPercentage(percentage)
-        ring.setColor(fgColor)
+        ring.setColor(res.getColor(R.attr.contrast0))
         ring.setBackgroundColor(bgColor)
+        ring.setFillColor(setAlpha(activeColor, 0.6f))
         ring.setText(text)
         ring.setIsStrokedTextEnabled(strokedTextEnabled)
         label.text = name
@@ -140,11 +142,11 @@ class CheckmarkWidgetView : HabitWidgetView {
         val textSize = min(0.175f * width, getDimension(context, R.dimen.smallTextSize))
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
         if (isNumerical) {
-            ring.setTextSize(textSize * 0.9f)
+            ring.setTextSize(textSize * 1.2f) // 0.9f + 33%
         } else {
-            ring.setTextSize(textSize)
+            ring.setTextSize(textSize * 1.33f)
         }
-        ring.setThickness(0.03f * width)
+        ring.setThickness(0.0375f * width)
         super.onMeasure(
             MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
             MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY)
