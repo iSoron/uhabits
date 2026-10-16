@@ -24,7 +24,7 @@ plugins {
 }
 
 kotlin {
-    jvm().withJava()
+    jvm()
     jvmToolchain(17)
 
     js(IR) {
