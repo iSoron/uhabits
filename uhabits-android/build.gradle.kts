@@ -139,5 +139,6 @@ dependencies {
     androidTestImplementation(libs.uiautomator)
 
     testImplementation(libs.kotlin.inject.runtime)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit.junit)
 }

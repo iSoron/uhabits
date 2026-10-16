@@ -86,3 +86,27 @@ The repository will be downloaded to the directory `uhabits`.
 If the compilation is successful, a debug APK will be generated somewhere inside the folder `uhabits-android/build/`. Currently, the full path is `./uhabits-android/build/outputs/apk/debug/uhabits-android-debug.apk`, but it may change in the future.
 
 The APK can be installed using the tool `adb`, which should have been automatically installed at `/opt/android-sdk/platform-tools/adb` during compilation of the project.
+
+## GitHub Actions
+
+The `CI` workflow runs on pull requests, pushes to any branch, and manual
+dispatches. It uses Java 17 and Android SDK 36 to build the debug APK and run the
+core and Android JVM unit tests. The JVM locale is set to English (US) to match
+the formatting and CSV fixtures.
+
+To run the same build and tests locally:
+
+```bash
+JAVA_TOOL_OPTIONS='-Duser.language=en -Duser.country=US' ./gradlew \
+  --no-daemon --console=plain --stacktrace --continue \
+  :uhabits-android:assembleDebug \
+  :uhabits-core:jvmTest \
+  :uhabits-android:testDebugUnitTest
+```
+
+Open a workflow run's summary to download the `debug-apk` artifact (retained for
+7 days) or the `test-results` artifact (retained for 14 days). Reports are also
+uploaded when tests fail. The APK is signed with a development key.
+
+This workflow does not run JavaScript browser tests or Android instrumented
+tests. See [TEST.md](TEST.md) for the emulator setup required by instrumented tests.
