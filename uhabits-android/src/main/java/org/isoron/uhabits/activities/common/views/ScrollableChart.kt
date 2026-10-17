@@ -28,11 +28,11 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Scroller
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getMonthsSince1970
+import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getMonthsSince1970
-import org.isoron.uhabits.core.utils.DateUtils.Companion.getStartOfTodayCalendar
 
 abstract class ScrollableChart : View, GestureDetector.OnGestureListener, AnimatorUpdateListener {
     var dataOffset = 0

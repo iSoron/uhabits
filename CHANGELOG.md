@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.2] -- 2026-10-17
+
+### Fixed
+
+- Fix widget picker dialog styling (@iSoron, #2341)
+- Fix habit edit screen not being scrollable when the keyboard is shown (@iSoron, #2342)
+- Fix crash when scrolling charts to dates before 1970 (@TangilHossain, #2229)
+- Improve ripple effect in "pure black" dark mode and handle navigation bar insets in settings (@Vladuken)
+
 ## [2.3.1] -- 2025-08-13
 
 ### Changed
