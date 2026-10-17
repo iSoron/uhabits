@@ -47,7 +47,9 @@ class StreakList {
             .getByInterval(from, to)
             .filter {
                 val value = it.value
-                if (isNumerical) {
+                if (value == Entry.SKIP) {
+                    true
+                } else if (isNumerical) {
                     when (targetType) {
                         NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
                         NumericalHabitType.AT_MOST -> value != Entry.UNKNOWN && value / 1000.0 <= targetValue

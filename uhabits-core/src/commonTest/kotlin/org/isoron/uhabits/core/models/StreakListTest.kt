@@ -64,4 +64,18 @@ class StreakListTest : BaseUnitTest() {
         assertEquals(1, best.size)
         assertEquals(1, best[0].length)
     }
+
+    @Test
+    fun testGetBest_skipDoesNotBreakNumericalAtLeastStreak() {
+        habit = fixtures.createEmptyNumericalHabit(NumericalHabitType.AT_LEAST)
+        with(habit.originalEntries) {
+            add(Entry(today, 2000))
+            add(Entry(today.minus(1), Entry.SKIP))
+            add(Entry(today.minus(2), 2000))
+        }
+        habit.recompute()
+        val best = habit.streaks.getBest(10)
+        assertEquals(1, best.size)
+        assertEquals(3, best[0].length)
+    }
 }
