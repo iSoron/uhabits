@@ -23,6 +23,10 @@ plugins {
     alias(libs.plugins.mokkery)
 }
 
+ktlint {
+    version.set(libs.versions.ktlint.engine.get())
+}
+
 kotlin {
     jvm()
     jvmToolchain(17)

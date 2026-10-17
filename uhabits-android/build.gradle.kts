@@ -25,6 +25,10 @@ plugins {
     alias(libs.plugins.mokkery)
 }
 
+ktlint {
+    version.set(libs.versions.ktlint.engine.get())
+}
+
 tasks.compileLint {
     dependsOn("updateTranslators")
 }

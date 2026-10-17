@@ -79,8 +79,8 @@ object CommonSteps : BaseUserInterfaceTest() {
     fun scrollToText(text: String?) {
         try {
             if (device
-                .findObject(UiSelector().className(RecyclerView::class.java))
-                .exists()
+                    .findObject(UiSelector().className(RecyclerView::class.java))
+                    .exists()
             ) {
                 Espresso.onView(CoreMatchers.instanceOf(RecyclerView::class.java)).perform(
                     RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(

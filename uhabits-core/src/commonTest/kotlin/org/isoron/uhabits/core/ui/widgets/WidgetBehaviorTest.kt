@@ -82,34 +82,34 @@ class WidgetBehaviorTest : BaseUnitTest() {
     @Test
     fun testOnToggleRepetition() {
         for (skipEnabled in listOf(true, false)) for (
-        currentValue in listOf(
-            Entry.NO,
-            Entry.YES_MANUAL,
-            Entry.YES_AUTO,
-            Entry.SKIP
-        )
-        ) {
-            every { preferences.isSkipEnabled } returns skipEnabled
-            val nextValue: Int = nextToggleValue(
-                currentValue,
-                isSkipEnabled = skipEnabled,
-                areQuestionMarksEnabled = false
+            currentValue in listOf(
+                Entry.NO,
+                Entry.YES_MANUAL,
+                Entry.YES_AUTO,
+                Entry.SKIP
             )
-            habit.originalEntries.add(Entry(today, currentValue))
-            behavior.onToggleRepetition(habit, today)
-            verify { preferences.isSkipEnabled }
-            verify {
-                commandRunner.run(
-                    CreateRepetitionCommand(habitList, habit, today, nextValue, "")
+            ) {
+                every { preferences.isSkipEnabled } returns skipEnabled
+                val nextValue: Int = nextToggleValue(
+                    currentValue,
+                    isSkipEnabled = skipEnabled,
+                    areQuestionMarksEnabled = false
                 )
+                habit.originalEntries.add(Entry(today, currentValue))
+                behavior.onToggleRepetition(habit, today)
+                verify { preferences.isSkipEnabled }
+                verify {
+                    commandRunner.run(
+                        CreateRepetitionCommand(habitList, habit, today, nextValue, "")
+                    )
+                }
+                verify {
+                    notificationTray.cancel(
+                        habit
+                    )
+                }
+                resetCalls(preferences, commandRunner, notificationTray)
             }
-            verify {
-                notificationTray.cancel(
-                    habit
-                )
-            }
-            resetCalls(preferences, commandRunner, notificationTray)
-        }
     }
 
     @Test

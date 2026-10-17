@@ -1,0 +1,17 @@
+root = true
+
+[*.{kt,kts}]
+ktlint_code_style = intellij_idea
+ij_kotlin_allow_trailing_comma = false
+ij_kotlin_allow_trailing_comma_on_call_site = false
+
+# Preserve the formatting policies used by ktlint 0.47 during this tool upgrade.
+ktlint_standard_function-expression-body = disabled
+ktlint_standard_function-signature = disabled
+ktlint_standard_class-signature = disabled
+ktlint_standard_enum-wrapping = disabled
+ktlint_standard_property-naming = disabled
+ktlint_standard_statement-wrapping = disabled
+ktlint_standard_multiline-loop = disabled
+ktlint_standard_backing-property-naming = disabled
+ktlint_standard_condition-wrapping = disabled
