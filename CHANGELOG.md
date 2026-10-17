@@ -19,12 +19,20 @@
 - Fix streak chart date format to be more compact (@iSoron, 07d87e4a)
 - Support content URIs when sharing backup files (@iSoron, 4383b3ed)
 - Fix frequency chart rendering random data in production (@TangilHossain, #2242)
-- Fix ripple effect on pure-dark mode and navigation bar insets on settings screen (@Vladuken, #2219)
 
 ### Refactoring & Testing
 
 - Migrate uhabits-core to Kotlin multiplatform (JVM + JS) (@sgallese, @iSoron)
 - Improve build.sh logging, validation, emulator lifecycle and ARM64 support (@iSoron)
+
+## [2.3.2] -- 2026-10-17
+
+### Fixed
+
+- Fix widget picker dialog styling (@iSoron, #2341)
+- Fix habit edit screen not being scrollable when the keyboard is shown (@iSoron, #2342)
+- Fix crash when scrolling charts to dates before 1970 (@TangilHossain, #2229)
+- Improve ripple effect in "pure black" dark mode and handle navigation bar insets in settings (@Vladuken, #2219)
 
 ## [2.3.1] -- 2025-08-13
 
