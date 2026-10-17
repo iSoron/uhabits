@@ -57,7 +57,7 @@ open class HabitPickerDialog : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val component = (applicationContext as HabitsApplication).component
-        AndroidThemeSwitcher(this, component.preferences).apply()
+        AndroidThemeSwitcher(this, component.preferences).applyDialog()
         val habitList = component.habitList
         widgetPreferences = component.widgetPreferences
         widgetUpdater = component.widgetUpdater

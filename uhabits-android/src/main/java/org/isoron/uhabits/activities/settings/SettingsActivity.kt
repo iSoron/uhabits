@@ -26,7 +26,6 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.databinding.SettingsActivityBinding
-import org.isoron.uhabits.utils.applyBottomInset
 import org.isoron.uhabits.utils.applyRootViewInsets
 import org.isoron.uhabits.utils.setupToolbar
 
@@ -45,7 +44,6 @@ class SettingsActivity : AppCompatActivity() {
             theme = themeSwitcher.currentTheme
         )
         binding.root.applyRootViewInsets()
-        binding.root.applyBottomInset()
         setContentView(binding.root)
     }
 }

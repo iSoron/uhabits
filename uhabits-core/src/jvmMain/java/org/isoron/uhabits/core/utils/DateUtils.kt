@@ -200,6 +200,18 @@ abstract class DateUtils {
         }
 
         @JvmStatic
+        fun getMonthsSince1970(today: GregorianCalendar): Int {
+            val start = GregorianCalendar(TimeZone.getTimeZone("GMT"))
+            start.set(1970, Calendar.JANUARY, 1, 0, 0, 0)
+            start.set(Calendar.MILLISECOND, 0)
+
+            val years = today.get(Calendar.YEAR) - start.get(Calendar.YEAR) - 2
+            val months = today.get(Calendar.MONTH) - start.get(Calendar.MONTH)
+
+            return years * 12 + months
+        }
+
+        @JvmStatic
         fun getToday(): Timestamp = Timestamp(getStartOfToday())
 
         @JvmStatic

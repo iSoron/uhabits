@@ -88,7 +88,7 @@
         <activity
             android:name=".widgets.activities.HabitPickerDialog"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -97,7 +97,7 @@
         <activity
             android:name=".widgets.activities.BooleanHabitPickerDialog"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -106,7 +106,7 @@
         <activity
             android:name=".widgets.activities.NumericalHabitPickerDialog"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
