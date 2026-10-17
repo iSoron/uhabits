@@ -146,6 +146,21 @@ class YesNoScoreListTest : BaseScoreListTest() {
     }
 
     @Test
+    fun test_skipDoesNotAffectNonDailyScore() {
+        habit.frequency = Frequency(6, 7)
+        check(0, 500)
+        val initialScore = habit.scores[today].value
+
+        addSkip(2)
+        addSkip(3)
+        addSkip(4)
+        addSkip(5)
+        habit.recompute()
+
+        assertCloseTo(initialScore, habit.scores[today].value, E)
+    }
+
+    @Test
     fun test_imperfectNonDaily() {
         // If the habit should be performed 3 times per week and the user misses 1 repetition
         // each week, score should converge to 66%.
