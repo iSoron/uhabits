@@ -19,7 +19,6 @@
 
 plugins {
     alias(libs.plugins.agp)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint.plugin)
     alias(libs.plugins.mokkery)
@@ -33,13 +32,6 @@ tasks.compileLint {
     dependsOn("updateTranslators")
 }
 
-/*
-Added on top of kotlinOptions to work around this issue:
-https://youtrack.jetbrains.com/issue/KTIJ-24311/task-current-target-is-17-and-kaptGenerateStubsProductionDebugKotlin-task-current-target-is-1.8-jvm-target-compatibility-should#focus=Comments-27-6798448.0-0
-Updating gradle might fix this, so try again in the future to remove this and run:
-./gradlew --rerun-tasks :uhabits-android:kaptGenerateStubsReleaseKotlin
-If this doesn't produce any warning, try to remove it.
- */
 kotlin {
     jvmToolchain(17)
 }
@@ -77,7 +69,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.txt")
             if (signingConfigs.findByName("release") != null) {
                 signingConfig = signingConfigs.getByName("release")
             }
@@ -99,7 +91,10 @@ android {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
-    buildFeatures.viewBinding = true
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
     lint.abortOnError = false
 }
 

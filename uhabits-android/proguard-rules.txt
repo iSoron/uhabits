@@ -1,3 +1,5 @@
+# Preserve the optimization policy previously supplied by proguard-android.txt.
+-dontoptimize
 -dontobfuscate
 
 -dontwarn java.**
