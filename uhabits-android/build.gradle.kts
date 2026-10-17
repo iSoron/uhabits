@@ -126,6 +126,7 @@ dependencies {
     implementation(libs.konfetti.xml)
     implementation(project(":uhabits-core"))
     ksp(libs.kotlin.inject.compiler)
+    kspAndroidTest(libs.kotlin.inject.compiler)
 
     androidTestImplementation(libs.annotation)
     androidTestImplementation(libs.kotlin.inject.runtime)
