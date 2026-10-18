@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.models
 
+import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -57,17 +58,12 @@ data class Habit(
 
     fun hasReminder(): Boolean = reminder != null
 
+    fun isCompletedOn(date: LocalDate): Boolean {
+        return computedEntries.get(date).completed
+    }
+
     fun isCompletedToday(): Boolean {
-        val today = getToday()
-        val value = computedEntries.get(today).value
-        return if (isNumerical) {
-            when (targetType) {
-                NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
-                NumericalHabitType.AT_MOST -> false
-            }
-        } else {
-            value != Entry.NO && value != Entry.UNKNOWN
-        }
+        return isCompletedOn(getToday())
     }
 
     fun isEnteredToday(): Boolean {
@@ -81,6 +77,13 @@ data class Habit(
             originalEntries = originalEntries,
             frequency = frequency,
             isNumerical = isNumerical
+        )
+
+        computedEntries.recomputeCompletion(
+            frequency = frequency,
+            isNumerical = isNumerical,
+            targetType = targetType,
+            targetValue = targetValue
         )
 
         val today = getToday()

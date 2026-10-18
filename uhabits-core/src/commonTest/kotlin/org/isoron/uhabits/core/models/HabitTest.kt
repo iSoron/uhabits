@@ -105,10 +105,10 @@ class HabitTest : BaseUnitTest() {
         assertFalse(h.isCompletedToday())
         h.originalEntries.add(Entry(getToday(), 100000))
         h.recompute()
-        assertFalse(h.isCompletedToday())
+        assertTrue(h.isCompletedToday())
         h.originalEntries.add(Entry(getToday(), 50000))
         h.recompute()
-        assertFalse(h.isCompletedToday())
+        assertTrue(h.isCompletedToday())
     }
 
     @Test

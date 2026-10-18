@@ -23,6 +23,8 @@ import org.isoron.platform.Synchronized
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.TruncateField
+import org.isoron.platform.time.getFirstWeekday
+import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
@@ -71,8 +73,9 @@ open class EntryList {
     }
 
     /**
-     * Returns all entries whose values are known, sorted by date. The first element
-     * corresponds to the newest entry, and the last element corresponds to the oldest.
+     * Returns all stored entries (including densified UNKNOWN placeholders), newest-first. The
+     * first element corresponds to the newest entry, and the last element corresponds to the
+     * oldest.
      */
     @Synchronized
     open fun getKnown(): List<Entry> {
@@ -83,7 +86,9 @@ open class EntryList {
      * Replaces all entries in this list by entries computed automatically from another list.
      *
      * For boolean habits, this function creates additional entries (with value YES_AUTO) according
-     * to the frequency of the habit. For numerical habits, this function simply copies all entries.
+     * to the frequency of the habit. For numerical habits, this function copies all entries and
+     * densifies the list: every day from the oldest entry to today gets an entry, so that days
+     * without data carry a placeholder with value UNKNOWN.
      */
     @Synchronized
     open fun recomputeFrom(
@@ -95,12 +100,99 @@ open class EntryList {
         val original = originalEntries.getKnown()
         if (isNumerical) {
             original.forEach { add(it) }
+            densifyWithUnknownPlaceholders(original)
         } else {
             val intervals = buildIntervals(frequency, original)
             snapIntervalsTogether(intervals)
             val computed = buildEntriesFromInterval(original, intervals)
             computed.filter { it.value != UNKNOWN || it.notes.isNotEmpty() }.forEach { add(it) }
         }
+    }
+
+    private fun densifyWithUnknownPlaceholders(original: List<Entry>) {
+        if (original.isEmpty()) return
+        val existingDates = original.mapTo(HashSet()) { it.date }
+        val oldest = original.last().date
+        var current = getToday()
+        while (current >= oldest) {
+            if (current !in existingDates) {
+                add(Entry(current, UNKNOWN))
+            }
+            current = current.minus(1)
+        }
+    }
+
+    /**
+     * Recomputes the completed flag of every entry based on the frequency and target of the
+     * habit.
+     *
+     * For boolean habits, an entry is completed when its value is neither NO nor UNKNOWN. For
+     * numerical habits, completion is evaluated per period (day, week, or month, depending on the
+     * frequency): the sum of the clamped values of the entries in the period is compared against
+     * the period target, which is reduced by the number of skipped days.
+     */
+    @Synchronized
+    fun recomputeCompletion(
+        frequency: Frequency,
+        isNumerical: Boolean,
+        targetType: NumericalHabitType,
+        targetValue: Double
+    ) {
+        if (isNumerical) {
+            val firstWeekday = getFirstWeekday()
+            val denominator = frequency.denominator
+            val periodLength = when {
+                denominator <= 1 -> 1
+                denominator <= 7 -> 7
+                else -> 30
+            }
+            val dailyTarget = targetValue / denominator
+            val baseTarget = if (denominator == periodLength) targetValue else dailyTarget * periodLength
+
+            val periods = getKnown().groupBy {
+                periodStart(it.date, firstWeekday, frequency)
+            }.toMutableMap()
+            val today = getToday()
+            val todayPeriodStart = periodStart(today, firstWeekday, frequency)
+            if (!periods.containsKey(todayPeriodStart)) {
+                periods[todayPeriodStart] = emptyList()
+            }
+            for (entries in periods.values) {
+                val periodSum = entries.sumOf { clampedValue(it) }
+                val skippedDays = entries.count { it.value == Entry.SKIP }
+                val target = max(0.0, baseTarget - dailyTarget * skippedDays)
+                val met = when (targetType) {
+                    NumericalHabitType.AT_LEAST -> periodSum / 1000.0 >= target
+                    NumericalHabitType.AT_MOST -> periodSum / 1000.0 <= target
+                }
+                if (entries.isEmpty() && met) {
+                    add(Entry(today, Entry.UNKNOWN, completed = true))
+                } else {
+                    for (entry in entries) {
+                        if (entry.completed != met) {
+                            add(entry.copy(completed = met))
+                        }
+                    }
+                }
+            }
+        } else {
+            for (entry in getKnown()) {
+                val completed = entry.value != Entry.NO && entry.value != Entry.UNKNOWN
+                if (entry.completed != completed) {
+                    add(entry.copy(completed = completed))
+                }
+            }
+        }
+    }
+
+    private fun periodStart(date: LocalDate, firstWeekday: DayOfWeek, frequency: Frequency): LocalDate = when {
+        frequency.denominator <= 1 -> date
+        frequency.denominator <= 7 -> date.startOfWeek(firstWeekday)
+        else -> date.startOfMonth()
+    }
+
+    private fun clampedValue(entry: Entry): Int {
+        return if (entry.value == Entry.SKIP) 0 else max(0, entry.value)
     }
 
     /**

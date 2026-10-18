@@ -75,6 +75,11 @@ class HabitCardListCache(
     }
 
     @Synchronized
+    fun getCompleted(habitId: Long): BooleanArray {
+        return data.completed[habitId]!!
+    }
+
+    @Synchronized
     fun getNotes(habitId: Long): Array<String> {
         return data.notes[habitId]!!
     }
@@ -164,6 +169,7 @@ class HabitCardListCache(
         data.habits.removeAt(position)
         data.idToHabit.remove(id)
         data.checkmarks.remove(id)
+        data.completed.remove(id)
         data.notes.remove(id)
         data.scores.remove(id)
         listener.onItemRemoved(position)
@@ -208,6 +214,7 @@ class HabitCardListCache(
         val idToHabit: MutableMap<Long?, Habit> = mutableMapOf()
         val habits: MutableList<Habit>
         val checkmarks: MutableMap<Long?, IntArray>
+        val completed: MutableMap<Long?, BooleanArray>
         val scores: MutableMap<Long?, Double>
         val notes: MutableMap<Long?, Array<String>>
 
@@ -220,6 +227,19 @@ class HabitCardListCache(
                         oldData.checkmarks[id]!!
                 } else {
                     checkmarks[id] = empty
+                }
+            }
+        }
+
+        @Synchronized
+        fun copyCompletedFrom(oldData: CacheData) {
+            val empty = BooleanArray(checkmarkCount)
+            for (id in idToHabit.keys) {
+                if (oldData.completed.containsKey(id)) {
+                    completed[id] =
+                        oldData.completed[id]!!
+                } else {
+                    completed[id] = empty
                 }
             }
         }
@@ -264,6 +284,7 @@ class HabitCardListCache(
         init {
             habits = mutableListOf()
             checkmarks = mutableMapOf()
+            completed = mutableMapOf()
             scores = mutableMapOf()
             notes = mutableMapOf()
         }
@@ -296,6 +317,7 @@ class HabitCardListCache(
             newData.fetchHabits()
             newData.copyScoresFrom(data)
             newData.copyCheckmarksFrom(data)
+            newData.copyCompletedFrom(data)
             newData.copyNoteIndicatorsFrom(data)
             val today = getToday()
             val dateFrom = today.minus(checkmarkCount - 1)
@@ -306,12 +328,15 @@ class HabitCardListCache(
                 if (targetId != null && targetId != habit.id) continue
                 newData.scores[habit.id] = habit.scores[today].value
                 val checkmarkList = mutableListOf<Int>()
+                val completedList = mutableListOf<Boolean>()
                 val noteList = mutableListOf<String>()
-                for ((_, value, note) in habit.computedEntries.getByInterval(dateFrom, today)) {
+                for ((_, value, note, completed) in habit.computedEntries.getByInterval(dateFrom, today)) {
                     checkmarkList.add(value)
+                    completedList.add(completed)
                     noteList.add(note)
                 }
                 newData.checkmarks[habit.id] = checkmarkList.toIntArray()
+                newData.completed[habit.id] = completedList.toBooleanArray()
                 newData.notes[habit.id] = noteList.toTypedArray()
                 runner!!.publishProgress(this, position)
             }
@@ -340,6 +365,7 @@ class HabitCardListCache(
             data.idToHabit[id] = habit
             data.scores[id] = newData.scores[id]!!
             data.checkmarks[id] = newData.checkmarks[id]!!
+            data.completed[id] = newData.completed[id]!!
             data.notes[id] = newData.notes[id]!!
             listener.onItemInserted(position)
         }
@@ -368,17 +394,21 @@ class HabitCardListCache(
         private fun performUpdate(id: Long, position: Int) {
             val oldScore = data.scores[id]!!
             val oldCheckmarks = data.checkmarks[id]
+            val oldCompleted = data.completed[id]
             val oldNoteIndicators = data.notes[id]
             val newScore = newData.scores[id]!!
             val newCheckmarks = newData.checkmarks[id]!!
+            val newCompleted = newData.completed[id]!!
             val newNoteIndicators = newData.notes[id]!!
             var unchanged = true
             if (oldScore != newScore) unchanged = false
             if (!oldCheckmarks.contentEquals(newCheckmarks)) unchanged = false
+            if (!oldCompleted.contentEquals(newCompleted)) unchanged = false
             if (!oldNoteIndicators.contentEquals(newNoteIndicators)) unchanged = false
             if (unchanged) return
             data.scores[id] = newScore
             data.checkmarks[id] = newCheckmarks
+            data.completed[id] = newCompleted
             data.notes[id] = newNoteIndicators
             listener.onItemChanged(position)
         }

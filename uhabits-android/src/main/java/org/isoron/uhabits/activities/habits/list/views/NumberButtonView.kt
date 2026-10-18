@@ -31,8 +31,6 @@ import android.view.View.OnLongClickListener
 import me.tatarka.inject.annotations.Inject
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Entry
-import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
-import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.InterfaceUtils.getDimension
@@ -85,13 +83,7 @@ class NumberButtonView(
             invalidate()
         }
 
-    var threshold = 0.0
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var targetType = AT_LEAST
+    var completed = false
         set(value) {
             field = value
             invalidate()
@@ -175,13 +167,12 @@ class NumberButtonView(
 
         fun draw(canvas: Canvas) {
             val activeColor = when {
+                completed -> color
                 value < 0.0 -> lowContrast
-                (targetType == AT_LEAST) && (value >= threshold) -> color
-                (targetType == AT_MOST) && (value <= threshold) -> color
                 else -> mediumContrast
             }
 
-            val label: String
+            var label: String
             val typeface: Typeface
             val textSize: Float
 

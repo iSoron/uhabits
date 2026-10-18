@@ -80,14 +80,16 @@ class HabitCardViewTest : BaseViewTest() {
 
     @Test
     fun testRender_numerical() {
-        val entries = habit2
-            .computedEntries
-            .getByInterval(today.minus(300), today)
-            .map { it.value }.toIntArray()
-
         view.apply {
             habit = habit2
-            values = entries
+            values = habit2
+                .computedEntries
+                .getByInterval(today.minus(300), today)
+                .map { it.value }.toIntArray()
+            completed = habit2
+                .computedEntries
+                .getByInterval(today.minus(300), today)
+                .map { it.completed }.toBooleanArray()
         }
         assertRenders(view, "$PATH/render_numerical.png")
     }

@@ -24,7 +24,6 @@ import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseViewTest
-import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.utils.PaletteUtils
 import org.junit.Before
 import org.junit.Test
@@ -43,8 +42,6 @@ class NumberButtonViewTest : BaseViewTest() {
         super.setUp()
         view = component.getNumberButtonViewFactory().create().apply {
             units = "steps"
-            targetType = NumericalHabitType.AT_LEAST
-            threshold = 100.0
             color = PaletteUtils.getAndroidTestColor(8)
             onEdit = { edited = true }
         }
@@ -72,13 +69,13 @@ class NumberButtonViewTest : BaseViewTest() {
     @Test
     fun testRender_aboveThreshold() {
         view.value = 500.0
+        view.completed = true
         assertRenders(view, "$PATH/render_above.png")
     }
 
     @Test
     fun testRender_atMostAboveThreshold() {
         view.value = 500.0
-        view.targetType = NumericalHabitType.AT_MOST
         assertRenders(view, "$PATH/render_at_most_above.png")
     }
 
@@ -91,7 +88,6 @@ class NumberButtonViewTest : BaseViewTest() {
     @Test
     fun testRender_atMostBetweenThresholds() {
         view.value = 110.0
-        view.targetType = NumericalHabitType.AT_MOST
         assertRenders(view, "$PATH/render_at_most_between.png")
     }
 
@@ -104,13 +100,14 @@ class NumberButtonViewTest : BaseViewTest() {
     @Test
     fun testRender_atMostBelowThreshold() {
         view.value = 0.0
-        view.targetType = NumericalHabitType.AT_MOST
+        view.completed = true
         assertRenders(view, "$PATH/render_at_most_below.png")
     }
 
     @Test
     fun testRender_emptyUnits() {
         view.value = 500.0
+        view.completed = true
         view.units = ""
         assertRenders(view, "$PATH/render_unitless.png")
     }

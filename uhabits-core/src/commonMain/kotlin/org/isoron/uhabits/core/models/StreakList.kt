@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.models
 
 import org.isoron.platform.Synchronized
 import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.getToday
 import kotlin.math.min
 
 class StreakList {
@@ -43,20 +44,11 @@ class StreakList {
         targetType: NumericalHabitType
     ) {
         list.clear()
+        val today = getToday()
         val dates = computedEntries
             .getByInterval(from, to)
             .filter {
-                val value = it.value
-                if (value == Entry.SKIP) {
-                    true
-                } else if (isNumerical) {
-                    when (targetType) {
-                        NumericalHabitType.AT_LEAST -> value / 1000.0 >= targetValue
-                        NumericalHabitType.AT_MOST -> value != Entry.UNKNOWN && value / 1000.0 <= targetValue
-                    }
-                } else {
-                    value > 0
-                }
+                !it.date.isNewerThan(today) && it.completed
             }
             .map { it.date }
             .toTypedArray()

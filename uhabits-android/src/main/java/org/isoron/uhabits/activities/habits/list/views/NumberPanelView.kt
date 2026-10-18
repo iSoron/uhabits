@@ -23,7 +23,6 @@ import android.content.Context
 import me.tatarka.inject.annotations.Inject
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
-import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 
@@ -48,13 +47,7 @@ class NumberPanelView(
             setupButtons()
         }
 
-    var targetType = NumericalHabitType.AT_LEAST
-        set(value) {
-            field = value
-            setupButtons()
-        }
-
-    var threshold = 0.0
+    var completed = BooleanArray(0)
         set(value) {
             field = value
             setupButtons()
@@ -101,8 +94,10 @@ class NumberPanelView(
                 else -> ""
             }
             button.color = color
-            button.targetType = targetType
-            button.threshold = threshold
+            button.completed = when {
+                index + dataOffset < completed.size -> completed[index + dataOffset]
+                else -> false
+            }
             button.units = units
             button.onEdit = { onEdit(date) }
         }

@@ -22,6 +22,7 @@ package org.isoron.uhabits
 import android.app.Application
 import android.content.Context
 import org.isoron.platform.time.computeToday
+import org.isoron.platform.time.setFirstWeekday
 import org.isoron.platform.time.setToday
 import org.isoron.uhabits.core.database.UnsupportedDatabaseVersionException
 import org.isoron.uhabits.core.reminders.ReminderScheduler
@@ -69,6 +70,7 @@ class HabitsApplication : Application() {
         prefs.lastAppVersion = BuildConfig.VERSION_CODE
 
         setToday(computeToday(component.preferences.midnightDelayHours, 0))
+        setFirstWeekday(prefs.firstWeekday)
 
         val habitList = component.habitList
         for (h in habitList) h.recompute()

@@ -30,8 +30,6 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
-import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
-import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.callbacks.CheckMarkDialogCallback
@@ -163,11 +161,11 @@ class HistoryCardPresenter(
             val series = if (habit.isNumerical) {
                 entries.map {
                     when {
-                        it.value == Entry.UNKNOWN -> OFF
                         it.value == SKIP -> HATCHED
-                        (habit.targetType == AT_MOST) && (it.value / 1000.0 <= habit.targetValue) -> ON
-                        (habit.targetType == AT_LEAST) && (it.value / 1000.0 >= habit.targetValue) -> ON
-                        else -> GREY
+                        (it.completed && it.value > 0) -> ON
+                        it.completed -> DIMMED
+                        it.value > 0 -> GREY
+                        else -> OFF
                     }
                 }
             } else {
@@ -207,6 +205,7 @@ class HistoryCardPresenter(
             notes: String,
             callback: NumberPickerCallback
         )
+
         fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,

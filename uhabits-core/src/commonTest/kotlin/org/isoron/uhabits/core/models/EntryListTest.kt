@@ -19,18 +19,40 @@
 
 package org.isoron.uhabits.core.models
 
+import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.TruncateField
+import org.isoron.platform.time.resetFirstWeekday
+import org.isoron.platform.time.resetToday
+import org.isoron.platform.time.setFirstWeekday
+import org.isoron.platform.time.setToday
+import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry.Companion.NO
+import org.isoron.uhabits.core.models.Entry.Companion.SKIP
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import kotlin.random.Random
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
-class EntryListTest {
+class EntryListTest : BaseUnitTest() {
+
+    @BeforeTest
+    override fun setUp() {
+        super.setUp()
+        setFirstWeekday(DayOfWeek.SUNDAY)
+    }
+
+    @AfterTest
+    fun tearDown() {
+        resetToday()
+        resetFirstWeekday()
+    }
+
     @Test
     fun testEmptyList() {
         val entries = EntryList()
@@ -95,8 +117,9 @@ class EntryListTest {
     }
 
     @Test
-    fun testComputeNumerical() {
+    fun testComputeNumericalDaily() {
         val today = LocalDate(2015, 1, 25)
+        setToday(today)
 
         val original = EntryList()
         original.add(Entry(today.minus(4), 100))
@@ -107,11 +130,52 @@ class EntryListTest {
         computed.recomputeFrom(original, Frequency.DAILY, isNumerical = true)
 
         val expected = listOf(
+            Entry(today, UNKNOWN),
+            Entry(today.minus(1), UNKNOWN),
+            Entry(today.minus(2), UNKNOWN),
+            Entry(today.minus(3), UNKNOWN),
             Entry(today.minus(4), 100),
+            Entry(today.minus(5), UNKNOWN),
+            Entry(today.minus(6), UNKNOWN),
+            Entry(today.minus(7), UNKNOWN),
+            Entry(today.minus(8), UNKNOWN),
             Entry(today.minus(9), 200),
             Entry(today.minus(10), 300)
         )
         assertEquals(expected, computed.getKnown())
+    }
+
+    @Test
+    fun testComputeNumericalWeekly() {
+        val original = EntryList()
+        original.add(Entry(LocalDate(2015, 1, 12), 30000))
+        original.add(Entry(LocalDate(2015, 1, 15), 20000))
+        original.add(Entry(LocalDate(2015, 1, 19), 45000))
+        original.add(Entry(LocalDate(2015, 1, 20), SKIP))
+        original.add(Entry(LocalDate(2015, 1, 21), 20000))
+        original.add(Entry(LocalDate(2015, 1, 25), 70000))
+
+        val computed = EntryList()
+        computed.recomputeFrom(original, Frequency.WEEKLY, isNumerical = true)
+        computed.recomputeCompletion(Frequency.WEEKLY, true, NumericalHabitType.AT_LEAST, 70.0)
+
+        val expected = listOf(
+            Entry(LocalDate(2015, 1, 25), 70000, "", true),
+            Entry(LocalDate(2015, 1, 24), UNKNOWN, "", true),
+            Entry(LocalDate(2015, 1, 23), UNKNOWN, "", true),
+            Entry(LocalDate(2015, 1, 22), UNKNOWN, "", true),
+            Entry(LocalDate(2015, 1, 21), 20000, "", true),
+            Entry(LocalDate(2015, 1, 20), SKIP, "", true),
+            Entry(LocalDate(2015, 1, 19), 45000, "", true),
+            Entry(LocalDate(2015, 1, 18), UNKNOWN, "", true),
+            Entry(LocalDate(2015, 1, 17), UNKNOWN, "", false),
+            Entry(LocalDate(2015, 1, 16), UNKNOWN, "", false),
+            Entry(LocalDate(2015, 1, 15), 20000, "", false),
+            Entry(LocalDate(2015, 1, 14), UNKNOWN, "", false),
+            Entry(LocalDate(2015, 1, 13), UNKNOWN, "", false),
+            Entry(LocalDate(2015, 1, 12), 30000, "", false)
+        )
+        assertContentEquals(expected, computed.getKnown())
     }
 
     @Test

@@ -29,7 +29,6 @@ import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
-import org.isoron.uhabits.core.models.NumericalHabitType.AT_MOST
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.ExportCSVTask
@@ -59,13 +58,8 @@ open class ListHabitsBehavior(
             val oldValue = entry.value.toDouble() / 1000
             screen.showNumberPopup(oldValue, entry.notes) { newValue: Double, newNotes: String ->
                 val value = (newValue * 1000).roundToInt()
-                if (newValue != oldValue) {
-                    if (
-                        (habit.targetType == AT_LEAST && newValue >= habit.targetValue) ||
-                        (habit.targetType == AT_MOST && newValue <= habit.targetValue)
-                    ) {
-                        screen.showConfetti(habit.color, x, y)
-                    }
+                if (newValue != oldValue && habit.targetType == AT_LEAST) {
+                    screen.showConfetti(habit.color, x, y)
                 }
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, date, value, newNotes))
             }

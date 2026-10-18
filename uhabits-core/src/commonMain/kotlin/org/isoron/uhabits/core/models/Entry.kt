@@ -23,7 +23,8 @@ import org.isoron.platform.time.LocalDate
 data class Entry(
     val date: LocalDate,
     val value: Int,
-    val notes: String = ""
+    val notes: String = "",
+    val completed: Boolean = false
 ) {
     val formattedValue: String
         get() = when (value) {

@@ -34,6 +34,19 @@ fun resetToday() {
     currentToday = null
 }
 
+private var currentFirstWeekday: DayOfWeek? = null
+
+fun getFirstWeekday(): DayOfWeek =
+    currentFirstWeekday ?: DayOfWeek.entries[getFirstWeekdayNumberAccordingToLocale() - 1]
+
+fun setFirstWeekday(firstWeekday: DayOfWeek) {
+    currentFirstWeekday = firstWeekday
+}
+
+fun resetFirstWeekday() {
+    currentFirstWeekday = null
+}
+
 enum class DayOfWeek(val daysSinceSunday: Int) {
     SUNDAY(0),
     MONDAY(1),

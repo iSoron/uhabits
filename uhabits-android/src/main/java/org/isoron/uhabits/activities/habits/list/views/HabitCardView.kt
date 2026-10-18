@@ -110,10 +110,10 @@ class HabitCardView(
             numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
         }
 
-    var threshold: Double
-        get() = numberPanel.threshold
+    var completed: BooleanArray
+        get() = numberPanel.completed
         set(value) {
-            numberPanel.threshold = value
+            numberPanel.completed = value
         }
 
     var notes
@@ -289,8 +289,6 @@ class HabitCardView(
         numberPanel.apply {
             color = c
             units = h.unit
-            targetType = h.targetType
-            threshold = h.targetValue
             visibility = when (h.isNumerical) {
                 true -> View.VISIBLE
                 false -> View.GONE
