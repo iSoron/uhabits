@@ -133,7 +133,7 @@ class HabitsCSVExporter(
         var oldest = LocalDate(1000000)
         var newest = LocalDate(0)
         for (habit in selectedHabits) {
-            val entries = habit.originalEntries.getKnown()
+            val entries = habit.computedEntries.getKnown()
             if (entries.isEmpty()) continue
             val currNew = entries[0].date
             val currOld = entries[entries.size - 1].date

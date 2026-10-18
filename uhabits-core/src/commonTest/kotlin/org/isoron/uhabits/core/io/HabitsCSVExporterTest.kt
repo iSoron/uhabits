@@ -20,8 +20,13 @@ package org.isoron.uhabits.core.io
 
 import kotlinx.coroutines.test.runTest
 import org.isoron.platform.io.ZipReader
+import org.isoron.platform.time.LocalDate
+import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.BaseUnitTest
+import org.isoron.uhabits.core.models.Entry
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitType
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -63,5 +68,42 @@ class HabitsCSVExporterTest : BaseUnitTest() {
             val expected = fileOpener.openResourceFile("csv_export/$file").lines()
             assertEquals(expected, entry.content.trimEnd().lines(), "content mismatch for $file")
         }
+    }
+
+    @Test
+    fun testWideCheckmarksIncludeOldestComputedEntry() = runTest {
+        val habit = modelFactory.buildHabit()
+        habit.name = "Non daily"
+        habit.frequency = Frequency(1, 3)
+        habit.type = HabitType.YES_NO
+        val today = getToday()
+        habit.originalEntries.add(Entry(today.minus(4), Entry.YES_MANUAL))
+        habit.originalEntries.add(Entry(today.minus(9), Entry.YES_MANUAL))
+        habit.originalEntries.add(Entry(today.minus(10), Entry.YES_MANUAL))
+        habit.recompute()
+
+        val oldestComputed = habit.computedEntries.getKnown().last().date
+        assertEquals(LocalDate(2015, 1, 13), oldestComputed)
+
+        habitList.add(habit)
+        val exporter = HabitsCSVExporter(habitList, listOf(habit))
+        val bytes = exporter.writeArchive()
+
+        val entries = ZipReader(bytes).entries()
+
+        val perHabit = entries.find { it.name.endsWith("Checkmarks.csv") && it.name != "Checkmarks.csv" }
+        assertNotNull(perHabit, "per-habit Checkmarks.csv should exist in zip")
+        assertTrue(
+            perHabit.content.lines().any { it.startsWith(oldestComputed.toCSVString() + ",") },
+            "per-habit Checkmarks.csv should contain $oldestComputed"
+        )
+
+        val wide = entries.find { it.name == "Checkmarks.csv" }
+        assertNotNull(wide, "wide Checkmarks.csv should exist in zip")
+        val wideDates = wide.content.trimEnd().lines().drop(1).map { it.substringBefore(",") }
+        assertTrue(
+            wideDates.contains(oldestComputed.toCSVString()),
+            "wide Checkmarks.csv should contain the oldest computed date $oldestComputed"
+        )
     }
 }
