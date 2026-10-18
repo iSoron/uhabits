@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.io
 
 import kotlinx.coroutines.test.runTest
 import org.isoron.platform.io.ZipReader
+import org.isoron.platform.io.parseCsvLine
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.BaseUnitTest
@@ -105,5 +106,40 @@ class HabitsCSVExporterTest : BaseUnitTest() {
             wideDates.contains(oldestComputed.toCSVString()),
             "wide Checkmarks.csv should contain the oldest computed date $oldestComputed"
         )
+    }
+
+    @Test
+    fun testWideCheckmarksAlignColumnsWhenHabitNameHasComma() = runTest {
+        val habitA = modelFactory.buildHabit()
+        habitA.name = "Foo, Bar"
+        habitA.type = HabitType.YES_NO
+        habitA.frequency = Frequency.DAILY
+        habitA.originalEntries.add(Entry(getToday(), Entry.YES_MANUAL))
+        habitA.recompute()
+
+        val habitB = modelFactory.buildHabit()
+        habitB.name = "Target"
+        habitB.type = HabitType.YES_NO
+        habitB.frequency = Frequency.DAILY
+        habitB.originalEntries.add(Entry(getToday(), Entry.YES_MANUAL))
+        habitB.recompute()
+
+        habitList.add(habitA)
+        habitList.add(habitB)
+
+        val exporter = HabitsCSVExporter(habitList, listOf(habitA, habitB))
+        val bytes = exporter.writeArchive()
+
+        val entries = ZipReader(bytes).entries()
+        val wide = entries.find { it.name == "Checkmarks.csv" }
+        assertNotNull(wide, "wide Checkmarks.csv should exist in zip")
+
+        val lines = wide.content.trimEnd().lines()
+        val header = parseCsvLine(lines[0])
+        assertEquals(listOf("Date", "Foo, Bar", "Target", ""), header)
+
+        val data = parseCsvLine(lines[1])
+        val targetIndex = header.indexOf("Target")
+        assertEquals("YES_MANUAL", data[targetIndex])
     }
 }

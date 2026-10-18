@@ -122,11 +122,8 @@ class HabitsCSVExporter(
     }
 
     private fun writeMultipleHabitsHeader(sb: StringBuilder) {
-        sb.append("Date$delimiter")
-        for (habit in selectedHabits) {
-            sb.append(habit.name).append(delimiter)
-        }
-        sb.append("\n")
+        val fields = arrayOf("Date") + selectedHabits.map { it.name } + arrayOf("")
+        sb.append(csvLine(fields))
     }
 
     private fun getTimeframe(): Array<LocalDate> {
