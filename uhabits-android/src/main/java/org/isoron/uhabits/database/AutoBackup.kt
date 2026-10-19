@@ -59,7 +59,7 @@ class AutoBackup(private val context: Context) {
         files.sortBy { it.lastModified() }
         val newestTimestamp = files.lastOrNull()?.lastModified() ?: 0L
         removeOldestPrivate(files, keep)
-        val now = DateUtils.getLocalTime()
+        val now = System.currentTimeMillis()
         if (now - newestTimestamp > DateUtils.DAY_LENGTH) {
             DatabaseUtils.saveDatabaseCopy(context, dir)
         } else {
@@ -73,7 +73,7 @@ class AutoBackup(private val context: Context) {
             .sortedBy { it.lastModified() }
         val newestTimestamp = files.lastOrNull()?.lastModified() ?: 0L
         removeOldestPublic(files, keep)
-        val now = DateUtils.getLocalTime()
+        val now = System.currentTimeMillis()
         if (now - newestTimestamp > DateUtils.DAY_LENGTH) {
             DatabaseUtils.saveDatabaseCopy(context, dir)
         } else {

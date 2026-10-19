@@ -25,11 +25,11 @@ import org.isoron.uhabits.BaseAndroidTest
 import org.junit.Test
 import java.io.File
 import java.io.FileOutputStream
+import java.util.TimeZone
 
 class AutoBackupTest : BaseAndroidTest() {
     @Test
     fun testRun() {
-        DateUtils.setFixedLocalTime(40 * DateUtils.DAY_LENGTH)
         val basedir = AndroidDirFinder(targetContext).getFilesDir("Backups")!!
         createTestFiles(basedir, 30)
 
@@ -38,7 +38,7 @@ class AutoBackupTest : BaseAndroidTest() {
 
         for (k in 1..25) assertDoesNotExist("${basedir.path}/test-$k.txt")
         for (k in 26..30) assertExists("${basedir.path}/test-$k.txt")
-        assertExists("${basedir.path}/Loop Habits Backup 1970-02-10 000000.db")
+        assertTrue(basedir.list()!!.any { it.startsWith("Loop Habits Backup ") })
     }
 
     @Test
@@ -50,6 +50,38 @@ class AutoBackupTest : BaseAndroidTest() {
         // Should not crash
         val autoBackup = AutoBackup(targetContext)
         autoBackup.run()
+    }
+
+    @Test
+    fun testRunWhenNewestBackupIsOverADayOld() {
+        val basedir = createBackupHoursAgo(25)
+        withTimeZone("America/Los_Angeles") { AutoBackup(targetContext).run() }
+        assertEquals(2, basedir.list()!!.size)
+    }
+
+    @Test
+    fun testRunWhenNewestBackupIsUnderADayOld() {
+        val basedir = createBackupHoursAgo(23)
+        withTimeZone("Asia/Tokyo") { AutoBackup(targetContext).run() }
+        assertEquals(1, basedir.list()!!.size)
+    }
+
+    private fun createBackupHoursAgo(hours: Long): File {
+        val basedir = AndroidDirFinder(targetContext).getFilesDir("Backups")!!
+        removeAllFiles(basedir)
+        val time = System.currentTimeMillis() - hours * DateUtils.HOUR_LENGTH
+        touch("${basedir.path}/Loop Habits Backup old.db", time)
+        return basedir
+    }
+
+    // File times are UTC, so the backup age must not depend on the time zone
+    private fun withTimeZone(id: String, block: () -> Unit) {
+        DateUtils.setFixedTimeZone(TimeZone.getTimeZone(id))
+        try {
+            block()
+        } finally {
+            DateUtils.setFixedTimeZone(null)
+        }
     }
 
     private fun assertExists(path: String) {
