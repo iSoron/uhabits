@@ -19,8 +19,23 @@
 
 package org.isoron.uhabits.regression
 
+import android.content.Context
+import android.os.SystemClock
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.filters.LargeTest
+import org.hamcrest.CoreMatchers.endsWith
+import org.hamcrest.Matcher
 import org.isoron.uhabits.BaseUserInterfaceTest
+import org.isoron.uhabits.HabitsApplication
 import org.isoron.uhabits.acceptance.steps.CommonSteps
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.EDIT_HABIT
 import org.isoron.uhabits.acceptance.steps.CommonSteps.Screen.LIST_HABITS
@@ -43,10 +58,14 @@ import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.DELETE
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.changeSort
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.longPressCheckmarks
+import org.isoron.uhabits.activities.habits.list.views.CheckmarkButtonView
 import org.isoron.uhabits.core.models.Entry.Companion.NO
 import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 @LargeTest
@@ -122,4 +141,130 @@ class ListHabitsRegressionTest : BaseUserInterfaceTest() {
             "Track time"
         )
     }
+
+    /**
+     * https://github.com/iSoron/uhabits/issues/1683
+     * Completing the first habit while sorted by status must not follow that habit down the list.
+     */
+    @Test
+    @Throws(Exception::class)
+    fun should_preserve_viewport_when_completing_top_status_sorted_habit() {
+        val app = ApplicationProvider.getApplicationContext<Context>().applicationContext as HabitsApplication
+        app.component.preferences.areQuestionMarksEnabled = true
+        launchApp()
+        verifyShowsScreen(LIST_HABITS)
+        repeat(10) { index -> createHabit("Habit ${index + 1}") }
+        changeSort("By status")
+        device.waitForIdle()
+
+        var completedHabit = ""
+        Espresso.onView(ViewMatchers.withClassName(endsWith("HabitCardListView")))
+            .perform(object : ViewAction {
+                override fun getConstraints(): Matcher<View> = ViewMatchers.isDisplayed()
+
+                override fun getDescription() = "complete the top habit without following it"
+
+                override fun perform(uiController: UiController, view: View) {
+                    val list = view as RecyclerView
+                    val layoutManager = list.layoutManager as LinearLayoutManager
+                    awaitUntil(uiController, list) {
+                        it.position == 0 && it.topName == "Wake up early" && it.nextName == "Read books"
+                    }
+                    val before = viewport(layoutManager)
+                    assertTrue(list.adapter!!.itemCount > list.childCount)
+                    assertTrue(list.childCount > 1)
+                    completedHabit = before.topName
+                    longPressTopCheckmark(layoutManager)
+                    awaitUntil(uiController, list) {
+                        it.position == before.position &&
+                            it.offset == before.offset &&
+                            it.topName == before.nextName
+                    }
+                    uiController.loopMainThreadUntilIdle()
+                    layoutManager.scrollToPositionWithOffset(3, before.offset)
+                    uiController.loopMainThreadUntilIdle()
+                    assertEquals(3, layoutManager.findFirstVisibleItemPosition())
+                }
+            })
+        assertNotEquals("", completedHabit)
+        verifyDisplaysCheckmarks(completedHabit, listOf(YES_MANUAL))
+    }
+
+    private fun awaitUntil(
+        uiController: UiController,
+        list: RecyclerView,
+        ready: (Viewport) -> Boolean
+    ) {
+        val layoutManager = list.layoutManager as LinearLayoutManager
+        val deadline = SystemClock.uptimeMillis() + 5000
+        var stable = 0
+        var last = Viewport(RecyclerView.NO_POSITION, Int.MIN_VALUE, "", "")
+        while (SystemClock.uptimeMillis() < deadline) {
+            uiController.loopMainThreadForAtLeast(50)
+            if (list.isAnimating || list.isComputingLayout) {
+                stable = 0
+                continue
+            }
+            val snapshot = viewport(layoutManager)
+            if (snapshot == last && ready(snapshot) && snapshot.position != RecyclerView.NO_POSITION) {
+                stable += 1
+                if (stable >= 3) return
+            } else {
+                stable = 0
+            }
+            last = snapshot
+        }
+        throw AssertionError("timed out waiting for the habit list to settle at ${viewport(layoutManager)}")
+    }
+
+    private fun longPressTopCheckmark(layoutManager: LinearLayoutManager) {
+        val card = layoutManager.findViewByPosition(layoutManager.findFirstVisibleItemPosition())
+        val button = card?.let { findCheckmark(it) }
+        assertTrue(button?.performLongClick() == true)
+    }
+
+    private fun viewport(layoutManager: LinearLayoutManager): Viewport {
+        val position = layoutManager.findFirstVisibleItemPosition()
+        val child = layoutManager.findViewByPosition(position)
+        val next = if (position == RecyclerView.NO_POSITION) {
+            null
+        } else {
+            layoutManager.findViewByPosition(position + 1)
+        }
+        val offset = if (child == null) 0 else layoutManager.getDecoratedTop(child)
+        return Viewport(
+            position,
+            offset,
+            if (child == null) "" else habitName(child),
+            if (next == null) "" else habitName(next)
+        )
+    }
+
+    private fun habitName(view: View): String {
+        if (view is TextView && view.text.isNotEmpty()) return view.text.toString()
+        if (view is ViewGroup) {
+            for (index in 0 until view.childCount) {
+                val name = habitName(view.getChildAt(index))
+                if (name.isNotEmpty()) return name
+            }
+        }
+        return ""
+    }
+
+    private fun findCheckmark(view: View): CheckmarkButtonView? {
+        if (view is CheckmarkButtonView) return view
+        if (view is ViewGroup) {
+            for (index in 0 until view.childCount) {
+                findCheckmark(view.getChildAt(index))?.let { return it }
+            }
+        }
+        return null
+    }
+
+    private data class Viewport(
+        val position: Int,
+        val offset: Int,
+        val topName: String,
+        val nextName: String
+    )
 }
