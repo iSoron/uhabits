@@ -60,6 +60,7 @@ class HabitCardListView(
 
     var checkmarkCount: Int = 0
     private var insetDecorationsAdded: Boolean = false
+    private val viewportLayoutManager: ViewportLayoutManager
 
     var dataOffset: Int = 0
         set(value) {
@@ -77,9 +78,27 @@ class HabitCardListView(
     init {
         setHasFixedSize(true)
         isLongClickable = true
-        layoutManager = LinearLayoutManager(context)
+        viewportLayoutManager = ViewportLayoutManager(context)
+        layoutManager = viewportLayoutManager
         applyBottomInset()
         super.setAdapter(adapter)
+    }
+
+    /**
+     * Remember the numeric viewport before a status reorder is applied.
+     * Later moves in the same refresh must not replace that anchor: item positions
+     * are already rewritten by the first [androidx.recyclerview.widget.RecyclerView.Adapter.notifyItemMoved].
+     */
+    fun preserveViewportForStatusMove() {
+        viewportLayoutManager.preserveViewport()
+    }
+
+    /**
+     * The refresh that emitted the moves has finished. Restore the anchor on the
+     * next layout, then release it so user scrolling works again.
+     */
+    fun finishPreservingViewport() {
+        viewportLayoutManager.onMovesFinished()
     }
 
     private fun applyBottomInset() {
@@ -222,5 +241,104 @@ class HabitCardListView(
 
         override fun isItemViewSwipeEnabled() = false
         override fun isLongPressDragEnabled() = false
+    }
+
+    /**
+     * [LinearLayoutManager] anchors layout to a child view. After [notifyItemMoved] that
+     * child's adapter position already points at the habit's new slot, so the viewport
+     * follows the habit. Focus recovery does the same for a focused row.
+     * While a status reorder is pending, layout is pinned to the captured position
+     * and pixel offset instead.
+     */
+    private inner class ViewportLayoutManager(context: Context) : LinearLayoutManager(context) {
+        private var pendingPosition = RecyclerView.NO_POSITION
+        private var pendingOffset = 0
+        private var movesFinished = false
+        private var generation = 0
+
+        fun preserveViewport() {
+            // Drop a clear posted for an earlier layout, and keep the first anchor in this batch.
+            movesFinished = false
+            generation += 1
+            if (pendingPosition != RecyclerView.NO_POSITION) return
+            if (childCount == 0) return
+            val position = findFirstVisibleItemPosition()
+            if (position == RecyclerView.NO_POSITION) return
+            val child = findViewByPosition(position) ?: return
+            val topMargin = (child.layoutParams as? RecyclerView.LayoutParams)?.topMargin ?: 0
+            pendingOffset = getDecoratedTop(child) - topMargin - this@HabitCardListView.paddingTop
+            pendingPosition = position
+        }
+
+        fun onMovesFinished() {
+            if (pendingPosition == RecyclerView.NO_POSITION) return
+            if (childCount == 0) {
+                clearPendingViewport()
+                return
+            }
+            movesFinished = true
+            this@HabitCardListView.requestLayout()
+        }
+
+        override fun supportsPredictiveItemAnimations(): Boolean {
+            if (pendingPosition != RecyclerView.NO_POSITION) return false
+            return super.supportsPredictiveItemAnimations()
+        }
+
+        override fun onLayoutChildren(
+            recycler: RecyclerView.Recycler,
+            state: RecyclerView.State
+        ) {
+            if (!state.isPreLayout()) applyPendingViewport(state.itemCount)
+            super.onLayoutChildren(recycler, state)
+        }
+
+        override fun onLayoutCompleted(state: RecyclerView.State) {
+            super.onLayoutCompleted(state)
+            if (pendingPosition == RecyclerView.NO_POSITION || !movesFinished) return
+            val generationAtLayout = generation
+            // Runs after this traversal, including focus recovery inside it.
+            this@HabitCardListView.post {
+                if (generationAtLayout == generation && movesFinished) clearPendingViewport()
+            }
+        }
+
+        override fun onRequestChildFocus(
+            parent: RecyclerView,
+            state: RecyclerView.State,
+            child: View,
+            focused: View?
+        ): Boolean {
+            if (pendingPosition != RecyclerView.NO_POSITION) return true
+            return super.onRequestChildFocus(parent, state, child, focused)
+        }
+
+        override fun requestChildRectangleOnScreen(
+            parent: RecyclerView,
+            child: View,
+            rect: Rect,
+            immediate: Boolean,
+            focusedChildVisible: Boolean
+        ): Boolean {
+            if (pendingPosition != RecyclerView.NO_POSITION) return false
+            return super.requestChildRectangleOnScreen(
+                parent,
+                child,
+                rect,
+                immediate,
+                focusedChildVisible
+            )
+        }
+
+        private fun applyPendingViewport(itemCount: Int) {
+            val position = pendingPosition
+            if (position == RecyclerView.NO_POSITION || itemCount <= 0) return
+            scrollToPositionWithOffset(position.coerceIn(0, itemCount - 1), pendingOffset)
+        }
+
+        private fun clearPendingViewport() {
+            pendingPosition = RecyclerView.NO_POSITION
+            movesFinished = false
+        }
     }
 }

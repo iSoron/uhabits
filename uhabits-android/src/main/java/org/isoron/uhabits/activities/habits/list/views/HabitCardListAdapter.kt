@@ -110,6 +110,9 @@ class HabitCardListAdapter(
         get() = selected.isEmpty()
     val isSortable: Boolean
         get() = cache.primaryOrder == HabitList.Order.BY_POSITION
+    private val isStatusSorted: Boolean
+        get() = primaryOrder == HabitList.Order.BY_STATUS_ASC ||
+            primaryOrder == HabitList.Order.BY_STATUS_DESC
 
     /**
      * Notify the adapter that it has been attached to a ListView.
@@ -168,6 +171,10 @@ class HabitCardListAdapter(
     }
 
     override fun onItemMoved(oldPosition: Int, newPosition: Int) {
+        if (oldPosition != newPosition && isStatusSorted) {
+            // Capture before notifyItemMoved rewrites the visible holders' positions.
+            listView?.preserveViewportForStatusMove()
+        }
         notifyItemMoved(oldPosition, newPosition)
         observable.notifyListeners()
     }
@@ -178,6 +185,7 @@ class HabitCardListAdapter(
     }
 
     override fun onRefreshFinished() {
+        listView?.finishPreservingViewport()
         observable.notifyListeners()
     }
 
