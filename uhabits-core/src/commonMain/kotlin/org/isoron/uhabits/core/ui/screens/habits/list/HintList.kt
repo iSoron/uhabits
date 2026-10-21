@@ -18,6 +18,7 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
+import me.tatarka.inject.annotations.Inject
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.preferences.Preferences
 
@@ -56,4 +57,37 @@ open class HintList(
         val lastHintDate = prefs.lastHintDate
         return lastHintDate != null && lastHintDate < today
     }
+}
+
+data class HintViewState(
+    val visible: Boolean,
+    val text: String?
+)
+
+class HintPresenter(private val hintList: HintList) {
+    fun initial(): HintViewState {
+        if (!hintList.shouldShow()) return HIDDEN
+        val text = hintList.pop() ?: return HIDDEN
+        return HintViewState(visible = true, text = text)
+    }
+
+    fun dismissed(): HintViewState = HIDDEN
+
+    private companion object {
+        val HIDDEN = HintViewState(visible = false, text = null)
+    }
+}
+
+@Inject
+class HintListFactory(
+    val preferences: Preferences
+) {
+    fun create(hints: Array<String>) = HintList(preferences, hints)
+}
+
+@Inject
+class HintPresenterFactory(
+    val preferences: Preferences
+) {
+    fun create(hints: Array<String>) = HintPresenter(HintList(preferences, hints))
 }

@@ -33,6 +33,10 @@ import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.str
 
+enum class EmptyMode { EMPTY, DONE, HIDDEN }
+
+data class EmptyListViewState(val mode: EmptyMode)
+
 class EmptyListView(context: Context) : LinearLayout(context) {
     var textTextView: TextView
     var iconTextView: TextView
@@ -69,19 +73,21 @@ class EmptyListView(context: Context) : LinearLayout(context) {
         )
     }
 
-    fun showDone() {
-        visibility = VISIBLE
-        iconTextView.text = str(R.string.fa_umbrella_beach)
-        textTextView.text = str(R.string.no_habits_left_to_do)
-    }
-
-    fun showEmpty() {
-        visibility = VISIBLE
-        iconTextView.text = str(R.string.fa_star_half_o)
-        textTextView.text = str(R.string.no_habits_found)
-    }
-
-    fun hide() {
-        visibility = GONE
+    fun setState(state: EmptyListViewState) {
+        when (state.mode) {
+            EmptyMode.DONE -> {
+                visibility = VISIBLE
+                iconTextView.text = str(R.string.fa_umbrella_beach)
+                textTextView.text = str(R.string.no_habits_left_to_do)
+            }
+            EmptyMode.EMPTY -> {
+                visibility = VISIBLE
+                iconTextView.text = str(R.string.fa_star_half_o)
+                textTextView.text = str(R.string.no_habits_found)
+            }
+            EmptyMode.HIDDEN -> {
+                visibility = GONE
+            }
+        }
     }
 }

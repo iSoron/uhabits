@@ -37,7 +37,7 @@ class HasButtonsViewAssertion(private val buttons: List<Int>) : ViewAssertion {
         }
 
         for (p in view.checkmarkPanel.buttons zip buttons) {
-            assertThat("", p.first.value, equalTo(p.second))
+            assertThat("", p.first.currentValue, equalTo(p.second))
         }
     }
 }

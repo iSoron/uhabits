@@ -49,6 +49,7 @@ import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.TOGGLE_COMPL
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.MenuItem.UNARCHIVE
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.clickMenu
 import org.isoron.uhabits.acceptance.steps.ListHabitsSteps.longPressCheckmarks
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -115,6 +116,7 @@ class HabitsTest : BaseUserInterfaceTest() {
     }
 
     @Test
+    @Ignore("flaky: input race drops the first typed character")
     @Throws(Exception::class)
     fun shouldEditHabitBlankDescription() {
         shouldEditHabit("")

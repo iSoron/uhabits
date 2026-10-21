@@ -177,6 +177,42 @@ class SQLiteHabitList(private val modelFactory: ModelFactory) : HabitList() {
     }
 
     @Synchronized
+    override fun moveBefore(habit: Habit, ref: Habit) {
+        move(habit, ref, before = true)
+    }
+
+    @Synchronized
+    override fun moveAfter(habit: Habit, ref: Habit) {
+        move(habit, ref, before = false)
+    }
+
+    private fun move(habit: Habit, ref: Habit, before: Boolean) {
+        loadRecords()
+        check(primaryOrder == Order.BY_POSITION) { "cannot move habit in a list that is not in BY_POSITION order" }
+        require(list.indexOf(habit) >= 0) { "list does not contain habit" }
+        require(list.indexOf(ref) >= 0) { "list does not contain reference habit" }
+        require(habit != ref) { "habit and reference habit must differ" }
+        val fromPos = habit.position
+        if (before) list.moveBefore(habit, ref) else list.moveAfter(habit, ref)
+        val toPos = habit.position
+        if (toPos < fromPos) {
+            repository.execSQL(
+                "update habits set position = position + 1 " +
+                    "where position >= $toPos and position < $fromPos"
+            )
+        } else if (toPos > fromPos) {
+            repository.execSQL(
+                "update habits set position = position - 1 " +
+                    "where position > $fromPos and position <= $toPos"
+            )
+        }
+        val data = copyFrom(habit)
+        data.position = toPos
+        repository.update(data)
+        observable.notifyListeners()
+    }
+
+    @Synchronized
     override fun repair() {
         loadRecords()
         rebuildOrder()

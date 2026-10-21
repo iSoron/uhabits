@@ -35,7 +35,6 @@ import kotlinx.coroutines.Dispatchers
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.BaseExceptionHandler
 import org.isoron.uhabits.HabitsApplication
-import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
 import org.isoron.uhabits.core.ui.ThemeSwitcher.Companion.THEME_DARK
@@ -54,7 +53,6 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
     lateinit var appComponent: HabitsApplicationComponent
     lateinit var component: HabitsActivityComponent
     lateinit var taskRunner: TaskRunner
-    lateinit var adapter: HabitCardListAdapter
     lateinit var rootView: ListHabitsRootView
     lateinit var screen: ListHabitsScreen
     lateinit var prefs: Preferences
@@ -94,7 +92,6 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         midnightTimer = appComponent.midnightTimer
         rootView = component.listHabitsRootView
         screen = component.listHabitsScreen
-        adapter = component.habitCardListAdapter
         taskRunner = appComponent.taskRunner
         menu = component.listHabitsMenu
         Thread.setDefaultUncaughtExceptionHandler(BaseExceptionHandler(this))
@@ -106,13 +103,12 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
     override fun onPause() {
         midnightTimer.onPause()
         screen.onDetached()
-        adapter.cancelRefresh()
         dismissCurrentDialog()
         super.onPause()
     }
 
     override fun onResume() {
-        adapter.refresh()
+        screen.refresh()
         screen.onAttached()
         rootView.postInvalidate()
         midnightTimer.onResume()
@@ -177,9 +173,8 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
             val habitId = intent.extras?.getLong("habit")
             val timestampMillis = intent.extras?.getLong("timestamp")
             if (habitId != null && timestampMillis != null) {
-                val habit = appComponent.habitList.getById(habitId)!!
                 val date = LocalDate.fromUnixTime(timestampMillis)
-                component.listHabitsBehavior.onEdit(habit, date, 0f, 0f)
+                component.listHabitsBehavior.onEdit(habitId, date, 0f, 0f)
             }
         }
         intent = null

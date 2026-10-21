@@ -59,7 +59,6 @@ open class MemoryHabitList : HabitList {
         this.comparator = comparator
         primaryOrder = parent.primaryOrder
         secondaryOrder = parent.secondaryOrder
-        parent.observable.addListener { loadFromParent() }
         loadFromParent()
     }
 
@@ -97,7 +96,7 @@ open class MemoryHabitList : HabitList {
 
     @Synchronized
     override fun getFiltered(matcher: HabitMatcher?): HabitList {
-        return MemoryHabitList(matcher!!, comparator, this)
+        return MemoryHabitList(matcher ?: HabitMatcher(isArchivedAllowed = true), comparator, this)
     }
 
     private fun getComposedComparatorByOrder(
@@ -187,6 +186,30 @@ open class MemoryHabitList : HabitList {
         require(toPos >= 0) { "list does not contain (to) habit" }
         list.remove(from)
         list.add(toPos, from)
+        var position = 0
+        for (h in list) h.position = position++
+        observable.notifyListeners()
+    }
+
+    @Synchronized
+    override fun moveBefore(habit: Habit, ref: Habit) {
+        move(habit, ref, before = true)
+    }
+
+    @Synchronized
+    override fun moveAfter(habit: Habit, ref: Habit) {
+        move(habit, ref, before = false)
+    }
+
+    private fun move(habit: Habit, ref: Habit, before: Boolean) {
+        throwIfHasParent()
+        check(primaryOrder == Order.BY_POSITION) { "cannot move habit in a list that is not in BY_POSITION order" }
+        require(indexOf(habit) >= 0) { "list does not contain habit" }
+        require(indexOf(ref) >= 0) { "list does not contain reference habit" }
+        require(habit != ref) { "habit and reference habit must differ" }
+        list.remove(habit)
+        val refPos = list.indexOf(ref)
+        list.add(if (before) refPos else refPos + 1, habit)
         var position = 0
         for (h in list) h.position = position++
         observable.notifyListeners()

@@ -27,6 +27,7 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.core.ui.screens.habits.list.HintList
+import org.isoron.uhabits.core.ui.screens.habits.list.HintPresenter
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,12 +42,12 @@ class HintViewTest : BaseViewTest() {
     override fun setUp() {
         super.setUp()
         list = mock()
-        view = HintView(targetContext, list)
+        view = HintView(targetContext, HintPresenter(list))
         measureView(view, 400f, 200f)
         val text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         every { list.shouldShow() } returns true
         every { list.pop() } returns text
-        view.showNext()
+        view.onAttachedToWindow()
         skipAnimation(view)
     }
 

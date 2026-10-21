@@ -35,15 +35,18 @@ class NumberButtonViewTest : BaseViewTest() {
 
     private val PATH = "habits/list/NumberButtonView"
     private lateinit var view: NumberButtonView
+    private var color: Int = 0
+    private lateinit var units: String
     var edited = false
 
     @Before
     override fun setUp() {
         super.setUp()
+        color = PaletteUtils.getAndroidTestColor(8)
+        units = "steps"
         view = component.getNumberButtonViewFactory().create().apply {
-            units = "steps"
-            color = PaletteUtils.getAndroidTestColor(8)
             onEdit = { edited = true }
+            setState(NumberButtonState(color, 0.0, false, units, ""))
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }
@@ -68,47 +71,43 @@ class NumberButtonViewTest : BaseViewTest() {
 
     @Test
     fun testRender_aboveThreshold() {
-        view.value = 500.0
-        view.completed = true
+        view.setState(NumberButtonState(color, 500.0, true, units, ""))
         assertRenders(view, "$PATH/render_above.png")
     }
 
     @Test
     fun testRender_atMostAboveThreshold() {
-        view.value = 500.0
+        view.setState(NumberButtonState(color, 500.0, false, units, ""))
         assertRenders(view, "$PATH/render_at_most_above.png")
     }
 
     @Test
     fun testRender_belowThreshold() {
-        view.value = 99.0
+        view.setState(NumberButtonState(color, 99.0, false, units, ""))
         assertRenders(view, "$PATH/render_below.png")
     }
 
     @Test
     fun testRender_atMostBetweenThresholds() {
-        view.value = 110.0
+        view.setState(NumberButtonState(color, 110.0, false, units, ""))
         assertRenders(view, "$PATH/render_at_most_between.png")
     }
 
     @Test
     fun testRender_zero() {
-        view.value = 0.0
+        view.setState(NumberButtonState(color, 0.0, false, units, ""))
         assertRenders(view, "$PATH/render_zero.png")
     }
 
     @Test
     fun testRender_atMostBelowThreshold() {
-        view.value = 0.0
-        view.completed = true
+        view.setState(NumberButtonState(color, 0.0, true, units, ""))
         assertRenders(view, "$PATH/render_at_most_below.png")
     }
 
     @Test
     fun testRender_emptyUnits() {
-        view.value = 500.0
-        view.completed = true
-        view.units = ""
+        view.setState(NumberButtonState(color, 500.0, true, "", ""))
         assertRenders(view, "$PATH/render_unitless.png")
     }
 

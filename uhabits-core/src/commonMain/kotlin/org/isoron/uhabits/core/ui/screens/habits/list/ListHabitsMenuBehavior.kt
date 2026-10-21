@@ -71,6 +71,7 @@ class ListHabitsMenuBehavior(
 
     fun onSortByManually() {
         adapter.primaryOrder = HabitList.Order.BY_POSITION
+        screen.refresh()
     }
 
     fun onSortByColor() {
@@ -98,6 +99,7 @@ class ListHabitsMenuBehavior(
         } else {
             adapter.primaryOrder = reversedOrder
         }
+        screen.refresh()
     }
 
     fun onToggleNightMode() {
@@ -127,11 +129,10 @@ class ListHabitsMenuBehavior(
                 )
             )
         }
-        adapter.refresh()
+        screen.refresh()
     }
 
     interface Adapter {
-        fun refresh()
         fun setFilter(matcher: HabitMatcher)
         var primaryOrder: HabitList.Order
         var secondaryOrder: HabitList.Order
@@ -139,6 +140,7 @@ class ListHabitsMenuBehavior(
 
     interface Screen {
         fun applyTheme()
+        fun refresh()
         fun showAboutScreen()
         fun showFAQScreen()
         fun showSettingsScreen()

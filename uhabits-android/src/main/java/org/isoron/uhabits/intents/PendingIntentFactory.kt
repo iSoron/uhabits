@@ -87,7 +87,7 @@ class PendingIntentFactory(
             .addNextIntentWithParentStack(
                 intentFactory.startShowHabitActivity(
                     context,
-                    habit
+                    habit.id!!
                 )
             )
             .getPendingIntent(0, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)!!

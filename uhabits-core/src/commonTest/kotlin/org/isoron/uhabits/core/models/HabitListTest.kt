@@ -158,8 +158,9 @@ class HabitListTest : BaseUnitTest() {
             }
             assertContentEquals(expectedSequence[i], actualSequence)
         }
-        assertEquals(0, activeHabits.indexOf(habitsArray[5]))
-        assertEquals(1, activeHabits.indexOf(habitsArray[2]))
+        val active = habitList.getFiltered(HabitMatcher())
+        assertEquals(0, active.indexOf(habitsArray[5]))
+        assertEquals(1, active.indexOf(habitsArray[2]))
     }
 
     @Test
@@ -168,6 +169,84 @@ class HabitListTest : BaseUnitTest() {
         val h2 = fixtures.createEmptyHabit()
         assertFailsWith<IllegalArgumentException> {
             habitList.reorder(h1, h2)
+        }
+    }
+
+    private fun fullOrder(): List<Int> =
+        (0 until habitList.size()).map { habitList.getByPosition(it).id!!.toInt() }
+
+    private fun visibleOrder(): List<Int> =
+        habitList.getFiltered(HabitMatcher()).toList().map { it.id!!.toInt() }
+
+    @Test
+    fun testMoveBefore_beforeFirst() {
+        habitList.moveBefore(habitsArray[5], habitsArray[0])
+        assertContentEquals(listOf(5, 0, 1, 2, 3, 4, 6, 7, 8, 9), fullOrder())
+        (0..9).forEach { j -> assertEquals(j, habitList.getByPosition(j).position) }
+    }
+
+    @Test
+    fun testMoveAfter_afterLast() {
+        habitList.moveAfter(habitsArray[0], habitsArray[9])
+        assertContentEquals(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 0), fullOrder())
+        (0..9).forEach { j -> assertEquals(j, habitList.getByPosition(j).position) }
+    }
+
+    @Test
+    fun testMoveBefore_pastNonAdjacent() {
+        habitList.moveBefore(habitsArray[9], habitsArray[1])
+        assertContentEquals(listOf(0, 9, 1, 2, 3, 4, 5, 6, 7, 8), fullOrder())
+    }
+
+    @Test
+    fun testMoveAfter_pastNonAdjacent() {
+        habitList.moveAfter(habitsArray[0], habitsArray[7])
+        assertContentEquals(listOf(1, 2, 3, 4, 5, 6, 7, 0, 8, 9), fullOrder())
+    }
+
+    @Test
+    fun testMoveBefore_hiddenItemsPresent() {
+        habitList.moveBefore(habitsArray[5], habitsArray[9])
+        assertContentEquals(listOf(0, 1, 2, 3, 4, 6, 7, 8, 5, 9), fullOrder())
+        assertContentEquals(listOf(2, 3, 6, 8, 5, 9), visibleOrder())
+        assertContentEquals(listOf(0, 1, 4, 7), fullOrder().filter { it in setOf(0, 1, 4, 7) })
+        (0..9).forEach { j -> assertEquals(j, habitList.getByPosition(j).position) }
+    }
+
+    @Test
+    fun testMoveAfter_hiddenItemsPresent() {
+        habitList.moveAfter(habitsArray[2], habitsArray[6])
+        assertContentEquals(listOf(0, 1, 3, 4, 5, 6, 2, 7, 8, 9), fullOrder())
+        assertContentEquals(listOf(3, 5, 6, 2, 8, 9), visibleOrder())
+        assertContentEquals(listOf(0, 1, 4, 7), fullOrder().filter { it in setOf(0, 1, 4, 7) })
+        (0..9).forEach { j -> assertEquals(j, habitList.getByPosition(j).position) }
+    }
+
+    @Test
+    fun testMoveBefore_onSortedList() {
+        habitList.primaryOrder = HabitList.Order.BY_SCORE_DESC
+        assertFailsWith<IllegalStateException> {
+            habitList.moveBefore(habitsArray[1], habitsArray[2])
+        }
+        assertFailsWith<IllegalStateException> {
+            habitList.moveAfter(habitsArray[1], habitsArray[2])
+        }
+    }
+
+    @Test
+    fun testMoveBefore_invalidArguments() {
+        val unknown = fixtures.createEmptyHabit()
+        assertFailsWith<IllegalArgumentException> {
+            habitList.moveBefore(unknown, habitsArray[0])
+        }
+        assertFailsWith<IllegalArgumentException> {
+            habitList.moveBefore(habitsArray[0], unknown)
+        }
+        assertFailsWith<IllegalArgumentException> {
+            habitList.moveBefore(habitsArray[0], habitsArray[0])
+        }
+        assertFailsWith<IllegalArgumentException> {
+            habitList.moveAfter(habitsArray[0], unknown)
         }
     }
 
@@ -222,7 +301,28 @@ class HabitListTest : BaseUnitTest() {
         habitList.add(h1)
         h1.id!!
         assertNotEquals(-1, habitList.indexOf(h1))
-        assertNotEquals(-1, activeHabits.indexOf(h1))
+        assertNotEquals(-1, habitList.getFiltered(HabitMatcher()).indexOf(h1))
+    }
+
+    @Test
+    fun testGetFiltered_snapshotSemantics() {
+        val stale = habitList.getFiltered(HabitMatcher())
+        val h = fixtures.createEmptyHabit()
+        habitList.add(h)
+        assertEquals(-1, stale.indexOf(h))
+        assertNotEquals(-1, habitList.getFiltered(HabitMatcher()).indexOf(h))
+    }
+
+    @Test
+    fun testGetFiltered_doesNotSubscribeToParentObservable() {
+        val before = habitList.observable.listenerCount
+        habitList.getFiltered(HabitMatcher())
+        assertEquals(before, habitList.observable.listenerCount)
+    }
+
+    @Test
+    fun testGetFiltered_nullMatcherMatchesAll() {
+        assertEquals(10, habitList.getFiltered(null).size())
     }
 
     @Test

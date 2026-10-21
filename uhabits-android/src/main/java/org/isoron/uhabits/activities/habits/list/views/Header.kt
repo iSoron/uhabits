@@ -40,6 +40,11 @@ import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 import java.util.Locale
 
+data class HeaderState(
+    val buttonCount: Int,
+    val maxDataOffset: Int
+)
+
 class HeaderView(
     context: Context,
     val prefs: Preferences,
@@ -50,11 +55,13 @@ class HeaderView(
 
     private var drawer = Drawer()
 
-    var buttonCount: Int = 0
-        set(value) {
-            field = value
-            requestLayout()
-        }
+    private var state: HeaderState? = null
+
+    fun setState(newState: HeaderState) {
+        state = newState
+        setMaxDataOffset(newState.maxDataOffset)
+        requestLayout()
+    }
 
     init {
         setScrollerBucketSize(dim(R.dimen.checkmarkWidth).toInt())
@@ -121,14 +128,14 @@ class HeaderView(
 
             val em = paint.measureText("m")
 
-            repeat(buttonCount) { index ->
+            repeat(state?.buttonCount ?: 0) { index ->
                 rect.set(0f, 0f, width, height)
                 rect.offset(canvas.width.toFloat() - dp(3.0f), 0f)
 
                 if (isReversed) {
                     rect.offset(-(index + 1) * width, 0f)
                 } else {
-                    rect.offset((index - buttonCount) * width, 0f)
+                    rect.offset((index - (state?.buttonCount ?: 0)) * width, 0f)
                 }
 
                 if (isRTL()) {

@@ -67,8 +67,9 @@ class ListHabitsSelectionMenuBehavior(
     fun onDeleteHabits() {
         screen.showDeleteConfirmationScreen(
             {
-                adapter.performRemove(adapter.getSelected())
-                commandRunner.run(DeleteHabitsCommand(habitList, adapter.getSelected()))
+                val selected = adapter.getSelected()
+                adapter.performRemove(selected)
+                commandRunner.run(DeleteHabitsCommand(habitList, selected))
                 adapter.clearSelection()
             },
             adapter.getSelected().size

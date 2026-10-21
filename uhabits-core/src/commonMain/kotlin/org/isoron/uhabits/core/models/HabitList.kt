@@ -128,6 +128,15 @@ abstract class HabitList : Iterable<Habit> {
      * @param to   the habit that currently occupies the desired position
      */
     abstract fun reorder(from: Habit, to: Habit)
+
+    open fun moveBefore(habit: Habit, ref: Habit) {
+        throw UnsupportedOperationException("moveBefore is not supported by this HabitList")
+    }
+
+    open fun moveAfter(habit: Habit, ref: Habit) {
+        throw UnsupportedOperationException("moveAfter is not supported by this HabitList")
+    }
+
     open fun repair() {}
 
     /**

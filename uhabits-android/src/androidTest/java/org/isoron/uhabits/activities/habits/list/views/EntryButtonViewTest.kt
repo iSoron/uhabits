@@ -34,6 +34,7 @@ class EntryButtonViewTest : BaseViewTest() {
 
     private val PATH = "habits/list/CheckmarkButtonView"
     lateinit var view: CheckmarkButtonView
+    var color: Int = 0
 
     var toggled = false
     var edited = false
@@ -41,30 +42,30 @@ class EntryButtonViewTest : BaseViewTest() {
     @Before
     override fun setUp() {
         super.setUp()
+        color = PaletteUtils.getAndroidTestColor(5)
         view = component.getEntryButtonViewFactory().create().apply {
-            value = Entry.NO
-            color = PaletteUtils.getAndroidTestColor(5)
             onToggle = { _, _ -> toggled = true }
             onEdit = { edited = true }
+            setState(CheckmarkButtonState(color, Entry.NO, ""))
         }
         measureView(view, dpToPixels(48), dpToPixels(48))
     }
 
     @Test
     fun testRender_explicitCheck() {
-        view.value = Entry.YES_MANUAL
+        view.setState(CheckmarkButtonState(color, Entry.YES_MANUAL, ""))
         assertRendersCheckedExplicitly()
     }
 
     @Test
     fun testRender_implicitCheck() {
-        view.value = Entry.YES_AUTO
+        view.setState(CheckmarkButtonState(color, Entry.YES_AUTO, ""))
         assertRendersCheckedImplicitly()
     }
 
     @Test
     fun testRender_unchecked() {
-        view.value = Entry.NO
+        view.setState(CheckmarkButtonState(color, Entry.NO, ""))
         assertRendersUnchecked()
     }
 

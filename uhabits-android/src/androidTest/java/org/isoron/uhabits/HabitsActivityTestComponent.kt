@@ -23,6 +23,7 @@ import android.content.Context
 import dev.mokkery.mock
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
+import org.isoron.uhabits.activities.AndroidThemeSwitcher
 import org.isoron.uhabits.activities.HabitsDirFinder
 import org.isoron.uhabits.activities.habits.list.ListHabitsModule
 import org.isoron.uhabits.activities.habits.list.ListHabitsScreen
@@ -32,6 +33,8 @@ import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.activities.habits.list.views.HabitCardViewFactory
 import org.isoron.uhabits.activities.habits.list.views.NumberButtonViewFactory
 import org.isoron.uhabits.activities.habits.list.views.NumberPanelViewFactory
+import org.isoron.uhabits.core.preferences.Preferences
+import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
@@ -54,6 +57,13 @@ abstract class HabitsActivityTestComponent(
 
     @Provides
     open fun listHabitsBehavior(): ListHabitsBehavior = mock()
+
+    @ActivityScope
+    @Provides
+    open fun themeSwitcher(
+        @ActivityContext context: Context,
+        prefs: Preferences
+    ): ThemeSwitcher = AndroidThemeSwitcher(context, prefs)
 
     open val HabitCardListAdapter.bindAdapter: ListHabitsMenuBehavior.Adapter
         @Provides get() = this

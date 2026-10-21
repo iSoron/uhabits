@@ -34,94 +34,31 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import me.tatarka.inject.annotations.Inject
 import org.isoron.platform.gui.toInt
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
-import org.isoron.uhabits.core.models.Habit
-import org.isoron.uhabits.core.models.ModelObservable
-import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.isoron.uhabits.core.ui.screens.habits.list.HabitCardState
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
 
-@Inject
-class HabitCardViewFactory(
-    @ActivityContext val context: Context,
-    private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
-    private val numberPanelFactory: NumberPanelViewFactory,
-    private val behavior: ListHabitsBehavior
-) {
-    fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
-}
+data class HabitCardViewState(
+    val record: HabitCardState,
+    val selected: Boolean,
+    val buttonCount: Int
+)
 
 class HabitCardView(
     @ActivityContext context: Context,
     checkmarkPanelFactory: CheckmarkPanelViewFactory,
     numberPanelFactory: NumberPanelViewFactory,
-    private val behavior: ListHabitsBehavior
-) : FrameLayout(context),
-    ModelObservable.Listener {
-
-    var buttonCount
-        get() = checkmarkPanel.buttonCount
-        set(value) {
-            checkmarkPanel.buttonCount = value
-            numberPanel.buttonCount = value
-        }
-
-    var dataOffset = 0
-        set(value) {
-            field = value
-            checkmarkPanel.dataOffset = value
-            numberPanel.dataOffset = value
-        }
-
-    var habit: Habit? = null
-        set(newHabit) {
-            if (isAttachedToWindow) {
-                field?.observable?.removeListener(this)
-                newHabit?.observable?.addListener(this)
-            }
-            field = newHabit
-            if (newHabit != null) copyAttributesFrom(newHabit)
-        }
-
-    var score
-        get() = scoreRing.getPercentage().toDouble()
-        set(value) {
-            scoreRing.setPercentage(value.toFloat())
-            scoreRing.setPrecision(1.0f / 16)
-        }
-
-    var unit
-        get() = numberPanel.units
-        set(value) {
-            numberPanel.units = value
-        }
-
-    var values
-        get() = checkmarkPanel.values
-        set(values) {
-            checkmarkPanel.values = values
-            numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
-        }
-
-    var completed: BooleanArray
-        get() = numberPanel.completed
-        set(value) {
-            numberPanel.completed = value
-        }
-
-    var notes
-        get() = checkmarkPanel.notes
-        set(values) {
-            checkmarkPanel.notes = values
-            numberPanel.notes = values
-        }
+    private val controller: HabitCardListView.Controller
+) : FrameLayout(context) {
 
     var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
@@ -129,7 +66,58 @@ class HabitCardView(
     private var label: TextView
     private var scoreRing: RingView
 
+    private var dataOffset = 0
+    private var state: HabitCardViewState? = null
+
     private var currentToggleTaskId = 0
+
+    fun setState(newState: HabitCardViewState) {
+        state = newState
+        val r = newState.record
+        val c = getActiveColor(r)
+        label.apply {
+            text = r.name
+            setTextColor(c)
+        }
+        scoreRing.apply {
+            setPercentage(r.score.toFloat())
+            setPrecision(1.0f / 16)
+            setColor(c)
+        }
+        checkmarkPanel.visibility = when (r.isNumerical) {
+            true -> View.GONE
+            false -> View.VISIBLE
+        }
+        numberPanel.visibility = when (r.isNumerical) {
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
+        checkmarkPanel.setState(CheckmarkPanelState(r.checkmarks, c, r.notes, newState.buttonCount))
+        numberPanel.setState(
+            NumberPanelState(
+                r.checkmarks.map { it / 1000.0 },
+                r.completed,
+                c,
+                r.unit,
+                r.notes,
+                newState.buttonCount
+            )
+        )
+        setSelected(newState.selected)
+    }
+
+    fun setDataOffset(offset: Int) {
+        dataOffset = offset
+        checkmarkPanel.setDataOffset(offset)
+        numberPanel.setDataOffset(offset)
+    }
+
+    private fun getActiveColor(record: HabitCardState): Int {
+        return when (record.archived) {
+            true -> sres.getColor(R.attr.contrast60)
+            false -> currentTheme().color(record.color).toInt()
+        }
+    }
 
     init {
         scoreRing = RingView(context).apply {
@@ -156,9 +144,9 @@ class HabitCardView(
             onToggle = { date, value, notes ->
                 triggerRipple(date)
                 val location = getAbsoluteButtonLocation(date)
-                habit?.let {
-                    behavior.onToggle(
-                        it,
+                state?.record?.id?.let { habitId ->
+                    controller.onToggle(
+                        habitId,
                         date,
                         value,
                         notes,
@@ -170,7 +158,9 @@ class HabitCardView(
             onEdit = { date ->
                 triggerRipple(date)
                 val location = getAbsoluteButtonLocation(date)
-                habit?.let { behavior.onEdit(it, date, location.x, location.y) }
+                state?.record?.id?.let { habitId ->
+                    controller.onEdit(habitId, date, location.x, location.y)
+                }
             }
         }
 
@@ -179,7 +169,9 @@ class HabitCardView(
             onEdit = { date ->
                 triggerRipple(date)
                 val location = getAbsoluteButtonLocation(date)
-                habit?.let { behavior.onEdit(it, date, location.x, location.y) }
+                state?.record?.id?.let { habitId ->
+                    controller.onEdit(habitId, date, location.x, location.y)
+                }
             }
         }
 
@@ -207,12 +199,6 @@ class HabitCardView(
         addView(innerFrame)
     }
 
-    override fun onModelChange() {
-        Handler(Looper.getMainLooper()).post {
-            habit?.let { copyAttributesFrom(it) }
-        }
-    }
-
     override fun setSelected(isSelected: Boolean) {
         super.setSelected(isSelected)
         updateBackground(isSelected)
@@ -226,7 +212,7 @@ class HabitCardView(
     private fun getRelativeButtonLocation(date: LocalDate): PointF {
         val today = getToday()
         val offset = date.daysUntil(today) - dataOffset
-        val panel = when (habit!!.isNumerical) {
+        val panel = when (state?.record?.isNumerical == true) {
             true -> numberPanel
             false -> checkmarkPanel
         }
@@ -253,49 +239,6 @@ class HabitCardView(
         )
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        habit?.observable?.addListener(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        habit?.observable?.removeListener(this)
-        super.onDetachedFromWindow()
-    }
-
-    private fun copyAttributesFrom(h: Habit) {
-        fun getActiveColor(habit: Habit): Int {
-            return when (habit.isArchived) {
-                true -> sres.getColor(R.attr.contrast60)
-                false -> currentTheme().color(habit.color).toInt()
-            }
-        }
-
-        val c = getActiveColor(h)
-        label.apply {
-            text = h.name
-            setTextColor(c)
-        }
-        scoreRing.apply {
-            setColor(c)
-        }
-        checkmarkPanel.apply {
-            color = c
-            visibility = when (h.isNumerical) {
-                true -> View.GONE
-                false -> View.VISIBLE
-            }
-        }
-        numberPanel.apply {
-            color = c
-            units = h.unit
-            visibility = when (h.isNumerical) {
-                true -> View.VISIBLE
-                false -> View.GONE
-            }
-        }
-    }
-
     private fun triggerRipple(x: Float, y: Float) {
         val background = innerFrame.background
         background.setHotspot(x, y)
@@ -319,4 +262,16 @@ class HabitCardView(
             Handler(Looper.getMainLooper()).postDelayed(this, delayInMillis)
         }
     }
+}
+
+class HabitCardViewHolder(itemView: HabitCardView) : RecyclerView.ViewHolder(itemView)
+
+@Inject
+class HabitCardViewFactory(
+    @ActivityContext val context: Context,
+    private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
+    private val numberPanelFactory: NumberPanelViewFactory,
+    private val controller: Lazy<HabitCardListController>
+) {
+    fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, controller.value)
 }

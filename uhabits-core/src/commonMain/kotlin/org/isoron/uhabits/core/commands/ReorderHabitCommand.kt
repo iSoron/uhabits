@@ -16,15 +16,26 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package org.isoron.uhabits.core.commands
 
-package org.isoron.uhabits.core.ui.screens.habits.list
+import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
 
-import me.tatarka.inject.annotations.Inject
-import org.isoron.uhabits.core.preferences.Preferences
+sealed class ReorderTarget {
+    data class Before(val ref: Habit) : ReorderTarget()
 
-@Inject
-class HintListFactory(
-    val preferences: Preferences
-) {
-    fun create(hints: Array<String>) = HintList(preferences, hints)
+    data class After(val ref: Habit) : ReorderTarget()
+}
+
+data class ReorderHabitCommand(
+    val habitList: HabitList,
+    val habit: Habit,
+    val target: ReorderTarget
+) : Command {
+    override fun run() {
+        when (target) {
+            is ReorderTarget.Before -> habitList.moveBefore(habit, target.ref)
+            is ReorderTarget.After -> habitList.moveAfter(habit, target.ref)
+        }
+    }
 }

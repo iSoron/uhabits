@@ -34,19 +34,7 @@ abstract class ButtonPanelView<T : View>(
 ) : LinearLayout(context),
     Preferences.Listener {
 
-    var buttonCount = 0
-        set(value) {
-            if (field == value) return
-            field = value
-            inflateButtons()
-        }
-
-    var dataOffset = 0
-        set(value) {
-            if (field == value) return
-            field = value
-            setupButtons()
-        }
+    protected var buttonCount = 0
 
     var buttons = mutableListOf<T>()
 

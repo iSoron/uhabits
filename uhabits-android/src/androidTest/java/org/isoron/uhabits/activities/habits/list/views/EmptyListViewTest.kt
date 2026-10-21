@@ -40,7 +40,7 @@ class EmptyListViewTest : BaseViewTest() {
     @Ignore("non-deterministic failure")
     fun testRender_done() {
         val view = EmptyListView(targetContext)
-        view.showDone()
+        view.setState(EmptyListViewState(EmptyMode.DONE))
         measureView(view, dpToPixels(200), dpToPixels(200))
         assertRenders(view, "$path/done.png")
     }
@@ -49,7 +49,7 @@ class EmptyListViewTest : BaseViewTest() {
     @Ignore("non-deterministic failure")
     fun testRender_empty() {
         val view = EmptyListView(targetContext)
-        view.showEmpty()
+        view.setState(EmptyListViewState(EmptyMode.EMPTY))
         measureView(view, dpToPixels(200), dpToPixels(200))
         assertRenders(view, "$path/empty.png")
     }

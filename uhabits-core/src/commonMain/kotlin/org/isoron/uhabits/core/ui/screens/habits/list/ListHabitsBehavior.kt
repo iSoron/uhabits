@@ -24,8 +24,9 @@ import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.commands.ReorderHabitCommand
+import org.isoron.uhabits.core.commands.ReorderTarget
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
-import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
 import org.isoron.uhabits.core.models.NumericalHabitType.AT_LEAST
@@ -48,11 +49,12 @@ open class ListHabitsBehavior(
     private val prefs: Preferences,
     private val bugReporter: BugReporter
 ) {
-    open fun onClickHabit(h: Habit) {
-        screen.showHabitScreen(h)
+    open fun onClickHabit(habitId: Long) {
+        screen.showHabitScreen(habitId)
     }
 
-    open fun onEdit(habit: Habit, date: LocalDate, x: Float, y: Float) {
+    open fun onEdit(habitId: Long, date: LocalDate, x: Float, y: Float) {
+        val habit = habitList.getById(habitId) ?: return
         val entry = habit.computedEntries.get(date)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble() / 1000
@@ -95,8 +97,11 @@ open class ListHabitsBehavior(
         screen.showIntroScreen()
     }
 
-    open fun onReorderHabit(from: Habit, to: Habit) {
-        taskRunner.execute { habitList.reorder(from, to) }
+    open fun reorderHabit(habitId: Long, targetId: Long, placeBefore: Boolean) {
+        val habit = habitList.getById(habitId) ?: return
+        val ref = habitList.getById(targetId) ?: return
+        val target = if (placeBefore) ReorderTarget.Before(ref) else ReorderTarget.After(ref)
+        commandRunner.run(ReorderHabitCommand(habitList, habit, target))
     }
 
     open fun onRepairDB() {
@@ -126,7 +131,8 @@ open class ListHabitsBehavior(
         if (prefs.isFirstRun) onFirstRun()
     }
 
-    open fun onToggle(habit: Habit, date: LocalDate, value: Int, notes: String, x: Float, y: Float) {
+    open fun onToggle(habitId: Long, date: LocalDate, value: Int, notes: String, x: Float, y: Float) {
+        val habit = habitList.getById(habitId) ?: return
         commandRunner.run(
             CreateRepetitionCommand(habitList, habit, date, value, notes)
         )
@@ -153,7 +159,7 @@ open class ListHabitsBehavior(
     }
 
     interface Screen {
-        fun showHabitScreen(h: Habit)
+        fun showHabitScreen(habitId: Long)
         fun showIntroScreen()
         fun showMessage(m: Message)
         fun showNumberPopup(

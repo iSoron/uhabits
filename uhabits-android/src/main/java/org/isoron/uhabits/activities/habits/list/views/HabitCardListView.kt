@@ -30,15 +30,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.DOWN
-import androidx.recyclerview.widget.ItemTouchHelper.END
-import androidx.recyclerview.widget.ItemTouchHelper.START
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.tatarka.inject.annotations.Inject
+import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.BundleSavedState
-import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.inject.ActivityContext
 
 @Inject
@@ -61,15 +59,17 @@ class HabitCardListView(
     var checkmarkCount: Int = 0
     private var insetDecorationsAdded: Boolean = false
 
-    var dataOffset: Int = 0
-        set(value) {
-            field = value
-            attachedHolders
-                .map { it.itemView as HabitCardView }
-                .forEach { it.dataOffset = value }
-        }
+    private var dataOffset: Int = 0
+
+    fun setDataOffset(offset: Int) {
+        dataOffset = offset
+        attachedHolders
+            .map { it.itemView as HabitCardView }
+            .forEach { it.setDataOffset(offset) }
+    }
 
     private val attachedHolders = mutableListOf<HabitCardViewHolder>()
+
     private val touchHelper = ItemTouchHelper(TouchHelperCallback()).apply {
         attachToRecyclerView(this@HabitCardListView)
     }
@@ -108,25 +108,9 @@ class HabitCardListView(
         return cardViewFactory.create()
     }
 
-    fun bindCardView(
-        holder: HabitCardViewHolder,
-        habit: Habit,
-        score: Double,
-        checkmarks: IntArray,
-        completed: BooleanArray,
-        notes: Array<String>,
-        selected: Boolean
-    ): View {
+    fun bindCardView(holder: HabitCardViewHolder, state: HabitCardViewState): View {
         val cardView = holder.itemView as HabitCardView
-        cardView.habit = habit
-        cardView.isSelected = selected
-        cardView.values = checkmarks
-        cardView.buttonCount = checkmarkCount
-        cardView.dataOffset = dataOffset
-        cardView.score = score
-        cardView.unit = habit.unit
-        cardView.completed = completed
-        cardView.notes = notes
+        cardView.setState(state.copy(buttonCount = checkmarkCount))
 
         val detector = GestureDetector(context, CardViewGestureDetector(holder))
         cardView.setOnTouchListener { _, ev ->
@@ -138,22 +122,12 @@ class HabitCardListView(
     }
 
     fun attachCardView(holder: HabitCardViewHolder) {
-        (holder.itemView as HabitCardView).dataOffset = dataOffset
+        (holder.itemView as HabitCardView).setDataOffset(dataOffset)
         attachedHolders.add(holder)
     }
 
     fun detachCardView(holder: HabitCardViewHolder) {
         attachedHolders.remove(holder)
-    }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        adapter.onAttached()
-    }
-
-    override fun onDetachedFromWindow() {
-        adapter.onDetached()
-        super.onDetachedFromWindow()
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
@@ -174,10 +148,11 @@ class HabitCardListView(
     }
 
     interface Controller {
-        fun drop(from: Int, to: Int) {}
+        fun commitReorder() {}
         fun onItemClick(pos: Int) {}
         fun onItemLongClick(pos: Int) {}
-        fun startDrag(position: Int) {}
+        fun onToggle(habitId: Long, date: LocalDate, value: Int, notes: String, x: Float, y: Float) {}
+        fun onEdit(habitId: Long, date: LocalDate, x: Float, y: Float) {}
     }
 
     private inner class CardViewGestureDetector(
@@ -187,7 +162,10 @@ class HabitCardListView(
         override fun onLongPress(e: MotionEvent) {
             val position = holder.adapterPosition
             controller.value.onItemLongClick(position)
-            if (adapter.isSortable) touchHelper.startDrag(holder)
+            if (adapter.isSortable) {
+                adapter.onDragStart(position)
+                touchHelper.startDrag(holder)
+            }
         }
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
@@ -202,7 +180,8 @@ class HabitCardListView(
             recyclerView: RecyclerView,
             viewHolder: ViewHolder
         ): Int {
-            return makeMovementFlags(UP or DOWN, START or END)
+            if (!adapter.isSortable) return 0
+            return makeMovementFlags(UP or DOWN, 0)
         }
 
         override fun onMove(
@@ -210,14 +189,20 @@ class HabitCardListView(
             from: ViewHolder,
             to: ViewHolder
         ): Boolean {
-            controller.value.drop(from.adapterPosition, to.adapterPosition)
+            if (!adapter.isSortable) return false
+            val fromPos = from.adapterPosition
+            val toPos = to.adapterPosition
+            if (fromPos < 0 || toPos < 0) return false
+            adapter.onDragMove(fromPos, toPos)
             return true
         }
 
-        override fun onSwiped(
-            viewHolder: ViewHolder,
-            direction: Int
-        ) {
+        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
+            super.clearView(recyclerView, viewHolder)
+            controller.value.commitReorder()
         }
 
         override fun isItemViewSwipeEnabled() = false

@@ -29,16 +29,19 @@ import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.ScrollableChart
 import org.isoron.uhabits.activities.common.views.TaskProgressBar
 import org.isoron.uhabits.activities.habits.list.views.EmptyListView
+import org.isoron.uhabits.activities.habits.list.views.EmptyListViewState
+import org.isoron.uhabits.activities.habits.list.views.EmptyMode
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListAdapter
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListView
 import org.isoron.uhabits.activities.habits.list.views.HabitCardListViewFactory
+import org.isoron.uhabits.activities.habits.list.views.HeaderState
 import org.isoron.uhabits.activities.habits.list.views.HeaderView
 import org.isoron.uhabits.activities.habits.list.views.HintView
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
-import org.isoron.uhabits.core.ui.screens.habits.list.HintListFactory
+import org.isoron.uhabits.core.ui.screens.habits.list.HintPresenterFactory
 import org.isoron.uhabits.core.utils.MidnightTimer
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.inject.ActivityScope
@@ -60,7 +63,7 @@ const val MAX_CHECKMARK_COUNT = 60
 @ActivityScope
 class ListHabitsRootView(
     @ActivityContext context: Context,
-    hintListFactory: HintListFactory,
+    hintPresenterFactory: HintPresenterFactory,
     preferences: Preferences,
     midnightTimer: MidnightTimer,
     runner: TaskRunner,
@@ -80,8 +83,7 @@ class ListHabitsRootView(
 
     init {
         val hints = resources.getStringArray(R.array.hints)
-        val hintList = hintListFactory.create(hints)
-        hintView = HintView(context, hintList)
+        hintView = HintView(context, hintPresenterFactory.create(hints))
 
         val rootView = RelativeLayout(context).apply {
             background = sres.getDrawable(R.attr.windowBackgroundColor)
@@ -114,7 +116,7 @@ class ListHabitsRootView(
         header.setScrollController(
             object : ScrollableChart.ScrollController {
                 override fun onDataOffsetChanged(newDataOffset: Int) {
-                    listView.dataOffset = newDataOffset
+                    listView.setDataOffset(newDataOffset)
                 }
             }
         )
@@ -133,8 +135,7 @@ class ListHabitsRootView(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         val count = getCheckmarkCount()
-        header.buttonCount = count
-        header.setMaxDataOffset(max(MAX_CHECKMARK_COUNT - count, 0))
+        header.setState(HeaderState(count, max(MAX_CHECKMARK_COUNT - count, 0)))
         listView.checkmarkCount = count
         super.onSizeChanged(w, h, oldw, oldh)
     }
@@ -148,14 +149,15 @@ class ListHabitsRootView(
     }
 
     private fun updateEmptyView() {
-        if (listAdapter.itemCount == 0) {
+        val mode = if (listAdapter.itemCount == 0) {
             if (listAdapter.hasNoHabit()) {
-                llEmpty.showEmpty()
+                EmptyMode.EMPTY
             } else {
-                llEmpty.showDone()
+                EmptyMode.DONE
             }
         } else {
-            llEmpty.hide()
+            EmptyMode.HIDDEN
         }
+        llEmpty.setState(EmptyListViewState(mode))
     }
 }

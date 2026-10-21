@@ -117,7 +117,7 @@ class ListHabitsSelectionMenu(
             }
 
             R.id.action_notify -> {
-                for (h in listAdapter.selected)
+                for (h in listAdapter.getSelected())
                     notificationTray.show(h, getToday(), 0)
                 return true
             }

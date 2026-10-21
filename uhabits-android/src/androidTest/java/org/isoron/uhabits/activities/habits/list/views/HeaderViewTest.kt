@@ -40,7 +40,7 @@ class HeaderViewTest : BaseViewTest() {
         super.setUp()
         prefs = mock()
         view = HeaderView(targetContext, prefs, mock())
-        view.buttonCount = 5
+        view.setState(HeaderState(buttonCount = 5, maxDataOffset = 0))
         measureView(view, dpToPixels(600), dpToPixels(48))
     }
 

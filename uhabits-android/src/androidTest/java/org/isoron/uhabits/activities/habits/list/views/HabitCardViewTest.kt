@@ -21,12 +21,16 @@ package org.isoron.uhabits.activities.habits.list.views
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.sameInstance
+import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.BaseViewTest
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.PaletteColor
+import org.isoron.uhabits.core.ui.screens.habits.list.HabitCardState
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -48,27 +52,52 @@ class HabitCardViewTest : BaseViewTest() {
         habit2 = fixtures.createLongNumericalHabit()
         today = getToday()
 
-        val entries = habit1
-            .computedEntries
-            .getByInterval(today.minus(300), today)
-            .map { it.value }.toIntArray()
-
-        view = component.getHabitCardViewFactory().create().apply {
-            habit = habit1
-            values = entries
-            score = habit1.scores[today].value
-            isSelected = false
-            buttonCount = 5
-        }
+        view = component.getHabitCardViewFactory().create()
+        view.setState(buildState(habit1, false))
         latch.countDown()
 
         latch.await()
         measureView(view, dpToPixels(400), dpToPixels(50))
     }
 
+    private fun buildState(habit: Habit, isSelected: Boolean): HabitCardViewState {
+        val entries = habit.computedEntries.getByInterval(today.minus(300), today)
+        val record = HabitCardState(
+            id = habit.id!!,
+            name = habit.name,
+            color = habit.color,
+            unit = habit.unit,
+            isNumerical = habit.isNumerical,
+            archived = habit.isArchived,
+            score = habit.scores[today].value,
+            checkmarks = entries.map { it.value }.toList(),
+            completed = entries.map { it.completed }.toList(),
+            notes = entries.map { it.notes }.toList()
+        )
+        return HabitCardViewState(record, isSelected, 5)
+    }
+
     @Test
     fun testRender() {
         assertRenders(view, "$PATH/render.png")
+    }
+
+    @Test
+    fun testRender_archived() {
+        val state = buildState(habit1, false)
+        view.setState(state.copy(record = state.record.copy(archived = true)))
+        measureView(view, dpToPixels(400), dpToPixels(50))
+        assertRenders(view, "$PATH/render_archived.png")
+    }
+
+    @Test
+    fun testSetState_idempotent() {
+        val before = view.checkmarkPanel.buttons.toList()
+        view.setState(buildState(habit1, false))
+        assertThat(view.checkmarkPanel.buttons.size, equalTo(before.size))
+        for (i in before.indices) {
+            assertThat(view.checkmarkPanel.buttons[i], sameInstance(before[i]))
+        }
     }
 
     @Test
@@ -80,17 +109,7 @@ class HabitCardViewTest : BaseViewTest() {
 
     @Test
     fun testRender_numerical() {
-        view.apply {
-            habit = habit2
-            values = habit2
-                .computedEntries
-                .getByInterval(today.minus(300), today)
-                .map { it.value }.toIntArray()
-            completed = habit2
-                .computedEntries
-                .getByInterval(today.minus(300), today)
-                .map { it.completed }.toBooleanArray()
-        }
+        view.setState(buildState(habit2, false))
         assertRenders(view, "$PATH/render_numerical.png")
     }
 

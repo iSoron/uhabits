@@ -19,6 +19,7 @@
 
 package org.isoron.uhabits.activities.habits.list.views
 
+import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.Color.WHITE
@@ -28,12 +29,13 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
 import org.isoron.uhabits.R
-import org.isoron.uhabits.core.ui.screens.habits.list.HintList
+import org.isoron.uhabits.core.ui.screens.habits.list.HintPresenter
+import org.isoron.uhabits.core.ui.screens.habits.list.HintViewState
 import org.isoron.uhabits.utils.dp
 
 class HintView(
     context: Context,
-    private val hintList: HintList
+    private val presenter: HintPresenter
 ) : LinearLayout(context) {
 
     val hintContent: TextView
@@ -60,32 +62,29 @@ class HintView(
 
         addView(hintTitle, WRAP_CONTENT, WRAP_CONTENT)
         addView(hintContent, WRAP_CONTENT, WRAP_CONTENT)
-        setOnClickListener { dismiss() }
+        setOnClickListener { setState(presenter.dismissed()) }
     }
 
     public override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        showNext()
+        setState(presenter.initial())
     }
 
-    fun showNext() {
-        if (!hintList.shouldShow()) return
-        val hint = hintList.pop() ?: return
+    fun setState(state: HintViewState) {
+        if (state.visible) {
+            hintContent.text = state.text
+            requestLayout()
 
-        hintContent.text = hint
-        requestLayout()
-
-        alpha = 0.0f
-        visibility = View.VISIBLE
-        animate().alpha(1f).duration = 500
-    }
-
-    private fun dismiss() {
-        animate().alpha(0f).setDuration(500).setListener(DismissAnimator())
+            alpha = 0.0f
+            visibility = View.VISIBLE
+            animate().alpha(1f).duration = 500
+        } else if (visibility == View.VISIBLE) {
+            animate().alpha(0f).setDuration(500).setListener(DismissAnimator())
+        }
     }
 
     private inner class DismissAnimator : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: android.animation.Animator) {
+        override fun onAnimationEnd(animation: Animator) {
             visibility = View.GONE
         }
     }

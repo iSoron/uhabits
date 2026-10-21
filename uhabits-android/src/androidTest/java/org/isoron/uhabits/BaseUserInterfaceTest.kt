@@ -28,7 +28,6 @@ import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.ui.screens.habits.list.HabitCardListCache
 import org.isoron.uhabits.inject.HabitsApplicationComponent
 import org.junit.After
 import org.junit.Before
@@ -38,7 +37,6 @@ open class BaseUserInterfaceTest {
     private lateinit var habitList: HabitList
     private lateinit var prefs: Preferences
     private lateinit var fixtures: HabitFixtures
-    private lateinit var cache: HabitCardListCache
 
     @Before
     @Throws(Exception::class)
@@ -49,7 +47,6 @@ open class BaseUserInterfaceTest {
         component = app.component
         habitList = component.habitList
         prefs = component.preferences
-        cache = component.habitCardListCache
         fixtures = HabitFixtures(component.modelFactory, habitList)
         resetState()
     }
@@ -67,8 +64,6 @@ open class BaseUserInterfaceTest {
         prefs.isFirstRun = false
         prefs.updateLastHint(100, getToday())
         habitList.removeAll()
-        cache.refreshAllHabits()
-        Thread.sleep(1000)
         val h1 = fixtures.createEmptyHabit()
         h1.name = "Wake up early"
         h1.question = "Did you wake up early today?"

@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list.views
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.sameInstance
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.BaseViewTest
@@ -37,11 +38,12 @@ class NumberPanelViewTest : BaseViewTest() {
 
     private val PATH = "habits/list/NumberPanelView"
     private lateinit var view: NumberPanelView
+    private lateinit var state: NumberPanelState
 
     @Before
     override fun setUp() {
         super.setUp()
-        val checkmarks = doubleArrayOf(
+        val checkmarks = listOf(
             1400.0,
             5300.0,
             0.0,
@@ -50,12 +52,16 @@ class NumberPanelViewTest : BaseViewTest() {
             45000.0
         )
 
+        state = NumberPanelState(
+            checkmarks,
+            listOf(false, true, false, true),
+            PaletteUtils.getAndroidTestColor(7),
+            "steps",
+            emptyList(),
+            4
+        )
         view = component.getNumberPanelViewFactory().create().apply {
-            values = checkmarks
-            buttonCount = 4
-            color = PaletteUtils.getAndroidTestColor(7)
-            units = "steps"
-            completed = booleanArrayOf(false, true, false, true)
+            setState(state)
         }
         view.onAttachedToWindow()
         measureView(view, dpToPixels(200), dpToPixels(200))
@@ -72,6 +78,16 @@ class NumberPanelViewTest : BaseViewTest() {
     }
 
     @Test
+    fun testSetState_idempotent() {
+        val before = view.buttons.toList()
+        view.setState(state)
+        assertThat(view.buttons.size, equalTo(before.size))
+        for (i in before.indices) {
+            assertThat(view.buttons[i], sameInstance(before[i]))
+        }
+    }
+
+    @Test
     fun testEdit() {
         val dates = mutableListOf<LocalDate>()
         view.onEdit = { t -> dates.plusAssign(t) }
@@ -84,7 +100,7 @@ class NumberPanelViewTest : BaseViewTest() {
     @Test
     fun testEdit_withOffset() {
         val dates = mutableListOf<LocalDate>()
-        view.dataOffset = 3
+        view.setDataOffset(3)
         view.onEdit = { t -> dates += t }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()

@@ -21,16 +21,16 @@ package org.isoron.uhabits.activities.habits.list.views
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.tatarka.inject.annotations.Inject
-import org.isoron.uhabits.activities.habits.list.MAX_CHECKMARK_COUNT
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
+import org.isoron.uhabits.core.models.HabitList.Order
 import org.isoron.uhabits.core.models.HabitMatcher
 import org.isoron.uhabits.core.models.ModelObservable
 import org.isoron.uhabits.core.preferences.Preferences
-import org.isoron.uhabits.core.ui.screens.habits.list.HabitCardListCache
+import org.isoron.uhabits.core.ui.screens.habits.list.HabitCardState
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
-import org.isoron.uhabits.core.utils.MidnightTimer
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsState
 import org.isoron.uhabits.inject.ActivityScope
 import java.util.LinkedList
 
@@ -38,67 +38,80 @@ import java.util.LinkedList
  * Provides data that backs a [HabitCardListView].
  *
  *
- * The data if fetched and cached by a [HabitCardListCache]. This adapter
- * also holds a list of items that have been selected.
+ * The adapter holds the current [ListHabitsState] and renders it via [setState];
+ * the Screen builds the state with the pure [ListHabitsPresenter] and pushes it
+ * in. The menu behavior and the selection behavior talk to this adapter for the
+ * list's data (item at position, item count, is it empty, is it sortable, apply
+ * filter/order, remove selected).
+ *
+ *
+ * Selection is tracked by stable identity (habit id), not by position, so a full
+ * rebuild after a filter change, delete, or sort change does not scramble which
+ * items are selected.
  */
 @Inject
 @ActivityScope
 class HabitCardListAdapter(
-    private val cache: HabitCardListCache,
-    private val preferences: Preferences,
-    private val midnightTimer: MidnightTimer
+    private val allHabits: HabitList,
+    private val preferences: Preferences
 ) : RecyclerView.Adapter<HabitCardViewHolder?>(),
-    HabitCardListCache.Listener,
-    MidnightTimer.MidnightListener,
     ListHabitsMenuBehavior.Adapter,
     ListHabitsSelectionMenuBehavior.Adapter {
     val observable: ModelObservable = ModelObservable()
     private var listView: HabitCardListView? = null
-    val selected: LinkedList<Habit> = LinkedList()
-    override fun atMidnight() {
-        cache.refreshAllHabits()
-    }
 
-    fun cancelRefresh() {
-        cache.cancelTasks()
-    }
+    val selected = LinkedList<Long>()
+    var filter: HabitMatcher? = null
+        private set
+    private var state: ListHabitsState? = null
+    private var currentPrimaryOrder: Order
+    private var currentSecondaryOrder: Order
 
-    fun hasNoHabit(): Boolean {
-        return cache.hasNoHabit()
-    }
+    private var items: MutableList<HabitCardState> = mutableListOf()
 
-    /**
-     * Sets all items as not selected.
-     */
+    private var isDragging = false
+
+    private var draggedId: Long? = null
+
+    private var dragMoved = false
+
+    private var pendingState: ListHabitsState? = null
+
     override fun clearSelection() {
         if (selected.isEmpty()) return
-
         selected.clear()
         notifyDataSetChanged()
         observable.notifyListeners()
     }
 
-    override fun getSelected(): List<Habit> {
-        return ArrayList(selected)
+    fun setState(state: ListHabitsState) {
+        if (isDragging) {
+            pendingState = state
+            return
+        }
+        pendingState = null
+        this.state = state
+        items = state.items.toMutableList()
+        val visibleIds = state.items.mapTo(mutableSetOf()) { it.id }
+        selected.retainAll(visibleIds)
+        notifyDataSetChanged()
+        observable.notifyListeners()
     }
 
-    /**
-     * Returns the item that occupies a certain position on the list
-     *
-     * @param position position of the item
-     * @return the item at given position or null if position is invalid
-     */
-    @Deprecated("")
-    fun getItem(position: Int): Habit? {
-        return cache.getHabitByPosition(position)
+    fun hasNoHabit(): Boolean {
+        return state?.hasHabits == false
+    }
+
+    override fun getSelected(): List<Habit> {
+        return selected.mapNotNull { allHabits.getById(it) }
     }
 
     override fun getItemCount(): Int {
-        return cache.habitCount
+        return items.size
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position)!!.id!!
+        return items[position].id
     }
 
     /**
@@ -108,29 +121,22 @@ class HabitCardListAdapter(
      */
     val isSelectionEmpty: Boolean
         get() = selected.isEmpty()
-    val isSortable: Boolean
-        get() = cache.primaryOrder == HabitList.Order.BY_POSITION
 
-    /**
-     * Notify the adapter that it has been attached to a ListView.
-     */
-    fun onAttached() {
-        cache.onAttached()
-        midnightTimer.addListener(this)
-    }
+    val isSortable: Boolean
+        get() = state?.isSortable == true
 
     override fun onBindViewHolder(
         holder: HabitCardViewHolder,
         position: Int
     ) {
         if (listView == null) return
-        val habit = cache.getHabitByPosition(position)
-        val score = cache.getScore(habit!!.id!!)
-        val checkmarks = cache.getCheckmarks(habit.id!!)
-        val completed = cache.getCompleted(habit.id!!)
-        val notes = cache.getNotes(habit.id!!)
-        val selected = selected.contains(habit)
-        listView!!.bindCardView(holder, habit, score, checkmarks, completed, notes, selected)
+        val st = state ?: return
+        val record = items[position]
+        val isSelected = selected.contains(record.id)
+        listView!!.bindCardView(
+            holder,
+            HabitCardViewState(record, isSelected, st.checkmarkCount)
+        )
     }
 
     override fun onViewAttachedToWindow(holder: HabitCardViewHolder) {
@@ -150,76 +156,25 @@ class HabitCardListAdapter(
     }
 
     /**
-     * Notify the adapter that it has been detached from a ListView.
-     */
-    fun onDetached() {
-        cache.onDetached()
-        midnightTimer.removeListener(this)
-    }
-
-    override fun onItemChanged(position: Int) {
-        notifyItemChanged(position)
-        observable.notifyListeners()
-    }
-
-    override fun onItemInserted(position: Int) {
-        notifyItemInserted(position)
-        observable.notifyListeners()
-    }
-
-    override fun onItemMoved(oldPosition: Int, newPosition: Int) {
-        notifyItemMoved(oldPosition, newPosition)
-        observable.notifyListeners()
-    }
-
-    override fun onItemRemoved(position: Int) {
-        notifyItemRemoved(position)
-        observable.notifyListeners()
-    }
-
-    override fun onRefreshFinished() {
-        observable.notifyListeners()
-    }
-
-    /**
      * Removes a list of habits from the adapter.
      *
      *
-     * Note that this only has effect on the adapter cache. The database is not
-     * modified, and the change is lost when the cache is refreshed. This method
-     * is useful for making the ListView more responsive: while we wait for the
-     * database operation to finish, the cache can be modified to reflect the
-     * changes immediately.
+     * Note that this only has effect on the adapter state. The models are not
+     * modified, and the change is lost on the next [setState]. This method is
+     * useful for making the list more responsive: while we wait for the command to
+     * finish, the state can be modified to reflect the changes immediately.
      *
      * @param selected list of habits to be removed
      */
     override fun performRemove(selected: List<Habit>) {
-        for (habit in selected) cache.remove(habit.id!!)
-    }
-
-    /**
-     * Changes the order of habits on the adapter.
-     *
-     *
-     * Note that this only has effect on the adapter cache. The database is not
-     * modified, and the change is lost when the cache is refreshed. This method
-     * is useful for making the ListView more responsive: while we wait for the
-     * database operation to finish, the cache can be modified to reflect the
-     * changes immediately.
-     *
-     * @param from the habit that should be moved
-     * @param to   the habit that currently occupies the desired position
-     */
-    fun performReorder(from: Int, to: Int) {
-        cache.reorder(from, to)
-    }
-
-    override fun refresh() {
-        cache.refreshAllHabits()
+        val current = state ?: return
+        val ids = selected.mapNotNull { it.id }.toSet()
+        if (ids.isEmpty()) return
+        setState(current.copy(items = current.items.filter { it.id !in ids }))
     }
 
     override fun setFilter(matcher: HabitMatcher) {
-        cache.setFilter(matcher)
+        filter = matcher
     }
 
     /**
@@ -234,17 +189,17 @@ class HabitCardListAdapter(
         this.listView = listView
     }
 
-    override var primaryOrder: HabitList.Order
-        get() = cache.primaryOrder
+    override var primaryOrder: Order
+        get() = currentPrimaryOrder
         set(value) {
-            cache.primaryOrder = value
+            currentPrimaryOrder = value
             preferences.defaultPrimaryOrder = value
         }
 
-    override var secondaryOrder: HabitList.Order
-        get() = cache.secondaryOrder
+    override var secondaryOrder: Order
+        get() = currentSecondaryOrder
         set(value) {
-            cache.secondaryOrder = value
+            currentSecondaryOrder = value
             preferences.defaultSecondaryOrder = value
         }
 
@@ -254,19 +209,50 @@ class HabitCardListAdapter(
      * @param position position of the item to be toggled
      */
     fun toggleSelection(position: Int) {
-        val h = getItem(position) ?: return
-        val k = selected.indexOf(h)
-        if (k < 0) selected.add(h) else selected.remove(h)
+        val id = items.getOrNull(position)?.id ?: return
+        if (!selected.remove(id)) selected.add(id)
         notifyDataSetChanged()
     }
 
     init {
-        cache.setListener(this)
-        cache.setCheckmarkCount(
-            MAX_CHECKMARK_COUNT
-        )
-        cache.secondaryOrder = preferences.defaultSecondaryOrder
-        cache.primaryOrder = preferences.defaultPrimaryOrder
+        currentPrimaryOrder = preferences.defaultPrimaryOrder
+        currentSecondaryOrder = preferences.defaultSecondaryOrder
         setHasStableIds(true)
+    }
+
+    fun onDragStart(position: Int) {
+        isDragging = true
+        draggedId = items.getOrNull(position)?.id
+        dragMoved = false
+    }
+
+    fun onDragMove(from: Int, to: Int) {
+        if (!isDragging) return
+        dragMoved = true
+        val record = items.removeAt(from)
+        items.add(to, record)
+        notifyItemMoved(from, to)
+    }
+
+    fun onDragEnd(): Triple<Long, Long, Boolean>? {
+        val id = draggedId
+        val moved = dragMoved
+        isDragging = false
+        draggedId = null
+        dragMoved = false
+        if (id == null) return null
+        if (!moved) return null
+        if (items.size <= 1) return null
+        val k = items.indexOfFirst { it.id == id }
+        if (k < 0) return null
+        val refId = if (k > 0) items[k - 1].id else items[1].id
+        val placeBefore = k == 0
+        return Triple(id, refId, placeBefore)
+    }
+
+    fun flushPending() {
+        val p = pendingState
+        pendingState = null
+        if (p != null && !isDragging) setState(p)
     }
 }

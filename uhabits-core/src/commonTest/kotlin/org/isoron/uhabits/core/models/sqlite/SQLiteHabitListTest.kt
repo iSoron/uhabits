@@ -119,6 +119,11 @@ class SQLiteHabitListTest : BaseUnitTest() {
     }
 
     @Test
+    fun testGetFiltered_nullMatcher() = dbTest {
+        assertEquals(10, habitList.getFiltered(null).size())
+    }
+
+    @Test
     fun testGetById() = dbTest {
         val h1 = habitList.getById(1)!!
         assertEquals("habit 1", h1.name)
@@ -186,5 +191,52 @@ class SQLiteHabitListTest : BaseUnitTest() {
         assertEquals(3, record3.position)
         val record4 = all.find { it.id == 4L }!!
         assertEquals(2, record4.position)
+    }
+
+    @Test
+    fun testMoveBefore_moveUp() = dbTest {
+        habitList.moveBefore(habitList.getById(5)!!, habitList.getById(1)!!)
+        assertEquals(
+            listOf(5L, 1L, 2L, 3L, 4L, 6L, 7L, 8L, 9L, 10L),
+            repository.findAll().map { it.id!! }
+        )
+        val all = repository.findAll()
+        assertEquals(0, all.find { it.id == 5L }!!.position)
+        assertEquals(1, all.find { it.id == 1L }!!.position)
+        all.forEachIndexed { i, r -> assertEquals(i, r.position) }
+    }
+
+    @Test
+    fun testMoveAfter_moveDown() = dbTest {
+        habitList.moveAfter(habitList.getById(1)!!, habitList.getById(8)!!)
+        assertEquals(
+            listOf(2L, 3L, 4L, 5L, 6L, 7L, 8L, 1L, 9L, 10L),
+            repository.findAll().map { it.id!! }
+        )
+        val all = repository.findAll()
+        assertEquals(7, all.find { it.id == 1L }!!.position)
+        all.forEachIndexed { i, r -> assertEquals(i, r.position) }
+    }
+
+    @Test
+    fun testMoveAfter_hiddenItemsPresent() = dbTest {
+        habitList.moveAfter(habitList.getById(3)!!, habitList.getById(9)!!)
+        assertEquals(
+            listOf(1L, 2L, 4L, 5L, 6L, 7L, 8L, 9L, 3L, 10L),
+            repository.findAll().map { it.id!! }
+        )
+        val all = repository.findAll()
+        all.forEachIndexed { i, r -> assertEquals(i, r.position) }
+    }
+
+    @Test
+    fun testMoveBefore_onSortedList() = dbTest {
+        habitList.primaryOrder = HabitList.Order.BY_SCORE_DESC
+        assertFailsWith<IllegalStateException> {
+            habitList.moveBefore(habitList.getById(1)!!, habitList.getById(2)!!)
+        }
+        assertFailsWith<IllegalStateException> {
+            habitList.moveAfter(habitList.getById(1)!!, habitList.getById(2)!!)
+        }
     }
 }

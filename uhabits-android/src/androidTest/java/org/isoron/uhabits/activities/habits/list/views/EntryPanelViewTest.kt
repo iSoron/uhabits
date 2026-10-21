@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list.views
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.sameInstance
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.BaseViewTest
@@ -41,11 +42,12 @@ private const val PATH = "habits/list/CheckmarkPanelView"
 class EntryPanelViewTest : BaseViewTest() {
 
     private lateinit var view: CheckmarkPanelView
+    private lateinit var state: CheckmarkPanelState
 
     @Before
     override fun setUp() {
         super.setUp()
-        val checkmarks = intArrayOf(
+        val checkmarks = listOf(
             YES_MANUAL,
             YES_MANUAL,
             YES_AUTO,
@@ -55,10 +57,9 @@ class EntryPanelViewTest : BaseViewTest() {
             YES_MANUAL
         )
 
+        state = CheckmarkPanelState(checkmarks, PaletteUtils.getAndroidTestColor(7), emptyList(), 4)
         view = component.getCheckmarkPanelViewFactory().create().apply {
-            values = checkmarks
-            buttonCount = 4
-            color = PaletteUtils.getAndroidTestColor(7)
+            setState(state)
         }
         view.onAttachedToWindow()
         measureView(view, dpToPixels(200), dpToPixels(200))
@@ -75,6 +76,16 @@ class EntryPanelViewTest : BaseViewTest() {
     }
 
     @Test
+    fun testSetState_idempotent() {
+        val before = view.buttons.toList()
+        view.setState(state)
+        assertThat(view.buttons.size, equalTo(before.size))
+        for (i in before.indices) {
+            assertThat(view.buttons[i], sameInstance(before[i]))
+        }
+    }
+
+    @Test
     fun testToggle() {
         val dates = mutableListOf<LocalDate>()
         view.onToggle = { t, _, _ -> dates.add(t) }
@@ -87,7 +98,7 @@ class EntryPanelViewTest : BaseViewTest() {
     @Test
     fun testToggle_withOffset() {
         val dates = mutableListOf<LocalDate>()
-        view.dataOffset = 3
+        view.setDataOffset(3)
         view.onToggle = { t, _, _ -> dates += t }
         view.buttons[0].performLongClick()
         view.buttons[2].performLongClick()

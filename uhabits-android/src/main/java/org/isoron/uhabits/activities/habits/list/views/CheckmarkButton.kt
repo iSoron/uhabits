@@ -44,13 +44,11 @@ import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 
-@Inject
-class CheckmarkButtonViewFactory(
-    @ActivityContext val context: Context,
-    val preferences: Preferences
-) {
-    fun create() = CheckmarkButtonView(context, preferences)
-}
+data class CheckmarkButtonState(
+    val color: Int,
+    val value: Int,
+    val notes: String
+)
 
 class CheckmarkButtonView(
     context: Context,
@@ -59,23 +57,7 @@ class CheckmarkButtonView(
     View.OnClickListener,
     View.OnLongClickListener {
 
-    var color: Int = Color.BLACK
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var value: Int = 0
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var notes = ""
-        set(value) {
-            field = value
-            invalidate()
-        }
+    private var state = CheckmarkButtonState(Color.BLACK, 0, "")
 
     var onToggle: (Int, String) -> Unit = { _, _ -> }
 
@@ -83,18 +65,26 @@ class CheckmarkButtonView(
 
     private var drawer = Drawer()
 
+    fun setState(newState: CheckmarkButtonState) {
+        state = newState
+        invalidate()
+    }
+
+    val currentValue: Int get() = state.value
+
     init {
         setOnClickListener(this)
         setOnLongClickListener(this)
     }
 
     fun performToggle() {
-        value = Entry.nextToggleValue(
-            value = value,
+        val v = Entry.nextToggleValue(
+            value = state.value,
             isSkipEnabled = preferences.isSkipEnabled,
             areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
         )
-        onToggle(value, notes)
+        state = state.copy(value = v)
+        onToggle(v, state.notes)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
     }
@@ -144,8 +134,8 @@ class CheckmarkButtonView(
         }
 
         fun draw(canvas: Canvas) {
-            paint.color = when (value) {
-                YES_MANUAL, YES_AUTO, SKIP -> color
+            paint.color = when (state.value) {
+                YES_MANUAL, YES_AUTO, SKIP -> state.color
                 NO -> {
                     if (preferences.areQuestionMarksEnabled) {
                         mediumContrastColor
@@ -155,7 +145,7 @@ class CheckmarkButtonView(
                 }
                 else -> lowContrastColor
             }
-            val id = when (value) {
+            val id = when (state.value) {
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
                 UNKNOWN -> {
@@ -169,10 +159,10 @@ class CheckmarkButtonView(
             }
             paint.textSize = when {
                 id == R.string.fa_question -> sp(12.0f)
-                value == YES_AUTO -> sp(13.0f)
+                state.value == YES_AUTO -> sp(13.0f)
                 else -> sp(14.0f)
             }
-            if (value == YES_AUTO) {
+            if (state.value == YES_AUTO) {
                 paint.strokeWidth = 5f
                 paint.style = Paint.Style.STROKE
             } else {
@@ -187,7 +177,7 @@ class CheckmarkButtonView(
             rect.offset(0f, 0.4f * em)
             canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
 
-            if (value == YES_AUTO) {
+            if (state.value == YES_AUTO) {
                 paint.color = bgColor
                 paint.style = Paint.Style.FILL
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
@@ -196,10 +186,18 @@ class CheckmarkButtonView(
             drawNotesIndicator(
                 pNotesIndicator = pNotesIndicator,
                 canvas = canvas,
-                color = color,
+                color = state.color,
                 size = em,
-                notes = notes
+                notes = state.notes
             )
         }
     }
+}
+
+@Inject
+class CheckmarkButtonViewFactory(
+    @ActivityContext val context: Context,
+    val preferences: Preferences
+) {
+    fun create() = CheckmarkButtonView(context, preferences)
 }

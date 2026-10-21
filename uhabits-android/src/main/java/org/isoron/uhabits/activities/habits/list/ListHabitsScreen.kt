@@ -47,6 +47,7 @@ import org.isoron.uhabits.core.commands.DeleteHabitsCommand
 import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.commands.UnarchiveHabitsCommand
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.tasks.TaskRunner
@@ -63,7 +64,9 @@ import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.IMPORT_FAILED
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior.Message.IMPORT_SUCCESSFUL
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsMenuBehavior
+import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsPresenter
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsSelectionMenuBehavior
+import org.isoron.uhabits.core.utils.MidnightTimer
 import org.isoron.uhabits.inject.ActivityContext
 import org.isoron.uhabits.inject.ActivityScope
 import org.isoron.uhabits.intents.IntentFactory
@@ -95,9 +98,11 @@ const val REQUEST_SETTINGS = 107
 class ListHabitsScreen(
     @ActivityContext val context: Context,
     private val commandRunner: CommandRunner,
+    private val midnightTimer: MidnightTimer,
     private val intentFactory: IntentFactory,
     private val themeSwitcher: ThemeSwitcher,
     private val adapter: HabitCardListAdapter,
+    private val allHabits: HabitList,
     private val taskRunner: TaskRunner,
     private val exportDBFactory: ExportDBTaskFactory,
     private val importTaskFactory: ImportDataTaskFactory,
@@ -106,6 +111,7 @@ class ListHabitsScreen(
     private val preferences: Preferences,
     private val rootView: Lazy<ListHabitsRootView>
 ) : CommandRunner.Listener,
+    MidnightTimer.MidnightListener,
     ListHabitsBehavior.Screen,
     ListHabitsMenuBehavior.Screen,
     ListHabitsSelectionMenuBehavior.Screen {
@@ -114,15 +120,35 @@ class ListHabitsScreen(
 
     fun onAttached() {
         commandRunner.addListener(this)
+        midnightTimer.addListener(this)
     }
 
     fun onDetached() {
         commandRunner.removeListener(this)
+        midnightTimer.removeListener(this)
+    }
+
+    override fun refresh() {
+        adapter.setState(
+            ListHabitsPresenter.buildState(
+                allHabits = allHabits,
+                filter = adapter.filter,
+                primaryOrder = adapter.primaryOrder,
+                secondaryOrder = adapter.secondaryOrder,
+                checkmarkCount = MAX_CHECKMARK_COUNT,
+                theme = themeSwitcher.currentTheme!!
+            )
+        )
+    }
+
+    override fun atMidnight() {
+        activity.runOnUiThread { refresh() }
     }
 
     override fun onCommandFinished(command: Command) {
         val msg = getExecuteString(command)
         if (msg != null) activity.showMessage(msg)
+        refresh()
     }
 
     fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -186,8 +212,8 @@ class ListHabitsScreen(
         activity.startActivity(intent)
     }
 
-    override fun showHabitScreen(h: Habit) {
-        val intent = intentFactory.startShowHabitActivity(activity, h)
+    override fun showHabitScreen(habitId: Long) {
+        val intent = intentFactory.startShowHabitActivity(activity, habitId)
         activity.startActivity(intent)
     }
 
@@ -349,7 +375,7 @@ class ListHabitsScreen(
             importTaskFactory.create(file) { result ->
                 when (result) {
                     ImportDataTask.SUCCESS -> {
-                        adapter.refresh()
+                        refresh()
                         activity.showMessage(activity.resources.getString(R.string.habits_imported))
                     }
 

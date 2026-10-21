@@ -27,14 +27,12 @@ import org.isoron.uhabits.core.models.Entry.Companion.UNKNOWN
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
 
-@Inject
-class CheckmarkPanelViewFactory(
-    @ActivityContext val context: Context,
-    val preferences: Preferences,
-    private val buttonFactory: CheckmarkButtonViewFactory
-) {
-    fun create() = CheckmarkPanelView(context, preferences, buttonFactory)
-}
+data class CheckmarkPanelState(
+    val values: List<Int>,
+    val color: Int,
+    val notes: List<String>,
+    val buttonCount: Int
+)
 
 class CheckmarkPanelView(
     context: Context,
@@ -42,23 +40,9 @@ class CheckmarkPanelView(
     private val buttonFactory: CheckmarkButtonViewFactory
 ) : ButtonPanelView<CheckmarkButtonView>(context, preferences) {
 
-    var values = IntArray(0)
-        set(values) {
-            field = values
-            setupButtons()
-        }
+    private var state = CheckmarkPanelState(emptyList(), 0, emptyList(), 0)
 
-    var color = 0
-        set(value) {
-            field = value
-            setupButtons()
-        }
-
-    var notes = arrayOf<String>()
-        set(values) {
-            field = values
-            setupButtons()
-        }
+    private var dataOffset = 0
 
     var onToggle: (LocalDate, Int, String) -> Unit = { _, _, _ -> }
         set(value) {
@@ -74,23 +58,50 @@ class CheckmarkPanelView(
 
     override fun createButton(): CheckmarkButtonView = buttonFactory.create()
 
+    fun setState(newState: CheckmarkPanelState) {
+        if (newState.buttonCount != buttonCount) {
+            buttonCount = newState.buttonCount
+            inflateButtons()
+        }
+        state = newState
+        setupButtons()
+    }
+
+    fun setDataOffset(offset: Int) {
+        dataOffset = offset
+        setupButtons()
+    }
+
     @Synchronized
     override fun setupButtons() {
         val today = getToday()
 
         buttons.forEachIndexed { index, button ->
             val date = today.minus(index + dataOffset)
-            button.value = when {
-                index + dataOffset < values.size -> values[index + dataOffset]
-                else -> UNKNOWN
-            }
-            button.notes = when {
-                index + dataOffset < notes.size -> notes[index + dataOffset]
-                else -> ""
-            }
-            button.color = color
+            button.setState(
+                CheckmarkButtonState(
+                    state.color,
+                    when {
+                        index + dataOffset < state.values.size -> state.values[index + dataOffset]
+                        else -> UNKNOWN
+                    },
+                    when {
+                        index + dataOffset < state.notes.size -> state.notes[index + dataOffset]
+                        else -> ""
+                    }
+                )
+            )
             button.onToggle = { value, notes -> onToggle(date, value, notes) }
             button.onEdit = { onEdit(date) }
         }
     }
+}
+
+@Inject
+class CheckmarkPanelViewFactory(
+    @ActivityContext val context: Context,
+    val preferences: Preferences,
+    private val buttonFactory: CheckmarkButtonViewFactory
+) {
+    fun create() = CheckmarkPanelView(context, preferences, buttonFactory)
 }

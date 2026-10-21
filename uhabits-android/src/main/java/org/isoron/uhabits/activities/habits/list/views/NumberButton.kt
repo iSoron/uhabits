@@ -40,6 +40,14 @@ import org.isoron.uhabits.utils.getFontAwesome
 import org.isoron.uhabits.utils.sres
 import java.text.DecimalFormat
 
+data class NumberButtonState(
+    val color: Int,
+    val value: Double,
+    val completed: Boolean,
+    val units: String,
+    val notes: String
+)
+
 private val BOLD_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.BOLD)
 private val NORMAL_TYPEFACE = Typeface.create("sans-serif-condensed", Typeface.NORMAL)
 
@@ -56,14 +64,6 @@ fun Double.toShortString(): String = when {
     else -> DecimalFormat("#.##").format(this)
 }
 
-@Inject
-class NumberButtonViewFactory(
-    @ActivityContext val context: Context,
-    val preferences: Preferences
-) {
-    fun create() = NumberButtonView(context, preferences)
-}
-
 class NumberButtonView(
     @ActivityContext context: Context,
     val preferences: Preferences
@@ -71,38 +71,16 @@ class NumberButtonView(
     OnClickListener,
     OnLongClickListener {
 
-    var color = 0
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var value = 0.0
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var completed = false
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var units = ""
-        set(value) {
-            field = value
-            invalidate()
-        }
-    var notes = ""
-        set(value) {
-            field = value
-            invalidate()
-        }
+    private var state = NumberButtonState(0, 0.0, false, "", "")
 
     var onEdit: () -> Unit = { }
 
     private var drawer: Drawer = Drawer(context)
+
+    fun setState(newState: NumberButtonState) {
+        state = newState
+        invalidate()
+    }
 
     init {
         setOnClickListener(this)
@@ -167,8 +145,8 @@ class NumberButtonView(
 
         fun draw(canvas: Canvas) {
             val activeColor = when {
-                completed -> color
-                value < 0.0 -> lowContrast
+                state.completed -> state.color
+                state.value < 0.0 -> lowContrast
                 else -> mediumContrast
             }
 
@@ -177,14 +155,14 @@ class NumberButtonView(
             val textSize: Float
 
             when {
-                value == Entry.SKIP.toDouble() / 1000 -> {
+                state.value == Entry.SKIP.toDouble() / 1000 -> {
                     label = resources.getString(R.string.fa_skipped)
                     textSize = dim(R.dimen.smallTextSize)
                     typeface = getFontAwesome()
                 }
 
-                value >= 0 -> {
-                    label = value.toShortString()
+                state.value >= 0 -> {
+                    label = state.value.toShortString()
                     typeface = BOLD_TYPEFACE
                     textSize = dim(R.dimen.smallTextSize)
                 }
@@ -207,7 +185,7 @@ class NumberButtonView(
             pNumber.typeface = typeface
             pUnit.color = activeColor
 
-            if (units.isBlank()) {
+            if (state.units.isBlank()) {
                 // Draw number without units
                 rect.set(0f, 0f, width.toFloat(), height.toFloat())
                 rect.offset(0f, 0.5f * em)
@@ -219,7 +197,7 @@ class NumberButtonView(
 
                 // Draw units
                 val maxUnitsWidth = width * 0.9f
-                var trimmedUnits = units
+                var trimmedUnits = state.units
                 while (trimmedUnits.length > 2 && pUnit.measureText(trimmedUnits) > maxUnitsWidth) {
                     trimmedUnits = trimmedUnits.dropLast(2) + "…"
                 }
@@ -230,10 +208,18 @@ class NumberButtonView(
             drawNotesIndicator(
                 pNotesIndicator = pNotesIndicator,
                 canvas = canvas,
-                color = color,
+                color = state.color,
                 size = em,
-                notes = notes
+                notes = state.notes
             )
         }
     }
+}
+
+@Inject
+class NumberButtonViewFactory(
+    @ActivityContext val context: Context,
+    val preferences: Preferences
+) {
+    fun create() = NumberButtonView(context, preferences)
 }

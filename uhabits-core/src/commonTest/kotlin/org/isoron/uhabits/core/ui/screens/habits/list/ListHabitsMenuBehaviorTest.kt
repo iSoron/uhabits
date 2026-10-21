@@ -55,9 +55,9 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
     override fun setUp() {
         super.setUp()
         every { adapter.setFilter(any()) } returns Unit
-        every { adapter.refresh() } returns Unit
         behavior = ListHabitsMenuBehavior(screen, adapter, prefs, themeSwitcher)
         resetCalls(adapter)
+        resetCalls(screen)
     }
 
     @Test
@@ -65,19 +65,18 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         every { prefs.showArchived } returns true
         every { prefs.showCompleted } returns true
         every { adapter.setFilter(any()) } returns Unit
-        every { adapter.refresh() } returns Unit
         behavior = ListHabitsMenuBehavior(screen, adapter, prefs, themeSwitcher)
         verify { adapter.setFilter(any()) }
-        verify { adapter.refresh() }
+        verify { screen.refresh() }
         verifyNoMoreCalls(adapter)
         resetCalls(adapter)
+        resetCalls(screen)
         every { prefs.showArchived } returns false
         every { prefs.showCompleted } returns false
         every { adapter.setFilter(any()) } returns Unit
-        every { adapter.refresh() } returns Unit
         behavior = ListHabitsMenuBehavior(screen, adapter, prefs, themeSwitcher)
         verify { adapter.setFilter(any()) }
-        verify { adapter.refresh() }
+        verify { screen.refresh() }
         verifyNoMoreCalls(adapter)
     }
 
@@ -86,12 +85,14 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         every { adapter.primaryOrder } returns HabitList.Order.BY_POSITION
         behavior.onSortByColor()
         verify { adapter.primaryOrder = HabitList.Order.BY_COLOR_ASC }
+        verify { screen.refresh() }
     }
 
     @Test
     fun testOnSortManually() {
         behavior.onSortByManually()
         verify { adapter.primaryOrder = HabitList.Order.BY_POSITION }
+        verify { screen.refresh() }
     }
 
     @Test
@@ -99,6 +100,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         every { adapter.primaryOrder } returns HabitList.Order.BY_POSITION
         behavior.onSortByScore()
         verify { adapter.primaryOrder = HabitList.Order.BY_SCORE_DESC }
+        verify { screen.refresh() }
     }
 
     @Test
@@ -106,6 +108,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         every { adapter.primaryOrder } returns HabitList.Order.BY_POSITION
         behavior.onSortByName()
         verify { adapter.primaryOrder = HabitList.Order.BY_NAME_ASC }
+        verify { screen.refresh() }
     }
 
     @Test
@@ -114,6 +117,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         behavior.onSortByStatus()
         verify { adapter.primaryOrder = HabitList.Order.BY_STATUS_ASC }
         verify { adapter.secondaryOrder = HabitList.Order.BY_NAME_ASC }
+        verify { screen.refresh() }
     }
 
     @Test
@@ -122,6 +126,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         behavior.onSortByStatus()
         verify { adapter.primaryOrder = HabitList.Order.BY_STATUS_DESC }
         verify(notCalled) { adapter.secondaryOrder = any() }
+        verify { screen.refresh() }
     }
 
     @Test
@@ -129,10 +134,13 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         every { adapter.setFilter(any()) } returns Unit
         behavior.onToggleShowArchived()
         verify { adapter.setFilter(any()) }
+        verify { screen.refresh() }
         resetCalls(adapter)
+        resetCalls(screen)
         every { adapter.setFilter(any()) } returns Unit
         behavior.onToggleShowArchived()
         verify { adapter.setFilter(any()) }
+        verify { screen.refresh() }
     }
 
     @Test
@@ -140,10 +148,13 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         every { adapter.setFilter(any()) } returns Unit
         behavior.onToggleShowCompleted()
         verify { adapter.setFilter(any()) }
+        verify { screen.refresh() }
         resetCalls(adapter)
+        resetCalls(screen)
         every { adapter.setFilter(any()) } returns Unit
         behavior.onToggleShowCompleted()
         verify { adapter.setFilter(any()) }
+        verify { screen.refresh() }
     }
 
     @Test
@@ -179,7 +190,7 @@ class ListHabitsMenuBehaviorTest : BaseUnitTest() {
         }
         behavior.onSearchQueryChanged("yoga")
         verify { adapter.setFilter(any()) }
-        verify { adapter.refresh() }
+        verify { screen.refresh() }
         assertEquals("yoga", capturedMatcher?.searchQuery)
     }
 }

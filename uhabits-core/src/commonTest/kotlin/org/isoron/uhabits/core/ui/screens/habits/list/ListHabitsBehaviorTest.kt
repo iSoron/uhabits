@@ -32,6 +32,7 @@ import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.callbacks.NumberPickerCallback
 import kotlin.test.BeforeTest
@@ -82,7 +83,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
             capturedPicker = args.arg<NumberPickerCallback>(2)
             Unit
         }
-        behavior.onEdit(habit2, today, 0f, 0f)
+        behavior.onEdit(habit2.id!!, today, 0f, 0f)
         verify {
             screen.showNumberPopup(0.1, "", any())
         }
@@ -113,16 +114,16 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
 
     @Test
     fun testOnHabitClick() {
-        behavior.onClickHabit(habit1)
-        verify { screen.showHabitScreen(habit1) }
+        behavior.onClickHabit(habit1.id!!)
+        verify { screen.showHabitScreen(habit1.id!!) }
     }
 
     @Test
-    fun testOnHabitReorder() {
-        val from = habit1
-        val to = habit2
-        behavior.onReorderHabit(from, to)
-        verify { habitList.reorder(from, to) }
+    fun testReorderHabit() {
+        habitList.primaryOrder = HabitList.Order.BY_POSITION
+        behavior.reorderHabit(habit2.id!!, habit1.id!!, true)
+        assertEquals(habit2, habitList.getByPosition(0))
+        assertEquals(habit1, habitList.getByPosition(1))
     }
 
     @Test
@@ -164,7 +165,7 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     fun testOnToggle() {
         assertTrue(habit1.isCompletedToday())
         behavior.onToggle(
-            habit = habit1,
+            habitId = habit1.id!!,
             date = getToday(),
             value = Entry.NO,
             notes = "",
