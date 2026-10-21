@@ -30,12 +30,17 @@ sealed class ReorderTarget {
 data class ReorderHabitCommand(
     val habitList: HabitList,
     val habit: Habit,
-    val target: ReorderTarget
+    val target: ReorderTarget?,
+    val category: String
 ) : Command {
     override fun run() {
+        habit.category = category
         when (target) {
             is ReorderTarget.Before -> habitList.moveBefore(habit, target.ref)
             is ReorderTarget.After -> habitList.moveAfter(habit, target.ref)
+            null -> {}
         }
+        habitList.update(listOf(habit))
+        habitList.resort()
     }
 }

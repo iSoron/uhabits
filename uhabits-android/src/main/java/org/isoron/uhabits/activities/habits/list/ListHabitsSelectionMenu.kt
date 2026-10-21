@@ -106,6 +106,11 @@ class ListHabitsSelectionMenu(
                 return true
             }
 
+            R.id.action_categorize -> {
+                behavior.onChangeCategory()
+                return true
+            }
+
             R.id.action_delete -> {
                 behavior.onDeleteHabits()
                 return true

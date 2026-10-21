@@ -66,6 +66,7 @@ class HabitBullCSVImporter(
                 h = modelFactory.buildHabit()
                 h.name = name
                 h.description = description
+                h.category = cols[2].trim()
                 h.frequency = Frequency.DAILY
                 habitList.add(h)
                 map[name] = h

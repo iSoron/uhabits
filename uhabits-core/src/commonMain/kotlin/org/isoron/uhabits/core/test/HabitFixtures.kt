@@ -45,10 +45,12 @@ class HabitFixtures(
     fun createEmptyHabit(
         name: String = "Meditate",
         color: PaletteColor = PaletteColor(3),
-        position: Int = 0
+        position: Int = 0,
+        category: String = ""
     ): Habit {
         val habit = modelFactory.buildHabit()
         habit.name = name
+        habit.category = category
         habit.question = "Did you meditate this morning?"
         habit.color = color
         habit.position = position

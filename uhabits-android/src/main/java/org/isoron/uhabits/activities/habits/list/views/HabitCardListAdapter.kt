@@ -54,7 +54,7 @@ import java.util.LinkedList
 class HabitCardListAdapter(
     private val allHabits: HabitList,
     private val preferences: Preferences
-) : RecyclerView.Adapter<HabitCardViewHolder?>(),
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     ListHabitsMenuBehavior.Adapter,
     ListHabitsSelectionMenuBehavior.Adapter {
     val observable: ModelObservable = ModelObservable()
@@ -68,6 +68,15 @@ class HabitCardListAdapter(
     private var currentSecondaryOrder: Order
 
     private var items: MutableList<HabitCardState> = mutableListOf()
+    private var rows: MutableList<Row> = mutableListOf()
+    private val categoryIds = HashMap<String, Long>()
+    private var nextCategoryId = CATEGORY_ID_BASE
+
+    companion object {
+        const val VIEW_TYPE_HABIT = 0
+        const val VIEW_TYPE_CATEGORY = 1
+        private const val CATEGORY_ID_BASE = 1L shl 62
+    }
 
     private var isDragging = false
 
@@ -94,8 +103,49 @@ class HabitCardListAdapter(
         items = state.items.toMutableList()
         val visibleIds = state.items.mapTo(mutableSetOf()) { it.id }
         selected.retainAll(visibleIds)
+        rows = buildRows(items).toMutableList()
         notifyDataSetChanged()
         observable.notifyListeners()
+    }
+
+    private fun buildRows(habits: List<HabitCardState>): List<Row> {
+        if (habits.isEmpty()) return emptyList()
+        val built = mutableListOf<Row>()
+        var lastHeader: String? = null
+        habits.forEach { card ->
+            val cat = card.category
+            if (cat.isNotBlank() && cat != lastHeader) {
+                built.add(Row.Category(categoryIdFor(cat), cat))
+                lastHeader = cat
+            }
+            built.add(Row.Habit(card))
+        }
+        return built
+    }
+
+    private fun categoryIdFor(category: String): Long {
+        val existing = categoryIds[category]
+        if (existing != null) return existing
+        val id = nextCategoryId
+        nextCategoryId++
+        categoryIds[category] = id
+        return id
+    }
+
+    fun habitAt(position: Int): HabitCardState? {
+        return when (val row = rows.getOrNull(position)) {
+            is Row.Habit -> row.card
+            is Row.Category -> null
+            null -> null
+        }
+    }
+
+    fun categoryAt(position: Int): String? {
+        return when (val row = rows.getOrNull(position)) {
+            is Row.Category -> row.title
+            is Row.Habit -> null
+            null -> null
+        }
     }
 
     fun hasNoHabit(): Boolean {
@@ -107,11 +157,21 @@ class HabitCardListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return rows.size
     }
 
     override fun getItemId(position: Int): Long {
-        return items[position].id
+        return when (val row = rows[position]) {
+            is Row.Habit -> row.card.id
+            is Row.Category -> row.id
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (rows[position]) {
+            is Row.Habit -> VIEW_TYPE_HABIT
+            is Row.Category -> VIEW_TYPE_CATEGORY
+        }
     }
 
     /**
@@ -126,33 +186,47 @@ class HabitCardListAdapter(
         get() = state?.isSortable == true
 
     override fun onBindViewHolder(
-        holder: HabitCardViewHolder,
+        holder: RecyclerView.ViewHolder,
         position: Int
     ) {
         if (listView == null) return
         val st = state ?: return
-        val record = items[position]
-        val isSelected = selected.contains(record.id)
-        listView!!.bindCardView(
-            holder,
-            HabitCardViewState(record, isSelected, st.checkmarkCount)
-        )
+        when (val row = rows[position]) {
+            is Row.Habit -> {
+                val isSelected = selected.contains(row.card.id)
+                listView!!.bindCardView(
+                    holder as HabitCardViewHolder,
+                    HabitCardViewState(row.card, isSelected, st.checkmarkCount)
+                )
+            }
+            is Row.Category -> {
+                val categoryView = (holder as CategoryViewHolder).itemView as CategoryView
+                categoryView.setState(CategoryViewState(row.title))
+                listView!!.bindCategoryView(holder as CategoryViewHolder)
+            }
+        }
     }
 
-    override fun onViewAttachedToWindow(holder: HabitCardViewHolder) {
-        listView!!.attachCardView(holder)
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        if (holder is HabitCardViewHolder) {
+            listView!!.attachCardView(holder)
+        }
     }
 
-    override fun onViewDetachedFromWindow(holder: HabitCardViewHolder) {
-        listView!!.detachCardView(holder)
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        if (holder is HabitCardViewHolder) {
+            listView!!.detachCardView(holder)
+        }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HabitCardViewHolder {
-        val view = listView!!.createHabitCardView()
-        return HabitCardViewHolder(view)
+    ): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_CATEGORY -> CategoryViewHolder(CategoryView(parent.context))
+            else -> HabitCardViewHolder(listView!!.createHabitCardView())
+        }
     }
 
     /**
@@ -209,7 +283,7 @@ class HabitCardListAdapter(
      * @param position position of the item to be toggled
      */
     fun toggleSelection(position: Int) {
-        val id = items.getOrNull(position)?.id ?: return
+        val id = habitAt(position)?.id ?: return
         if (!selected.remove(id)) selected.add(id)
         notifyDataSetChanged()
     }
@@ -222,19 +296,20 @@ class HabitCardListAdapter(
 
     fun onDragStart(position: Int) {
         isDragging = true
-        draggedId = items.getOrNull(position)?.id
+        draggedId = (rows.getOrNull(position) as? Row.Habit)?.card?.id
         dragMoved = false
     }
 
     fun onDragMove(from: Int, to: Int) {
         if (!isDragging) return
+        if (from !in rows.indices || to !in rows.indices) return
         dragMoved = true
-        val record = items.removeAt(from)
-        items.add(to, record)
+        val row = rows.removeAt(from)
+        rows.add(to, row)
         notifyItemMoved(from, to)
     }
 
-    fun onDragEnd(): Triple<Long, Long, Boolean>? {
+    fun onDragEnd(): ReorderDragResult? {
         val id = draggedId
         val moved = dragMoved
         isDragging = false
@@ -242,12 +317,25 @@ class HabitCardListAdapter(
         dragMoved = false
         if (id == null) return null
         if (!moved) return null
-        if (items.size <= 1) return null
-        val k = items.indexOfFirst { it.id == id }
+        val habitCount = rows.count { it is Row.Habit }
+        if (habitCount < 2) return null
+        val k = rows.indexOfFirst { it is Row.Habit && it.card.id == id }
         if (k < 0) return null
-        val refId = if (k > 0) items[k - 1].id else items[1].id
-        val placeBefore = k == 0
-        return Triple(id, refId, placeBefore)
+        var targetCategory = ""
+        for (i in (k - 1) downTo 0) {
+            val row = rows[i]
+            if (row is Row.Category) {
+                targetCategory = row.title
+                break
+            }
+        }
+        val above = rows.getOrNull(k - 1)
+        val below = rows.getOrNull(k + 1)
+        return when {
+            above is Row.Habit -> ReorderDragResult(id, above.card.id, false, targetCategory)
+            below is Row.Habit -> ReorderDragResult(id, below.card.id, true, targetCategory)
+            else -> ReorderDragResult(id, null, false, targetCategory)
+        }
     }
 
     fun flushPending() {
@@ -256,3 +344,17 @@ class HabitCardListAdapter(
         if (p != null && !isDragging) setState(p)
     }
 }
+
+sealed class Row {
+    data class Habit(val card: HabitCardState) : Row()
+    data class Category(val id: Long, val title: String) : Row()
+}
+
+data class ReorderDragResult(
+    val habitId: Long,
+    val refId: Long?,
+    val placeBefore: Boolean,
+    val targetCategory: String
+)
+
+class CategoryViewHolder(itemView: CategoryView) : RecyclerView.ViewHolder(itemView)

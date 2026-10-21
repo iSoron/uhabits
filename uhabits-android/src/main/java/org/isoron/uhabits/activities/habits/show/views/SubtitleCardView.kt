@@ -43,6 +43,7 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         binding.targetIcon.typeface = fontAwesome
         binding.frequencyIcon.typeface = fontAwesome
         binding.reminderIcon.typeface = fontAwesome
+        binding.categoryIcon.typeface = fontAwesome
     }
 
     @SuppressLint("SetTextI18n")
@@ -77,6 +78,12 @@ class SubtitleCardView(context: Context, attrs: AttributeSet) : LinearLayout(con
         }
         if (state.question.isEmpty()) {
             binding.questionLabel.visibility = View.GONE
+        }
+        binding.categoryLabel.text = state.category
+        binding.categoryRow.visibility = if (state.category.isBlank()) {
+            View.GONE
+        } else {
+            View.VISIBLE
         }
 
         postInvalidate()

@@ -67,7 +67,7 @@
 	<!--<string translatable="false" name="fa_volume_up">&#xf028;</string>-->
 	<!--<string translatable="false" name="fa_qrcode">&#xf029;</string>-->
 	<!--<string translatable="false" name="fa_barcode">&#xf02a;</string>-->
-	<!--<string translatable="false" name="fa_tag">&#xf02b;</string>-->
+	<string translatable="false" name="fa_tag">&#xf02b;</string>
 	<!--<string translatable="false" name="fa_tags">&#xf02c;</string>-->
 	<!--<string translatable="false" name="fa_book">&#xf02d;</string>-->
 	<!--<string translatable="false" name="fa_bookmark">&#xf02e;</string>-->

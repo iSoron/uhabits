@@ -1,3 +1,7 @@
-Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,Color,Unit,Target Type,Target Value,Archived?
-001,Meditate,YES_NO,Did you meditate this morning?,,1,1,#FF8F00,,,,false
-002,Wake up early,YES_NO,Did you wake up before 6am?,,2,3,#00897B,,,,false
+Position,Name,Type,Question,Description,FrequencyNumerator,FrequencyDenominator,Color,Unit,Target Type,Target Value,Archived?,Category
+001,Meditate,YES_NO,Did you meditate this morning?,,1,1,#FF8F00,,,,false,
+002,Wake up early,YES_NO,Did you wake up before 6am?,,2,3,#00897B,,,,false,
+003,"Foo, Bar",YES_NO,Did you do foo bar?,,1,1,#303F9F,,,,false,
+004,Night run,YES_NO,Did you run at night?,,1,3,#8E24AA,,,,false,
+005,Reading,YES_NO,Did you read today?,,1,1,#7CB342,,,,false,Books
+006,Stretch,YES_NO,Did you stretch today?,,1,1,#039BE5,,,,false,"Health, Wellness"

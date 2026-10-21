@@ -72,7 +72,8 @@ class HabitCardViewTest : BaseViewTest() {
             score = habit.scores[today].value,
             checkmarks = entries.map { it.value }.toList(),
             completed = entries.map { it.completed }.toList(),
-            notes = entries.map { it.notes }.toList()
+            notes = entries.map { it.notes }.toList(),
+            category = "Category 1"
         )
         return HabitCardViewState(record, isSelected, 5)
     }

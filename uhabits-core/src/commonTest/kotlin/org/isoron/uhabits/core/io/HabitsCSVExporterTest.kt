@@ -20,14 +20,13 @@ package org.isoron.uhabits.core.io
 
 import kotlinx.coroutines.test.runTest
 import org.isoron.platform.io.ZipReader
-import org.isoron.platform.io.parseCsvLine
-import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.BaseUnitTest
 import org.isoron.uhabits.core.models.Entry
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitType
+import org.isoron.uhabits.core.models.PaletteColor
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -39,8 +38,60 @@ class HabitsCSVExporterTest : BaseUnitTest() {
     @BeforeTest
     override fun setUp() {
         super.setUp()
-        habitList.add(fixtures.createShortHabit())
-        habitList.add(fixtures.createEmptyHabit())
+        val today = getToday()
+
+        val meditate = fixtures.createEmptyHabit()
+        meditate.position = 1
+
+        val short = fixtures.createShortHabit()
+        short.position = 2
+
+        val reading = modelFactory.buildHabit()
+        reading.name = "Reading"
+        reading.question = "Did you read today?"
+        reading.type = HabitType.YES_NO
+        reading.frequency = Frequency.DAILY
+        reading.color = PaletteColor(6)
+        reading.position = 3
+        reading.category = "Books"
+
+        val stretch = modelFactory.buildHabit()
+        stretch.name = "Stretch"
+        stretch.question = "Did you stretch today?"
+        stretch.type = HabitType.YES_NO
+        stretch.frequency = Frequency.DAILY
+        stretch.color = PaletteColor(10)
+        stretch.position = 4
+        stretch.category = "Health, Wellness"
+
+        val commaName = modelFactory.buildHabit()
+        commaName.name = "Foo, Bar"
+        commaName.question = "Did you do foo bar?"
+        commaName.type = HabitType.YES_NO
+        commaName.frequency = Frequency.DAILY
+        commaName.color = PaletteColor(12)
+        commaName.position = 5
+        commaName.originalEntries.add(Entry(today, Entry.YES_MANUAL))
+        commaName.recompute()
+
+        val nonDaily = modelFactory.buildHabit()
+        nonDaily.name = "Night run"
+        nonDaily.question = "Did you run at night?"
+        nonDaily.type = HabitType.YES_NO
+        nonDaily.frequency = Frequency(1, 3)
+        nonDaily.color = PaletteColor(14)
+        nonDaily.position = 6
+        nonDaily.originalEntries.add(Entry(today.minus(4), Entry.YES_MANUAL))
+        nonDaily.originalEntries.add(Entry(today.minus(9), Entry.YES_MANUAL))
+        nonDaily.originalEntries.add(Entry(today.minus(10), Entry.YES_MANUAL))
+        nonDaily.recompute()
+
+        habitList.add(meditate)
+        habitList.add(short)
+        habitList.add(reading)
+        habitList.add(stretch)
+        habitList.add(commaName)
+        habitList.add(nonDaily)
     }
 
     @Test
@@ -58,6 +109,14 @@ class HabitsCSVExporterTest : BaseUnitTest() {
             "001 Meditate/Scores.csv",
             "002 Wake up early/Checkmarks.csv",
             "002 Wake up early/Scores.csv",
+            "003 Foo Bar/Checkmarks.csv",
+            "003 Foo Bar/Scores.csv",
+            "004 Night run/Checkmarks.csv",
+            "004 Night run/Scores.csv",
+            "005 Reading/Checkmarks.csv",
+            "005 Reading/Scores.csv",
+            "006 Stretch/Checkmarks.csv",
+            "006 Stretch/Scores.csv",
             "Checkmarks.csv",
             "Habits.csv",
             "Scores.csv"
@@ -69,77 +128,5 @@ class HabitsCSVExporterTest : BaseUnitTest() {
             val expected = fileOpener.openResourceFile("csv_export/$file").lines()
             assertEquals(expected, entry.content.trimEnd().lines(), "content mismatch for $file")
         }
-    }
-
-    @Test
-    fun testWideCheckmarksIncludeOldestComputedEntry() = runTest {
-        val habit = modelFactory.buildHabit()
-        habit.name = "Non daily"
-        habit.frequency = Frequency(1, 3)
-        habit.type = HabitType.YES_NO
-        val today = getToday()
-        habit.originalEntries.add(Entry(today.minus(4), Entry.YES_MANUAL))
-        habit.originalEntries.add(Entry(today.minus(9), Entry.YES_MANUAL))
-        habit.originalEntries.add(Entry(today.minus(10), Entry.YES_MANUAL))
-        habit.recompute()
-
-        val oldestComputed = habit.computedEntries.getKnown().last().date
-        assertEquals(LocalDate(2015, 1, 13), oldestComputed)
-
-        habitList.add(habit)
-        val exporter = HabitsCSVExporter(habitList, listOf(habit))
-        val bytes = exporter.writeArchive()
-
-        val entries = ZipReader(bytes).entries()
-
-        val perHabit = entries.find { it.name.endsWith("Checkmarks.csv") && it.name != "Checkmarks.csv" }
-        assertNotNull(perHabit, "per-habit Checkmarks.csv should exist in zip")
-        assertTrue(
-            perHabit.content.lines().any { it.startsWith(oldestComputed.toCSVString() + ",") },
-            "per-habit Checkmarks.csv should contain $oldestComputed"
-        )
-
-        val wide = entries.find { it.name == "Checkmarks.csv" }
-        assertNotNull(wide, "wide Checkmarks.csv should exist in zip")
-        val wideDates = wide.content.trimEnd().lines().drop(1).map { it.substringBefore(",") }
-        assertTrue(
-            wideDates.contains(oldestComputed.toCSVString()),
-            "wide Checkmarks.csv should contain the oldest computed date $oldestComputed"
-        )
-    }
-
-    @Test
-    fun testWideCheckmarksAlignColumnsWhenHabitNameHasComma() = runTest {
-        val habitA = modelFactory.buildHabit()
-        habitA.name = "Foo, Bar"
-        habitA.type = HabitType.YES_NO
-        habitA.frequency = Frequency.DAILY
-        habitA.originalEntries.add(Entry(getToday(), Entry.YES_MANUAL))
-        habitA.recompute()
-
-        val habitB = modelFactory.buildHabit()
-        habitB.name = "Target"
-        habitB.type = HabitType.YES_NO
-        habitB.frequency = Frequency.DAILY
-        habitB.originalEntries.add(Entry(getToday(), Entry.YES_MANUAL))
-        habitB.recompute()
-
-        habitList.add(habitA)
-        habitList.add(habitB)
-
-        val exporter = HabitsCSVExporter(habitList, listOf(habitA, habitB))
-        val bytes = exporter.writeArchive()
-
-        val entries = ZipReader(bytes).entries()
-        val wide = entries.find { it.name == "Checkmarks.csv" }
-        assertNotNull(wide, "wide Checkmarks.csv should exist in zip")
-
-        val lines = wide.content.trimEnd().lines()
-        val header = parseCsvLine(lines[0])
-        assertEquals(listOf("Date", "Foo, Bar", "Target", ""), header)
-
-        val data = parseCsvLine(lines[1])
-        val targetIndex = header.indexOf("Target")
-        assertEquals("YES_MANUAL", data[targetIndex])
     }
 }

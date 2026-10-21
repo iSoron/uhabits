@@ -22,6 +22,7 @@ package org.isoron.uhabits.activities.habits.list.views
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.isoron.uhabits.BaseAndroidTest
 import org.isoron.uhabits.core.models.HabitList.Order
@@ -37,44 +38,126 @@ import org.junit.runner.RunWith
 class HabitCardListAdapterTest : BaseAndroidTest() {
 
     @Test
-    fun testSetStateWhileDragging_coalesces() {
+    fun testSetState_buildsRowsWithCategoryHeaders() {
         val adapter = HabitCardListAdapter(habitList, prefs)
-        adapter.setState(buildState(listOf(1L, 2L)))
-        assertThat(adapter.itemCount, equalTo(2))
-        adapter.onDragStart(0)
-        adapter.setState(buildState(listOf(1L, 2L, 3L, 4L, 5L)))
-        assertThat(adapter.itemCount, equalTo(2))
-        assertThat(adapter.getItemId(0), equalTo(1L))
-        assertThat(adapter.getItemId(1), equalTo(2L))
-        adapter.onDragEnd()
-        adapter.flushPending()
-        assertThat(adapter.itemCount, equalTo(5))
-        assertThat(adapter.getItemId(2), equalTo(3L))
+
+        adapter.setState(
+            ListHabitsState(
+                items = emptyList(),
+                hasHabits = true,
+                primaryOrder = Order.BY_POSITION,
+                secondaryOrder = Order.BY_NAME_ASC,
+                isSortable = true,
+                checkmarkCount = 0,
+                theme = LightTheme()
+            )
+        )
+        assertThat(adapter.itemCount, equalTo(0))
+
+        adapter.setState(
+            ListHabitsState(
+                items = listOf(
+                    HabitCardState(
+                        id = 1L, name = "Habit 1", color = PaletteColor(7), unit = "",
+                        isNumerical = false, archived = false, score = 0.0,
+                        checkmarks = emptyList(), completed = emptyList(), notes = emptyList(),
+                        category = "Health"
+                    ),
+                    HabitCardState(
+                        id = 2L, name = "Habit 2", color = PaletteColor(7), unit = "",
+                        isNumerical = false, archived = false, score = 0.0,
+                        checkmarks = emptyList(), completed = emptyList(), notes = emptyList(),
+                        category = ""
+                    ),
+                    HabitCardState(
+                        id = 3L, name = "Habit 3", color = PaletteColor(7), unit = "",
+                        isNumerical = false, archived = false, score = 0.0,
+                        checkmarks = emptyList(), completed = emptyList(), notes = emptyList(),
+                        category = "Health"
+                    ),
+                    HabitCardState(
+                        id = 4L, name = "Habit 4", color = PaletteColor(7), unit = "",
+                        isNumerical = false, archived = false, score = 0.0,
+                        checkmarks = emptyList(), completed = emptyList(), notes = emptyList(),
+                        category = "Work"
+                    )
+                ),
+                hasHabits = true,
+                primaryOrder = Order.BY_POSITION,
+                secondaryOrder = Order.BY_NAME_ASC,
+                isSortable = true,
+                checkmarkCount = 0,
+                theme = LightTheme()
+            )
+        )
+        assertThat(adapter.itemCount, equalTo(6))
+        assertThat(adapter.getItemViewType(0), equalTo(HabitCardListAdapter.VIEW_TYPE_CATEGORY))
+        assertThat(adapter.getItemId(0), equalTo(1L shl 62))
+        assertThat(adapter.getItemViewType(1), equalTo(HabitCardListAdapter.VIEW_TYPE_HABIT))
+        assertThat(adapter.getItemId(1), equalTo(1L))
+        assertThat(adapter.getItemViewType(2), equalTo(HabitCardListAdapter.VIEW_TYPE_HABIT))
+        assertThat(adapter.getItemId(2), equalTo(2L))
+        assertThat(adapter.getItemViewType(3), equalTo(HabitCardListAdapter.VIEW_TYPE_HABIT))
+        assertThat(adapter.getItemId(3), equalTo(3L))
+        assertThat(adapter.getItemViewType(4), equalTo(HabitCardListAdapter.VIEW_TYPE_CATEGORY))
+        assertThat(adapter.getItemId(4), equalTo((1L shl 62) + 1))
+        assertThat(adapter.getItemViewType(5), equalTo(HabitCardListAdapter.VIEW_TYPE_HABIT))
+        assertThat(adapter.getItemId(5), equalTo(4L))
     }
 
-    private fun buildState(ids: List<Long>): ListHabitsState {
-        val checkmarkCount = 5
-        return ListHabitsState(
-            items = ids.map { id ->
-                HabitCardState(
-                    id = id,
-                    name = "Habit $id",
-                    color = PaletteColor(7),
-                    unit = "",
-                    isNumerical = false,
-                    archived = false,
-                    score = 0.0,
-                    checkmarks = List(checkmarkCount) { -1 },
-                    completed = List(checkmarkCount) { false },
-                    notes = List(checkmarkCount) { "" }
-                )
-            },
-            hasHabits = true,
-            primaryOrder = Order.BY_POSITION,
-            secondaryOrder = Order.BY_NAME_ASC,
-            isSortable = true,
-            checkmarkCount = checkmarkCount,
-            theme = LightTheme()
+    @Test
+    fun testDrag_reordersRowsAndReportsTarget() {
+        val adapter = HabitCardListAdapter(habitList, prefs)
+
+        adapter.setState(
+            ListHabitsState(
+                items = listOf(
+                    HabitCardState(
+                        id = 1L, name = "Habit 1", color = PaletteColor(7), unit = "",
+                        isNumerical = false, archived = false, score = 0.0,
+                        checkmarks = emptyList(), completed = emptyList(), notes = emptyList(),
+                        category = "Health"
+                    ),
+                    HabitCardState(
+                        id = 2L, name = "Habit 2", color = PaletteColor(7), unit = "",
+                        isNumerical = false, archived = false, score = 0.0,
+                        checkmarks = emptyList(), completed = emptyList(), notes = emptyList(),
+                        category = "Health"
+                    ),
+                    HabitCardState(
+                        id = 3L, name = "Habit 3", color = PaletteColor(7), unit = "",
+                        isNumerical = false, archived = false, score = 0.0,
+                        checkmarks = emptyList(), completed = emptyList(), notes = emptyList(),
+                        category = "Work"
+                    )
+                ),
+                hasHabits = true,
+                primaryOrder = Order.BY_POSITION,
+                secondaryOrder = Order.BY_NAME_ASC,
+                isSortable = true,
+                checkmarkCount = 0,
+                theme = LightTheme()
+            )
         )
+        adapter.onDragStart(0)
+        assertThat(adapter.onDragEnd(), nullValue())
+
+        adapter.onDragStart(1)
+        adapter.onDragMove(1, 2)
+        assertThat(adapter.onDragEnd(), equalTo(ReorderDragResult(1L, 2L, false, "Health")))
+
+        adapter.onDragStart(2)
+        adapter.onDragMove(2, 3)
+        assertThat(adapter.itemCount, equalTo(5))
+        assertThat(adapter.getItemViewType(0), equalTo(HabitCardListAdapter.VIEW_TYPE_CATEGORY))
+        assertThat(adapter.getItemId(0), equalTo(1L shl 62))
+        assertThat(adapter.getItemViewType(2), equalTo(HabitCardListAdapter.VIEW_TYPE_CATEGORY))
+        assertThat(adapter.getItemId(2), equalTo((1L shl 62) + 1))
+        assertThat(adapter.getItemId(3), equalTo(1L))
+        assertThat(adapter.onDragEnd(), equalTo(ReorderDragResult(1L, 3L, true, "Work")))
+
+        adapter.onDragStart(3)
+        adapter.onDragMove(3, 4)
+        assertThat(adapter.onDragEnd(), equalTo(ReorderDragResult(1L, 3L, false, "Work")))
     }
 }

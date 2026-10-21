@@ -24,6 +24,7 @@ import org.isoron.platform.time.LocalDate
 import org.isoron.platform.time.getToday
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.commands.RenameCategoryCommand
 import org.isoron.uhabits.core.commands.ReorderHabitCommand
 import org.isoron.uhabits.core.commands.ReorderTarget
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
@@ -97,11 +98,21 @@ open class ListHabitsBehavior(
         screen.showIntroScreen()
     }
 
-    open fun reorderHabit(habitId: Long, targetId: Long, placeBefore: Boolean) {
+    open fun reorderHabit(habitId: Long, refId: Long?, placeBefore: Boolean, targetCategory: String) {
         val habit = habitList.getById(habitId) ?: return
-        val ref = habitList.getById(targetId) ?: return
-        val target = if (placeBefore) ReorderTarget.Before(ref) else ReorderTarget.After(ref)
-        commandRunner.run(ReorderHabitCommand(habitList, habit, target))
+        val ref = refId?.let { habitList.getById(it) }
+        val target = if (ref != null) {
+            if (placeBefore) ReorderTarget.Before(ref) else ReorderTarget.After(ref)
+        } else {
+            null
+        }
+        commandRunner.run(ReorderHabitCommand(habitList, habit, target, targetCategory))
+    }
+
+    open fun onRenameCategory(category: String) {
+        screen.showCategoryInput(category) { newCategory ->
+            commandRunner.run(RenameCategoryCommand(habitList, category, newCategory))
+        }
     }
 
     open fun onRepairDB() {
@@ -159,6 +170,7 @@ open class ListHabitsBehavior(
     }
 
     interface Screen {
+        fun showCategoryInput(current: String, onConfirmed: (String) -> Unit)
         fun showHabitScreen(habitId: Long)
         fun showIntroScreen()
         fun showMessage(m: Message)

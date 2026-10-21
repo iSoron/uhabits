@@ -20,6 +20,7 @@ package org.isoron.uhabits.core.ui.screens.habits.list
 
 import me.tatarka.inject.annotations.Inject
 import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
+import org.isoron.uhabits.core.commands.ChangeHabitCategoryCommand
 import org.isoron.uhabits.core.commands.ChangeHabitColorCommand
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
@@ -56,8 +57,17 @@ class ListHabitsSelectionMenuBehavior(
         adapter.clearSelection()
     }
 
+    fun onChangeCategory() {
+        val selected = adapter.getSelected()
+        val current = selected.firstOrNull { it.category.isNotBlank() }?.category ?: ""
+        screen.showCategoryInput(current) { name ->
+            commandRunner.run(ChangeHabitCategoryCommand(habitList, selected, name))
+            adapter.clearSelection()
+        }
+    }
+
     fun onChangeColor() {
-        val (color) = adapter.getSelected()[0]
+        val color = adapter.getSelected()[0].color
         screen.showColorPicker(color) { selectedColor: PaletteColor ->
             commandRunner.run(ChangeHabitColorCommand(habitList, adapter.getSelected(), selectedColor))
             adapter.clearSelection()
@@ -105,5 +115,7 @@ class ListHabitsSelectionMenuBehavior(
         )
 
         fun showEditHabitsScreen(selected: List<Habit>)
+
+        fun showCategoryInput(current: String, onConfirmed: (String) -> Unit)
     }
 }

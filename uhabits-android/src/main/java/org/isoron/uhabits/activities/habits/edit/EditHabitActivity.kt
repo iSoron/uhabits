@@ -117,6 +117,7 @@ class EditHabitActivity : AppCompatActivity() {
             binding.nameInput.setText(habit.name)
             binding.questionInput.setText(habit.question)
             binding.notesInput.setText(habit.description)
+            binding.categoryInput.setText(habit.category)
             binding.unitInput.setText(habit.unit)
             binding.targetInput.setText(habit.targetValue.toString())
         } else {
@@ -273,6 +274,7 @@ class EditHabitActivity : AppCompatActivity() {
         habit.name = binding.nameInput.text.trim().toString()
         habit.question = binding.questionInput.text.trim().toString()
         habit.description = binding.notesInput.text.trim().toString()
+        habit.category = binding.categoryInput.text.trim().toString()
         habit.color = color
         if (reminderHour >= 0) {
             habit.reminder = Reminder(reminderHour, reminderMin, reminderDays)

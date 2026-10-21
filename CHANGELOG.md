@@ -4,6 +4,7 @@
 
 ### Added
 
+- Allow user to organize habits into categories (@iSoron)
 - Add habit search that filters by name, question and notes (@I-Dont-Remember, #2338)
 - Add archive and unarchive actions on the habit statistics page (@KyleSCraig, #2194)
 - Add option to select a public folder for automatic backups via SAF (@MihanEntalpo, #2209)
@@ -11,6 +12,7 @@
 
 ### Changed
 
+- Include categories in CSV export, and import categories from HabitBull and Tickmate data (@iSoron)
 - Auto-save notes when dismissing checkmark and number dialogs (@fictiontoreality, #2261)
 - Show a toast message after archiving or unarchiving habits (@iSoron, 54275020)
 

@@ -35,6 +35,7 @@ data class SubtitleCardState(
     val targetValue: Double = 0.0,
     val targetType: NumericalHabitType = NumericalHabitType.AT_LEAST,
     val unit: String = "",
+    val category: String = "",
     val theme: Theme
 )
 
@@ -52,6 +53,7 @@ class SubtitleCardPresenter {
             targetValue = habit.targetValue,
             targetType = habit.targetType,
             unit = habit.unit,
+            category = habit.category,
             theme = theme
         )
     }

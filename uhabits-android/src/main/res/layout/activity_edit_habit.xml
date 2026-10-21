@@ -266,6 +266,19 @@
                         android:hint="@string/example_notes" />
                 </LinearLayout>
             </FrameLayout>
+
+            <FrameLayout style="@style/FormOuterBox">
+                <LinearLayout style="@style/FormInnerBox">
+                    <TextView
+                        style="@style/FormLabel"
+                        android:text="@string/category" />
+
+                    <EditText
+                        android:id="@+id/categoryInput"
+                        style="@style/FormInput"
+                        android:inputType="textCapSentences" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 

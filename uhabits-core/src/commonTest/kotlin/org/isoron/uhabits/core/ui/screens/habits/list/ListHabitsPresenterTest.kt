@@ -41,6 +41,8 @@ class ListHabitsPresenterTest : BaseUnitTest() {
         addHabit("Delta", PaletteColor(0), position = 3, archived = true)
         addHabit("Yoga", PaletteColor(2), position = 4, numerical = true)
         addHabit("Zeta", PaletteColor(2), position = 5)
+        addHabit("Reading", PaletteColor(3), position = 6, category = "Books")
+        addHabit("Meditation", PaletteColor(4), position = 7, category = "Mind")
 
         val state = ListHabitsPresenter.buildState(
             allHabits = habitList,
@@ -63,7 +65,8 @@ class ListHabitsPresenterTest : BaseUnitTest() {
                     score = 0.05192248566082858,
                     checkmarks = listOf(2, -1, -1),
                     completed = listOf(true, false, false),
-                    notes = listOf("", "", "")
+                    notes = listOf("", "", ""),
+                    category = ""
                 ),
                 HabitCardState(
                     id = 1,
@@ -75,7 +78,8 @@ class ListHabitsPresenterTest : BaseUnitTest() {
                     score = 0.04922654114362963,
                     checkmarks = listOf(-1, 2, -1),
                     completed = listOf(false, true, false),
-                    notes = listOf("", "", "")
+                    notes = listOf("", "", ""),
+                    category = ""
                 ),
                 HabitCardState(
                     id = 0,
@@ -87,7 +91,8 @@ class ListHabitsPresenterTest : BaseUnitTest() {
                     score = 0.05192248566082858,
                     checkmarks = listOf(2, -1, -1),
                     completed = listOf(true, false, false),
-                    notes = listOf("", "", "")
+                    notes = listOf("", "", ""),
+                    category = ""
                 ),
                 HabitCardState(
                     id = 4,
@@ -99,7 +104,8 @@ class ListHabitsPresenterTest : BaseUnitTest() {
                     score = 0.06464757443715247,
                     checkmarks = listOf(100, 200, -1),
                     completed = listOf(false, false, false),
-                    notes = listOf("", "", "")
+                    notes = listOf("", "", ""),
+                    category = ""
                 ),
                 HabitCardState(
                     id = 5,
@@ -111,7 +117,34 @@ class ListHabitsPresenterTest : BaseUnitTest() {
                     score = 0.0,
                     checkmarks = listOf(-1, -1, -1),
                     completed = listOf(false, false, false),
-                    notes = listOf("", "", "")
+                    notes = listOf("", "", ""),
+                    category = ""
+                ),
+                HabitCardState(
+                    id = 6,
+                    name = "Reading",
+                    color = PaletteColor(3),
+                    unit = "",
+                    isNumerical = false,
+                    archived = false,
+                    score = 0.0,
+                    checkmarks = listOf(-1, -1, -1),
+                    completed = listOf(false, false, false),
+                    notes = listOf("", "", ""),
+                    category = "Books"
+                ),
+                HabitCardState(
+                    id = 7,
+                    name = "Meditation",
+                    color = PaletteColor(4),
+                    unit = "",
+                    isNumerical = false,
+                    archived = false,
+                    score = 0.0,
+                    checkmarks = listOf(-1, -1, -1),
+                    completed = listOf(false, false, false),
+                    notes = listOf("", "", ""),
+                    category = "Mind"
                 )
             ),
             hasHabits = true,
@@ -129,6 +162,7 @@ class ListHabitsPresenterTest : BaseUnitTest() {
         name: String,
         color: PaletteColor,
         position: Int,
+        category: String = "",
         archived: Boolean = false,
         numerical: Boolean = false,
         completedOffsets: IntArray = intArrayOf()
@@ -137,6 +171,7 @@ class ListHabitsPresenterTest : BaseUnitTest() {
         habit.name = name
         habit.color = color
         habit.position = position
+        habit.category = category
         habit.isArchived = archived
         val today = getToday()
         for (offset in completedOffsets) {

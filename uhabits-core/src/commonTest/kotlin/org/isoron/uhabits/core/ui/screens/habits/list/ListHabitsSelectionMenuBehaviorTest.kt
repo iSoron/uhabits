@@ -99,6 +99,82 @@ class ListHabitsSelectionMenuBehaviorTest : BaseUnitTest() {
 
     @Test
     @Throws(Exception::class)
+    fun onChangeCategory_allShareCategory_prefillsIt() {
+        habit1.category = "Health"
+        habit2.category = "Health"
+        every { adapter.getSelected() } returns listOf(habit1, habit2)
+        every { screen.showCategoryInput(any(), any()) } calls { args ->
+            assertEquals("Health", args.arg<String>(0))
+            args.arg<(String) -> Unit>(1)("Health")
+        }
+        behavior.onChangeCategory()
+        assertEquals("Health", habit1.category)
+        assertEquals("Health", habit2.category)
+        verify { adapter.clearSelection() }
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun onChangeCategory_mixedCategories_prefillsFirstNonEmpty() {
+        habit1.category = "Health"
+        habit2.category = "Work"
+        every { adapter.getSelected() } returns listOf(habit1, habit2)
+        every { screen.showCategoryInput(any(), any()) } calls { args ->
+            assertEquals("Health", args.arg<String>(0))
+            args.arg<(String) -> Unit>(1)("Gym")
+        }
+        behavior.onChangeCategory()
+        assertEquals("Gym", habit1.category)
+        assertEquals("Gym", habit2.category)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun onChangeCategory_firstSelectedEmpty_prefillsLaterNonEmpty() {
+        habit1.category = ""
+        habit2.category = "Work"
+        every { adapter.getSelected() } returns listOf(habit1, habit2)
+        every { screen.showCategoryInput(any(), any()) } calls { args ->
+            assertEquals("Work", args.arg<String>(0))
+            args.arg<(String) -> Unit>(1)("Work")
+        }
+        behavior.onChangeCategory()
+        assertEquals("Work", habit1.category)
+        assertEquals("Work", habit2.category)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun onChangeCategory_allCategoriesEmpty_prefillsEmpty() {
+        habit1.category = ""
+        habit2.category = ""
+        every { adapter.getSelected() } returns listOf(habit1, habit2)
+        every { screen.showCategoryInput(any(), any()) } calls { args ->
+            assertEquals("", args.arg<String>(0))
+            args.arg<(String) -> Unit>(1)("Gym")
+        }
+        behavior.onChangeCategory()
+        assertEquals("Gym", habit1.category)
+        assertEquals("Gym", habit2.category)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun onChangeCategory_clearConfirmsEmpty() {
+        habit1.category = "Health"
+        habit2.category = "Health"
+        every { adapter.getSelected() } returns listOf(habit1, habit2)
+        every { screen.showCategoryInput(any(), any()) } calls { args ->
+            args.arg<(String) -> Unit>(1)("")
+        }
+        behavior.onChangeCategory()
+        assertEquals("", habit1.category)
+        assertEquals("", habit2.category)
+        verify { adapter.clearSelection() }
+    }
+
+    @Test
+    @Throws(Exception::class)
     fun onDeleteHabits() {
         val id = habit1.id!!
         habitList.getById(id)!!

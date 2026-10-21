@@ -25,6 +25,7 @@ import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
 data class Habit(
+    var category: String = "",
     var color: PaletteColor = PaletteColor(8),
     var description: String = "",
     var frequency: Frequency = Frequency.DAILY,
@@ -113,6 +114,7 @@ data class Habit(
     }
 
     fun copyFrom(other: Habit) {
+        this.category = other.category
         this.color = other.color
         this.description = other.description
         this.frequency = other.frequency
@@ -133,6 +135,7 @@ data class Habit(
         if (this === other) return true
         if (other !is Habit) return false
 
+        if (category != other.category) return false
         if (color != other.color) return false
         if (description != other.description) return false
         if (frequency != other.frequency) return false
@@ -152,7 +155,8 @@ data class Habit(
     }
 
     override fun hashCode(): Int {
-        var result = color.hashCode()
+        var result = category.hashCode()
+        result = 31 * result + color.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + frequency.hashCode()
         result = 31 * result + (id?.hashCode() ?: 0)

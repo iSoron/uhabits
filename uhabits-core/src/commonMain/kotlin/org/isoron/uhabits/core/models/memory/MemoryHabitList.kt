@@ -45,6 +45,17 @@ open class MemoryHabitList : HabitList {
             resort()
         }
 
+    private val categoryComparator: Comparator<Habit> = Comparator { h1, h2 ->
+        val c1 = h1.category.trim()
+        val c2 = h2.category.trim()
+        when {
+            c1.isEmpty() && c2.isEmpty() -> 0
+            c1.isEmpty() -> -1
+            c2.isEmpty() -> 1
+            else -> c1.lowercase().compareTo(c2.lowercase())
+        }
+    }
+
     private var comparator: Comparator<Habit>? =
         getComposedComparatorByOrder(primaryOrder, secondaryOrder)
     private var parent: MemoryHabitList? = null
@@ -104,6 +115,10 @@ open class MemoryHabitList : HabitList {
         secondOrder: Order?
     ): Comparator<Habit> {
         return Comparator { h1: Habit, h2: Habit ->
+            val categoryResult = categoryComparator.compare(h1, h2)
+            if (categoryResult != 0) {
+                return@Comparator categoryResult
+            }
             val firstResult = getComparatorByOrder(firstOrder).compare(h1, h2)
             if (firstResult != 0 || secondOrder == null) {
                 return@Comparator firstResult
@@ -118,8 +133,8 @@ open class MemoryHabitList : HabitList {
         }
         val nameComparatorDesc =
             Comparator { h1: Habit, h2: Habit -> nameComparatorAsc.compare(h2, h1) }
-        val colorComparatorAsc = Comparator<Habit> { (color1), (color2) ->
-            color1.compareTo(color2)
+        val colorComparatorAsc = Comparator<Habit> { habit1, habit2 ->
+            habit1.color.compareTo(habit2.color)
         }
         val colorComparatorDesc =
             Comparator { h1: Habit, h2: Habit -> colorComparatorAsc.compare(h2, h1) }

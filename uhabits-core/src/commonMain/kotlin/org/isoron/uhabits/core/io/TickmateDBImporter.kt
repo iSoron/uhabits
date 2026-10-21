@@ -82,9 +82,20 @@ class TickmateDBImporter(
             val habit = modelFactory.buildHabit()
             habit.name = name
             habit.description = description
+            habit.category = firstGroupName(db, id)
             habit.frequency = Frequency.DAILY
             habitList.add(habit)
             createCheckmarks(db, habit, id)
         }
+    }
+
+    private fun firstGroupName(db: Database, trackId: Int): String {
+        return db.querySingle(
+            "select g.name from groups as g " +
+                "join track2groups as t2g on t2g._group_id = g._id " +
+                "where t2g._track_id = ? " +
+                "order by g.\"order\" asc, g._id asc limit 1",
+            trackId.toString()
+        ) { it.getText(0) } ?: ""
     }
 }

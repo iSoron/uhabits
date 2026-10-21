@@ -51,15 +51,19 @@ class HabitCardListController(
     }
 
     override fun onItemLongClick(position: Int) {
-        activeMode.onItemLongClick(position)
+        val category = adapter.categoryAt(position)
+        if (category != null) {
+            behavior.onRenameCategory(category)
+        } else {
+            activeMode.onItemLongClick(position)
+        }
     }
 
     override fun commitReorder() {
         val result = adapter.onDragEnd()
         if (result != null) {
-            val (habitId, targetId, placeBefore) = result
             cancelSelection()
-            behavior.reorderHabit(habitId, targetId, placeBefore)
+            behavior.reorderHabit(result.habitId, result.refId, result.placeBefore, result.targetCategory)
         } else {
             adapter.flushPending()
         }
@@ -118,7 +122,8 @@ class HabitCardListController(
     internal inner class NormalMode : Mode {
         override fun onItemClick(position: Int) {
             if (position < 0 || position >= adapter.itemCount) return
-            behavior.onClickHabit(adapter.getItemId(position))
+            val id = adapter.habitAt(position)?.id ?: return
+            behavior.onClickHabit(id)
         }
 
         override fun onItemLongClick(position: Int): Boolean {

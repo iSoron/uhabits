@@ -121,6 +121,17 @@ class HabitCardListView(
         return cardView
     }
 
+    fun bindCategoryView(holder: CategoryViewHolder) {
+        val categoryView = holder.itemView as CategoryView
+        categoryView.setOnLongClickListener {
+            val position = holder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                controller.value.onItemLongClick(position)
+            }
+            true
+        }
+    }
+
     fun attachCardView(holder: HabitCardViewHolder) {
         (holder.itemView as HabitCardView).setDataOffset(dataOffset)
         attachedHolders.add(holder)
@@ -181,6 +192,7 @@ class HabitCardListView(
             viewHolder: ViewHolder
         ): Int {
             if (!adapter.isSortable) return 0
+            if (viewHolder !is HabitCardViewHolder) return 0
             return makeMovementFlags(UP or DOWN, 0)
         }
 

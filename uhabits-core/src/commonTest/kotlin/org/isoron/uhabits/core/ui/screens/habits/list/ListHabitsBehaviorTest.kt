@@ -121,9 +121,53 @@ class ListHabitsBehaviorTest : BaseUnitTest() {
     @Test
     fun testReorderHabit() {
         habitList.primaryOrder = HabitList.Order.BY_POSITION
-        behavior.reorderHabit(habit2.id!!, habit1.id!!, true)
+        behavior.reorderHabit(habit2.id!!, habit1.id!!, true, "")
         assertEquals(habit2, habitList.getByPosition(0))
         assertEquals(habit1, habitList.getByPosition(1))
+    }
+
+    @Test
+    fun testReorderHabit_crossCategory() {
+        habitList.primaryOrder = HabitList.Order.BY_POSITION
+        habit1.category = "A"
+        habit1.position = 0
+        habit2.category = "B"
+        habit2.position = 1
+        habitList.update(listOf(habit1, habit2))
+        behavior.reorderHabit(habit2.id!!, habit1.id!!, true, "A")
+        assertEquals("A", habit2.category)
+        assertEquals(habit2, habitList.getByPosition(0))
+        assertEquals(habit1, habitList.getByPosition(1))
+    }
+
+    @Test
+    fun testReorderHabit_refIdNull_categoryOnly() {
+        habitList.primaryOrder = HabitList.Order.BY_POSITION
+        habit1.category = "A"
+        habit1.position = 0
+        habit2.category = "B"
+        habit2.position = 1
+        habitList.update(listOf(habit1, habit2))
+        behavior.reorderHabit(habit2.id!!, null, false, "A")
+        assertEquals("A", habit2.category)
+        assertEquals(habit1, habitList.getByPosition(0))
+        assertEquals(habit2, habitList.getByPosition(1))
+    }
+
+    @Test
+    fun testOnRenameCategory() {
+        habit1.category = "Old"
+        var callback: ((String) -> Unit)? = null
+        every {
+            screen.showCategoryInput(any(), any())
+        } calls { args ->
+            assertEquals("Old", args.arg<String>(0))
+            callback = args.arg<(String) -> Unit>(1)
+            Unit
+        }
+        behavior.onRenameCategory("Old")
+        callback!!.invoke("New")
+        assertEquals("New", habit1.category)
     }
 
     @Test

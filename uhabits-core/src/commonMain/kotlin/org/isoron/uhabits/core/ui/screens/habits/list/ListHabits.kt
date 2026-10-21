@@ -66,7 +66,8 @@ object ListHabitsPresenter {
                     score = score,
                     checkmarks = entries.map { it.value },
                     completed = entries.map { it.completed },
-                    notes = entries.map { it.notes }
+                    notes = entries.map { it.notes },
+                    category = habit.category
                 )
             )
         }
@@ -92,5 +93,6 @@ data class HabitCardState(
     val score: Double,
     val checkmarks: List<Int>,
     val completed: List<Boolean>,
-    val notes: List<String>
+    val notes: List<String>,
+    val category: String
 )

@@ -32,6 +32,7 @@ import nl.dionsegijn.konfetti.core.emitter.Emitter
 import org.isoron.platform.gui.toInt
 import org.isoron.platform.io.JavaUserFile
 import org.isoron.uhabits.R
+import org.isoron.uhabits.activities.common.dialogs.CategoryDialog
 import org.isoron.uhabits.activities.common.dialogs.CheckmarkDialog
 import org.isoron.uhabits.activities.common.dialogs.ColorPickerDialogFactory
 import org.isoron.uhabits.activities.common.dialogs.ConfirmDeleteDialog
@@ -293,6 +294,16 @@ class ListHabitsScreen(
         val picker = colorPickerFactory.create(defaultColor, themeSwitcher.currentTheme!!)
         picker.setListener(callback)
         picker.dismissCurrentAndShow(activity.supportFragmentManager, "picker")
+    }
+
+    override fun showCategoryInput(current: String, onConfirmed: (String) -> Unit) {
+        val fm = (context as AppCompatActivity).supportFragmentManager
+        val dialog = CategoryDialog()
+        dialog.arguments = Bundle().apply {
+            putString("category", current)
+        }
+        dialog.onConfirmed = onConfirmed
+        dialog.dismissCurrentAndShow(fm, "categoryDialog")
     }
 
     override fun showNumberPopup(
