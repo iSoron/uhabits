@@ -25,6 +25,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_MASK
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Build.VERSION.SDK_INT
 import androidx.core.content.ContextCompat
+import com.google.android.material.color.DynamicColors
 import org.isoron.uhabits.R
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.core.ui.ThemeSwitcher
@@ -39,7 +40,7 @@ import org.isoron.uhabits.inject.ActivityScope
 class AndroidThemeSwitcher
 constructor(
     @ActivityContext val context: Context,
-    preferences: Preferences
+    private val preferences: Preferences
 ) : ThemeSwitcher(preferences) {
 
     override var currentTheme: Theme = LightTheme()
@@ -57,13 +58,17 @@ constructor(
     override fun applyDarkTheme() {
         currentTheme = DarkTheme()
         context.setTheme(R.style.AppBaseThemeDark)
-        (context as Activity).window.navigationBarColor =
-            ContextCompat.getColor(context, R.color.grey_900)
+        if (!preferences.isDynamicColorEnabled || !DynamicColors.isDynamicColorAvailable()) {
+            (context as Activity).window.navigationBarColor =
+                ContextCompat.getColor(context, R.color.grey_900)
+        }
+        applyDynamicColors()
     }
 
     override fun applyLightTheme() {
         currentTheme = LightTheme()
         context.setTheme(R.style.AppBaseTheme)
+        applyDynamicColors()
     }
 
     override fun applyPureBlackTheme() {
@@ -71,6 +76,12 @@ constructor(
         context.setTheme(R.style.AppBaseThemeDark_PureBlack)
         (context as Activity).window.navigationBarColor =
             ContextCompat.getColor(context, R.color.black)
+    }
+
+    private fun applyDynamicColors() {
+        if (preferences.isDynamicColorEnabled && context is Activity) {
+            DynamicColors.applyToActivityIfAvailable(context)
+        }
     }
 
     fun applyDialog() {

@@ -50,6 +50,7 @@ import org.isoron.uhabits.utils.restartWithFade
 class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
 
     var pureBlack: Boolean = false
+    var dynamicColor: Boolean = false
     lateinit var appComponent: HabitsApplicationComponent
     lateinit var component: HabitsActivityComponent
     lateinit var taskRunner: TaskRunner
@@ -89,6 +90,7 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
         prefs = appComponent.preferences
         prefs.addListener(this)
         pureBlack = prefs.isPureBlackEnabled
+        dynamicColor = prefs.isDynamicColorEnabled
         midnightTimer = appComponent.midnightTimer
         rootView = component.listHabitsRootView
         screen = component.listHabitsScreen
@@ -140,7 +142,9 @@ class ListHabitsActivity : AppCompatActivity(), Preferences.Listener {
                 Log.e("ListHabitActivity", "TaskRunner failed", e)
             }
         }
-        if (prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) {
+        if ((prefs.theme == THEME_DARK && prefs.isPureBlackEnabled != pureBlack) ||
+            prefs.isDynamicColorEnabled != dynamicColor
+        ) {
             restartWithFade(ListHabitsActivity::class.java)
         }
         parseIntents()

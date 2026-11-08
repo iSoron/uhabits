@@ -68,6 +68,13 @@
                 app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
+                android:defaultValue="true"
+                android:key="pref_dynamic_color"
+                android:summary="@string/pref_dynamic_color_description"
+                android:title="@string/pref_dynamic_color_title"
+                app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="pref_disable_animation"
             android:summary="@string/pref_animations_description"

@@ -36,6 +36,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.DynamicColors
 import org.isoron.platform.time.DayOfWeek
 import org.isoron.platform.time.JavaLocalDateFormatter
 import org.isoron.uhabits.HabitsApplication
@@ -85,6 +86,10 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
+        val dynamicColorPref = findPreference("pref_dynamic_color")
+        if (dynamicColorPref != null && !DynamicColors.isDynamicColorAvailable()) {
+            dynamicColorPref.isVisible = false
+        }
         val appContext = requireContext().applicationContext
         if (appContext is HabitsApplication) {
             prefs = appContext.component.preferences
@@ -185,6 +190,9 @@ class SettingsFragment : PreferenceFragmentCompat(), OnSharedPreferenceChangeLis
         sharedPreferences: SharedPreferences,
         key: String?
     ) {
+        if (key == "pref_dynamic_color") {
+            activity?.recreate()
+        }
         if (key == "pref_widget_opacity" && widgetUpdater != null) {
             Log.d("SettingsFragment", "updating widgets")
             widgetUpdater!!.updateWidgets()
