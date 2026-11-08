@@ -58,9 +58,11 @@ constructor(
     override fun applyDarkTheme() {
         currentTheme = DarkTheme()
         context.setTheme(R.style.AppBaseThemeDark)
+        if (!preferences.isDynamicColorEnabled || !DynamicColors.isDynamicColorAvailable()) {
+            (context as Activity).window.navigationBarColor =
+                ContextCompat.getColor(context, R.color.grey_900)
+        }
         applyDynamicColors()
-        (context as Activity).window.navigationBarColor =
-            ContextCompat.getColor(context, R.color.grey_900)
     }
 
     override fun applyLightTheme() {
@@ -78,7 +80,7 @@ constructor(
 
     private fun applyDynamicColors() {
         if (preferences.isDynamicColorEnabled && context is Activity) {
-            DynamicColors.applyIfAvailable(context)
+            DynamicColors.applyToActivityIfAvailable(context)
         }
     }
 
