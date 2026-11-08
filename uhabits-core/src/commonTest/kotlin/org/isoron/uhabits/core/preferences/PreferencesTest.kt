@@ -97,6 +97,9 @@ class PreferencesTest : BaseUnitTest() {
         assertFalse(prefs.isPureBlackEnabled)
         prefs.isPureBlackEnabled = true
         assertTrue(prefs.isPureBlackEnabled)
+        assertTrue(prefs.isDynamicColorEnabled)
+        prefs.isDynamicColorEnabled = false
+        assertFalse(prefs.isDynamicColorEnabled)
     }
 
     @Test

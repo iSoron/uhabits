@@ -129,6 +129,11 @@ open class Preferences(private val storage: Storage) {
         set(enabled) {
             storage.putBoolean("pref_pure_black", enabled)
         }
+    open var isDynamicColorEnabled: Boolean
+        get() = storage.getBoolean("pref_dynamic_color", true)
+        set(enabled) {
+            storage.putBoolean("pref_dynamic_color", enabled)
+        }
     open var isShortToggleEnabled: Boolean
         get() = storage.getBoolean("pref_short_toggle", false)
         set(enabled) {
