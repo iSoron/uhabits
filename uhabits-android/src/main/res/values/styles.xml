@@ -65,6 +65,7 @@
         <item name="android:textColorAlertDialogListItem">@color/grey_800</item>
         <item name="singleLineTitle">false</item>
         <item name="dialogFormLabelColor">@color/white</item>
+        <item name="dynamicColorThemeOverlay">@style/ThemeOverlay.App.DynamicColors.Light</item>
     </style>
 
     <style name="AppBaseThemeDark" parent="@style/Theme.MaterialComponents.NoActionBar">
@@ -113,6 +114,7 @@
         <item name="android:textColorAlertDialogListItem">@color/grey_100</item>
         <item name="singleLineTitle">false</item>
         <item name="dialogFormLabelColor">@color/grey_800</item>
+        <item name="dynamicColorThemeOverlay">@style/ThemeOverlay.App.DynamicColors.Dark</item>
     </style>
 
     <style name="AppBaseThemeDark.PureBlack">
@@ -135,6 +137,7 @@
         <item name="windowBackgroundColor">@color/black</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material.PureBlack</item>
         <item name="dialogFormLabelColor">@color/grey_800</item>
+        <item name="dynamicColorThemeOverlay">@null</item>
     </style>
 
     <style name="BaseDialog" parent="Theme.AppCompat.Light.Dialog">
@@ -425,5 +428,33 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
+
+    <style name="ThemeOverlay.App.DynamicColors.Light" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="windowBackgroundColor">?attr/colorSurfaceContainer</item>
+        <item name="cardBgColor">?attr/colorSurface</item>
+        <item name="cardBackground">?attr/cardBgColor</item>
+        <item name="contrast0">?attr/colorSurface</item>
+        <item name="headerBackgroundColor">?attr/colorSurfaceContainer</item>
+        <item name="highlightedBackgroundColor">?attr/colorSurfaceContainerHigh</item>
+        <item name="colorAccent">?attr/colorPrimary</item>
+        <item name="aboutScreenColor">?attr/colorPrimary</item>
+        <item name="android:colorBackground">?attr/colorSurfaceContainer</item>
+        <item name="android:navigationBarColor">?attr/colorSurfaceContainer</item>
+    </style>
+
+    <style name="ThemeOverlay.App.DynamicColors.Dark" parent="ThemeOverlay.Material3.DynamicColors.Dark">
+        <item name="windowBackgroundColor">?attr/colorSurface</item>
+        <item name="cardBgColor">?attr/colorSurfaceContainer</item>
+        <item name="cardBackground">?attr/cardBgColor</item>
+        <item name="contrast0">?attr/colorSurface</item>
+        <item name="headerBackgroundColor">?attr/colorSurface</item>
+        <item name="highlightedBackgroundColor">?attr/colorSurfaceContainerHigh</item>
+        <item name="colorPrimary">?attr/colorSurfaceContainer</item>
+        <item name="colorAccent">?attr/colorSecondary</item>
+        <item name="aboutScreenColor">?attr/colorSecondary</item>
+        <item name="android:colorBackground">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+    </style>
+
 
 </resources>
