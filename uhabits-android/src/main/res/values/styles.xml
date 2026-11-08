@@ -440,6 +440,7 @@
         <item name="aboutScreenColor">?attr/colorPrimary</item>
         <item name="android:colorBackground">?attr/colorSurfaceContainer</item>
         <item name="android:navigationBarColor">?attr/colorSurfaceContainer</item>
+        <item name="useHabitColorAsPrimary">false</item>
     </style>
 
     <style name="ThemeOverlay.App.DynamicColors.Dark" parent="ThemeOverlay.Material3.DynamicColors.Dark">
