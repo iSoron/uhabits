@@ -240,4 +240,6 @@
     <string name="pref_midnight_delay_description">Wait until 3:00 AM to show a new day. Useful if you typically go to sleep after midnight. Requires app restart.</string>
     <string name="pref_animations_title">Disable animations</string>
     <string name="pref_animations_description">Disable confetti animation after adding a checkmark.</string>
+    <string name="permission_read_habits_label">Read habits</string>
+    <string name="permission_read_habits_description">Allows the app to read your habits, scores, streaks, and check-in history.</string>
 </resources>

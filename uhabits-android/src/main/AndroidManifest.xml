@@ -24,6 +24,12 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <permission
+        android:name="org.isoron.uhabits.permission.READ_HABITS"
+        android:description="@string/permission_read_habits_description"
+        android:label="@string/permission_read_habits_label"
+        android:protectionLevel="dangerous" />
+
     <application
         android:name=".HabitsApplication"
         android:allowBackup="true"
@@ -286,6 +292,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <provider
+            android:name=".provider.HabitsContentProvider"
+            android:authorities="org.isoron.uhabits.provider"
+            android:exported="true"
+            android:readPermission="org.isoron.uhabits.permission.READ_HABITS" />
     </application>
 
 </manifest>
