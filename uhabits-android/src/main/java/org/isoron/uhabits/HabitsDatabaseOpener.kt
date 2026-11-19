@@ -56,7 +56,7 @@ class HabitsDatabaseOpener(
         wrappedDb.setVersion(db.version)
         runBlocking {
             wrappedDb.migrateTo(newVersion) { version ->
-                val filename = "%02d.sql".format(version)
+                val filename = "%02d.sql".format(java.util.Locale.ROOT, version)
                 context.assets.open("migrations/$filename").bufferedReader().readText()
             }
         }

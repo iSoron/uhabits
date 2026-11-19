@@ -19,11 +19,13 @@
 
 package org.isoron.platform.io
 
+import java.util.Locale
+
 actual fun format(format: String, arg: String): String =
-    String.format(format, arg)
+    String.format(Locale.ROOT, format, arg)
 
 actual fun format(format: String, arg: Int): String =
-    String.format(format, arg)
+    String.format(Locale.ROOT, format, arg)
 
 actual fun format(format: String, arg: Double): String =
-    String.format(format, arg)
+    String.format(Locale.ROOT, format, arg)
