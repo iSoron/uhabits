@@ -41,6 +41,7 @@
     <locale android:name="tr-TR" /> <!-- Turkish -->
     <locale android:name="ug-CN" /> <!-- Uyghur -->
     <locale android:name="uk-UA" /> <!-- Ukrainian -->
+    <locale android:name="ur-PK" /> <!-- Urdu -->
     <locale android:name="vi-VN" /> <!-- Vietnamese -->
     <locale android:name="zh-CN" /> <!-- Chinese (Simplified) -->
     <locale android:name="zh-TW" /> <!-- Chinese (Traditional) -->

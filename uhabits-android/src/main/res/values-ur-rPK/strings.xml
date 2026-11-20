@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2016-2025 Álinson Santos Xavier <git@axavier.org>
+  ~
+  ~ This file is part of Loop Habit Tracker.
+  ~
+  ~ Loop Habit Tracker is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation, either version 3 of the License, or (at your
+  ~ option) any later version.
+  ~
+  ~ Loop Habit Tracker is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+  ~ more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along
+  ~ with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">لوپ عادت ٹریکر</string>
+    <string name="main_activity_title">عادات</string>
+    <string name="action_settings">ترتیبات</string>
+    <string name="edit">ترمیم</string>
+    <string name="delete">حذف کریں</string>
+    <string name="archive">محفوظ شدہ میں منتقل کریں</string>
+    <string name="unarchive">محفوظ شدہ سے نکالیں</string>
+    <string name="add_habit">عادت شامل کریں</string>
+    <string name="color_picker_default_title">رنگ تبدیل کریں</string>
+    <string name="toast_habit_created">عادت بنا دی گئی</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">عادت تبدیل کر دی گئی</item>
+        <item quantity="other">عادات تبدیل کر دی گئیں</item>
+    </plurals>
+    <plurals name="toast_habits_deleted">
+        <item quantity="one">عادت حذف کر دی گئی</item>
+        <item quantity="other">عادات حذف کر دی گئیں</item>
+    </plurals>
+    <plurals name="toast_habits_archived">
+        <item quantity="one">عادت محفوظ شدہ میں منتقل کر دی گئی</item>
+        <item quantity="other">عادات محفوظ شدہ میں منتقل کر دی گئیں</item>
+    </plurals>
+    <plurals name="toast_habits_unarchived">
+        <item quantity="one">عادت محفوظ شدہ سے نکال دی گئی</item>
+        <item quantity="other">عادات محفوظ شدہ سے نکال دی گئیں</item>
+    </plurals>
+    <string name="overview">جائزہ</string>
+    <string name="habit_strength">عادت کی مضبوطی</string>
+    <string name="history">تاریخ</string>
+    <string name="clear">صاف کریں</string>
+    <string name="reminder">یاد دہانی</string>
+    <string name="save">محفوظ کریں</string>
+    <string name="streaks">لگاتار سلسلے</string>
+    <string name="no_habits_found">آپ کی کوئی فعال عادت نہیں ہے</string>
+    <string name="no_habits_left_to_do">آج کے لیے سب مکمل!</string>
+    <string name="long_press_to_toggle">نشان لگانے یا ہٹانے کے لیے دیر تک دبائیں</string>
+    <string name="reminder_off">بند</string>
+    <string name="create_habit">عادت بنائیں</string>
+    <string name="edit_habit">عادت میں ترمیم کریں</string>
+    <string name="check">نشان لگائیں</string>
+    <string name="snooze">بعد میں یاد دلائیں</string>
+    <string name="intro_title_1">خوش آمدید</string>
+    <string name="intro_description_1">لوپ عادت ٹریکر آپ کو اچھی عادات بنانے اور برقرار رکھنے میں مدد کرتا ہے۔</string>
+    <string name="intro_title_2">اپنی عادات شامل کریں</string>
+    <string name="intro_description_2">ہر روز اپنی عادت پوری کرنے کے بعد ایپ میں اس پر نشان لگائیں۔</string>
+    <string name="intro_title_4">اپنی پیش رفت دیکھیں</string>
+    <string name="intro_description_4">تفصیلی گراف دکھاتے ہیں کہ وقت کے ساتھ آپ کی عادات کتنی بہتر ہوئی ہیں۔</string>
+    <string name="interval_15_minutes">15 منٹ</string>
+    <string name="interval_30_minutes">30 منٹ</string>
+    <string name="interval_1_hour">1 گھنٹہ</string>
+    <string name="interval_2_hour">2 گھنٹے</string>
+    <string name="interval_4_hour">4 گھنٹے</string>
+    <string name="interval_8_hour">8 گھنٹے</string>
+    <string name="interval_24_hour">24 گھنٹے</string>
+    <string name="interval_always_ask">ہمیشہ پوچھیں</string>
+    <string name="interval_custom">حسبِ ضرورت…</string>
+    <string name="pref_toggle_title">ایک ٹیپ سے نشان لگائیں</string>
+    <string name="pref_toggle_description_2">دیر تک دبانے کے بجائے ایک ہی ٹیپ سے نشان لگائیں۔</string>
+    <string name="pref_rate_this_app">گوگل پلے پر اس ایپ کی درجہ بندی کریں</string>
+    <string name="pref_send_feedback">ڈیولپر کو رائے بھیجیں</string>
+    <string name="pref_view_source_code">گٹ ہب پر سورس کوڈ دیکھیں</string>
+    <string name="links">روابط</string>
+    <string name="name">نام</string>
+    <string name="settings">ترتیبات</string>
+    <string name="select_snooze_delay">یاد دہانی کا وقفہ منتخب کریں</string>
+    <string name="hint_title">کیا آپ جانتے ہیں؟</string>
+    <string name="hint_drag">ترتیب بدلنے کے لیے عادت کے نام کو دیر تک دبائیں، پھر اسے مطلوبہ جگہ پر گھسیٹیں۔</string>
+    <string name="hint_landscape">لینڈ اسکیپ موڈ میں زیادہ دن نظر آتے ہیں۔</string>
+    <plurals name="delete_habits_title">
+        <item quantity="one">عادت حذف کریں؟</item>
+        <item quantity="other">عادات حذف کریں؟</item>
+    </plurals>
+    <plurals name="delete_habits_message">
+        <item quantity="one">عادت ہمیشہ کے لیے حذف ہو جائے گی۔ اس عمل کو واپس نہیں کیا جا سکتا۔</item>
+        <item quantity="other">عادات ہمیشہ کے لیے حذف ہو جائیں گی۔ اس عمل کو واپس نہیں کیا جا سکتا۔</item>
+    </plurals>
+    <string name="habit_not_found">عادت حذف ہو چکی ہے / نہیں ملی</string>
+    <string name="weekends">ہفتہ وار تعطیل</string>
+    <string name="any_weekday">کام کے دنوں میں</string>
+    <string name="any_day">ہر روز</string>
+    <string name="select_weekdays">دن منتخب کریں</string>
+    <string name="export_to_csv">CSV کے طور پر برآمد کریں</string>
+    <string name="done_label">مکمل</string>
+    <string name="clear_label">صاف کریں</string>
+    <string name="select_hours">گھنٹے منتخب کریں</string>
+    <string name="select_minutes">منٹ منتخب کریں</string>
+    <string-array name="hints">
+        <item>@string/hint_drag</item>
+        <item>@string/hint_landscape</item>
+    </string-array>
+    <string name="about">ایپ کے بارے میں</string>
+    <string name="translators">مترجمین</string>
+    <string name="developers">ڈیولپرز</string>
+    <string name="version_n">ورژن %s</string>
+    <string name="frequency">تعدد</string>
+    <string name="checkmark">نشان</string>
+    <string name="checkmark_stack_widget" formatted="false">نشان اسٹیک ویجٹ</string>
+    <string name="frequency_stack_widget" formatted="false">تعدد اسٹیک ویجٹ</string>
+    <string name="score_stack_widget" formatted="false">اسکور اسٹیک ویجٹ</string>
+    <string name="history_stack_widget" formatted="false">تاریخ اسٹیک ویجٹ</string>
+    <string name="streaks_stack_widget" formatted="false">سلسلے اسٹیک ویجٹ</string>
+    <string name="best_streaks">بہترین سلسلے</string>
+    <string name="every_day">ہر روز</string>
+    <string name="every_week">ہر ہفتے</string>
+    <string name="help">مدد اور اکثر پوچھے گئے سوالات</string>
+    <string name="could_not_export">ڈیٹا برآمد نہیں ہو سکا۔</string>
+    <string name="could_not_import">ڈیٹا درآمد نہیں ہو سکا۔</string>
+    <string name="file_not_recognized">فائل کی قسم پہچانی نہیں گئی۔</string>
+    <string name="habits_imported">عادات کامیابی سے درآمد ہو گئیں۔</string>
+    <string name="import_data">ڈیٹا درآمد کریں</string>
+    <string name="export_full_backup">مکمل بیک اپ برآمد کریں</string>
+    <string name="import_data_summary">اس ایپ سے برآمد کیے گئے مکمل بیک اپ کے ساتھ ساتھ Tickmate، HabitBull اور Rewire کی بنائی ہوئی فائلیں بھی درآمد کی جا سکتی ہیں۔ مزید معلومات کے لیے اکثر پوچھے گئے سوالات دیکھیں۔</string>
+    <string name="export_as_csv_summary">ایسی فائلیں بناتا ہے جو اسپریڈ شیٹ پروگراموں (جیسے مائیکروسافٹ ایکسل یا اوپن آفس کیلک) میں کھولی جا سکتی ہیں۔ یہ فائل واپس درآمد نہیں کی جا سکتی۔</string>
+    <string name="export_full_backup_summary">آپ کے تمام ڈیٹا پر مشتمل ایک فائل بناتا ہے۔ یہ فائل واپس درآمد کی جا سکتی ہے۔</string>
+    <string name="bug_report_failed">بگ رپورٹ بنانے میں ناکامی۔</string>
+    <string name="generate_bug_report">بگ رپورٹ بنائیں</string>
+    <string name="troubleshooting">مسائل کا حل</string>
+    <string name="help_translate">اس ایپ کا ترجمہ کرنے میں مدد کریں</string>
+    <string name="night_mode">نائٹ موڈ</string>
+    <string name="use_pure_black">نائٹ موڈ میں مکمل سیاہ پس منظر استعمال کریں</string>
+    <string name="pure_black_description">نائٹ موڈ میں سرمئی پس منظر کو مکمل سیاہ سے بدل دیتا ہے۔ AMOLED اسکرین والے فونز میں بیٹری کا استعمال کم کرتا ہے۔</string>
+    <string name="interface_preferences">انٹرفیس</string>
+    <string name="reverse_days">دنوں کی ترتیب الٹ دیں</string>
+    <string name="reverse_days_description">مرکزی اسکرین پر دن الٹی ترتیب میں دکھائیں</string>
+    <string name="day">دن</string>
+    <string name="week">ہفتہ</string>
+    <string name="month">مہینہ</string>
+    <string name="quarter">سہ ماہی</string>
+    <string name="year">سال</string>
+    <string name="total">کل</string>
+    <string name="yes_or_no">ہاں یا نہیں</string>
+    <string name="every_x_days">ہر %d دن بعد</string>
+    <string name="every_x_weeks">ہر %d ہفتے بعد</string>
+    <string name="score">استقامت</string>
+    <string name="reminder_sound">یاد دہانی کی آواز</string>
+    <string name="none">کوئی نہیں</string>
+    <string name="filter">فلٹر</string>
+    <string name="hide_completed">مکمل شدہ چھپائیں</string>
+    <string name="hide_entered" comment="&quot;Hide entered&quot; appears in place of &quot;hide completed&quot; if the user has enabled the question marks option. This option hides all habits that have any data entered, not just the ones that have been completed. This allows the user to hide habits that have already failed early in the day.">درج شدہ چھپائیں</string>
+    <string name="hide_archived">محفوظ شدہ چھپائیں</string>
+    <string name="sticky_notifications">مستقل اطلاعات</string>
+    <string name="sticky_notifications_description">اطلاعات کو ہٹائے جانے سے روکتا ہے۔</string>
+    <string name="led_notifications">LED اطلاعات</string>
+    <string name="led_notifications_description">اطلاعات کے لیے لائٹ جھپکاتا ہے۔ صرف LED نوٹیفکیشن لائٹ والے فونز پر دستیاب ہے۔</string>
+    <string name="repair_database">ڈیٹا بیس کی مرمت کریں</string>
+    <string name="database_repaired">ڈیٹا بیس کی مرمت ہو گئی۔</string>
+    <string name="uncheck">نشان ہٹائیں</string>
+    <string name="toggle">تبدیل کریں</string>
+    <string name="action">عمل</string>
+    <string name="habit">عادت</string>
+    <string name="sort">ترتیب دیں</string>
+    <string name="manually">دستی طور پر</string>
+    <string name="by_name">نام کے لحاظ سے</string>
+    <string name="by_color">رنگ کے لحاظ سے</string>
+    <string name="by_score">استقامت کے لحاظ سے</string>
+    <string name="by_status">حالت کے لحاظ سے</string>
+    <string name="export">برآمد کریں</string>
+    <string name="long_press_to_edit">قدر تبدیل کرنے کے لیے دیر تک دبائیں</string>
+    <string name="value">قدر</string>
+    <string name="calendar">کیلنڈر</string>
+    <string name="unit">اکائی</string>
+    <string name="target_type">ہدف کی قسم</string>
+    <string name="target_type_at_least">کم از کم</string>
+    <string name="target_type_at_most">زیادہ سے زیادہ</string>
+    <string name="example_question_boolean">مثلاً: کیا آج آپ نے ورزش کی؟</string>
+    <string name="question">سوال</string>
+    <string name="target">ہدف</string>
+    <string name="yes">ہاں</string>
+    <string name="no">نہیں</string>
+    <string name="customize_notification_summary">اطلاعات کی آواز، وائبریشن، لائٹ اور دیگر ترتیبات تبدیل کریں</string>
+    <string name="customize_notification">اطلاعات کی حسبِ ضرورت ترتیب</string>
+    <string name="pref_view_privacy">پرائیویسی پالیسی دیکھیں</string>
+    <string name="view_all_contributors">تمام معاونین دیکھیں&#8230;</string>
+    <string name="database">ڈیٹا بیس</string>
+    <string name="widget_opacity_title">ویجٹ کی شفافیت</string>
+    <string name="widget_opacity_description">ہوم اسکرین پر ویجٹس کو زیادہ شفاف یا زیادہ نمایاں بناتا ہے۔</string>
+    <string name="first_day_of_the_week">ہفتے کا پہلا دن</string>
+    <string name="default_reminder_question">کیا آپ نے آج یہ عادت پوری کر لی؟</string>
+    <string name="notes">نوٹس</string>
+    <string name="example_notes">(اختیاری)</string>
+    <string name="yes_or_no_example">مثلاً: کیا آج صبح جلدی اٹھے؟ کیا ورزش کی؟ یا شطرنج کھیلی؟</string>
+    <string name="measurable">قابلِ پیمائش</string>
+    <string name="measurable_example">مثلاً: آج آپ کتنے کلومیٹر دوڑے؟ کتنے صفحات پڑھے؟</string>
+    <string name="x_times_per_week">ہفتے میں %d بار</string>
+    <string name="x_times_per_month">مہینے میں %d بار</string>
+    <string name="x_times_per_y_days">%2$d دنوں میں %1$d بار</string>
+    <string name="yes_or_no_short_example">مثلاً: ورزش</string>
+    <string name="color">رنگ</string>
+    <string name="example_target">مثلاً: 15</string>
+    <string name="measurable_short_example">مثلاً: دوڑ</string>
+    <string name="measurable_question_example">مثلاً: آج آپ کتنے کلومیٹر دوڑے؟</string>
+    <string name="measurable_units_example">مثلاً: کلومیٹر</string>
+    <string name="every_month">ہر مہینے</string>
+    <string name="validation_cannot_be_blank">لازمی خانہ</string>
+    <string name="today">آج</string>
+    <string name="enter">درج کریں</string>
+    <string name="no_habits">کوئی عادت نہیں ملی</string>
+    <string name="no_numerical_habits">کوئی قابلِ پیمائش عادت نہیں ملی</string>
+    <string name="no_boolean_habits">ہاں/نہیں والی کوئی عادت نہیں ملی</string>
+    <string name="increment">اضافہ کریں</string>
+    <string name="decrement">کمی کریں</string>
+    <string name="pref_skip_title">دن چھوڑنے کی سہولت فعال کریں</string>
+    <string name="pref_skip_description">نشان کے بجائے چھوڑا ہوا دن درج کرنے کے لیے دو بار ٹوگل کریں۔ چھوڑے ہوئے دن آپ کا اسکور برقرار رکھتے ہیں اور سلسلہ نہیں توڑتے۔</string>
+    <string name="pref_unknown_title">غیر موجود ڈیٹا کے لیے سوالیہ نشان دکھائیں</string>
+    <string name="pref_unknown_description">بغیر ڈیٹا والے دنوں کو حقیقی ناغہ سے الگ دکھائیں۔ ناغہ درج کرنے کے لیے دو بار ٹوگل کریں۔</string>
+    <string name="you_are_now_a_developer">اب آپ ڈیولپر ہیں</string>
+    <string name="activity_not_found">اس عمل کے لیے کوئی موزوں ایپ نہیں ملی</string>
+    <string name="pref_midnight_delay_title">آدھی رات کے کئی گھنٹے بعد تک دن بڑھائیں</string>
+    <string name="pref_midnight_delay_description">نیا دن دکھانے سے پہلے صبح 3:00 بجے تک انتظار کریں۔ اگر آپ عموماً آدھی رات کے بعد سوتے ہیں تو مفید ہے۔ ایپ دوبارہ شروع کرنا ضروری ہے۔</string>
+    <string name="select_public_backup_folder">بیک اپ کے لیے عوامی فولڈر منتخب کریں</string>
+    <string name="no_public_backup_folder_selected">کوئی فولڈر منتخب نہیں کیا گیا</string>
+</resources>
