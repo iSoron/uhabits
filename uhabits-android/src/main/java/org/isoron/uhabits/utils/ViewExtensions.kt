@@ -22,6 +22,7 @@ package org.isoron.uhabits.utils
 import android.app.Activity
 import android.app.Dialog
 import android.content.ActivityNotFoundException
+import android.content.ClipData
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
@@ -127,14 +128,16 @@ fun Activity.showSendFileScreen(archiveFilename: String) {
         val file = if (uri.scheme == "file") File(uri.path!!) else File(archiveFilename)
         FileProvider.getUriForFile(this, "org.isoron.uhabits", file)
     }
-    this.startActivitySafely(
-        Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "application/zip"
-            putExtra(Intent.EXTRA_STREAM, fileUri)
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
-    )
+    val sendIntent = Intent().apply {
+        action = Intent.ACTION_SEND
+        type = "application/zip"
+        putExtra(Intent.EXTRA_STREAM, fileUri)
+        clipData = ClipData.newRawUri(null, fileUri)
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }
+    // Going through the chooser lets the system pass the read permission on to the
+    // selected app; some share sheets drop it when ACTION_SEND is started directly.
+    this.startActivitySafely(Intent.createChooser(sendIntent, null))
 }
 
 fun Activity.startActivitySafely(intent: Intent) {
