@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.Settings
+import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -109,6 +110,10 @@ class NumberDialog : AppCompatDialogFragment() {
         // https://stackoverflow.com/a/34256139
         val separator = DecimalFormatSymbols.getInstance().decimalSeparator
         view.value.keyListener = DigitsKeyListener.getInstance("0123456789$separator")
+        // The key listener above reports a plain number input type. In landscape, the keyboard
+        // edits the value in a fullscreen editor that follows only the input type and would
+        // drop the decimal separator.
+        view.value.setRawInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
 
         // https://github.com/flutter/flutter/issues/61175
         val currKeyboard = Settings.Secure.getString(
