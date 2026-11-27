@@ -21,10 +21,12 @@ package org.isoron.uhabits.core.ui
 import me.tatarka.inject.annotations.Inject
 import org.isoron.platform.time.LocalDate
 import org.isoron.uhabits.core.AppScope
+import org.isoron.uhabits.core.commands.ArchiveHabitsCommand
 import org.isoron.uhabits.core.commands.Command
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
 import org.isoron.uhabits.core.commands.DeleteHabitsCommand
+import org.isoron.uhabits.core.commands.EditHabitCommand
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.preferences.Preferences
@@ -43,7 +45,9 @@ open class NotificationTray(
     open fun cancel(habit: Habit) {
         val notificationId = getNotificationId(habit)
         systemTray.removeNotification(notificationId)
-        active.remove(habit)
+        // Habit's equals/hashCode depend on mutable fields (e.g. isArchived, reminder),
+        // so a key lookup may miss after the habit has been modified. Remove by id instead.
+        active.keys.removeAll { it === habit || (habit.id != null && it.id == habit.id) }
     }
 
     override fun onCommandFinished(command: Command) {
@@ -54,6 +58,16 @@ open class NotificationTray(
         if (command is DeleteHabitsCommand) {
             val (_, deleted) = command
             for (habit in deleted) cancel(habit)
+        }
+        if (command is ArchiveHabitsCommand) {
+            val (_, archived) = command
+            for (habit in archived) cancel(habit)
+        }
+        if (command is EditHabitCommand) {
+            val (habitList, habitId, modified) = command
+            if (!modified.hasReminder()) {
+                habitList.getById(habitId)?.let { cancel(it) }
+            }
         }
     }
 
